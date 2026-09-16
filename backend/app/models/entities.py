@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, JSON, String, Text
+from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, JSON, String, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 from app.database.session import Base
 
@@ -16,6 +16,7 @@ class ConversationModel(Base):
 
 class MessageModel(Base):
     __tablename__ = "messages"
+    __table_args__ = (UniqueConstraint("conversation_id", "source_message_id", name="uq_messages_conversation_source_id"),)
     id: Mapped[str] = mapped_column(String(40), primary_key=True)
     conversation_id: Mapped[str] = mapped_column(ForeignKey("conversations.id", ondelete="CASCADE"), index=True)
     # ``id`` is an internal globally unique database key.  The source ID is
@@ -38,6 +39,7 @@ class MemoryModel(Base):
 
 class MemoryRelationshipModel(Base):
     __tablename__ = "memory_relationships"
+    __table_args__ = (UniqueConstraint("memory_id", "relationship_type", "target_memory_id", name="uq_memory_relationships_edge"),)
     id: Mapped[str] = mapped_column(String(40), primary_key=True)
     memory_id: Mapped[str] = mapped_column(ForeignKey("memories.id", ondelete="CASCADE"))
     relationship_type: Mapped[str] = mapped_column(String(30))

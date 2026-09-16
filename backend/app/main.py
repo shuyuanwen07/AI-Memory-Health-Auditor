@@ -3,8 +3,6 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.requests import Request
 from starlette.responses import JSONResponse
 from app.api.routes import router
 from app.api.research_routes import research_router
@@ -12,7 +10,11 @@ from app.database.session import Base, engine
 import app.models  # register models
 
 
-class ContentLengthLimitMiddleware(BaseHTTPMiddleware):
+class RequestTooLarge(Exception):
+    """Internal signal raised while the ASGI server streams an oversized body."""
+
+
+class ContentSizeLimitMiddleware:
     """Reject accidentally oversized JSON uploads before parsing their body.
 
     This is a guardrail for authorised conversation and research uploads, not a
@@ -21,24 +23,45 @@ class ContentLengthLimitMiddleware(BaseHTTPMiddleware):
     """
 
     def __init__(self, app, max_bytes: int) -> None:
-        super().__init__(app)
+        self.app = app
         self.max_bytes = max_bytes
 
-    async def dispatch(self, request: Request, call_next):
-        raw_length = request.headers.get("content-length")
+    async def __call__(self, scope, receive, send):
+        if scope["type"] != "http":
+            await self.app(scope, receive, send)
+            return
+        headers = {key.decode("latin-1").lower(): value.decode("latin-1") for key, value in scope.get("headers", [])}
+        raw_length = headers.get("content-length")
         if raw_length is not None:
             try:
                 declared_length = int(raw_length)
             except ValueError:
-                return JSONResponse(status_code=400, content={"detail": "Content-Length must be a whole number."})
+                await JSONResponse(status_code=400, content={"detail": "Content-Length must be a whole number."})(scope, receive, send)
+                return
             if declared_length < 0:
-                return JSONResponse(status_code=400, content={"detail": "Content-Length cannot be negative."})
+                await JSONResponse(status_code=400, content={"detail": "Content-Length cannot be negative."})(scope, receive, send)
+                return
             if declared_length > self.max_bytes:
-                return JSONResponse(
+                await JSONResponse(
                     status_code=413,
                     content={"detail": f"Request exceeds the {self.max_bytes // 1_000_000} MB upload limit."},
-                )
-        return await call_next(request)
+                )(scope, receive, send)
+                return
+        received = 0
+
+        async def limited_receive():
+            nonlocal received
+            message = await receive()
+            if message["type"] == "http.request":
+                received += len(message.get("body", b""))
+                if received > self.max_bytes:
+                    raise RequestTooLarge
+            return message
+
+        try:
+            await self.app(scope, limited_receive, send)
+        except RequestTooLarge:
+            await JSONResponse(status_code=413, content={"detail": f"Request exceeds the {self.max_bytes // 1_000_000} MB upload limit."})(scope, receive, send)
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
@@ -50,7 +73,7 @@ async def lifespan(_: FastAPI):
 
 
 app = FastAPI(title="AI Memory Health Auditor", version="0.1.0", lifespan=lifespan)
-app.add_middleware(ContentLengthLimitMiddleware, max_bytes=int(os.getenv("MAX_REQUEST_BYTES", "5000000")))
+app.add_middleware(ContentSizeLimitMiddleware, max_bytes=int(os.getenv("MAX_REQUEST_BYTES", "5000000")))
 app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
 app.include_router(router)
 app.include_router(research_router)

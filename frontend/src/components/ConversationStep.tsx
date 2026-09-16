@@ -10,6 +10,7 @@ type Props = {
   onConsentChange: (consent: boolean) => void;
   onImport: (messages: ConversationInputMessage[], previewText: string) => void;
   onImportError: (message: string) => void;
+  onClearDraft: () => void;
   onContinue: () => void;
 };
 
@@ -31,7 +32,7 @@ function isUploadMessage(value: unknown): value is UploadMessage {
   return typeof message.role === 'string' && typeof message.content === 'string' && Boolean(message.content.trim());
 }
 
-export function ConversationStep({ text, consent, busy, onTextChange, onConsentChange, onImport, onImportError, onContinue }: Props) {
+export function ConversationStep({ text, consent, busy, onTextChange, onConsentChange, onImport, onImportError, onClearDraft, onContinue }: Props) {
   const [importFeedback, setImportFeedback] = useState('');
   const messageCount = useMemo(() => getMessageCount(text), [text]);
   const hasConversation = messageCount > 0;
@@ -76,6 +77,7 @@ export function ConversationStep({ text, consent, busy, onTextChange, onConsentC
       <textarea id="conversation-text" value={text} maxLength={MAX_CONVERSATION_CHARACTERS} onChange={(event) => { onTextChange(event.target.value); setImportFeedback(''); }} placeholder="Example: [User] I now use PostgreSQL for the backend." rows={10} aria-describedby="conversation-help conversation-count" aria-invalid={!hasConversation} />
     </label>
     <p id="conversation-help" className="input-help">Paste one message per line. To retain speaker context, use <code>[User]</code> or <code>[Assistant]</code> at the start of each line. You can also import a JSON file.</p>
+    <p className="input-help">This browser tab temporarily keeps this draft so it can recover after a refresh. <button type="button" className="text-button" onClick={onClearDraft}>Clear local draft</button></p>
     <p id="conversation-count" className={hasConversation ? 'input-feedback' : 'input-feedback input-error'} role="status">{hasConversation ? `${messageCount} message line${messageCount === 1 ? '' : 's'} ready for review.` : 'Add at least one non-empty message to continue.'}</p>
     <label className="file" htmlFor="conversation-upload">Or upload conversation JSON
       <input id="conversation-upload" type="file" accept="application/json,.json" onChange={importJson} />

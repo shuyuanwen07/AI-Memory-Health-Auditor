@@ -13,6 +13,16 @@ import { TargetMemoryTrace } from '../components/TargetMemoryTrace';
 const ComparisonVisualizations = lazy(() => import('../components/ResultVisualizations').then((module) => ({ default: module.ComparisonVisualizations })));
 
 const sample = `[User] I used MySQL before, but the backend now uses PostgreSQL.\n[User] I generally prefer Python.\n[User] For the current ELEC5623 assignment, Java is required.\n[User] I am based in Sydney.\n[User] The assignment must use PostgreSQL rather than SQLite.`;
+const DRAFT_KEY = 'mha-new-audit-draft-v1';
+
+type ConversationDraft = { text?: string; importedMessages?: ConversationInputMessage[] | null; consent?: boolean };
+
+function loadConversationDraft(): ConversationDraft {
+  try {
+    const saved = sessionStorage.getItem(DRAFT_KEY);
+    return saved ? JSON.parse(saved) as ConversationDraft : {};
+  } catch { return {}; }
+}
 
 type PreparedRun = { runId: string; label: string; groupLabel: string };
 type CompletedRun = { label: string; groupLabel: string; result: AuditResult };
@@ -27,10 +37,11 @@ const strategies: Array<{ value: MemoryStrategy; label: string; description: str
 ];
 
 export function NewAudit() {
+  const restoredDraft = loadConversationDraft();
   const [step, setStep] = useState(0);
-  const [text, setText] = useState(sample);
-  const [importedMessages, setImportedMessages] = useState<ConversationInputMessage[] | null>(null);
-  const [consent, setConsent] = useState(false);
+  const [text, setText] = useState(restoredDraft.text || sample);
+  const [importedMessages, setImportedMessages] = useState<ConversationInputMessage[] | null>(restoredDraft.importedMessages || null);
+  const [consent, setConsent] = useState(Boolean(restoredDraft.consent));
   const [conversationId, setConversationId] = useState('');
   const [memories, setMemories] = useState<Memory[]>([]);
   const [selectedStrategies, setSelectedStrategies] = useState<MemoryStrategy[]>(['weak_first_hit']);
@@ -54,6 +65,15 @@ export function NewAudit() {
   const [error, setError] = useState('');
 
   useEffect(() => { api.targetProviders().then(setProviders).catch(() => setProviders([])); }, []);
+  useEffect(() => {
+    if (step === 0) sessionStorage.setItem(DRAFT_KEY, JSON.stringify({ text, importedMessages, consent }));
+    else sessionStorage.removeItem(DRAFT_KEY);
+  }, [consent, importedMessages, step, text]);
+
+  const clearDraft = () => {
+    sessionStorage.removeItem(DRAFT_KEY);
+    setText(sample); setImportedMessages(null); setConsent(false); setError('');
+  };
 
   const act = async (operation: () => Promise<void>) => {
     setBusy(true);
@@ -205,7 +225,7 @@ export function NewAudit() {
   return <main className="workflow">
     <StepIndicator current={step} />
     {error && <div role="alert" aria-live="assertive" className="alert">{error}</div>}
-    {step === 0 && <ConversationStep text={text} consent={consent} busy={busy} onTextChange={(next) => { setText(next); setImportedMessages(null); }} onConsentChange={setConsent} onImport={(messages, previewText) => { setImportedMessages(messages); setText(previewText); }} onImportError={setError} onContinue={submitConversation} />}
+    {step === 0 && <ConversationStep text={text} consent={consent} busy={busy} onTextChange={(next) => { setText(next); setImportedMessages(null); }} onConsentChange={setConsent} onImport={(messages, previewText) => { setImportedMessages(messages); setText(previewText); }} onImportError={setError} onClearDraft={clearDraft} onContinue={submitConversation} />}
     {step === 1 && <GroundTruthReview memories={memories} busy={busy} onChange={updateMemory} onAddMemory={addMemory} onConfirm={confirm} />}
     {step === 2 && <section>
       <h1>Configure Memory Audit</h1>

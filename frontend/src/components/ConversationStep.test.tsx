@@ -6,7 +6,7 @@ import { ConversationStep } from './ConversationStep';
 function renderStep(overrides: Partial<ComponentProps<typeof ConversationStep>> = {}) {
   const props = {
     text: 'A conversation', consent: false, busy: false,
-    onTextChange: vi.fn(), onConsentChange: vi.fn(), onImport: vi.fn(), onImportError: vi.fn(), onContinue: vi.fn(),
+    onTextChange: vi.fn(), onConsentChange: vi.fn(), onImport: vi.fn(), onImportError: vi.fn(), onClearDraft: vi.fn(), onContinue: vi.fn(),
     ...overrides,
   };
   return { props, ...render(<ConversationStep {...props} />) };
@@ -52,4 +52,11 @@ test('does not treat whitespace-only input as a conversation', () => {
   renderStep({ text: '   \n  ', consent: true });
   expect(screen.getByText('Add at least one non-empty message to continue.')).not.toBeNull();
   expect((screen.getByRole('button', { name: 'Continue to Ground Truth' }) as HTMLButtonElement).disabled).toBe(true);
+});
+
+test('allows a local browser draft to be cleared explicitly', async () => {
+  const user = userEvent.setup();
+  const { props } = renderStep();
+  await user.click(screen.getByRole('button', { name: 'Clear local draft' }));
+  expect(props.onClearDraft).toHaveBeenCalledTimes(1);
 });

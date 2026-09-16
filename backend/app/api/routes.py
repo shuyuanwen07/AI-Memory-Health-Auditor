@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta, timezone
+from pathlib import Path
 import re
 from uuid import uuid4
 from fastapi import APIRouter, Depends, HTTPException
@@ -25,7 +26,7 @@ from app.test_generator.baselines import get_suite_generator
 from app.test_generator.quality import RuleBasedTestQualityValidator
 
 router = APIRouter(prefix="/api/v1")
-def ident(prefix: str) -> str: return f"{prefix}{uuid4().hex[:8].upper()}"
+def ident(prefix: str) -> str: return f"{prefix}{uuid4().hex.upper()}"
 def missing(kind: str): raise HTTPException(404, f"{kind} was not found.")
 def conversation_schema(db, obj):
     messages = db.scalars(select(MessageModel).where(MessageModel.conversation_id == obj.id).order_by(MessageModel.sequence, MessageModel.timestamp)).all()
@@ -190,6 +191,12 @@ def health():
     try:
         with SessionLocal() as db:
             db.execute(text("SELECT 1"))
+            revision = db.execute(text("SELECT version_num FROM alembic_version")).scalar_one_or_none()
+        from alembic.config import Config
+        from alembic.script import ScriptDirectory
+        config = Config(str(Path(__file__).resolve().parents[2] / "alembic.ini"))
+        if revision != ScriptDirectory.from_config(config).get_current_head():
+            raise RuntimeError("database migration revision is behind the application")
     except Exception as exc:
         raise HTTPException(503, "The Auditor database is not ready.") from exc
     return {"status": "ok", "service": "AI Memory Health Auditor", "database": "ready"}

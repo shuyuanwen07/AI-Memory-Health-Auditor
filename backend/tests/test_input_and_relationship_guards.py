@@ -39,6 +39,15 @@ def test_declared_oversized_request_is_rejected_before_json_parsing(tmp_path):
             app.dependency_overrides.clear()
 
 
+def test_streamed_oversized_request_is_rejected_without_a_content_length(tmp_path):
+    with client_for(tmp_path) as client:
+        try:
+            response = client.post("/api/v1/conversations", content=b"x" * 5_000_001, headers={"content-type": "application/json", "transfer-encoding": "chunked"})
+            assert response.status_code == 413
+        finally:
+            app.dependency_overrides.clear()
+
+
 def test_memory_evidence_and_update_lineage_reject_duplicates_and_cycles(tmp_path):
     with client_for(tmp_path) as client:
         try:
