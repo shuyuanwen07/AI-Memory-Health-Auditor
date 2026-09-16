@@ -11,6 +11,22 @@
     "test:watch": "vitest",
     "check": "npm run build && npm test"
   },
-  "dependencies": {"@vitejs/plugin-react":"latest", "vite":"latest", "typescript":"~5.7.2", "react":"latest", "react-dom":"latest", "react-router-dom":"latest"},
-  "devDependencies": {"vitest":"latest", "jsdom":"latest", "@testing-library/react":"latest", "@testing-library/jest-dom":"latest", "@testing-library/user-event":"latest", "@types/react":"latest", "@types/react-dom":"latest"}
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "react-router-dom": "latest",
+    "recharts": "^3.10.1",
+    "typescript": "~5.7.2",
+    "vite": "latest"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "latest",
+    "@testing-library/react": "latest",
+    "@testing-library/user-event": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "jsdom": "latest",
+    "vitest": "latest"
+  }
 }

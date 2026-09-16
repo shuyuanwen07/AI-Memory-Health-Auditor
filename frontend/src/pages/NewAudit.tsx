@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { api } from '../services/api';
 import type { AuditResult, Memory, MemoryMaintenancePolicy, MemoryStrategy, ProviderOption, TargetMemoryWriterKind, TargetProvider, TestCase, TestSuiteMode } from '../types/domain';
 import { StepIndicator } from '../components/StepIndicator';
@@ -9,6 +9,8 @@ import { ModelComparison } from '../components/ModelComparison';
 import { ExperimentStatistics } from '../components/ExperimentStatistics';
 import { TestSuiteReview } from '../components/TestSuiteReview';
 import { TargetMemoryTrace } from '../components/TargetMemoryTrace';
+
+const ComparisonVisualizations = lazy(() => import('../components/ResultVisualizations').then((module) => ({ default: module.ComparisonVisualizations })));
 
 const sample = `[User] I used MySQL before, but the backend now uses PostgreSQL.\n[User] I generally prefer Python.\n[User] For the current ELEC5623 assignment, Java is required.\n[User] I am based in Sydney.\n[User] The assignment must use PostgreSQL rather than SQLite.`;
 
@@ -242,7 +244,7 @@ export function NewAudit() {
     {step === 4 && results.length > 0 && <section>
       <h1>{results.length > 1 ? 'Memory Health Model Comparison' : 'Memory Health Report'}</h1>
       {failedRuns.length > 0 && <div className="partial-run-warning"><b>{failedRuns.length} condition{failedRuns.length === 1 ? '' : 's'} did not complete.</b><ul>{failedRuns.map((run) => <li key={run.runId}>{run.label}: {run.detail}</li>)}</ul><button disabled={busy} onClick={retryFailedRuns}>{busy ? `Retrying ${runningLabel || 'run'}…` : 'Retry Failed Conditions'}</button></div>}
-      {results.length > 1 && <><ModelComparison runs={results} /><ExperimentStatistics runs={results} /></>}
+      {results.length > 1 && <><Suspense fallback={<p className="chart-loading" role="status">Loading visual comparison charts…</p>}><ComparisonVisualizations runs={results} /></Suspense><ModelComparison runs={results} /><ExperimentStatistics runs={results} /></>}
       {results.map((item) => <details className="individual-report" key={item.result.run_id} open={results.length === 1}><summary>{item.label} detailed report</summary><ResultDashboard result={item.result} /><TargetMemoryTrace runId={item.result.run_id} /></details>)}
       <button className="secondary" onClick={() => window.location.reload()}>Start New Audit</button>
     </section>}

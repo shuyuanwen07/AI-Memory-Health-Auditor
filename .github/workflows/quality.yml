@@ -11,6 +11,8 @@ jobs:
     services:
       postgres:
         image: postgres:16-alpine
+        ports:
+          - 5432:5432
         env:
           POSTGRES_DB: memory_auditor_ci
           POSTGRES_USER: auditor
