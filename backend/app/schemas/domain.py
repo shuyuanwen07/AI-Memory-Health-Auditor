@@ -39,6 +39,10 @@ class MemoryStrategy(str, Enum):
     STRONG_RULE_BASED = "strong_rule_based"
     STRONG_SCORE_BASED = "strong_score_based"
     SCOPE_AWARE = "scope_aware"
+    # A reproducible ablation that ranks source-message recency together with
+    # transparent record importance.  It intentionally uses relative message
+    # order, never the wall-clock time at which an audit happens.
+    TEMPORAL_IMPORTANCE = "temporal_importance"
 class TargetMemoryScope(str, Enum):
     """Semantic area assigned to a record in the controlled Agent's store."""
     PROFILE = "profile"
@@ -72,6 +76,16 @@ class TargetMemoryEventType(str, Enum):
     CONTEXTUAL_OVERRIDE_RECORDED = "CONTEXTUAL_OVERRIDE_RECORDED"
     MAINTENANCE_APPLIED = "MAINTENANCE_APPLIED"
     RETRIEVED = "RETRIEVED"
+class HumanReviewRole(str, Enum):
+    """Purpose of a saved human evaluator label.
+
+    Independent labels are kept separate from the single resolved label used
+    to calibrate the automated evaluator.  This prevents a majority vote from
+    being silently mistaken for an adjudicated research decision.
+    """
+    INDEPENDENT = "independent"
+    REFERENCE = "reference"
+    ADJUDICATION = "adjudication"
 class TargetProvider(str, Enum): RULE_BASED="rule_based"; OPENAI="openai"; DEEPSEEK="deepseek"; GEMINI="gemini"
 class ExperimentStatus(str, Enum):
     CREATED = "CREATED"
@@ -363,10 +377,16 @@ class EvaluationHumanReviewUpdate(BaseModel):
     human_failure_type: Dimension | None = None
     reviewer_label: str = Field(min_length=1, max_length=80)
     note: str | None = Field(default=None, max_length=1500)
+    review_role: HumanReviewRole = HumanReviewRole.REFERENCE
+    based_on_review_ids: list[str] = Field(default_factory=list, max_length=20)
 
     def model_post_init(self, __context):
         if self.human_passed and self.human_failure_type is not None:
             raise ValueError("A passing human verdict must not include a failure type.")
+        if self.review_role == HumanReviewRole.INDEPENDENT and self.based_on_review_ids:
+            raise ValueError("Independent reviews cannot cite other review labels.")
+        if self.review_role == HumanReviewRole.ADJUDICATION and not self.based_on_review_ids:
+            raise ValueError("An adjudication must cite the independent reviews it resolves.")
 
 class EvaluationHumanReview(BaseModel):
     review_id: str
@@ -374,6 +394,8 @@ class EvaluationHumanReview(BaseModel):
     human_passed: bool
     human_failure_type: Dimension | None = None
     reviewer_label: str
+    review_role: HumanReviewRole = HumanReviewRole.REFERENCE
+    based_on_review_ids: list[str] = Field(default_factory=list)
     note: str | None = None
     created_at: datetime
     updated_at: datetime
@@ -383,6 +405,7 @@ class EvaluationReviewItem(BaseModel):
     response: TargetResponse
     automated: EvaluationResult
     human_review: EvaluationHumanReview | None = None
+    human_reviews: list[EvaluationHumanReview] = Field(default_factory=list)
 
 class EvaluationCalibrationSummary(BaseModel):
     run_id: str
@@ -395,6 +418,13 @@ class EvaluationCalibrationSummary(BaseModel):
     failure_recall: float | None = None
     failure_f1: float | None = None
     by_dimension: dict[str, dict[str, int]] = Field(default_factory=dict)
+    independent_review_count: int = 0
+    independently_reviewed_evaluation_count: int = 0
+    independent_consensus_count: int = 0
+    independent_conflict_count: int = 0
+    independent_pair_count: int = 0
+    independent_pair_agreement_percentage: float | None = None
+    independent_pair_kappa: float | None = None
 class DimensionScores(BaseModel):
     dimension: Dimension; percentage: float | None; passed: int; total: int
 class FailureDetail(BaseModel):

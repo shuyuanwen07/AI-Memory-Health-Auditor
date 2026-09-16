@@ -6,8 +6,20 @@ on:
 
 jobs:
   backend:
-    name: Backend tests and static compilation
+    name: Backend tests, static compilation and migration chain
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: memory_auditor_ci
+          POSTGRES_USER: auditor
+          POSTGRES_PASSWORD: auditor
+        options: >-
+          --health-cmd "pg_isready -U auditor -d memory_auditor_ci"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
     defaults:
       run:
         working-directory: backend
@@ -19,6 +31,27 @@ jobs:
       - run: python -m pip install --upgrade pip
       - run: pip install -r requirements.txt
       - run: sh scripts/check.sh
+      - name: Verify the Alembic chain upgrades a disposable PostgreSQL database
+        env:
+          DATABASE_URL: postgresql+psycopg://auditor:auditor@localhost:5432/memory_auditor_ci
+          PYTHONPATH: .
+        run: |
+          alembic upgrade head
+          expected_head="$(alembic heads | awk '{print $1}')"
+          current_head="$(alembic current | awk '{print $1}')"
+          test "$current_head" = "$expected_head"
+
+  paper-artifacts:
+    name: Paper artifact generator contracts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s scripts/tests -v
+      - name: Generate illustrative artifacts as a smoke check
+        run: python scripts/generate_paper_artifacts.py datasets/paper-artifacts/synthetic_illustrative_results.csv /tmp/paper-artifacts
 
   frontend:
     name: Frontend type check, build and tests

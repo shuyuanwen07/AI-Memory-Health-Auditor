@@ -51,3 +51,9 @@ LongMemEval, LoCoMo and BEAM inputs must be independently obtained under their a
 - per-condition sample size and every measured dimension, including unmeasured dimensions;
 - representative synthetic or authorised failure traces, never hidden private context or credentials;
 - clear separation of illustrative synthetic examples, local compatibility runs, pilot results and formal results.
+
+## Deterministic reporting artifacts
+
+After downloading an experiment CSV, run `scripts/generate_paper_artifacts.py INPUT_EXPORT.csv OUTPUT_DIRECTORY`. It produces a condition-overall table/chart and, when the export contains those rows, a dimension-comparison table/chart and detected-failure distribution table/chart. `paper_artifacts_manifest.json` records the input SHA-256, every generated artifact SHA-256, row counts and the generator's reporting boundary.
+
+These files are deterministic presentation transforms only. They do not estimate significance, prove causality, fill in unmeasured dimensions, or make official external-benchmark claims. Preserve the CSV, manifest and frozen protocol with every reported figure; add any statistical analysis only under a separately declared analysis plan.

@@ -81,9 +81,42 @@ def test_complete_audit_keeps_private_target_context_off_the_api(monkeypatch, tm
                 json={"human_passed": True, "reviewer_label": "reviewer-a", "note": "Checked against the response."},
             )
             assert saved_review.status_code == 200
+            # Existing clients did not send a role and may change their
+            # pseudonym while editing the historical single reference row.
+            legacy_update = client.patch(
+                f"/api/v1/audits/{run_id}/evaluations/{first['automated']['evaluation_id']}/review",
+                json={"human_passed": True, "reviewer_label": "reviewer-b"},
+            )
+            assert legacy_update.status_code == 200
+            assert legacy_update.json()["review_role"] == "reference"
+            independent_a = client.patch(
+                f"/api/v1/audits/{run_id}/evaluations/{first['automated']['evaluation_id']}/review",
+                json={"human_passed": False, "human_failure_type": "accuracy", "reviewer_label": "annotator-1", "review_role": "independent"},
+            )
+            independent_b = client.patch(
+                f"/api/v1/audits/{run_id}/evaluations/{first['automated']['evaluation_id']}/review",
+                json={"human_passed": False, "human_failure_type": "accuracy", "reviewer_label": "annotator-2", "review_role": "independent"},
+            )
+            assert independent_a.status_code == 200
+            assert independent_b.status_code == 200
+            adjudication = client.patch(
+                f"/api/v1/audits/{run_id}/evaluations/{first['automated']['evaluation_id']}/review",
+                json={
+                    "human_passed": False, "human_failure_type": "accuracy", "reviewer_label": "adjudicator-1",
+                    "review_role": "adjudication",
+                    "based_on_review_ids": [independent_a.json()["review_id"], independent_b.json()["review_id"]],
+                },
+            )
+            assert adjudication.status_code == 200
+            reviewed_item = client.get(f"/api/v1/audits/{run_id}/evaluation-review").json()[0]
+            assert reviewed_item["human_review"]["review_role"] == "adjudication"
+            assert len(reviewed_item["human_reviews"]) == 4
             calibration = client.get(f"/api/v1/audits/{run_id}/evaluation-calibration")
             assert calibration.status_code == 200
             assert calibration.json()["human_reviewed_count"] == 1
+            assert calibration.json()["independent_review_count"] == 2
+            assert calibration.json()["independent_consensus_count"] == 1
+            assert calibration.json()["independent_pair_kappa"] is None
             assert client.get(f"/api/v1/audits/{run_id}/retry-plan").json()["retryable"] is False
             assert client.post(f"/api/v1/audits/{run_id}/retry").json()["status"] == "COMPLETED"
             for failure in results.json()["failures"]:

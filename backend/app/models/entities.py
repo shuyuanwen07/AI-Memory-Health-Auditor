@@ -229,12 +229,14 @@ class EvaluationResultModel(Base):
 
 
 class EvaluationHumanReviewModel(Base):
-    """Researcher calibration label for one completed automated verdict.
+    """A pseudonymous researcher label for one completed automated verdict.
 
     There is no account system in Foundation, so ``reviewer_label`` is a
     researcher-provided pseudonym.  The automated result is deliberately
-    retained unchanged; this row records calibration evidence rather than
-    silently rewriting an audit outcome.
+    retained unchanged; these rows record calibration evidence rather than
+    silently rewriting an audit outcome.  Independent labels can coexist;
+    a separate reference or adjudication label is the explicit comparison
+    target for automated-evaluator calibration.
     """
 
     __tablename__ = "evaluation_human_reviews"
@@ -243,11 +245,13 @@ class EvaluationHumanReviewModel(Base):
         ForeignKey("audit_runs.id", ondelete="CASCADE"), index=True
     )
     evaluation_id: Mapped[str] = mapped_column(
-        ForeignKey("evaluation_results.id", ondelete="CASCADE"), unique=True, index=True
+        ForeignKey("evaluation_results.id", ondelete="CASCADE"), index=True
     )
     human_passed: Mapped[bool] = mapped_column(Boolean)
     human_failure_type: Mapped[str | None] = mapped_column(String(40), nullable=True)
     reviewer_label: Mapped[str] = mapped_column(String(80))
+    review_role: Mapped[str] = mapped_column(String(20), default="reference")
+    based_on_review_ids: Mapped[list] = mapped_column(JSON, default=list)
     note: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now, onupdate=utc_now)

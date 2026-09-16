@@ -99,7 +99,7 @@ def public_test_schema(o):
     )
 def response_schema(o): return TargetResponse(response_id=o.id, test_id=o.test_id, run_id=o.run_id, response_text=o.response_text, model=o.model, temperature=o.temperature, execution_metadata=getattr(o, "execution_metadata", {}) or {}, created_at=o.created_at)
 def eval_schema(o): return EvaluationResult(evaluation_id=o.id, test_id=o.test_id, response_id=o.response_id, passed=o.passed, failure_type=o.failure_type, reason=o.reason, evidence_memory_ids=o.evidence_memory_ids, evaluator=o.evaluator)
-def human_review_schema(o): return EvaluationHumanReview(review_id=o.id, evaluation_id=o.evaluation_id, human_passed=o.human_passed, human_failure_type=o.human_failure_type, reviewer_label=o.reviewer_label, note=o.note, created_at=o.created_at, updated_at=o.updated_at)
+def human_review_schema(o): return EvaluationHumanReview(review_id=o.id, evaluation_id=o.evaluation_id, human_passed=o.human_passed, human_failure_type=o.human_failure_type, reviewer_label=o.reviewer_label, review_role=getattr(o, "review_role", "reference"), based_on_review_ids=getattr(o, "based_on_review_ids", []) or [], note=o.note, created_at=o.created_at, updated_at=o.updated_at)
 def require_state(run, allowed: set[AuditStatus]):
     if AuditStatus(run.status) not in allowed:
         raise HTTPException(status_code=409, detail=f"Audit is {run.status}; this action is not valid at this stage.")
@@ -620,7 +620,7 @@ def results(run_id:str,db:Session=Depends(get_db)): return result_for(run_id,db)
 
 
 def evaluation_review_items_for(run_id: str, db: Session) -> list[EvaluationReviewItem]:
-    """Join completed verdicts to optional researcher calibration labels."""
+    """Join verdicts to independent labels and an explicit resolved label."""
     audit = db.get(AuditRunModel, run_id)
     if not audit: missing("Audit")
     if audit.status != AuditStatus.COMPLETED.value:
@@ -629,16 +629,30 @@ def evaluation_review_items_for(run_id: str, db: Session) -> list[EvaluationRevi
     evaluations = db.scalars(select(EvaluationResultModel).join(TestCaseModel).where(TestCaseModel.run_id == run_id)).all()
     evaluation_by_test = {row.test_id: row for row in evaluations}
     reviews = db.scalars(select(EvaluationHumanReviewModel).where(EvaluationHumanReviewModel.run_id == run_id)).all()
-    review_by_evaluation = {row.evaluation_id: row for row in reviews}
+    review_by_evaluation: dict[str, list[EvaluationHumanReviewModel]] = {}
+    for review in reviews:
+        review_by_evaluation.setdefault(review.evaluation_id, []).append(review)
+
+    def resolved_review(rows: list[EvaluationHumanReviewModel]) -> EvaluationHumanReviewModel | None:
+        # Adjudication deliberately wins over a reference label.  Routes allow
+        # at most one record in each resolved role, so this is deterministic.
+        for role in (HumanReviewRole.ADJUDICATION.value, HumanReviewRole.REFERENCE.value):
+            found = [row for row in rows if getattr(row, "review_role", "reference") == role]
+            if found:
+                return sorted(found, key=lambda row: (row.updated_at, row.id), reverse=True)[0]
+        return None
     items: list[EvaluationReviewItem] = []
     for test in tests:
         automated = evaluation_by_test.get(test.id)
         response = db.scalar(select(TargetResponseModel).where(TargetResponseModel.test_id == test.id))
         if automated and response:
+            all_reviews = sorted(review_by_evaluation.get(automated.id, []), key=lambda row: (row.created_at, row.id))
+            resolved = resolved_review(all_reviews)
             items.append(EvaluationReviewItem(
                 test=public_test_schema(test), response=response_schema(response),
                 automated=eval_schema(automated),
-                human_review=human_review_schema(review_by_evaluation[automated.id]) if automated.id in review_by_evaluation else None,
+                human_review=human_review_schema(resolved) if resolved else None,
+                human_reviews=[human_review_schema(row) for row in all_reviews],
             ))
     return items
 
@@ -651,7 +665,13 @@ def evaluation_review_items(run_id: str, db: Session = Depends(get_db)):
 
 @router.patch("/audits/{run_id}/evaluations/{evaluation_id}/review", response_model=EvaluationHumanReview)
 def review_evaluation(run_id: str, evaluation_id: str, payload: EvaluationHumanReviewUpdate, db: Session = Depends(get_db)):
-    """Upsert a researcher verdict without mutating the automated evaluation."""
+    """Upsert one independent, reference, or adjudication label.
+
+    The default ``reference`` role deliberately keeps the original single
+    reviewer endpoint behaviour.  Supplying ``review_role=independent`` lets
+    multiple pseudonymous researchers label the same response without
+    overwriting each other.
+    """
     audit = db.get(AuditRunModel, run_id)
     if not audit: missing("Audit")
     if audit.status != AuditStatus.COMPLETED.value:
@@ -659,18 +679,47 @@ def review_evaluation(run_id: str, evaluation_id: str, payload: EvaluationHumanR
     evaluation = db.get(EvaluationResultModel, evaluation_id)
     if not evaluation or not db.scalar(select(TestCaseModel.id).where(TestCaseModel.id == evaluation.test_id, TestCaseModel.run_id == run_id)):
         missing("Evaluation")
-    review = db.scalar(select(EvaluationHumanReviewModel).where(EvaluationHumanReviewModel.evaluation_id == evaluation_id))
+    role = payload.review_role.value
+    # Old clients never sent a role and historically upserted the single row
+    # even when their displayed pseudonym changed.  Retain that narrow
+    # behaviour while requiring role-aware callers to avoid overwriting an
+    # explicit reference/adjudication owned by another reviewer.
+    legacy_payload = "review_role" not in payload.model_fields_set
+    if payload.based_on_review_ids:
+        cited = db.scalars(select(EvaluationHumanReviewModel).where(
+            EvaluationHumanReviewModel.evaluation_id == evaluation_id,
+            EvaluationHumanReviewModel.id.in_(payload.based_on_review_ids),
+        )).all()
+        if len(cited) != len(set(payload.based_on_review_ids)) or any(
+            row.review_role != HumanReviewRole.INDEPENDENT.value for row in cited
+        ):
+            raise HTTPException(422, "An adjudication may cite only independent reviews for this evaluation.")
+    if role == HumanReviewRole.INDEPENDENT.value:
+        review = db.scalar(select(EvaluationHumanReviewModel).where(
+            EvaluationHumanReviewModel.evaluation_id == evaluation_id,
+            EvaluationHumanReviewModel.reviewer_label == payload.reviewer_label.strip(),
+            EvaluationHumanReviewModel.review_role == role,
+        ))
+    else:
+        review = db.scalar(select(EvaluationHumanReviewModel).where(
+            EvaluationHumanReviewModel.evaluation_id == evaluation_id,
+            EvaluationHumanReviewModel.review_role == role,
+        ))
+        if review is not None and review.reviewer_label != payload.reviewer_label.strip() and not legacy_payload:
+            raise HTTPException(409, f"This evaluation already has a {role} label. Update it using its existing reviewer pseudonym.")
     if review is None:
         review = EvaluationHumanReviewModel(
             id=ident("HR"), run_id=run_id, evaluation_id=evaluation_id,
             human_passed=payload.human_passed, human_failure_type=payload.human_failure_type.value if payload.human_failure_type else None,
-            reviewer_label=payload.reviewer_label.strip(), note=payload.note.strip() if payload.note else None,
+            reviewer_label=payload.reviewer_label.strip(), review_role=role,
+            based_on_review_ids=list(payload.based_on_review_ids), note=payload.note.strip() if payload.note else None,
         )
         db.add(review)
     else:
         review.human_passed = payload.human_passed
         review.human_failure_type = payload.human_failure_type.value if payload.human_failure_type else None
         review.reviewer_label = payload.reviewer_label.strip()
+        review.based_on_review_ids = list(payload.based_on_review_ids)
         review.note = payload.note.strip() if payload.note else None
     db.commit(); db.refresh(review)
     return human_review_schema(review)
@@ -678,7 +727,11 @@ def review_evaluation(run_id: str, evaluation_id: str, payload: EvaluationHumanR
 
 @router.get("/audits/{run_id}/evaluation-calibration", response_model=EvaluationCalibrationSummary)
 def evaluation_calibration(run_id: str, db: Session = Depends(get_db)):
-    """Report agreement only for saved human labels; unreviewed cases stay out."""
+    """Calibrate automated labels against explicit resolution labels only.
+
+    Independent labels measure inter-rater reliability.  They are *not*
+    silently majority-voted into the automated-evaluator calibration set.
+    """
     items = evaluation_review_items_for(run_id, db)
     reviewed = [item for item in items if item.human_review]
     automated_failures = sum(not item.automated.passed for item in items)
@@ -696,11 +749,41 @@ def evaluation_calibration(run_id: str, db: Session = Depends(get_db)):
         bucket["agreement"] += int(item.automated.passed == item.human_review.human_passed)
         bucket["automated_failures"] += int(not item.automated.passed)
         bucket["human_failures"] += int(not item.human_review.human_passed)
+
+    independent_groups: dict[str, list[EvaluationHumanReview]] = {}
+    for item in items:
+        labels = [review for review in item.human_reviews if review.review_role == HumanReviewRole.INDEPENDENT]
+        if labels:
+            independent_groups[item.automated.evaluation_id] = labels
+    independently_reviewed = [labels for labels in independent_groups.values() if len(labels) >= 2]
+    consensus_count = sum(len({label.human_passed for label in labels}) == 1 for labels in independently_reviewed)
+    conflict_count = len(independently_reviewed) - consensus_count
+    pairs: list[tuple[bool, bool]] = []
+    for labels in independently_reviewed:
+        ordered = sorted(labels, key=lambda label: (label.reviewer_label, label.review_id))
+        for left_index, left in enumerate(ordered):
+            for right in ordered[left_index + 1:]:
+                pairs.append((left.human_passed, right.human_passed))
+    pair_agreement = sum(left == right for left, right in pairs)
+    pair_percentage = round(pair_agreement / len(pairs) * 100, 1) if pairs else None
+    if pairs:
+        left_pass_rate = sum(left for left, _ in pairs) / len(pairs)
+        right_pass_rate = sum(right for _, right in pairs) / len(pairs)
+        expected_agreement = left_pass_rate * right_pass_rate + (1 - left_pass_rate) * (1 - right_pass_rate)
+        observed_agreement = pair_agreement / len(pairs)
+        pair_kappa = round((observed_agreement - expected_agreement) / (1 - expected_agreement), 3) if expected_agreement < 1 else None
+    else:
+        pair_kappa = None
     return EvaluationCalibrationSummary(
         run_id=run_id, automated_failure_count=automated_failures, human_reviewed_count=len(reviewed),
         agreement_count=agreements, disagreement_count=len(reviewed) - agreements,
         agreement_percentage=round(agreements / len(reviewed) * 100, 1) if reviewed else None,
         failure_precision=precision, failure_recall=recall, failure_f1=f1, by_dimension=by_dimension,
+        independent_review_count=sum(len(labels) for labels in independent_groups.values()),
+        independently_reviewed_evaluation_count=len(independently_reviewed),
+        independent_consensus_count=consensus_count, independent_conflict_count=conflict_count,
+        independent_pair_count=len(pairs), independent_pair_agreement_percentage=pair_percentage,
+        independent_pair_kappa=pair_kappa,
     )
 
 def target_trace_record_schema(db: Session, record: TargetAgentMemoryModel) -> TargetMemoryTraceRecord:

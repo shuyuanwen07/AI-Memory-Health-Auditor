@@ -185,6 +185,16 @@ class LongMemEvalDeterministicRunner:
                     item[1] * 10 + item[0].policy_score, item[0].write_order,
                 ),
             )]
+        elif strategy == MemoryStrategy.TEMPORAL_IMPORTANCE:
+            selected = [item[0] for item in sorted(
+                candidates,
+                key=lambda item: (
+                    item[1] * 100
+                    + self._importance(item[0])[0]
+                    + self._recency_factor(item[0], len(store)),
+                    item[0].write_order,
+                ),
+            )]
         else:
             selected = [item[0] for item in sorted(candidates, key=lambda item: (item[1] * 10 + item[0].policy_score, item[0].write_order))]
         selected_ids = {item.memory_id for item in selected}
@@ -198,8 +208,19 @@ class LongMemEvalDeterministicRunner:
                 policy_score=memory.policy_score,
                 memory_scope=self._scope(memory.canonical_value),
                 scope_score=self._scope_score(self._scope(question), self._scope(memory.canonical_value)) if strategy.value == "scope_aware" else 0.0,
+                relative_chronology=self._relative_chronology(memory, len(store)),
+                chronology_basis="sequential_message_order",
+                recency_factor=self._recency_factor(memory, len(store)),
+                importance_factor=self._importance(memory)[0] if strategy == MemoryStrategy.TEMPORAL_IMPORTANCE else None,
+                importance_components=self._importance(memory)[1] if strategy == MemoryStrategy.TEMPORAL_IMPORTANCE else [],
+                temporal_importance_score=(
+                    relevance * 100 + self._importance(memory)[0] + self._recency_factor(memory, len(store))
+                    if strategy == MemoryStrategy.TEMPORAL_IMPORTANCE else None
+                ),
                 selected=memory.memory_id in selected_ids,
-                reason=reason + f"; scope={self._scope(memory.canonical_value)}" + (f"; supersedes={memory.update_of}" if memory.update_of else ""),
+                reason=reason + f"; scope={self._scope(memory.canonical_value)}"
+                + (f"; temporal_chronology={self._relative_chronology(memory, len(store))}; recency_factor={self._recency_factor(memory, len(store))}; importance_factor={self._importance(memory)[0]}" if strategy == MemoryStrategy.TEMPORAL_IMPORTANCE else "")
+                + (f"; supersedes={memory.update_of}" if memory.update_of else ""),
             )
             for memory, relevance, reason in candidates
         ]
@@ -318,3 +339,32 @@ class LongMemEvalDeterministicRunner:
         if memory_scope == "contextual_requirement":
             return 20.0
         return 0.0
+
+    @staticmethod
+    def _relative_chronology(memory: _StoredMemory, total_records: int) -> float:
+        """Normalised sequential ingestion order; never a wall-clock value."""
+        return round(memory.write_order / max(total_records, 1), 6)
+
+    @classmethod
+    def _recency_factor(cls, memory: _StoredMemory, total_records: int) -> float:
+        return round(cls._relative_chronology(memory, total_records) * 30, 6)
+
+    @classmethod
+    def _importance(cls, memory: _StoredMemory) -> tuple[float, list[str]]:
+        scope = cls._scope(memory.canonical_value)
+        weights = {
+            "episodic_or_temporal": 10.0,
+            "preference": 20.0,
+            "profile": 30.0,
+            "factual": 30.0,
+            "contextual_requirement": 45.0,
+        }
+        score = weights[scope]
+        components = [f"scope:{scope}={weights[scope]:g}"]
+        if memory.update_of:
+            score += 15.0
+            components.append("update_link=15")
+        if memory.policy_score >= 60.0:
+            score += 25.0
+            components.append("contextual_requirement=25")
+        return score, components

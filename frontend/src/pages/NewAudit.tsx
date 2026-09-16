@@ -21,6 +21,7 @@ const strategies: Array<{ value: MemoryStrategy; label: string; description: str
   { value: 'strong_rule_based', label: 'Strong Rule-Based', description: 'Prioritises contextual requirements, updates, stable facts and superseded records.' },
   { value: 'strong_score_based', label: 'Strong Score-Based', description: 'Ranks memories with transparent relevance, freshness and context weights.' },
   { value: 'scope_aware', label: 'Scope-Aware', description: 'Prioritises project requirements for task prompts and uses profile or preferences only when relevant.' },
+  { value: 'temporal_importance', label: 'Temporal & Importance', description: 'Ranks source-message recency and durable task importance using a frozen, explainable relative chronology.' },
 ];
 
 export function NewAudit() {

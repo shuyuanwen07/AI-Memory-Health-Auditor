@@ -6,7 +6,7 @@ export interface ConversationDeletionReceipt { conversation_id:string; deleted_a
 export interface MemoryRelationship { relationship_id?:string; type:'UPDATE'|'CONFLICT'|'CONTEXTUAL_OVERRIDE'; target_memory_id:string }
 export interface Memory { memory_id:string; conversation_id:string; canonical_value:string; status:MemoryStatus; source_message_ids:string[]; timestamp?:string; relationships:MemoryRelationship[] }
 export type TargetProvider = 'rule_based'|'openai'|'deepseek'|'gemini';
-export type MemoryStrategy = 'weak_first_hit'|'strong_rule_based'|'strong_score_based'|'scope_aware';
+export type MemoryStrategy = 'weak_first_hit'|'strong_rule_based'|'strong_score_based'|'scope_aware'|'temporal_importance';
 export type MemoryMaintenancePolicy = 'append_only'|'update_aware_consolidation';
 export type TargetMemoryWriterKind = 'rule_based'|'llm_structured';
 export type TestSuiteMode = 'behavioural'|'direct_ground_truth'|'fixed_template';
@@ -28,9 +28,10 @@ export interface TargetMemoryTraceRetrieval { retrieval_id:string; test_id:strin
 export interface TargetMemoryTrace { run_id:string; memory_strategy:MemoryStrategy; memory_maintenance_policy:'append_only'|'update_aware_consolidation'; target_memory_capacity?:number; target_memory_writer?:TargetMemoryWriterKind; target_memory_writer_version?:string|null; records:TargetMemoryTraceRecord[]; events:TargetMemoryTraceEvent[]; retrievals:TargetMemoryTraceRetrieval[] }
 export interface TargetResponse { response_id:string; test_id:string; run_id:string; response_text:string; model:string; temperature:number; execution_metadata?:ExecutionMetadata; created_at:string }
 export interface EvaluationResult { evaluation_id:string; test_id:string; response_id:string; passed:boolean; failure_type?:Dimension; reason:string; evidence_memory_ids:string[]; evaluator:string }
-export interface EvaluationHumanReview { review_id:string; evaluation_id:string; human_passed:boolean; human_failure_type?:Dimension|null; reviewer_label:string; note?:string|null; created_at:string; updated_at:string }
-export interface EvaluationReviewItem { test:TestCase; response:TargetResponse; automated:EvaluationResult; human_review?:EvaluationHumanReview|null }
-export interface EvaluationCalibrationSummary { run_id:string; automated_failure_count:number; human_reviewed_count:number; agreement_count:number; disagreement_count:number; agreement_percentage:number|null; failure_precision:number|null; failure_recall:number|null; failure_f1:number|null; by_dimension:Record<string,{reviewed:number;agreement:number;automated_failures:number;human_failures:number}> }
+export type HumanReviewRole = 'independent'|'reference'|'adjudication';
+export interface EvaluationHumanReview { review_id:string; evaluation_id:string; human_passed:boolean; human_failure_type?:Dimension|null; reviewer_label:string; review_role:HumanReviewRole; based_on_review_ids:string[]; note?:string|null; created_at:string; updated_at:string }
+export interface EvaluationReviewItem { test:TestCase; response:TargetResponse; automated:EvaluationResult; human_review?:EvaluationHumanReview|null; human_reviews:EvaluationHumanReview[] }
+export interface EvaluationCalibrationSummary { run_id:string; automated_failure_count:number; human_reviewed_count:number; agreement_count:number; disagreement_count:number; agreement_percentage:number|null; failure_precision:number|null; failure_recall:number|null; failure_f1:number|null; by_dimension:Record<string,{reviewed:number;agreement:number;automated_failures:number;human_failures:number}>; independent_review_count:number; independently_reviewed_evaluation_count:number; independent_consensus_count:number; independent_conflict_count:number; independent_pair_count:number; independent_pair_agreement_percentage:number|null; independent_pair_kappa:number|null }
 export interface DimensionScores { dimension:Dimension; percentage:number | null; passed:number; total:number }
 export interface FailureDetail { failure_id:string; test:TestCase; response:TargetResponse; evaluation:EvaluationResult; evidence:Memory[] }
 export interface AuditResult { run_id:string; overall_score:number|null; tests_passed:number; tests_total:number; dimensions:DimensionScores[]; failures:FailureDetail[]; reproducibility?:ReproducibilityMetadata }

@@ -72,6 +72,15 @@ class BenchmarkMemoryEvidence(BaseModel):
     policy_score: float
     memory_scope: str | None = None
     scope_score: float = 0.0
+    # ``temporal_importance`` uses only the record's normalised write order,
+    # not an audit-time clock.  Other policies expose the same values to keep
+    # comparisons traceable.
+    relative_chronology: float = 0.0
+    chronology_basis: str = "sequential_message_order"
+    recency_factor: float = 0.0
+    importance_factor: float | None = None
+    importance_components: list[str] = Field(default_factory=list)
+    temporal_importance_score: float | None = None
     selected: bool
     reason: str
 

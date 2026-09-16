@@ -284,6 +284,7 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             self._candidate(record, test, relation_by_memory.get(record.id, []))
             for record in records
         ]
+        self._annotate_relative_chronology(candidates, conversation)
         self._mark_retrieval_eligibility(candidates, strategy, evicted_ids)
         eligible = [item for item in candidates if item["eligible"] and item["relevance"] > 0]
         selected = self._select(eligible, strategy)
@@ -296,6 +297,15 @@ class SqlTargetMemoryStore(TargetMemoryStore):
                 "lifecycle_state": item["record"].lifecycle_state,
                 "scope": item["record"].scope,
                 "relationship_types": item["relationship_types"],
+                # These are populated for every policy to make an experiment
+                # able to compare the same source chronology.  The temporal
+                # condition alone uses them to rank candidates.
+                "relative_chronology": item["relative_chronology"],
+                "chronology_basis": item["chronology_basis"],
+                "recency_factor": item["recency_factor"],
+                "importance_factor": item.get("importance_factor"),
+                "importance_components": item.get("importance_components", []),
+                "temporal_importance_score": item.get("temporal_importance_score"),
                 "selected": item["record"].id in selected_ids,
                 "eligible": item["eligible"],
                 "reason": item["reason"],
@@ -339,6 +349,8 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             ))
         if strategy == MemoryStrategy.SCOPE_AWARE:
             return self._select_scope_aware(candidates)
+        if strategy == MemoryStrategy.TEMPORAL_IMPORTANCE:
+            return self._select_temporal_importance(candidates)
         return sorted(candidates, key=lambda item: (
             item["relevance"] * 10 + item["policy_score"],
             self._time_value(item["record"]), item["record"].write_order,
@@ -376,6 +388,29 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             self._time_value(item["record"]), item["record"].write_order,
         ))
 
+    def _select_temporal_importance(self, candidates: list[dict]) -> list[dict]:
+        """Rank relevant records using only relative source chronology.
+
+        The highest rank is made available last, preserving the controlled
+        target connector contract used by the other strong policies.  Absolute
+        message timestamps and audit-time clocks are intentionally absent:
+        changing the calendar date of an authorised transcript must not change
+        this policy's decision.
+        """
+        for item in candidates:
+            importance, components = self._importance(item)
+            temporal_score = (item["relevance"] * 100) + importance + item["recency_factor"]
+            item["importance_factor"] = importance
+            item["importance_components"] = components
+            item["temporal_importance_score"] = temporal_score
+            item["reason"] = (
+                f"{item['reason']}, temporal_chronology={item['relative_chronology']}, "
+                f"recency_factor={item['recency_factor']}, importance_factor={importance}"
+            )
+        return sorted(candidates, key=lambda item: (
+            item["temporal_importance_score"], item["record"].write_order,
+        ))
+
     def _candidate(
         self, record: TargetAgentMemoryModel, test: TestCase,
         relations: list[TargetAgentMemoryRelationshipModel],
@@ -411,8 +446,71 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             "record": record, "relevance": relevance,
             "policy_score": policy_score, "relationship_types": relationship_types,
             "reason": ", ".join(reasons), "test_prompt": test.prompt,
+            # Ingested source IDs are resolved against the authorised
+            # conversation in ``_annotate_relative_chronology``.
+            "relative_chronology": 0.0,
+            "chronology_basis": "pending_authorised_conversation_order",
+            "recency_factor": 0.0,
             "eligible": True,
         }
+
+    @staticmethod
+    def _annotate_relative_chronology(candidates: list[dict], conversation: Conversation) -> None:
+        """Attach reproducible chronology without consulting wall-clock time.
+
+        A record takes the latest position of its cited source messages in the
+        authorised conversation.  Writer order is only a deterministic
+        fallback for a custom writer that supplied no valid source IDs.
+        """
+        source_position = {
+            message.message_id: position
+            for position, message in enumerate(conversation.messages, start=1)
+        }
+        message_total = max(len(conversation.messages), 1)
+        fallback_total = max((item["record"].write_order for item in candidates), default=1)
+        for item in candidates:
+            record = item["record"]
+            positions = [source_position[item_id] for item_id in record.source_message_ids if item_id in source_position]
+            if positions:
+                position = max(positions)
+                denominator = message_total
+                basis = "authorised_conversation_message_order"
+            else:
+                position = record.write_order
+                denominator = fallback_total
+                basis = "deterministic_writer_order_fallback"
+            relative = round(position / max(denominator, 1), 6)
+            item["relative_chronology"] = relative
+            item["chronology_basis"] = basis
+            # A deliberately bounded factor leaves lexical relevance and
+            # semantic importance visible rather than reducing the policy to
+            # a latest-write-only baseline.
+            item["recency_factor"] = round(relative * 30, 6)
+
+    @staticmethod
+    def _importance(item: dict) -> tuple[float, list[str]]:
+        """Return an explainable, source-independent retention importance."""
+        record = item["record"]
+        scope = TargetMemoryScope(record.scope)
+        scope_weights = {
+            TargetMemoryScope.EPISODIC: 10.0,
+            TargetMemoryScope.PREFERENCE: 20.0,
+            TargetMemoryScope.PROFILE: 30.0,
+            TargetMemoryScope.PROJECT_REQUIREMENT: 45.0,
+        }
+        importance = scope_weights[scope]
+        components = [f"scope:{scope.value}={scope_weights[scope]:g}"]
+        relationships = set(item["relationship_types"])
+        if RelationshipType.UPDATE.value in relationships:
+            importance += 15.0
+            components.append("update_link=15")
+        if RelationshipType.CONTEXTUAL_OVERRIDE.value in relationships:
+            importance += 25.0
+            components.append("contextual_override=25")
+        if RelationshipType.CONFLICT.value in relationships or record.lifecycle_state == TargetMemoryLifecycleState.CONFLICTED.value:
+            importance += 20.0
+            components.append("unresolved_conflict=20")
+        return importance, components
 
     def _mark_retrieval_eligibility(
         self,

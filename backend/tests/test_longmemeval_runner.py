@@ -49,6 +49,21 @@ def test_weak_policy_reveals_stale_and_contextual_baseline_failures():
     assert result.cases[1].response_text.endswith("I generally prefer Python.")
 
 
+def test_temporal_importance_is_deterministic_and_exposes_each_score_component():
+    result = LongMemEvalDeterministicRunner().run(LongMemEvalRunRequest(
+        payload=PAYLOAD,
+        source_authorised=True,
+        memory_strategy=MemoryStrategy.TEMPORAL_IMPORTANCE,
+    ))
+
+    assert result.metadata.memory_strategy == MemoryStrategy.TEMPORAL_IMPORTANCE
+    assert result.cases[0].retrieval_evidence
+    assert all(item.chronology_basis == "sequential_message_order" for item in result.cases[0].retrieval_evidence)
+    assert all(item.importance_factor is not None for item in result.cases[0].retrieval_evidence)
+    assert all(item.temporal_importance_score is not None for item in result.cases[0].retrieval_evidence)
+    assert "recency_factor=" in result.cases[0].retrieval_evidence[0].reason
+
+
 def test_run_endpoint_requires_authorisation_and_keeps_run_payload_ephemeral():
     with TestClient(app) as client:
         denied = client.post("/api/v1/research/benchmarks/longmemeval/run", json={"payload": PAYLOAD})
