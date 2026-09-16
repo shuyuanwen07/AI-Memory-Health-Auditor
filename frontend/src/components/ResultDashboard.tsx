@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react';
-import type { AuditResult, Dimension, DimensionScores, FailureDetail } from '../types/domain';
+import type { AuditResult, Dimension, DimensionScores, FailureDetail, RetrievalQualityScores } from '../types/domain';
 import { EvaluationReview } from './EvaluationReview';
 
 const ScoreRadarChart = lazy(() => import('./ResultVisualizations').then((module) => ({ default: module.ScoreRadarChart })));
@@ -69,6 +69,23 @@ function DimensionCard({ score }: { score: DimensionScores }) {
   return <article className="dimension"><h3>{labels[score.dimension]}</h3><strong>{formatPercentage(score.percentage)}</strong><span>{isMeasured ? `${score.passed} of ${score.total} tests passed` : 'No completed tests in this dimension'}</span></article>;
 }
 
+const retrievalLabels: Array<[keyof RetrievalQualityScores, string, string]> = [
+  ['evidence_recall_at_k', 'Evidence recall @ k', 'Required source evidence retrieved'],
+  ['evidence_precision_at_k', 'Evidence precision @ k', 'Retrieved source evidence that was relevant'],
+  ['update_evidence_recall', 'Update evidence recall', 'Freshness-test evidence retrieved'],
+  ['conflict_evidence_coverage', 'Conflict evidence coverage', 'Conflict-test evidence retrieved'],
+  ['unnecessary_memory_retrieval_rate', 'Unnecessary retrieval', 'Lower is better'],
+];
+
+function RetrievalQuality({ scores }: { scores?: RetrievalQualityScores }) {
+  if (!scores) return <section className="retrieval-quality"><h2>Retrieval Evidence Quality</h2><p className="empty">No retrieval trace with source evidence is available for these completed tests.</p></section>;
+  if (!scores.tests_measured) return <section className="retrieval-quality"><h2>Retrieval Evidence Quality</h2><p className="empty">No retrieval trace with source evidence is available for these completed tests.</p></section>;
+  return <section className="retrieval-quality" aria-label="Retrieval evidence quality">
+    <div><h2>Retrieval Evidence Quality</h2><p>Source-evidence proxy metrics for {scores.tests_measured} traced tests. They show whether the target selected the evidence needed for each question.</p></div>
+    <div className="retrieval-grid">{retrievalLabels.map(([key, label, note]) => <article key={key} className="retrieval-card"><span>{label}</span><strong>{formatPercentage(scores[key] as number | null)}</strong><small>{note}</small></article>)}</div>
+  </section>;
+}
+
 function FailureEvidence({ failure }: { failure: FailureDetail }) {
   if (!failure.evidence.length) return <p className="empty evidence-empty">No traceable ground-truth evidence was returned for this failure.</p>;
   return <ul className="evidence-list">{failure.evidence.map((memory) => <li key={memory.memory_id}><b>{memory.memory_id}</b><span>{memory.canonical_value}</span></li>)}</ul>;
@@ -82,5 +99,5 @@ function FailureCard({ failure }: { failure: FailureDetail }) {
 export function ResultDashboard({ result }: { result: AuditResult }) {
   const measuredDimensions = result.dimensions.filter((dimension) => dimension.percentage !== null).length;
   const hasCompletedTests = result.tests_total > 0;
-  return <section className="result-dashboard" aria-label="Memory Health report details"><div className="report-hero"><p>OVERALL MEMORY HEALTH</p><h2>{formatPercentage(result.overall_score)}</h2><span>{hasCompletedTests ? `${result.tests_passed} of ${result.tests_total} tests passed` : 'No completed tests are available for scoring'}</span></div><div className="failure-heading"><div><h2>Results at a glance</h2><p>{overallAssessment(result.overall_score, measuredDimensions)}</p></div><button type="button" className="secondary" onClick={() => downloadAuditResultCsv(result)}>Download CSV</button></div><p className="report-coverage">Score coverage: {measuredDimensions} of {result.dimensions.length} Memory Health dimensions were tested. Untested dimensions are excluded from the macro-average.</p><div className="dimension-grid">{result.dimensions.map((dimension) => <DimensionCard key={dimension.dimension} score={dimension} />)}</div><Suspense fallback={<p className="chart-loading" role="status">Loading Memory Health profile…</p>}><ScoreRadarChart result={result} /></Suspense><div className="failure-heading"><div><h2>Detected Memory Failures</h2><p>Open a failure to inspect the test, target response, and supporting ground truth.</p></div><span className="failure-count">{result.failures.length} detected</span></div>{result.failures.length === 0 ? <p className="empty">No failures were detected in the completed tests.</p> : <div className="failure-list">{result.failures.map((failure) => <FailureCard key={failure.failure_id} failure={failure} />)}</div>}<EvaluationReview runId={result.run_id} /></section>;
+  return <section className="result-dashboard" aria-label="Memory Health report details"><div className="report-hero"><p>OVERALL MEMORY HEALTH</p><h2>{formatPercentage(result.overall_score)}</h2><span>{hasCompletedTests ? `${result.tests_passed} of ${result.tests_total} tests passed` : 'No completed tests are available for scoring'}</span></div><div className="failure-heading"><div><h2>Results at a glance</h2><p>{overallAssessment(result.overall_score, measuredDimensions)}</p></div><button type="button" className="secondary" onClick={() => downloadAuditResultCsv(result)}>Download CSV</button></div><p className="report-coverage">Score coverage: {measuredDimensions} of {result.dimensions.length} Memory Health dimensions were tested. Untested dimensions are excluded from the macro-average.</p><div className="dimension-grid">{result.dimensions.map((dimension) => <DimensionCard key={dimension.dimension} score={dimension} />)}</div><Suspense fallback={<p className="chart-loading" role="status">Loading Memory Health profile…</p>}><ScoreRadarChart result={result} /></Suspense><RetrievalQuality scores={result.retrieval_quality} /><div className="failure-heading"><div><h2>Detected Memory Failures</h2><p>Open a failure to inspect the test, target response, and supporting ground truth.</p></div><span className="failure-count">{result.failures.length} detected</span></div>{result.failures.length === 0 ? <p className="empty">No failures were detected in the completed tests.</p> : <div className="failure-list">{result.failures.map((failure) => <FailureCard key={failure.failure_id} failure={failure} />)}</div>}<EvaluationReview runId={result.run_id} /></section>;
 }

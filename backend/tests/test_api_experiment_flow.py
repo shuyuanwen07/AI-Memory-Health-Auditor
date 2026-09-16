@@ -1,5 +1,8 @@
 """End-to-end API coverage for the reproducible offline experiment path."""
 from datetime import datetime, timezone
+from io import BytesIO
+import json
+import zipfile
 
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
@@ -72,6 +75,9 @@ def test_complete_audit_keeps_private_target_context_off_the_api(monkeypatch, tm
             results = client.get(f"/api/v1/audits/{run_id}/results")
             assert results.status_code == 200
             assert results.json()["tests_total"] == len(generated.json())
+            assert "retrieval_quality" in results.json()
+            assert results.json()["retrieval_quality"]["tests_measured"] == len(generated.json())
+            assert results.json()["retrieval_quality"]["evidence_recall_at_k"] is not None
             review_items = client.get(f"/api/v1/audits/{run_id}/evaluation-review")
             assert review_items.status_code == 200
             assert len(review_items.json()) == len(generated.json())
@@ -240,5 +246,13 @@ def test_experiment_history_aligns_completed_runs_and_exports_csv(monkeypatch, t
             assert bundle.headers["content-type"].startswith("application/json")
             assert bundle.json()["frozen_test_suite"]
             assert len(bundle.json()["runs"]) == 2
+            artifact = client.get(f"/api/v1/experiments/{experiment['experiment_id']}/artifact.zip")
+            assert artifact.status_code == 200
+            assert artifact.headers["content-type"].startswith("application/zip")
+            with zipfile.ZipFile(BytesIO(artifact.content)) as archive:
+                manifest = json.loads(archive.read("manifest.json"))
+                assert manifest["dataset_hash_sha256"]
+                assert "frozen-test-suite.json" in manifest["files"]
+                assert any(name.endswith("retrieval-trace.json") for name in archive.namelist())
     finally:
         app.dependency_overrides.clear()

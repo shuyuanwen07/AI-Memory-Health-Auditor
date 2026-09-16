@@ -6,10 +6,11 @@ import time
 from uuid import uuid4
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import StreamingResponse
-from io import StringIO
+from io import BytesIO, StringIO
 import csv
 import hashlib
 import json
+import zipfile
 from sqlalchemy import delete, select, text
 from sqlalchemy.orm import Session
 from app.database.session import SessionLocal, get_db
@@ -17,12 +18,14 @@ from app.evaluator.factory import get_behaviour_evaluator
 from app.extraction.factory import get_memory_extractor
 from app.extraction.llm import configured_pipeline_model, pipeline_provider
 from app.evaluator.factory import configured_evaluator
-from app.memory_agent import SqlTargetMemoryStore, default_target_memory_writer_kind, get_target_memory_writer
+from app.memory_agent import default_target_memory_writer_kind, get_target_memory_writer
 from app.metrics.service import MetricsService
+from app.metrics.retrieval_quality import RetrievalQualityService
 from app.services.experiment_analytics import ExperimentAnalyticsService
 from app.models import AuditRunModel, ConversationModel, EvaluationHumanReviewModel, EvaluationResultModel, ExperimentModel, MemoryModel, MemoryRelationshipModel, MessageModel, TargetAgentMemoryEventModel, TargetAgentMemoryModel, TargetAgentMemoryRelationshipModel, TargetAgentRetrievalModel, TargetResponseModel, TestCaseModel
 from app.schemas import *
-from app.target_ai.providers import HttpTargetAIConnector, PROVIDERS, configured
+from app.target_ai.providers import PROVIDERS, configured
+from app.target_systems import get_target_system_adapter
 from app.test_generator.factory import get_test_generator
 from app.test_generator.baselines import get_suite_generator
 from app.test_generator.quality import RuleBasedTestQualityValidator
@@ -83,6 +86,8 @@ def reproducibility_snapshot(*, provider: str, model: str, temperature: float, r
         "target_memory_capacity": target_memory_capacity,
         "target_memory_writer": writer_kind.value,
         "target_memory_writer_version": writer_version,
+        "target_system_adapter": "controlled-memory",
+        "target_system_adapter_version": "controlled-memory-v1",
     }
     return {
         "schema_version": "reproducibility-v1",
@@ -94,6 +99,8 @@ def reproducibility_snapshot(*, provider: str, model: str, temperature: float, r
         }),
         "target_memory_writer_version": writer_version,
         "target_memory_writer": writer_kind.value,
+        "target_system_adapter": "controlled-memory",
+        "target_system_adapter_version": "controlled-memory-v1",
         "memory_policy_version": "target-memory-policy-v1",
         # A seed is fully deterministic for the local baseline. Third-party
         # APIs do not share one portable seed contract, so retain it as a
@@ -641,21 +648,13 @@ def execute(run_id:str,db:Session=Depends(get_db)):
     max_seconds = int(budget.get("max_execution_seconds", 300))
     started = time.monotonic()
     try:
-        # The controlled target independently ingests the authorised source
-        # conversation into its private persistent store.  It never receives
-        # reviewer-confirmed ground truth as retrieval context.
+        # The selected target system independently ingests the authorised
+        # source conversation.  It never receives reviewer-confirmed ground
+        # truth as retrieval context.  Future external systems implement this
+        # same lifecycle behind the adapter contract.
         conversation = conversation_schema(db, db.get(ConversationModel, a.conversation_id))
-        target_store = SqlTargetMemoryStore(
-            db,
-            # Do not consult TARGET_MEMORY_WRITER at execution time: an audit
-            # is reproducible even if an operator changes the environment.
-            extractor=get_target_memory_writer(
-                a.pipeline_provider, a.pipeline_model,
-                getattr(a, "target_memory_writer", None) or "rule_based",
-            ),
-            maintenance_policy=TargetMemoryMaintenancePolicy(a.memory_maintenance_policy),
-            capacity=getattr(a, "target_memory_capacity", 50),
-        )
+        target = get_target_system_adapter(db, audit_schema(a))
+        target.ingest(conversation)
         completed_test_ids = set(db.scalars(select(TargetResponseModel.test_id).where(TargetResponseModel.run_id == run_id)).all())
         for t in db.scalars(select(TestCaseModel).where(TestCaseModel.run_id==run_id)).all():
             if t.id in completed_test_ids:
@@ -668,10 +667,10 @@ def execute(run_id:str,db:Session=Depends(get_db)):
                 raise HTTPException(429, f"Execution stopped after its frozen target-call budget of {max_calls} calls.")
             if time.monotonic() - started >= max_seconds:
                 raise HTTPException(408, f"Execution exceeded its frozen {max_seconds}-second time budget.")
-            retrieval = target_store.retrieve(run_id, conversation, test_schema(t), MemoryStrategy(a.memory_strategy))
-            private_test = test_schema(t).model_copy(update={"target_memory_context": retrieval.context})
-            t.target_memory_context = private_test.target_memory_context
-            r=HttpTargetAIConnector().execute(private_test,audit_schema(a)); outputs.append(r); db.add(TargetResponseModel(id=r.response_id,test_id=r.test_id,run_id=r.run_id,response_text=r.response_text,model=r.model,temperature=r.temperature,execution_metadata=r.execution_metadata.model_dump(),created_at=r.created_at))
+            r = target.answer(test_schema(t), audit_schema(a))
+            outputs.append(r)
+            db.add(TargetResponseModel(id=r.response_id,test_id=r.test_id,run_id=r.run_id,response_text=r.response_text,model=r.model,temperature=r.temperature,execution_metadata=r.execution_metadata.model_dump(),created_at=r.created_at))
+        target.reset()
     except HTTPException:
         if a.status != AuditStatus.CANCELLED.value:
             a.status="FAILED"
@@ -757,7 +756,7 @@ def result_for(run_id,db):
         if not e.passed:
             evidence=[memory_schema(db,m) for m in db.scalars(select(MemoryModel).where(MemoryModel.id.in_(e.evidence_memory_ids))).all()]
             failures.append(FailureDetail(failure_id=e.evaluation_id,test=TestCasePublic(**ts[e.test_id].model_dump(exclude={"target_memory_context"})),response=rs[e.response_id],evaluation=e,evidence=evidence))
-    return AuditResult(run_id=run_id,overall_score=overall,tests_passed=sum(e.passed for e in es),tests_total=len(es),dimensions=dimensions,failures=failures,reproducibility=getattr(a, "reproducibility_metadata", {}) or {})
+    return AuditResult(run_id=run_id,overall_score=overall,tests_passed=sum(e.passed for e in es),tests_total=len(es),dimensions=dimensions,failures=failures,retrieval_quality=RetrievalQualityService().calculate(run_id, db),reproducibility=getattr(a, "reproducibility_metadata", {}) or {})
 @router.get("/audits/{run_id}/results", response_model=AuditResult)
 def results(run_id:str,db:Session=Depends(get_db)): return result_for(run_id,db)
 
@@ -1061,6 +1060,102 @@ def export_experiment_reproducibility_bundle(experiment_id: str, db: Session = D
     }
     filename = f"experiment-{experiment_id}-reproducibility-bundle.json"
     return StreamingResponse(iter([json.dumps(bundle, default=str, indent=2)]), media_type="application/json",
+        headers={"Content-Disposition": f'attachment; filename="{filename}"'})
+
+
+def _canonical_json(value: object) -> bytes:
+    """Stable JSON bytes so the frozen artefact records exact input hashes."""
+    return json.dumps(value, default=str, sort_keys=True, separators=(",", ":"), ensure_ascii=True).encode("utf-8")
+
+
+def _safe_artifact_trace(run_id: str, db: Session) -> dict:
+    """Trace data already exposed after completion, without source conversation text."""
+    records = db.scalars(select(TargetAgentMemoryModel).where(
+        TargetAgentMemoryModel.run_id == run_id
+    ).order_by(TargetAgentMemoryModel.write_order)).all()
+    events = db.scalars(select(TargetAgentMemoryEventModel).where(
+        TargetAgentMemoryEventModel.run_id == run_id
+    ).order_by(TargetAgentMemoryEventModel.created_at, TargetAgentMemoryEventModel.id)).all()
+    retrievals = db.scalars(select(TargetAgentRetrievalModel).where(
+        TargetAgentRetrievalModel.run_id == run_id
+    ).order_by(TargetAgentRetrievalModel.created_at, TargetAgentRetrievalModel.id)).all()
+    return {
+        "records": [target_trace_record_schema(db, record).model_dump(mode="json") for record in records],
+        "events": [safe_trace_event_schema(event).model_dump(mode="json") for event in events],
+        "retrievals": [TargetMemoryTraceRetrieval(
+            retrieval_id=item.id, test_id=item.test_id, strategy=item.strategy,
+            selected_memory_ids=list(item.selected_memory_ids),
+            ranking_evidence=list(item.ranking_evidence), created_at=item.created_at,
+        ).model_dump(mode="json") for item in retrievals],
+    }
+
+
+@router.get("/experiments/{experiment_id}/artifact.zip")
+def export_experiment_artifact(experiment_id: str, db: Session = Depends(get_db)):
+    """Download the immutable experiment inputs, outputs, and retrieval evidence.
+
+    The archive is derived exclusively from the frozen test suite and completed
+    run records.  It excludes the raw authorised transcript, secrets and raw
+    provider payloads.  Its manifest hashes every contained research file.
+    """
+    analytics = experiment_analytics_for(experiment_id, db)
+    experiment = db.get(ExperimentModel, experiment_id)
+    if experiment is None:  # Kept for type checkers; analytics already checks.
+        missing("Experiment")
+    source_run_id = experiment.test_suite_source_run_id
+    suite = db.scalars(select(TestCaseModel).where(
+        TestCaseModel.run_id == source_run_id
+    ).order_by(TestCaseModel.id)).all() if source_run_id else []
+    files: dict[str, object] = {
+        "frozen-test-suite.json": [public_test_schema(test).model_dump(mode="json") for test in suite],
+        "experiment.json": analytics.experiment.model_dump(mode="json"),
+        "condition-summaries.json": [item.model_dump(mode="json") for item in analytics.conditions],
+        "paired-comparisons.json": [item.model_dump(mode="json") for item in analytics.paired_comparisons],
+    }
+    for report in analytics.runs:
+        run_id = report.run.run_id
+        prefix = f"runs/{run_id}"
+        files[f"{prefix}/configuration.json"] = report.run.model_dump(mode="json")
+        if report.result is not None:
+            files[f"{prefix}/result.json"] = report.result.model_dump(mode="json")
+            responses = db.scalars(select(TargetResponseModel).where(
+                TargetResponseModel.run_id == run_id
+            ).order_by(TargetResponseModel.test_id)).all()
+            evaluations = db.scalars(select(EvaluationResultModel).join(TestCaseModel).where(
+                TestCaseModel.run_id == run_id
+            ).order_by(EvaluationResultModel.test_id)).all()
+            files[f"{prefix}/responses.json"] = [response_schema(row).model_dump(mode="json") for row in responses]
+            files[f"{prefix}/evaluations.json"] = [eval_schema(row).model_dump(mode="json") for row in evaluations]
+            files[f"{prefix}/retrieval-trace.json"] = _safe_artifact_trace(run_id, db)
+    encoded_files = {name: _canonical_json(content) for name, content in files.items()}
+    suite_bytes = encoded_files["frozen-test-suite.json"]
+    manifest = {
+        "schema_version": "memory-health-experiment-artifact-v1",
+        "experiment_id": experiment_id,
+        "notice": "Frozen audit artifact. It excludes raw authorised conversation text, credentials and raw provider payloads.",
+        "code_revision": os.getenv("AUDITOR_CODE_REVISION", "unknown"),
+        "dataset_hash_sha256": hashlib.sha256(suite_bytes).hexdigest(),
+        "configuration_fingerprints": {
+            report.run.run_id: report.run.reproducibility.configuration_fingerprint
+            for report in analytics.runs if report.run.reproducibility
+        },
+        "files": {name: hashlib.sha256(content).hexdigest() for name, content in encoded_files.items()},
+    }
+    # Fixed timestamps make a frozen artifact byte-stable when the stored
+    # experiment is unchanged.  Manifest is last because it describes data,
+    # not its own mutable archive container.
+    output = BytesIO()
+    with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED) as archive:
+        for name in sorted(encoded_files):
+            info = zipfile.ZipInfo(name, date_time=(1980, 1, 1, 0, 0, 0))
+            info.compress_type = zipfile.ZIP_DEFLATED
+            archive.writestr(info, encoded_files[name])
+        info = zipfile.ZipInfo("manifest.json", date_time=(1980, 1, 1, 0, 0, 0))
+        info.compress_type = zipfile.ZIP_DEFLATED
+        archive.writestr(info, _canonical_json(manifest))
+    output.seek(0)
+    filename = f"experiment-{experiment_id}-artifact.zip"
+    return StreamingResponse(output, media_type="application/zip",
         headers={"Content-Disposition": f'attachment; filename="{filename}"'})
 
 @router.get("/experiments/{experiment_id}/export.csv")

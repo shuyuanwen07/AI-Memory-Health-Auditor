@@ -15,7 +15,10 @@ services:
   backend:
     build: ./backend
     command: sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --reload-dir /app/app"
-    volumes: [./backend:/app]
+    # The backend's research-contract tests resolve versioned local fixtures
+    # from the repository root.  Mount them read-only for the development
+    # container without copying datasets into its writable application volume.
+    volumes: [./backend:/app, ./datasets:/datasets:ro]
     env_file: .env
     environment:
       PYTHONPATH: /app

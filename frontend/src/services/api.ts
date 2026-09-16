@@ -45,5 +45,10 @@ export const api = {
     if (!response.ok) throw new Error('The reproducibility bundle could not be created.');
     return response.blob();
   },
+  downloadExperimentArtifact: async (id:string) => {
+    const response = await fetch(`${BASE}/experiments/${id}/artifact.zip`);
+    if (!response.ok) throw new Error('The frozen experiment artifact could not be created.');
+    return response.blob();
+  },
   results:(id:string)=>request<AuditResult>(`/audits/${id}/results`), audits:()=>request<AuditRun[]>('/audits'), experiments:()=>request<ExperimentResult[]>('/experiments/summary')
 };

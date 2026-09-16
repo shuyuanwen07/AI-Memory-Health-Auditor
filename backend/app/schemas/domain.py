@@ -316,6 +316,8 @@ class ReproducibilityMetadata(BaseModel):
     prompt_template_fingerprint: str | None = None
     target_memory_writer_version: str | None = None
     target_memory_writer: TargetMemoryWriterKind = TargetMemoryWriterKind.RULE_BASED
+    target_system_adapter: str = "controlled-memory"
+    target_system_adapter_version: str | None = None
     memory_policy_version: str | None = None
     seed_control: dict[str, str] = Field(default_factory=dict)
     target_retry_policy: RetryPolicyMetadata = Field(default_factory=RetryPolicyMetadata)
@@ -437,11 +439,20 @@ class EvaluationCalibrationSummary(BaseModel):
     independent_pair_kappa: float | None = None
 class DimensionScores(BaseModel):
     dimension: Dimension; percentage: float | None; passed: int; total: int
+class RetrievalQualityScores(BaseModel):
+    """Source-evidence proxy metrics for the target's retrieval trace."""
+    tests_measured: int = 0
+    evidence_recall_at_k: float | None = None
+    evidence_precision_at_k: float | None = None
+    update_evidence_recall: float | None = None
+    conflict_evidence_coverage: float | None = None
+    unnecessary_memory_retrieval_rate: float | None = None
 class FailureDetail(BaseModel):
     failure_id: str; test: TestCasePublic; response: TargetResponse; evaluation: EvaluationResult; evidence: list[Memory]
 class AuditResult(BaseModel):
     run_id: str; overall_score: float | None; tests_passed: int; tests_total: int
     dimensions: list[DimensionScores]; failures: list[FailureDetail]
+    retrieval_quality: RetrievalQualityScores = Field(default_factory=RetrievalQualityScores)
     reproducibility: ReproducibilityMetadata = Field(default_factory=ReproducibilityMetadata)
 class ExperimentResult(BaseModel):
     experiment_id: str; label: str; weak_score: float; strong_score: float; notes: str
