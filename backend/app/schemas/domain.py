@@ -38,6 +38,7 @@ class MemoryStrategy(str, Enum):
     WEAK_FIRST_HIT = "weak_first_hit"
     STRONG_RULE_BASED = "strong_rule_based"
     STRONG_SCORE_BASED = "strong_score_based"
+    SCOPE_AWARE = "scope_aware"
 class TargetMemoryScope(str, Enum):
     """Semantic area assigned to a record in the controlled Agent's store."""
     PROFILE = "profile"

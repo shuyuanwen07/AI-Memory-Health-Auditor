@@ -38,6 +38,16 @@ For every sampled target response, label pass/fail, failure dimension when faili
 4. Update the written guidelines once after pilot calibration. Freeze the guideline version, dataset version, prompts, test budget, provider/model versions, temperature and seed before the formal evaluation.
 5. A third team member, if available, adjudicates unresolved disagreements. Report both pre-adjudication agreement and adjudicated results.
 
+### Pilot package and readiness gate
+
+Use [the blank double-annotation pilot template](../datasets/annotation/pilot-v1/double_annotation_pilot_template.json) after freezing the source IDs and annotation instructions. The template deliberately contains no labels and no source text; it is a structure, not a completed human-labelled example.
+
+For each unit, declare only a de-identified ID and one task: `memory_inclusion`, `relationship_type`, `test_validity`, `evaluator_verdict`, or `failure_dimension`. The two annotators independently provide one allowed categorical label per unit. Only then record a separate final label with `basis: adjudicated` or `basis: external_reference`, plus a concise decision note. The final label may differ from both initial labels, but the original labels must never be overwritten.
+
+Submit the completed package to `POST /api/v1/research/pilot/analyse` before formal evaluation. The response includes a reproducible package fingerprint, coverage for each annotator, paired-item coverage, pre-adjudication disagreement counts, adjudication coverage, and Cohen's kappa where applicable. It retains nothing. The readiness flag is **not** a claim of statistical validity: it only checks the criteria declared in that package—complete paired and adjudicated coverage for every task, the requested minimum paired count, no unadjudicated disagreement, and the declared kappa threshold when kappa is defined.
+
+Do not place source conversation text, participant names, contact details, accounts, locations, identifiers, secrets, or the link between pilot IDs and people in a submitted package. Keep that mapping, if needed at all, in approved research storage outside the repository and outside the operational audit database.
+
 For a practical project, aim for at least 20 independently labelled conversations/scenarios and enough valid tests to cover every dimension. Treat the included one-conversation seed set as a format example only.
 
 ## Metrics to report

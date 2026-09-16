@@ -1,0 +1,5 @@
+record_type,experiment_id,condition,run_id,dimension,metric,value,detail
+condition,SYNTHETIC-ONLY,Weak baseline,,,overall_mean,45.0,illustrative synthetic input; not an experiment result
+condition,SYNTHETIC-ONLY,Strong rule-based,,,overall_mean,70.0,illustrative synthetic input; not an experiment result
+dimension,SYNTHETIC-ONLY,Weak baseline,,freshness,mean_percentage,25.0,illustrative synthetic input
+dimension,SYNTHETIC-ONLY,Strong rule-based,,freshness,mean_percentage,75.0,illustrative synthetic input

@@ -176,6 +176,15 @@ class LongMemEvalDeterministicRunner:
             selected = [min(candidates, key=lambda item: item[0].write_order)[0]] if candidates else []
         elif strategy == MemoryStrategy.STRONG_RULE_BASED:
             selected = [item[0] for item in sorted(candidates, key=lambda item: (item[0].policy_score, item[0].write_order))]
+        elif strategy.value == "scope_aware":
+            question_scope = self._scope(question)
+            selected = [item[0] for item in sorted(
+                candidates,
+                key=lambda item: (
+                    self._scope_score(question_scope, self._scope(item[0].canonical_value)),
+                    item[1] * 10 + item[0].policy_score, item[0].write_order,
+                ),
+            )]
         else:
             selected = [item[0] for item in sorted(candidates, key=lambda item: (item[1] * 10 + item[0].policy_score, item[0].write_order))]
         selected_ids = {item.memory_id for item in selected}
@@ -187,8 +196,10 @@ class LongMemEvalDeterministicRunner:
                 lifecycle_state=memory.lifecycle_state,
                 relevance_score=relevance,
                 policy_score=memory.policy_score,
+                memory_scope=self._scope(memory.canonical_value),
+                scope_score=self._scope_score(self._scope(question), self._scope(memory.canonical_value)) if strategy.value == "scope_aware" else 0.0,
                 selected=memory.memory_id in selected_ids,
-                reason=reason + (f"; supersedes={memory.update_of}" if memory.update_of else ""),
+                reason=reason + f"; scope={self._scope(memory.canonical_value)}" + (f"; supersedes={memory.update_of}" if memory.update_of else ""),
             )
             for memory, relevance, reason in candidates
         ]
@@ -281,3 +292,29 @@ class LongMemEvalDeterministicRunner:
         if re.search(r"\b(?:remote|from home|office|hybrid)\b", text):
             return "working-arrangement"
         return None
+
+    @staticmethod
+    def _scope(value: str) -> str:
+        """Derive a small transparent scope label from local source text."""
+        text = value.lower()
+        if re.search(r"\b(?:must|required|mandatory|assignment|this project|this task)\b", text):
+            return "contextual_requirement"
+        if re.search(r"\b(?:prefer|preference|usually like|generally use)\b", text):
+            return "preference"
+        if re.search(r"\b(?:i am|i'm|based in|located in|live in|my name)\b", text):
+            return "profile"
+        if re.search(r"\b(?:today|yesterday|last week|previously|before|now|currently)\b", text):
+            return "episodic_or_temporal"
+        return "factual"
+
+    @staticmethod
+    def _scope_score(question_scope: str, memory_scope: str) -> float:
+        if question_scope == memory_scope:
+            return 40.0
+        # Current-task questions should prefer requirements over a global
+        # preference, even if both share lexical terms.
+        if question_scope == "contextual_requirement" and memory_scope == "contextual_requirement":
+            return 60.0
+        if memory_scope == "contextual_requirement":
+            return 20.0
+        return 0.0

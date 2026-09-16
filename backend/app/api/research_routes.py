@@ -8,8 +8,16 @@ from fastapi import APIRouter, HTTPException
 
 from app.benchmarks.longmemeval import LongMemEvalAdapter
 from app.benchmarks.runner import LongMemEvalDeterministicRunner
+from app.benchmarks.local_compatible import BEAMAdapter, LoCoMoAdapter
+from app.benchmarks.local_runner import BEAMDeterministicRunner, LoCoMoDeterministicRunner
 from app.research.validity import ResearchValidityService
+from app.research.pilot import PilotAnnotationService
+from app.schemas.pilot import PilotAnalysisRequest, PilotReadinessReport
 from app.schemas.benchmark import (
+    LocalCompatibleImportRequest,
+    LocalCompatibleRunRequest,
+    LocalCompatibleRunResponse,
+    LocalCompatibleValidationResponse,
     LongMemEvalImportRequest,
     LongMemEvalRunRequest,
     LongMemEvalRunResponse,
@@ -42,6 +50,17 @@ def research_validity_report(payload: ResearchValidityRequest):
         raise HTTPException(status_code=422, detail=str(error)) from error
 
 
+@research_router.post("/pilot/analyse", response_model=PilotReadinessReport)
+def analyse_annotation_pilot(payload: PilotAnalysisRequest):
+    """Calculate double-annotation agreement and formal-study readiness.
+
+    The complete package is request-scoped: it is never written to PostgreSQL.
+    It must contain the two independent label sets and separate adjudication or
+    external-reference labels, allowing disagreements to remain auditable.
+    """
+    return PilotAnnotationService().analyse(payload)
+
+
 @research_router.post("/benchmarks/longmemeval/validate", response_model=LongMemEvalValidationResponse)
 def validate_longmemeval_compatible(payload: LongMemEvalImportRequest):
     """Validate/normalise local LongMemEval-compatible JSON without execution."""
@@ -69,5 +88,56 @@ def run_longmemeval_compatible(payload: LongMemEvalRunRequest):
         )
     try:
         return LongMemEvalDeterministicRunner().run(payload)
+    except ValueError as error:
+        raise HTTPException(status_code=422, detail=str(error)) from error
+
+
+def _require_authorised_source(authorised: bool, family: str) -> None:
+    if not authorised:
+        raise HTTPException(
+            status_code=422,
+            detail=(
+                "Confirm source_authorised=true only when you may process this local "
+                f"{family.upper()}-compatible source and comply with its licence, citation and privacy terms."
+            ),
+        )
+
+
+@research_router.post("/benchmarks/locomo/validate", response_model=LocalCompatibleValidationResponse)
+def validate_locomo_compatible(payload: LocalCompatibleImportRequest):
+    """Validate caller-supplied local LoCoMo-style JSON without execution."""
+    try:
+        cases, report = LoCoMoAdapter().adapt(payload.payload)
+        return LocalCompatibleValidationResponse(report=report, cases=cases)
+    except ValueError as error:
+        raise HTTPException(status_code=422, detail=str(error)) from error
+
+
+@research_router.post("/benchmarks/beam/validate", response_model=LocalCompatibleValidationResponse)
+def validate_beam_compatible(payload: LocalCompatibleImportRequest):
+    """Validate caller-supplied local BEAM-style JSON without execution."""
+    try:
+        cases, report = BEAMAdapter().adapt(payload.payload)
+        return LocalCompatibleValidationResponse(report=report, cases=cases)
+    except ValueError as error:
+        raise HTTPException(status_code=422, detail=str(error)) from error
+
+
+@research_router.post("/benchmarks/locomo/run", response_model=LocalCompatibleRunResponse)
+def run_locomo_compatible(payload: LocalCompatibleRunRequest):
+    """Run isolated local LoCoMo-style cases; never an official score."""
+    _require_authorised_source(payload.source_authorised, "locomo")
+    try:
+        return LoCoMoDeterministicRunner().run(payload)
+    except ValueError as error:
+        raise HTTPException(status_code=422, detail=str(error)) from error
+
+
+@research_router.post("/benchmarks/beam/run", response_model=LocalCompatibleRunResponse)
+def run_beam_compatible(payload: LocalCompatibleRunRequest):
+    """Run isolated local BEAM-style cases; never an official score."""
+    _require_authorised_source(payload.source_authorised, "beam")
+    try:
+        return BEAMDeterministicRunner().run(payload)
     except ValueError as error:
         raise HTTPException(status_code=422, detail=str(error)) from error

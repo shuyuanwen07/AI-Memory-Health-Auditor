@@ -5,7 +5,7 @@ export interface Conversation { conversation_id:string; created_at:string; autho
 export interface MemoryRelationship { relationship_id?:string; type:'UPDATE'|'CONFLICT'|'CONTEXTUAL_OVERRIDE'; target_memory_id:string }
 export interface Memory { memory_id:string; conversation_id:string; canonical_value:string; status:MemoryStatus; source_message_ids:string[]; timestamp?:string; relationships:MemoryRelationship[] }
 export type TargetProvider = 'rule_based'|'openai'|'deepseek'|'gemini';
-export type MemoryStrategy = 'weak_first_hit'|'strong_rule_based'|'strong_score_based';
+export type MemoryStrategy = 'weak_first_hit'|'strong_rule_based'|'strong_score_based'|'scope_aware';
 export type TestSuiteMode = 'behavioural'|'direct_ground_truth'|'fixed_template';
 export type TestType = 'direct'|'contextual'|'paraphrased'|'indirect';
 export type TestQualityStatus = 'pending'|'accepted'|'rejected';
@@ -38,3 +38,5 @@ export interface BinaryClassificationMetrics { labelled_cases:number; true_posit
 export interface ResearchValidityReport { dataset_id:string; dataset_version:string; conversations:number; extraction:BinaryClassificationMetrics; relationship:BinaryClassificationMetrics; test_validity:BinaryClassificationMetrics; evaluator:BinaryClassificationMetrics }
 export interface LongMemEvalImportReport { adapter_version:string; cases_imported:number; case_ids:string[]; dimension_hints:string[]; source_format:string; notice:string }
 export interface LongMemEvalValidationResponse { report:LongMemEvalImportReport; cases:Array<{case_id:string; question:string; expected_answer:string; category:string; dimension_hint?:string|null}> }
+export interface BenchmarkScoreSummary { key:string; passed:number; total:number; percentage:number|null }
+export interface LongMemEvalRunResponse { metadata:{run_id:string; runner_version:string; source_fingerprint_sha256:string; source_label?:string|null; memory_strategy:MemoryStrategy; notice:string}; cases:Array<{case_id:string; category:string; dimension?:Dimension|null; question:string; response_text:string; passed:boolean; evaluation_reason:string; retrieved_memory_ids:string[]}>; categories:BenchmarkScoreSummary[]; dimensions:BenchmarkScoreSummary[]; tests_passed:number; tests_total:number; overall_percentage:number|null }

@@ -1,0 +1,23 @@
+{
+  "pilot_id": "replace-with-pilot-id",
+  "dataset_id": "replace-with-frozen-dataset-id",
+  "dataset_version": "replace-with-frozen-dataset-version",
+  "created_at": "2026-09-16T00:00:00Z",
+  "authorised_for_research": true,
+  "data_origin": "Describe the approved synthetic or de-identified source without including conversation text.",
+  "deidentification_note": "Confirm that this package contains no names, accounts, contacts, locations, source text, tokens, or other identifying data.",
+  "minimum_paired_items_per_task": 5,
+  "minimum_kappa": 0.6,
+  "items": [
+    {"item_id": "PILOT-MEM-001", "task": "memory_inclusion"},
+    {"item_id": "PILOT-REL-001", "task": "relationship_type"},
+    {"item_id": "PILOT-TEST-001", "task": "test_validity"},
+    {"item_id": "PILOT-EVAL-001", "task": "evaluator_verdict"},
+    {"item_id": "PILOT-DIM-001", "task": "failure_dimension"}
+  ],
+  "annotators": [
+    {"annotator_id": "pseudonymous-annotator-a", "labels": []},
+    {"annotator_id": "pseudonymous-annotator-b", "labels": []}
+  ],
+  "adjudications": []
+}

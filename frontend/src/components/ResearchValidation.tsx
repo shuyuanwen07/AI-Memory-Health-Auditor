@@ -1,6 +1,6 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react';
 import { api } from '../services/api';
-import type { AnnotationImportReport, BinaryClassificationMetrics, LongMemEvalValidationResponse, ResearchValidityReport } from '../types/domain';
+import type { AnnotationImportReport, BinaryClassificationMetrics, LongMemEvalRunResponse, LongMemEvalValidationResponse, MemoryStrategy, ResearchValidityReport } from '../types/domain';
 
 type JsonObject = Record<string, unknown>;
 type BenchmarkPayload = JsonObject | JsonObject[];
@@ -34,6 +34,11 @@ function BenchmarkReport({ benchmark }: { benchmark: LongMemEvalValidationRespon
   return <div className="research-report"><h3>LongMemEval-compatible input validated</h3><p><b>{benchmark.report.cases_imported}</b> cases · {benchmark.report.source_format} · adapter {benchmark.report.adapter_version}</p><p>{benchmark.report.notice}</p>{benchmark.report.dimension_hints.length > 0 && <p><small>Dimension hints: {benchmark.report.dimension_hints.join(', ')}</small></p>}</div>;
 }
 
+function BenchmarkRunReport({ run }: { run: LongMemEvalRunResponse }) {
+  const score = run.overall_percentage === null ? 'Not measured' : `${run.overall_percentage.toFixed(1)}%`;
+  return <div className="research-report benchmark-run-report" role="status"><h3>Local memory-policy baseline completed</h3><p><b>{score}</b> · {run.tests_passed} / {run.tests_total} cases passed · strategy <b>{run.metadata.memory_strategy.replaceAll('_', ' ')}</b></p><p className="fingerprint"><small>Reproducible source fingerprint</small><code>{run.metadata.source_fingerprint_sha256}</code></p><div className="comparison-scroll"><table><thead><tr><th>Case</th><th>Dimension</th><th>Outcome</th><th>Retrieved records</th></tr></thead><tbody>{run.cases.map((item) => <tr key={item.case_id}><th scope="row">{item.case_id}</th><td>{item.dimension?.replaceAll('_', ' ') ?? 'Not mapped'}</td><td>{item.passed ? 'Pass' : 'Fail'}</td><td>{item.retrieved_memory_ids.join(', ') || 'None'}</td></tr>)}</tbody></table></div><p><small>{run.metadata.notice}</small></p></div>;
+}
+
 /**
  * Ephemeral research import panel. Files stay in the browser apart from the
  * validation request; the backend explicitly does not persist the payload.
@@ -48,6 +53,10 @@ export function ResearchValidation() {
   const [datasetReport, setDatasetReport] = useState<AnnotationImportReport | null>(null);
   const [validityReport, setValidityReport] = useState<ResearchValidityReport | null>(null);
   const [benchmarkReport, setBenchmarkReport] = useState<LongMemEvalValidationResponse | null>(null);
+  const [benchmarkRun, setBenchmarkRun] = useState<LongMemEvalRunResponse | null>(null);
+  const [benchmarkStrategy, setBenchmarkStrategy] = useState<MemoryStrategy>('strong_rule_based');
+  const [benchmarkAuthorised, setBenchmarkAuthorised] = useState(false);
+  const [benchmarkBusy, setBenchmarkBusy] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
@@ -73,8 +82,16 @@ export function ResearchValidation() {
     try {
       const parsed = await parseJsonFile(file);
       if (!isObject(parsed) && !(Array.isArray(parsed) && parsed.every(isObject))) throw new Error('The benchmark file must contain a JSON object or array of objects.');
-      setBenchmark(parsed); setBenchmarkFile(file.name); setBenchmarkReport(null); setError('');
+      setBenchmark(parsed); setBenchmarkFile(file.name); setBenchmarkReport(null); setBenchmarkRun(null); setBenchmarkAuthorised(false); setError('');
     } catch (reason) { setError(reason instanceof Error ? reason.message : 'The benchmark file could not be read.'); }
+  };
+  const runBenchmark = async (event: FormEvent) => {
+    event.preventDefault();
+    if (!benchmark || !benchmarkAuthorised) { setError('Select a permitted benchmark file and confirm that you may process it before running.'); return; }
+    setBenchmarkBusy(true); setError('');
+    try { setBenchmarkRun(await api.runLongMemEval(benchmark, benchmarkFile, benchmarkStrategy)); }
+    catch (reason) { setError(reason instanceof Error ? reason.message : 'The local benchmark baseline could not be completed.'); }
+    finally { setBenchmarkBusy(false); }
   };
   const validate = async (event: FormEvent) => {
     event.preventDefault();
@@ -92,5 +109,5 @@ export function ResearchValidation() {
     finally { setBusy(false); }
   };
 
-  return <section className="research-validation" aria-labelledby="research-validation-title"><h2 id="research-validation-title">Research Validation</h2><p>Validate local, de-identified research artefacts without adding them to operational audit history. Annotation and prediction files are required for Auditor validity metrics; LongMemEval-compatible input is optional.</p><form onSubmit={validate}><div className="research-upload-grid"><label>Annotation dataset JSON<input aria-label="Annotation dataset JSON" type="file" accept="application/json,.json" onChange={importDataset} /><small>{datasetFile}</small></label><label>Prediction set JSON<input aria-label="Prediction set JSON" type="file" accept="application/json,.json" onChange={importPredictions} /><small>{predictionFile}</small></label><label>Optional LongMemEval-compatible JSON<input aria-label="LongMemEval-compatible JSON" type="file" accept="application/json,.json" onChange={importBenchmark} /><small>{benchmarkFile}</small></label></div><button type="submit" disabled={busy || !dataset}>{busy ? 'Validating research files…' : 'Validate Research Files'}</button></form>{error && <p className="alert" role="alert">{error}</p>}{message && <p className="research-message" role="status">{message}</p>}{datasetReport && <DatasetReport report={datasetReport} />}{validityReport && <div className="validity-report"><h3>Auditor validity metrics</h3><p>Positive class: a detected target-AI failure where applicable. “Not measured” means the imported labels did not provide a valid denominator.</p><div className="validity-grid"><MetricCard title="Memory Extraction" metrics={validityReport.extraction} /><MetricCard title="Relationship Classification" metrics={validityReport.relationship} /><MetricCard title="Test Validity" metrics={validityReport.test_validity} /><MetricCard title="Behaviour Evaluator" metrics={validityReport.evaluator} /></div></div>}{benchmarkReport && <BenchmarkReport benchmark={benchmarkReport} />}</section>;
+  return <section className="research-validation" aria-labelledby="research-validation-title"><h2 id="research-validation-title">Research Validation</h2><p>Validate local, de-identified research artefacts without adding them to operational audit history. Annotation and prediction files are required for Auditor validity metrics; LongMemEval-compatible input is optional.</p><form onSubmit={validate}><div className="research-upload-grid"><label>Annotation dataset JSON<input aria-label="Annotation dataset JSON" type="file" accept="application/json,.json" onChange={importDataset} /><small>{datasetFile}</small></label><label>Prediction set JSON<input aria-label="Prediction set JSON" type="file" accept="application/json,.json" onChange={importPredictions} /><small>{predictionFile}</small></label><label>Optional LongMemEval-compatible JSON<input aria-label="LongMemEval-compatible JSON" type="file" accept="application/json,.json" onChange={importBenchmark} /><small>{benchmarkFile}</small></label></div><button type="submit" disabled={busy || !dataset}>{busy ? 'Validating research files…' : 'Validate Research Files'}</button></form>{benchmark && <form className="benchmark-run-controls" onSubmit={runBenchmark}><h3>Run Local LongMemEval-Compatible Baseline</h3><p>This runs only the selected local file in an ephemeral deterministic memory-policy baseline. It is not an official LongMemEval evaluation.</p><label>Memory strategy<select aria-label="Benchmark memory strategy" value={benchmarkStrategy} onChange={(event) => setBenchmarkStrategy(event.target.value as MemoryStrategy)}><option value="weak_first_hit">Weak first-hit</option><option value="strong_rule_based">Strong rule-based</option><option value="strong_score_based">Strong score-based</option></select></label><label className="consent"><input aria-label="Benchmark source authorisation" type="checkbox" checked={benchmarkAuthorised} onChange={(event) => setBenchmarkAuthorised(event.target.checked)} /> I confirm that I am authorised to process this local benchmark source.</label><button type="submit" disabled={benchmarkBusy || !benchmarkAuthorised}>{benchmarkBusy ? 'Running local baseline…' : 'Run Local Baseline'}</button></form>}{error && <p className="alert" role="alert">{error}</p>}{message && <p className="research-message" role="status">{message}</p>}{datasetReport && <DatasetReport report={datasetReport} />}{validityReport && <div className="validity-report"><h3>Auditor validity metrics</h3><p>Positive class: a detected target-AI failure where applicable. “Not measured” means the imported labels did not provide a valid denominator.</p><div className="validity-grid"><MetricCard title="Memory Extraction" metrics={validityReport.extraction} /><MetricCard title="Relationship Classification" metrics={validityReport.relationship} /><MetricCard title="Test Validity" metrics={validityReport.test_validity} /><MetricCard title="Behaviour Evaluator" metrics={validityReport.evaluator} /></div></div>}{benchmarkReport && <BenchmarkReport benchmark={benchmarkReport} />}{benchmarkRun && <BenchmarkRunReport run={benchmarkRun} />}</section>;
 }

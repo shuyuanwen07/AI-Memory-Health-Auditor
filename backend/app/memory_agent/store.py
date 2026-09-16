@@ -64,7 +64,7 @@ def infer_target_memory_scope(canonical_value: str) -> TargetMemoryScope:
     value = canonical_value.lower()
     if re.search(r"\b(?:assignment|project|task|requirement|requires|required|must|mandatory|for\s+this)\b", value):
         return TargetMemoryScope.PROJECT_REQUIREMENT
-    if re.search(r"\b(?:prefer|preference|favour|favorite|favourite|rather\s+than)\b", value):
+    if re.search(r"\b(?:prefer(?:s|red|ence)?|favour(?:s|ed|ite)?|favorite|favourite|rather\s+than)\b", value):
         return TargetMemoryScope.PREFERENCE
     if re.search(r"\b(?:i\s+am|my\s+name|based\s+in|live\s+in|located\s+in|work\s+as|(?:my|the)\s+backend|i\s+(?:now\s+)?use)\b", value):
         return TargetMemoryScope.PROFILE
@@ -105,6 +105,11 @@ class SqlTargetMemoryStore(TargetMemoryStore):
 
         extracted = self.extractor.extract(conversation)
         extracted_ids: dict[str, TargetAgentMemoryModel] = {}
+        # Update-aware consolidation also removes exact duplicate writes.  This
+        # is deliberately conservative: it never uses semantic similarity, so
+        # a researcher can explain exactly why two source statements became a
+        # single private record.
+        deduplicated: dict[str, TargetAgentMemoryModel] = {}
         now = datetime.now(timezone.utc)
         self._event(
             run_id, None, TargetMemoryEventType.INGESTED,
@@ -117,6 +122,27 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             created_at=now,
         )
         for position, candidate in enumerate(extracted, start=1):
+            fingerprint = _canonical_fingerprint(candidate.canonical_value)
+            retained = deduplicated.get(fingerprint)
+            if (
+                retained is not None
+                and self.maintenance_policy == TargetMemoryMaintenancePolicy.UPDATE_AWARE_CONSOLIDATION
+            ):
+                retained.source_message_ids = list(dict.fromkeys(
+                    [*retained.source_message_ids, *candidate.source_message_ids]
+                ))
+                extracted_ids[candidate.memory_id] = retained
+                self._event(
+                    run_id, retained.id, TargetMemoryEventType.MAINTENANCE_APPLIED,
+                    source_message_ids=list(candidate.source_message_ids),
+                    details={
+                        "duplicate_of_memory_id": retained.id,
+                        "maintenance_policy": self.maintenance_policy.value,
+                        "maintenance_action": "merged_exact_duplicate",
+                        "canonical_fingerprint": fingerprint,
+                    },
+                )
+                continue
             scope = infer_target_memory_scope(candidate.canonical_value)
             record = TargetAgentMemoryModel(
                 id=_ident("TM"), run_id=run_id,
@@ -129,6 +155,7 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             )
             self.db.add(record)
             extracted_ids[candidate.memory_id] = record
+            deduplicated[fingerprint] = record
             self._event(
                 run_id, record.id, TargetMemoryEventType.WRITTEN,
                 source_message_ids=list(candidate.source_message_ids),
@@ -142,7 +169,9 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             record = extracted_ids[candidate.memory_id]
             for relation in candidate.relationships:
                 target = extracted_ids.get(relation.target_memory_id)
-                if not target:
+                # A duplicate can inherit a source ID, but must never create a
+                # meaningless self-relationship in the retained private store.
+                if not target or target.id == record.id:
                     continue
                 self.db.add(TargetAgentMemoryRelationshipModel(
                     id=_ident("TMR"), run_id=run_id, memory_id=record.id,
@@ -261,6 +290,40 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             return sorted(candidates, key=lambda item: (
                 item["policy_score"], self._time_value(item["record"]), item["record"].write_order,
             ))
+        if strategy == MemoryStrategy.SCOPE_AWARE:
+            return self._select_scope_aware(candidates)
+        return sorted(candidates, key=lambda item: (
+            item["relevance"] * 10 + item["policy_score"],
+            self._time_value(item["record"]), item["record"].write_order,
+        ))
+
+    def _select_scope_aware(self, candidates: list[dict]) -> list[dict]:
+        """Retrieve a small, intent-matched private context.
+
+        ``project_requirement`` wins for a prompt about the current task. A
+        preference or profile record wins only for an explicitly matching
+        preference/profile question.  The final order remains low-to-high
+        priority so all existing target connectors preserve their contract of
+        treating the last strong-context record as the decision record.
+        """
+        preferred_scope, intent_reason = _preferred_scope(candidates[0]["test_prompt"])
+        for item in candidates:
+            record_scope = TargetMemoryScope(item["record"].scope)
+            scope_bonus = _scope_bonus(record_scope, preferred_scope)
+            item["scope_bonus"] = scope_bonus
+            item["scope_match"] = record_scope == preferred_scope if preferred_scope else False
+            item["policy_score"] += scope_bonus
+            item["reason"] = f"{item['reason']}, {intent_reason}, scope={record_scope.value}, scope_bonus={scope_bonus}"
+
+        # A matching scope creates a deliberately narrow context. This avoids
+        # giving a task question a generic profile/preference instruction, and
+        # avoids letting an explicit preference question be answered by an
+        # unrelated current project constraint. Multiple matching project
+        # requirements remain available so unresolved conflicts stay visible.
+        preferred = [item for item in candidates if item["scope_match"]]
+        if preferred:
+            candidates = preferred
+
         return sorted(candidates, key=lambda item: (
             item["relevance"] * 10 + item["policy_score"],
             self._time_value(item["record"]), item["record"].write_order,
@@ -300,7 +363,7 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         return {
             "record": record, "relevance": relevance,
             "policy_score": policy_score, "relationship_types": relationship_types,
-            "reason": ", ".join(reasons),
+            "reason": ", ".join(reasons), "test_prompt": test.prompt,
         }
 
     def _records(self, run_id: str) -> list[TargetAgentMemoryModel]:
@@ -370,6 +433,36 @@ class SqlTargetMemoryStore(TargetMemoryStore):
 
 def _tokens(text: str) -> set[str]:
     return {term.lower() for term in _WORDS.findall(text) if term.lower() not in _STOP}
+
+
+def _canonical_fingerprint(value: str) -> str:
+    """Normalise only case/spacing/punctuation for traceable exact deduping."""
+    return " ".join(_WORDS.findall(value.lower()))
+
+
+def _preferred_scope(prompt: str) -> tuple[TargetMemoryScope | None, str]:
+    """Infer a retrieval intent solely from the user-facing test prompt."""
+    text = prompt.lower()
+    if re.search(r"\b(?:this|current|currently|for\s+the)\s+(?:assignment|project|task)\b|\b(?:must|required|requirement|mandatory)\b", text):
+        return TargetMemoryScope.PROJECT_REQUIREMENT, "intent=current_project_requirement"
+    if re.search(r"\b(?:prefer|preference|favour(?:ite)?|favorite|usually\s+use)\b", text):
+        return TargetMemoryScope.PREFERENCE, "intent=general_preference"
+    if re.search(r"\b(?:where|location|based|live|located|name|background|profile)\b", text):
+        return TargetMemoryScope.PROFILE, "intent=profile_fact"
+    return None, "intent=general_relevance"
+
+
+def _scope_bonus(scope: TargetMemoryScope, preferred: TargetMemoryScope | None) -> int:
+    """Stable policy weights; positive values make the record later/higher."""
+    if preferred is None:
+        return 0
+    if scope == preferred:
+        return 80
+    if preferred == TargetMemoryScope.PROJECT_REQUIREMENT and scope == TargetMemoryScope.PREFERENCE:
+        return -40
+    # Unrelated scope remains eligible only for requirement prompts, where
+    # freshness/conflict evidence may still be useful alongside the decision.
+    return -10
 
 
 def _category(value: str) -> str | None:

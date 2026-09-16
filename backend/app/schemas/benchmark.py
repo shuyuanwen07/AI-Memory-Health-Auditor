@@ -70,6 +70,8 @@ class BenchmarkMemoryEvidence(BaseModel):
     lifecycle_state: str
     relevance_score: float
     policy_score: float
+    memory_scope: str | None = None
+    scope_score: float = 0.0
     selected: bool
     reason: str
 
@@ -121,6 +123,63 @@ class LongMemEvalRunResponse(BaseModel):
     """
 
     metadata: LongMemEvalRunMetadata
+    cases: list[LongMemEvalCaseRunResult]
+    categories: list[BenchmarkScoreSummary]
+    dimensions: list[BenchmarkScoreSummary]
+    tests_passed: int
+    tests_total: int
+    overall_percentage: float | None = None
+
+
+# LoCoMo and BEAM are externally maintained datasets.  These contracts are a
+# deliberately small local compatibility boundary; they do not claim complete
+# parser coverage or reproduce an upstream scorer.
+class LocalCompatibleImportRequest(BaseModel):
+    """Caller-supplied JSON for a permitted local LoCoMo/BEAM-style source."""
+    payload: dict | list
+
+
+class LocalCompatibleRunRequest(LocalCompatibleImportRequest):
+    source_authorised: bool = False
+    source_label: str | None = Field(default=None, max_length=160)
+    memory_strategy: MemoryStrategy = MemoryStrategy.STRONG_RULE_BASED
+    random_seed: int = 42
+
+
+class LocalCompatibleImportReport(BaseModel):
+    benchmark_family: str
+    adapter_version: str
+    cases_imported: int
+    case_ids: list[str]
+    dimension_hints: list[str]
+    source_format: str
+    notice: str
+
+
+class LocalCompatibleValidationResponse(BaseModel):
+    report: LocalCompatibleImportReport
+    cases: list[LongMemEvalCase]
+
+
+class LocalCompatibleRunMetadata(BaseModel):
+    benchmark_family: str
+    run_id: str
+    runner_version: str
+    adapter_version: str
+    source_fingerprint_sha256: str
+    source_format: str
+    source_label: str | None = None
+    random_seed: int
+    memory_strategy: MemoryStrategy
+    execution_mode: str
+    evaluator: str
+    case_order: list[str]
+    notice: str
+
+
+class LocalCompatibleRunResponse(BaseModel):
+    """Ephemeral local results, never an official LoCoMo or BEAM score."""
+    metadata: LocalCompatibleRunMetadata
     cases: list[LongMemEvalCaseRunResult]
     categories: list[BenchmarkScoreSummary]
     dimensions: list[BenchmarkScoreSummary]
