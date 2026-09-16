@@ -1,6 +1,8 @@
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 import re
+import os
+import time
 from uuid import uuid4
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import StreamingResponse
@@ -104,6 +106,10 @@ def reproducibility_snapshot(*, provider: str, model: str, temperature: float, r
         "target_retry_policy": {
             "max_attempts": 3, "timeout_seconds": 60.0,
             "retryable_status_codes": [408, 409, 425, 429, 500, 502, 503, 504],
+        },
+        "execution_budget": {
+            "max_target_calls": max(1, int(os.getenv("MAX_AUDIT_TARGET_CALLS", "100"))),
+            "max_execution_seconds": max(1, int(os.getenv("MAX_AUDIT_EXECUTION_SECONDS", "300"))),
         },
     }
 
@@ -630,6 +636,10 @@ def execute(run_id:str,db:Session=Depends(get_db)):
     if any(test.quality_status == TestQualityStatus.PENDING.value for test in review_rows):
         raise HTTPException(409, "Review each regenerated test before execution.")
     outputs=[]
+    budget = (a.reproducibility_metadata or {}).get("execution_budget", {})
+    max_calls = int(budget.get("max_target_calls", 100))
+    max_seconds = int(budget.get("max_execution_seconds", 300))
+    started = time.monotonic()
     try:
         # The controlled target independently ingests the authorised source
         # conversation into its private persistent store.  It never receives
@@ -650,14 +660,36 @@ def execute(run_id:str,db:Session=Depends(get_db)):
         for t in db.scalars(select(TestCaseModel).where(TestCaseModel.run_id==run_id)).all():
             if t.id in completed_test_ids:
                 continue
+            db.refresh(a)
+            if a.status == AuditStatus.CANCELLED.value:
+                db.commit()
+                raise HTTPException(409, "This audit was cancelled. Completed responses were retained for recovery.")
+            if len(completed_test_ids) + len(outputs) >= max_calls:
+                raise HTTPException(429, f"Execution stopped after its frozen target-call budget of {max_calls} calls.")
+            if time.monotonic() - started >= max_seconds:
+                raise HTTPException(408, f"Execution exceeded its frozen {max_seconds}-second time budget.")
             retrieval = target_store.retrieve(run_id, conversation, test_schema(t), MemoryStrategy(a.memory_strategy))
             private_test = test_schema(t).model_copy(update={"target_memory_context": retrieval.context})
             t.target_memory_context = private_test.target_memory_context
             r=HttpTargetAIConnector().execute(private_test,audit_schema(a)); outputs.append(r); db.add(TargetResponseModel(id=r.response_id,test_id=r.test_id,run_id=r.run_id,response_text=r.response_text,model=r.model,temperature=r.temperature,execution_metadata=r.execution_metadata.model_dump(),created_at=r.created_at))
     except HTTPException:
-        a.status="FAILED"; db.commit()
+        if a.status != AuditStatus.CANCELLED.value:
+            a.status="FAILED"
+        db.commit()
         raise
     a.status="TESTS_EXECUTED"; db.commit(); return outputs
+
+@router.post("/audits/{run_id}/cancel", response_model=AuditRun)
+def cancel_audit(run_id: str, db: Session = Depends(get_db)):
+    """Safely stop sequential target execution between provider calls."""
+    audit = db.get(AuditRunModel, run_id)
+    if not audit: missing("Audit")
+    if audit.status in {AuditStatus.COMPLETED.value, AuditStatus.CANCELLED.value}:
+        return audit_schema(audit)
+    audit.status = AuditStatus.CANCELLED.value
+    audit.completed_at = None
+    db.commit(); db.refresh(audit)
+    return audit_schema(audit)
 @router.post("/audits/{run_id}/evaluate", response_model=list[EvaluationResult])
 def evaluate(run_id:str,db:Session=Depends(get_db)):
     a=db.get(AuditRunModel,run_id)

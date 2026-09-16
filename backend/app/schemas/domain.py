@@ -31,7 +31,7 @@ class MemoryStatus(str, Enum):
 class RelationshipType(str, Enum):
     UPDATE = "UPDATE"; CONFLICT = "CONFLICT"; CONTEXTUAL_OVERRIDE = "CONTEXTUAL_OVERRIDE"
 class AuditStatus(str, Enum):
-    CREATED="CREATED"; MEMORY_EXTRACTED="MEMORY_EXTRACTED"; GROUND_TRUTH_CONFIRMED="GROUND_TRUTH_CONFIRMED"; TESTS_GENERATED="TESTS_GENERATED"; TESTS_EXECUTED="TESTS_EXECUTED"; EVALUATED="EVALUATED"; COMPLETED="COMPLETED"; FAILED="FAILED"
+    CREATED="CREATED"; MEMORY_EXTRACTED="MEMORY_EXTRACTED"; GROUND_TRUTH_CONFIRMED="GROUND_TRUTH_CONFIRMED"; TESTS_GENERATED="TESTS_GENERATED"; TESTS_EXECUTED="TESTS_EXECUTED"; EVALUATED="EVALUATED"; COMPLETED="COMPLETED"; FAILED="FAILED"; CANCELLED="CANCELLED"
 class TargetConfiguration(str, Enum): WEAK="weak"; STRONG="strong"
 class MemoryStrategy(str, Enum):
     WEAK_FIRST_HIT = "weak_first_hit"
@@ -319,6 +319,7 @@ class ReproducibilityMetadata(BaseModel):
     memory_policy_version: str | None = None
     seed_control: dict[str, str] = Field(default_factory=dict)
     target_retry_policy: RetryPolicyMetadata = Field(default_factory=RetryPolicyMetadata)
+    execution_budget: dict[str, int] = Field(default_factory=dict)
 
 
 class ExecutionMetadata(BaseModel):

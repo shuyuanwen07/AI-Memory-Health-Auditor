@@ -30,7 +30,7 @@ export const api = {
   validateBenchmark:(family:BenchmarkFamily,payload:object|object[])=>request<BenchmarkValidationResponse>(`/research/benchmarks/${family}/validate`,{method:'POST',body:JSON.stringify({payload})}),
   runBenchmark:(family:BenchmarkFamily,payload:object|object[],source_label:string,memory_strategy:MemoryStrategy)=>request<BenchmarkRunResponse>(`/research/benchmarks/${family}/run`,{method:'POST',body:JSON.stringify({payload,source_authorised:true,source_label,memory_strategy,random_seed:42})}),
   createAudit:(body:object)=>request<AuditRun>('/audits',{method:'POST',body:JSON.stringify(body)}),
-  generate:(id:string)=>request(`/audits/${id}/generate-tests`,{method:'POST'}), execute:(id:string)=>request(`/audits/${id}/execute`,{method:'POST'}), evaluate:(id:string)=>request(`/audits/${id}/evaluate`,{method:'POST'}),
+  generate:(id:string)=>request(`/audits/${id}/generate-tests`,{method:'POST'}), execute:(id:string)=>request(`/audits/${id}/execute`,{method:'POST'}), evaluate:(id:string)=>request(`/audits/${id}/evaluate`,{method:'POST'}), cancel:(id:string)=>request<AuditRun>(`/audits/${id}/cancel`,{method:'POST'}),
   testReview:(id:string)=>request<TestReviewSuite>(`/audits/${id}/test-review`),
   reviewTest:(runId:string,testId:string,quality_status:'accepted'|'rejected',note?:string)=>request<TestCase>(`/audits/${runId}/tests/${testId}/review`,{method:'PATCH',body:JSON.stringify({quality_status,note})}),
   regenerateTest:(runId:string,testId:string)=>request<TestCase>(`/audits/${runId}/tests/${testId}/regenerate`,{method:'POST'}),

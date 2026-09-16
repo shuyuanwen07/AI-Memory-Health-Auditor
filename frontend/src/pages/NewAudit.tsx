@@ -61,6 +61,7 @@ export function NewAudit() {
   const [failedRuns, setFailedRuns] = useState<FailedRun[]>([]);
   const [reviewTests, setReviewTests] = useState<TestCase[] | null>(null);
   const [runningLabel, setRunningLabel] = useState('');
+  const [runningRunId, setRunningRunId] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
 
@@ -188,6 +189,7 @@ export function NewAudit() {
     const failed: FailedRun[] = [];
     for (const run of runs) {
       setRunningLabel(run.label);
+      setRunningRunId(run.runId);
       try {
         await api.execute(run.runId);
         await api.evaluate(run.runId);
@@ -196,7 +198,7 @@ export function NewAudit() {
         failed.push({ runId: run.runId, label: run.label, detail: cause instanceof Error ? cause.message : 'This condition could not be completed.' });
       }
     }
-    setRunningLabel('');
+    setRunningLabel(''); setRunningRunId('');
     setResults(completed);
     setFailedRuns(failed);
     if (!completed.length) throw new Error('No experimental conditions completed. Check the failed runs and retry them.');
@@ -207,7 +209,7 @@ export function NewAudit() {
     const recovered: CompletedRun[] = [];
     const stillFailed: FailedRun[] = [];
     for (const failed of failedRuns) {
-      setRunningLabel(failed.label);
+      setRunningLabel(failed.label); setRunningRunId(failed.runId);
       try {
         const audit = await api.retry(failed.runId);
         if (audit.status !== 'COMPLETED') throw new Error('The run is still incomplete. Check the provider configuration and try again.');
@@ -217,9 +219,15 @@ export function NewAudit() {
         stillFailed.push({ ...failed, detail: cause instanceof Error ? cause.message : failed.detail });
       }
     }
-    setRunningLabel('');
+    setRunningLabel(''); setRunningRunId('');
     setResults((current) => [...current, ...recovered]);
     setFailedRuns(stillFailed);
+  });
+
+  const cancelCurrentRun = () => act(async () => {
+    if (!runningRunId) return;
+    await api.cancel(runningRunId);
+    setError('Cancellation requested. Completed responses were retained for recovery.');
   });
 
   return <main className="workflow">
@@ -258,7 +266,7 @@ export function NewAudit() {
     </section>}
     {step === 3 && <section className="running">
       <h1>Prepare Memory Audit</h1><p>{runs.length > 1 ? `${runs.length} conditions will use one shared test suite.` : 'Generate and review the test suite before executing the controlled audit.'}</p>
-      {busy && runningLabel && <p className="running-model">Currently working: <b>{runningLabel}</b></p>}
+      {busy && runningLabel && <p className="running-model">Currently working: <b>{runningLabel}</b> <button type="button" className="secondary" onClick={cancelCurrentRun}>Cancel current run</button></p>}
       <ul className="progress"><li>Preparing confirmed ground truth <b>Complete</b></li><li>Generating shared behavioural tests <b>{reviewTests ? 'Complete' : busy ? 'In progress' : 'Waiting'}</b></li><li>Researcher test-suite review <b>{readyForExecution ? 'Complete' : reviewTests ? 'Action required' : 'Waiting'}</b></li><li>Initialising target AI <b>{readyForExecution ? 'Ready' : 'Waiting'}</b></li><li>Executing memory tests <b>Waiting</b></li><li>Evaluating responses <b>Waiting</b></li></ul>
       {!reviewTests ? <button disabled={busy} onClick={prepareTests}>{busy ? 'Generating Shared Test Suite…' : 'Generate Tests for Review'}</button> : <><TestSuiteReview tests={reviewTests} busy={busy} onReview={reviewTest} onRegenerate={regenerateTest} /><button disabled={busy || !readyForExecution} onClick={runAudit}>{busy ? `Running ${runningLabel || 'audit'}…` : runs.length > 1 ? 'Run Comparison & View Results' : 'Run Audit & View Results'}</button>{!readyForExecution && <p className="provider-note">Accept each pending test and regenerate rejected tests before execution.</p>}</>}
     </section>}

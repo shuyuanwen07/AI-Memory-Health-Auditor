@@ -4,6 +4,13 @@
 2. Run `docker compose up --build`.
 3. Open `http://localhost:5173`; API documentation is at `http://localhost:8000/docs`.
 
+## Node.js version
+
+Use `nvm use` in the repository root to select the committed Node `22.22.2`
+version. The frontend package engine range matches the jsdom test runtime;
+older Node 22 releases and Node 24 releases before 24.15 are not supported for
+local checks.
+
 ## Hot reload
 
 While Docker Compose is running, save a file under `frontend/src/` to update the browser automatically, or save a Python file under `backend/app/` to restart the FastAPI server automatically. The development containers use file polling to keep reload reliable with Docker Desktop. Changes to dependencies, `.env`, Compose configuration, or Alembic migrations require a Compose restart.
@@ -21,6 +28,12 @@ GEMINI_API_KEY=...
 The browser never receives these keys. `gpt-5.6-luna`, `deepseek-flash`, and `gemini-2.5-flash-lite` are selectable once their corresponding key is configured. Gemini's free tier requires a Google AI Studio API key and is subject to Google's applicable limits.
 
 Provider execution uses a bounded retry policy for temporary network and service failures. Authentication, missing-model, and malformed-response errors are returned as clear API errors without exposing a credential or upstream response body.
+
+Each AuditRun freezes `MAX_AUDIT_TARGET_CALLS` and
+`MAX_AUDIT_EXECUTION_SECONDS` when it is created. During sequential target
+execution, `POST /api/v1/audits/{run_id}/cancel` requests a safe stop between
+provider calls. Completed responses remain stored and the normal retry flow can
+resume missing work later.
 
 ## Quality checks and local end-to-end smoke coverage
 
