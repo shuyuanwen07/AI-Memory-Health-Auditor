@@ -1,6 +1,5 @@
 from datetime import datetime
 from enum import Enum
-from typing import Optional
 from pydantic import BaseModel, Field
 
 class Dimension(str, Enum):
@@ -104,7 +103,7 @@ class ConversationMessageInput(BaseModel):
     """Lossless message input while retaining compatibility with pasted text."""
     message_id: str | None = Field(default=None, min_length=1, max_length=160)
     role: str = Field(default="user", min_length=1, max_length=20)
-    content: str = Field(min_length=1)
+    content: str = Field(min_length=1, max_length=100_000)
     timestamp: datetime | None = None
 class Conversation(BaseModel):
     conversation_id: str
@@ -113,8 +112,8 @@ class Conversation(BaseModel):
     messages: list[ConversationMessage] = []
 class ConversationCreate(BaseModel):
     authorised: bool
-    pasted_text: str | None = None
-    messages: list[ConversationMessageInput] | None = None
+    pasted_text: str | None = Field(default=None, max_length=1_000_000)
+    messages: list[ConversationMessageInput] | None = Field(default=None, max_length=10_000)
 class ConversationDeletionRequest(BaseModel):
     """Explicit acknowledgement required before local source data is erased."""
     confirmation: str = Field(min_length=1, max_length=40)

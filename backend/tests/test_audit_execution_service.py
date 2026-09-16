@@ -20,7 +20,6 @@ from app.services.audit_execution import (
     AuditExecutionSnapshot,
     AuditStage,
     EventKind,
-    RunArtifacts,
 )
 
 

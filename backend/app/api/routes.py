@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta, timezone
 import re
 from uuid import uuid4
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import StreamingResponse
 from io import StringIO
 import csv
@@ -126,6 +126,11 @@ def public_test_schema(o):
         grounding_status=o.grounding_status, validation_notes=o.validation_notes,
     )
 def validate_memory_evidence(db: Session, conversation_id: str, source_message_ids: list[str], relationships: list[MemoryRelationship], memory_id: str | None = None):
+    if len(source_message_ids) != len(set(source_message_ids)):
+        raise HTTPException(422, "Source evidence IDs must not be repeated.")
+    relationship_keys = [(relationship.type.value, relationship.target_memory_id) for relationship in relationships]
+    if len(relationship_keys) != len(set(relationship_keys)):
+        raise HTTPException(422, "A memory relationship must not be repeated.")
     source_ids = set(db.scalars(select(MessageModel.source_message_id).where(MessageModel.conversation_id == conversation_id)).all())
     unknown_sources = set(source_message_ids) - source_ids
     if unknown_sources:
@@ -135,6 +140,43 @@ def validate_memory_evidence(db: Session, conversation_id: str, source_message_i
     for relationship in relationships:
         if relationship.target_memory_id == memory_id or relationship.target_memory_id not in target_ids:
             raise HTTPException(422, "A memory relationship must reference another memory in the same conversation.")
+    if memory_id is None:
+        return
+
+    # UPDATE edges express a version lineage. A cycle would make freshness
+    # impossible to reason about (A supersedes B which supersedes A), so reject
+    # it at the shared API boundary rather than leaving it to one retrieval
+    # strategy to interpret differently.
+    update_edges: dict[str, set[str]] = {}
+    existing = db.execute(
+        select(MemoryRelationshipModel.memory_id, MemoryRelationshipModel.target_memory_id)
+        .join(MemoryModel, MemoryModel.id == MemoryRelationshipModel.memory_id)
+        .where(MemoryModel.conversation_id == conversation_id, MemoryRelationshipModel.relationship_type == RelationshipType.UPDATE.value)
+    ).all()
+    for source_id, target_id in existing:
+        if source_id != memory_id:
+            update_edges.setdefault(source_id, set()).add(target_id)
+    for relationship in relationships:
+        if relationship.type == RelationshipType.UPDATE:
+            update_edges.setdefault(memory_id, set()).add(relationship.target_memory_id)
+
+    visiting: set[str] = set()
+    visited: set[str] = set()
+
+    def has_cycle(node: str) -> bool:
+        if node in visiting:
+            return True
+        if node in visited:
+            return False
+        visiting.add(node)
+        if any(has_cycle(target) for target in update_edges.get(node, set())):
+            return True
+        visiting.remove(node)
+        visited.add(node)
+        return False
+
+    if any(has_cycle(node) for node in update_edges):
+        raise HTTPException(422, "UPDATE relationships cannot form a cycle.")
 def response_schema(o): return TargetResponse(response_id=o.id, test_id=o.test_id, run_id=o.run_id, response_text=o.response_text, model=o.model, temperature=o.temperature, execution_metadata=getattr(o, "execution_metadata", {}) or {}, created_at=o.created_at)
 def eval_schema(o): return EvaluationResult(evaluation_id=o.id, test_id=o.test_id, response_id=o.response_id, passed=o.passed, failure_type=o.failure_type, reason=o.reason, evidence_memory_ids=o.evidence_memory_ids, evaluator=o.evaluator)
 def human_review_schema(o): return EvaluationHumanReview(review_id=o.id, evaluation_id=o.evaluation_id, human_passed=o.human_passed, human_failure_type=o.human_failure_type, reviewer_label=o.reviewer_label, review_role=getattr(o, "review_role", "reference"), based_on_review_ids=getattr(o, "based_on_review_ids", []) or [], note=o.note, created_at=o.created_at, updated_at=o.updated_at)

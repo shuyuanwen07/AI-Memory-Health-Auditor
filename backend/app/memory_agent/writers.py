@@ -9,13 +9,12 @@ from __future__ import annotations
 
 import json
 import os
-from datetime import datetime
 from typing import Any
 
 from app.extraction.llm import PipelineLLMClient, PipelineRequestError
 from app.extraction.llm_extractor import _EXTRACTION_SCHEMA, _ExtractionPayload
 from app.extraction.rule_based import RuleBasedMemoryExtractor
-from app.schemas import Conversation, Memory, MemoryRelationship, MemoryStatus, RelationshipType, TargetMemoryWriterKind
+from app.schemas import Conversation, Memory, MemoryRelationship, MemoryStatus, TargetMemoryWriterKind
 from app.services.interfaces import MemoryExtractor
 
 

@@ -39,6 +39,15 @@ test('reports invalid JSON uploads without replacing the conversation', async ()
   expect(screen.getByText('Import was not completed. Your pasted conversation has not been changed.')).not.toBeNull();
 });
 
+test('rejects a JSON upload over the client-side safety limit before parsing it', async () => {
+  const user = userEvent.setup();
+  const { props } = renderStep();
+  const oversized = new File(['x'.repeat(1_000_001)], 'oversized.json', { type: 'application/json' });
+  await user.upload(screen.getByLabelText('Or upload conversation JSON'), oversized);
+  await waitFor(() => expect(props.onImportError).toHaveBeenCalledWith(expect.stringContaining('larger than 1 MB')));
+  expect(props.onImport).not.toHaveBeenCalled();
+});
+
 test('does not treat whitespace-only input as a conversation', () => {
   renderStep({ text: '   \n  ', consent: true });
   expect(screen.getByText('Add at least one non-empty message to continue.')).not.toBeNull();

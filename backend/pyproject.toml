@@ -1,0 +1,9 @@
+[tool.ruff]
+target-version = "py312"
+
+[tool.ruff.lint]
+# The schema facade intentionally re-exports domain contracts for route modules.
+# Keep undefined-name protection while suppressing false positives from that
+# deliberate public import boundary.
+select = ["F"]
+ignore = ["F403", "F405"]

@@ -1,5 +1,15 @@
 from logging.config import fileConfig
 import os
+from pathlib import Path
+import sys
+
+# Alembic executes this file directly, rather than through pytest's configured
+# import path. Keep `alembic current` and `alembic upgrade head` usable from
+# backend/ without requiring every developer to export PYTHONPATH manually.
+BACKEND_ROOT = str(Path(__file__).resolve().parents[1])
+if BACKEND_ROOT not in sys.path:
+    sys.path.insert(0, BACKEND_ROOT)
+
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 from app.database.session import Base

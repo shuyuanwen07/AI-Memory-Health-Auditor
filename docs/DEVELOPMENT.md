@@ -24,7 +24,7 @@ Provider execution uses a bounded retry policy for temporary network and service
 
 ## Quality checks and local end-to-end smoke coverage
 
-The repository deliberately keeps its quality toolchain lightweight: TypeScript performs the frontend static check, Vitest exercises UI components and the complete browser workflow in JSDOM, and pytest exercises the API and database contracts. Formatting conventions are defined in the root `.editorconfig`; no additional formatter or browser-driver download is required for normal development.
+The repository deliberately keeps its quality toolchain lightweight: TypeScript performs the frontend static check, Ruff prevents Python undefined/unused-code regressions, Vitest exercises UI components and the complete browser workflow in JSDOM, and pytest exercises the API and database contracts. Formatting conventions are defined in the root `.editorconfig`; no additional formatter or browser-driver download is required for normal development.
 
 Run the same checks used by CI:
 
@@ -35,6 +35,16 @@ sh scripts/check.sh
 # from frontend (after npm install)
 npm run check
 ```
+
+From the repository root, `sh scripts/check.sh` runs all offline backend,
+frontend and paper-artifact checks. Use `docker compose exec backend alembic
+current` to inspect the development database migration revision. Alembic also
+resolves the backend application path when run from `backend/`; the Compose
+command is required on a host because the default database hostname `db` is a
+Docker service name. The API rejects request bodies above
+`MAX_REQUEST_BYTES` (5 MB by default); the conversation-import screen applies
+a more conservative 1 MB client-side JSON limit to prevent accidental
+oversized uploads.
 
 The frontend workflow test follows the user-visible local path: authorised conversation → ground-truth acceptance → shared-suite generation and review → rule-based execution → results → target-memory trace. The matching backend API smoke test uses a temporary SQLite database and verifies the same rule-based path, including an explicit reject/regenerate/accept test-review cycle. These are offline tests: they never need provider credentials, Docker services, or a cloud model. They are intentionally complementary to a short manual Docker smoke check in a real browser when changing styling or file-upload behaviour.
 

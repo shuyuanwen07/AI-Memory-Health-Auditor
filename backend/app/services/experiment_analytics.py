@@ -24,7 +24,6 @@ from app.schemas import (
     Dimension,
     ExperimentConditionSummary,
     ExperimentDimensionSummary,
-    MemoryStrategy,
     PairedComparison,
 )
 
