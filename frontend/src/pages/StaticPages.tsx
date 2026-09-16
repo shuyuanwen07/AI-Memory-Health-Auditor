@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { api } from '../services/api';
-import type { AuditResult, AuditRun, Experiment, ExperimentAnalytics, ExperimentRunReport, PairedComparison } from '../types/domain';
+import type { AuditResult, AuditRetryPlan, AuditRun, Experiment, ExperimentAnalytics, ExperimentRunReport, PairedComparison } from '../types/domain';
 import { ResultDashboard } from '../components/ResultDashboard';
 import { TargetMemoryTrace } from '../components/TargetMemoryTrace';
 import { ResearchValidation } from '../components/ResearchValidation';
@@ -38,6 +38,10 @@ export function History() {
   const [selectedReport, setSelectedReport] = useState<AuditResult | null>(null);
   const [reportError, setReportError] = useState('');
   const [loadState, setLoadState] = useState<'loading' | 'ready' | 'error'>('loading');
+  const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [providerFilter, setProviderFilter] = useState('all');
+  const [strategyFilter, setStrategyFilter] = useState('all');
   const loadHistory = useCallback(() => {
     setLoadState('loading');
     api.audits().then((audits) => { setItems(audits); setLoadState('ready'); })
@@ -50,10 +54,50 @@ export function History() {
     catch (cause) { setSelectedReport(null); setReportError(cause instanceof Error ? cause.message : 'The completed report could not be loaded.'); }
   };
   const removed = () => { setSelectedReport(null); setReportError(''); loadHistory(); };
+  const filteredItems = useMemo(() => {
+    const query = search.trim().toLowerCase();
+    return items.filter((run) => {
+      const matchesSearch = !query || [run.run_id, run.conversation_id, run.model, run.pipeline_model, run.evaluator_model]
+        .some((value) => value.toLowerCase().includes(query));
+      return matchesSearch
+        && (statusFilter === 'all' || run.status === statusFilter)
+        && (providerFilter === 'all' || run.provider === providerFilter)
+        && (strategyFilter === 'all' || run.memory_strategy === strategyFilter);
+    });
+  }, [items, search, statusFilter, providerFilter, strategyFilter]);
+  const filtersActive = Boolean(search) || statusFilter !== 'all' || providerFilter !== 'all' || strategyFilter !== 'all';
+  const clearFilters = () => { setSearch(''); setStatusFilter('all'); setProviderFilter('all'); setStrategyFilter('all'); };
   return <section><h1>Audit History</h1><p>Review the configuration, lifecycle status, completion time and post-audit evidence of each controlled audit.</p>
     <p className="data-retention-note">Local data controls export or permanently erase every audit record derived from the selected authorised conversation.</p>
-    {loadState === 'loading' ? <p className="empty" role="status">Loading audit history…</p> : loadState === 'error' ? <div className="empty" role="alert"><p>Audit history could not be loaded. Check that the API service is available and try again.</p><button type="button" className="secondary" onClick={loadHistory}>Try again</button></div> : items.length ? <table aria-label="Audit history"><thead><tr><th>Run</th><th>Target AI</th><th>Audit settings</th><th>Status</th><th>Created</th><th>Completed</th><th>Evidence</th><th>Local data</th></tr></thead><tbody>{items.map((run) => <tr key={run.run_id}><td><b>{run.run_id}</b></td><td>{providerLabels[run.provider]}<br /><small>{run.model}</small></td><td>{run.target_configuration === 'strong' ? 'Strong Memory' : 'Weak Memory'}<br /><small>{run.test_budget} test budget · temperature {run.temperature} · seed {run.random_seed}</small></td><td>{formatStatus(run.status)}</td><td>{formatDate(run.created_at)}</td><td>{formatDate(run.completed_at)}</td><td>{run.status === 'COMPLETED' ? <button className="secondary" type="button" onClick={() => openReport(run.run_id)}>Open report & trace</button> : <small>Available after completion</small>}</td><td><ConversationDataControls conversationId={run.conversation_id} onDeleted={removed} /></td></tr>)}</tbody></table> : <div className="empty"><b>No audits yet</b><p>Create and run an audit to retain a traceable record here.</p></div>}
+    {loadState === 'loading' ? <p className="empty" role="status">Loading audit history…</p> : loadState === 'error' ? <div className="empty" role="alert"><p>Audit history could not be loaded. Check that the API service is available and try again.</p><button type="button" className="secondary" onClick={loadHistory}>Try again</button></div> : items.length ? <>
+      <div className="history-filters" aria-label="Audit history filters">
+        <label>Search runs or models<input aria-label="Search audit history" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Run ID, conversation ID or model" /></label>
+        <label>Status<select aria-label="Filter by status" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)}><option value="all">All statuses</option>{[...new Set(items.map((run) => run.status))].map((status) => <option key={status} value={status}>{formatStatus(status)}</option>)}</select></label>
+        <label>Target provider<select aria-label="Filter by target provider" value={providerFilter} onChange={(event) => setProviderFilter(event.target.value)}><option value="all">All providers</option>{[...new Set(items.map((run) => run.provider))].map((provider) => <option key={provider} value={provider}>{providerLabels[provider]}</option>)}</select></label>
+        <label>Memory strategy<select aria-label="Filter by memory strategy" value={strategyFilter} onChange={(event) => setStrategyFilter(event.target.value)}><option value="all">All strategies</option>{[...new Set(items.map((run) => run.memory_strategy))].map((strategy) => <option key={strategy} value={strategy}>{strategy.replaceAll('_', ' ')}</option>)}</select></label>
+        {filtersActive && <button type="button" className="secondary history-filter-reset" onClick={clearFilters}>Clear filters</button>}
+      </div>
+      <p className="history-count" role="status">Showing {filteredItems.length} of {items.length} audit run{items.length === 1 ? '' : 's'}.</p>
+      {filteredItems.length ? <div className="history-table-scroll"><table aria-label="Audit history"><thead><tr><th>Run</th><th>Target AI</th><th>Frozen configuration</th><th>Status & recovery</th><th>Created</th><th>Completed</th><th>Evidence</th><th>Local data</th></tr></thead><tbody>{filteredItems.map((run) => <tr key={run.run_id}><td><b>{run.run_id}</b><br /><small>{run.conversation_id}</small></td><td>{providerLabels[run.provider]}<br /><small>{run.model}</small></td><td><ReproducibilityDetails run={run} /></td><td><RunRecoveryControls run={run} onRecovered={(updated) => setItems((current) => current.map((item) => item.run_id === updated.run_id ? updated : item))} /></td><td>{formatDate(run.created_at)}</td><td>{formatDate(run.completed_at)}</td><td>{run.status === 'COMPLETED' ? <button className="secondary" type="button" onClick={() => openReport(run.run_id)}>Open report & trace</button> : <small>Available after completion</small>}</td><td><ConversationDataControls conversationId={run.conversation_id} onDeleted={removed} /></td></tr>)}</tbody></table></div> : <div className="empty"><b>No matching audit runs</b><p>Try clearing a filter or searching by a different run, conversation or model identifier.</p></div>}
+    </> : <div className="empty"><b>No audits yet</b><p>Create and run an audit to retain a traceable record here.</p></div>}
     {reportError && <p className="alert" role="alert">{reportError}</p>}{selectedReport && <details className="history-report" open><summary>Completed report: {selectedReport.run_id}</summary><ResultDashboard result={selectedReport} /><TargetMemoryTrace runId={selectedReport.run_id} /></details>}</section>;
+}
+
+function ReproducibilityDetails({ run }: { run: AuditRun }) {
+  const retryPolicy = run.reproducibility?.target_retry_policy;
+  return <details className="reproducibility-details"><summary>{run.target_configuration === 'strong' ? 'Strong Memory' : 'Weak Memory'} · {run.memory_strategy.replaceAll('_', ' ')}</summary><ul><li>{run.test_budget} tests · temperature {run.temperature} · seed {run.random_seed}</li><li>Suite: {run.prompt_template_version}</li><li>Pipeline: {run.pipeline_provider} / {run.pipeline_model}</li><li>Evaluator: {run.evaluator_provider} / {run.evaluator_model}</li><li>Memory maintenance: {(run.memory_maintenance_policy ?? 'update_aware_consolidation').replaceAll('_', ' ')}</li>{run.target_memory_capacity && <li>Target memory capacity: {run.target_memory_capacity} records</li>}<li>Writer: {run.target_memory_writer ?? 'rule_based'}{run.target_memory_writer_version ? ` (${run.target_memory_writer_version})` : ''}</li>{retryPolicy && <li>Recovery: up to {retryPolicy.max_attempts} attempts · {retryPolicy.timeout_seconds}s timeout</li>}{run.reproducibility?.configuration_fingerprint && <li className="fingerprint">Configuration fingerprint: <code>{run.reproducibility.configuration_fingerprint}</code></li>}</ul></details>;
+}
+
+const recoveryStageLabels: Record<NonNullable<AuditRetryPlan['next_stage']>, string> = { generate_tests: 'generate the shared tests', execute_tests: 'execute unanswered tests', evaluate_responses: 'evaluate pending responses' };
+
+function RunRecoveryControls({ run, onRecovered }: { run: AuditRun; onRecovered: (updated: AuditRun) => void }) {
+  const [plan, setPlan] = useState<AuditRetryPlan | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [message, setMessage] = useState('');
+  const inspect = async () => { setBusy(true); setMessage(''); try { setPlan(await api.retryPlan(run.run_id)); } catch (cause) { setMessage(cause instanceof Error ? cause.message : 'The recovery plan could not be loaded.'); } finally { setBusy(false); } };
+  const retry = async () => { setBusy(true); setMessage(''); try { const updated = await api.retry(run.run_id); onRecovered(updated); setPlan(null); setMessage(updated.status === 'COMPLETED' ? 'Recovery completed. The report is now available.' : `Recovery stopped at ${formatStatus(updated.status)}.`); } catch (cause) { setMessage(cause instanceof Error ? cause.message : 'The audit could not be resumed.'); } finally { setBusy(false); } };
+  if (run.status === 'COMPLETED') return <div className="recovery-controls"><span className="status-complete">Completed</span>{message && <small className="success-message" role="status">{message}</small>}</div>;
+  return <div className="recovery-controls"><b>{formatStatus(run.status)}</b>{!plan ? <button type="button" className="secondary" disabled={busy} onClick={inspect}>{busy ? 'Checking…' : 'View recovery plan'}</button> : plan.retryable && plan.next_stage ? <><small>{plan.pending > 0 ? `${plan.pending} item${plan.pending === 1 ? '' : 's'} pending; recovery will ${recoveryStageLabels[plan.next_stage]}.` : `Recovery will ${recoveryStageLabels[plan.next_stage]}.`}</small><button type="button" disabled={busy} onClick={retry}>{busy ? 'Resuming…' : 'Resume audit'}</button></> : <small>No recovery is required for this run.</small>}{message && <small className={message.startsWith('Recovery completed') ? 'success-message' : 'alert-message'} role="status">{message}</small>}</div>;
 }
 
 function ConversationDataControls({ conversationId, onDeleted }: { conversationId: string; onDeleted: () => void }) {
@@ -93,15 +137,26 @@ export function Experiments() {
     } finally { setExportingId(null); }
   };
 
-  return <section><h1>Experiments</h1><p>Each experiment freezes one shared test suite, so every model and memory strategy is compared fairly.</p>{loadState === 'loading' ? <p className="empty" role="status">Loading experiment groups…</p> : loadState === 'error' ? <div className="empty" role="alert"><p>Experiment groups could not be loaded. Check that the API service is available and try again.</p><button type="button" className="secondary" onClick={loadExperiments}>Try again</button></div> : items.length ? items.map((item) => <ExperimentHistoryCard key={item.experiment_id} experiment={item} report={analytics[item.experiment_id]} exporting={exportingId === item.experiment_id} onDownload={download} />) : <div className="empty"><b>No experiments yet</b><p>Start a multi-model or multi-strategy audit to create a controlled comparison group.</p></div>}<ResearchValidation /></section>;
+  const downloadBundle = async (experiment: Experiment) => {
+    setExportingId(experiment.experiment_id);
+    try {
+      const blob = await api.downloadExperimentBundle(experiment.experiment_id);
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url; link.download = `experiment-${experiment.experiment_id}-reproducibility-bundle.json`; link.click();
+      URL.revokeObjectURL(url);
+    } finally { setExportingId(null); }
+  };
+
+  return <section><h1>Experiments</h1><p>Each experiment freezes one shared test suite, so every model and memory strategy is compared fairly.</p>{loadState === 'loading' ? <p className="empty" role="status">Loading experiment groups…</p> : loadState === 'error' ? <div className="empty" role="alert"><p>Experiment groups could not be loaded. Check that the API service is available and try again.</p><button type="button" className="secondary" onClick={loadExperiments}>Try again</button></div> : items.length ? items.map((item) => <ExperimentHistoryCard key={item.experiment_id} experiment={item} report={analytics[item.experiment_id]} exporting={exportingId === item.experiment_id} onDownload={download} onDownloadBundle={downloadBundle} />) : <div className="empty"><b>No experiments yet</b><p>Start a multi-model or multi-strategy audit to create a controlled comparison group.</p></div>}<ResearchValidation /></section>;
 }
 
 function percentage(value: number | null | undefined) { return value === null || value === undefined ? 'Not tested' : `${value.toLocaleString(undefined, { maximumFractionDigits: 1 })}%`; }
 
-function ExperimentHistoryCard({ experiment, report, exporting, onDownload }: { experiment: Experiment; report?: ExperimentAnalytics; exporting: boolean; onDownload: (experiment: Experiment) => void }) {
+function ExperimentHistoryCard({ experiment, report, exporting, onDownload, onDownloadBundle }: { experiment: Experiment; report?: ExperimentAnalytics; exporting: boolean; onDownload: (experiment: Experiment) => void; onDownloadBundle: (experiment: Experiment) => void }) {
   const complete = report?.runs.filter((item) => item.run.status === 'COMPLETED').length ?? 0;
   const failed = report?.runs.filter((item) => item.run.status === 'FAILED').length ?? 0;
-  return <article className="experiment"><div className="experiment-heading"><div><h2>{experiment.label}</h2><p className="experiment-summary">{experiment.status === 'COMPLETED' ? 'All conditions completed on the same frozen suite.' : 'This comparison remains reproducible because its test suite is frozen.'}</p></div><button className="secondary export-button" type="button" disabled={exporting} onClick={() => onDownload(experiment)}>{exporting ? 'Preparing CSV…' : 'Download group CSV'}</button></div><div className="experiment-scores"><span><small>Shared tests</small><b>{experiment.test_suite_metadata.test_count || '—'}</b></span><span><small>Conditions complete</small><b>{complete} / {report?.runs.length ?? 0}</b></span></div>{failed > 0 && <p className="experiment-alert"><b>{failed} failed condition{failed === 1 ? '' : 's'} require attention.</b> Completed conditions are retained for comparison.</p>}<p><small>Suite: seed {experiment.test_suite_configuration.random_seed} · {experiment.test_suite_configuration.test_budget} test budget · {experiment.test_suite_configuration.prompt_template_version}</small></p>{report && <><ConditionTable report={report} /><RunReports runs={report.runs} /><PairedSignals comparisons={report.paired_comparisons} /></>}</article>;
+  return <article className="experiment"><div className="experiment-heading"><div><h2>{experiment.label}</h2><p className="experiment-summary">{experiment.status === 'COMPLETED' ? 'All conditions completed on the same frozen suite.' : 'This comparison remains reproducible because its test suite is frozen.'}</p></div><div><button className="secondary export-button" type="button" disabled={exporting} onClick={() => onDownload(experiment)}>{exporting ? 'Preparing export…' : 'Download group CSV'}</button><button className="secondary export-button" type="button" disabled={exporting} onClick={() => onDownloadBundle(experiment)}>{exporting ? 'Preparing export…' : 'Download reproducibility bundle'}</button></div></div><div className="experiment-scores"><span><small>Shared tests</small><b>{experiment.test_suite_metadata.test_count || '—'}</b></span><span><small>Conditions complete</small><b>{complete} / {report?.runs.length ?? 0}</b></span></div>{failed > 0 && <p className="experiment-alert"><b>{failed} failed condition{failed === 1 ? '' : 's'} require attention.</b> Completed conditions are retained for comparison.</p>}<p><small>Suite: seed {experiment.test_suite_configuration.random_seed} · {experiment.test_suite_configuration.test_budget} test budget · {experiment.test_suite_configuration.prompt_template_version}</small></p>{report && <><ConditionTable report={report} /><RunReports runs={report.runs} /><PairedSignals comparisons={report.paired_comparisons} /></>}</article>;
 }
 
 function ConditionTable({ report }: { report: ExperimentAnalytics }) {

@@ -10,6 +10,7 @@ from app.models import AuditRunModel, ConversationModel, TargetAgentMemoryModel
 from app.schemas import (
     Conversation,
     ConversationMessage,
+    Dimension,
     Memory,
     MemoryRelationship,
     MemoryStatus,
@@ -18,6 +19,8 @@ from app.schemas import (
     TargetMemoryLifecycleState,
     TargetMemoryMaintenancePolicy,
     TargetMemoryScope,
+    MemoryStrategy,
+    TestCase,
 )
 
 
@@ -102,3 +105,97 @@ def test_append_only_policy_keeps_prior_record_active_and_makes_decision_traceab
     maintained = next(event for event in result.write_evidence if event.event_type == TargetMemoryEventType.MAINTENANCE_APPLIED)
     assert maintained.details["maintenance_action"] == "retained_prior_record"
     assert maintained.details["maintenance_policy"] == "append_only"
+
+
+class _NearDuplicateExtractor:
+    def extract(self, conversation: Conversation):
+        now = conversation.messages[0].timestamp
+        return [
+            Memory(memory_id="M1", conversation_id=conversation.conversation_id,
+                   canonical_value="The user is based in Sydney.", status=MemoryStatus.CANDIDATE,
+                   source_message_ids=["MSG001"], timestamp=now),
+            Memory(memory_id="M2", conversation_id=conversation.conversation_id,
+                   canonical_value="User is based in Sydney.", status=MemoryStatus.CANDIDATE,
+                   source_message_ids=["MSG002"], timestamp=now + timedelta(seconds=1)),
+        ]
+
+
+def test_update_aware_policy_merges_only_conservative_near_duplicates():
+    db = _db()
+    _run(db)
+    result = SqlTargetMemoryStore(
+        db, extractor=_NearDuplicateExtractor(),
+        maintenance_policy=TargetMemoryMaintenancePolicy.UPDATE_AWARE_CONSOLIDATION,
+    ).ingest("RUN-SCOPES", _conversation())
+
+    assert len(result.records) == 1
+    assert result.records[0].source_message_ids == ["MSG001", "MSG002"]
+    event = next(item for item in result.write_evidence if item.event_type == TargetMemoryEventType.MAINTENANCE_APPLIED)
+    assert event.details["maintenance_action"] == "merged_conservative_near_duplicate"
+    assert event.details["content_signature"] == ["based", "in", "is", "sydney"]
+
+
+class _CapacityExtractor:
+    def extract(self, conversation: Conversation):
+        now = conversation.messages[0].timestamp
+        return [
+            Memory(memory_id="M-EP", conversation_id=conversation.conversation_id,
+                   canonical_value="The user attended a workshop in Canberra.", status=MemoryStatus.CANDIDATE,
+                   source_message_ids=["MSG001"], timestamp=now),
+            Memory(memory_id="M-PREF", conversation_id=conversation.conversation_id,
+                   canonical_value="The user generally prefers Python.", status=MemoryStatus.CANDIDATE,
+                   source_message_ids=["MSG002"], timestamp=now + timedelta(seconds=1)),
+            Memory(memory_id="M-REQ", conversation_id=conversation.conversation_id,
+                   canonical_value="This assignment requires Java.", status=MemoryStatus.CANDIDATE,
+                   source_message_ids=["MSG003"], timestamp=now + timedelta(seconds=2)),
+        ]
+
+
+class _ConflictCapacityExtractor:
+    def extract(self, conversation: Conversation):
+        now = conversation.messages[0].timestamp
+        return [
+            Memory(memory_id="M-A", conversation_id=conversation.conversation_id,
+                   canonical_value="The deployment must use region A.", status=MemoryStatus.CANDIDATE,
+                   source_message_ids=["MSG001"], timestamp=now),
+            Memory(memory_id="M-B", conversation_id=conversation.conversation_id,
+                   canonical_value="The deployment must use region B.", status=MemoryStatus.CANDIDATE,
+                   source_message_ids=["MSG002"], timestamp=now + timedelta(seconds=1),
+                   relationships=[MemoryRelationship(type=RelationshipType.CONFLICT, target_memory_id="M-A")]),
+        ]
+
+
+def test_capacity_evicts_low_retention_record_and_excludes_it_from_every_retrieval_policy():
+    db = _db()
+    _run(db)
+    store = SqlTargetMemoryStore(db, extractor=_CapacityExtractor(), capacity=2)
+    result = store.ingest("RUN-SCOPES", _conversation())
+
+    evicted = next(record for record in result.records if record.canonical_value.endswith("Canberra."))
+    assert evicted.lifecycle_state == TargetMemoryLifecycleState.EVICTED
+    event = next(item for item in result.write_evidence if item.details.get("maintenance_action") == "capacity_evicted_record")
+    assert event.details["evicted_memory_id"] == evicted.memory_id
+    assert event.details["exclusion"] == "all_retrieval_strategies"
+
+    test = TestCase(
+        test_id="T-CAPACITY", run_id="RUN-SCOPES", dimension=Dimension.ACCURACY,
+        prompt="Which workshop did the user attend in Canberra?", expected_behavior="Canberra.",
+        supporting_memory_ids=[], generator_version="test-v1",
+    )
+    retrieval = store.retrieve("RUN-SCOPES", _conversation(), test, MemoryStrategy.WEAK_FIRST_HIT)
+    assert retrieval.context == []
+    evidence = next(row for row in retrieval.evidence.ranking_evidence if row["memory_id"] == evicted.memory_id)
+    assert evidence["eligible"] is False
+    assert "capacity_evicted_excluded" in evidence["reason"]
+
+
+def test_capacity_soft_limit_never_discards_an_unresolved_conflict_pair():
+    db = _db()
+    _run(db)
+    result = SqlTargetMemoryStore(db, extractor=_ConflictCapacityExtractor(), capacity=1).ingest("RUN-SCOPES", _conversation())
+
+    assert len(result.records) == 2
+    assert {record.lifecycle_state for record in result.records} == {TargetMemoryLifecycleState.CONFLICTED}
+    event = next(item for item in result.write_evidence if item.details.get("maintenance_action") == "capacity_soft_limit_preserved_conflict")
+    assert event.details["max_active_records"] == 1
+    assert len(event.details["protected_conflicted_memory_ids"]) == 2

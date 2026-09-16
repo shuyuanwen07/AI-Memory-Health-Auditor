@@ -40,3 +40,22 @@ def test_validity_endpoint_reports_extraction_test_and_evaluator_metrics():
     assert body["extraction"]["true_positives"] == 1
     assert body["test_validity"]["labelled_cases"] == 5
     assert body["evaluator"]["labelled_cases"] == 5
+
+
+def test_evaluator_calibration_endpoint_is_request_scoped_and_reports_agreement():
+    payload = {
+        "dataset_id": "human-review-v1", "dataset_version": "1.0.0", "review_set_id": "pilot-a",
+        "cases": [
+            {"case_id": "R1", "dimension": "freshness", "evaluator_passed": False, "human_passed": False,
+             "evaluator_failure_type": "freshness", "human_failure_type": "freshness"},
+            {"case_id": "R2", "dimension": "accuracy", "evaluator_passed": False, "human_passed": True},
+        ],
+    }
+    with TestClient(app) as client:
+        response = client.post("/api/v1/research/evaluator-calibration/analyse", json=payload)
+    assert response.status_code == 200
+    body = response.json()
+    assert body["retention"] == "request_scoped_not_persisted"
+    assert body["overall_failure_detection"]["true_positives"] == 1
+    assert body["overall_failure_detection"]["false_positives"] == 1
+    assert body["fingerprint_sha256"]

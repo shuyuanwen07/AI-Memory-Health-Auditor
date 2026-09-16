@@ -87,6 +87,11 @@ class AuditRunModel(Base):
     memory_maintenance_policy: Mapped[str] = mapped_column(
         String(40), default="update_aware_consolidation"
     )
+    # A small, explicit capacity lets experiments compare retention pressure
+    # without relying on an environment default that could change mid-study.
+    target_memory_capacity: Mapped[int] = mapped_column(
+        Integer, default=50, server_default="50"
+    )
     # Frozen at creation. TARGET_MEMORY_WRITER is only used to choose this
     # default; execution must never depend on a subsequently changed env var.
     target_memory_writer: Mapped[str] = mapped_column(
@@ -221,3 +226,28 @@ class EvaluationResultModel(Base):
     reason: Mapped[str] = mapped_column(Text)
     evidence_memory_ids: Mapped[list] = mapped_column(JSON, default=list)
     evaluator: Mapped[str] = mapped_column(String(40))
+
+
+class EvaluationHumanReviewModel(Base):
+    """Researcher calibration label for one completed automated verdict.
+
+    There is no account system in Foundation, so ``reviewer_label`` is a
+    researcher-provided pseudonym.  The automated result is deliberately
+    retained unchanged; this row records calibration evidence rather than
+    silently rewriting an audit outcome.
+    """
+
+    __tablename__ = "evaluation_human_reviews"
+    id: Mapped[str] = mapped_column(String(40), primary_key=True)
+    run_id: Mapped[str] = mapped_column(
+        ForeignKey("audit_runs.id", ondelete="CASCADE"), index=True
+    )
+    evaluation_id: Mapped[str] = mapped_column(
+        ForeignKey("evaluation_results.id", ondelete="CASCADE"), unique=True, index=True
+    )
+    human_passed: Mapped[bool] = mapped_column(Boolean)
+    human_failure_type: Mapped[str | None] = mapped_column(String(40), nullable=True)
+    reviewer_label: Mapped[str] = mapped_column(String(80))
+    note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now, onupdate=utc_now)

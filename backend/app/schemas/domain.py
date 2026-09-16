@@ -63,6 +63,7 @@ class TargetMemoryLifecycleState(str, Enum):
     ACTIVE = "ACTIVE"
     SUPERSEDED = "SUPERSEDED"
     CONFLICTED = "CONFLICTED"
+    EVICTED = "EVICTED"
 class TargetMemoryEventType(str, Enum):
     INGESTED = "INGESTED"
     WRITTEN = "WRITTEN"
@@ -189,6 +190,7 @@ class TargetMemoryTrace(BaseModel):
     run_id: str
     memory_strategy: MemoryStrategy
     memory_maintenance_policy: TargetMemoryMaintenancePolicy
+    target_memory_capacity: int = 50
     target_memory_writer: TargetMemoryWriterKind = TargetMemoryWriterKind.RULE_BASED
     target_memory_writer_version: str | None = None
     records: list[TargetMemoryTraceRecord] = []
@@ -266,6 +268,7 @@ class AuditCreate(BaseModel):
     evaluator_model: str | None = None
     memory_strategy: MemoryStrategy | None = None
     memory_maintenance_policy: TargetMemoryMaintenancePolicy = TargetMemoryMaintenancePolicy.UPDATE_AWARE_CONSOLIDATION
+    target_memory_capacity: int = Field(default=50, ge=1, le=500)
     # Omitted means use TARGET_MEMORY_WRITER only as an audit-creation default.
     # The selected value is persisted on the resulting AuditRun and is never
     # re-read from the environment during execution.
@@ -311,6 +314,7 @@ class AuditRun(BaseModel):
     evaluator_provider: str = "rule_based"; evaluator_model: str = "rule-based-v2"
     memory_strategy: MemoryStrategy = MemoryStrategy.STRONG_RULE_BASED
     memory_maintenance_policy: TargetMemoryMaintenancePolicy = TargetMemoryMaintenancePolicy.UPDATE_AWARE_CONSOLIDATION
+    target_memory_capacity: int = 50
     target_memory_writer: TargetMemoryWriterKind = TargetMemoryWriterKind.RULE_BASED
     target_memory_writer_version: str | None = None
     reproducibility: ReproducibilityMetadata = Field(default_factory=ReproducibilityMetadata)
@@ -353,6 +357,44 @@ class TargetResponse(BaseModel):
 class EvaluationResult(BaseModel):
     evaluation_id: str; test_id: str; response_id: str; passed: bool; failure_type: Dimension | None = None
     reason: str; evidence_memory_ids: list[str]; evaluator: str
+class EvaluationHumanReviewUpdate(BaseModel):
+    """Human calibration label; keeps automated result immutable."""
+    human_passed: bool
+    human_failure_type: Dimension | None = None
+    reviewer_label: str = Field(min_length=1, max_length=80)
+    note: str | None = Field(default=None, max_length=1500)
+
+    def model_post_init(self, __context):
+        if self.human_passed and self.human_failure_type is not None:
+            raise ValueError("A passing human verdict must not include a failure type.")
+
+class EvaluationHumanReview(BaseModel):
+    review_id: str
+    evaluation_id: str
+    human_passed: bool
+    human_failure_type: Dimension | None = None
+    reviewer_label: str
+    note: str | None = None
+    created_at: datetime
+    updated_at: datetime
+
+class EvaluationReviewItem(BaseModel):
+    test: TestCasePublic
+    response: TargetResponse
+    automated: EvaluationResult
+    human_review: EvaluationHumanReview | None = None
+
+class EvaluationCalibrationSummary(BaseModel):
+    run_id: str
+    automated_failure_count: int
+    human_reviewed_count: int
+    agreement_count: int
+    disagreement_count: int
+    agreement_percentage: float | None = None
+    failure_precision: float | None = None
+    failure_recall: float | None = None
+    failure_f1: float | None = None
+    by_dimension: dict[str, dict[str, int]] = Field(default_factory=dict)
 class DimensionScores(BaseModel):
     dimension: Dimension; percentage: float | None; passed: int; total: int
 class FailureDetail(BaseModel):

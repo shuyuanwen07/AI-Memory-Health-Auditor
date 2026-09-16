@@ -12,6 +12,11 @@ from app.benchmarks.local_compatible import BEAMAdapter, LoCoMoAdapter
 from app.benchmarks.local_runner import BEAMDeterministicRunner, LoCoMoDeterministicRunner
 from app.research.validity import ResearchValidityService
 from app.research.pilot import PilotAnnotationService
+from app.evaluator.calibration import (
+    EvaluatorCalibrationReport,
+    EvaluatorCalibrationRequest,
+    EvaluatorCalibrationService,
+)
 from app.schemas.pilot import PilotAnalysisRequest, PilotReadinessReport
 from app.schemas.benchmark import (
     LocalCompatibleImportRequest,
@@ -59,6 +64,16 @@ def analyse_annotation_pilot(payload: PilotAnalysisRequest):
     external-reference labels, allowing disagreements to remain auditable.
     """
     return PilotAnnotationService().analyse(payload)
+
+
+@research_router.post("/evaluator-calibration/analyse", response_model=EvaluatorCalibrationReport)
+def analyse_evaluator_calibration(payload: EvaluatorCalibrationRequest):
+    """Compare automated verdicts against de-identified human review labels.
+
+    The release is analysed only for this request. It is separate from the
+    optional per-audit calibration notes in the operational workflow.
+    """
+    return EvaluatorCalibrationService().analyse(payload)
 
 
 @research_router.post("/benchmarks/longmemeval/validate", response_model=LongMemEvalValidationResponse)

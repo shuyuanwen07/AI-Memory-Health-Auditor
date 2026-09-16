@@ -96,6 +96,7 @@ test('completes the local audit workflow from consent through reviewed results a
   expect(apiMocks.createAudit).toHaveBeenCalledWith(expect.objectContaining({
     memory_strategy: 'weak_first_hit',
     memory_maintenance_policy: 'update_aware_consolidation',
+    target_memory_capacity: 50,
     target_memory_writer: 'rule_based',
     model: 'rule-based-v1',
   }));

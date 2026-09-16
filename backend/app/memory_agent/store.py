@@ -47,6 +47,10 @@ _STOP = frozenset({
     "should", "would", "about", "user", "memory", "remembered", "does", "use",
     "used", "using", "now", "current", "currently", "please", "tell", "me",
 })
+_NEGATION_OR_CHANGE_CUES = frozenset({
+    "not", "never", "without", "instead", "except", "former", "previous",
+    "formerly", "before", "after", "until", "no", "different",
+})
 
 
 def _ident(prefix: str) -> str:
@@ -85,11 +89,29 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         db: Session,
         extractor: MemoryExtractor | None = None,
         maintenance_policy: TargetMemoryMaintenancePolicy | str = TargetMemoryMaintenancePolicy.UPDATE_AWARE_CONSOLIDATION,
+        capacity: int | None = 50,
+        *,
+        max_active_records: int | None = None,
     ):
+        """Create a deterministic private memory store.
+
+        ``capacity`` is the frozen, persisted audit setting. ``None`` remains
+        available to direct callers that need an unlimited baseline. The
+        keyword-only ``max_active_records`` is a backwards-compatible alias
+        for older experimental callers. A positive limit is soft when
+        unresolved conflicts alone exceed it, because silently dropping one
+        side of a conflict would invalidate the condition being measured.
+        """
+        if max_active_records is not None and capacity != 50 and capacity != max_active_records:
+            raise ValueError("Specify either capacity or max_active_records, not conflicting values.")
+        resolved_capacity = max_active_records if max_active_records is not None else capacity
+        if resolved_capacity is not None and resolved_capacity < 1:
+            raise ValueError("capacity must be a positive integer or None.")
         self.db = db
         self.extractor = extractor or RuleBasedMemoryExtractor()
         self.writer_version = getattr(self.extractor, "VERSION", self.extractor.__class__.__name__)
         self.maintenance_policy = TargetMemoryMaintenancePolicy(maintenance_policy)
+        self.max_active_records = resolved_capacity
 
     def ingest(self, run_id: str, conversation: Conversation) -> TargetMemoryIngestionResult:
         if not conversation.authorised:
@@ -105,11 +127,13 @@ class SqlTargetMemoryStore(TargetMemoryStore):
 
         extracted = self.extractor.extract(conversation)
         extracted_ids: dict[str, TargetAgentMemoryModel] = {}
-        # Update-aware consolidation also removes exact duplicate writes.  This
-        # is deliberately conservative: it never uses semantic similarity, so
-        # a researcher can explain exactly why two source statements became a
-        # single private record.
+        # Update-aware consolidation removes exact duplicate writes and a
+        # deliberately narrow class of near duplicates.  It does not use a
+        # semantic model: a merge requires the same content-token signature,
+        # no change/negation cue, and no lifecycle relationship on either
+        # candidate.  That makes every merge reproducible and inspectable.
         deduplicated: dict[str, TargetAgentMemoryModel] = {}
+        deduplicated_signatures: dict[frozenset[str], TargetAgentMemoryModel] = {}
         now = datetime.now(timezone.utc)
         self._event(
             run_id, None, TargetMemoryEventType.INGESTED,
@@ -118,12 +142,25 @@ class SqlTargetMemoryStore(TargetMemoryStore):
                 "message_count": len(conversation.messages),
                 "writer_version": self.writer_version,
                 "maintenance_policy": self.maintenance_policy.value,
+                "target_memory_capacity": self.max_active_records,
             },
             created_at=now,
         )
         for position, candidate in enumerate(extracted, start=1):
             fingerprint = _canonical_fingerprint(candidate.canonical_value)
             retained = deduplicated.get(fingerprint)
+            signature = _near_duplicate_signature(candidate.canonical_value)
+            merge_action = "merged_exact_duplicate"
+            if (
+                retained is None
+                and signature
+                and not candidate.relationships
+                and _is_conservative_near_duplicate(candidate.canonical_value)
+            ):
+                possible = deduplicated_signatures.get(signature)
+                if possible is not None and not self._has_relationship(possible.id):
+                    retained = possible
+                    merge_action = "merged_conservative_near_duplicate"
             if (
                 retained is not None
                 and self.maintenance_policy == TargetMemoryMaintenancePolicy.UPDATE_AWARE_CONSOLIDATION
@@ -138,8 +175,9 @@ class SqlTargetMemoryStore(TargetMemoryStore):
                     details={
                         "duplicate_of_memory_id": retained.id,
                         "maintenance_policy": self.maintenance_policy.value,
-                        "maintenance_action": "merged_exact_duplicate",
+                        "maintenance_action": merge_action,
                         "canonical_fingerprint": fingerprint,
+                        "content_signature": sorted(signature),
                     },
                 )
                 continue
@@ -156,6 +194,8 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             self.db.add(record)
             extracted_ids[candidate.memory_id] = record
             deduplicated[fingerprint] = record
+            if signature and not candidate.relationships:
+                deduplicated_signatures.setdefault(signature, record)
             self._event(
                 run_id, record.id, TargetMemoryEventType.WRITTEN,
                 source_message_ids=list(candidate.source_message_ids),
@@ -220,6 +260,8 @@ class SqlTargetMemoryStore(TargetMemoryStore):
                     )
 
         self.db.flush()
+        self._apply_capacity_limit(run_id)
+        self.db.flush()
         return TargetMemoryIngestionResult(
             run_id=run_id,
             records=[self._record_schema(item) for item in self._records(run_id)],
@@ -237,12 +279,15 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         for relation in relations:
             relation_by_memory.setdefault(relation.memory_id, []).append(relation)
 
+        evicted_ids = self._evicted_memory_ids(run_id)
         candidates = [
             self._candidate(record, test, relation_by_memory.get(record.id, []))
             for record in records
         ]
-        candidates = [item for item in candidates if item["relevance"] > 0]
-        selected = self._select(candidates, strategy)
+        self._mark_retrieval_eligibility(candidates, strategy, evicted_ids)
+        eligible = [item for item in candidates if item["eligible"] and item["relevance"] > 0]
+        selected = self._select(eligible, strategy)
+        selected_ids = {choice["record"].id for choice in selected}
         evidence_rows = [
             {
                 "memory_id": item["record"].id,
@@ -251,7 +296,8 @@ class SqlTargetMemoryStore(TargetMemoryStore):
                 "lifecycle_state": item["record"].lifecycle_state,
                 "scope": item["record"].scope,
                 "relationship_types": item["relationship_types"],
-                "selected": item["record"].id in {choice["record"].id for choice in selected},
+                "selected": item["record"].id in selected_ids,
+                "eligible": item["eligible"],
                 "reason": item["reason"],
             }
             for item in candidates
@@ -267,7 +313,8 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             run_id, None, TargetMemoryEventType.RETRIEVED,
             details={"test_id": test.test_id, "strategy": strategy.value,
                      "selected_memory_ids": retrieval.selected_memory_ids,
-                     "maintenance_policy": self.maintenance_policy.value},
+                     "maintenance_policy": self.maintenance_policy.value,
+                     "max_active_records": self.max_active_records},
         )
         self.db.flush()
         return TargetMemoryRetrievalResult(
@@ -364,7 +411,135 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             "record": record, "relevance": relevance,
             "policy_score": policy_score, "relationship_types": relationship_types,
             "reason": ", ".join(reasons), "test_prompt": test.prompt,
+            "eligible": True,
         }
+
+    def _mark_retrieval_eligibility(
+        self,
+        candidates: list[dict],
+        strategy: MemoryStrategy,
+        evicted_ids: set[str],
+    ) -> None:
+        """Keep excluded records in evidence while withholding their context.
+
+        Weak-first-hit intentionally retains stale UPDATE observations as a
+        baseline. Every stronger strategy excludes superseded records. Capacity
+        evictions are excluded under every strategy, because the private Agent
+        no longer has them in its active store.
+        """
+        for item in candidates:
+            record = item["record"]
+            if (
+                record.id in evicted_ids
+                or record.lifecycle_state == TargetMemoryLifecycleState.EVICTED.value
+            ):
+                item["eligible"] = False
+                item["reason"] = f"{item['reason']}, capacity_evicted_excluded"
+            elif (
+                record.lifecycle_state == TargetMemoryLifecycleState.SUPERSEDED.value
+                and strategy != MemoryStrategy.WEAK_FIRST_HIT
+            ):
+                item["eligible"] = False
+                item["reason"] = f"{item['reason']}, superseded_excluded_by_strategy"
+
+    def _apply_capacity_limit(self, run_id: str) -> None:
+        """Apply explainable retention without deleting historical evidence.
+
+        An eviction receives the explicit ``EVICTED`` lifecycle state and a
+        durable maintenance event. The record stays in the private trace,
+        which makes capacity effects reviewable while retrieval treats it as
+        unavailable.
+        """
+        if self.max_active_records is None:
+            return
+        records = self._records(run_id)
+        relation_by_memory: dict[str, list[TargetAgentMemoryRelationshipModel]] = {}
+        for relation in self._relationships(run_id):
+            relation_by_memory.setdefault(relation.memory_id, []).append(relation)
+        evicted_ids = self._evicted_memory_ids(run_id)
+        retained = [
+            record for record in records
+            if record.id not in evicted_ids
+            and record.lifecycle_state not in {
+                TargetMemoryLifecycleState.SUPERSEDED.value,
+                TargetMemoryLifecycleState.EVICTED.value,
+            }
+        ]
+        protected = [
+            record for record in retained
+            if record.lifecycle_state == TargetMemoryLifecycleState.CONFLICTED.value
+        ]
+        if len(protected) > self.max_active_records:
+            self._event(
+                run_id, None, TargetMemoryEventType.MAINTENANCE_APPLIED,
+                details={
+                    "maintenance_action": "capacity_soft_limit_preserved_conflict",
+                    "max_active_records": self.max_active_records,
+                    "retained_record_count": len(retained),
+                    "protected_conflicted_memory_ids": [record.id for record in protected],
+                },
+            )
+            return
+
+        evictable = [record for record in retained if record not in protected]
+        while len(retained) > self.max_active_records and evictable:
+            record = min(
+                evictable,
+                key=lambda item: self._retention_rank(item, relation_by_memory.get(item.id, [])),
+            )
+            record.lifecycle_state = TargetMemoryLifecycleState.EVICTED.value
+            retained.remove(record)
+            evictable.remove(record)
+            self._event(
+                run_id, record.id, TargetMemoryEventType.MAINTENANCE_APPLIED,
+                source_message_ids=list(record.source_message_ids),
+                details={
+                    "maintenance_action": "capacity_evicted_record",
+                    "max_active_records": self.max_active_records,
+                    "evicted_memory_id": record.id,
+                    "canonical_fingerprint": _canonical_fingerprint(record.canonical_value),
+                    "scope": record.scope,
+                    "exclusion": "all_retrieval_strategies",
+                },
+            )
+
+    def _retention_rank(
+        self,
+        record: TargetAgentMemoryModel,
+        relations: list[TargetAgentMemoryRelationshipModel],
+    ) -> tuple[int, float, int]:
+        """Lower values are first to evict: episodic, old, weakly linked."""
+        scope_weight = {
+            TargetMemoryScope.EPISODIC.value: 0,
+            TargetMemoryScope.PREFERENCE.value: 10,
+            TargetMemoryScope.PROFILE.value: 20,
+            TargetMemoryScope.PROJECT_REQUIREMENT.value: 30,
+        }.get(record.scope, 0)
+        relationship_weight = 40 if any(
+            relation.relationship_type == RelationshipType.CONTEXTUAL_OVERRIDE.value
+            for relation in relations
+        ) else 0
+        return scope_weight + relationship_weight, self._time_value(record), record.write_order
+
+    def _evicted_memory_ids(self, run_id: str) -> set[str]:
+        events = self.db.scalars(
+            select(TargetAgentMemoryEventModel)
+            .where(TargetAgentMemoryEventModel.run_id == run_id)
+            .where(TargetAgentMemoryEventModel.event_type == TargetMemoryEventType.MAINTENANCE_APPLIED.value)
+        ).all()
+        return {
+            str(event.details["evicted_memory_id"])
+            for event in events
+            if event.details.get("maintenance_action") == "capacity_evicted_record"
+            and event.details.get("evicted_memory_id")
+        }
+
+    def _has_relationship(self, memory_id: str) -> bool:
+        return self.db.scalar(
+            select(TargetAgentMemoryRelationshipModel.id)
+            .where(TargetAgentMemoryRelationshipModel.memory_id == memory_id)
+            .limit(1)
+        ) is not None
 
     def _records(self, run_id: str) -> list[TargetAgentMemoryModel]:
         return self.db.scalars(
@@ -438,6 +613,22 @@ def _tokens(text: str) -> set[str]:
 def _canonical_fingerprint(value: str) -> str:
     """Normalise only case/spacing/punctuation for traceable exact deduping."""
     return " ".join(_WORDS.findall(value.lower()))
+
+
+def _near_duplicate_signature(value: str) -> frozenset[str]:
+    """Content-only signature used for a deliberately narrow near-merge.
+
+    Word order is ignored only after removing the existing retrieval stop
+    words. This accepts superficial changes such as adding ``the`` or moving
+    ``currently`` while preserving content-bearing tokens for audit evidence.
+    """
+    return frozenset(_tokens(value))
+
+
+def _is_conservative_near_duplicate(value: str) -> bool:
+    """Reject near merging whenever wording may imply a changed fact."""
+    words = {term.lower() for term in _WORDS.findall(value)}
+    return not bool(words & _NEGATION_OR_CHANGE_CUES)
 
 
 def _preferred_scope(prompt: str) -> tuple[TargetMemoryScope | None, str]:

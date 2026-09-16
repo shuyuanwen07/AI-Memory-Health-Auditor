@@ -39,6 +39,7 @@ export function NewAudit() {
   const [repetitions, setRepetitions] = useState(1);
   const [suiteMode, setSuiteMode] = useState<TestSuiteMode>('behavioural');
   const [maintenancePolicy, setMaintenancePolicy] = useState<MemoryMaintenancePolicy>('update_aware_consolidation');
+  const [targetMemoryCapacity, setTargetMemoryCapacity] = useState(50);
   const [targetMemoryWriter, setTargetMemoryWriter] = useState<TargetMemoryWriterKind>('rule_based');
   const [runs, setRuns] = useState<PreparedRun[]>([]);
   const [results, setResults] = useState<CompletedRun[]>([]);
@@ -115,6 +116,7 @@ export function NewAudit() {
       target_configuration: strategy === 'weak_first_hit' ? 'weak' : 'strong',
       memory_strategy: strategy,
       memory_maintenance_policy: maintenancePolicy,
+      target_memory_capacity: targetMemoryCapacity,
       target_memory_writer: targetMemoryWriter,
       provider: provider.provider,
       model: targetModels[provider.provider]?.trim() || provider.default_model,
@@ -218,6 +220,7 @@ export function NewAudit() {
       <div className="form-grid">
         <label>Test suite design<select value={suiteMode} onChange={(event) => setSuiteMode(event.target.value as TestSuiteMode)}><option value="behavioural">Behavioural tests</option><option value="direct_ground_truth">Direct Ground-Truth baseline</option><option value="fixed_template">Fixed-Template baseline</option></select><small>Frozen once and shared by every condition.</small></label>
         <label>Memory maintenance<select value={maintenancePolicy} onChange={(event) => setMaintenancePolicy(event.target.value as MemoryMaintenancePolicy)}><option value="update_aware_consolidation">Update-aware consolidation</option><option value="append_only">Append only</option></select><small>Controls how the target agent writes and updates its own memory store.</small></label>
+        <label>Target memory capacity<input type="number" min="1" max="500" value={targetMemoryCapacity} onChange={(event) => setTargetMemoryCapacity(Math.max(1, Math.min(500, Number(event.target.value) || 1)))} /><small>Maximum retained records. Capacity pressure creates traceable evictions; conflicts are preserved.</small></label>
         <label>Target memory writer<select value={targetMemoryWriter} onChange={(event) => setTargetMemoryWriter(event.target.value as TargetMemoryWriterKind)}><option value="rule_based">Rule-based writer</option><option value="llm_structured" disabled={pipelineProvider === 'rule_based'}>Structured LLM writer</option></select><small>Frozen on every run. The structured writer requires a configured LLM pipeline.</small></label>
         <label>Memory extraction and test generation<select value={pipelineProvider} onChange={(event) => { const next = event.target.value as TargetProvider; setPipelineProvider(next); if (next === 'rule_based' && targetMemoryWriter === 'llm_structured') setTargetMemoryWriter('rule_based'); }}>{providers.map((item) => <option key={item.provider} value={item.provider}>{item.label}{item.configured ? '' : ' — key required'}</option>)}</select></label>
         <label>Behaviour evaluator<select value={evaluatorProvider} onChange={(event) => setEvaluatorProvider(event.target.value as TargetProvider)}>{providers.map((item) => <option key={item.provider} value={item.provider}>{item.label}{item.configured ? '' : ' — key required'}</option>)}</select></label>

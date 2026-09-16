@@ -20,6 +20,7 @@ The interactive OpenAPI contract is available at `/docs` when the backend is run
 | GET | `/experiments` | List frozen Experiment Groups for fair-comparison history |
 | GET | `/experiments/{id}/results` | Group-level condition scores, per-run reports, failures, and paired-test comparison signals |
 | GET | `/experiments/{id}/export.csv` | Download the group summary, run scorecards, failures, and paired comparisons as CSV |
+| GET | `/experiments/{id}/reproducibility-bundle.json` | Download the frozen suite, safe run configuration, outcomes and comparison signals as portable JSON |
 | POST | `/audits` | Create a reproducible audit run |
 | GET | `/audits`, `/audits/{id}` | List or retrieve runs |
 | POST | `/audits/{id}/generate-tests` | Generate test cases |
@@ -32,11 +33,15 @@ The interactive OpenAPI contract is available at `/docs` when the backend is run
 | GET | `/audits/{id}/retry-plan` | Inspect the first incomplete durable stage of a failed run |
 | POST | `/audits/{id}/retry` | Resume a failed run without repeating completed work |
 | GET | `/audits/{id}/results` | Scorecard and traceable failures |
+| GET | `/audits/{id}/evaluation-review` | Completed automated verdicts and optional saved human calibration labels |
+| PATCH | `/audits/{id}/evaluations/{evaluationId}/review` | Save or update a pseudonymous human calibration verdict without changing the automated result |
+| GET | `/audits/{id}/evaluation-calibration` | Agreement, failure precision/recall/F1 and dimension breakdown over saved human labels |
 | GET | `/audits/{id}/target-memory-trace` | Post-completion evidence of the independently controlled target memory store |
 | GET | `/audits/{id}/failures/{failureId}` | One failure with full evidence |
 | GET | `/experiments/summary` | Average comparison across completed weak and strong controlled runs |
 | POST | `/research/annotations/validate` | Validate a versioned human annotation JSON release and return its content fingerprint; does not store it |
 | POST | `/research/pilot/analyse` | Validate two independent de-identified annotation label sets, adjudications and formal-study readiness; does not store them |
+| POST | `/research/evaluator-calibration/analyse` | Analyse a versioned, de-identified human-review release against automated evaluator decisions; does not store it |
 | POST | `/research/validity/report` | Calculate extraction, relationship, test-quality and evaluator validity metrics against supplied human labels |
 | POST | `/research/benchmarks/longmemeval/validate` | Validate and normalise a locally supplied LongMemEval-compatible JSON file; does not download or execute a benchmark |
 | POST | `/research/benchmarks/longmemeval/run` | Execute a locally supplied compatible source in isolated in-memory target-memory simulations; does not download, retain, or call an LLM |
@@ -51,7 +56,7 @@ The Audit History page offers an export and a permanent local-delete control for
 
 Deletion is an irreversible local operation: `DELETE /conversations/{id}` requires `{"confirmation":"{id}"}`. It atomically removes the selected conversation, messages, reviewed memories and relationships, experiment groups, audit runs, tests, target responses, evaluations and private target-memory operational records derived from that conversation. Download an export before deletion when a copy is required for research retention.
 
-`POST /audits` accepts target `provider` and `model`, plus optional `pipeline_provider`, `pipeline_model`, `evaluator_provider`, and `evaluator_model`. It also accepts `memory_maintenance_policy`: `append_only` or `update_aware_consolidation` (the default). This controls only the target Agent's private write-side lifecycle; it is separate from `memory_strategy`, which controls retrieval. Retrieval strategies are `weak_first_hit`, `strong_rule_based`, `strong_score_based`, and `scope_aware`. The final strategy gives current project requirements priority for context-specific prompts, while treating profile and preference records as primary only for matching questions. Each provider is one of `rule_based`, `openai`, `deepseek`, or `gemini`. When pipeline or evaluator fields are omitted, the backend defaults from its environment. A missing provider key is reported during execution as `503 Service Unavailable`, without exposing configuration secrets.
+`POST /audits` accepts target `provider` and `model`, plus optional `pipeline_provider`, `pipeline_model`, `evaluator_provider`, and `evaluator_model`. It also accepts `memory_maintenance_policy`: `append_only` or `update_aware_consolidation` (the default), and a frozen `target_memory_capacity` between 1 and 500 (default 50). This controls only the target Agent's private write-side lifecycle; it is separate from `memory_strategy`, which controls retrieval. Retrieval strategies are `weak_first_hit`, `strong_rule_based`, `strong_score_based`, and `scope_aware`. The final strategy gives current project requirements priority for context-specific prompts, while treating profile and preference records as primary only for matching questions. Each provider is one of `rule_based`, `openai`, `deepseek`, or `gemini`. When pipeline or evaluator fields are omitted, the backend defaults from its environment. A missing provider key is reported during execution as `503 Service Unavailable`, without exposing configuration secrets.
 
 `POST /audits` also accepts optional `target_memory_writer`: `rule_based` or `llm_structured`. If omitted, the backend resolves `TARGET_MEMORY_WRITER` **once at creation**. The resulting run always returns its persisted writer kind and writer version, and includes both in reproducibility metadata. Later execution uses those persisted values rather than the current process environment. `llm_structured` requires a non-rule-based frozen pipeline provider.
 
@@ -76,5 +81,9 @@ Research payloads are intentionally request-scoped: the service validates them b
 Before execution, the UI loads `/test-review` from the canonical suite. A reviewer may accept, reject, or regenerate a question. A reject blocks execution until it is replaced or accepted, and any decision/replacement is copied to every peer run, preserving a fair shared suite. Regenerated tests return to `pending` and require an explicit acceptance.
 
 `GET /audits/{id}/target-memory-trace` is deliberately available only once the audit is `COMPLETED`. It exposes the target's independently written records, scopes, lifecycle links, writer version, maintenance-policy decisions and retrieval ranking decisions, but excludes evaluator-only expected behaviour and never exposes runtime target-memory context before completion.
+
+`GET /audits/{id}/evaluation-review` is also completion-only. A researcher may save a pseudonymous PASS/FAIL review at `PATCH /audits/{id}/evaluations/{evaluationId}/review`; it creates calibration evidence alongside, rather than replacing, the immutable automated verdict. `GET /audits/{id}/evaluation-calibration` reports only the saved labels, so unreviewed cases are never silently counted as agreement. Use `POST /research/evaluator-calibration/analyse` for a separate versioned, de-identified review release with failure-type confusion cells and Cohen’s κ.
+
+`GET /experiments/{id}/reproducibility-bundle.json` exports the frozen public suite, safe configuration snapshots, results and paired comparisons. It deliberately omits source conversations, credentials, raw provider payloads and private target-memory runtime context.
 
 `GET /experiments/{id}/results` groups repeated runs by provider, model and memory strategy. It reports means and population standard deviations while leaving zero-test dimensions as unmeasured. Its pairwise rows align outcomes by the canonical `suite_test_id`, not by question text. Each row includes a deterministic 2,000-resample percentile bootstrap interval for the candidate-minus-reference pass-rate delta and an exact two-sided sign-test p-value over discordant tests. These are pilot-study support signals, not a substitute for a preregistered statistical analysis.

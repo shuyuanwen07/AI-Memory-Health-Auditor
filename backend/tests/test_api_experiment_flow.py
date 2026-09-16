@@ -49,6 +49,7 @@ def test_complete_audit_keeps_private_target_context_off_the_api(monkeypatch, tm
             }).json()
             assert audit["pipeline_provider"] == "rule_based"
             assert audit["evaluator_provider"] == "rule_based"
+            assert audit["target_memory_capacity"] == 50
             run_id = audit["run_id"]
 
             generated = client.post(f"/api/v1/audits/{run_id}/generate-tests")
@@ -71,6 +72,18 @@ def test_complete_audit_keeps_private_target_context_off_the_api(monkeypatch, tm
             results = client.get(f"/api/v1/audits/{run_id}/results")
             assert results.status_code == 200
             assert results.json()["tests_total"] == len(generated.json())
+            review_items = client.get(f"/api/v1/audits/{run_id}/evaluation-review")
+            assert review_items.status_code == 200
+            assert len(review_items.json()) == len(generated.json())
+            first = review_items.json()[0]
+            saved_review = client.patch(
+                f"/api/v1/audits/{run_id}/evaluations/{first['automated']['evaluation_id']}/review",
+                json={"human_passed": True, "reviewer_label": "reviewer-a", "note": "Checked against the response."},
+            )
+            assert saved_review.status_code == 200
+            calibration = client.get(f"/api/v1/audits/{run_id}/evaluation-calibration")
+            assert calibration.status_code == 200
+            assert calibration.json()["human_reviewed_count"] == 1
             assert client.get(f"/api/v1/audits/{run_id}/retry-plan").json()["retryable"] is False
             assert client.post(f"/api/v1/audits/{run_id}/retry").json()["status"] == "COMPLETED"
             for failure in results.json()["failures"]:
@@ -189,5 +202,10 @@ def test_experiment_history_aligns_completed_runs_and_exports_csv(monkeypatch, t
             assert export.headers["content-type"].startswith("text/csv")
             assert "paired_comparison" in export.text
             assert "Analytics comparison" not in export.text  # only public identifiers/configuration are emitted
+            bundle = client.get(f"/api/v1/experiments/{experiment['experiment_id']}/reproducibility-bundle.json")
+            assert bundle.status_code == 200
+            assert bundle.headers["content-type"].startswith("application/json")
+            assert bundle.json()["frozen_test_suite"]
+            assert len(bundle.json()["runs"]) == 2
     finally:
         app.dependency_overrides.clear()
