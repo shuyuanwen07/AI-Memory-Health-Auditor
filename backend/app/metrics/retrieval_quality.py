@@ -41,6 +41,15 @@ class RetrievalQualityService:
         conflict_recalls: list[float] = []
         for test in tests:
             rows = retrievals_by_test.get(test.id, [])
+            # A failed cloud call can create a trace before a response exists.
+            # Only the trace linked to the durable final response is eligible
+            # for scoring. Pre-0016 rows retain a deterministic fallback so
+            # historical audits remain readable.
+            final_rows = [row for row in rows if row.final_response_id]
+            if final_rows:
+                rows = final_rows
+            elif rows:
+                rows = [max(rows, key=lambda row: (row.created_at, row.id))]
             if not rows:
                 continue
             expected = set().union(*(ground_truth.get(item, set()) for item in (test.supporting_memory_ids or [])))

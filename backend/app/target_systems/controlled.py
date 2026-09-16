@@ -31,6 +31,7 @@ class ControlledTargetSystemAdapter(TargetSystemAdapter):
             capacity=audit.target_memory_capacity if audit.target_memory_capacity is not None else 50,
         )
         self._conversation: Conversation | None = None
+        self._last_retrieval_id: str | None = None
 
     def ingest(self, conversation: Conversation) -> None:
         self.store.ingest(self.audit.run_id, conversation)
@@ -42,13 +43,20 @@ class ControlledTargetSystemAdapter(TargetSystemAdapter):
         retrieval = self.store.retrieve(
             self.audit.run_id, self._conversation, test, MemoryStrategy(audit.memory_strategy)
         )
+        self._last_retrieval_id = retrieval.evidence.retrieval_id
         private_test = test.model_copy(update={"target_memory_context": retrieval.context})
         return HttpTargetAIConnector().execute(private_test, audit)
 
     def trace(self) -> dict:
-        return {"adapter_id": self.adapter_id, "adapter_version": self.version, "run_id": self.audit.run_id}
+        return {
+            "adapter_id": self.adapter_id,
+            "adapter_version": self.version,
+            "run_id": self.audit.run_id,
+            "last_retrieval_id": self._last_retrieval_id,
+        }
 
     def reset(self) -> None:
         # Run-scoped persistence is intentional.  The database lifecycle owns
         # deletion; this method simply drops the in-process session reference.
         self._conversation = None
+        self._last_retrieval_id = None

@@ -336,7 +336,7 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             evidence=TargetMemoryRetrievalEvidence(
                 retrieval_id=retrieval.id, run_id=run_id, test_id=test.test_id,
                 strategy=strategy, selected_memory_ids=list(retrieval.selected_memory_ids),
-                ranking_evidence=evidence_rows, created_at=retrieval.created_at,
+                ranking_evidence=evidence_rows, final_response_id=None, created_at=retrieval.created_at,
             ),
         )
 

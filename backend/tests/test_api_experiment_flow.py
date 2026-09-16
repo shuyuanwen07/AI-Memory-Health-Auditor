@@ -53,6 +53,7 @@ def test_complete_audit_keeps_private_target_context_off_the_api(monkeypatch, tm
             assert audit["pipeline_provider"] == "rule_based"
             assert audit["evaluator_provider"] == "rule_based"
             assert audit["target_memory_capacity"] == 50
+            assert audit["target_system_adapter"] == "controlled-memory"
             run_id = audit["run_id"]
 
             generated = client.post(f"/api/v1/audits/{run_id}/generate-tests")
@@ -69,6 +70,7 @@ def test_complete_audit_keeps_private_target_context_off_the_api(monkeypatch, tm
             try:
                 assert check.query(TargetAgentMemoryModel).filter_by(run_id=run_id).count() > 0
                 assert check.query(TargetAgentRetrievalModel).filter_by(run_id=run_id).count() == len(generated.json())
+                assert check.query(TargetAgentRetrievalModel).filter_by(run_id=run_id, final_response_id=None).count() == 0
             finally:
                 check.close()
             assert client.post(f"/api/v1/audits/{run_id}/evaluate").status_code == 200
@@ -254,5 +256,54 @@ def test_experiment_history_aligns_completed_runs_and_exports_csv(monkeypatch, t
                 assert manifest["dataset_hash_sha256"]
                 assert "frozen-test-suite.json" in manifest["files"]
                 assert any(name.endswith("retrieval-trace.json") for name in archive.namelist())
+            # Fixed ZIP timestamps and canonical JSON make the completed
+            # artifact byte-stable for the same persisted experiment.
+            assert artifact.content == client.get(f"/api/v1/experiments/{experiment['experiment_id']}/artifact.zip").content
+    finally:
+        app.dependency_overrides.clear()
+
+
+def test_cancelling_every_condition_finishes_the_experiment_group(monkeypatch, tmp_path):
+    """A cancelled condition must not leave a fair-comparison group running."""
+    monkeypatch.setenv("PIPELINE_PROVIDER", "rule_based")
+    monkeypatch.setenv("EVALUATOR_PROVIDER", "rule_based")
+    engine = create_engine(f"sqlite:///{tmp_path / 'cancelled-group.db'}")
+    Base.metadata.create_all(engine)
+    session_factory = sessionmaker(bind=engine, autoflush=False, autocommit=False)
+
+    def test_db():
+        db = session_factory()
+        try:
+            yield db
+        finally:
+            db.close()
+
+    app.dependency_overrides[get_db] = test_db
+    try:
+        with TestClient(app) as client:
+            timestamp = datetime.now(timezone.utc).isoformat()
+            conversation_id = client.post("/api/v1/conversations", json={
+                "authorised": True,
+                "messages": [{"message_id": "MSG001", "role": "user", "timestamp": timestamp,
+                              "content": "I am based in Sydney."}],
+            }).json()["conversation_id"]
+            memories = client.post(f"/api/v1/conversations/{conversation_id}/extract").json()
+            assert client.post(f"/api/v1/conversations/{conversation_id}/confirm-ground-truth", json={
+                "confirmed_memory_ids": [item["memory_id"] for item in memories]
+            }).status_code == 200
+            experiment = client.post("/api/v1/experiments", json={
+                "conversation_id": conversation_id, "label": "Cancelled comparison"
+            }).json()
+            runs = [client.post("/api/v1/audits", json={
+                "conversation_id": conversation_id, "experiment_id": experiment["experiment_id"],
+                "target_configuration": target, "provider": "rule_based",
+            }).json() for target in ("weak", "strong")]
+            assert client.post(f"/api/v1/audits/{runs[0]['run_id']}/cancel").status_code == 200
+            cancelled = client.post(f"/api/v1/audits/{runs[1]['run_id']}/cancel")
+            assert cancelled.status_code == 200
+            listed = client.get("/api/v1/experiments").json()
+            group = next(item for item in listed if item["experiment_id"] == experiment["experiment_id"])
+            assert group["status"] == "CANCELLED"
+            assert group["completed_at"] is not None
     finally:
         app.dependency_overrides.clear()

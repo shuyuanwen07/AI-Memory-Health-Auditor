@@ -71,7 +71,8 @@ def reproducibility_snapshot(*, provider: str, model: str, temperature: float, r
                              pipeline_model: str, evaluator_provider: str, evaluator_model: str,
                              memory_strategy: str, memory_maintenance_policy: str,
                              target_memory_writer: TargetMemoryWriterKind | str,
-                             target_memory_capacity: int) -> dict:
+                             target_memory_capacity: int,
+                             target_system_adapter: TargetSystemAdapterKind | str) -> dict:
     """Freeze safe reproducibility facts when a run is created."""
     writer_kind = TargetMemoryWriterKind(target_memory_writer)
     writer = get_target_memory_writer(pipeline_provider, pipeline_model, writer_kind)
@@ -86,7 +87,7 @@ def reproducibility_snapshot(*, provider: str, model: str, temperature: float, r
         "target_memory_capacity": target_memory_capacity,
         "target_memory_writer": writer_kind.value,
         "target_memory_writer_version": writer_version,
-        "target_system_adapter": "controlled-memory",
+        "target_system_adapter": TargetSystemAdapterKind(target_system_adapter).value,
         "target_system_adapter_version": "controlled-memory-v1",
     }
     return {
@@ -99,7 +100,7 @@ def reproducibility_snapshot(*, provider: str, model: str, temperature: float, r
         }),
         "target_memory_writer_version": writer_version,
         "target_memory_writer": writer_kind.value,
-        "target_system_adapter": "controlled-memory",
+        "target_system_adapter": TargetSystemAdapterKind(target_system_adapter).value,
         "target_system_adapter_version": "controlled-memory-v1",
         "memory_policy_version": "target-memory-policy-v1",
         # A seed is fully deterministic for the local baseline. Third-party
@@ -127,7 +128,9 @@ def audit_schema(obj):
     # The fallback is intentional for durable backwards compatibility.
     writer_kind = getattr(obj, "target_memory_writer", None) or metadata.get("target_memory_writer") or "rule_based"
     writer_version = getattr(obj, "target_memory_writer_version", None) or metadata.get("target_memory_writer_version")
-    return AuditRun(run_id=obj.id, conversation_id=obj.conversation_id, experiment_id=obj.experiment_id, status=obj.status, target_configuration=obj.target_configuration, provider=obj.provider, model=obj.model, temperature=obj.temperature, random_seed=obj.random_seed, test_budget=obj.test_budget, prompt_template_version=obj.prompt_template_version, pipeline_provider=obj.pipeline_provider, pipeline_model=obj.pipeline_model, evaluator_provider=obj.evaluator_provider, evaluator_model=obj.evaluator_model, memory_strategy=obj.memory_strategy, memory_maintenance_policy=getattr(obj, "memory_maintenance_policy", "update_aware_consolidation"), target_memory_capacity=getattr(obj, "target_memory_capacity", 50), target_memory_writer=writer_kind, target_memory_writer_version=writer_version, reproducibility=metadata, created_at=obj.created_at, completed_at=obj.completed_at)
+    adapter = getattr(obj, "target_system_adapter", None) or metadata.get("target_system_adapter") or "controlled-memory"
+    adapter_version = getattr(obj, "target_system_adapter_version", None) or metadata.get("target_system_adapter_version")
+    return AuditRun(run_id=obj.id, conversation_id=obj.conversation_id, experiment_id=obj.experiment_id, status=obj.status, target_configuration=obj.target_configuration, provider=obj.provider, model=obj.model, temperature=obj.temperature, random_seed=obj.random_seed, test_budget=obj.test_budget, prompt_template_version=obj.prompt_template_version, pipeline_provider=obj.pipeline_provider, pipeline_model=obj.pipeline_model, evaluator_provider=obj.evaluator_provider, evaluator_model=obj.evaluator_model, memory_strategy=obj.memory_strategy, memory_maintenance_policy=getattr(obj, "memory_maintenance_policy", "update_aware_consolidation"), target_memory_capacity=getattr(obj, "target_memory_capacity", 50), target_memory_writer=writer_kind, target_memory_writer_version=writer_version, target_system_adapter=adapter, target_system_adapter_version=adapter_version, reproducibility=metadata, created_at=obj.created_at, completed_at=obj.completed_at)
 def experiment_schema(obj):
     return Experiment(experiment_id=obj.id, conversation_id=obj.conversation_id, label=obj.label, status=obj.status, test_suite_configuration=TestSuiteConfiguration.model_validate(obj.test_suite_configuration), test_suite_metadata=TestSuiteMetadata.model_validate(obj.test_suite_metadata), test_suite_source_run_id=obj.test_suite_source_run_id, created_at=obj.created_at, completed_at=obj.completed_at)
 def test_schema(o): return TestCase(test_id=o.id, run_id=o.run_id, dimension=o.dimension, prompt=o.prompt, expected_behavior=o.expected_behavior, supporting_memory_ids=o.supporting_memory_ids, generator_version=o.generator_version, test_type=o.test_type, quality_status=o.quality_status, grounding_status=o.grounding_status, validation_notes=o.validation_notes, target_memory_context=o.target_memory_context)
@@ -432,8 +435,9 @@ def create_audit(payload: AuditCreate, db: Session = Depends(get_db)):
         memory_maintenance_policy=selected_maintenance_policy,
         target_memory_writer=selected_target_memory_writer,
         target_memory_capacity=selected_memory_capacity,
+        target_system_adapter=payload.target_system_adapter,
     )
-    a=AuditRunModel(id=ident("RUN"), conversation_id=payload.conversation_id, experiment_id=payload.experiment_id, status="CREATED", target_configuration=payload.target_configuration.value, provider=payload.provider.value, model=model, temperature=payload.temperature, random_seed=selected_seed, test_budget=selected_budget, prompt_template_version=selected_template, pipeline_provider=selected_pipeline_provider, pipeline_model=selected_pipeline_model, evaluator_provider=selected_evaluator_provider, evaluator_model=selected_evaluator_model, memory_strategy=selected_strategy.value, memory_maintenance_policy=selected_maintenance_policy, target_memory_capacity=selected_memory_capacity, target_memory_writer=selected_target_memory_writer.value, target_memory_writer_version=metadata["target_memory_writer_version"], reproducibility_metadata=metadata)
+    a=AuditRunModel(id=ident("RUN"), conversation_id=payload.conversation_id, experiment_id=payload.experiment_id, status="CREATED", target_configuration=payload.target_configuration.value, provider=payload.provider.value, model=model, temperature=payload.temperature, random_seed=selected_seed, test_budget=selected_budget, prompt_template_version=selected_template, pipeline_provider=selected_pipeline_provider, pipeline_model=selected_pipeline_model, evaluator_provider=selected_evaluator_provider, evaluator_model=selected_evaluator_model, memory_strategy=selected_strategy.value, memory_maintenance_policy=selected_maintenance_policy, target_memory_capacity=selected_memory_capacity, target_memory_writer=selected_target_memory_writer.value, target_memory_writer_version=metadata["target_memory_writer_version"], target_system_adapter=payload.target_system_adapter.value, target_system_adapter_version=metadata["target_system_adapter_version"], reproducibility_metadata=metadata)
     db.add(a); db.commit(); db.refresh(a); return audit_schema(a)
 @router.get("/audits", response_model=list[AuditRun])
 def list_audits(db: Session = Depends(get_db)): return [audit_schema(a) for a in db.scalars(select(AuditRunModel).order_by(AuditRunModel.created_at.desc())).all()]
@@ -632,6 +636,32 @@ def regenerate_test(run_id: str, test_id: str, db: Session = Depends(get_db)):
     db.commit(); db.refresh(source)
     return public_test_schema(source)
 
+def reconcile_experiment_terminal_state(db: Session, experiment_id: str | None) -> None:
+    """Finish a comparison group once every condition has a terminal status."""
+    if not experiment_id:
+        return
+    # Route tests and future workers may intentionally disable SQLAlchemy's
+    # autoflush. Persist the caller's just-updated run status before deriving
+    # a group terminal state from a SELECT.
+    db.flush()
+    experiment = db.get(ExperimentModel, experiment_id)
+    if not experiment:
+        return
+    statuses = list(db.scalars(select(AuditRunModel.status).where(
+        AuditRunModel.experiment_id == experiment_id
+    )).all())
+    terminal = {AuditStatus.COMPLETED.value, AuditStatus.FAILED.value, AuditStatus.CANCELLED.value}
+    if not statuses or not all(status in terminal for status in statuses):
+        return
+    experiment.completed_at = datetime.now(timezone.utc)
+    if AuditStatus.CANCELLED.value in statuses:
+        experiment.status = ExperimentStatus.CANCELLED.value
+    elif all(status == AuditStatus.FAILED.value for status in statuses):
+        experiment.status = ExperimentStatus.FAILED.value
+    else:
+        experiment.status = ExperimentStatus.COMPLETED.value
+
+
 @router.post("/audits/{run_id}/execute", response_model=list[TargetResponse])
 def execute(run_id:str,db:Session=Depends(get_db)):
     a=db.get(AuditRunModel,run_id)
@@ -647,6 +677,7 @@ def execute(run_id:str,db:Session=Depends(get_db)):
     max_calls = int(budget.get("max_target_calls", 100))
     max_seconds = int(budget.get("max_execution_seconds", 300))
     started = time.monotonic()
+    target = None
     try:
         # The selected target system independently ingests the authorised
         # source conversation.  It never receives reviewer-confirmed ground
@@ -670,12 +701,24 @@ def execute(run_id:str,db:Session=Depends(get_db)):
             r = target.answer(test_schema(t), audit_schema(a))
             outputs.append(r)
             db.add(TargetResponseModel(id=r.response_id,test_id=r.test_id,run_id=r.run_id,response_text=r.response_text,model=r.model,temperature=r.temperature,execution_metadata=r.execution_metadata.model_dump(),created_at=r.created_at))
-        target.reset()
+            # Persist the response before its retrieval trace gains an FK to
+            # it. Otherwise the next retrieval's internal flush can attempt
+            # the trace update first on PostgreSQL.
+            db.flush()
+            retrieval_id = target.trace().get("last_retrieval_id")
+            if retrieval_id:
+                retrieval_row = db.get(TargetAgentRetrievalModel, retrieval_id)
+                if retrieval_row:
+                    retrieval_row.final_response_id = r.response_id
     except HTTPException:
         if a.status != AuditStatus.CANCELLED.value:
             a.status="FAILED"
+        reconcile_experiment_terminal_state(db, a.experiment_id)
         db.commit()
         raise
+    finally:
+        if target is not None:
+            target.reset()
     a.status="TESTS_EXECUTED"; db.commit(); return outputs
 
 @router.post("/audits/{run_id}/cancel", response_model=AuditRun)
@@ -687,6 +730,7 @@ def cancel_audit(run_id: str, db: Session = Depends(get_db)):
         return audit_schema(audit)
     audit.status = AuditStatus.CANCELLED.value
     audit.completed_at = None
+    reconcile_experiment_terminal_state(db, audit.experiment_id)
     db.commit(); db.refresh(audit)
     return audit_schema(audit)
 @router.post("/audits/{run_id}/evaluate", response_model=list[EvaluationResult])
@@ -702,16 +746,10 @@ def evaluate(run_id:str,db:Session=Depends(get_db)):
                 continue
             r=db.scalar(select(TargetResponseModel).where(TargetResponseModel.test_id==t.id)); e=get_behaviour_evaluator(a.evaluator_provider, a.evaluator_model).evaluate(test_schema(t),response_schema(r),mems); outputs.append(e); db.add(EvaluationResultModel(id=e.evaluation_id,test_id=e.test_id,response_id=e.response_id,passed=e.passed,failure_type=e.failure_type.value if e.failure_type else None,reason=e.reason,evidence_memory_ids=e.evidence_memory_ids,evaluator=e.evaluator))
     except HTTPException:
-        a.status="FAILED"; db.commit()
+        a.status="FAILED"; reconcile_experiment_terminal_state(db, a.experiment_id); db.commit()
         raise
     a.status="COMPLETED"; a.completed_at=datetime.now(timezone.utc)
-    if a.experiment_id:
-        experiment = db.get(ExperimentModel, a.experiment_id)
-        if experiment:
-            statuses = db.scalars(select(AuditRunModel.status).where(AuditRunModel.experiment_id == experiment.id)).all()
-            if statuses and all(item in {"COMPLETED", "FAILED"} for item in statuses):
-                experiment.status = ExperimentStatus.COMPLETED.value
-                experiment.completed_at = datetime.now(timezone.utc)
+    reconcile_experiment_terminal_state(db, a.experiment_id)
     db.commit(); return outputs
 
 @router.get("/audits/{run_id}/retry-plan")
@@ -984,6 +1022,9 @@ def target_memory_trace(run_id: str, db: Session = Depends(get_db)):
     ).order_by(TargetAgentRetrievalModel.created_at, TargetAgentRetrievalModel.id)).all()
     return TargetMemoryTrace(
         run_id=run_id, memory_strategy=audit.memory_strategy,
+        target_system_adapter=getattr(audit, "target_system_adapter", None) or "controlled-memory",
+        target_system_adapter_version=(getattr(audit, "target_system_adapter_version", None)
+                                       or (audit.reproducibility_metadata or {}).get("target_system_adapter_version")),
         memory_maintenance_policy=audit.memory_maintenance_policy,
         target_memory_capacity=getattr(audit, "target_memory_capacity", 50),
         target_memory_writer=getattr(audit, "target_memory_writer", None) or "rule_based",
@@ -994,7 +1035,8 @@ def target_memory_trace(run_id: str, db: Session = Depends(get_db)):
         retrievals=[TargetMemoryTraceRetrieval(
             retrieval_id=item.id, test_id=item.test_id, strategy=item.strategy,
             selected_memory_ids=list(item.selected_memory_ids),
-            ranking_evidence=list(item.ranking_evidence), created_at=item.created_at,
+            ranking_evidence=list(item.ranking_evidence), final_response_id=item.final_response_id,
+            created_at=item.created_at,
         ) for item in retrievals],
     )
 
@@ -1085,7 +1127,8 @@ def _safe_artifact_trace(run_id: str, db: Session) -> dict:
         "retrievals": [TargetMemoryTraceRetrieval(
             retrieval_id=item.id, test_id=item.test_id, strategy=item.strategy,
             selected_memory_ids=list(item.selected_memory_ids),
-            ranking_evidence=list(item.ranking_evidence), created_at=item.created_at,
+            ranking_evidence=list(item.ranking_evidence), final_response_id=item.final_response_id,
+            created_at=item.created_at,
         ).model_dump(mode="json") for item in retrievals],
     }
 

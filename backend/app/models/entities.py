@@ -107,6 +107,14 @@ class AuditRunModel(Base):
     target_memory_writer_version: Mapped[str | None] = mapped_column(
         String(100), nullable=True, server_default="rule-based-memory-extractor-v1"
     )
+    # Adapter identity is frozen with the run so an external target system can
+    # later be replayed or compared without changing route contracts.
+    target_system_adapter: Mapped[str] = mapped_column(
+        String(60), default="controlled-memory", server_default="controlled-memory"
+    )
+    target_system_adapter_version: Mapped[str | None] = mapped_column(
+        String(100), nullable=True, server_default="controlled-memory-v1"
+    )
     # This is a safe, immutable-at-creation snapshot: no credentials, prompts,
     # source conversation text, or provider response bodies belong here.
     reproducibility_metadata: Mapped[dict] = mapped_column(JSON, default=dict)
@@ -221,6 +229,12 @@ class TargetAgentRetrievalModel(Base):
     strategy: Mapped[str] = mapped_column(String(40))
     selected_memory_ids: Mapped[list] = mapped_column(JSON, default=list)
     ranking_evidence: Mapped[list] = mapped_column(JSON, default=list)
+    # A retrieval is only scored when it supplied the response that ultimately
+    # completed this test. Earlier retry attempts remain traceable but cannot
+    # inflate source-evidence quality metrics.
+    final_response_id: Mapped[str | None] = mapped_column(
+        ForeignKey("target_responses.id", ondelete="SET NULL"), nullable=True, index=True
+    )
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
 
 class EvaluationResultModel(Base):

@@ -17,7 +17,7 @@ The PostgreSQL schema is created from the Alembic migration chain in `backend/al
 
 All identifiers are stable string IDs and foreign keys preserve audit traceability. Public objects are represented by matching Pydantic models in `backend/app/schemas/domain.py` and TypeScript interfaces in `frontend/src/types/domain.ts`.
 
-`audit_runs` records the controlled target configuration, provider/model, `memory_strategy`, `memory_maintenance_policy`, temperature, seed, budget and prompt-template version. It also records the resolved pipeline and evaluator provider/model so a stored experiment does not change if default environment settings are later changed. The target Agent's `target_memory_writer` (`rule_based` or `llm_structured`) and its resolved `target_memory_writer_version` are likewise frozen on the run. `TARGET_MEMORY_WRITER` is consulted only to choose the default while creating a new run; execution always uses the persisted run fields. Pre-0011 rows are safely interpreted as the deterministic `rule_based` writer.
+`audit_runs` records the controlled target configuration, provider/model, `memory_strategy`, `memory_maintenance_policy`, temperature, seed, budget and prompt-template version. It also records the resolved pipeline and evaluator provider/model so a stored experiment does not change if default environment settings are later changed. The target Agent's `target_memory_writer` (`rule_based` or `llm_structured`), `target_system_adapter` and their resolved versions are likewise frozen on the run. `TARGET_MEMORY_WRITER` is consulted only to choose the default while creating a new run; execution always uses the persisted run fields. Pre-0011 rows are safely interpreted as the deterministic `rule_based` writer and `controlled-memory` adapter.
 
 Each private `target_agent_memories` record has one deterministic scope: `profile`, `preference`, `project_requirement`, or `episodic`. These labels are inferred from the authorised conversation during target-Agent ingestion and are independent of the reviewer-confirmed ground truth. The `scope_aware` retrieval strategy is a separate controlled condition: it prefers `project_requirement` for current task prompts and only prioritises `profile` or `preference` when the prompt asks for that kind of fact. Its retrieval evidence records the inferred intent and applied scope weight.
 
@@ -35,7 +35,7 @@ When an audit belongs to an experiment, its `experiment_id` links it to the comp
 
 Test review also acts on the canonical source: accepted/rejected decisions and regenerated content are copied to every peer test row. This preserves test-suite fairness even when a researcher rejects or replaces a generated question before execution.
 
-Experiment history is calculated read-only from `experiments`, `audit_runs`, `test_cases`, `target_responses` and `evaluation_results`; no extra analytics table is needed. This prevents a stale report from becoming a second source of truth. Group exports likewise contain public score and failure evidence only.
+Experiment history is calculated read-only from `experiments`, `audit_runs`, `test_cases`, `target_responses` and `evaluation_results`; no extra analytics table is needed. This prevents a stale report from becoming a second source of truth. The JSON reproducibility bundle contains public score and failure evidence only; the separately requested post-completion artifact ZIP additionally contains the already-redacted target-memory retrieval trace.
 
 ## Offline research annotation data
 

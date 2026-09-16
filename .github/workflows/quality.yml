@@ -8,6 +8,8 @@ jobs:
   backend:
     name: Backend tests, static compilation and migration chain
     runs-on: ubuntu-latest
+    env:
+      AUDITOR_CODE_REVISION: ${{ github.sha }}
     services:
       postgres:
         image: postgres:16-alpine

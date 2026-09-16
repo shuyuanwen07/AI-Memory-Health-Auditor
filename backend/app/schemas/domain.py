@@ -61,6 +61,9 @@ class TargetMemoryWriterKind(str, Enum):
     """
     RULE_BASED = "rule_based"
     LLM_STRUCTURED = "llm_structured"
+class TargetSystemAdapterKind(str, Enum):
+    """The system-under-test runtime selected for one reproducible audit."""
+    CONTROLLED_MEMORY = "controlled-memory"
 class TargetMemoryLifecycleState(str, Enum):
     """Private state of a controlled target agent's independently written record."""
     ACTIVE = "ACTIVE"
@@ -92,6 +95,7 @@ class ExperimentStatus(str, Enum):
     RUNNING = "RUNNING"
     COMPLETED = "COMPLETED"
     FAILED = "FAILED"
+    CANCELLED = "CANCELLED"
 
 class ConversationMessage(BaseModel):
     message_id: str
@@ -166,6 +170,7 @@ class TargetMemoryRetrievalEvidence(BaseModel):
     selected_memory_ids: list[str] = []
     # A transparent score/reason record for every candidate considered.
     ranking_evidence: list[dict] = []
+    final_response_id: str | None = None
     created_at: datetime
 
 class TargetMemoryIngestionResult(BaseModel):
@@ -204,11 +209,14 @@ class TargetMemoryTraceRetrieval(BaseModel):
     strategy: MemoryStrategy
     selected_memory_ids: list[str] = []
     ranking_evidence: list[dict] = []
+    final_response_id: str | None = None
     created_at: datetime
 
 class TargetMemoryTrace(BaseModel):
     run_id: str
     memory_strategy: MemoryStrategy
+    target_system_adapter: TargetSystemAdapterKind = TargetSystemAdapterKind.CONTROLLED_MEMORY
+    target_system_adapter_version: str | None = None
     memory_maintenance_policy: TargetMemoryMaintenancePolicy
     target_memory_capacity: int = 50
     target_memory_writer: TargetMemoryWriterKind = TargetMemoryWriterKind.RULE_BASED
@@ -295,6 +303,7 @@ class AuditCreate(BaseModel):
     # The selected value is persisted on the resulting AuditRun and is never
     # re-read from the environment during execution.
     target_memory_writer: TargetMemoryWriterKind | None = None
+    target_system_adapter: TargetSystemAdapterKind = TargetSystemAdapterKind.CONTROLLED_MEMORY
 
 
 class RetryPolicyMetadata(BaseModel):
@@ -316,7 +325,7 @@ class ReproducibilityMetadata(BaseModel):
     prompt_template_fingerprint: str | None = None
     target_memory_writer_version: str | None = None
     target_memory_writer: TargetMemoryWriterKind = TargetMemoryWriterKind.RULE_BASED
-    target_system_adapter: str = "controlled-memory"
+    target_system_adapter: TargetSystemAdapterKind = TargetSystemAdapterKind.CONTROLLED_MEMORY
     target_system_adapter_version: str | None = None
     memory_policy_version: str | None = None
     seed_control: dict[str, str] = Field(default_factory=dict)
@@ -343,6 +352,8 @@ class AuditRun(BaseModel):
     target_memory_capacity: int = 50
     target_memory_writer: TargetMemoryWriterKind = TargetMemoryWriterKind.RULE_BASED
     target_memory_writer_version: str | None = None
+    target_system_adapter: TargetSystemAdapterKind = TargetSystemAdapterKind.CONTROLLED_MEMORY
+    target_system_adapter_version: str | None = None
     reproducibility: ReproducibilityMetadata = Field(default_factory=ReproducibilityMetadata)
     created_at: datetime; completed_at: datetime | None = None
 class TestCase(BaseModel):
