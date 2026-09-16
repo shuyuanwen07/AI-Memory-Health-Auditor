@@ -42,6 +42,11 @@ jobs:
           expected_head="$(alembic heads | awk '{print $1}')"
           current_head="$(alembic current | awk '{print $1}')"
           test "$current_head" = "$expected_head"
+      - name: Exercise the migrated PostgreSQL API path
+        env:
+          DATABASE_URL: postgresql+psycopg://auditor:auditor@localhost:5432/memory_auditor_ci
+          PYTHONPATH: .
+        run: pytest -q tests/test_postgresql_api_smoke.py
 
   paper-artifacts:
     name: Paper artifact generator contracts

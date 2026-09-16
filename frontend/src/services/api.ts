@@ -1,9 +1,9 @@
-import type { AnnotationImportReport, AuditResult, AuditRetryPlan, AuditRun, BenchmarkFamily, BenchmarkRunResponse, BenchmarkValidationResponse, Conversation, ConversationDeletionReceipt, EvaluationCalibrationSummary, EvaluationHumanReview, EvaluationReviewItem, Experiment, ExperimentAnalytics, ExperimentResult, LongMemEvalRunResponse, LongMemEvalValidationResponse, Memory, MemoryStrategy, PilotReadinessReport, ProviderOption, ResearchValidityReport, TargetMemoryTrace, TestCase, TestReviewSuite } from '../types/domain';
+import type { AnnotationImportReport, AuditResult, AuditRetryPlan, AuditRun, BenchmarkFamily, BenchmarkRunResponse, BenchmarkValidationResponse, Conversation, ConversationDeletionReceipt, ConversationInputMessage, EvaluationCalibrationSummary, EvaluationHumanReview, EvaluationReviewItem, Experiment, ExperimentAnalytics, ExperimentResult, LongMemEvalRunResponse, LongMemEvalValidationResponse, Memory, MemoryStrategy, PilotReadinessReport, ProviderOption, ResearchValidityReport, TargetMemoryTrace, TestCase, TestReviewSuite } from '../types/domain';
 const BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:8000/api/v1';
 async function request<T>(path:string, options?:RequestInit):Promise<T> { const r=await fetch(`${BASE}${path}`,{headers:{'Content-Type':'application/json'},...options}); if(!r.ok) throw new Error((await r.json().catch(()=>null))?.detail ?? 'The request could not be completed.'); return r.status===204 ? undefined as T : r.json(); }
 export const api = {
   targetProviders:()=>request<ProviderOption[]>('/target-providers'),
-  createConversation:(authorised:boolean,pasted_text:string)=>request<Conversation>('/conversations',{method:'POST',body:JSON.stringify({authorised,pasted_text})}),
+  createConversation:(authorised:boolean,pasted_text:string,messages?:ConversationInputMessage[]|null)=>request<Conversation>('/conversations',{method:'POST',body:JSON.stringify({authorised,pasted_text,messages})}),
   deleteConversation:(id:string, confirmation:string)=>request<ConversationDeletionReceipt>(`/conversations/${id}`,{method:'DELETE',body:JSON.stringify({confirmation})}),
   downloadConversationExport: async (id:string) => {
     const response = await fetch(`${BASE}/conversations/${id}/export`);

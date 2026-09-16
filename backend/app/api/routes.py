@@ -1,4 +1,5 @@
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
+import re
 from uuid import uuid4
 from fastapi import APIRouter, Depends, HTTPException, status
 from fastapi.responses import StreamingResponse
@@ -6,9 +7,9 @@ from io import StringIO
 import csv
 import hashlib
 import json
-from sqlalchemy import delete, select
+from sqlalchemy import delete, select, text
 from sqlalchemy.orm import Session
-from app.database.session import get_db
+from app.database.session import SessionLocal, get_db
 from app.evaluator.factory import get_behaviour_evaluator
 from app.extraction.factory import get_memory_extractor
 from app.extraction.llm import configured_pipeline_model, pipeline_provider
@@ -27,8 +28,27 @@ router = APIRouter(prefix="/api/v1")
 def ident(prefix: str) -> str: return f"{prefix}{uuid4().hex[:8].upper()}"
 def missing(kind: str): raise HTTPException(404, f"{kind} was not found.")
 def conversation_schema(db, obj):
-    messages = db.scalars(select(MessageModel).where(MessageModel.conversation_id == obj.id).order_by(MessageModel.timestamp)).all()
-    return Conversation(conversation_id=obj.id, created_at=obj.created_at, authorised=obj.authorised, messages=[ConversationMessage(message_id=m.id, role=m.role, content=m.content, timestamp=m.timestamp) for m in messages])
+    messages = db.scalars(select(MessageModel).where(MessageModel.conversation_id == obj.id).order_by(MessageModel.sequence, MessageModel.timestamp)).all()
+    return Conversation(conversation_id=obj.id, created_at=obj.created_at, authorised=obj.authorised, messages=[ConversationMessage(message_id=getattr(m, "source_message_id", None) or m.id, role=m.role, content=m.content, timestamp=m.timestamp) for m in messages])
+
+_PASTED_ROLE = re.compile(r"^\s*\[(?P<role>[^\]]+)\]\s*(?P<content>.*)$")
+
+def pasted_messages(text: str) -> list[ConversationMessageInput]:
+    """Turn the documented one-message-per-line form into ordered records."""
+    base = datetime.now(timezone.utc)
+    messages: list[ConversationMessageInput] = []
+    for line in text.splitlines():
+        if not line.strip():
+            continue
+        matched = _PASTED_ROLE.match(line)
+        role = matched.group("role").strip() if matched else "user"
+        content = (matched.group("content") if matched else line).strip()
+        if content:
+            messages.append(ConversationMessageInput(
+                message_id=f"MSG{len(messages) + 1:03d}", role=role, content=content,
+                timestamp=base + timedelta(microseconds=len(messages)),
+            ))
+    return messages
 def memory_schema(db, obj):
     rels = db.scalars(select(MemoryRelationshipModel).where(MemoryRelationshipModel.memory_id == obj.id)).all()
     return Memory(memory_id=obj.id, conversation_id=obj.conversation_id, canonical_value=obj.canonical_value, status=obj.status, source_message_ids=obj.source_message_ids, timestamp=obj.timestamp, relationships=[MemoryRelationship(relationship_id=r.id, type=r.relationship_type, target_memory_id=r.target_memory_id) for r in rels])
@@ -72,6 +92,14 @@ def reproducibility_snapshot(*, provider: str, model: str, temperature: float, r
         "target_memory_writer_version": writer_version,
         "target_memory_writer": writer_kind.value,
         "memory_policy_version": "target-memory-policy-v1",
+        # A seed is fully deterministic for the local baseline. Third-party
+        # APIs do not share one portable seed contract, so retain it as a
+        # configuration identifier rather than implying bit-for-bit replay.
+        "seed_control": {
+            "target": "deterministic_local" if provider == "rule_based" else "recorded_only",
+            "pipeline": "deterministic_local" if pipeline_provider == "rule_based" else "recorded_only",
+            "evaluator": "deterministic_local" if evaluator_provider == "rule_based" else "recorded_only",
+        },
         "target_retry_policy": {
             "max_attempts": 3, "timeout_seconds": 60.0,
             "retryable_status_codes": [408, 409, 425, 429, 500, 502, 503, 504],
@@ -97,6 +125,16 @@ def public_test_schema(o):
         test_type=o.test_type, quality_status=o.quality_status,
         grounding_status=o.grounding_status, validation_notes=o.validation_notes,
     )
+def validate_memory_evidence(db: Session, conversation_id: str, source_message_ids: list[str], relationships: list[MemoryRelationship], memory_id: str | None = None):
+    source_ids = set(db.scalars(select(MessageModel.source_message_id).where(MessageModel.conversation_id == conversation_id)).all())
+    unknown_sources = set(source_message_ids) - source_ids
+    if unknown_sources:
+        raise HTTPException(422, f"Source evidence references messages outside this conversation: {', '.join(sorted(unknown_sources))}.")
+    target_rows = db.scalars(select(MemoryModel.id).where(MemoryModel.conversation_id == conversation_id)).all()
+    target_ids = set(target_rows)
+    for relationship in relationships:
+        if relationship.target_memory_id == memory_id or relationship.target_memory_id not in target_ids:
+            raise HTTPException(422, "A memory relationship must reference another memory in the same conversation.")
 def response_schema(o): return TargetResponse(response_id=o.id, test_id=o.test_id, run_id=o.run_id, response_text=o.response_text, model=o.model, temperature=o.temperature, execution_metadata=getattr(o, "execution_metadata", {}) or {}, created_at=o.created_at)
 def eval_schema(o): return EvaluationResult(evaluation_id=o.id, test_id=o.test_id, response_id=o.response_id, passed=o.passed, failure_type=o.failure_type, reason=o.reason, evidence_memory_ids=o.evidence_memory_ids, evaluator=o.evaluator)
 def human_review_schema(o): return EvaluationHumanReview(review_id=o.id, evaluation_id=o.evaluation_id, human_passed=o.human_passed, human_failure_type=o.human_failure_type, reviewer_label=o.reviewer_label, review_role=getattr(o, "review_role", "reference"), based_on_review_ids=getattr(o, "based_on_review_ids", []) or [], note=o.note, created_at=o.created_at, updated_at=o.updated_at)
@@ -105,7 +143,14 @@ def require_state(run, allowed: set[AuditStatus]):
         raise HTTPException(status_code=409, detail=f"Audit is {run.status}; this action is not valid at this stage.")
 
 @router.get("/health")
-def health(): return {"status": "ok", "service": "AI Memory Health Auditor"}
+def health():
+    """Readiness check: a healthy API must also reach its configured database."""
+    try:
+        with SessionLocal() as db:
+            db.execute(text("SELECT 1"))
+    except Exception as exc:
+        raise HTTPException(503, "The Auditor database is not ready.") from exc
+    return {"status": "ok", "service": "AI Memory Health Auditor", "database": "ready"}
 @router.get("/target-providers", response_model=list[ProviderOption])
 def target_providers():
     return [ProviderOption(provider=provider, label=label, default_model=model, configured=configured(provider), description=description) for provider, (label, model, description) in PROVIDERS.items()]
@@ -114,9 +159,20 @@ def target_providers():
 def create_conversation(payload: ConversationCreate, db: Session = Depends(get_db)):
     if not payload.authorised: raise HTTPException(422, "Authorisation is required before conversation data can be processed.")
     if not payload.pasted_text and not payload.messages: raise HTTPException(422, "Provide pasted conversation text or structured messages.")
+    messages = payload.messages or pasted_messages(payload.pasted_text or "")
+    if not messages:
+        raise HTTPException(422, "Provide at least one non-empty conversation message.")
+    source_ids = [message.message_id or f"MSG{index:03d}" for index, message in enumerate(messages, 1)]
+    if len(source_ids) != len(set(source_ids)):
+        raise HTTPException(422, "Conversation message IDs must be unique within the uploaded conversation.")
     c = ConversationModel(id=ident("C"), authorised=True); db.add(c); db.flush()
-    messages = payload.messages or [ConversationMessage(message_id="MSG001", role="user", content=payload.pasted_text or "", timestamp=datetime.now(timezone.utc))]
-    for i, m in enumerate(messages, 1): db.add(MessageModel(id=m.message_id or f"MSG{i:03d}", conversation_id=c.id, role=m.role, content=m.content, timestamp=m.timestamp))
+    fallback_time = datetime.now(timezone.utc)
+    for i, (m, source_id) in enumerate(zip(messages, source_ids), 1):
+        db.add(MessageModel(
+            id=ident("MSG"), conversation_id=c.id, source_message_id=source_id, sequence=i,
+            role=m.role.strip(), content=m.content.strip(),
+            timestamp=m.timestamp or fallback_time + timedelta(microseconds=i),
+        ))
     db.commit(); db.refresh(c); return conversation_schema(db, c)
 @router.get("/conversations/{conversation_id}", response_model=Conversation)
 def get_conversation(conversation_id: str, db: Session = Depends(get_db)):
@@ -221,6 +277,7 @@ def memories(conversation_id: str, db: Session = Depends(get_db)):
 @router.post("/memories", response_model=Memory, status_code=201)
 def add_memory(payload: MemoryCreate, db: Session = Depends(get_db)):
     if not db.get(ConversationModel, payload.conversation_id): missing("Conversation")
+    validate_memory_evidence(db, payload.conversation_id, payload.source_message_ids, payload.relationships)
     m = MemoryModel(id=ident("M"), conversation_id=payload.conversation_id, canonical_value=payload.canonical_value, status="candidate", source_message_ids=payload.source_message_ids, timestamp=payload.timestamp); db.add(m); db.flush()
     for r in payload.relationships: db.add(MemoryRelationshipModel(id=ident("MR"), memory_id=m.id, relationship_type=r.type.value, target_memory_id=r.target_memory_id))
     db.commit(); return memory_schema(db,m)
@@ -228,8 +285,13 @@ def add_memory(payload: MemoryCreate, db: Session = Depends(get_db)):
 def patch_memory(memory_id: str, payload: MemoryUpdate, db: Session = Depends(get_db)):
     m=db.get(MemoryModel,memory_id)
     if not m: missing("Memory")
+    next_sources = payload.source_message_ids if payload.source_message_ids is not None else list(m.source_message_ids)
+    next_relationships = payload.relationships if payload.relationships is not None else memory_schema(db, m).relationships
+    validate_memory_evidence(db, m.conversation_id, next_sources, next_relationships, m.id)
     if payload.canonical_value is not None: m.canonical_value=payload.canonical_value
     if payload.status is not None: m.status=payload.status.value
+    if payload.source_message_ids is not None: m.source_message_ids=payload.source_message_ids
+    if "timestamp" in payload.model_fields_set: m.timestamp=payload.timestamp
     if payload.relationships is not None:
         for r in db.scalars(select(MemoryRelationshipModel).where(MemoryRelationshipModel.memory_id==m.id)).all(): db.delete(r)
         for r in payload.relationships: db.add(MemoryRelationshipModel(id=ident("MR"), memory_id=m.id, relationship_type=r.type.value, target_memory_id=r.target_memory_id))

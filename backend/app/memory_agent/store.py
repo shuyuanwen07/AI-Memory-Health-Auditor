@@ -192,6 +192,10 @@ class SqlTargetMemoryStore(TargetMemoryStore):
                 observed_at=candidate.timestamp, write_order=position,
             )
             self.db.add(record)
+            # Event rows carry a database foreign key to the private memory
+            # row. SQLite test defaults do not enforce it, whereas PostgreSQL
+            # does; flush the record before recording its evidence event.
+            self.db.flush()
             extracted_ids[candidate.memory_id] = record
             deduplicated[fingerprint] = record
             if signature and not candidate.relationships:

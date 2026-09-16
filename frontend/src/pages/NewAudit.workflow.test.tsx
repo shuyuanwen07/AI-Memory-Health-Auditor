@@ -88,7 +88,7 @@ test('completes the local audit workflow from consent through reviewed results a
   await screen.findByRole('heading', { name: 'Review Extracted Memories' });
 
   await user.click(screen.getByRole('button', { name: 'Accept' }));
-  await waitFor(() => expect(apiMocks.updateMemory).toHaveBeenCalledWith('M001', { status: 'confirmed', canonical_value: undefined }));
+  await waitFor(() => expect(apiMocks.updateMemory).toHaveBeenCalledWith('M001', { status: 'confirmed' }));
   await user.click(screen.getByRole('button', { name: 'Confirm Ground Truth & Continue' }));
   await screen.findByRole('heading', { name: 'Configure Memory Audit' });
 

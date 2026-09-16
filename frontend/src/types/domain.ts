@@ -1,10 +1,13 @@
 export type Dimension = 'accuracy' | 'freshness' | 'conflict_resolution' | 'appropriate_use';
 export type MemoryStatus = 'candidate' | 'confirmed' | 'edited' | 'rejected';
+export type RelationshipType = 'UPDATE'|'CONFLICT'|'CONTEXTUAL_OVERRIDE';
 export interface ConversationMessage { message_id:string; role:string; content:string; timestamp:string }
+export interface ConversationInputMessage { message_id?:string; role:string; content:string; timestamp?:string }
 export interface Conversation { conversation_id:string; created_at:string; authorised:boolean; messages:ConversationMessage[] }
 export interface ConversationDeletionReceipt { conversation_id:string; deleted_audit_runs:number; deleted_experiments:number; message:string }
-export interface MemoryRelationship { relationship_id?:string; type:'UPDATE'|'CONFLICT'|'CONTEXTUAL_OVERRIDE'; target_memory_id:string }
+export interface MemoryRelationship { relationship_id?:string; type:RelationshipType; target_memory_id:string }
 export interface Memory { memory_id:string; conversation_id:string; canonical_value:string; status:MemoryStatus; source_message_ids:string[]; timestamp?:string; relationships:MemoryRelationship[] }
+export interface MemoryReviewPatch { canonical_value?:string; status?:MemoryStatus; source_message_ids?:string[]; timestamp?:string; relationships?:MemoryRelationship[] }
 export type TargetProvider = 'rule_based'|'openai'|'deepseek'|'gemini';
 export type MemoryStrategy = 'weak_first_hit'|'strong_rule_based'|'strong_score_based'|'scope_aware'|'temporal_importance';
 export type MemoryMaintenancePolicy = 'append_only'|'update_aware_consolidation';
@@ -15,7 +18,7 @@ export type TestQualityStatus = 'pending'|'accepted'|'rejected';
 export type GroundingStatus = 'pending'|'grounded'|'ungrounded';
 export interface RetryPolicyMetadata { max_attempts:number; timeout_seconds:number; retryable_status_codes:number[] }
 export interface AuditRetryPlan { run_id:string; next_stage:'generate_tests'|'execute_tests'|'evaluate_responses'|null; pending:number; retryable:boolean }
-export interface ReproducibilityMetadata { schema_version:string; configuration_fingerprint?:string|null; prompt_template_fingerprint?:string|null; target_memory_writer_version?:string|null; memory_policy_version?:string|null; target_retry_policy:RetryPolicyMetadata }
+export interface ReproducibilityMetadata { schema_version:string; configuration_fingerprint?:string|null; prompt_template_fingerprint?:string|null; target_memory_writer_version?:string|null; memory_policy_version?:string|null; seed_control?:Record<string,string>; target_retry_policy:RetryPolicyMetadata }
 export interface ExecutionMetadata { request_attempts:number; latency_ms?:number|null; input_tokens?:number|null; output_tokens?:number|null; total_tokens?:number|null; response_source:string }
 export interface Experiment { experiment_id:string; conversation_id:string; label:string; status:string; test_suite_configuration:{test_budget:number;random_seed:number;prompt_template_version:string;pipeline_provider:TargetProvider;pipeline_model:string;dimensions:Dimension[];suite_mode:TestSuiteMode}; test_suite_metadata:{test_count:number;dimensions:Dimension[];generator_version?:string;generated_at?:string}; test_suite_source_run_id?:string; created_at:string; completed_at?:string }
 export interface AuditRun { run_id:string; conversation_id:string; experiment_id?:string; status:string; target_configuration:'weak'|'strong'; provider:TargetProvider; model:string; temperature:number; random_seed:number; test_budget:number; prompt_template_version:string; pipeline_provider:string; pipeline_model:string; evaluator_provider:string; evaluator_model:string; memory_strategy:MemoryStrategy; memory_maintenance_policy?:MemoryMaintenancePolicy; target_memory_capacity?:number; target_memory_writer?:TargetMemoryWriterKind; target_memory_writer_version?:string|null; reproducibility?:ReproducibilityMetadata; created_at:string; completed_at?:string }

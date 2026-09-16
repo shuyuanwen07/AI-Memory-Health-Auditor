@@ -18,6 +18,11 @@ class MessageModel(Base):
     __tablename__ = "messages"
     id: Mapped[str] = mapped_column(String(40), primary_key=True)
     conversation_id: Mapped[str] = mapped_column(ForeignKey("conversations.id", ondelete="CASCADE"), index=True)
+    # ``id`` is an internal globally unique database key.  The source ID is
+    # deliberately stored separately because common exports reuse identifiers
+    # such as MSG001 in every conversation.
+    source_message_id: Mapped[str] = mapped_column(String(160), nullable=False)
+    sequence: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
     role: Mapped[str] = mapped_column(String(20))
     content: Mapped[str] = mapped_column(Text)
     timestamp: Mapped[datetime] = mapped_column(DateTime)

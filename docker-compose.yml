@@ -25,7 +25,7 @@ services:
   frontend:
     image: node:22-alpine
     working_dir: /app
-    command: sh -c "npm install && npm run dev -- --host 0.0.0.0"
+    command: sh -c "npm ci && npm run dev -- --host 0.0.0.0"
     volumes: [./frontend:/app]
     environment:
       VITE_API_URL: http://localhost:8000/api/v1

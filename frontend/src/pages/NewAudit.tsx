@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { api } from '../services/api';
-import type { AuditResult, Memory, MemoryMaintenancePolicy, MemoryStrategy, ProviderOption, TargetMemoryWriterKind, TargetProvider, TestCase, TestSuiteMode } from '../types/domain';
+import type { AuditResult, ConversationInputMessage, Memory, MemoryMaintenancePolicy, MemoryReviewPatch, MemoryStrategy, ProviderOption, TargetMemoryWriterKind, TargetProvider, TestCase, TestSuiteMode } from '../types/domain';
 import { StepIndicator } from '../components/StepIndicator';
 import { ResultDashboard } from '../components/ResultDashboard';
 import { ConversationStep } from '../components/ConversationStep';
@@ -29,6 +29,7 @@ const strategies: Array<{ value: MemoryStrategy; label: string; description: str
 export function NewAudit() {
   const [step, setStep] = useState(0);
   const [text, setText] = useState(sample);
+  const [importedMessages, setImportedMessages] = useState<ConversationInputMessage[] | null>(null);
   const [consent, setConsent] = useState(false);
   const [conversationId, setConversationId] = useState('');
   const [memories, setMemories] = useState<Memory[]>([]);
@@ -63,14 +64,14 @@ export function NewAudit() {
   };
 
   const submitConversation = () => act(async () => {
-    const conversation = await api.createConversation(true, text);
+    const conversation = await api.createConversation(true, text, importedMessages);
     setConversationId(conversation.conversation_id);
     setMemories(await api.extract(conversation.conversation_id));
     setStep(1);
   });
 
-  const updateMemory = (memory: Memory, status: Memory['status'], canonical_value?: string) => act(async () => {
-    const next = await api.updateMemory(memory.memory_id, { status, canonical_value });
+  const updateMemory = (memory: Memory, patch: MemoryReviewPatch) => act(async () => {
+    const next = await api.updateMemory(memory.memory_id, patch);
     setMemories((items) => items.map((item) => item.memory_id === memory.memory_id ? next : item));
   });
 
@@ -204,7 +205,7 @@ export function NewAudit() {
   return <main className="workflow">
     <StepIndicator current={step} />
     {error && <div role="alert" aria-live="assertive" className="alert">{error}</div>}
-    {step === 0 && <ConversationStep text={text} consent={consent} busy={busy} onTextChange={setText} onConsentChange={setConsent} onImport={setText} onImportError={setError} onContinue={submitConversation} />}
+    {step === 0 && <ConversationStep text={text} consent={consent} busy={busy} onTextChange={(next) => { setText(next); setImportedMessages(null); }} onConsentChange={setConsent} onImport={(messages, previewText) => { setImportedMessages(messages); setText(previewText); }} onImportError={setError} onContinue={submitConversation} />}
     {step === 1 && <GroundTruthReview memories={memories} busy={busy} onChange={updateMemory} onAddMemory={addMemory} onConfirm={confirm} />}
     {step === 2 && <section>
       <h1>Configure Memory Audit</h1>

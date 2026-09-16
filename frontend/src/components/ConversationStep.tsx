@@ -1,4 +1,5 @@
 import { ChangeEvent, useMemo, useState } from 'react';
+import type { ConversationInputMessage } from '../types/domain';
 import './review.css';
 
 type Props = {
@@ -7,12 +8,12 @@ type Props = {
   busy: boolean;
   onTextChange: (text: string) => void;
   onConsentChange: (consent: boolean) => void;
-  onImport: (text: string) => void;
+  onImport: (messages: ConversationInputMessage[], previewText: string) => void;
   onImportError: (message: string) => void;
   onContinue: () => void;
 };
 
-type UploadMessage = { role: string; content: string };
+type UploadMessage = ConversationInputMessage;
 
 const supportedRoles = new Set(['user', 'assistant', 'system', 'tool']);
 
@@ -22,7 +23,9 @@ function getMessageCount(value: string) {
 
 function isUploadMessage(value: unknown): value is UploadMessage {
   if (!value || typeof value !== 'object') return false;
-  const message = value as { role?: unknown; content?: unknown };
+  const message = value as { message_id?: unknown; role?: unknown; content?: unknown; timestamp?: unknown };
+  if (message.message_id !== undefined && typeof message.message_id !== 'string') return false;
+  if (message.timestamp !== undefined && (typeof message.timestamp !== 'string' || Number.isNaN(Date.parse(message.timestamp)))) return false;
   return typeof message.role === 'string' && typeof message.content === 'string' && Boolean(message.content.trim());
 }
 
@@ -39,9 +42,13 @@ export function ConversationStep({ text, consent, busy, onTextChange, onConsentC
       if (!Array.isArray(rawMessages) || rawMessages.length === 0 || !rawMessages.every(isUploadMessage)) {
         throw new Error('invalid conversation JSON');
       }
-      const messages = rawMessages;
+      const messages = rawMessages as UploadMessage[];
       const unknownRoles = messages.filter((message) => !supportedRoles.has(message.role.toLowerCase())).length;
-      onImport(messages.map((message) => `[${message.role}] ${message.content.trim()}`).join('\n'));
+      const previewText = messages.map((message) => `[${message.role}] ${message.content.trim()}`).join('\n');
+      onImport(messages.map((message) => ({
+        message_id: message.message_id?.trim() || undefined,
+        role: message.role.trim(), content: message.content.trim(), timestamp: message.timestamp,
+      })), previewText);
       onImportError('');
       setImportFeedback(`${messages.length} message${messages.length === 1 ? '' : 's'} imported successfully.${unknownRoles ? ` ${unknownRoles} custom role${unknownRoles === 1 ? ' was' : 's were'} preserved.` : ''}`);
     } catch {
@@ -65,7 +72,7 @@ export function ConversationStep({ text, consent, busy, onTextChange, onConsentC
     <label className="file" htmlFor="conversation-upload">Or upload conversation JSON
       <input id="conversation-upload" type="file" accept="application/json,.json" onChange={importJson} />
     </label>
-    <p className="input-help">Supported format: <code>{'{ "messages": [{ "role": "user", "content": "…" }] }'}</code>. A top-level message array is also accepted.</p>
+    <p className="input-help">Supported format: <code>{'{ "messages": [{ "message_id": "MSG001", "role": "user", "content": "…", "timestamp": "…" }] }'}</code>. A top-level message array is also accepted. Source IDs and timestamps are preserved when supplied.</p>
     {importFeedback && <p className="input-feedback" role="status">{importFeedback}</p>}
     <label className="check"><input type="checkbox" checked={consent} onChange={(event) => onConsentChange(event.target.checked)} /> I confirm that I am authorised to use this conversation data for this audit.</label>
     <button disabled={!consent || !hasConversation || busy} onClick={onContinue}>{busy ? 'Preparing conversation…' : 'Continue to Ground Truth'}</button>

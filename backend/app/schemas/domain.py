@@ -99,6 +99,13 @@ class ConversationMessage(BaseModel):
     role: str
     content: str
     timestamp: datetime
+
+class ConversationMessageInput(BaseModel):
+    """Lossless message input while retaining compatibility with pasted text."""
+    message_id: str | None = Field(default=None, min_length=1, max_length=160)
+    role: str = Field(default="user", min_length=1, max_length=20)
+    content: str = Field(min_length=1)
+    timestamp: datetime | None = None
 class Conversation(BaseModel):
     conversation_id: str
     created_at: datetime
@@ -107,7 +114,7 @@ class Conversation(BaseModel):
 class ConversationCreate(BaseModel):
     authorised: bool
     pasted_text: str | None = None
-    messages: list[ConversationMessage] | None = None
+    messages: list[ConversationMessageInput] | None = None
 class ConversationDeletionRequest(BaseModel):
     """Explicit acknowledgement required before local source data is erased."""
     confirmation: str = Field(min_length=1, max_length=40)
@@ -212,13 +219,15 @@ class TargetMemoryTrace(BaseModel):
     retrievals: list[TargetMemoryTraceRetrieval] = []
 class MemoryCreate(BaseModel):
     conversation_id: str
-    canonical_value: str
+    canonical_value: str = Field(min_length=1, max_length=4000)
     source_message_ids: list[str] = []
     timestamp: datetime | None = None
     relationships: list[MemoryRelationship] = []
 class MemoryUpdate(BaseModel):
-    canonical_value: str | None = None
+    canonical_value: str | None = Field(default=None, min_length=1, max_length=4000)
     status: MemoryStatus | None = None
+    source_message_ids: list[str] | None = None
+    timestamp: datetime | None = None
     relationships: list[MemoryRelationship] | None = None
 class GroundTruthConfirm(BaseModel):
     confirmed_memory_ids: list[str] = []
@@ -309,6 +318,7 @@ class ReproducibilityMetadata(BaseModel):
     target_memory_writer_version: str | None = None
     target_memory_writer: TargetMemoryWriterKind = TargetMemoryWriterKind.RULE_BASED
     memory_policy_version: str | None = None
+    seed_control: dict[str, str] = Field(default_factory=dict)
     target_retry_policy: RetryPolicyMetadata = Field(default_factory=RetryPolicyMetadata)
 
 

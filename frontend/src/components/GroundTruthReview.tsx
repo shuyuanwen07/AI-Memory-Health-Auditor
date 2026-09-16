@@ -1,11 +1,11 @@
 import { FormEvent, useMemo, useState } from 'react';
-import type { Memory, MemoryStatus } from '../types/domain';
+import type { Memory, MemoryReviewPatch, MemoryStatus } from '../types/domain';
 import { MemoryCard } from './MemoryCard';
 
 type Props = {
   memories: Memory[];
   busy: boolean;
-  onChange: (memory: Memory, status: Memory['status'], canonicalValue?: string) => void;
+  onChange: (memory: Memory, patch: MemoryReviewPatch) => void;
   onAddMemory: (canonicalValue: string) => void;
   onConfirm: () => void;
 };
@@ -35,7 +35,7 @@ export function GroundTruthReview({ memories, busy, onChange, onAddMemory, onCon
       <span>Extracted {memories.length}</span><span>To review {candidates}</span><span>Accepted {accepted}</span><span>Edited {edited}</span><span>Rejected {rejected}</span>
     </div>
     {memories.length > 0 && <div className="review-toolbar"><label htmlFor="memory-status-filter">Show memories<select id="memory-status-filter" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value as 'all' | MemoryStatus)}><option value="all">All statuses ({memories.length})</option><option value="candidate">To review ({candidates})</option><option value="confirmed">Accepted ({accepted})</option><option value="edited">Edited ({edited})</option><option value="rejected">Rejected ({rejected})</option></select></label><p role="status">Showing {visibleMemories.length} of {memories.length} memories.</p></div>}
-    {memories.length === 0 ? <p className="empty">No candidate memories were found. Add a memory to continue.</p> : visibleMemories.length === 0 ? <p className="empty">No memories match this status. Choose another filter or add a missing memory.</p> : <div className="memory-grid">{visibleMemories.map((memory) => <MemoryCard key={memory.memory_id} memory={memory} memoryLabels={memoryLabels} onChange={(status, canonicalValue) => onChange(memory, status, canonicalValue)} />)}</div>}
+    {memories.length === 0 ? <p className="empty">No candidate memories were found. Add a memory to continue.</p> : visibleMemories.length === 0 ? <p className="empty">No memories match this status. Choose another filter or add a missing memory.</p> : <div className="memory-grid">{visibleMemories.map((memory) => <MemoryCard key={memory.memory_id} memory={memory} memoryLabels={memoryLabels} onChange={(patch) => onChange(memory, patch)} />)}</div>}
     {adding ? <form className="add-memory" onSubmit={submitAddition}>
       <label htmlFor="missing-memory">Missing memory<input id="missing-memory" value={newMemory} onChange={(event) => setNewMemory(event.target.value)} placeholder="Describe a fact the audit should retain" autoFocus /></label>
       <button type="submit" disabled={busy || !newMemory.trim()}>Add Memory</button>

@@ -32,7 +32,7 @@ test('edits a candidate memory without using a browser prompt', async () => {
   await user.clear(field);
   await user.type(field, 'The backend now uses PostgreSQL.');
   await user.click(screen.getByRole('button', { name: 'Save edit' }));
-  expect(props.onChange).toHaveBeenCalledWith(candidate, 'edited', 'The backend now uses PostgreSQL.');
+  expect(props.onChange).toHaveBeenCalledWith(candidate, expect.objectContaining({ status: 'edited', canonical_value: 'The backend now uses PostgreSQL.' }));
 });
 
 test('filters memories by their review status without changing the ground truth', async () => {

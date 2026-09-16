@@ -4,7 +4,7 @@ The interactive OpenAPI contract is available at `/docs` when the backend is run
 
 | Method | Path | Purpose |
 | --- | --- | --- |
-| GET | `/health` | Service health |
+| GET | `/health` | Service and database readiness |
 | GET | `/target-providers` | Selectable target providers and backend configuration status; never returns secrets |
 | POST | `/conversations` | Store authorised pasted or structured conversation data |
 | GET | `/conversations/{id}` | Retrieve conversation and messages |
@@ -53,6 +53,10 @@ The API returns `409 Conflict` for an invalid audit lifecycle action and `422 Un
 ## Local data lifecycle
 
 The Audit History page offers an export and a permanent local-delete control for each conversation. Export is read-only and creates a `conversation-export-v1` JSON file containing source messages, reviewed ground truth, experiment metadata, test cases, target responses and evaluations. It deliberately excludes API keys and raw provider payloads.
+
+`POST /conversations` accepts either `pasted_text` or structured `messages`. For structured input, every supplied `message_id`, `role`, `content`, timestamp and array order is retained. Reused source IDs from separate uploaded conversations are supported safely because the database keeps a separate internal key. Source message IDs must be unique within one uploaded conversation. Pasted text follows the documented one-non-empty-line-per-message convention; a leading `[User]`, `[Assistant]`, `[System]` or custom role is retained.
+
+`PATCH /memories/{memory_id}` can update the canonical value, review status, source message IDs, observed timestamp and `UPDATE`, `CONFLICT` or `CONTEXTUAL_OVERRIDE` relationships. Evidence IDs and relationship targets are verified against the same authorised conversation.
 
 Deletion is an irreversible local operation: `DELETE /conversations/{id}` requires `{"confirmation":"{id}"}`. It atomically removes the selected conversation, messages, reviewed memories and relationships, experiment groups, audit runs, tests, target responses, evaluations and private target-memory operational records derived from that conversation. Download an export before deletion when a copy is required for research retention.
 

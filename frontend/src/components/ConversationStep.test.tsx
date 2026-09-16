@@ -20,12 +20,12 @@ test('requires authorisation before continuing', async () => {
   expect(props.onConsentChange).toHaveBeenCalledWith(true);
 });
 
-test('imports valid JSON conversation messages', async () => {
+test('imports valid JSON conversation messages without discarding IDs or timestamps', async () => {
   const user = userEvent.setup();
   const { props } = renderStep();
-  const file = new File([JSON.stringify({ messages: [{ role: 'user', content: 'I prefer Python.' }] })], 'conversation.json', { type: 'application/json' });
+  const file = new File([JSON.stringify({ messages: [{ message_id: 'source-101', role: 'user', content: 'I prefer Python.', timestamp: '2026-01-01T00:00:00Z' }] })], 'conversation.json', { type: 'application/json' });
   await user.upload(screen.getByLabelText('Or upload conversation JSON'), file);
-  await waitFor(() => expect(props.onImport).toHaveBeenCalledWith('[user] I prefer Python.'));
+  await waitFor(() => expect(props.onImport).toHaveBeenCalledWith([{ message_id: 'source-101', role: 'user', content: 'I prefer Python.', timestamp: '2026-01-01T00:00:00Z' }], '[user] I prefer Python.'));
   expect(props.onImportError).toHaveBeenCalledWith('');
   expect(screen.getByText('1 message imported successfully.')).not.toBeNull();
 });

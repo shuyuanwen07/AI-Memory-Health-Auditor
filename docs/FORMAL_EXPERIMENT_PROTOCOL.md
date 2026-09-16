@@ -22,6 +22,8 @@ Compare only predeclared conditions. The minimum comparison is `weak_first_hit`,
 
 Run each condition at least three times when a cloud model is involved. The deterministic local baseline may be run once as a reproducibility check, but should not be used to infer provider variance.
 
+The system labels each pipeline stage's seed control explicitly. `deterministic_local` means the local rule-based component is deterministic under the saved inputs; `recorded_only` means the seed is retained as configuration provenance but the external provider does not offer a portable seed guarantee. Never describe the latter as bit-for-bit reproducible.
+
 ## Data, consent and labelling
 
 Use only synthetic or explicitly authorised, de-identified conversations. Store source conversations separately from research annotation files. Before formal collection, freeze a versioned annotation release containing memory, relationship, test-quality and evaluator labels; record the validation SHA-256 fingerprint. Two annotators independently label a predefined overlap subset, disagreements are adjudicated without seeing automated outputs, and Cohen's kappa is reported where labels permit it.

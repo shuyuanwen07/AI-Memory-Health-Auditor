@@ -42,6 +42,8 @@ GitHub Actions repeats backend static compilation and tests, upgrades a disposab
 
 Docker Compose applies `alembic upgrade head` before the backend starts, so the running application always uses the versioned database contract.
 
+The frontend container uses `npm ci`, and `frontend/package.json` pins the tested dependency versions. Run `npm ci && npm run check` locally to reproduce the frontend CI contract. Backend `pytest.ini` sets its local import path, so both `pytest` and `sh scripts/check.sh` collect the same suite.
+
 ## Real-model experiment modes
 
 The default `rule_based` pipeline, target and evaluator form a deterministic offline baseline. To use a cloud model for memory extraction and test generation, set `PIPELINE_PROVIDER` to `openai`, `deepseek`, or `gemini`; `PIPELINE_MODEL` is an optional override. To use an LLM-as-judge, set `EVALUATOR_PROVIDER` similarly; `EVALUATOR_MODEL` is optional.
