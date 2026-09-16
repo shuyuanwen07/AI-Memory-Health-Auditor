@@ -52,6 +52,7 @@ class RuleBasedTargetAIConnector(TargetAIConnector):
         return TargetResponse(
             response_id=f"R{test.test_id[1:]}", test_id=test.test_id, run_id=audit.run_id,
             response_text=text, model=audit.model, temperature=audit.temperature,
+            execution_metadata={"request_attempts": 0, "latency_ms": 0.0, "response_source": "rule_based"},
             created_at=datetime.now(timezone.utc),
         )
 

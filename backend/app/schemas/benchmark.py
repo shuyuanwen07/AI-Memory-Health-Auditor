@@ -5,6 +5,8 @@ from datetime import datetime
 
 from pydantic import BaseModel, Field
 
+from app.schemas.domain import Dimension, MemoryStrategy
+
 
 class BenchmarkMessage(BaseModel):
     message_id: str
@@ -42,3 +44,86 @@ class LongMemEvalValidationResponse(BaseModel):
     report: LongMemEvalImportReport
     # Small metadata previews, not full source conversations.
     cases: list[LongMemEvalCase]
+
+
+class LongMemEvalRunRequest(BaseModel):
+    """One local, ephemeral benchmark execution request.
+
+    The Auditor intentionally does not bundle, download, or retain benchmark
+    records.  The caller is therefore required to explicitly confirm that the
+    locally supplied source may be processed for this research run.
+    """
+
+    payload: dict | list
+    source_authorised: bool = False
+    source_label: str | None = Field(default=None, max_length=160)
+    memory_strategy: MemoryStrategy = MemoryStrategy.STRONG_RULE_BASED
+    random_seed: int = 42
+
+
+class BenchmarkMemoryEvidence(BaseModel):
+    """One private-memory candidate considered by the deterministic runner."""
+
+    memory_id: str
+    canonical_value: str
+    write_order: int
+    lifecycle_state: str
+    relevance_score: float
+    policy_score: float
+    selected: bool
+    reason: str
+
+
+class LongMemEvalCaseRunResult(BaseModel):
+    case_id: str
+    category: str
+    dimension: Dimension | None = None
+    question: str
+    expected_answer: str
+    response_text: str
+    passed: bool
+    evaluation_reason: str
+    ingested_memory_count: int
+    retrieved_memory_ids: list[str] = Field(default_factory=list)
+    retrieval_evidence: list[BenchmarkMemoryEvidence] = Field(default_factory=list)
+
+
+class BenchmarkScoreSummary(BaseModel):
+    """A measured bucket; percentage is ``None`` when it has no cases."""
+
+    key: str
+    passed: int
+    total: int
+    percentage: float | None = None
+
+
+class LongMemEvalRunMetadata(BaseModel):
+    run_id: str
+    runner_version: str
+    adapter_version: str
+    source_fingerprint_sha256: str
+    source_format: str
+    source_label: str | None = None
+    random_seed: int
+    memory_strategy: MemoryStrategy
+    execution_mode: str
+    evaluator: str
+    case_order: list[str]
+    notice: str
+
+
+class LongMemEvalRunResponse(BaseModel):
+    """An ephemeral, deterministic local benchmark result.
+
+    These scores are explicitly *not* official LongMemEval results.  They
+    evaluate the selected local memory-policy baseline with the compact local
+    answer matcher documented in the response metadata.
+    """
+
+    metadata: LongMemEvalRunMetadata
+    cases: list[LongMemEvalCaseRunResult]
+    categories: list[BenchmarkScoreSummary]
+    dimensions: list[BenchmarkScoreSummary]
+    tests_passed: int
+    tests_total: int
+    overall_percentage: float | None = None

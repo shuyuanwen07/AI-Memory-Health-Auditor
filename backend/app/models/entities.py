@@ -79,6 +79,12 @@ class AuditRunModel(Base):
     evaluator_provider: Mapped[str] = mapped_column(String(30), default="rule_based")
     evaluator_model: Mapped[str] = mapped_column(String(100), default="rule-based-v2")
     memory_strategy: Mapped[str] = mapped_column(String(40), default="strong_rule_based")
+    memory_maintenance_policy: Mapped[str] = mapped_column(
+        String(40), default="update_aware_consolidation"
+    )
+    # This is a safe, immutable-at-creation snapshot: no credentials, prompts,
+    # source conversation text, or provider response bodies belong here.
+    reproducibility_metadata: Mapped[dict] = mapped_column(JSON, default=dict)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
     completed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
 
@@ -111,6 +117,9 @@ class TargetResponseModel(Base):
     response_text: Mapped[str] = mapped_column(Text)
     model: Mapped[str] = mapped_column(String(100))
     temperature: Mapped[float] = mapped_column(Float)
+    # Attempts, latency and provider-reported token counts when available.
+    # Raw provider payloads are deliberately not persisted.
+    execution_metadata: Mapped[dict] = mapped_column(JSON, default=dict)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
 
@@ -131,6 +140,7 @@ class TargetAgentMemoryModel(Base):
         ForeignKey("conversations.id", ondelete="CASCADE"), index=True
     )
     canonical_value: Mapped[str] = mapped_column(Text)
+    scope: Mapped[str] = mapped_column(String(40), default="episodic")
     lifecycle_state: Mapped[str] = mapped_column(String(30), default="ACTIVE")
     source_message_ids: Mapped[list] = mapped_column(JSON, default=list)
     observed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)

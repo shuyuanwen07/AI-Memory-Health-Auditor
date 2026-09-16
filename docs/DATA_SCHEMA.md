@@ -16,7 +16,11 @@ The PostgreSQL schema is created from the Alembic migration chain in `backend/al
 
 All identifiers are stable string IDs and foreign keys preserve audit traceability. Public objects are represented by matching Pydantic models in `backend/app/schemas/domain.py` and TypeScript interfaces in `frontend/src/types/domain.ts`.
 
-`audit_runs` records the controlled target configuration, provider/model, `memory_strategy`, temperature, seed, budget and prompt-template version. It also records the resolved pipeline and evaluator provider/model so a stored experiment does not change if default environment settings are later changed.
+`audit_runs` records the controlled target configuration, provider/model, `memory_strategy`, `memory_maintenance_policy`, temperature, seed, budget and prompt-template version. It also records the resolved pipeline and evaluator provider/model so a stored experiment does not change if default environment settings are later changed.
+
+Each private `target_agent_memories` record has one deterministic scope: `profile`, `preference`, `project_requirement`, or `episodic`. These labels are inferred from the authorised conversation during target-Agent ingestion and are independent of the reviewer-confirmed ground truth. They make future scope-aware retrieval experiments possible without changing the record format.
+
+`memory_maintenance_policy` is a run-level controlled variable. `append_only` retains both sides of an UPDATE as active observations. `update_aware_consolidation` marks the previous record `SUPERSEDED` while preserving the relationship and write evidence. The private event ledger records the selected policy and its maintenance action for every UPDATE, so the two conditions remain experimentally traceable.
 
 `test_cases.target_memory_context` is stored server-side only. It contains only the context retrieved from the controlled target's own per-run memory store; it is not reviewer-confirmed ground truth. Public test and result API responses omit it; the expected behaviour remains evaluator-only and is never sent to a target provider. `target_agent_*` tables remain private while an audit is running. Only after `COMPLETED`, the purpose-built target-memory-trace endpoint returns a redacted, read-only evidence view; it never returns evaluator expected behaviour or runtime context.
 

@@ -31,8 +31,10 @@ from app.schemas import (
     TargetMemoryEventType,
     TargetMemoryIngestionResult,
     TargetMemoryLifecycleState,
+    TargetMemoryMaintenancePolicy,
     TargetMemoryRetrievalEvidence,
     TargetMemoryRetrievalResult,
+    TargetMemoryScope,
     TargetMemoryWriteEvidence,
     TestCase,
 )
@@ -51,6 +53,24 @@ def _ident(prefix: str) -> str:
     return f"{prefix}{uuid4().hex[:10].upper()}"
 
 
+def infer_target_memory_scope(canonical_value: str) -> TargetMemoryScope:
+    """Classify a private target-memory record without consulting ground truth.
+
+    Scope is deliberately a small, deterministic label rather than an extra
+    retrieval framework.  It lets experiments compare later scope-aware
+    policies while preserving the same authorised source and stored values.
+    A future target writer may replace this inference at this store boundary.
+    """
+    value = canonical_value.lower()
+    if re.search(r"\b(?:assignment|project|task|requirement|requires|required|must|mandatory|for\s+this)\b", value):
+        return TargetMemoryScope.PROJECT_REQUIREMENT
+    if re.search(r"\b(?:prefer|preference|favour|favorite|favourite|rather\s+than)\b", value):
+        return TargetMemoryScope.PREFERENCE
+    if re.search(r"\b(?:i\s+am|my\s+name|based\s+in|live\s+in|located\s+in|work\s+as|(?:my|the)\s+backend|i\s+(?:now\s+)?use)\b", value):
+        return TargetMemoryScope.PROFILE
+    return TargetMemoryScope.EPISODIC
+
+
 class SqlTargetMemoryStore(TargetMemoryStore):
     """SQLAlchemy implementation of one target memory store per audit run.
 
@@ -60,10 +80,16 @@ class SqlTargetMemoryStore(TargetMemoryStore):
     keeping it off public test endpoints.
     """
 
-    def __init__(self, db: Session, extractor: MemoryExtractor | None = None):
+    def __init__(
+        self,
+        db: Session,
+        extractor: MemoryExtractor | None = None,
+        maintenance_policy: TargetMemoryMaintenancePolicy | str = TargetMemoryMaintenancePolicy.UPDATE_AWARE_CONSOLIDATION,
+    ):
         self.db = db
         self.extractor = extractor or RuleBasedMemoryExtractor()
         self.writer_version = getattr(self.extractor, "VERSION", self.extractor.__class__.__name__)
+        self.maintenance_policy = TargetMemoryMaintenancePolicy(maintenance_policy)
 
     def ingest(self, run_id: str, conversation: Conversation) -> TargetMemoryIngestionResult:
         if not conversation.authorised:
@@ -82,14 +108,21 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         now = datetime.now(timezone.utc)
         self._event(
             run_id, None, TargetMemoryEventType.INGESTED,
-            details={"conversation_id": conversation.conversation_id, "message_count": len(conversation.messages), "writer_version": self.writer_version},
+            details={
+                "conversation_id": conversation.conversation_id,
+                "message_count": len(conversation.messages),
+                "writer_version": self.writer_version,
+                "maintenance_policy": self.maintenance_policy.value,
+            },
             created_at=now,
         )
         for position, candidate in enumerate(extracted, start=1):
+            scope = infer_target_memory_scope(candidate.canonical_value)
             record = TargetAgentMemoryModel(
                 id=_ident("TM"), run_id=run_id,
                 source_conversation_id=conversation.conversation_id,
                 canonical_value=candidate.canonical_value,
+                scope=scope.value,
                 lifecycle_state=TargetMemoryLifecycleState.ACTIVE.value,
                 source_message_ids=list(candidate.source_message_ids),
                 observed_at=candidate.timestamp, write_order=position,
@@ -99,7 +132,7 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             self._event(
                 run_id, record.id, TargetMemoryEventType.WRITTEN,
                 source_message_ids=list(candidate.source_message_ids),
-                details={"write_order": position, "canonical_value": candidate.canonical_value},
+                details={"write_order": position, "canonical_value": candidate.canonical_value, "scope": scope.value},
             )
 
         # IDs are generated client-side, so references can be written before a
@@ -116,12 +149,30 @@ class SqlTargetMemoryStore(TargetMemoryStore):
                     relationship_type=relation.type.value, target_memory_id=target.id,
                 ))
                 if relation.type == RelationshipType.UPDATE:
-                    target.lifecycle_state = TargetMemoryLifecycleState.SUPERSEDED.value
-                    self._event(
-                        run_id, record.id, TargetMemoryEventType.UPDATED,
-                        source_message_ids=list(record.source_message_ids),
-                        details={"supersedes_memory_id": target.id},
-                    )
+                    if self.maintenance_policy == TargetMemoryMaintenancePolicy.UPDATE_AWARE_CONSOLIDATION:
+                        target.lifecycle_state = TargetMemoryLifecycleState.SUPERSEDED.value
+                        self._event(
+                            run_id, record.id, TargetMemoryEventType.UPDATED,
+                            source_message_ids=list(record.source_message_ids),
+                            details={
+                                "supersedes_memory_id": target.id,
+                                "maintenance_policy": self.maintenance_policy.value,
+                                "maintenance_action": "supersede_prior_record",
+                            },
+                        )
+                    else:
+                        # The append-only baseline retains old and new records
+                        # as active observations.  It records the link but does
+                        # not reconcile lifecycle state during ingestion.
+                        self._event(
+                            run_id, record.id, TargetMemoryEventType.MAINTENANCE_APPLIED,
+                            source_message_ids=list(record.source_message_ids),
+                            details={
+                                "supersedes_memory_id": target.id,
+                                "maintenance_policy": self.maintenance_policy.value,
+                                "maintenance_action": "retained_prior_record",
+                            },
+                        )
                 elif relation.type == RelationshipType.CONTEXTUAL_OVERRIDE:
                     self._event(
                         run_id, record.id, TargetMemoryEventType.CONTEXTUAL_OVERRIDE_RECORDED,
@@ -169,6 +220,7 @@ class SqlTargetMemoryStore(TargetMemoryStore):
                 "relevance": item["relevance"],
                 "policy_score": item["policy_score"],
                 "lifecycle_state": item["record"].lifecycle_state,
+                "scope": item["record"].scope,
                 "relationship_types": item["relationship_types"],
                 "selected": item["record"].id in {choice["record"].id for choice in selected},
                 "reason": item["reason"],
@@ -185,7 +237,8 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         self._event(
             run_id, None, TargetMemoryEventType.RETRIEVED,
             details={"test_id": test.test_id, "strategy": strategy.value,
-                     "selected_memory_ids": retrieval.selected_memory_ids},
+                     "selected_memory_ids": retrieval.selected_memory_ids,
+                     "maintenance_policy": self.maintenance_policy.value},
         )
         self.db.flush()
         return TargetMemoryRetrievalResult(
@@ -230,9 +283,14 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         if record.lifecycle_state == TargetMemoryLifecycleState.SUPERSEDED.value:
             policy_score = 0
             reasons.append("superseded_record")
-        if RelationshipType.UPDATE.value in relationship_types:
+        if (
+            RelationshipType.UPDATE.value in relationship_types
+            and self.maintenance_policy == TargetMemoryMaintenancePolicy.UPDATE_AWARE_CONSOLIDATION
+        ):
             policy_score = max(policy_score, 40)
             reasons.append("explicit_update")
+        elif RelationshipType.UPDATE.value in relationship_types:
+            reasons.append("update_link_retained_without_consolidation")
         if RelationshipType.CONTEXTUAL_OVERRIDE.value in relationship_types:
             policy_score = max(policy_score, 60)
             reasons.append("contextual_override")
@@ -287,6 +345,7 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             memory_id=record.id, run_id=record.run_id,
             source_conversation_id=record.source_conversation_id,
             canonical_value=record.canonical_value,
+            scope=record.scope,
             lifecycle_state=record.lifecycle_state,
             source_message_ids=list(record.source_message_ids), observed_at=record.observed_at,
             write_order=record.write_order,

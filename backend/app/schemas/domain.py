@@ -38,6 +38,16 @@ class MemoryStrategy(str, Enum):
     WEAK_FIRST_HIT = "weak_first_hit"
     STRONG_RULE_BASED = "strong_rule_based"
     STRONG_SCORE_BASED = "strong_score_based"
+class TargetMemoryScope(str, Enum):
+    """Semantic area assigned to a record in the controlled Agent's store."""
+    PROFILE = "profile"
+    PREFERENCE = "preference"
+    PROJECT_REQUIREMENT = "project_requirement"
+    EPISODIC = "episodic"
+class TargetMemoryMaintenancePolicy(str, Enum):
+    """Write-side policy, independent of the target's retrieval strategy."""
+    APPEND_ONLY = "append_only"
+    UPDATE_AWARE_CONSOLIDATION = "update_aware_consolidation"
 class TargetMemoryLifecycleState(str, Enum):
     """Private state of a controlled target agent's independently written record."""
     ACTIVE = "ACTIVE"
@@ -49,6 +59,7 @@ class TargetMemoryEventType(str, Enum):
     UPDATED = "UPDATED"
     CONFLICT_RECORDED = "CONFLICT_RECORDED"
     CONTEXTUAL_OVERRIDE_RECORDED = "CONTEXTUAL_OVERRIDE_RECORDED"
+    MAINTENANCE_APPLIED = "MAINTENANCE_APPLIED"
     RETRIEVED = "RETRIEVED"
 class TargetProvider(str, Enum): RULE_BASED="rule_based"; OPENAI="openai"; DEEPSEEK="deepseek"; GEMINI="gemini"
 class ExperimentStatus(str, Enum):
@@ -92,6 +103,7 @@ class TargetAgentMemoryRecord(BaseModel):
     run_id: str
     source_conversation_id: str
     canonical_value: str
+    scope: TargetMemoryScope
     lifecycle_state: TargetMemoryLifecycleState
     source_message_ids: list[str] = []
     observed_at: datetime | None = None
@@ -132,6 +144,7 @@ class TargetMemoryRetrievalResult(BaseModel):
 class TargetMemoryTraceRecord(BaseModel):
     memory_id: str
     canonical_value: str
+    scope: TargetMemoryScope
     lifecycle_state: TargetMemoryLifecycleState
     source_message_ids: list[str] = []
     observed_at: datetime | None = None
@@ -157,6 +170,7 @@ class TargetMemoryTraceRetrieval(BaseModel):
 class TargetMemoryTrace(BaseModel):
     run_id: str
     memory_strategy: MemoryStrategy
+    memory_maintenance_policy: TargetMemoryMaintenancePolicy
     records: list[TargetMemoryTraceRecord] = []
     events: list[TargetMemoryTraceEvent] = []
     retrievals: list[TargetMemoryTraceRetrieval] = []
@@ -231,12 +245,48 @@ class AuditCreate(BaseModel):
     evaluator_provider: TargetProvider | None = None
     evaluator_model: str | None = None
     memory_strategy: MemoryStrategy | None = None
+    memory_maintenance_policy: TargetMemoryMaintenancePolicy = TargetMemoryMaintenancePolicy.UPDATE_AWARE_CONSOLIDATION
+
+
+class RetryPolicyMetadata(BaseModel):
+    """The bounded target-provider retry policy frozen with a run."""
+    max_attempts: int = 3
+    timeout_seconds: float = 60.0
+    retryable_status_codes: list[int] = [408, 409, 425, 429, 500, 502, 503, 504]
+
+
+class ReproducibilityMetadata(BaseModel):
+    """Safe, portable provenance for a controlled audit run.
+
+    Fingerprints cover configuration/template identity, not conversation text or
+    credentials. A run snapshot allows later reproduction after environment
+    defaults change.
+    """
+    schema_version: str = "reproducibility-v1"
+    configuration_fingerprint: str | None = None
+    prompt_template_fingerprint: str | None = None
+    target_memory_writer_version: str | None = None
+    memory_policy_version: str | None = None
+    target_retry_policy: RetryPolicyMetadata = Field(default_factory=RetryPolicyMetadata)
+
+
+class ExecutionMetadata(BaseModel):
+    """Sanitised per-response facts; optional usage is provider supplied."""
+    request_attempts: int = 0
+    latency_ms: float | None = None
+    input_tokens: int | None = None
+    output_tokens: int | None = None
+    total_tokens: int | None = None
+    response_source: str = "unknown"
+
 class AuditRun(BaseModel):
     run_id: str; conversation_id: str; experiment_id: str | None = None; status: AuditStatus; target_configuration: TargetConfiguration; provider: TargetProvider
     model: str; temperature: float; random_seed: int; test_budget: int; prompt_template_version: str
     pipeline_provider: str = "rule_based"; pipeline_model: str = "rule-based-v2"
     evaluator_provider: str = "rule_based"; evaluator_model: str = "rule-based-v2"
     memory_strategy: MemoryStrategy = MemoryStrategy.STRONG_RULE_BASED
+    memory_maintenance_policy: TargetMemoryMaintenancePolicy = TargetMemoryMaintenancePolicy.UPDATE_AWARE_CONSOLIDATION
+    reproducibility: ReproducibilityMetadata = Field(default_factory=ReproducibilityMetadata)
     created_at: datetime; completed_at: datetime | None = None
 class TestCase(BaseModel):
     test_id: str; run_id: str; dimension: Dimension; prompt: str; expected_behavior: str
@@ -270,7 +320,9 @@ class TestQualityAssessment(BaseModel):
     reason: str
     validator_version: str
 class TargetResponse(BaseModel):
-    response_id: str; test_id: str; run_id: str; response_text: str; model: str; temperature: float; created_at: datetime
+    response_id: str; test_id: str; run_id: str; response_text: str; model: str; temperature: float
+    execution_metadata: ExecutionMetadata = Field(default_factory=ExecutionMetadata)
+    created_at: datetime
 class EvaluationResult(BaseModel):
     evaluation_id: str; test_id: str; response_id: str; passed: bool; failure_type: Dimension | None = None
     reason: str; evidence_memory_ids: list[str]; evaluator: str
@@ -281,6 +333,7 @@ class FailureDetail(BaseModel):
 class AuditResult(BaseModel):
     run_id: str; overall_score: float | None; tests_passed: int; tests_total: int
     dimensions: list[DimensionScores]; failures: list[FailureDetail]
+    reproducibility: ReproducibilityMetadata = Field(default_factory=ReproducibilityMetadata)
 class ExperimentResult(BaseModel):
     experiment_id: str; label: str; weak_score: float; strong_score: float; notes: str
 

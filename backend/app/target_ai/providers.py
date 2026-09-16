@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import os
 import time
+from contextvars import ContextVar
 from collections.abc import Mapping
 from datetime import datetime, timezone
 from typing import Any
@@ -35,6 +36,10 @@ _ENVIRONMENT_KEY = {
 _RETRYABLE_STATUS_CODES = frozenset({408, 409, 425, 429, 500, 502, 503, 504})
 _MAX_ATTEMPTS = 3
 _REQUEST_TIMEOUT_SECONDS = 60.0
+# Request-local facts are captured without saving raw upstream payloads.  They
+# also remain correct when several audits execute concurrently in one process.
+_ATTEMPTS: ContextVar[int] = ContextVar("target_provider_attempts", default=0)
+_USAGE: ContextVar[dict[str, int | None]] = ContextVar("target_provider_usage", default={})
 
 
 def configured(provider: TargetProvider) -> bool:
@@ -64,10 +69,18 @@ class HttpTargetAIConnector(TargetAIConnector):
         # This derives only from target_memory_context. expected_behavior is
         # evaluator-private and must never reach the model under test.
         instructions = private_context_instruction(test, audit.target_configuration)
+        attempts_token = _ATTEMPTS.set(0)
+        usage_token = _USAGE.set({})
+        started = time.perf_counter()
         try:
             response_text = self._execute_provider(audit, test, instructions, credential)
         except ProviderRequestError as exc:
             raise HTTPException(exc.status_code, str(exc)) from exc
+        finally:
+            attempts = _ATTEMPTS.get()
+            usage = _USAGE.get()
+            _ATTEMPTS.reset(attempts_token)
+            _USAGE.reset(usage_token)
 
         if not response_text.strip():
             raise HTTPException(502, f"{PROVIDERS[audit.provider][0]} returned an empty target response.")
@@ -75,6 +88,14 @@ class HttpTargetAIConnector(TargetAIConnector):
         return TargetResponse(
             response_id=f"R{test.test_id[1:]}", test_id=test.test_id, run_id=audit.run_id,
             response_text=response_text.strip(), model=audit.model, temperature=audit.temperature,
+            execution_metadata={
+                "request_attempts": attempts or 1,
+                "latency_ms": round((time.perf_counter() - started) * 1000, 2),
+                "input_tokens": usage.get("input_tokens"),
+                "output_tokens": usage.get("output_tokens"),
+                "total_tokens": usage.get("total_tokens"),
+                "response_source": audit.provider.value,
+            },
             created_at=datetime.now(timezone.utc),
         )
 
@@ -91,12 +112,14 @@ class HttpTargetAIConnector(TargetAIConnector):
             data = self._post("https://api.openai.com/v1/responses", {"Authorization": f"Bearer {credential}"}, {
                 "model": audit.model, "instructions": instructions, "input": test.prompt, "temperature": audit.temperature,
             })
+            _USAGE.set(self._usage(data, audit.provider))
             return self._openai_text(data)
         if audit.provider == TargetProvider.DEEPSEEK:
             data = self._post("https://api.deepseek.com/chat/completions", {"Authorization": f"Bearer {credential}"}, {
                 "model": audit.model, "temperature": audit.temperature,
                 "messages": [{"role": "system", "content": instructions}, {"role": "user", "content": test.prompt}],
             })
+            _USAGE.set(self._usage(data, audit.provider))
             return self._deepseek_text(data)
         if audit.provider == TargetProvider.GEMINI:
             data = self._post(f"https://generativelanguage.googleapis.com/v1beta/models/{audit.model}:generateContent", {"x-goog-api-key": credential}, {
@@ -104,6 +127,7 @@ class HttpTargetAIConnector(TargetAIConnector):
                 "contents": [{"role": "user", "parts": [{"text": test.prompt}]}],
                 "generationConfig": {"temperature": audit.temperature},
             })
+            _USAGE.set(self._usage(data, audit.provider))
             return self._gemini_text(data)
         raise ProviderRequestError("The selected target provider is not supported.", 400)
 
@@ -113,6 +137,7 @@ class HttpTargetAIConnector(TargetAIConnector):
         provider_name = "The target AI provider"
         last_transport_error: httpx.TransportError | None = None
         for attempt in range(_MAX_ATTEMPTS):
+            _ATTEMPTS.set(_ATTEMPTS.get() + 1)
             try:
                 response = httpx.post(url, headers={"Content-Type": "application/json", **headers}, json=payload, timeout=_REQUEST_TIMEOUT_SECONDS)
             except httpx.TransportError as exc:
@@ -134,6 +159,23 @@ class HttpTargetAIConnector(TargetAIConnector):
         if last_transport_error is not None:
             raise ProviderRequestError(f"{provider_name} could not be reached. Please try the audit again.", 503) from last_transport_error
         raise ProviderRequestError(f"{provider_name} is temporarily unavailable. Please try the audit again.", 503)
+
+    @staticmethod
+    def _usage(data: Mapping[str, Any], provider: TargetProvider) -> dict[str, int | None]:
+        """Normalise provider-reported usage only when a response includes it."""
+        raw = data.get("usage") if provider != TargetProvider.GEMINI else data.get("usageMetadata")
+        if not isinstance(raw, Mapping):
+            return {}
+        keys = {
+            TargetProvider.OPENAI: ("input_tokens", "output_tokens", "total_tokens"),
+            TargetProvider.DEEPSEEK: ("prompt_tokens", "completion_tokens", "total_tokens"),
+            TargetProvider.GEMINI: ("promptTokenCount", "candidatesTokenCount", "totalTokenCount"),
+        }[provider]
+        values: list[int | None] = []
+        for key in keys:
+            value = raw.get(key)
+            values.append(value if isinstance(value, int) and not isinstance(value, bool) else None)
+        return {"input_tokens": values[0], "output_tokens": values[1], "total_tokens": values[2]}
 
     @staticmethod
     def _http_error_message(status_code: int) -> str:

@@ -22,3 +22,5 @@ The default workflow uses deterministic local rule-based implementations, so a c
 Optional target-AI selections are available for OpenAI GPT-5.6 Luna, DeepSeek Flash, and Gemini 2.5 Flash-Lite. Put provider keys in `.env`; see [development instructions](docs/DEVELOPMENT.md).
 
 For formal evaluation, the repository includes a versioned synthetic seed annotation set and a practical double-annotation procedure in [docs/ANNOTATION_PROTOCOL.md](docs/ANNOTATION_PROTOCOL.md). Real participant data should not be committed to the repository.
+
+The optional LongMemEval-compatible endpoint accepts only locally supplied benchmark JSON. Its deterministic, provider-free runner uses isolated in-memory target-memory simulations and returns reproducibility metadata and retrieval evidence. It does not download, bundle, redistribute, or retain benchmark data, and its results are **not official LongMemEval scores**. Researchers must obtain any external source lawfully and comply with its licence, citation, consent, and privacy requirements. See [the API documentation](docs/API.md) and [development guide](docs/DEVELOPMENT.md).
