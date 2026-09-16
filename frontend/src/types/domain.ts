@@ -1,0 +1,37 @@
+export type Dimension = 'accuracy' | 'freshness' | 'conflict_resolution' | 'appropriate_use';
+export type MemoryStatus = 'candidate' | 'confirmed' | 'edited' | 'rejected';
+export interface ConversationMessage { message_id:string; role:string; content:string; timestamp:string }
+export interface Conversation { conversation_id:string; created_at:string; authorised:boolean; messages:ConversationMessage[] }
+export interface MemoryRelationship { relationship_id?:string; type:'UPDATE'|'CONFLICT'|'CONTEXTUAL_OVERRIDE'; target_memory_id:string }
+export interface Memory { memory_id:string; conversation_id:string; canonical_value:string; status:MemoryStatus; source_message_ids:string[]; timestamp?:string; relationships:MemoryRelationship[] }
+export type TargetProvider = 'rule_based'|'openai'|'deepseek'|'gemini';
+export type MemoryStrategy = 'weak_first_hit'|'strong_rule_based'|'strong_score_based';
+export type TestSuiteMode = 'behavioural'|'direct_ground_truth'|'fixed_template';
+export type TestType = 'direct'|'contextual'|'paraphrased'|'indirect';
+export type TestQualityStatus = 'pending'|'accepted'|'rejected';
+export type GroundingStatus = 'pending'|'grounded'|'ungrounded';
+export interface Experiment { experiment_id:string; conversation_id:string; label:string; status:string; test_suite_configuration:{test_budget:number;random_seed:number;prompt_template_version:string;pipeline_provider:TargetProvider;pipeline_model:string;dimensions:Dimension[];suite_mode:TestSuiteMode}; test_suite_metadata:{test_count:number;dimensions:Dimension[];generator_version?:string;generated_at?:string}; test_suite_source_run_id?:string; created_at:string; completed_at?:string }
+export interface AuditRun { run_id:string; conversation_id:string; experiment_id?:string; status:string; target_configuration:'weak'|'strong'; provider:TargetProvider; model:string; temperature:number; random_seed:number; test_budget:number; prompt_template_version:string; pipeline_provider:string; pipeline_model:string; evaluator_provider:string; evaluator_model:string; memory_strategy:MemoryStrategy; created_at:string; completed_at?:string }
+export interface ProviderOption { provider:TargetProvider; label:string; default_model:string; configured:boolean; description:string }
+export interface TestCase { test_id:string; run_id:string; dimension:Dimension; prompt:string; expected_behavior:string; supporting_memory_ids:string[]; generator_version:string; test_type?:TestType; quality_status?:TestQualityStatus; grounding_status?:GroundingStatus; validation_notes?:string }
+export interface TestReviewSuite { run_id:string; canonical_run_id:string; tests:TestCase[] }
+export interface TargetMemoryTraceRecord { memory_id:string; canonical_value:string; lifecycle_state:'ACTIVE'|'SUPERSEDED'|'CONFLICTED'; source_message_ids:string[]; observed_at?:string; write_order:number; relationships:MemoryRelationship[] }
+export interface TargetMemoryTraceEvent { event_id:string; event_type:'INGESTED'|'WRITTEN'|'UPDATED'|'CONFLICT_RECORDED'|'CONTEXTUAL_OVERRIDE_RECORDED'|'RETRIEVED'; memory_id?:string; source_message_ids:string[]; details:Record<string, unknown>; created_at:string }
+export interface TargetMemoryTraceRetrieval { retrieval_id:string; test_id:string; strategy:MemoryStrategy; selected_memory_ids:string[]; ranking_evidence:Array<Record<string, unknown>>; created_at:string }
+export interface TargetMemoryTrace { run_id:string; memory_strategy:MemoryStrategy; records:TargetMemoryTraceRecord[]; events:TargetMemoryTraceEvent[]; retrievals:TargetMemoryTraceRetrieval[] }
+export interface TargetResponse { response_id:string; test_id:string; run_id:string; response_text:string; model:string; temperature:number; created_at:string }
+export interface EvaluationResult { evaluation_id:string; test_id:string; response_id:string; passed:boolean; failure_type?:Dimension; reason:string; evidence_memory_ids:string[]; evaluator:string }
+export interface DimensionScores { dimension:Dimension; percentage:number | null; passed:number; total:number }
+export interface FailureDetail { failure_id:string; test:TestCase; response:TargetResponse; evaluation:EvaluationResult; evidence:Memory[] }
+export interface AuditResult { run_id:string; overall_score:number|null; tests_passed:number; tests_total:number; dimensions:DimensionScores[]; failures:FailureDetail[] }
+export interface ExperimentResult { experiment_id:string; label:string; weak_score:number; strong_score:number; notes:string }
+export interface ExperimentDimensionSummary { dimension:Dimension; mean_percentage:number|null; standard_deviation:number|null; passed:number; total:number; measured_runs:number }
+export interface ExperimentConditionSummary { condition_id:string; label:string; provider:TargetProvider; model:string; memory_strategy:MemoryStrategy; planned_runs:number; completed_runs:number; failed_runs:number; run_ids:string[]; overall_mean:number|null; overall_standard_deviation:number|null; tests_passed:number; tests_total:number; failure_count:number; dimensions:ExperimentDimensionSummary[] }
+export interface PairedComparison { reference_run_id:string; reference_label:string; candidate_run_id:string; candidate_label:string; shared_tests:number; both_passed:number; both_failed:number; reference_only_passed:number; candidate_only_passed:number; candidate_delta_percentage_points:number|null; candidate_delta_confidence_interval_low:number|null; candidate_delta_confidence_interval_high:number|null; two_sided_sign_test_p_value:number|null }
+export interface ExperimentRunReport { run:AuditRun; result:AuditResult|null }
+export interface ExperimentAnalytics { experiment:Experiment; runs:ExperimentRunReport[]; conditions:ExperimentConditionSummary[]; paired_comparisons:PairedComparison[] }
+export interface AnnotationImportReport { dataset_id:string; dataset_version:string; fingerprint_sha256:string; conversations:number; gold_memories:number; gold_relationships:number; gold_tests:number; gold_evaluations:number; created_at:string; validation_status:string }
+export interface BinaryClassificationMetrics { labelled_cases:number; true_positives:number; false_positives:number; true_negatives:number; false_negatives:number; precision:number|null; recall:number|null; f1:number|null; accuracy:number|null; false_positive_rate:number|null; cohens_kappa:number|null }
+export interface ResearchValidityReport { dataset_id:string; dataset_version:string; conversations:number; extraction:BinaryClassificationMetrics; relationship:BinaryClassificationMetrics; test_validity:BinaryClassificationMetrics; evaluator:BinaryClassificationMetrics }
+export interface LongMemEvalImportReport { adapter_version:string; cases_imported:number; case_ids:string[]; dimension_hints:string[]; source_format:string; notice:string }
+export interface LongMemEvalValidationResponse { report:LongMemEvalImportReport; cases:Array<{case_id:string; question:string; expected_answer:string; category:string; dimension_hint?:string|null}> }

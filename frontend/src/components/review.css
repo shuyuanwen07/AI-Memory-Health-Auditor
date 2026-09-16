@@ -1,0 +1,40 @@
+.input-help,
+.input-feedback {
+  color: #536b7e;
+  font-size: .88rem;
+  margin: .35rem 0;
+}
+
+.input-feedback {
+  color: #075b75;
+  font-weight: 650;
+}
+
+.input-error { color: #902d2d; }
+
+.review-toolbar {
+  align-items: end;
+  border-bottom: 1px solid #e2eaf1;
+  display: flex;
+  gap: 1rem;
+  justify-content: space-between;
+  margin: 1rem 0;
+  padding-bottom: .5rem;
+}
+
+.review-toolbar label { margin: 0; min-width: 13rem; }
+.review-toolbar p { color: #536b7e; font-size: .88rem; margin: .3rem 0; }
+
+.relationship {
+  background: #f4f8fb;
+  border-radius: 6px;
+  padding: .65rem;
+}
+
+.relationship strong,
+.relationship span { display: block; }
+.relationship span { margin-top: .35rem; }
+
+@media (max-width: 720px) {
+  .review-toolbar { align-items: stretch; flex-direction: column; }
+}

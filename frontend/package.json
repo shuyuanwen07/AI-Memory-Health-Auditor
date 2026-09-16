@@ -1,0 +1,16 @@
+{
+  "name": "memory-health-auditor-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "typecheck": "tsc -b --pretty false",
+    "build": "npm run typecheck && vite build",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "npm run build && npm test"
+  },
+  "dependencies": {"@vitejs/plugin-react":"latest", "vite":"latest", "typescript":"~5.7.2", "react":"latest", "react-dom":"latest", "react-router-dom":"latest"},
+  "devDependencies": {"vitest":"latest", "jsdom":"latest", "@testing-library/react":"latest", "@testing-library/jest-dom":"latest", "@testing-library/user-event":"latest", "@types/react":"latest", "@types/react-dom":"latest"}
+}

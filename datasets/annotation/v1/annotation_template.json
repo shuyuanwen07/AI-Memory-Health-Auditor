@@ -1,0 +1,25 @@
+{
+  "dataset_id": "replace-with-dataset-id",
+  "dataset_version": "1.0.0",
+  "created_at": "2026-01-01T00:00:00Z",
+  "authorised_for_research": true,
+  "data_origin": "State whether scenarios are synthetic or describe the recorded consented source.",
+  "deidentification_note": "State the completed de-identification check; do not put personal data in this template.",
+  "conversations": [
+    {
+      "conversation_id": "ANN-CXXX",
+      "messages": [
+        {"message_id": "ANN-MSGXXX", "role": "user", "content": "Replace with authorised, de-identified text.", "timestamp": "2026-01-01T00:00:00Z"}
+      ],
+      "gold_memories": [
+        {"memory_id": "ANN-GMXXX", "canonical_value": "Replace with one atomic canonical memory.", "source_message_ids": ["ANN-MSGXXX"], "timestamp": "2026-01-01T00:00:00Z", "relationships": []}
+      ],
+      "gold_tests": [
+        {"test_id": "ANN-TXXX", "dimension": "accuracy", "test_type": "direct", "prompt": "Replace with a question that does not reveal the answer.", "expected_behavior": "Replace with observable expected behaviour.", "supporting_memory_ids": ["ANN-GMXXX"], "grounded": true, "quality_label": "accept", "quality_note": "Explain why the test is grounded and valid."}
+      ],
+      "gold_evaluations": [
+        {"response_id": "ANN-RXXX", "test_id": "ANN-TXXX", "response_text": "Replace with an anonymised target response.", "passed": true, "failure_type": null, "reason": "Explain the label using the expected behaviour.", "evidence_memory_ids": ["ANN-GMXXX"]}
+      ]
+    }
+  ]
+}

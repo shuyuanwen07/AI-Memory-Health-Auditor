@@ -1,0 +1,50 @@
+{
+  "records": [
+    {
+      "question_id": "LME-SAMPLE-001",
+      "question": "Which database should the current assignment use?",
+      "answer": "PostgreSQL.",
+      "category": "knowledge_update",
+      "dimension_hint": "freshness",
+      "haystack_sessions": [
+        {
+          "messages": [
+            {
+              "message_id": "S1-M1",
+              "role": "user",
+              "content": "I used MySQL before.",
+              "timestamp": "2026-01-10T09:00:00Z"
+            },
+            {
+              "message_id": "S2-M1",
+              "role": "user",
+              "content": "The backend now uses PostgreSQL.",
+              "timestamp": "2026-02-10T09:00:00Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question_id": "LME-SAMPLE-002",
+      "question": "Which language should be used for this ELEC5623 assignment?",
+      "answer": "Java, because the current assignment requirement overrides the general Python preference.",
+      "category": "temporal_reasoning",
+      "dimension_hint": "appropriate_use",
+      "sessions": [
+        {
+          "message_id": "S3-M1",
+          "role": "user",
+          "content": "I generally prefer Python.",
+          "timestamp": "2026-02-11T09:00:00Z"
+        },
+        {
+          "message_id": "S4-M1",
+          "role": "user",
+          "content": "For the current ELEC5623 assignment, Java is required.",
+          "timestamp": "2026-02-12T09:00:00Z"
+        }
+      ]
+    }
+  ]
+}

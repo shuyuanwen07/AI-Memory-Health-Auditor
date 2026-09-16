@@ -1,0 +1,44 @@
+{
+  "dataset_id": "memory-health-seed",
+  "dataset_version": "1.0.0",
+  "created_at": "2026-09-16T00:00:00Z",
+  "authorised_for_research": true,
+  "data_origin": "Synthetic university-project scenarios written by the research team; no real conversation records are included.",
+  "deidentification_note": "All names, organisations and identifiers are fictional. Do not add direct identifiers, credentials, contact information, or private conversation text without recorded authorisation.",
+  "conversations": [
+    {
+      "conversation_id": "ANN-C001",
+      "messages": [
+        {"message_id": "ANN-MSG001", "role": "user", "content": "My backend used MySQL before.", "timestamp": "2026-01-10T09:00:00Z"},
+        {"message_id": "ANN-MSG002", "role": "user", "content": "It has now migrated to PostgreSQL.", "timestamp": "2026-02-02T09:00:00Z"},
+        {"message_id": "ANN-MSG003", "role": "user", "content": "I generally prefer Python.", "timestamp": "2026-02-02T09:01:00Z"},
+        {"message_id": "ANN-MSG004", "role": "user", "content": "For the current ELEC5623 assignment, Java is required.", "timestamp": "2026-02-02T09:02:00Z"},
+        {"message_id": "ANN-MSG005", "role": "user", "content": "I am based in Sydney.", "timestamp": "2026-02-02T09:03:00Z"},
+        {"message_id": "ANN-MSG006", "role": "user", "content": "One brief says the assignment must use SQLite, while another signed brief says it must use PostgreSQL. I do not know which brief is current.", "timestamp": "2026-02-02T09:04:00Z"}
+      ],
+      "gold_memories": [
+        {"memory_id": "ANN-GM001", "canonical_value": "The backend previously used MySQL.", "source_message_ids": ["ANN-MSG001"], "timestamp": "2026-01-10T09:00:00Z"},
+        {"memory_id": "ANN-GM002", "canonical_value": "The backend now uses PostgreSQL.", "source_message_ids": ["ANN-MSG002"], "timestamp": "2026-02-02T09:00:00Z", "relationships": [{"type": "UPDATE", "target_memory_id": "ANN-GM001"}]},
+        {"memory_id": "ANN-GM003", "canonical_value": "The user generally prefers Python.", "source_message_ids": ["ANN-MSG003"], "timestamp": "2026-02-02T09:01:00Z"},
+        {"memory_id": "ANN-GM004", "canonical_value": "The current ELEC5623 assignment requires Java.", "source_message_ids": ["ANN-MSG004"], "timestamp": "2026-02-02T09:02:00Z", "relationships": [{"type": "CONTEXTUAL_OVERRIDE", "target_memory_id": "ANN-GM003"}]},
+        {"memory_id": "ANN-GM005", "canonical_value": "The user is based in Sydney.", "source_message_ids": ["ANN-MSG005"], "timestamp": "2026-02-02T09:03:00Z"},
+        {"memory_id": "ANN-GM006", "canonical_value": "One signed assignment brief requires SQLite.", "source_message_ids": ["ANN-MSG006"], "timestamp": "2026-02-02T09:04:00Z", "relationships": [{"type": "CONFLICT", "target_memory_id": "ANN-GM007"}]},
+        {"memory_id": "ANN-GM007", "canonical_value": "Another signed assignment brief requires PostgreSQL, but its current validity is unknown.", "source_message_ids": ["ANN-MSG006"], "timestamp": "2026-02-02T09:04:00Z", "relationships": [{"type": "CONFLICT", "target_memory_id": "ANN-GM006"}]}
+      ],
+      "gold_tests": [
+        {"test_id": "ANN-T001", "dimension": "accuracy", "test_type": "direct", "prompt": "Where is the user based?", "expected_behavior": "State that the user is based in Sydney.", "supporting_memory_ids": ["ANN-GM005"], "grounded": true, "quality_label": "accept", "quality_note": "Directly tests a stable fact without placing the answer in the prompt."},
+        {"test_id": "ANN-T002", "dimension": "freshness", "test_type": "contextual", "prompt": "Which database technology should be used for the backend now?", "expected_behavior": "Use PostgreSQL and do not use the superseded MySQL record.", "supporting_memory_ids": ["ANN-GM001", "ANN-GM002"], "grounded": true, "quality_label": "accept", "quality_note": "Requires the later UPDATE relationship to be applied."},
+        {"test_id": "ANN-T003", "dimension": "conflict_resolution", "test_type": "indirect", "prompt": "Which database requirement should be followed for the assignment?", "expected_behavior": "Explain that the two signed briefs conflict and request clarification before choosing SQLite or PostgreSQL.", "supporting_memory_ids": ["ANN-GM006", "ANN-GM007"], "grounded": true, "quality_label": "accept", "quality_note": "The evidence deliberately has no known priority, so a fabricated choice is not acceptable."},
+        {"test_id": "ANN-T004", "dimension": "appropriate_use", "test_type": "paraphrased", "prompt": "What language should be selected for the task currently being submitted?", "expected_behavior": "Use Java because the current assignment requirement overrides the general Python preference.", "supporting_memory_ids": ["ANN-GM003", "ANN-GM004"], "grounded": true, "quality_label": "accept", "quality_note": "Checks that a contextual requirement overrides a general preference."},
+        {"test_id": "ANN-T005", "dimension": "accuracy", "test_type": "direct", "prompt": "What is the user's favourite database?", "expected_behavior": "No answer is supported by the conversation.", "supporting_memory_ids": ["ANN-GM001", "ANN-GM002"], "grounded": false, "quality_label": "reject", "quality_note": "The conversation says what the backend uses, not a personal favourite."}
+      ],
+      "gold_evaluations": [
+        {"response_id": "ANN-R001", "test_id": "ANN-T001", "response_text": "The user is based in Sydney.", "passed": true, "failure_type": null, "reason": "The response states the supported stable fact.", "evidence_memory_ids": ["ANN-GM005"]},
+        {"response_id": "ANN-R002", "test_id": "ANN-T002", "response_text": "Use PostgreSQL now.", "passed": true, "failure_type": null, "reason": "The response follows the later update.", "evidence_memory_ids": ["ANN-GM001", "ANN-GM002"]},
+        {"response_id": "ANN-R003", "test_id": "ANN-T002", "response_text": "Use MySQL because it was used before.", "passed": false, "failure_type": "freshness", "reason": "The response relies on the superseded record.", "evidence_memory_ids": ["ANN-GM001", "ANN-GM002"]},
+        {"response_id": "ANN-R004", "test_id": "ANN-T003", "response_text": "Use PostgreSQL.", "passed": false, "failure_type": "conflict_resolution", "reason": "It chooses a side despite unresolved conflicting briefs.", "evidence_memory_ids": ["ANN-GM006", "ANN-GM007"]},
+        {"response_id": "ANN-R005", "test_id": "ANN-T004", "response_text": "Use Java for this assignment.", "passed": true, "failure_type": null, "reason": "The current task requirement correctly overrides the general preference.", "evidence_memory_ids": ["ANN-GM003", "ANN-GM004"]}
+      ]
+    }
+  ]
+}

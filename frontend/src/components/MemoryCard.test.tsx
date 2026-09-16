@@ -1,0 +1,3 @@
+import { render, screen } from '@testing-library/react'; import userEvent from '@testing-library/user-event'; import { MemoryCard } from './MemoryCard';
+const memory={memory_id:'M002',conversation_id:'C1',canonical_value:'Backend now uses PostgreSQL.',status:'candidate' as const,source_message_ids:['MSG002'],relationships:[{type:'UPDATE' as const,target_memory_id:'M001'}]};
+test('allows a candidate memory to be accepted',async()=>{const change=vi.fn();render(<MemoryCard memory={memory} onChange={change}/>);await userEvent.click(screen.getByRole('button',{name:'Accept'}));expect(change).toHaveBeenCalledWith('confirmed');expect(screen.getByText(/UPDATE/)).not.toBeNull();});
