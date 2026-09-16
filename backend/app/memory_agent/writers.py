@@ -15,7 +15,7 @@ from typing import Any
 from app.extraction.llm import PipelineLLMClient, PipelineRequestError
 from app.extraction.llm_extractor import _EXTRACTION_SCHEMA, _ExtractionPayload
 from app.extraction.rule_based import RuleBasedMemoryExtractor
-from app.schemas import Conversation, Memory, MemoryRelationship, MemoryStatus, RelationshipType
+from app.schemas import Conversation, Memory, MemoryRelationship, MemoryStatus, RelationshipType, TargetMemoryWriterKind
 from app.services.interfaces import MemoryExtractor
 
 
@@ -85,19 +85,36 @@ class LLMTargetMemoryWriter(MemoryExtractor):
                     raise PipelineRequestError("The target memory writer returned an invalid relationship reference.")
 
 
-def get_target_memory_writer(provider: str, model: str | None = None) -> MemoryExtractor:
-    """Resolve the private writer without altering the public audit contract.
-
-    ``TARGET_MEMORY_WRITER=rule_based`` is the reproducible default.
-    ``TARGET_MEMORY_WRITER=llm_structured`` uses the run's already-recorded
-    pipeline provider/model, ensuring all conditions in one experiment group
-    use the same writer settings.
-    """
+def default_target_memory_writer_kind() -> TargetMemoryWriterKind:
+    """Read the environment only while a new AuditRun is being created."""
     choice = os.getenv("TARGET_MEMORY_WRITER", "rule_based").strip().lower()
+    try:
+        return TargetMemoryWriterKind(choice)
+    except ValueError as exc:
+        raise PipelineRequestError(
+            "TARGET_MEMORY_WRITER must be rule_based or llm_structured.", 500
+        ) from exc
+
+
+def get_target_memory_writer(
+    provider: str,
+    model: str | None = None,
+    writer_kind: TargetMemoryWriterKind | str | None = None,
+) -> MemoryExtractor:
+    """Resolve a writer from a persisted AuditRun configuration.
+
+    ``writer_kind`` should always be supplied by execution code.  The optional
+    fallback is retained solely for API compatibility with older callers and
+    resolves the environment default; it must not be used once a run exists.
+    """
+    choice = (TargetMemoryWriterKind(writer_kind).value if writer_kind is not None
+              else default_target_memory_writer_kind().value)
     if choice == "rule_based":
         return RuleBasedMemoryExtractor()
     if choice == "llm_structured":
         if provider == "rule_based":
             raise PipelineRequestError("A structured LLM target-memory writer requires an OpenAI, DeepSeek, or Gemini pipeline provider.", 422)
         return LLMTargetMemoryWriter(provider, model)
-    raise PipelineRequestError("TARGET_MEMORY_WRITER must be rule_based or llm_structured.", 500)
+    # The enum validation above makes this unreachable, but keep a clear
+    # boundary error if an untyped implementation calls this in future.
+    raise PipelineRequestError("Target memory writer must be rule_based or llm_structured.", 500)

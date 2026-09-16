@@ -93,6 +93,12 @@ test('completes the local audit workflow from consent through reviewed results a
   await screen.findByRole('heading', { name: 'Configure Memory Audit' });
 
   await user.click(screen.getByRole('button', { name: 'Start Memory Audit' }));
+  expect(apiMocks.createAudit).toHaveBeenCalledWith(expect.objectContaining({
+    memory_strategy: 'weak_first_hit',
+    memory_maintenance_policy: 'update_aware_consolidation',
+    target_memory_writer: 'rule_based',
+    model: 'rule-based-v1',
+  }));
   await screen.findByRole('heading', { name: 'Prepare Memory Audit' });
   await user.click(screen.getByRole('button', { name: 'Generate Tests for Review' }));
   await screen.findByRole('heading', { name: 'Review Generated Test Suite' });

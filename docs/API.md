@@ -8,6 +8,8 @@ The interactive OpenAPI contract is available at `/docs` when the backend is run
 | GET | `/target-providers` | Selectable target providers and backend configuration status; never returns secrets |
 | POST | `/conversations` | Store authorised pasted or structured conversation data |
 | GET | `/conversations/{id}` | Retrieve conversation and messages |
+| GET | `/conversations/{id}/export` | Download authorised conversation, reviewed ground truth, and locally derived audit records as portable JSON; API keys and raw provider payloads are excluded |
+| DELETE | `/conversations/{id}` | Permanently delete the authorised conversation and all locally derived audit records; request body must echo the exact conversation ID in `confirmation` |
 | POST | `/conversations/{id}/extract` | Extract candidate memories |
 | GET | `/conversations/{id}/memories` | List reviewed candidates |
 | POST | `/memories` | Add a missing memory |
@@ -43,7 +45,15 @@ The interactive OpenAPI contract is available at `/docs` when the backend is run
 
 The API returns `409 Conflict` for an invalid audit lifecycle action and `422 Unprocessable Entity` when consent or required review data is absent.
 
+## Local data lifecycle
+
+The Audit History page offers an export and a permanent local-delete control for each conversation. Export is read-only and creates a `conversation-export-v1` JSON file containing source messages, reviewed ground truth, experiment metadata, test cases, target responses and evaluations. It deliberately excludes API keys and raw provider payloads.
+
+Deletion is an irreversible local operation: `DELETE /conversations/{id}` requires `{"confirmation":"{id}"}`. It atomically removes the selected conversation, messages, reviewed memories and relationships, experiment groups, audit runs, tests, target responses, evaluations and private target-memory operational records derived from that conversation. Download an export before deletion when a copy is required for research retention.
+
 `POST /audits` accepts target `provider` and `model`, plus optional `pipeline_provider`, `pipeline_model`, `evaluator_provider`, and `evaluator_model`. It also accepts `memory_maintenance_policy`: `append_only` or `update_aware_consolidation` (the default). This controls only the target Agent's private write-side lifecycle; it is separate from `memory_strategy`, which controls retrieval. Retrieval strategies are `weak_first_hit`, `strong_rule_based`, `strong_score_based`, and `scope_aware`. The final strategy gives current project requirements priority for context-specific prompts, while treating profile and preference records as primary only for matching questions. Each provider is one of `rule_based`, `openai`, `deepseek`, or `gemini`. When pipeline or evaluator fields are omitted, the backend defaults from its environment. A missing provider key is reported during execution as `503 Service Unavailable`, without exposing configuration secrets.
+
+`POST /audits` also accepts optional `target_memory_writer`: `rule_based` or `llm_structured`. If omitted, the backend resolves `TARGET_MEMORY_WRITER` **once at creation**. The resulting run always returns its persisted writer kind and writer version, and includes both in reproducibility metadata. Later execution uses those persisted values rather than the current process environment. `llm_structured` requires a non-rule-based frozen pipeline provider.
 
 `GET /audits/{id}/tests` and test-generation responses intentionally omit the private target-memory context. They do include the test type (`direct`, `contextual`, `paraphrased`, or `indirect`) and a quality/grounding decision. The server gives private context only to the controlled target during execution; this prevents a client or target model from using evaluator-only material.
 

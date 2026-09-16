@@ -34,6 +34,8 @@ class _Candidate:
 class RuleBasedMemoryExtractor(MemoryExtractor):
     """Extract durable-looking user statements and explicit relationships."""
 
+    VERSION = "rule-based-memory-extractor-v1"
+
     def extract(self, conversation: Conversation) -> list[Memory]:
         candidates = self._candidates(conversation)
         memories = [Memory(memory_id=f"M{index:03d}", conversation_id=conversation.conversation_id,

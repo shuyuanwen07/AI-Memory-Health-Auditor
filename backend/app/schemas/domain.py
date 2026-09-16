@@ -49,6 +49,15 @@ class TargetMemoryMaintenancePolicy(str, Enum):
     """Write-side policy, independent of the target's retrieval strategy."""
     APPEND_ONLY = "append_only"
     UPDATE_AWARE_CONSOLIDATION = "update_aware_consolidation"
+class TargetMemoryWriterKind(str, Enum):
+    """The independently configured writer used by the controlled target Agent.
+
+    This setting is frozen when an audit is created.  It is deliberately
+    separate from the Auditor's extraction provider and from the target model
+    that answers test prompts.
+    """
+    RULE_BASED = "rule_based"
+    LLM_STRUCTURED = "llm_structured"
 class TargetMemoryLifecycleState(str, Enum):
     """Private state of a controlled target agent's independently written record."""
     ACTIVE = "ACTIVE"
@@ -84,6 +93,14 @@ class ConversationCreate(BaseModel):
     authorised: bool
     pasted_text: str | None = None
     messages: list[ConversationMessage] | None = None
+class ConversationDeletionRequest(BaseModel):
+    """Explicit acknowledgement required before local source data is erased."""
+    confirmation: str = Field(min_length=1, max_length=40)
+class ConversationDeletionReceipt(BaseModel):
+    conversation_id: str
+    deleted_audit_runs: int
+    deleted_experiments: int
+    message: str
 class MemoryRelationship(BaseModel):
     relationship_id: str | None = None
     type: RelationshipType
@@ -172,6 +189,8 @@ class TargetMemoryTrace(BaseModel):
     run_id: str
     memory_strategy: MemoryStrategy
     memory_maintenance_policy: TargetMemoryMaintenancePolicy
+    target_memory_writer: TargetMemoryWriterKind = TargetMemoryWriterKind.RULE_BASED
+    target_memory_writer_version: str | None = None
     records: list[TargetMemoryTraceRecord] = []
     events: list[TargetMemoryTraceEvent] = []
     retrievals: list[TargetMemoryTraceRetrieval] = []
@@ -247,6 +266,10 @@ class AuditCreate(BaseModel):
     evaluator_model: str | None = None
     memory_strategy: MemoryStrategy | None = None
     memory_maintenance_policy: TargetMemoryMaintenancePolicy = TargetMemoryMaintenancePolicy.UPDATE_AWARE_CONSOLIDATION
+    # Omitted means use TARGET_MEMORY_WRITER only as an audit-creation default.
+    # The selected value is persisted on the resulting AuditRun and is never
+    # re-read from the environment during execution.
+    target_memory_writer: TargetMemoryWriterKind | None = None
 
 
 class RetryPolicyMetadata(BaseModel):
@@ -267,6 +290,7 @@ class ReproducibilityMetadata(BaseModel):
     configuration_fingerprint: str | None = None
     prompt_template_fingerprint: str | None = None
     target_memory_writer_version: str | None = None
+    target_memory_writer: TargetMemoryWriterKind = TargetMemoryWriterKind.RULE_BASED
     memory_policy_version: str | None = None
     target_retry_policy: RetryPolicyMetadata = Field(default_factory=RetryPolicyMetadata)
 
@@ -287,6 +311,8 @@ class AuditRun(BaseModel):
     evaluator_provider: str = "rule_based"; evaluator_model: str = "rule-based-v2"
     memory_strategy: MemoryStrategy = MemoryStrategy.STRONG_RULE_BASED
     memory_maintenance_policy: TargetMemoryMaintenancePolicy = TargetMemoryMaintenancePolicy.UPDATE_AWARE_CONSOLIDATION
+    target_memory_writer: TargetMemoryWriterKind = TargetMemoryWriterKind.RULE_BASED
+    target_memory_writer_version: str | None = None
     reproducibility: ReproducibilityMetadata = Field(default_factory=ReproducibilityMetadata)
     created_at: datetime; completed_at: datetime | None = None
 class TestCase(BaseModel):

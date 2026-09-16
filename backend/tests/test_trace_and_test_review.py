@@ -90,9 +90,36 @@ def test_target_memory_trace_is_post_completion_only_and_hides_evaluator_materia
             assert trace.status_code == 200
             payload = trace.json()
             assert payload["records"] and payload["retrievals"]
+            assert payload["target_memory_writer"] == "rule_based"
+            assert payload["target_memory_writer_version"] == "rule-based-memory-extractor-v1"
             assert "expected_behavior" not in str(payload)
             assert "target_memory_context" not in str(payload)
             assert any(event["details"].get("writer_version") for event in payload["events"])
+        finally:
+            app.dependency_overrides.clear()
+
+
+def test_target_memory_writer_is_frozen_at_creation_even_if_environment_changes(monkeypatch, tmp_path):
+    """Changing TARGET_MEMORY_WRITER after creation cannot change this run."""
+    monkeypatch.setenv("PIPELINE_PROVIDER", "rule_based")
+    monkeypatch.setenv("EVALUATOR_PROVIDER", "rule_based")
+    monkeypatch.setenv("TARGET_MEMORY_WRITER", "rule_based")
+    with _client(tmp_path) as client:
+        try:
+            source, _ = _conversation_and_experiment(client)
+            run_id = source["run_id"]
+            assert source["target_memory_writer"] == "rule_based"
+            assert source["reproducibility"]["target_memory_writer"] == "rule_based"
+            assert source["target_memory_writer_version"] == "rule-based-memory-extractor-v1"
+
+            assert client.post(f"/api/v1/audits/{run_id}/generate-tests").status_code == 200
+            # An invalid value would make the legacy env-resolving factory
+            # fail. Execution succeeds because it uses the persisted field.
+            monkeypatch.setenv("TARGET_MEMORY_WRITER", "not-a-writer")
+            assert client.post(f"/api/v1/audits/{run_id}/execute").status_code == 200
+            assert client.post(f"/api/v1/audits/{run_id}/evaluate").status_code == 200
+            trace = client.get(f"/api/v1/audits/{run_id}/target-memory-trace").json()
+            assert trace["target_memory_writer"] == "rule_based"
         finally:
             app.dependency_overrides.clear()
 

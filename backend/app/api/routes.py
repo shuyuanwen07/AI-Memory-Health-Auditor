@@ -6,14 +6,14 @@ from io import StringIO
 import csv
 import hashlib
 import json
-from sqlalchemy import select
+from sqlalchemy import delete, select
 from sqlalchemy.orm import Session
 from app.database.session import get_db
 from app.evaluator.factory import get_behaviour_evaluator
 from app.extraction.factory import get_memory_extractor
 from app.extraction.llm import configured_pipeline_model, pipeline_provider
 from app.evaluator.factory import configured_evaluator
-from app.memory_agent import SqlTargetMemoryStore, get_target_memory_writer
+from app.memory_agent import SqlTargetMemoryStore, default_target_memory_writer_kind, get_target_memory_writer
 from app.metrics.service import MetricsService
 from app.services.experiment_analytics import ExperimentAnalyticsService
 from app.models import AuditRunModel, ConversationModel, EvaluationResultModel, ExperimentModel, MemoryModel, MemoryRelationshipModel, MessageModel, TargetAgentMemoryEventModel, TargetAgentMemoryModel, TargetAgentMemoryRelationshipModel, TargetAgentRetrievalModel, TargetResponseModel, TestCaseModel
@@ -43,9 +43,11 @@ def fingerprint(payload: dict) -> str:
 def reproducibility_snapshot(*, provider: str, model: str, temperature: float, random_seed: int,
                              test_budget: int, prompt_template_version: str, pipeline_provider: str,
                              pipeline_model: str, evaluator_provider: str, evaluator_model: str,
-                             memory_strategy: str, memory_maintenance_policy: str) -> dict:
+                             memory_strategy: str, memory_maintenance_policy: str,
+                             target_memory_writer: TargetMemoryWriterKind | str) -> dict:
     """Freeze safe reproducibility facts when a run is created."""
-    writer = get_target_memory_writer(pipeline_provider, pipeline_model)
+    writer_kind = TargetMemoryWriterKind(target_memory_writer)
+    writer = get_target_memory_writer(pipeline_provider, pipeline_model, writer_kind)
     writer_version = getattr(writer, "VERSION", writer.__class__.__name__)
     configuration = {
         "provider": provider, "model": model, "temperature": temperature,
@@ -54,6 +56,7 @@ def reproducibility_snapshot(*, provider: str, model: str, temperature: float, r
         "evaluator_provider": evaluator_provider, "evaluator_model": evaluator_model,
         "memory_strategy": memory_strategy,
         "memory_maintenance_policy": memory_maintenance_policy,
+        "target_memory_writer": writer_kind.value,
         "target_memory_writer_version": writer_version,
     }
     return {
@@ -65,6 +68,7 @@ def reproducibility_snapshot(*, provider: str, model: str, temperature: float, r
             "evaluator_provider": evaluator_provider, "evaluator_model": evaluator_model,
         }),
         "target_memory_writer_version": writer_version,
+        "target_memory_writer": writer_kind.value,
         "memory_policy_version": "target-memory-policy-v1",
         "target_retry_policy": {
             "max_attempts": 3, "timeout_seconds": 60.0,
@@ -74,7 +78,12 @@ def reproducibility_snapshot(*, provider: str, model: str, temperature: float, r
 
 
 def audit_schema(obj):
-    return AuditRun(run_id=obj.id, conversation_id=obj.conversation_id, experiment_id=obj.experiment_id, status=obj.status, target_configuration=obj.target_configuration, provider=obj.provider, model=obj.model, temperature=obj.temperature, random_seed=obj.random_seed, test_budget=obj.test_budget, prompt_template_version=obj.prompt_template_version, pipeline_provider=obj.pipeline_provider, pipeline_model=obj.pipeline_model, evaluator_provider=obj.evaluator_provider, evaluator_model=obj.evaluator_model, memory_strategy=obj.memory_strategy, memory_maintenance_policy=getattr(obj, "memory_maintenance_policy", "update_aware_consolidation"), reproducibility=getattr(obj, "reproducibility_metadata", {}) or {}, created_at=obj.created_at, completed_at=obj.completed_at)
+    metadata = getattr(obj, "reproducibility_metadata", {}) or {}
+    # Rows created before migration 0011 are deterministic rule-based runs.
+    # The fallback is intentional for durable backwards compatibility.
+    writer_kind = getattr(obj, "target_memory_writer", None) or metadata.get("target_memory_writer") or "rule_based"
+    writer_version = getattr(obj, "target_memory_writer_version", None) or metadata.get("target_memory_writer_version")
+    return AuditRun(run_id=obj.id, conversation_id=obj.conversation_id, experiment_id=obj.experiment_id, status=obj.status, target_configuration=obj.target_configuration, provider=obj.provider, model=obj.model, temperature=obj.temperature, random_seed=obj.random_seed, test_budget=obj.test_budget, prompt_template_version=obj.prompt_template_version, pipeline_provider=obj.pipeline_provider, pipeline_model=obj.pipeline_model, evaluator_provider=obj.evaluator_provider, evaluator_model=obj.evaluator_model, memory_strategy=obj.memory_strategy, memory_maintenance_policy=getattr(obj, "memory_maintenance_policy", "update_aware_consolidation"), target_memory_writer=writer_kind, target_memory_writer_version=writer_version, reproducibility=metadata, created_at=obj.created_at, completed_at=obj.completed_at)
 def experiment_schema(obj):
     return Experiment(experiment_id=obj.id, conversation_id=obj.conversation_id, label=obj.label, status=obj.status, test_suite_configuration=TestSuiteConfiguration.model_validate(obj.test_suite_configuration), test_suite_metadata=TestSuiteMetadata.model_validate(obj.test_suite_metadata), test_suite_source_run_id=obj.test_suite_source_run_id, created_at=obj.created_at, completed_at=obj.completed_at)
 def test_schema(o): return TestCase(test_id=o.id, run_id=o.run_id, dimension=o.dimension, prompt=o.prompt, expected_behavior=o.expected_behavior, supporting_memory_ids=o.supporting_memory_ids, generator_version=o.generator_version, test_type=o.test_type, quality_status=o.quality_status, grounding_status=o.grounding_status, validation_notes=o.validation_notes, target_memory_context=o.target_memory_context)
@@ -111,6 +120,83 @@ def get_conversation(conversation_id: str, db: Session = Depends(get_db)):
     c = db.get(ConversationModel, conversation_id)
     if not c: missing("Conversation")
     return conversation_schema(db, c)
+
+
+@router.get("/conversations/{conversation_id}/export")
+def export_conversation_data(conversation_id: str, db: Session = Depends(get_db)):
+    """Download authorised source data and its local audit records (never secrets)."""
+    conversation = db.get(ConversationModel, conversation_id)
+    if not conversation: missing("Conversation")
+    memories = db.scalars(select(MemoryModel).where(MemoryModel.conversation_id == conversation_id)).all()
+    runs = db.scalars(select(AuditRunModel).where(AuditRunModel.conversation_id == conversation_id).order_by(AuditRunModel.created_at)).all()
+    experiments = db.scalars(select(ExperimentModel).where(ExperimentModel.conversation_id == conversation_id).order_by(ExperimentModel.created_at)).all()
+    audits = []
+    for run in runs:
+        tests = db.scalars(select(TestCaseModel).where(TestCaseModel.run_id == run.id)).all()
+        responses = db.scalars(select(TargetResponseModel).where(TargetResponseModel.run_id == run.id)).all()
+        evaluations = db.scalars(select(EvaluationResultModel).join(TestCaseModel).where(TestCaseModel.run_id == run.id)).all()
+        target_memories = db.scalars(select(TargetAgentMemoryModel).where(TargetAgentMemoryModel.run_id == run.id).order_by(TargetAgentMemoryModel.write_order)).all()
+        target_relationships = db.scalars(select(TargetAgentMemoryRelationshipModel).where(TargetAgentMemoryRelationshipModel.run_id == run.id)).all()
+        target_events = db.scalars(select(TargetAgentMemoryEventModel).where(TargetAgentMemoryEventModel.run_id == run.id).order_by(TargetAgentMemoryEventModel.created_at)).all()
+        target_retrievals = db.scalars(select(TargetAgentRetrievalModel).where(TargetAgentRetrievalModel.run_id == run.id).order_by(TargetAgentRetrievalModel.created_at)).all()
+        audits.append({"audit_run": audit_schema(run).model_dump(mode="json"),
+                       "tests": [test_schema(row).model_dump(mode="json") for row in tests],
+                       "target_responses": [response_schema(row).model_dump(mode="json") for row in responses],
+                       "evaluations": [eval_schema(row).model_dump(mode="json") for row in evaluations],
+                       "target_memory_records": [{"memory_id": row.id, "canonical_value": row.canonical_value,
+                           "scope": row.scope, "lifecycle_state": row.lifecycle_state, "source_message_ids": row.source_message_ids,
+                           "observed_at": row.observed_at, "write_order": row.write_order, "created_at": row.created_at} for row in target_memories],
+                       "target_memory_relationships": [{"relationship_id": row.id, "memory_id": row.memory_id,
+                           "relationship_type": row.relationship_type, "target_memory_id": row.target_memory_id} for row in target_relationships],
+                       "target_memory_events": [{"event_id": row.id, "memory_id": row.memory_id, "event_type": row.event_type,
+                           "source_message_ids": row.source_message_ids, "details": row.details, "created_at": row.created_at} for row in target_events],
+                       "target_memory_retrievals": [{"retrieval_id": row.id, "test_id": row.test_id, "strategy": row.strategy,
+                           "selected_memory_ids": row.selected_memory_ids, "ranking_evidence": row.ranking_evidence,
+                           "created_at": row.created_at} for row in target_retrievals]})
+    data = {"schema_version": "conversation-export-v1", "exported_at": datetime.now(timezone.utc),
+            "notice": "Local authorised-data export. API keys and raw provider payloads are excluded.",
+            "conversation": conversation_schema(db, conversation).model_dump(mode="json"),
+            "ground_truth_memories": [memory_schema(db, row).model_dump(mode="json") for row in memories],
+            "experiments": [experiment_schema(row).model_dump(mode="json") for row in experiments], "audits": audits}
+    return StreamingResponse(iter([json.dumps(data, default=str, indent=2)]), media_type="application/json",
+        headers={"Content-Disposition": f'attachment; filename="memory-health-{conversation_id}-export.json"'})
+
+
+@router.delete("/conversations/{conversation_id}", response_model=ConversationDeletionReceipt)
+def delete_conversation_data(conversation_id: str, payload: ConversationDeletionRequest, db: Session = Depends(get_db)):
+    """Permanently erase one conversation and every operational record derived from it."""
+    conversation = db.get(ConversationModel, conversation_id)
+    if not conversation: missing("Conversation")
+    if payload.confirmation != conversation_id:
+        raise HTTPException(422, "To permanently delete local data, enter the exact conversation ID shown on this page.")
+    runs = db.scalars(select(AuditRunModel).where(AuditRunModel.conversation_id == conversation_id)).all()
+    run_ids = [run.id for run in runs]
+    experiments = db.scalars(select(ExperimentModel).where(ExperimentModel.conversation_id == conversation_id)).all()
+    memory_ids = list(db.scalars(select(MemoryModel.id).where(MemoryModel.conversation_id == conversation_id)).all())
+    test_ids = list(db.scalars(select(TestCaseModel.id).where(TestCaseModel.run_id.in_(run_ids))).all()) if run_ids else []
+    try:
+        if test_ids:
+            db.execute(delete(EvaluationResultModel).where(EvaluationResultModel.test_id.in_(test_ids)))
+            db.execute(delete(TargetAgentRetrievalModel).where(TargetAgentRetrievalModel.test_id.in_(test_ids)))
+        if run_ids:
+            db.execute(delete(TargetAgentMemoryRelationshipModel).where(TargetAgentMemoryRelationshipModel.run_id.in_(run_ids)))
+            db.execute(delete(TargetAgentMemoryEventModel).where(TargetAgentMemoryEventModel.run_id.in_(run_ids)))
+            db.execute(delete(TargetAgentMemoryModel).where(TargetAgentMemoryModel.run_id.in_(run_ids)))
+            db.execute(delete(TargetResponseModel).where(TargetResponseModel.run_id.in_(run_ids)))
+            db.execute(delete(TestCaseModel).where(TestCaseModel.run_id.in_(run_ids)))
+            db.execute(delete(AuditRunModel).where(AuditRunModel.id.in_(run_ids)))
+        if memory_ids:
+            db.execute(delete(MemoryRelationshipModel).where(MemoryRelationshipModel.memory_id.in_(memory_ids) | MemoryRelationshipModel.target_memory_id.in_(memory_ids)))
+            db.execute(delete(MemoryModel).where(MemoryModel.id.in_(memory_ids)))
+        db.execute(delete(ExperimentModel).where(ExperimentModel.conversation_id == conversation_id))
+        db.execute(delete(MessageModel).where(MessageModel.conversation_id == conversation_id))
+        db.delete(conversation)
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
+    return ConversationDeletionReceipt(conversation_id=conversation_id, deleted_audit_runs=len(runs), deleted_experiments=len(experiments),
+        message="The authorised conversation and all locally derived audit data were permanently deleted.")
 @router.post("/conversations/{conversation_id}/extract", response_model=list[Memory])
 def extract(conversation_id: str, db: Session = Depends(get_db)):
     c = db.get(ConversationModel, conversation_id)
@@ -201,6 +287,9 @@ def create_audit(payload: AuditCreate, db: Session = Depends(get_db)):
     selected_template = suite.prompt_template_version if suite else payload.prompt_template_version
     selected_pipeline_model = suite.pipeline_model if suite else (payload.pipeline_model or configured_pipeline_model(selected_pipeline_provider))
     selected_maintenance_policy = payload.memory_maintenance_policy.value
+    # The environment is read exactly once here. Every later stage uses the
+    # persisted writer kind/version below, even if .env changes meanwhile.
+    selected_target_memory_writer = payload.target_memory_writer or default_target_memory_writer_kind()
     metadata = reproducibility_snapshot(
         provider=payload.provider.value, model=model, temperature=payload.temperature,
         random_seed=selected_seed, test_budget=selected_budget,
@@ -208,8 +297,9 @@ def create_audit(payload: AuditCreate, db: Session = Depends(get_db)):
         pipeline_model=selected_pipeline_model, evaluator_provider=selected_evaluator_provider,
         evaluator_model=selected_evaluator_model, memory_strategy=selected_strategy.value,
         memory_maintenance_policy=selected_maintenance_policy,
+        target_memory_writer=selected_target_memory_writer,
     )
-    a=AuditRunModel(id=ident("RUN"), conversation_id=payload.conversation_id, experiment_id=payload.experiment_id, status="CREATED", target_configuration=payload.target_configuration.value, provider=payload.provider.value, model=model, temperature=payload.temperature, random_seed=selected_seed, test_budget=selected_budget, prompt_template_version=selected_template, pipeline_provider=selected_pipeline_provider, pipeline_model=selected_pipeline_model, evaluator_provider=selected_evaluator_provider, evaluator_model=selected_evaluator_model, memory_strategy=selected_strategy.value, memory_maintenance_policy=selected_maintenance_policy, reproducibility_metadata=metadata)
+    a=AuditRunModel(id=ident("RUN"), conversation_id=payload.conversation_id, experiment_id=payload.experiment_id, status="CREATED", target_configuration=payload.target_configuration.value, provider=payload.provider.value, model=model, temperature=payload.temperature, random_seed=selected_seed, test_budget=selected_budget, prompt_template_version=selected_template, pipeline_provider=selected_pipeline_provider, pipeline_model=selected_pipeline_model, evaluator_provider=selected_evaluator_provider, evaluator_model=selected_evaluator_model, memory_strategy=selected_strategy.value, memory_maintenance_policy=selected_maintenance_policy, target_memory_writer=selected_target_memory_writer.value, target_memory_writer_version=metadata["target_memory_writer_version"], reproducibility_metadata=metadata)
     db.add(a); db.commit(); db.refresh(a); return audit_schema(a)
 @router.get("/audits", response_model=list[AuditRun])
 def list_audits(db: Session = Depends(get_db)): return [audit_schema(a) for a in db.scalars(select(AuditRunModel).order_by(AuditRunModel.created_at.desc())).all()]
@@ -426,7 +516,12 @@ def execute(run_id:str,db:Session=Depends(get_db)):
         conversation = conversation_schema(db, db.get(ConversationModel, a.conversation_id))
         target_store = SqlTargetMemoryStore(
             db,
-            extractor=get_target_memory_writer(a.pipeline_provider, a.pipeline_model),
+            # Do not consult TARGET_MEMORY_WRITER at execution time: an audit
+            # is reproducible even if an operator changes the environment.
+            extractor=get_target_memory_writer(
+                a.pipeline_provider, a.pipeline_model,
+                getattr(a, "target_memory_writer", None) or "rule_based",
+            ),
             maintenance_policy=TargetMemoryMaintenancePolicy(a.memory_maintenance_policy),
         )
         completed_test_ids = set(db.scalars(select(TargetResponseModel.test_id).where(TargetResponseModel.run_id == run_id)).all())
@@ -567,6 +662,9 @@ def target_memory_trace(run_id: str, db: Session = Depends(get_db)):
     return TargetMemoryTrace(
         run_id=run_id, memory_strategy=audit.memory_strategy,
         memory_maintenance_policy=audit.memory_maintenance_policy,
+        target_memory_writer=getattr(audit, "target_memory_writer", None) or "rule_based",
+        target_memory_writer_version=(getattr(audit, "target_memory_writer_version", None)
+                                      or (audit.reproducibility_metadata or {}).get("target_memory_writer_version")),
         records=[target_trace_record_schema(db, record) for record in records],
         events=[safe_trace_event_schema(event) for event in events],
         retrievals=[TargetMemoryTraceRetrieval(

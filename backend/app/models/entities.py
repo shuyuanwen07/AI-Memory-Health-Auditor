@@ -1,13 +1,18 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, JSON, String, Text
 from sqlalchemy.orm import Mapped, mapped_column
 from app.database.session import Base
+
+
+def utc_now() -> datetime:
+    """Timezone-aware replacement for the deprecated datetime.utcnow()."""
+    return datetime.now(timezone.utc)
 
 class ConversationModel(Base):
     __tablename__ = "conversations"
     id: Mapped[str] = mapped_column(String(40), primary_key=True)
     authorised: Mapped[bool] = mapped_column(Boolean, nullable=False)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
 
 class MessageModel(Base):
     __tablename__ = "messages"
@@ -55,7 +60,7 @@ class ExperimentModel(Base):
     test_suite_source_run_id: Mapped[str | None] = mapped_column(
         ForeignKey("audit_runs.id", ondelete="SET NULL"), nullable=True, index=True
     )
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
     completed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
 
 
@@ -82,10 +87,18 @@ class AuditRunModel(Base):
     memory_maintenance_policy: Mapped[str] = mapped_column(
         String(40), default="update_aware_consolidation"
     )
+    # Frozen at creation. TARGET_MEMORY_WRITER is only used to choose this
+    # default; execution must never depend on a subsequently changed env var.
+    target_memory_writer: Mapped[str] = mapped_column(
+        String(40), default="rule_based", server_default="rule_based"
+    )
+    target_memory_writer_version: Mapped[str | None] = mapped_column(
+        String(100), nullable=True, server_default="rule-based-memory-extractor-v1"
+    )
     # This is a safe, immutable-at-creation snapshot: no credentials, prompts,
     # source conversation text, or provider response bodies belong here.
     reproducibility_metadata: Mapped[dict] = mapped_column(JSON, default=dict)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
     completed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
 
 class TestCaseModel(Base):
@@ -120,7 +133,7 @@ class TargetResponseModel(Base):
     # Attempts, latency and provider-reported token counts when available.
     # Raw provider payloads are deliberately not persisted.
     execution_metadata: Mapped[dict] = mapped_column(JSON, default=dict)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
 
 
 class TargetAgentMemoryModel(Base):
@@ -145,7 +158,7 @@ class TargetAgentMemoryModel(Base):
     source_message_ids: Mapped[list] = mapped_column(JSON, default=list)
     observed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
     write_order: Mapped[int] = mapped_column(Integer, nullable=False)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
 
 
 class TargetAgentMemoryRelationshipModel(Base):
@@ -179,7 +192,7 @@ class TargetAgentMemoryEventModel(Base):
     event_type: Mapped[str] = mapped_column(String(40))
     source_message_ids: Mapped[list] = mapped_column(JSON, default=list)
     details: Mapped[dict] = mapped_column(JSON, default=dict)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
 
 
 class TargetAgentRetrievalModel(Base):
@@ -196,7 +209,7 @@ class TargetAgentRetrievalModel(Base):
     strategy: Mapped[str] = mapped_column(String(40))
     selected_memory_ids: Mapped[list] = mapped_column(JSON, default=list)
     ranking_evidence: Mapped[list] = mapped_column(JSON, default=list)
-    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
 
 class EvaluationResultModel(Base):
     __tablename__ = "evaluation_results"

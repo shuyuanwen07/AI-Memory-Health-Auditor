@@ -37,3 +37,10 @@ def test_writer_mode_defaults_to_deterministic_and_rejects_invalid_mode(monkeypa
     monkeypatch.setenv("TARGET_MEMORY_WRITER", "not-a-writer")
     with pytest.raises(PipelineRequestError):
         get_target_memory_writer("openai")
+
+
+def test_explicit_persisted_writer_kind_never_reads_a_later_environment_value(monkeypatch):
+    """Execution passes this explicit kind from AuditRun, not .env."""
+    monkeypatch.setenv("TARGET_MEMORY_WRITER", "llm_structured")
+    writer = get_target_memory_writer("rule_based", writer_kind="rule_based")
+    assert writer.__class__.__name__ == "RuleBasedMemoryExtractor"
