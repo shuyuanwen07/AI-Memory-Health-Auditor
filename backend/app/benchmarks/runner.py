@@ -16,6 +16,7 @@ from dataclasses import dataclass
 from hashlib import sha256
 import json
 import re
+import time
 
 from app.benchmarks.longmemeval import LongMemEvalAdapter
 from app.schemas.benchmark import (
@@ -104,13 +105,17 @@ class LongMemEvalDeterministicRunner:
             tests_passed=passed,
             tests_total=total,
             overall_percentage=round((passed / total) * 100, 2) if total else None,
+            mean_token_f1=round(sum(item.token_f1 for item in results) / total, 4) if total else None,
+            mean_latency_ms=round(sum(item.latency_ms for item in results) / total, 3) if total else None,
         )
 
     def _run_case(self, case: LongMemEvalCase, strategy: MemoryStrategy) -> LongMemEvalCaseRunResult:
+        started = time.perf_counter()
         store = self._ingest(case)
         selected, evidence = self._retrieve(case.question, store, strategy)
         response = self._answer(selected, strategy)
         matched, reason = self._evaluate(case.expected_answer, response)
+        token_f1 = self._token_f1(case.expected_answer, response)
         return LongMemEvalCaseRunResult(
             case_id=case.case_id,
             category=case.category,
@@ -123,6 +128,8 @@ class LongMemEvalDeterministicRunner:
             ingested_memory_count=len(store),
             retrieved_memory_ids=[memory.memory_id for memory in selected],
             retrieval_evidence=evidence,
+            token_f1=token_f1,
+            latency_ms=round((time.perf_counter() - started) * 1000, 3),
         )
 
     def _ingest(self, case: LongMemEvalCase) -> list[_StoredMemory]:
@@ -169,10 +176,14 @@ class LongMemEvalDeterministicRunner:
             overlap = len(question_terms & self._tokens(memory.canonical_value))
             category_match = int(question_category is not None and question_category == self._category(memory.canonical_value))
             relevance = float(overlap + (3 * category_match))
-            if relevance:
+            if relevance or strategy == MemoryStrategy.FULL_CONTEXT:
                 why = f"lexical_overlap={overlap}" + ("; topic_category_match" if category_match else "")
                 candidates.append((memory, relevance, why))
-        if strategy == MemoryStrategy.WEAK_FIRST_HIT:
+        if strategy == MemoryStrategy.NO_MEMORY:
+            selected = []
+        elif strategy == MemoryStrategy.FULL_CONTEXT:
+            selected = sorted((item[0] for item in candidates), key=lambda item: item.write_order)
+        elif strategy == MemoryStrategy.WEAK_FIRST_HIT:
             selected = [min(candidates, key=lambda item: item[0].write_order)[0]] if candidates else []
         elif strategy == MemoryStrategy.STRONG_RULE_BASED:
             selected = [item[0] for item in sorted(candidates, key=lambda item: (item[0].policy_score, item[0].write_order))]
@@ -248,6 +259,24 @@ class LongMemEvalDeterministicRunner:
             f"reference term(s) ({', '.join(matched) if matched else 'none'}); "
             f"coverage={coverage:.2f}; threshold=0.50."
         )
+
+    @classmethod
+    def _token_f1(cls, expected: str, response: str) -> float:
+        """Return the transparent token-level F1 used by memory baselines.
+
+        This is reported alongside the local binary matcher; it is not claimed
+        to be the official scorer for any external benchmark.
+        """
+        expected_tokens = cls._reference_terms(expected)
+        response_tokens = cls._tokens(response)
+        if not expected_tokens or not response_tokens:
+            return 0.0
+        overlap = len(expected_tokens & response_tokens)
+        if overlap == 0:
+            return 0.0
+        precision = overlap / len(response_tokens)
+        recall = overlap / len(expected_tokens)
+        return round(2 * precision * recall / (precision + recall), 4)
 
     @staticmethod
     def _dimension(case: LongMemEvalCase) -> Dimension | None:

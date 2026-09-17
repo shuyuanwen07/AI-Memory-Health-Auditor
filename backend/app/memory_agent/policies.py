@@ -23,8 +23,14 @@ def build_target_memory_context(test: TestCase, memories: list[Memory], strategy
     """
     by_id = {memory.memory_id: memory for memory in memories}
     candidates = [by_id[memory_id] for memory_id in test.supporting_memory_ids if memory_id in by_id]
+    if strategy == MemoryStrategy.NO_MEMORY:
+        return []
     if not candidates:
         return []
+    if strategy == MemoryStrategy.FULL_CONTEXT:
+        # Reference ablation: expose all supporting records in source order,
+        # without applying a retrieval or conflict-resolution ranking.
+        return [memory.canonical_value for memory in sorted(candidates, key=lambda memory: (_time_value(memory), memory.memory_id))]
     if strategy == MemoryStrategy.WEAK_FIRST_HIT:
         return [candidates[0].canonical_value]
 

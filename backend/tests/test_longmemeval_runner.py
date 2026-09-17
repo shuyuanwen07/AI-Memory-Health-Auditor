@@ -24,7 +24,17 @@ def test_runner_is_deterministic_isolated_and_maps_dimensions():
     first = LongMemEvalDeterministicRunner().run(request)
     second = LongMemEvalDeterministicRunner().run(request)
 
-    assert first == second
+    # Latency is wall-clock evidence and may vary slightly between runs even
+    # when every deterministic result and retrieval decision is identical.
+    first_for_comparison = first.model_copy(update={
+        "cases": [case.model_copy(update={"latency_ms": 0.0}) for case in first.cases],
+        "mean_latency_ms": 0.0,
+    })
+    second_for_comparison = second.model_copy(update={
+        "cases": [case.model_copy(update={"latency_ms": 0.0}) for case in second.cases],
+        "mean_latency_ms": 0.0,
+    })
+    assert first_for_comparison == second_for_comparison
     assert first.metadata.run_id.startswith("LME-RUN-")
     assert first.metadata.execution_mode.startswith("local-in-memory")
     assert "not official LongMemEval scores" in first.metadata.notice
@@ -36,6 +46,8 @@ def test_runner_is_deterministic_isolated_and_maps_dimensions():
     dimensions = {item.key: item for item in first.dimensions}
     assert dimensions["freshness"].percentage == 100.0
     assert dimensions["conflict_resolution"].percentage is None
+    assert first.mean_token_f1 is not None
+    assert first.mean_latency_ms is not None
 
 
 def test_weak_policy_reveals_stale_and_contextual_baseline_failures():
@@ -47,6 +59,20 @@ def test_weak_policy_reveals_stale_and_contextual_baseline_failures():
     assert result.tests_passed == 0
     assert result.cases[0].response_text.endswith("I used MySQL before.")
     assert result.cases[1].response_text.endswith("I generally prefer Python.")
+
+
+def test_reference_baselines_are_explicit_and_traceable():
+    no_memory = LongMemEvalDeterministicRunner().run(LongMemEvalRunRequest(
+        payload=PAYLOAD, source_authorised=True, memory_strategy=MemoryStrategy.NO_MEMORY,
+    ))
+    full_context = LongMemEvalDeterministicRunner().run(LongMemEvalRunRequest(
+        payload=PAYLOAD, source_authorised=True, memory_strategy=MemoryStrategy.FULL_CONTEXT,
+    ))
+
+    assert all(not item.retrieved_memory_ids for item in no_memory.cases)
+    assert any(item.retrieved_memory_ids for item in full_context.cases)
+    assert no_memory.metadata.memory_strategy == MemoryStrategy.NO_MEMORY
+    assert full_context.metadata.memory_strategy == MemoryStrategy.FULL_CONTEXT
 
 
 def test_temporal_importance_is_deterministic_and_exposes_each_score_component():

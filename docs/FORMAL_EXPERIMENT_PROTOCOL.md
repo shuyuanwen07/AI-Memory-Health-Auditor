@@ -12,7 +12,7 @@
 
 ## Conditions and controls
 
-Compare only predeclared conditions. The minimum comparison is `weak_first_hit`, `strong_rule_based`, and `strong_score_based`; add `scope_aware` only when its policy version is frozen. Keep the following fixed within each experiment group:
+Compare only predeclared conditions. The minimum comparison includes the two reference ablations `no_memory` and `full_context`, followed by `weak_first_hit`, `strong_rule_based` and `strong_score_based`; add `scope_aware` or `temporal_importance` only when its policy version is frozen. The reference ablations distinguish a useful policy from both no retrieval and unrestricted context replay. Keep the following fixed within each experiment group:
 
 - authorised/de-identified conversation set and reviewed ground truth;
 - canonical shared test suite, suite mode, seed, prompt-template fingerprint and acceptance decisions;
@@ -40,7 +40,7 @@ The matrix creates one Experiment Group per synthetic scenario and copies the ex
 
 ## Primary outcomes and analysis
 
-The primary outcome is macro-average Memory Health across measured dimensions. A zero-test dimension remains unmeasured and is excluded, never converted to zero. Report each dimension's pass/total/percentage, failure categories and traceable evidence.
+The primary outcome is macro-average Memory Health across measured dimensions. A zero-test dimension remains unmeasured and is excluded, never converted to zero. Report each dimension's pass/total/percentage, failure categories and traceable evidence. For local benchmark-compatible runs, also report token-level F1 and mean case latency; these are diagnostics and are not upstream official benchmark scores.
 
 For shared-suite comparisons, align outcomes using the canonical `suite_test_id`. Report condition means, population standard deviation across repetitions, paired candidate-minus-reference percentage-point delta, deterministic bootstrap 95% interval and exact two-sided sign-test p-value. These are descriptive/pilot support statistics unless the team preregisters a confirmatory analysis and sample size.
 

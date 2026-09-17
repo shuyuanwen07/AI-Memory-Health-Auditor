@@ -59,6 +59,8 @@ class LocalCompatibleDeterministicRunner(LongMemEvalDeterministicRunner):
             ),
             tests_passed=passed, tests_total=total,
             overall_percentage=round((passed / total) * 100, 2) if total else None,
+            mean_token_f1=round(sum(item.token_f1 for item in results) / total, 4) if total else None,
+            mean_latency_ms=round(sum(item.latency_ms for item in results) / total, 3) if total else None,
         )
 
 

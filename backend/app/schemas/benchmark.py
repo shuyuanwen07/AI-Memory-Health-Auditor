@@ -97,6 +97,8 @@ class LongMemEvalCaseRunResult(BaseModel):
     ingested_memory_count: int
     retrieved_memory_ids: list[str] = Field(default_factory=list)
     retrieval_evidence: list[BenchmarkMemoryEvidence] = Field(default_factory=list)
+    token_f1: float = 0.0
+    latency_ms: float = 0.0
 
 
 class BenchmarkScoreSummary(BaseModel):
@@ -138,6 +140,8 @@ class LongMemEvalRunResponse(BaseModel):
     tests_passed: int
     tests_total: int
     overall_percentage: float | None = None
+    mean_token_f1: float | None = None
+    mean_latency_ms: float | None = None
 
 
 # LoCoMo and BEAM are externally maintained datasets.  These contracts are a
@@ -195,3 +199,5 @@ class LocalCompatibleRunResponse(BaseModel):
     tests_passed: int
     tests_total: int
     overall_percentage: float | None = None
+    mean_token_f1: float | None = None
+    mean_latency_ms: float | None = None

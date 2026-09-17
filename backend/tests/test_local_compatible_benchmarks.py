@@ -39,7 +39,18 @@ def test_compatible_runners_are_deterministic_and_return_traceable_evidence():
     for runner, prefix in ((LoCoMoDeterministicRunner(), "LOCOMO-RUN-"), (BEAMDeterministicRunner(), "BEAM-RUN-")):
         first = runner.run(request)
         second = runner.run(request)
-        assert first == second
+        # Retrieval, answers and scores are deterministic; wall-clock latency
+        # is intentionally measured and can vary between otherwise identical
+        # executions.
+        first_for_comparison = first.model_copy(update={
+            "cases": [case.model_copy(update={"latency_ms": 0.0}) for case in first.cases],
+            "mean_latency_ms": 0.0,
+        })
+        second_for_comparison = second.model_copy(update={
+            "cases": [case.model_copy(update={"latency_ms": 0.0}) for case in second.cases],
+            "mean_latency_ms": 0.0,
+        })
+        assert first_for_comparison == second_for_comparison
         assert first.metadata.run_id.startswith(prefix)
         assert first.cases[0].retrieval_evidence
         assert first.categories[0].total == 1

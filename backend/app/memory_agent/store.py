@@ -295,6 +295,14 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         preferred_scope, _ = _preferred_scope(test.prompt)
         eligible: list[dict] = []
         for item in candidates:
+            if strategy == MemoryStrategy.NO_MEMORY:
+                # Keep the candidate evidence for diagnostics, but expose no
+                # private memory to the target model.
+                continue
+            if strategy == MemoryStrategy.FULL_CONTEXT:
+                if item["eligible"]:
+                    eligible.append(item)
+                continue
             scope_intent_fallback = (
                 strategy == MemoryStrategy.SCOPE_AWARE
                 and preferred_scope is not None
@@ -356,6 +364,14 @@ class SqlTargetMemoryStore(TargetMemoryStore):
     def _select(self, candidates: list[dict], strategy: MemoryStrategy) -> list[dict]:
         if not candidates:
             return []
+        if strategy == MemoryStrategy.NO_MEMORY:
+            return []
+        if strategy == MemoryStrategy.FULL_CONTEXT:
+            # Replay the active store in source/write order. This is an
+            # intentionally simple reference baseline, not a ranking policy.
+            return sorted(candidates, key=lambda item: (
+                self._time_value(item["record"]), item["record"].write_order,
+            ))
         if strategy == MemoryStrategy.WEAK_FIRST_HIT:
             # The weak baseline persists every write but returns its first
             # relevant record, deliberately lacking update reconciliation.

@@ -29,6 +29,8 @@ type CompletedRun = { label: string; groupLabel: string; result: AuditResult };
 type FailedRun = { runId: string; label: string; detail: string };
 
 const strategies: Array<{ value: MemoryStrategy; label: string; description: string }> = [
+  { value: 'no_memory', label: 'No Memory', description: 'Reference baseline that gives the target AI no retrieved long-term memory.' },
+  { value: 'full_context', label: 'Full Context', description: 'Reference baseline that replays all active memories without ranking.' },
   { value: 'weak_first_hit', label: 'Weak First-Hit', description: 'Uses only the first related memory, without resolving updates or conflicts.' },
   { value: 'strong_rule_based', label: 'Strong Rule-Based', description: 'Prioritises contextual requirements, updates, stable facts and superseded records.' },
   { value: 'strong_score_based', label: 'Strong Score-Based', description: 'Ranks memories with transparent relevance, freshness and context weights.' },

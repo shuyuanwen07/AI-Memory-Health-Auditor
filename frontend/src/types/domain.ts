@@ -9,7 +9,7 @@ export interface MemoryRelationship { relationship_id?:string; type:Relationship
 export interface Memory { memory_id:string; conversation_id:string; canonical_value:string; status:MemoryStatus; source_message_ids:string[]; timestamp?:string; relationships:MemoryRelationship[] }
 export interface MemoryReviewPatch { canonical_value?:string; status?:MemoryStatus; source_message_ids?:string[]; timestamp?:string; relationships?:MemoryRelationship[] }
 export type TargetProvider = 'rule_based'|'openai'|'deepseek'|'gemini'|'ollama';
-export type MemoryStrategy = 'weak_first_hit'|'strong_rule_based'|'strong_score_based'|'scope_aware'|'temporal_importance';
+export type MemoryStrategy = 'no_memory'|'full_context'|'weak_first_hit'|'strong_rule_based'|'strong_score_based'|'scope_aware'|'temporal_importance';
 export type MemoryMaintenancePolicy = 'append_only'|'update_aware_consolidation';
 export type TargetMemoryWriterKind = 'rule_based'|'llm_structured';
 export type TargetSystemAdapterKind = 'controlled-memory';
@@ -53,15 +53,15 @@ export interface ResearchValidityReport { dataset_id:string; dataset_version:str
 export interface LongMemEvalImportReport { adapter_version:string; cases_imported:number; case_ids:string[]; dimension_hints:string[]; source_format:string; notice:string }
 export interface LongMemEvalValidationResponse { report:LongMemEvalImportReport; cases:Array<{case_id:string; question:string; expected_answer:string; category:string; dimension_hint?:string|null}> }
 export interface BenchmarkScoreSummary { key:string; passed:number; total:number; percentage:number|null }
-export interface LongMemEvalRunResponse { metadata:{run_id:string; runner_version:string; source_fingerprint_sha256:string; source_label?:string|null; memory_strategy:MemoryStrategy; notice:string}; cases:Array<{case_id:string; category:string; dimension?:Dimension|null; question:string; response_text:string; passed:boolean; evaluation_reason:string; retrieved_memory_ids:string[]}>; categories:BenchmarkScoreSummary[]; dimensions:BenchmarkScoreSummary[]; tests_passed:number; tests_total:number; overall_percentage:number|null }
+export interface LongMemEvalRunResponse { metadata:{run_id:string; runner_version:string; source_fingerprint_sha256:string; source_label?:string|null; memory_strategy:MemoryStrategy; notice:string}; cases:Array<{case_id:string; category:string; dimension?:Dimension|null; question:string; response_text:string; passed:boolean; evaluation_reason:string; retrieved_memory_ids:string[]; token_f1?:number; latency_ms?:number}>; categories:BenchmarkScoreSummary[]; dimensions:BenchmarkScoreSummary[]; tests_passed:number; tests_total:number; overall_percentage:number|null; mean_token_f1?:number|null; mean_latency_ms?:number|null }
 export type BenchmarkFamily = 'longmemeval'|'locomo'|'beam';
 export interface BenchmarkCasePreview { case_id:string; question:string; expected_answer:string; category:string; dimension_hint?:string|null }
 export interface LocalCompatibleImportReport { benchmark_family:BenchmarkFamily; adapter_version:string; cases_imported:number; case_ids:string[]; dimension_hints:string[]; source_format:string; notice:string }
 export interface LocalCompatibleValidationResponse { report:LocalCompatibleImportReport; cases:BenchmarkCasePreview[] }
 export type BenchmarkValidationResponse = LongMemEvalValidationResponse | LocalCompatibleValidationResponse;
 export interface BenchmarkRunMetadata { run_id:string; runner_version:string; adapter_version?:string; source_fingerprint_sha256:string; source_label?:string|null; memory_strategy:MemoryStrategy; notice:string; benchmark_family?:BenchmarkFamily; random_seed?:number; source_format?:string }
-export interface BenchmarkCaseRunResult { case_id:string; category:string; dimension?:Dimension|null; question:string; expected_answer?:string; response_text:string; passed:boolean; evaluation_reason:string; ingested_memory_count?:number; retrieved_memory_ids:string[]; retrieval_evidence?:Array<Record<string, unknown>> }
-export interface LocalCompatibleRunResponse { metadata:BenchmarkRunMetadata; cases:BenchmarkCaseRunResult[]; categories:BenchmarkScoreSummary[]; dimensions:BenchmarkScoreSummary[]; tests_passed:number; tests_total:number; overall_percentage:number|null }
+export interface BenchmarkCaseRunResult { case_id:string; category:string; dimension?:Dimension|null; question:string; expected_answer?:string; response_text:string; passed:boolean; evaluation_reason:string; ingested_memory_count?:number; retrieved_memory_ids:string[]; retrieval_evidence?:Array<Record<string, unknown>>; token_f1?:number; latency_ms?:number }
+export interface LocalCompatibleRunResponse { metadata:BenchmarkRunMetadata; cases:BenchmarkCaseRunResult[]; categories:BenchmarkScoreSummary[]; dimensions:BenchmarkScoreSummary[]; tests_passed:number; tests_total:number; overall_percentage:number|null; mean_token_f1?:number|null; mean_latency_ms?:number|null }
 export type BenchmarkRunResponse = LongMemEvalRunResponse | LocalCompatibleRunResponse;
 export type PilotTask = 'memory_inclusion'|'relationship_type'|'test_validity'|'evaluator_verdict'|'failure_dimension';
 export interface PilotAgreementMetrics { task:PilotTask|null; declared_items:number; annotator_a_labelled:number; annotator_b_labelled:number; paired_items:number; adjudicated_items:number; agreement_count:number; disagreement_count:number; percent_agreement:number|null; cohens_kappa:number|null; kappa_applicable:boolean; disagreements_adjudicated:number; unresolved_disagreements:number }

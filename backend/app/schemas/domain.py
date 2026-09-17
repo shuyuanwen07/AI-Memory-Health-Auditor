@@ -34,6 +34,10 @@ class AuditStatus(str, Enum):
     CREATED="CREATED"; MEMORY_EXTRACTED="MEMORY_EXTRACTED"; GROUND_TRUTH_CONFIRMED="GROUND_TRUTH_CONFIRMED"; TESTS_GENERATED="TESTS_GENERATED"; TESTS_EXECUTED="TESTS_EXECUTED"; COMPLETED="COMPLETED"; FAILED="FAILED"; CANCELLED="CANCELLED"
 class TargetConfiguration(str, Enum): WEAK="weak"; STRONG="strong"
 class MemoryStrategy(str, Enum):
+    # Reference ablations make it clear whether a proposed memory policy
+    # improves over no memory or simply approaches replaying the whole context.
+    NO_MEMORY = "no_memory"
+    FULL_CONTEXT = "full_context"
     WEAK_FIRST_HIT = "weak_first_hit"
     STRONG_RULE_BASED = "strong_rule_based"
     STRONG_SCORE_BASED = "strong_score_based"
