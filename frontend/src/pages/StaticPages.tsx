@@ -252,7 +252,7 @@ function ExperimentHistoryCard({ experiment, report, exporting, onDownload, onDo
 }
 
 function ConditionTable({ report }: { report: ExperimentAnalytics }) {
-  return <div className="comparison-scroll experiment-history-table"><table><thead><tr><th>Condition</th><th>Completed</th><th>Overall mean</th><th>Variation</th><th>Tests passed</th><th>Failures</th></tr></thead><tbody>{report.conditions.map((condition) => <tr key={condition.condition_id}><th scope="row">{condition.label}</th><td>{condition.completed_runs} / {condition.planned_runs}</td><td><b>{percentage(condition.overall_mean)}</b></td><td>{percentage(condition.overall_standard_deviation)}</td><td>{condition.tests_passed} / {condition.tests_total}</td><td>{condition.failure_count}</td></tr>)}</tbody></table></div>;
+  return <div className="comparison-scroll experiment-history-table"><table><thead><tr><th>Condition</th><th>Completed</th><th>Overall mean</th><th>Variation</th><th>Tests passed</th><th>Failures</th><th>Runtime</th></tr></thead><tbody>{report.conditions.map((condition) => <tr key={condition.condition_id}><th scope="row">{condition.label}</th><td>{condition.completed_runs} / {condition.planned_runs}</td><td><b>{percentage(condition.overall_mean)}</b></td><td>{percentage(condition.overall_standard_deviation)}</td><td>{condition.tests_passed} / {condition.tests_total}</td><td>{condition.failure_count}</td><td>{condition.mean_latency_ms === null ? '—' : `${Math.round(condition.mean_latency_ms)} ms avg`} · {condition.total_tokens === null ? 'tokens —' : `${condition.total_tokens.toLocaleString()} tokens`}</td></tr>)}</tbody></table></div>;
 }
 
 function CancelledRunEvidence({ runId }: { runId: string }) {

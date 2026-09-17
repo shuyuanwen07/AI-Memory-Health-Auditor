@@ -33,6 +33,15 @@ test('renders the accessible four-dimension Memory Health profile', () => {
   expect(screen.getByText(/Appropriate Use: 75%/)).toBeTruthy();
 });
 
+test('keeps an untested dimension out of the chart as Not tested rather than zero', () => {
+  const partial = result('RUN-PARTIAL', 100, 100);
+  partial.dimensions = partial.dimensions.filter((item) => item.dimension !== 'conflict_resolution');
+  render(<ScoreRadarChart result={partial} />);
+
+  expect(screen.getByRole('img', { name: /Conflict Resolution: Not tested/ })).toBeTruthy();
+  expect(screen.getByText(/Conflict Resolution: Not tested/)).toBeTruthy();
+});
+
 test('renders overall, dimension, and failure comparison charts for experimental conditions', () => {
   render(<ComparisonVisualizations runs={[
     { label: 'Weak run one', groupLabel: 'Weak Memory', result: result('RUN-WEAK-1', 50, 0) },

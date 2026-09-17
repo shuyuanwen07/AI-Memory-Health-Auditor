@@ -476,6 +476,7 @@ class FailureDetail(BaseModel):
 class AuditResult(BaseModel):
     run_id: str; overall_score: float | None; tests_passed: int; tests_total: int
     dimensions: list[DimensionScores]; failures: list[FailureDetail]
+    evaluation_warnings: list[str] = Field(default_factory=list)
     retrieval_quality: RetrievalQualityScores = Field(default_factory=RetrievalQualityScores)
     reproducibility: ReproducibilityMetadata = Field(default_factory=ReproducibilityMetadata)
 class ExperimentResult(BaseModel):
@@ -507,6 +508,10 @@ class ExperimentConditionSummary(BaseModel):
     tests_passed: int = 0
     tests_total: int = 0
     failure_count: int = 0
+    mean_latency_ms: float | None = None
+    total_input_tokens: int | None = None
+    total_output_tokens: int | None = None
+    total_tokens: int | None = None
     dimensions: list[ExperimentDimensionSummary] = []
 
 class PairedComparison(BaseModel):

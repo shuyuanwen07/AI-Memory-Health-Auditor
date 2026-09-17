@@ -76,7 +76,7 @@ export function ResearchValidation() {
   const [matrix, setMatrix] = useState<FormalMatrixCreateResponse | null>(null);
   const [matrixProvider, setMatrixProvider] = useState<TargetProvider>('ollama');
   const [matrixModel, setMatrixModel] = useState('qwen3:1.7b');
-  const [selectedStrategies, setSelectedStrategies] = useState<MemoryStrategy[]>(['no_memory', 'full_context', 'weak_first_hit', 'strong_rule_based', 'scope_aware', 'temporal_importance']);
+  const [selectedStrategies, setSelectedStrategies] = useState<MemoryStrategy[]>(['no_memory', 'full_context', 'weak_first_hit', 'strong_rule_based', 'strong_score_based', 'scope_aware', 'temporal_importance']);
   const [syntheticConfirmed, setSyntheticConfirmed] = useState(false);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');

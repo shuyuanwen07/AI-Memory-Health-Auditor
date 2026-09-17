@@ -42,7 +42,7 @@ The interactive OpenAPI contract is available at `/docs` when the backend is run
 | GET | `/audits/{id}/target-memory-trace` | Terminal-run evidence of the independently controlled target memory store |
 | GET | `/audits/{id}/cancelled-evidence` | Retained completed responses and safe target-memory trace for a cancelled condition |
 | GET | `/audits/{id}/failures/{failureId}` | One failure with full evidence |
-| GET | `/experiments/summary` | Average comparison across completed weak and strong controlled runs |
+| GET | `/experiments/summary` | Legacy weak/strong summaries kept separate per comparison group |
 | POST | `/research/annotations/validate` | Validate a versioned human annotation JSON release and return its content fingerprint; does not store it |
 | POST | `/research/pilot/analyse` | Validate two independent de-identified annotation label sets, adjudications and formal-study readiness; does not store them |
 | POST | `/research/formal/synthetic-matrix` | Materialise an explicitly authorised, frozen **synthetic** annotation release into paired operational audit groups after the matching double-annotation pilot passes |
@@ -54,6 +54,16 @@ The interactive OpenAPI contract is available at `/docs` when the backend is run
 | POST | `/research/benchmarks/locomo/run`, `/research/benchmarks/beam/run` | Run caller-supplied compatible cases in isolated in-memory simulations; never official LoCoMo/BEAM scores |
 
 The API returns `409 Conflict` for an invalid audit lifecycle action and `422 Unprocessable Entity` when consent or required review data is absent.
+
+The audit result also includes `evaluation_warnings` when one or more stored
+verdicts used the deterministic fallback. This keeps a provider outage visible
+even when every individual test passed; fallback verdicts are not presented as
+ordinary LLM-judge outcomes.
+
+Shared-suite review is also frozen as soon as any condition in the comparison
+group enters execution or a terminal state. This prevents a later edit from
+causing peers to answer different test versions. Duplicate execute/evaluate
+requests for the same run are rejected while that stage is already active.
 
 ## Local data lifecycle
 
@@ -102,3 +112,8 @@ Before execution, the UI loads `/test-review` from the canonical suite. A review
 `GET /experiments/{id}/artifact.zip` is the research hand-off format. Its fixed-timestamp ZIP contains `manifest.json`, the frozen test suite, condition and paired summaries, and for each completed run its configuration, result, sanitised responses/evaluations and post-completion retrieval trace. The manifest records a SHA-256 hash for every payload file, the frozen-suite/dataset hash, configuration fingerprints and the optional build-time `AUDITOR_CODE_REVISION`. It deliberately excludes raw conversation text, API keys and raw provider payloads. The Dashboard also reports source-evidence proxy retrieval metrics: Evidence Recall@k, Evidence Precision@k, update evidence recall, conflict evidence coverage and unnecessary retrieval rate. These compare source message IDs because target-private records and reviewer-approved ground-truth records use distinct IDs; they must not be interpreted as semantic retrieval metrics.
 
 `GET /experiments/{id}/results` groups repeated runs by provider, model and memory strategy. It reports means and population standard deviations while leaving zero-test dimensions as unmeasured. Its pairwise rows align outcomes by the canonical `suite_test_id`, not by question text. Each row includes a deterministic 2,000-resample percentile bootstrap interval for the candidate-minus-reference pass-rate delta and an exact two-sided sign-test p-value over discordant tests. These are pilot-study support signals, not a substitute for a preregistered statistical analysis.
+
+Each condition summary also reports the mean recorded response latency and total
+input/output/combined token counts when the selected provider exposes them. A
+dash means the provider did not report that measurement; monetary cost is not
+calculated because provider pricing is not fixed by the audit protocol.

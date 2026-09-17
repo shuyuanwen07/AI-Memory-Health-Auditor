@@ -84,6 +84,7 @@ class ExperimentAnalyticsService:
         self,
         runs: Iterable[AuditRun],
         results_by_run: dict[str, AuditResult],
+        response_metadata_by_run: dict[str, list[dict]] | None = None,
     ) -> list[ExperimentConditionSummary]:
         grouped: dict[tuple[str, str, str], list[AuditRun]] = defaultdict(list)
         for run in runs:
@@ -114,6 +115,21 @@ class ExperimentAnalyticsService:
                 ))
             scores = [result.overall_score for result in result_rows if result.overall_score is not None]
             exemplar = grouped_runs[0]
+            response_rows = [
+                row
+                for run in completed
+                for row in (response_metadata_by_run or {}).get(run.run_id, [])
+            ]
+            latency_values = [
+                float(row["latency_ms"])
+                for row in response_rows
+                if isinstance(row.get("latency_ms"), (int, float))
+            ]
+            def complete_token_sum(key: str) -> int | None:
+                values = [row.get(key) for row in response_rows]
+                if not values or any(not isinstance(value, int) or isinstance(value, bool) for value in values):
+                    return None
+                return sum(values)
             summaries.append(ExperimentConditionSummary(
                 condition_id="::".join((provider, model, strategy)),
                 label=condition_label(exemplar),
@@ -129,6 +145,10 @@ class ExperimentAnalyticsService:
                 tests_passed=sum(result.tests_passed for result in result_rows),
                 tests_total=sum(result.tests_total for result in result_rows),
                 failure_count=sum(len(result.failures) for result in result_rows),
+                mean_latency_ms=_mean(latency_values),
+                total_input_tokens=complete_token_sum("input_tokens"),
+                total_output_tokens=complete_token_sum("output_tokens"),
+                total_tokens=complete_token_sum("total_tokens"),
                 dimensions=dimensions,
             ))
         return sorted(summaries, key=lambda item: item.label)

@@ -3,6 +3,8 @@ from pathlib import Path
 import re
 import os
 import time
+from contextlib import contextmanager
+from threading import Lock
 from uuid import uuid4
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import StreamingResponse
@@ -32,6 +34,27 @@ from app.test_generator.baselines import get_suite_generator
 from app.test_generator.quality import RuleBasedTestQualityValidator
 
 router = APIRouter(prefix="/api/v1")
+_RUN_LOCKS: dict[str, Lock] = {}
+_RUN_LOCKS_GUARD = Lock()
+
+@contextmanager
+def audit_run_lock(run_id: str):
+    """Prevent duplicate stage work for one run in the local API process.
+
+    The project runs one FastAPI worker in development and in the course
+    deployment.  A non-blocking lock turns accidental double-clicks or
+    duplicate requests into a clear 409 instead of duplicate provider calls
+    and response/evaluation primary-key collisions.
+    """
+    with _RUN_LOCKS_GUARD:
+        lock = _RUN_LOCKS.setdefault(run_id, Lock())
+    if not lock.acquire(blocking=False):
+        raise HTTPException(409, "This audit stage is already running.")
+    try:
+        yield
+    finally:
+        lock.release()
+
 def ident(prefix: str) -> str: return f"{prefix}{uuid4().hex.upper()}"
 def missing(kind: str): raise HTTPException(404, f"{kind} was not found.")
 def ensure_supported_pipeline_role(provider: TargetProvider, role: str) -> None:
@@ -570,6 +593,39 @@ def canonical_test_for_review(db: Session, run: AuditRunModel, test_id: str) -> 
         raise HTTPException(409, "The canonical test suite record is unavailable.")
     return source
 
+def ensure_suite_editable(db: Session, run: AuditRunModel) -> None:
+    """Freeze a shared suite as soon as any comparison condition starts.
+
+    Reviewing or regenerating a canonical test after one peer has executed
+    would make the comparison unfair: completed peers would answer an older
+    version while later peers would answer the edited prompt.
+    """
+    if not run.experiment_id:
+        return
+    experiment = db.get(ExperimentModel, run.experiment_id)
+    if not experiment:
+        raise HTTPException(409, "The comparison experiment is unavailable.")
+    if experiment.status in {
+        ExperimentStatus.RUNNING.value,
+        ExperimentStatus.COMPLETED.value,
+        ExperimentStatus.FAILED.value,
+        ExperimentStatus.CANCELLED.value,
+    }:
+        raise HTTPException(409, "The shared test suite is frozen once an experiment condition has started.")
+    started_statuses = {
+        AuditStatus.TESTS_EXECUTED.value,
+        AuditStatus.COMPLETED.value,
+        AuditStatus.FAILED.value,
+        AuditStatus.CANCELLED.value,
+    }
+    peer_started = db.scalar(select(AuditRunModel.id).where(
+        AuditRunModel.experiment_id == run.experiment_id,
+        AuditRunModel.id != run.id,
+        AuditRunModel.status.in_(started_statuses),
+    ).limit(1))
+    if peer_started:
+        raise HTTPException(409, "The shared test suite is frozen once an experiment condition has started.")
+
 def sync_canonical_test(db: Session, source: TestCaseModel) -> list[TestCaseModel]:
     """Copy the source test's review/revision to every cloned peer row."""
     peers = db.scalars(select(TestCaseModel).where(TestCaseModel.suite_test_id == source.id)).all()
@@ -629,6 +685,8 @@ def generate(run_id: str, db: Session=Depends(get_db)):
     experiment = db.get(ExperimentModel, a.experiment_id) if a.experiment_id else None
     if experiment and experiment.test_suite_source_run_id:
         source_tests = db.scalars(select(TestCaseModel).where(TestCaseModel.run_id == experiment.test_suite_source_run_id).order_by(TestCaseModel.id)).all()
+        if not source_tests:
+            raise HTTPException(422, "The shared test suite is empty and cannot be executed.")
         cloned = clone_shared_suite(db, source_tests, a)
         a.status = "TESTS_GENERATED"; db.commit()
         return [public_test_schema(test) for test in cloned]
@@ -639,6 +697,8 @@ def generate(run_id: str, db: Session=Depends(get_db)):
     suite_mode = TestSuiteConfiguration.model_validate(experiment.test_suite_configuration).suite_mode if experiment else TestSuiteMode.BEHAVIOURAL
     generator = get_suite_generator(suite_mode, get_test_generator(a.pipeline_provider, a.pipeline_model))
     generated = generator.generate(memories, audit_schema(a))
+    if not generated:
+        raise HTTPException(422, "The test generator produced no executable tests for the confirmed ground truth.")
     validator = RuleBasedTestQualityValidator()
     tests: list[TestCase] = []
     for test in generated:
@@ -679,6 +739,7 @@ def test_review_suite(run_id: str, db: Session = Depends(get_db)):
     audit = db.get(AuditRunModel, run_id)
     if not audit: missing("Audit")
     require_state(audit, {AuditStatus.TESTS_GENERATED})
+    ensure_suite_editable(db, audit)
     experiment = db.get(ExperimentModel, audit.experiment_id) if audit.experiment_id else None
     source_run_id = experiment.test_suite_source_run_id if experiment and experiment.test_suite_source_run_id else run_id
     source_tests = db.scalars(select(TestCaseModel).where(TestCaseModel.run_id == source_run_id).order_by(TestCaseModel.id)).all()
@@ -690,6 +751,7 @@ def review_test(run_id: str, test_id: str, payload: TestReviewUpdate, db: Sessio
     audit = db.get(AuditRunModel, run_id)
     if not audit: missing("Audit")
     require_state(audit, {AuditStatus.TESTS_GENERATED})
+    ensure_suite_editable(db, audit)
     if payload.quality_status == TestQualityStatus.PENDING:
         raise HTTPException(422, "Choose accepted or rejected for a test review decision.")
     source = canonical_test_for_review(db, audit, test_id)
@@ -706,6 +768,7 @@ def regenerate_test(run_id: str, test_id: str, db: Session = Depends(get_db)):
     audit = db.get(AuditRunModel, run_id)
     if not audit: missing("Audit")
     require_state(audit, {AuditStatus.TESTS_GENERATED})
+    ensure_suite_editable(db, audit)
     source = canonical_test_for_review(db, audit, test_id)
     replacement = generated_candidate_for_review(db, source)
     source.dimension = replacement.dimension.value
@@ -776,6 +839,10 @@ def cancel_experiment(experiment_id: str, db: Session = Depends(get_db)):
 
 @router.post("/audits/{run_id}/execute", response_model=list[TargetResponse])
 def execute(run_id:str,db:Session=Depends(get_db)):
+    with audit_run_lock(run_id):
+        return _execute(run_id, db)
+
+def _execute(run_id: str, db: Session):
     a=db.get(AuditRunModel,run_id)
     if not a: missing("Audit")
     require_state(a,{AuditStatus.TESTS_GENERATED})
@@ -870,6 +937,10 @@ def cancel_audit(run_id: str, db: Session = Depends(get_db)):
     return audit_schema(audit)
 @router.post("/audits/{run_id}/evaluate", response_model=list[EvaluationResult])
 def evaluate(run_id:str,db:Session=Depends(get_db)):
+    with audit_run_lock(run_id):
+        return _evaluate(run_id, db)
+
+def _evaluate(run_id: str, db: Session):
     a=db.get(AuditRunModel,run_id)
     if not a: missing("Audit")
     require_state(a,{AuditStatus.TESTS_EXECUTED})
@@ -949,7 +1020,11 @@ def result_for(run_id,db):
         if not e.passed:
             evidence=[memory_schema(db,m) for m in db.scalars(select(MemoryModel).where(MemoryModel.id.in_(e.evidence_memory_ids))).all()]
             failures.append(FailureDetail(failure_id=e.evaluation_id,test=TestCasePublic(**ts[e.test_id].model_dump(exclude={"target_memory_context"})),response=rs[e.response_id],evaluation=e,evidence=evidence))
-    return AuditResult(run_id=run_id,overall_score=overall,tests_passed=sum(e.passed for e in es),tests_total=len(es),dimensions=dimensions,failures=failures,retrieval_quality=RetrievalQualityService().calculate(run_id, db),reproducibility=getattr(a, "reproducibility_metadata", {}) or {})
+    fallback_count = sum(1 for evaluation in es if evaluation.evaluator.startswith("fallback-"))
+    warnings = [
+        f"{fallback_count} evaluation(s) used the deterministic fallback because the configured LLM judge did not return a valid decision."
+    ] if fallback_count else []
+    return AuditResult(run_id=run_id,overall_score=overall,tests_passed=sum(e.passed for e in es),tests_total=len(es),dimensions=dimensions,failures=failures,evaluation_warnings=warnings,retrieval_quality=RetrievalQualityService().calculate(run_id, db),reproducibility=getattr(a, "reproducibility_metadata", {}) or {})
 @router.get("/audits/{run_id}/results", response_model=AuditResult)
 def results(run_id:str,db:Session=Depends(get_db)): return result_for(run_id,db)
 
@@ -1235,11 +1310,17 @@ def experiment_analytics_for(experiment_id: str, db: Session) -> ExperimentAnaly
     ).all()
     runs = [audit_schema(run) for run in run_models]
     results_by_run = {run.run_id: result_for(run.run_id, db) for run in runs if run.status == AuditStatus.COMPLETED}
+    response_metadata_by_run = {
+        run.id: [dict(response.execution_metadata or {}) for response in db.scalars(
+            select(TargetResponseModel).where(TargetResponseModel.run_id == run.id)
+        ).all()]
+        for run in run_models
+    }
     service = ExperimentAnalyticsService()
     return ExperimentAnalytics(
         experiment=experiment_schema(experiment),
         runs=[ExperimentRunReport(run=run, result=results_by_run.get(run.run_id)) for run in runs],
-        conditions=service.condition_summaries(runs, results_by_run),
+        conditions=service.condition_summaries(runs, results_by_run, response_metadata_by_run),
         paired_comparisons=service.paired_comparisons(db, runs),
     )
 
@@ -1391,6 +1472,10 @@ def export_experiment_csv(experiment_id: str, db: Session = Depends(get_db)):
         writer.writerow(["condition", experiment_id, condition.label, "", "", "failed_runs", condition.failed_runs, ""])
         writer.writerow(["condition", experiment_id, condition.label, "", "", "overall_mean", condition.overall_mean, ""])
         writer.writerow(["condition", experiment_id, condition.label, "", "", "overall_standard_deviation", condition.overall_standard_deviation, ""])
+        writer.writerow(["condition", experiment_id, condition.label, "", "", "mean_latency_ms", condition.mean_latency_ms, "Known response timings only; local deterministic calls may not report tokens."])
+        writer.writerow(["condition", experiment_id, condition.label, "", "", "total_input_tokens", condition.total_input_tokens, ""])
+        writer.writerow(["condition", experiment_id, condition.label, "", "", "total_output_tokens", condition.total_output_tokens, ""])
+        writer.writerow(["condition", experiment_id, condition.label, "", "", "total_tokens", condition.total_tokens, ""])
         for score in condition.dimensions:
             writer.writerow(["dimension", experiment_id, condition.label, "", score.dimension.value, "mean_percentage", score.mean_percentage, f"{score.passed}/{score.total} over {score.measured_runs} run(s)"])
     for report in analytics.runs:
@@ -1408,12 +1493,35 @@ def export_experiment_csv(experiment_id: str, db: Session = Depends(get_db)):
 
 @router.get("/experiments/summary", response_model=list[ExperimentResult])
 def experiments(db: Session = Depends(get_db)):
+    """Return legacy weak/strong summaries per comparison group.
+
+    This endpoint predates the richer experiment analytics route.  Keep it
+    backwards compatible, but never average unrelated conversations or
+    experiments into one misleading global score.
+    """
     runs = db.scalars(select(AuditRunModel).where(AuditRunModel.status == "COMPLETED")).all()
-    grouped: dict[str, list[float]] = {"weak": [], "strong": []}
+    grouped: dict[str, dict[str, list[float]]] = {}
+    labels: dict[str, str] = {}
     for run in runs:
+        key = run.experiment_id or f"standalone:{run.conversation_id}"
+        grouped.setdefault(key, {"weak": [], "strong": []})
+        if key not in labels:
+            experiment = db.get(ExperimentModel, run.experiment_id) if run.experiment_id else None
+            labels[key] = experiment.label if experiment else "Standalone controlled-run comparison"
         tests = {t.id: Dimension(t.dimension) for t in db.scalars(select(TestCaseModel).where(TestCaseModel.run_id == run.id)).all()}
         evaluations = [eval_schema(e) for e in db.scalars(select(EvaluationResultModel).join(TestCaseModel).where(TestCaseModel.run_id == run.id)).all()]
         score, _ = MetricsService().calculate(evaluations, tests)
-        if score is not None: grouped[run.target_configuration].append(score)
-    if not grouped["weak"] or not grouped["strong"]: return []
-    return [ExperimentResult(experiment_id="EXP-COMPLETED", label="Completed controlled-run comparison", weak_score=round(sum(grouped["weak"]) / len(grouped["weak"]), 1), strong_score=round(sum(grouped["strong"]) / len(grouped["strong"]), 1), notes="Average Memory Health across completed weak and strong controlled runs.")]
+        if score is not None and run.target_configuration in {"weak", "strong"}:
+            grouped[key][run.target_configuration].append(score)
+    summaries: list[ExperimentResult] = []
+    for key, scores in grouped.items():
+        if not scores["weak"] or not scores["strong"]:
+            continue
+        summaries.append(ExperimentResult(
+            experiment_id=key,
+            label=labels[key],
+            weak_score=round(sum(scores["weak"]) / len(scores["weak"]), 1),
+            strong_score=round(sum(scores["strong"]) / len(scores["strong"]), 1),
+            notes="Average Memory Health for this comparison group only.",
+        ))
+    return summaries

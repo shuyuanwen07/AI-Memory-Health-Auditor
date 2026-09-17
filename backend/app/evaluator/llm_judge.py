@@ -93,7 +93,10 @@ class LLMBehaviourEvaluator(BehaviourEvaluator):
         result = self.fallback.evaluate(test, response, memories)
         # The label is transparent to researchers while exposing no provider
         # failure details (which could include sensitive upstream data).
-        return result.model_copy(update={"evaluator": "rule-based-v4-fallback"})
+        return result.model_copy(update={
+            "evaluator": "fallback-rule-based-v4",
+            "reason": f"LLM judge unavailable; deterministic fallback used. {result.reason}",
+        })
 
     def _credential(self) -> str:
         credential = os.getenv(_CREDENTIAL_ENV[self.provider], "").strip()

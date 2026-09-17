@@ -15,6 +15,7 @@ import {
   XAxis,
   YAxis,
 } from 'recharts';
+import { useId } from 'react';
 import type { AuditResult, Dimension } from '../types/domain';
 import { calculateExperimentStatistics, type ExperimentStatisticsRun } from './ExperimentStatistics';
 
@@ -110,7 +111,7 @@ function GroupedMetricRows({
 export function ScoreRadarChart({ result }: { result: AuditResult }) {
   const chartData = dimensions.map(({ key, label }) => ({
     dimension: label,
-    score: dimensionScore(result, key) ?? 0,
+    score: dimensionScore(result, key),
     tested: dimensionScore(result, key) !== null,
   }));
   const summary = chartData.map(({ dimension, score, tested }) => `${dimension}: ${tested ? percentage(score) : 'Not tested'}`).join('; ');
@@ -125,8 +126,8 @@ export function ScoreRadarChart({ result }: { result: AuditResult }) {
             <PolarGrid stroke="#c7d6e4" />
             <PolarAngleAxis dataKey="dimension" tick={{ fill: '#34495e', fontSize: 12 }} />
             <PolarRadiusAxis angle={90} domain={[0, 100]} tickCount={5} tick={{ fill: '#63788a', fontSize: 11 }} />
-            <Radar name="Memory Health" dataKey="score" stroke="#087ea4" fill="#087ea4" fillOpacity={0.3} />
-            <Tooltip formatter={(value) => percentage(typeof value === 'number' ? value : Number(value))} />
+            <Radar name="Memory Health" dataKey="score" connectNulls={false} stroke="#087ea4" fill="#087ea4" fillOpacity={0.3} />
+            <Tooltip formatter={(value) => value == null ? 'Not tested' : percentage(typeof value === 'number' ? value : Number(value))} />
           </RadarChart>
         </ResponsiveContainer>
       </div>
@@ -135,7 +136,7 @@ export function ScoreRadarChart({ result }: { result: AuditResult }) {
   </section>;
 }
 
-function OverallBarChart({ runs }: { runs: ExperimentStatisticsRun[] }) {
+function OverallBarChart({ runs, captionId }: { runs: ExperimentStatisticsRun[]; captionId: string }) {
   const rawGroups = calculateExperimentStatistics(runs)
     .filter((group) => group.overallAverage !== null)
   const displayLabels = displayConditionLabels(rawGroups);
@@ -147,7 +148,6 @@ function OverallBarChart({ runs }: { runs: ExperimentStatisticsRun[] }) {
       colour: colours[index % colours.length],
       runs: group.runs,
     }));
-  const captionId = 'overall-comparison-caption';
   const summary = groups.map((group) => `${group.fullCondition}: ${percentage(group.overall)}${group.runs > 1 ? ` (± ${number(group.standardDeviation)}%)` : ''}`).join('; ');
 
   return <article className="visual-report-card">
@@ -176,7 +176,7 @@ function OverallBarChart({ runs }: { runs: ExperimentStatisticsRun[] }) {
   </article>;
 }
 
-function DimensionBarChart({ runs }: { runs: ExperimentStatisticsRun[] }) {
+function DimensionBarChart({ runs, captionId }: { runs: ExperimentStatisticsRun[]; captionId: string }) {
   const groups = calculateExperimentStatistics(runs);
   // Recharts treats a dot in a string `dataKey` as a nested object path.
   // Provider/model labels commonly contain dots (for example qwen3:1.7b),
@@ -190,7 +190,6 @@ function DimensionBarChart({ runs }: { runs: ExperimentStatisticsRun[] }) {
     });
     return row;
   });
-  const captionId = 'dimension-comparison-caption';
   const summary = chartData.map((row) => `${row.dimension}: ${series.map((item) => `${item.label} ${percentage(row[item.key] as number | null)}`).join(', ')}`).join('; ');
 
   return <article className="visual-report-card">
@@ -204,20 +203,19 @@ function DimensionBarChart({ runs }: { runs: ExperimentStatisticsRun[] }) {
   </article>;
 }
 
-function FailureDistributionChart({ runs }: { runs: ExperimentStatisticsRun[] }) {
+function FailureDistributionChart({ runs, captionId }: { runs: ExperimentStatisticsRun[]; captionId: string }) {
   const groups = calculateExperimentStatistics(runs);
   const displayLabels = displayConditionLabels(groups);
   const series: Array<MetricSeries & { group: (typeof groups)[number] }> = groups.map((group, index) => ({ key: `condition_${index}`, label: group.label, displayLabel: displayLabels[index], colour: colours[index % colours.length], group }));
   const chartData = dimensions.map((dimension) => {
-    const row: Record<string, string | number> = { dimension: dimension.label };
+    const row: Record<string, string | number | null> = { dimension: dimension.label };
     series.forEach((item) => {
-      row[item.key] = item.group.dimensions.find((score) => score.dimension === dimension.key)?.failures ?? 0;
+      row[item.key] = item.group.dimensions.find((score) => score.dimension === dimension.key)?.failures ?? null;
     });
     return row;
   });
-  const captionId = 'failure-distribution-caption';
-  const summary = chartData.map((row) => `${row.dimension}: ${series.map((item) => `${item.label} ${row[item.key]}`).join(', ')}`).join('; ');
-  const maximum = Math.max(1, ...chartData.flatMap((row) => series.map((item) => Number(row[item.key] ?? 0))));
+  const summary = chartData.map((row) => `${row.dimension}: ${series.map((item) => `${item.label} ${row[item.key] === null ? 'not tested' : row[item.key]}`).join(', ')}`).join('; ');
+  const maximum = Math.max(1, ...chartData.flatMap((row) => series.map((item) => typeof row[item.key] === 'number' ? row[item.key] as number : 0)));
 
   return <article className="visual-report-card">
     <h2>Detected Failure Distribution</h2>
@@ -232,9 +230,10 @@ function FailureDistributionChart({ runs }: { runs: ExperimentStatisticsRun[] })
 
 /** Visual companion to the tables: values remain available in the tables beneath each chart. */
 export function ComparisonVisualizations({ runs }: { runs: ExperimentStatisticsRun[] }) {
+  const idPrefix = useId().replace(/:/g, '');
   if (!runs.length) return null;
   return <section className="comparison-visualizations" aria-label="Visual comparison charts">
     <div className="visual-heading"><h2>Visual Comparison</h2></div>
-    <div className="visual-grid"><OverallBarChart runs={runs} /><DimensionBarChart runs={runs} /><FailureDistributionChart runs={runs} /></div>
+    <div className="visual-grid"><OverallBarChart runs={runs} captionId={`${idPrefix}-overall-caption`} /><DimensionBarChart runs={runs} captionId={`${idPrefix}-dimension-caption`} /><FailureDistributionChart runs={runs} captionId={`${idPrefix}-failure-caption`} /></div>
   </section>;
 }
