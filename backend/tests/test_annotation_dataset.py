@@ -29,3 +29,15 @@ def test_annotation_rejects_evaluation_with_inconsistent_failure_label():
 def test_annotation_template_keeps_the_versioned_contract():
     template = AnnotationDataset.model_validate(json.loads(TEMPLATE_PATH.read_text()))
     assert template.dataset_version == "1.0.0"
+
+
+def test_synthetic_pilot_v2_is_a_valid_balanced_calibration_release():
+    path = Path(__file__).resolve().parents[2] / "datasets" / "annotation" / "synthetic-pilot-v2" / "synthetic_pilot_annotations.json"
+    dataset = AnnotationDataset.model_validate(json.loads(path.read_text()))
+
+    assert len(dataset.conversations) == 5
+    assert sum(len(item.gold_tests) for item in dataset.conversations) == 20
+    assert {test.dimension.value for item in dataset.conversations for test in item.gold_tests} == {
+        "accuracy", "freshness", "conflict_resolution", "appropriate_use",
+    }
+    assert any(not evaluation.passed for item in dataset.conversations for evaluation in item.gold_evaluations)

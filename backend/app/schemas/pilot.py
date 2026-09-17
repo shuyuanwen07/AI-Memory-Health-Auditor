@@ -27,6 +27,18 @@ class PilotAdjudicationBasis(str, Enum):
     EXTERNAL_REFERENCE = "external_reference"
 
 
+class PilotAnnotationMode(str, Enum):
+    """Provenance mode for a double-labelling package.
+
+    Only two independent human label sets can satisfy the formal-study gate.
+    Synthetic AI-assisted packages remain useful for exercising the workflow,
+    but must never be represented as human inter-rater evidence.
+    """
+
+    HUMAN_DOUBLE_ANNOTATION = "human_double_annotation"
+    AI_ASSISTED_SYNTHETIC_DRY_RUN = "ai_assisted_synthetic_dry_run"
+
+
 _TASK_LABELS: dict[PilotTask, set[str]] = {
     PilotTask.MEMORY_INCLUSION: {"include", "exclude"},
     PilotTask.RELATIONSHIP_TYPE: {"none", *(item.value for item in RelationshipType)},
@@ -84,6 +96,7 @@ class PilotAnnotationPackage(BaseModel):
     authorised_for_research: bool
     data_origin: str = Field(min_length=1)
     deidentification_note: str = Field(min_length=1)
+    annotation_mode: PilotAnnotationMode = PilotAnnotationMode.HUMAN_DOUBLE_ANNOTATION
     minimum_paired_items_per_task: int = Field(default=5, ge=1)
     minimum_kappa: float | None = Field(default=0.6, ge=-1, le=1)
     items: list[PilotItem] = Field(min_length=1)
@@ -141,6 +154,7 @@ class PilotReadinessReport(BaseModel):
     dataset_version: str
     fingerprint_sha256: str
     annotator_ids: list[str]
+    annotation_mode: PilotAnnotationMode = PilotAnnotationMode.HUMAN_DOUBLE_ANNOTATION
     minimum_paired_items_per_task: int
     minimum_kappa: float | None
     overall: PilotAgreementMetrics

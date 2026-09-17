@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { api } from '../services/api';
 import type { AuditResult, ConversationInputMessage, Memory, MemoryMaintenancePolicy, MemoryReviewPatch, MemoryStrategy, ProviderOption, TargetMemoryWriterKind, TargetProvider, TestCase, TestSuiteMode } from '../types/domain';
 import { StepIndicator } from '../components/StepIndicator';
@@ -57,11 +57,18 @@ export function NewAudit() {
   const [targetMemoryCapacity, setTargetMemoryCapacity] = useState(50);
   const [targetMemoryWriter, setTargetMemoryWriter] = useState<TargetMemoryWriterKind>('rule_based');
   const [runs, setRuns] = useState<PreparedRun[]>([]);
+  const [experimentId, setExperimentId] = useState('');
   const [results, setResults] = useState<CompletedRun[]>([]);
   const [failedRuns, setFailedRuns] = useState<FailedRun[]>([]);
   const [reviewTests, setReviewTests] = useState<TestCase[] | null>(null);
   const [runningLabel, setRunningLabel] = useState('');
   const [runningRunId, setRunningRunId] = useState('');
+  const [queueStopped, setQueueStopped] = useState(false);
+  const [entireExperimentCancelled, setEntireExperimentCancelled] = useState(false);
+  const cancellationRequested = useRef(false);
+  const entireExperimentCancelledRef = useRef(false);
+  const cancelledRunIds = useRef(new Set<string>());
+  const completedRunIds = useRef(new Set<string>());
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
 
@@ -110,8 +117,11 @@ export function NewAudit() {
   });
 
   const selectedTargets = providers.filter((item) => targetProviders.includes(item.provider));
-  const selectedPipeline = providers.find((item) => item.provider === pipelineProvider);
-  const selectedEvaluator = providers.find((item) => item.provider === evaluatorProvider);
+  // Ollama is target-only for now. Extraction and judging keep their existing
+  // structured cloud/rule contracts rather than accepting an unsupported choice.
+  const pipelineProviders = providers.filter((item) => item.provider !== 'ollama');
+  const selectedPipeline = pipelineProviders.find((item) => item.provider === pipelineProvider);
+  const selectedEvaluator = pipelineProviders.find((item) => item.provider === evaluatorProvider);
   const toggleTarget = (option: ProviderOption) => {
     if (!option.configured) return;
     setTargetProviders((current) => current.includes(option.provider)
@@ -129,12 +139,21 @@ export function NewAudit() {
       conversation_id: conversationId,
       label: `Memory strategy comparison ${new Date().toISOString()}`,
       test_suite_configuration: {
-        test_budget: budget, random_seed: 42, prompt_template_version: 'rule-based-v1',
+        test_budget: budget, random_seed: 42, prompt_template_version: 'rule-based-v4',
         pipeline_provider: pipelineProvider,
         pipeline_model: pipelineProvider === 'rule_based' ? 'rule-based-v2' : selectedPipeline?.default_model,
+        evaluator_provider: evaluatorProvider,
+        evaluator_model: evaluatorProvider === 'rule_based' ? 'rule-based-v4' : selectedEvaluator?.default_model,
         suite_mode: suiteMode,
       },
     });
+    setExperimentId(experiment.experiment_id);
+    setQueueStopped(false);
+    setEntireExperimentCancelled(false);
+    cancellationRequested.current = false;
+    entireExperimentCancelledRef.current = false;
+    cancelledRunIds.current.clear();
+    completedRunIds.current.clear();
     const created = await Promise.all(plan.map(({ provider, strategy }) => api.createAudit({
       conversation_id: conversationId,
       experiment_id: experiment.experiment_id,
@@ -152,7 +171,7 @@ export function NewAudit() {
       temperature: 0,
       random_seed: 42,
       test_budget: budget,
-      prompt_template_version: 'rule-based-v1',
+      prompt_template_version: 'rule-based-v4',
     })));
     setRuns(created.map((run, index) => {
       const condition = plan[index];
@@ -183,25 +202,39 @@ export function NewAudit() {
   });
   const readyForExecution = Boolean(reviewTests?.length) && reviewTests!.every((test) => test.quality_status === 'accepted');
 
-  const runAudit = () => act(async () => {
+  const runAudit = (continueRemaining = false) => act(async () => {
     if (!readyForExecution) throw new Error('Generate and complete the shared test-suite review before running the audit.');
+    if (queueStopped && !continueRemaining) throw new Error('This execution queue was cancelled. Continue remaining conditions or start a new audit.');
+    if (entireExperimentCancelledRef.current) throw new Error('This experiment was cancelled and cannot be resumed. Start a new audit for a fresh comparison.');
+    setQueueStopped(false);
+    cancellationRequested.current = false;
     const completed: CompletedRun[] = [];
     const failed: FailedRun[] = [];
     for (const run of runs) {
+      if (cancelledRunIds.current.has(run.runId) || completedRunIds.current.has(run.runId)) continue;
       setRunningLabel(run.label);
       setRunningRunId(run.runId);
       try {
         await api.execute(run.runId);
         await api.evaluate(run.runId);
         completed.push({ label: run.label, groupLabel: run.groupLabel, result: await api.results(run.runId) });
+        completedRunIds.current.add(run.runId);
       } catch (cause) {
+        if (cancellationRequested.current) break;
         failed.push({ runId: run.runId, label: run.label, detail: cause instanceof Error ? cause.message : 'This condition could not be completed.' });
       }
     }
     setRunningLabel(''); setRunningRunId('');
-    setResults(completed);
-    setFailedRuns(failed);
-    if (!completed.length) throw new Error('No experimental conditions completed. Check the failed runs and retry them.');
+    setResults((current) => [...current.filter((item) => !completed.some((next) => next.result.run_id === item.result.run_id)), ...completed]);
+    setFailedRuns((current) => [...current.filter((item) => !failed.some((next) => next.runId === item.runId)), ...failed]);
+    if (cancellationRequested.current) {
+      setQueueStopped(true);
+      setError(entireExperimentCancelledRef.current
+        ? 'The entire comparison was cancelled. Completed conditions remain available in Audit History.'
+        : 'Execution was stopped. Continue the remaining conditions or cancel the rest of this comparison.');
+      return;
+    }
+    if (!completedRunIds.current.size) throw new Error('No experimental conditions completed. Check the failed runs and retry them.');
     setStep(4);
   });
 
@@ -215,6 +248,7 @@ export function NewAudit() {
         if (audit.status !== 'COMPLETED') throw new Error('The run is still incomplete. Check the provider configuration and try again.');
         const groupLabel = runs.find((run) => run.runId === failed.runId)?.groupLabel ?? failed.label;
         recovered.push({ label: failed.label, groupLabel, result: await api.results(failed.runId) });
+        completedRunIds.current.add(failed.runId);
       } catch (cause) {
         stillFailed.push({ ...failed, detail: cause instanceof Error ? cause.message : failed.detail });
       }
@@ -224,11 +258,36 @@ export function NewAudit() {
     setFailedRuns(stillFailed);
   });
 
-  const cancelCurrentRun = () => act(async () => {
+  const cancelCurrentRun = async () => {
     if (!runningRunId) return;
-    await api.cancel(runningRunId);
-    setError('Cancellation requested. Completed responses were retained for recovery.');
-  });
+    try {
+      cancellationRequested.current = true;
+      cancelledRunIds.current.add(runningRunId);
+      await api.cancel(runningRunId);
+      setError('Cancellation requested. This condition will stop between provider calls, and the execution queue will stop.');
+    } catch (cause) {
+      cancellationRequested.current = false;
+      cancelledRunIds.current.delete(runningRunId);
+      setError(cause instanceof Error ? cause.message : 'The current run could not be cancelled.');
+    }
+  };
+
+  const cancelExperiment = async () => {
+    if (!experimentId) return;
+    try {
+      cancellationRequested.current = true;
+      setEntireExperimentCancelled(true);
+      entireExperimentCancelledRef.current = true;
+      await api.cancelExperiment(experimentId);
+      for (const run of runs) if (!completedRunIds.current.has(run.runId)) cancelledRunIds.current.add(run.runId);
+      setError('The comparison was cancelled. Completed conditions remain available in Audit History.');
+    } catch (cause) {
+      cancellationRequested.current = false;
+      setEntireExperimentCancelled(false);
+      entireExperimentCancelledRef.current = false;
+      setError(cause instanceof Error ? cause.message : 'The comparison could not be cancelled.');
+    }
+  };
 
   return <main className="workflow">
     <StepIndicator current={step} />
@@ -237,7 +296,6 @@ export function NewAudit() {
     {step === 1 && <GroundTruthReview memories={memories} busy={busy} onChange={updateMemory} onAddMemory={addMemory} onConfirm={confirm} />}
     {step === 2 && <section>
       <h1>Configure Memory Audit</h1>
-      <p>Select one or more strategies and target models. Every condition receives the same confirmed ground truth and frozen test suite.</p>
       <h3>Controlled Memory Strategies</h3>
       <div className="target-grid">{strategies.map((item) => <label className={`target ${selectedStrategies.includes(item.value) ? 'selected' : ''}`} key={item.value}>
         <input type="checkbox" checked={selectedStrategies.includes(item.value)} onChange={() => toggleStrategy(item.value)} />
@@ -254,21 +312,21 @@ export function NewAudit() {
         <label>Memory maintenance<select value={maintenancePolicy} onChange={(event) => setMaintenancePolicy(event.target.value as MemoryMaintenancePolicy)}><option value="update_aware_consolidation">Update-aware consolidation</option><option value="append_only">Append only</option></select><small>Controls how the target agent writes and updates its own memory store.</small></label>
         <label>Target memory capacity<input type="number" min="1" max="500" value={targetMemoryCapacity} onChange={(event) => setTargetMemoryCapacity(Math.max(1, Math.min(500, Number(event.target.value) || 1)))} /><small>Maximum retained records. Capacity pressure creates traceable evictions; conflicts are preserved.</small></label>
         <label>Target memory writer<select value={targetMemoryWriter} onChange={(event) => setTargetMemoryWriter(event.target.value as TargetMemoryWriterKind)}><option value="rule_based">Rule-based writer</option><option value="llm_structured" disabled={pipelineProvider === 'rule_based'}>Structured LLM writer</option></select><small>Frozen on every run. The structured writer requires a configured LLM pipeline.</small></label>
-        <label>Memory extraction and test generation<select value={pipelineProvider} onChange={(event) => { const next = event.target.value as TargetProvider; setPipelineProvider(next); if (next === 'rule_based' && targetMemoryWriter === 'llm_structured') setTargetMemoryWriter('rule_based'); }}>{providers.map((item) => <option key={item.provider} value={item.provider}>{item.label}{item.configured ? '' : ' — key required'}</option>)}</select></label>
-        <label>Behaviour evaluator<select value={evaluatorProvider} onChange={(event) => setEvaluatorProvider(event.target.value as TargetProvider)}>{providers.map((item) => <option key={item.provider} value={item.provider}>{item.label}{item.configured ? '' : ' — key required'}</option>)}</select></label>
+        <label>Memory extraction and test generation<select value={pipelineProvider} onChange={(event) => { const next = event.target.value as TargetProvider; setPipelineProvider(next); if (next === 'rule_based' && targetMemoryWriter === 'llm_structured') setTargetMemoryWriter('rule_based'); }}>{pipelineProviders.map((item) => <option key={item.provider} value={item.provider}>{item.label}{item.configured ? '' : ' — key required'}</option>)}</select></label>
+        <label>Behaviour evaluator<select value={evaluatorProvider} onChange={(event) => setEvaluatorProvider(event.target.value as TargetProvider)}>{pipelineProviders.map((item) => <option key={item.provider} value={item.provider}>{item.label}{item.configured ? '' : ' — key required'}</option>)}</select></label>
         <label>Test budget<input type="number" min="1" max="100" value={budget} onChange={(event) => setBudget(Number(event.target.value))} /></label>
         <label>Repeated runs per condition<input type="number" min="1" max="10" value={repetitions} onChange={(event) => setRepetitions(Math.max(1, Math.min(10, Number(event.target.value) || 1)))} /></label>
-        <label>Temperature<input value="0.0" readOnly /></label><label>Random seed<input value="42" readOnly /></label><label>Prompt-template version<input value="rule-based-v1" readOnly /></label>
+        <label>Temperature<input value="0.0" readOnly /></label><label>Random seed<input value="42" readOnly /></label><label>Prompt-template version<input value="rule-based-v4" readOnly /></label>
       </div>
       {selectedTargets.length > 0 && <div className="form-grid model-overrides">{selectedTargets.map((provider) => <label key={provider.provider}>Target model for {provider.label}<input value={targetModels[provider.provider] ?? provider.default_model} onChange={(event) => setTargetModels((current) => ({ ...current, [provider.provider]: event.target.value }))} /><small>Record an explicit deployed model name for this comparison.</small></label>)}</div>}
       <h3>Audit Dimensions</h3><p className="dimensions">Accuracy · Freshness · Conflict Resolution · Appropriate Use</p>
       <button disabled={busy || selectedTargets.length === 0 || selectedStrategies.length === 0 || !selectedPipeline?.configured || !selectedEvaluator?.configured} onClick={start}>Start {selectedTargets.length * selectedStrategies.length * repetitions > 1 ? `${selectedTargets.length * selectedStrategies.length * repetitions}-Run Comparison` : 'Memory Audit'}</button>
     </section>}
     {step === 3 && <section className="running">
-      <h1>Prepare Memory Audit</h1><p>{runs.length > 1 ? `${runs.length} conditions will use one shared test suite.` : 'Generate and review the test suite before executing the controlled audit.'}</p>
-      {busy && runningLabel && <p className="running-model">Currently working: <b>{runningLabel}</b> <button type="button" className="secondary" onClick={cancelCurrentRun}>Cancel current run</button></p>}
+      <h1>Prepare Memory Audit</h1>
+      {busy && runningLabel && <p className="running-model">Currently working: <b>{runningLabel}</b>{runningRunId && <> <button type="button" className="secondary" onClick={cancelCurrentRun}>Cancel current run &amp; stop queue</button>{runs.length > 1 && <button type="button" className="secondary" onClick={cancelExperiment}>Cancel entire comparison</button>}</>}</p>}
       <ul className="progress"><li>Preparing confirmed ground truth <b>Complete</b></li><li>Generating shared behavioural tests <b>{reviewTests ? 'Complete' : busy ? 'In progress' : 'Waiting'}</b></li><li>Researcher test-suite review <b>{readyForExecution ? 'Complete' : reviewTests ? 'Action required' : 'Waiting'}</b></li><li>Initialising target AI <b>{readyForExecution ? 'Ready' : 'Waiting'}</b></li><li>Executing memory tests <b>Waiting</b></li><li>Evaluating responses <b>Waiting</b></li></ul>
-      {!reviewTests ? <button disabled={busy} onClick={prepareTests}>{busy ? 'Generating Shared Test Suite…' : 'Generate Tests for Review'}</button> : <><TestSuiteReview tests={reviewTests} busy={busy} onReview={reviewTest} onRegenerate={regenerateTest} /><button disabled={busy || !readyForExecution} onClick={runAudit}>{busy ? `Running ${runningLabel || 'audit'}…` : runs.length > 1 ? 'Run Comparison & View Results' : 'Run Audit & View Results'}</button>{!readyForExecution && <p className="provider-note">Accept each pending test and regenerate rejected tests before execution.</p>}</>}
+      {!reviewTests ? <button disabled={busy} onClick={prepareTests}>{busy ? 'Generating Shared Test Suite…' : 'Generate Tests for Review'}</button> : <><TestSuiteReview tests={reviewTests} busy={busy} onReview={reviewTest} onRegenerate={regenerateTest} /><button disabled={busy || !readyForExecution || queueStopped} onClick={() => runAudit()}>{queueStopped ? 'Execution Queue Cancelled' : busy ? `Running ${runningLabel || 'audit'}…` : runs.length > 1 ? 'Run Comparison & View Results' : 'Run Audit & View Results'}</button>{queueStopped && <div className="provider-note"><p>{entireExperimentCancelled ? 'This comparison is terminal. Start a new audit for a fresh controlled comparison.' : 'The current condition was cancelled. Remaining conditions still use the same frozen suite.'}</p>{!entireExperimentCancelled && <><button type="button" className="secondary" onClick={() => runAudit(true)}>Continue Remaining Conditions</button><button type="button" className="secondary" onClick={cancelExperiment}>Cancel Remaining Conditions</button></>}</div>}{!readyForExecution && <p className="provider-note">Accept each pending test and regenerate rejected tests before execution.</p>}</>}
     </section>}
     {step === 4 && results.length > 0 && <section>
       <h1>{results.length > 1 ? 'Memory Health Model Comparison' : 'Memory Health Report'}</h1>

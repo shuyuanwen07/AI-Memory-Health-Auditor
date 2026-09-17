@@ -183,3 +183,14 @@ def test_completed_stage_is_inferred_for_an_empty_generated_suite():
 
     assert result.snapshot.audit.status == AuditStatus.COMPLETED
     assert result.retry_plan.retryable is False
+
+
+def test_cancelled_snapshot_has_a_terminal_retry_plan():
+    snapshot = AuditExecutionSnapshot(_audit(status=AuditStatus.CANCELLED), [_memory()])
+
+    plan = AuditExecutionService.plan_for(snapshot)
+
+    assert plan.next_stage is None
+    assert plan.pending_test_ids == ()
+    assert plan.retryable is False
+    assert "cancelled" in plan.reason.lower()

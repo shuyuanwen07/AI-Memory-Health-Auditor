@@ -40,7 +40,12 @@ def private_context_instruction(test: TestCase, configuration: TargetConfigurati
         )
     else:
         policy = "Use only the single retrieved record below. Do not reconcile records that were not retrieved."
-    return f"PRIVATE TARGET MEMORY CONTEXT\n{records}\n\nMEMORY POLICY\n{policy}"
+    return (
+        f"PRIVATE TARGET MEMORY CONTEXT\n{records}\n\nMEMORY POLICY\n{policy}\n\n"
+        "RESPONSE FORMAT\n"
+        "Start with the concrete factual answer from the supplied records. Then give at most one short "
+        "sentence of reasoning if the question asks for it. Do not answer with a generic policy alone."
+    )
 
 
 class RuleBasedTargetAIConnector(TargetAIConnector):

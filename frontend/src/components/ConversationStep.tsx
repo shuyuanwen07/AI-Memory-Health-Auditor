@@ -69,10 +69,7 @@ export function ConversationStep({ text, consent, busy, onTextChange, onConsentC
   };
 
   return <section className="intro" aria-labelledby="new-audit-title">
-    <p className="eyebrow">CONTROLLED MEMORY EVALUATION</p>
     <h1 id="new-audit-title">AI Memory Health Auditor</h1>
-    <h2>Evaluate how reliably an AI remembers and uses information over time.</h2>
-    <p>Upload an authorised conversation history. The Auditor identifies potential memories, lets you confirm ground truth, generates behavioural tests, evaluates a target AI, and produces a traceable Memory Health report.</p>
     <label htmlFor="conversation-text">Authorised conversation text
       <textarea id="conversation-text" value={text} maxLength={MAX_CONVERSATION_CHARACTERS} onChange={(event) => { onTextChange(event.target.value); setImportFeedback(''); }} placeholder="Example: [User] I now use PostgreSQL for the backend." rows={10} aria-describedby="conversation-help conversation-count" aria-invalid={!hasConversation} />
     </label>

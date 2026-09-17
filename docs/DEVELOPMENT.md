@@ -27,13 +27,36 @@ GEMINI_API_KEY=...
 
 The browser never receives these keys. `gpt-5.6-luna`, `deepseek-flash`, and `gemini-2.5-flash-lite` are selectable once their corresponding key is configured. Gemini's free tier requires a Google AI Studio API key and is subject to Google's applicable limits.
 
+### Local Qwen 3 1.7B through Ollama
+
+The controlled target selector also supports **Local Qwen 3 1.7B (Ollama)**.
+It is target-only: extraction, test generation, and the evaluator retain their
+existing rule-based or structured cloud-provider contracts. Install Ollama and
+download the model on the host:
+
+```sh
+ollama pull qwen3:1.7b
+ollama serve
+```
+
+For Docker Compose on macOS, keep `OLLAMA_BASE_URL=http://host.docker.internal:11434`.
+For a backend run directly on the host, use `http://127.0.0.1:11434` instead.
+The provider chooser checks whether Ollama is reachable; no API key is required
+or exposed to the browser. On an 8 GB Apple M1, start with the included
+2048-token context and 120-token output limits, and use a 4-test audit for the
+first real smoke run.
+
 Provider execution uses a bounded retry policy for temporary network and service failures. Authentication, missing-model, and malformed-response errors are returned as clear API errors without exposing a credential or upstream response body.
 
 Each AuditRun freezes `MAX_AUDIT_TARGET_CALLS` and
 `MAX_AUDIT_EXECUTION_SECONDS` when it is created. During sequential target
-execution, `POST /api/v1/audits/{run_id}/cancel` requests a safe stop between
-provider calls. Completed responses remain stored and the normal retry flow can
-resume missing work later.
+execution or evaluation, `POST /api/v1/audits/{run_id}/cancel` requests a safe
+stop between provider calls. The final lifecycle transition uses a conditional
+database update, so a concurrent cancellation cannot be overwritten by a stale
+executor. Completed responses/evaluations remain stored for traceability.
+Cancellation is terminal; use a new audit or Experiment Group for a fresh
+comparison. A persisted unfinished Experiment Group can also be cancelled from
+the Experiments page after a browser refresh.
 
 ## Quality checks and local end-to-end smoke coverage
 
@@ -61,7 +84,7 @@ oversized uploads.
 
 The frontend workflow test follows the user-visible local path: authorised conversation → ground-truth acceptance → shared-suite generation and review → rule-based execution → results → target-memory trace. The matching backend API smoke test uses a temporary SQLite database and verifies the same rule-based path, including an explicit reject/regenerate/accept test-review cycle. These are offline tests: they never need provider credentials, Docker services, or a cloud model. They are intentionally complementary to a short manual Docker smoke check in a real browser when changing styling or file-upload behaviour.
 
-GitHub Actions repeats backend static compilation and tests, upgrades a disposable PostgreSQL database through the complete Alembic chain, runs the paper-artifact generator contracts, and performs frontend type-check/build/tests on every push and pull request. The migration check gives early warning when a new revision is incompatible with a clean database. The workflow is in `.github/workflows/quality.yml`; `.editorconfig` defines the shared whitespace and indentation baseline.
+GitHub Actions repeats backend static compilation and tests, upgrades a disposable PostgreSQL database through the complete Alembic chain, runs `alembic check` to detect model/migration drift, runs the paper-artifact generator contracts, and performs frontend type-check/build/tests on every push and pull request. The workflow is in `.github/workflows/quality.yml`; `.editorconfig` defines the shared whitespace and indentation baseline.
 
 Docker Compose applies `alembic upgrade head` before the backend starts, so the running application always uses the versioned database contract.
 

@@ -1,9 +1,9 @@
-"""Recoverable, route-independent orchestration for one audit run.
+"""Recoverable audit-stage semantics for one audit run.
 
-The API layer deliberately does not own orchestration.  It can load ORM rows
-into :class:`AuditExecutionSnapshot`, invoke ``resume()``, and persist only the
-new artifacts returned by the service.  This keeps an interrupted cloud-model
-call from forcing a whole experiment matrix to start again.
+The pure service is used directly by worker-capable callers and its retry-plan
+derivation is also used by the synchronous API route after it loads durable
+artifacts. This keeps browser recovery and future worker orchestration aligned
+without coupling provider calls to SQLAlchemy persistence.
 
 The service has no database or HTTP dependency.  Its collaborators are the
 existing replaceable generator, target connector, and evaluator interfaces.
@@ -89,7 +89,9 @@ class AuditExecutionSnapshot:
     """
 
     audit: AuditRun
-    memories: list[Memory]
+    # Retry planning is useful even when routes deliberately load only
+    # durable artifacts. Full orchestration still receives confirmed memories.
+    memories: list[Memory] = field(default_factory=list)
     artifacts: RunArtifacts = field(default_factory=RunArtifacts)
     completed_stages: set[AuditStage] = field(default_factory=set)
     events: list[AuditStatusEvent] = field(default_factory=list)
@@ -137,24 +139,39 @@ class AuditExecutionService:
         self.clock = clock or (lambda: datetime.now(timezone.utc))
 
     def retry_plan(self, snapshot: AuditExecutionSnapshot) -> RetryPlan:
-        completed = self._completed_stages(snapshot)
+        return self.plan_for(snapshot)
+
+    @classmethod
+    def plan_for(cls, snapshot: AuditExecutionSnapshot) -> RetryPlan:
+        """Derive the durable retry plan without invoking any collaborator.
+
+        API routes use this same method after loading persisted artifacts, so
+        browser-visible recovery and in-process orchestration cannot diverge.
+        """
+        if snapshot.audit.status == AuditStatus.CANCELLED:
+            return cls._plan(snapshot, None, (), set(), "This audit was cancelled and is terminal.")
+        if snapshot.audit.status == AuditStatus.COMPLETED:
+            return cls._plan(snapshot, None, (), {
+                AuditStage.GENERATE_TESTS, AuditStage.EXECUTE_TESTS, AuditStage.EVALUATE_RESPONSES,
+            }, "This audit is already complete.")
+        completed = cls._completed_stages(snapshot)
         test_ids = tuple(snapshot.artifacts.tests)
         if AuditStage.GENERATE_TESTS not in completed:
-            return self._plan(snapshot, AuditStage.GENERATE_TESTS, (), completed, "Tests have not been generated.")
+            return cls._plan(snapshot, AuditStage.GENERATE_TESTS, (), completed, "Tests have not been generated.")
 
         pending_responses = tuple(
             test_id for test_id in test_ids if test_id not in snapshot.artifacts.responses
         )
         if pending_responses:
-            return self._plan(snapshot, AuditStage.EXECUTE_TESTS, pending_responses, completed, "Some target responses are missing.")
+            return cls._plan(snapshot, AuditStage.EXECUTE_TESTS, pending_responses, completed, "Some target responses are missing.")
 
         pending_evaluations = tuple(
             test_id for test_id in test_ids if test_id not in snapshot.artifacts.evaluations
         )
         if pending_evaluations:
-            return self._plan(snapshot, AuditStage.EVALUATE_RESPONSES, pending_evaluations, completed, "Some target responses have not been evaluated.")
+            return cls._plan(snapshot, AuditStage.EVALUATE_RESPONSES, pending_evaluations, completed, "Some target responses have not been evaluated.")
 
-        return self._plan(snapshot, None, (), completed | {AuditStage.COMPLETE}, "All audit stages are complete.")
+        return cls._plan(snapshot, None, (), completed | {AuditStage.COMPLETE}, "All audit stages are complete.")
 
     def resume(self, snapshot: AuditExecutionSnapshot) -> AuditExecutionResult:
         """Resume from the first missing artifact without repeating prior work."""
@@ -221,8 +238,9 @@ class AuditExecutionService:
             if evaluation.test_id != test_id:
                 raise ValueError(f"Evaluator returned an evaluation for {evaluation.test_id}, expected {test_id}.")
             snapshot.artifacts.evaluations[test_id] = evaluation
-        # The public lifecycle exposes COMPLETED after evaluation has finished.
-        snapshot.audit = snapshot.audit.model_copy(update={"status": AuditStatus.EVALUATED, "completed_at": None})
+        # Keep the durable lifecycle at TESTS_EXECUTED until `_mark_completed`
+        # performs the single public transition to COMPLETED.  This mirrors
+        # the API route and avoids an unpersisted EVALUATED state.
 
     def _mark_completed(self, snapshot: AuditExecutionSnapshot) -> None:
         if snapshot.audit.status != AuditStatus.COMPLETED:
@@ -231,16 +249,17 @@ class AuditExecutionService:
             )
             self._event(snapshot, AuditStage.COMPLETE, EventKind.COMPLETED)
 
-    def _completed_stages(self, snapshot: AuditExecutionSnapshot) -> set[AuditStage]:
+    @staticmethod
+    def _completed_stages(snapshot: AuditExecutionSnapshot) -> set[AuditStage]:
         completed = set(snapshot.completed_stages)
         status = snapshot.audit.status
         # Status is useful for an empty generated suite.  Durable artifacts are
         # the authority after FAILED, where status alone lost the prior stage.
-        if status in {AuditStatus.TESTS_GENERATED, AuditStatus.TESTS_EXECUTED, AuditStatus.EVALUATED, AuditStatus.COMPLETED}:
+        if status in {AuditStatus.TESTS_GENERATED, AuditStatus.TESTS_EXECUTED, AuditStatus.COMPLETED}:
             completed.add(AuditStage.GENERATE_TESTS)
-        if status in {AuditStatus.TESTS_EXECUTED, AuditStatus.EVALUATED, AuditStatus.COMPLETED}:
+        if status in {AuditStatus.TESTS_EXECUTED, AuditStatus.COMPLETED}:
             completed.add(AuditStage.EXECUTE_TESTS)
-        if status in {AuditStatus.EVALUATED, AuditStatus.COMPLETED}:
+        if status == AuditStatus.COMPLETED:
             completed.add(AuditStage.EVALUATE_RESPONSES)
         if snapshot.artifacts.tests:
             completed.add(AuditStage.GENERATE_TESTS)

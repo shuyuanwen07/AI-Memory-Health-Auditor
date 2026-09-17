@@ -70,3 +70,31 @@ def test_export_then_explicit_delete_removes_all_conversation_derived_records(tm
             assert client.get("/api/v1/experiments").json() == []
         finally:
             app.dependency_overrides.clear()
+
+
+def test_extraction_uses_durable_ids_when_two_conversations_share_local_labels(tmp_path):
+    """M001 from one extractor invocation must never collide with another."""
+    with client_for(tmp_path) as client:
+        try:
+            timestamp = datetime.now(timezone.utc).isoformat()
+            payload = {
+                "authorised": True,
+                "messages": [{
+                    "message_id": "MSG001", "role": "user", "timestamp": timestamp,
+                    "content": "I used MySQL before. The backend now uses PostgreSQL.",
+                }],
+            }
+            first_conversation = client.post("/api/v1/conversations", json=payload).json()["conversation_id"]
+            second_conversation = client.post("/api/v1/conversations", json=payload).json()["conversation_id"]
+            first = client.post(f"/api/v1/conversations/{first_conversation}/extract")
+            second = client.post(f"/api/v1/conversations/{second_conversation}/extract")
+
+            assert first.status_code == 200, first.text
+            assert second.status_code == 200, second.text
+            first_ids = {memory["memory_id"] for memory in first.json()}
+            second_ids = {memory["memory_id"] for memory in second.json()}
+            assert first_ids.isdisjoint(second_ids)
+            assert all(relationship["target_memory_id"] in first_ids for memory in first.json() for relationship in memory["relationships"])
+            assert all(relationship["target_memory_id"] in second_ids for memory in second.json() for relationship in memory["relationships"])
+        finally:
+            app.dependency_overrides.clear()

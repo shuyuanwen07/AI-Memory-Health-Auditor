@@ -4,7 +4,8 @@ No supplied annotation or benchmark payload is written to the operational audit
 database.  This keeps research releases versioned in team-controlled files and
 avoids mixing consent scopes with ordinary audit records.
 """
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
 
 from app.benchmarks.longmemeval import LongMemEvalAdapter
 from app.benchmarks.runner import LongMemEvalDeterministicRunner
@@ -35,6 +36,10 @@ from app.schemas.research import (
     ResearchValidityRequest,
     annotation_import_report,
 )
+from app.schemas.formal_experiment import FormalMatrixCreateRequest, FormalMatrixCreateResponse
+from app.schemas.pilot import PilotAnalysisRequest
+from app.database.session import get_db
+from app.services.formal_matrix import FormalSyntheticMatrixService
 
 
 research_router = APIRouter(prefix="/api/v1/research", tags=["research-validation"])
@@ -64,6 +69,22 @@ def analyse_annotation_pilot(payload: PilotAnalysisRequest):
     external-reference labels, allowing disagreements to remain auditable.
     """
     return PilotAnnotationService().analyse(payload)
+
+
+@research_router.post("/formal/synthetic-matrix", response_model=FormalMatrixCreateResponse, status_code=201)
+def create_formal_synthetic_matrix(
+    payload: FormalMatrixCreateRequest, db: Session = Depends(get_db),
+):
+    """Create executable runs from an authorised frozen *synthetic* release.
+
+    This is intentionally the sole persistence exception in the research API.
+    It rejects non-synthetic sources and requires a matching, ready human
+    double-annotation package before operational audit rows can be created.
+    """
+    pilot_report = PilotAnnotationService().analyse(PilotAnalysisRequest(package=payload.pilot))
+    if not pilot_report.ready_for_formal_evaluation:
+        raise HTTPException(422, detail="The matching double-annotation pilot is not ready for formal evaluation.")
+    return FormalSyntheticMatrixService().create(db, payload)
 
 
 @research_router.post("/evaluator-calibration/analyse", response_model=EvaluatorCalibrationReport)

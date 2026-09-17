@@ -18,6 +18,8 @@ from app.schemas import (
     TargetConfiguration,
     TargetMemoryMaintenancePolicy,
     TestCase,
+    MemoryRelationship,
+    RelationshipType,
 )
 
 
@@ -109,6 +111,73 @@ def test_scope_aware_uses_preference_only_for_explicit_preference_question():
 
     assert result.context == ["The user generally prefers Python."]
     assert "intent=general_preference" in result.evidence.ranking_evidence[0]["reason"]
+
+
+def test_scope_aware_uses_a_scope_intent_fallback_when_words_do_not_overlap():
+    db = _db()
+    _run(db)
+    store = SqlTargetMemoryStore(db, extractor=_ScopedExtractor())
+    test = TestCase(
+        test_id="T-SCOPE-FALLBACK", run_id="RUN-SCOPE-RETRIEVAL", dimension=Dimension.APPROPRIATE_USE,
+        prompt="For the current toolkit decision, which requirement applies now?",
+        expected_behavior="Use Java.", supporting_memory_ids=[], generator_version="test-v1",
+    )
+
+    result = store.retrieve("RUN-SCOPE-RETRIEVAL", _conversation(), test, MemoryStrategy.SCOPE_AWARE)
+
+    assert result.context == ["This assignment currently requires Java."]
+    requirement = next(row for row in result.evidence.ranking_evidence if row["scope"] == "project_requirement")
+    assert "scope_intent_fallback" in requirement["reason"]
+
+
+def test_scope_aware_keeps_topic_matched_requirement_when_multiple_project_requirements_exist():
+    db = _db()
+    _run(db)
+    store = SqlTargetMemoryStore(db, extractor=_ScopedExtractor())
+    conversation = _conversation()
+    # Add an unrelated database requirement to prove the language requirement
+    # is selected by both scope and topic, not scope alone.
+    class _TwoRequirementExtractor(_ScopedExtractor):
+        def extract(self, source):
+            items = super().extract(source)
+            items.append(Memory(memory_id="M-DB-REQ", conversation_id=source.conversation_id,
+                                canonical_value="This assignment must use PostgreSQL.", status=MemoryStatus.CANDIDATE,
+                                source_message_ids=["MSG001"], timestamp=source.messages[0].timestamp))
+            return items
+    store = SqlTargetMemoryStore(db, extractor=_TwoRequirementExtractor())
+    test = TestCase(
+        test_id="T-SCOPE-TOPIC", run_id="RUN-SCOPE-RETRIEVAL", dimension=Dimension.APPROPRIATE_USE,
+        prompt="For the current programming-language choice, which requirement applies now?",
+        expected_behavior="Use Java.", supporting_memory_ids=[], generator_version="test-v1",
+    )
+
+    result = store.retrieve("RUN-SCOPE-RETRIEVAL", conversation, test, MemoryStrategy.SCOPE_AWARE)
+
+    assert result.context == ["This assignment currently requires Java."]
+
+
+def test_scope_aware_exposes_both_sides_of_an_update_for_resolution():
+    db = _db()
+    _run(db)
+    now = _conversation().messages[0].timestamp
+    class _UpdateExtractor:
+        def extract(self, conversation):
+            return [
+                Memory(memory_id="M-OLD", conversation_id=conversation.conversation_id, canonical_value="The backend used MySQL.", status=MemoryStatus.CANDIDATE, source_message_ids=["MSG001"], timestamp=now),
+                Memory(memory_id="M-NEW", conversation_id=conversation.conversation_id, canonical_value="The backend now uses PostgreSQL.", status=MemoryStatus.CANDIDATE, source_message_ids=["MSG001"], timestamp=now, relationships=[MemoryRelationship(type=RelationshipType.UPDATE, target_memory_id="M-OLD")]),
+            ]
+    store = SqlTargetMemoryStore(db, extractor=_UpdateExtractor())
+    test = TestCase(
+        test_id="T-SCOPE-UPDATE", run_id="RUN-SCOPE-RETRIEVAL", dimension=Dimension.CONFLICT_RESOLUTION,
+        prompt="Two time-ordered records about database technology differ. State the final value.",
+        expected_behavior="Use PostgreSQL.", supporting_memory_ids=[], generator_version="test-v1",
+    )
+
+    result = store.retrieve("RUN-SCOPE-RETRIEVAL", _conversation(), test, MemoryStrategy.SCOPE_AWARE)
+
+    assert result.context == ["The backend used MySQL.", "The backend now uses PostgreSQL."]
+    old = next(row for row in result.evidence.ranking_evidence if row["memory_id"] in result.evidence.selected_memory_ids and "MySQL" in next(record.canonical_value for record in store._records("RUN-SCOPE-RETRIEVAL") if record.id == row["memory_id"]))
+    assert "update_history_included_for_resolution" in old["reason"]
 
 
 class _DuplicateExtractor:

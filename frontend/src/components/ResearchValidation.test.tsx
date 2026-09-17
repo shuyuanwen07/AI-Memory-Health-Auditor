@@ -4,7 +4,7 @@ import { ResearchValidation } from './ResearchValidation';
 
 const apiMocks = vi.hoisted(() => ({
   validateAnnotationDataset: vi.fn(), researchValidity: vi.fn(), validateBenchmark: vi.fn(),
-  runBenchmark: vi.fn(), analysePilot: vi.fn(),
+  runBenchmark: vi.fn(), analysePilot: vi.fn(), createFormalSyntheticMatrix: vi.fn(), execute: vi.fn(), evaluate: vi.fn(),
 }));
 vi.mock('../services/api', () => ({ api: apiMocks }));
 
@@ -18,6 +18,7 @@ beforeEach(() => {
   apiMocks.validateBenchmark.mockResolvedValue({ report: { benchmark_family: 'locomo', adapter_version: 'local-compatible-v1', cases_imported: 2, case_ids: ['B1', 'B2'], dimension_hints: ['accuracy'], source_format: 'local', notice: 'Local validation only.' }, cases: [] });
   apiMocks.runBenchmark.mockResolvedValue({ metadata: { benchmark_family: 'locomo', run_id: 'LOCAL-RUN-1', runner_version: 'local-v1', source_fingerprint_sha256: 'fingerprint', source_label: 'benchmark.json', memory_strategy: 'scope_aware', notice: 'Local baseline only.' }, cases: [{ case_id: 'B1', category: 'knowledge-update', dimension: 'freshness', question: 'What is current?', response_text: 'PostgreSQL', passed: true, evaluation_reason: 'matched', retrieved_memory_ids: ['B1-MEM-2'] }], categories: [], dimensions: [], tests_passed: 1, tests_total: 1, overall_percentage: 100 });
   apiMocks.analysePilot.mockResolvedValue({ pilot_id: 'pilot-v1', dataset_id: 'labels-v1', dataset_version: '1.0.0', fingerprint_sha256: 'pilot-hash', annotator_ids: ['A', 'B'], minimum_paired_items_per_task: 5, minimum_kappa: .6, overall: { task: null, declared_items: 5, annotator_a_labelled: 5, annotator_b_labelled: 5, paired_items: 5, adjudicated_items: 5, agreement_count: 4, disagreement_count: 1, percent_agreement: 80, cohens_kappa: .7, kappa_applicable: true, disagreements_adjudicated: 1, unresolved_disagreements: 0 }, by_task: [{ task: 'test_validity', declared_items: 5, annotator_a_labelled: 5, annotator_b_labelled: 5, paired_items: 5, adjudicated_items: 5, agreement_count: 4, disagreement_count: 1, percent_agreement: 80, cohens_kappa: .7, kappa_applicable: true, disagreements_adjudicated: 1, unresolved_disagreements: 0 }], ready_for_formal_evaluation: true, blocking_reasons: [], retention: 'request_scoped_not_persisted' });
+  apiMocks.createFormalSyntheticMatrix.mockResolvedValue({ dataset_id: 'labels-v1', dataset_version: '1.0.0', dataset_fingerprint_sha256: 'hash', pilot_id: 'pilot-v1', condition_count: 2, scenario_count: 1, total_audit_runs: 2, total_target_calls: 8, scenarios: [{ source_conversation_id: 'S1', experiment_id: 'EXP1', run_ids: ['RUN1', 'RUN2'], test_count: 4 }], notice: 'Frozen.' });
 });
 
 test('runs an authorised selected local benchmark and shows its results', async () => {
@@ -32,7 +33,9 @@ test('runs an authorised selected local benchmark and shows its results', async 
   await user.click(screen.getByRole('button', { name: 'Run Local Baseline' }));
   await waitFor(() => expect(apiMocks.runBenchmark).toHaveBeenCalledWith('locomo', [{ id: 'B1' }], 'benchmark.json', 'scope_aware'));
   expect(screen.getByText('LoCoMo local baseline completed')).not.toBeNull();
-  expect(screen.getByText('B1-MEM-2')).not.toBeNull();
+  expect(screen.getByText('Case 1')).not.toBeNull();
+  expect(screen.getByText('1 record')).not.toBeNull();
+  expect(screen.queryByText('B1-MEM-2')).toBeNull();
 });
 
 test('analyses a pilot package and displays readiness, coverage and agreement', async () => {
@@ -43,6 +46,18 @@ test('analyses a pilot package and displays readiness, coverage and agreement', 
   expect(screen.getByText('Ready for formal evaluation')).not.toBeNull();
   expect(screen.getAllByText('test validity')).not.toHaveLength(0);
   expect(screen.getByText('Overall κ 0.70')).not.toBeNull();
+});
+
+test('creates a formal synthetic matrix only after the matching ready pilot and confirmation', async () => {
+  const user = userEvent.setup(); render(<ResearchValidation />);
+  await user.upload(screen.getByLabelText('Annotation dataset JSON'), new File([JSON.stringify(dataset)], 'labels.json', { type: 'application/json' }));
+  await user.upload(screen.getByLabelText('Pilot package JSON'), new File([JSON.stringify(pilot)], 'pilot.json', { type: 'application/json' }));
+  await user.click(screen.getByRole('button', { name: 'Analyse Pilot Package' }));
+  await user.click(screen.getByLabelText('Synthetic data confirmation'));
+  await user.click(screen.getByRole('button', { name: 'Create Formal Matrix' }));
+  await waitFor(() => expect(apiMocks.createFormalSyntheticMatrix).toHaveBeenCalled());
+  expect(screen.getByText('Formal synthetic matrix created')).not.toBeNull();
+  expect(screen.getByRole('button', { name: 'Run 2 Conditions' })).not.toBeNull();
 });
 
 test('validates imported research labels and displays all four validity cards', async () => {

@@ -11,7 +11,7 @@ import csv
 import hashlib
 import json
 import zipfile
-from sqlalchemy import delete, select, text
+from sqlalchemy import delete, select, text, update
 from sqlalchemy.orm import Session
 from app.database.session import SessionLocal, get_db
 from app.evaluator.factory import get_behaviour_evaluator
@@ -21,6 +21,7 @@ from app.evaluator.factory import configured_evaluator
 from app.memory_agent import default_target_memory_writer_kind, get_target_memory_writer
 from app.metrics.service import MetricsService
 from app.metrics.retrieval_quality import RetrievalQualityService
+from app.services.audit_execution import AuditExecutionService, AuditExecutionSnapshot, RunArtifacts
 from app.services.experiment_analytics import ExperimentAnalyticsService
 from app.models import AuditRunModel, ConversationModel, EvaluationHumanReviewModel, EvaluationResultModel, ExperimentModel, MemoryModel, MemoryRelationshipModel, MessageModel, TargetAgentMemoryEventModel, TargetAgentMemoryModel, TargetAgentMemoryRelationshipModel, TargetAgentRetrievalModel, TargetResponseModel, TestCaseModel
 from app.schemas import *
@@ -33,6 +34,14 @@ from app.test_generator.quality import RuleBasedTestQualityValidator
 router = APIRouter(prefix="/api/v1")
 def ident(prefix: str) -> str: return f"{prefix}{uuid4().hex.upper()}"
 def missing(kind: str): raise HTTPException(404, f"{kind} was not found.")
+def ensure_supported_pipeline_role(provider: TargetProvider, role: str) -> None:
+    """Keep a target-only provider out of structured pipeline/judge roles."""
+    if provider == TargetProvider.OLLAMA:
+        raise HTTPException(
+            422,
+            f"Ollama is currently supported only as the controlled target AI, not as the {role}. "
+            "Choose rule_based, openai, deepseek, or gemini for that role.",
+        )
 def conversation_schema(db, obj):
     messages = db.scalars(select(MessageModel).where(MessageModel.conversation_id == obj.id).order_by(MessageModel.sequence, MessageModel.timestamp)).all()
     return Conversation(conversation_id=obj.id, created_at=obj.created_at, authorised=obj.authorised, messages=[ConversationMessage(message_id=getattr(m, "source_message_id", None) or m.id, role=m.role, content=m.content, timestamp=m.timestamp) for m in messages])
@@ -201,6 +210,38 @@ def require_state(run, allowed: set[AuditStatus]):
     if AuditStatus(run.status) not in allowed:
         raise HTTPException(status_code=409, detail=f"Audit is {run.status}; this action is not valid at this stage.")
 
+
+def transition_audit_status(
+    db: Session,
+    audit: AuditRunModel,
+    expected: AuditStatus,
+    target: AuditStatus,
+    *,
+    completed_at: datetime | None = None,
+) -> None:
+    """Advance one lifecycle step without reviving a concurrently cancelled run.
+
+    Provider calls are intentionally sequential, but cancellation arrives on a
+    separate request/session. A conditional database update is therefore the
+    authority at each terminal boundary, not a stale ORM object in the worker
+    request. Pending responses/evaluations are flushed first and remain
+    traceable if the compare-and-set loses to cancellation.
+    """
+    changed = db.execute(
+        update(AuditRunModel)
+        .where(AuditRunModel.id == audit.id, AuditRunModel.status == expected.value)
+        .values(status=target.value, completed_at=completed_at)
+        .execution_options(synchronize_session=False)
+    )
+    if changed.rowcount == 1:
+        db.expire(audit)
+        return
+    db.expire(audit)
+    db.refresh(audit)
+    if audit.status == AuditStatus.CANCELLED.value:
+        raise HTTPException(409, "This audit was cancelled. Completed artifacts were retained for traceability.")
+    raise HTTPException(409, f"Audit status changed to {audit.status} while this stage was running.")
+
 @router.get("/health")
 def health():
     """Readiness check: a healthy API must also reach its configured database."""
@@ -332,10 +373,42 @@ def extract(conversation_id: str, db: Session = Depends(get_db)):
     if not c: missing("Conversation")
     existing = db.scalars(select(MemoryModel).where(MemoryModel.conversation_id == conversation_id)).all()
     if existing: return [memory_schema(db, x) for x in existing]
-    for m in get_memory_extractor().extract(conversation_schema(db, c)):
-        db.add(MemoryModel(id=m.memory_id, conversation_id=m.conversation_id, canonical_value=m.canonical_value, status=m.status.value, source_message_ids=m.source_message_ids, timestamp=m.timestamp))
-        for r in m.relationships: db.add(MemoryRelationshipModel(id=ident("MR"), memory_id=m.memory_id, relationship_type=r.type.value, target_memory_id=r.target_memory_id))
-    db.commit(); return [memory_schema(db, x) for x in db.scalars(select(MemoryModel).where(MemoryModel.conversation_id == conversation_id)).all()]
+    extracted = get_memory_extractor().extract(conversation_schema(db, c))
+    # Extractors may deliberately use short, conversation-local labels such
+    # as M001 so their relationship output is easy to inspect.  Persisting
+    # those labels directly made two independent conversations collide on the
+    # global memories primary key.  Resolve every extractor-local reference to
+    # a durable global identifier at this database boundary instead.
+    source_ids = [memory.memory_id for memory in extracted]
+    if len(source_ids) != len(set(source_ids)):
+        raise HTTPException(502, "The memory extractor returned duplicate memory IDs.")
+    durable_ids = {source_id: ident("M") for source_id in source_ids}
+    try:
+        for memory in extracted:
+            db.add(MemoryModel(
+                id=durable_ids[memory.memory_id], conversation_id=conversation_id,
+                canonical_value=memory.canonical_value, status=memory.status.value,
+                source_message_ids=memory.source_message_ids, timestamp=memory.timestamp,
+            ))
+        # Flush memory rows before inserting relationship FKs.  This also
+        # keeps PostgreSQL and SQLite ordering behaviour identical.
+        db.flush()
+        for memory in extracted:
+            for relationship in memory.relationships:
+                target_id = durable_ids.get(relationship.target_memory_id)
+                if target_id is None:
+                    raise HTTPException(502, "The memory extractor returned a relationship to an unknown memory.")
+                db.add(MemoryRelationshipModel(
+                    id=ident("MR"), memory_id=durable_ids[memory.memory_id],
+                    relationship_type=relationship.type.value, target_memory_id=target_id,
+                ))
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
+    return [memory_schema(db, x) for x in db.scalars(
+        select(MemoryModel).where(MemoryModel.conversation_id == conversation_id)
+    ).all()]
 @router.get("/conversations/{conversation_id}/memories", response_model=list[Memory])
 def memories(conversation_id: str, db: Session = Depends(get_db)):
     return [memory_schema(db, x) for x in db.scalars(select(MemoryModel).where(MemoryModel.conversation_id == conversation_id)).all()]
@@ -378,6 +451,8 @@ def confirm_ground_truth(conversation_id: str, payload: GroundTruthConfirm, db: 
 @router.post("/experiments", response_model=Experiment, status_code=201)
 def create_experiment(payload: ExperimentCreate, db: Session = Depends(get_db)):
     if not db.get(ConversationModel, payload.conversation_id): missing("Conversation")
+    ensure_supported_pipeline_role(payload.test_suite_configuration.pipeline_provider, "memory-extraction and test-generation pipeline")
+    ensure_supported_pipeline_role(payload.test_suite_configuration.evaluator_provider, "behaviour evaluator")
     confirmed = db.scalars(select(MemoryModel).where(MemoryModel.conversation_id == payload.conversation_id, MemoryModel.status.in_(["confirmed", "edited"]))).all()
     if not confirmed: raise HTTPException(409, "Confirm ground truth before creating an experiment.")
     experiment = ExperimentModel(
@@ -407,15 +482,26 @@ def create_audit(payload: AuditCreate, db: Session = Depends(get_db)):
     if payload.experiment_id and not experiment: missing("Experiment")
     if experiment and experiment.conversation_id != payload.conversation_id:
         raise HTTPException(422, "An audit run must use the experiment's conversation.")
+    if experiment and experiment.status != ExperimentStatus.CREATED.value:
+        raise HTTPException(
+            409,
+            "Experiment membership is frozen once its shared test suite has been generated or the experiment is terminal.",
+        )
     confirmed=db.scalars(select(MemoryModel).where(MemoryModel.conversation_id==payload.conversation_id, MemoryModel.status.in_(["confirmed","edited"]))).all()
     if not confirmed: raise HTTPException(409, "Confirm ground truth before creating an audit.")
     default_model=PROVIDERS[payload.provider][1]
     model=payload.model if payload.model not in ("", "rule-based-target-ai") or payload.provider == TargetProvider.RULE_BASED else default_model
     suite = TestSuiteConfiguration.model_validate(experiment.test_suite_configuration) if experiment else None
     selected_pipeline_provider = suite.pipeline_provider.value if suite else (payload.pipeline_provider.value if payload.pipeline_provider else pipeline_provider())
-    selected_evaluator_provider, selected_evaluator_model = configured_evaluator(
-        payload.evaluator_provider.value if payload.evaluator_provider else None, payload.evaluator_model,
-    )
+    ensure_supported_pipeline_role(TargetProvider(selected_pipeline_provider), "memory-extraction and test-generation pipeline")
+    if suite:
+        selected_evaluator_provider = suite.evaluator_provider.value
+        selected_evaluator_model = suite.evaluator_model
+    else:
+        selected_evaluator_provider, selected_evaluator_model = configured_evaluator(
+            payload.evaluator_provider.value if payload.evaluator_provider else None, payload.evaluator_model,
+        )
+    ensure_supported_pipeline_role(TargetProvider(selected_evaluator_provider), "behaviour evaluator")
     selected_strategy = payload.memory_strategy or (MemoryStrategy.WEAK_FIRST_HIT if payload.target_configuration == TargetConfiguration.WEAK else MemoryStrategy.STRONG_RULE_BASED)
     selected_seed = suite.random_seed if suite else payload.random_seed
     selected_budget = suite.test_budget if suite else payload.test_budget
@@ -662,6 +748,32 @@ def reconcile_experiment_terminal_state(db: Session, experiment_id: str | None) 
         experiment.status = ExperimentStatus.COMPLETED.value
 
 
+@router.post("/experiments/{experiment_id}/cancel", response_model=Experiment)
+def cancel_experiment(experiment_id: str, db: Session = Depends(get_db)):
+    """Cancel every unfinished condition in one comparison group.
+
+    Completed conditions remain immutable, while created, generated and
+    partially executing conditions are marked terminal.  An executing request
+    observes this status between provider calls and retains any response that
+    was already committed.
+    """
+    experiment = db.get(ExperimentModel, experiment_id)
+    if not experiment: missing("Experiment")
+    terminal = {AuditStatus.COMPLETED.value, AuditStatus.FAILED.value, AuditStatus.CANCELLED.value}
+    audits = db.scalars(select(AuditRunModel).where(AuditRunModel.experiment_id == experiment_id)).all()
+    for audit in audits:
+        if audit.status not in terminal:
+            audit.status = AuditStatus.CANCELLED.value
+            audit.completed_at = None
+    if not audits:
+        experiment.status = ExperimentStatus.CANCELLED.value
+        experiment.completed_at = datetime.now(timezone.utc)
+    else:
+        reconcile_experiment_terminal_state(db, experiment_id)
+    db.commit(); db.refresh(experiment)
+    return experiment_schema(experiment)
+
+
 @router.post("/audits/{run_id}/execute", response_model=list[TargetResponse])
 def execute(run_id:str,db:Session=Depends(get_db)):
     a=db.get(AuditRunModel,run_id)
@@ -672,6 +784,23 @@ def execute(run_id:str,db:Session=Depends(get_db)):
         raise HTTPException(409, "Resolve rejected tests by regenerating or accepting them before execution.")
     if any(test.quality_status == TestQualityStatus.PENDING.value for test in review_rows):
         raise HTTPException(409, "Review each regenerated test before execution.")
+    if a.experiment_id:
+        # Do not revive a comparison group if a concurrent request has
+        # cancelled it between this audit's initial state check and execution.
+        db.execute(
+            update(ExperimentModel)
+            .where(
+                ExperimentModel.id == a.experiment_id,
+                ExperimentModel.status.in_([
+                    ExperimentStatus.CREATED.value,
+                    ExperimentStatus.TEST_SUITE_GENERATED.value,
+                    ExperimentStatus.RUNNING.value,
+                ]),
+            )
+            .values(status=ExperimentStatus.RUNNING.value, completed_at=None)
+            .execution_options(synchronize_session=False)
+        )
+        db.commit()
     outputs=[]
     budget = (a.reproducibility_metadata or {}).get("execution_budget", {})
     max_calls = int(budget.get("max_target_calls", 100))
@@ -693,7 +822,7 @@ def execute(run_id:str,db:Session=Depends(get_db)):
             db.refresh(a)
             if a.status == AuditStatus.CANCELLED.value:
                 db.commit()
-                raise HTTPException(409, "This audit was cancelled. Completed responses were retained for recovery.")
+                raise HTTPException(409, "This audit was cancelled. Responses completed before cancellation were retained for traceability.")
             if len(completed_test_ids) + len(outputs) >= max_calls:
                 raise HTTPException(429, f"Execution stopped after its frozen target-call budget of {max_calls} calls.")
             if time.monotonic() - started >= max_seconds:
@@ -710,7 +839,11 @@ def execute(run_id:str,db:Session=Depends(get_db)):
                 retrieval_row = db.get(TargetAgentRetrievalModel, retrieval_id)
                 if retrieval_row:
                     retrieval_row.final_response_id = r.response_id
+        transition_audit_status(
+            db, a, AuditStatus.TESTS_GENERATED, AuditStatus.TESTS_EXECUTED,
+        )
     except HTTPException:
+        db.refresh(a)
         if a.status != AuditStatus.CANCELLED.value:
             a.status="FAILED"
         reconcile_experiment_terminal_state(db, a.experiment_id)
@@ -719,14 +852,16 @@ def execute(run_id:str,db:Session=Depends(get_db)):
     finally:
         if target is not None:
             target.reset()
-    a.status="TESTS_EXECUTED"; db.commit(); return outputs
+    db.commit(); return outputs
 
 @router.post("/audits/{run_id}/cancel", response_model=AuditRun)
 def cancel_audit(run_id: str, db: Session = Depends(get_db)):
     """Safely stop sequential target execution between provider calls."""
     audit = db.get(AuditRunModel, run_id)
     if not audit: missing("Audit")
-    if audit.status in {AuditStatus.COMPLETED.value, AuditStatus.CANCELLED.value}:
+    if audit.status in {
+        AuditStatus.COMPLETED.value, AuditStatus.FAILED.value, AuditStatus.CANCELLED.value,
+    }:
         return audit_schema(audit)
     audit.status = AuditStatus.CANCELLED.value
     audit.completed_at = None
@@ -744,11 +879,20 @@ def evaluate(run_id:str,db:Session=Depends(get_db)):
         for t in db.scalars(select(TestCaseModel).where(TestCaseModel.run_id==run_id)).all():
             if t.id in completed_test_ids:
                 continue
-            r=db.scalar(select(TargetResponseModel).where(TargetResponseModel.test_id==t.id)); e=get_behaviour_evaluator(a.evaluator_provider, a.evaluator_model).evaluate(test_schema(t),response_schema(r),mems); outputs.append(e); db.add(EvaluationResultModel(id=e.evaluation_id,test_id=e.test_id,response_id=e.response_id,passed=e.passed,failure_type=e.failure_type.value if e.failure_type else None,reason=e.reason,evidence_memory_ids=e.evidence_memory_ids,evaluator=e.evaluator))
+            db.refresh(a)
+            if a.status == AuditStatus.CANCELLED.value:
+                raise HTTPException(409, "This audit was cancelled. Completed evaluations were retained for traceability.")
+            r=db.scalar(select(TargetResponseModel).where(TargetResponseModel.test_id==t.id)); e=get_behaviour_evaluator(a.evaluator_provider, a.evaluator_model).evaluate(test_schema(t),response_schema(r),mems); outputs.append(e); db.add(EvaluationResultModel(id=e.evaluation_id,test_id=e.test_id,response_id=e.response_id,passed=e.passed,failure_type=e.failure_type.value if e.failure_type else None,reason=e.reason,evidence_memory_ids=e.evidence_memory_ids,evaluator=e.evaluator)); db.flush()
+        transition_audit_status(
+            db, a, AuditStatus.TESTS_EXECUTED, AuditStatus.COMPLETED,
+            completed_at=datetime.now(timezone.utc),
+        )
     except HTTPException:
-        a.status="FAILED"; reconcile_experiment_terminal_state(db, a.experiment_id); db.commit()
+        db.refresh(a)
+        if a.status != AuditStatus.CANCELLED.value:
+            a.status="FAILED"
+        reconcile_experiment_terminal_state(db, a.experiment_id); db.commit()
         raise
-    a.status="COMPLETED"; a.completed_at=datetime.now(timezone.utc)
     reconcile_experiment_terminal_state(db, a.experiment_id)
     db.commit(); return outputs
 
@@ -757,16 +901,18 @@ def retry_plan(run_id: str, db: Session = Depends(get_db)):
     """Report the next idempotent recovery stage without exposing provider details."""
     audit = db.get(AuditRunModel, run_id)
     if not audit: missing("Audit")
-    tests_count = len(db.scalars(select(TestCaseModel).where(TestCaseModel.run_id == run_id)).all())
-    responses_count = len(db.scalars(select(TargetResponseModel).where(TargetResponseModel.run_id == run_id)).all())
-    evaluations_count = len(db.scalars(select(EvaluationResultModel).join(TestCaseModel).where(TestCaseModel.run_id == run_id)).all())
-    if tests_count == 0:
-        return {"run_id": run_id, "next_stage": "generate_tests", "pending": 0, "retryable": audit.status != "COMPLETED"}
-    if responses_count < tests_count:
-        return {"run_id": run_id, "next_stage": "execute_tests", "pending": tests_count - responses_count, "retryable": True}
-    if evaluations_count < tests_count:
-        return {"run_id": run_id, "next_stage": "evaluate_responses", "pending": tests_count - evaluations_count, "retryable": True}
-    return {"run_id": run_id, "next_stage": None, "pending": 0, "retryable": False}
+    tests = [test_schema(item) for item in db.scalars(select(TestCaseModel).where(TestCaseModel.run_id == run_id)).all()]
+    responses = [response_schema(item) for item in db.scalars(select(TargetResponseModel).where(TargetResponseModel.run_id == run_id)).all()]
+    evaluations = [eval_schema(item) for item in db.scalars(
+        select(EvaluationResultModel).join(TestCaseModel).where(TestCaseModel.run_id == run_id)
+    ).all()]
+    plan = AuditExecutionService.plan_for(AuditExecutionSnapshot(
+        audit=audit_schema(audit), artifacts=RunArtifacts.from_lists(tests, responses, evaluations),
+    ))
+    return {
+        "run_id": run_id, "next_stage": plan.next_stage.value if plan.next_stage else None,
+        "pending": len(plan.pending_test_ids), "retryable": plan.retryable,
+    }
 
 @router.post("/audits/{run_id}/retry", response_model=AuditRun)
 def retry_audit(run_id: str, db: Session = Depends(get_db)):
@@ -775,6 +921,15 @@ def retry_audit(run_id: str, db: Session = Depends(get_db)):
     if not audit: missing("Audit")
     plan = retry_plan(run_id, db)
     if not plan["retryable"]:
+        # A provider/database interruption can occur after the final durable
+        # evaluation was written but before the public COMPLETED transition.
+        # The shared planner has proved every artifact exists, so repair that
+        # final state without re-running a model call.
+        if audit.status == AuditStatus.FAILED.value and plan["next_stage"] is None:
+            audit.status = AuditStatus.COMPLETED.value
+            audit.completed_at = datetime.now(timezone.utc)
+            reconcile_experiment_terminal_state(db, audit.experiment_id)
+            db.commit(); db.refresh(audit)
         return audit_schema(audit)
     if plan["next_stage"] == "generate_tests":
         audit.status = "CREATED"; db.commit(); generate(run_id, db)
@@ -999,18 +1154,9 @@ def safe_trace_event_schema(event: TargetAgentMemoryEventModel) -> TargetMemoryT
         created_at=event.created_at,
     )
 
-@router.get("/audits/{run_id}/target-memory-trace", response_model=TargetMemoryTrace)
-def target_memory_trace(run_id: str, db: Session = Depends(get_db)):
-    """Show the controlled agent's independent store only after audit completion.
-
-    This is intentionally distinct from ground truth and omits evaluator-only
-    expected behaviour and target runtime context.  It is unavailable while a
-    target can still use the test suite, avoiding premature leakage.
-    """
-    audit = db.get(AuditRunModel, run_id)
-    if not audit: missing("Audit")
-    if audit.status != AuditStatus.COMPLETED.value:
-        raise HTTPException(409, "Target memory evidence is available after the audit is complete.")
+def target_memory_trace_payload(audit: AuditRunModel, db: Session) -> TargetMemoryTrace:
+    """Build terminal target-memory evidence without evaluator-only material."""
+    run_id = audit.id
     records = db.scalars(select(TargetAgentMemoryModel).where(
         TargetAgentMemoryModel.run_id == run_id
     ).order_by(TargetAgentMemoryModel.write_order)).all()
@@ -1038,6 +1184,37 @@ def target_memory_trace(run_id: str, db: Session = Depends(get_db)):
             ranking_evidence=list(item.ranking_evidence), final_response_id=item.final_response_id,
             created_at=item.created_at,
         ) for item in retrievals],
+    )
+
+
+@router.get("/audits/{run_id}/target-memory-trace", response_model=TargetMemoryTrace)
+def target_memory_trace(run_id: str, db: Session = Depends(get_db)):
+    """Show the controlled agent's independent store after a terminal audit.
+
+    This is intentionally distinct from ground truth and omits evaluator-only
+    expected behaviour and target runtime context. It is unavailable while a
+    target can still use the test suite, avoiding premature leakage.
+    """
+    audit = db.get(AuditRunModel, run_id)
+    if not audit: missing("Audit")
+    if audit.status not in {AuditStatus.COMPLETED.value, AuditStatus.CANCELLED.value}:
+        raise HTTPException(409, "Target memory evidence is available after an audit is complete or cancelled.")
+    return target_memory_trace_payload(audit, db)
+
+
+@router.get("/audits/{run_id}/cancelled-evidence", response_model=CancelledAuditEvidence)
+def cancelled_audit_evidence(run_id: str, db: Session = Depends(get_db)):
+    """Expose retained responses and safe retrieval trace for a cancelled run."""
+    audit = db.get(AuditRunModel, run_id)
+    if not audit: missing("Audit")
+    if audit.status != AuditStatus.CANCELLED.value:
+        raise HTTPException(409, "Cancelled-run evidence is available only after cancellation.")
+    responses = db.scalars(select(TargetResponseModel).where(
+        TargetResponseModel.run_id == run_id
+    ).order_by(TargetResponseModel.created_at, TargetResponseModel.id)).all()
+    return CancelledAuditEvidence(
+        audit=audit_schema(audit), completed_responses=[response_schema(item) for item in responses],
+        trace=target_memory_trace_payload(audit, db),
     )
 
 @router.get("/audits/{run_id}/failures/{failure_id}", response_model=FailureDetail)

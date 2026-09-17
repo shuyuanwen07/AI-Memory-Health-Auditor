@@ -13,7 +13,7 @@ def configured_evaluator(provider: str | None = None, model: str | None = None) 
     choice = (provider if provider is not None else os.getenv("EVALUATOR_PROVIDER", "rule_based")).strip().lower()
     defaults = {"openai": "gpt-5.6-luna", "deepseek": "deepseek-flash", "gemini": "gemini-2.5-flash-lite"}
     if choice not in defaults:
-        return "rule_based", "rule-based-v2"
+        return "rule_based", "rule-based-v4"
     return choice, (model or "").strip() or (os.getenv("EVALUATOR_MODEL", "").strip() if provider is None else "") or defaults[choice]
 
 

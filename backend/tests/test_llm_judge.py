@@ -71,7 +71,7 @@ def test_malformed_or_hallucinated_judge_output_falls_back_without_leaking_secre
         staticmethod(lambda *_: {"choices": [{"message": {"content": '{"passed": true, "reason": "ok", "evidence_memory_ids": ["M999"]}'}}]}),
     )
     result = LLMBehaviourEvaluator("deepseek").evaluate(_test_case(), _response(), _memories())
-    assert result.evaluator == "rule-based-v2-fallback"
+    assert result.evaluator == "rule-based-v4-fallback"
     assert "private-key-value" not in result.reason
     assert "M999" not in result.evidence_memory_ids
 
@@ -79,7 +79,7 @@ def test_malformed_or_hallucinated_judge_output_falls_back_without_leaking_secre
 def test_missing_credential_falls_back_offline(monkeypatch):
     monkeypatch.delenv("GEMINI_API_KEY", raising=False)
     result = LLMBehaviourEvaluator("gemini").evaluate(_test_case(), _response(), _memories())
-    assert result.evaluator == "rule-based-v2-fallback"
+    assert result.evaluator == "rule-based-v4-fallback"
     assert result.passed
 
 
@@ -95,5 +95,5 @@ def test_http_transport_errors_retry_and_remain_internal(monkeypatch):
     monkeypatch.setenv("OPENAI_API_KEY", "very-secret")
     result = LLMBehaviourEvaluator("openai").evaluate(_test_case(), _response(), _memories())
     assert len(calls) == 3
-    assert result.evaluator == "rule-based-v2-fallback"
+    assert result.evaluator == "rule-based-v4-fallback"
     assert "very-secret" not in result.reason

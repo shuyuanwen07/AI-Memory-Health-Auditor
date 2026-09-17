@@ -23,6 +23,31 @@ def test_provider_is_not_ready_without_a_key(monkeypatch):
     assert configured(TargetProvider.RULE_BASED)
 
 
+def test_ollama_uses_a_local_health_check_without_a_credential(monkeypatch):
+    class ReadyResponse:
+        is_success = True
+    monkeypatch.setattr("app.target_ai.providers.httpx.get", lambda *_args, **_kwargs: ReadyResponse())
+    assert configured(TargetProvider.OLLAMA)
+
+
+def test_ollama_payload_and_response_are_normalised(monkeypatch):
+    captured = {}
+    def fake_post(url, headers, payload):
+        captured.update(url=url, headers=headers, payload=payload)
+        return {"message": {"content": "PostgreSQL is the current backend."}, "prompt_eval_count": 20, "eval_count": 7}
+    monkeypatch.setattr(HttpTargetAIConnector, "_post", staticmethod(fake_post))
+    test = DomainTestCase(test_id="T001", run_id="RUN1", dimension=Dimension.ACCURACY, prompt="Which database is current?", expected_behavior="Evaluator only.", supporting_memory_ids=["M001"], generator_version="rule-based-v1", target_memory_context=["The backend now uses PostgreSQL."])
+    response = HttpTargetAIConnector().execute(test, run(TargetProvider.OLLAMA, "qwen3:1.7b"))
+    assert captured["url"].endswith("/api/chat")
+    assert captured["headers"] == {}
+    assert captured["payload"]["model"] == "qwen3:1.7b"
+    assert captured["payload"]["stream"] is False
+    assert captured["payload"]["think"] is False
+    assert "Evaluator only" not in repr(captured["payload"])
+    assert response.response_text == "PostgreSQL is the current backend."
+    assert response.execution_metadata.total_tokens == 27
+
+
 def test_gemini_uses_a_header_for_credential_and_parses_response(monkeypatch):
     monkeypatch.setenv("GEMINI_API_KEY", "test-key")
     captured = {}

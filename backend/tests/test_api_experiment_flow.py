@@ -10,7 +10,7 @@ from sqlalchemy.orm import sessionmaker
 
 from app.database.session import Base, get_db
 from app.main import app
-from app.models import TargetAgentMemoryModel, TargetAgentRetrievalModel
+from app.models import AuditRunModel, TargetAgentMemoryModel, TargetAgentRetrievalModel
 
 
 def test_complete_audit_keeps_private_target_context_off_the_api(monkeypatch, tmp_path):
@@ -125,6 +125,14 @@ def test_complete_audit_keeps_private_target_context_off_the_api(monkeypatch, tm
             assert calibration.json()["independent_review_count"] == 2
             assert calibration.json()["independent_consensus_count"] == 1
             assert calibration.json()["independent_pair_kappa"] is None
+            # Simulate an interruption after every durable artifact committed
+            # but before the final public lifecycle transition. Recovery must
+            # repair status without invoking a target or evaluator again.
+            with session_factory() as db:
+                interrupted = db.get(AuditRunModel, run_id)
+                interrupted.status = "FAILED"
+                interrupted.completed_at = None
+                db.commit()
             assert client.get(f"/api/v1/audits/{run_id}/retry-plan").json()["retryable"] is False
             assert client.post(f"/api/v1/audits/{run_id}/retry").json()["status"] == "COMPLETED"
             for failure in results.json()["failures"]:
@@ -163,6 +171,11 @@ def test_experiment_generates_one_shared_suite_for_multiple_memory_strategies(mo
             assert [item["expected_behavior"] for item in source_tests] == [item["expected_behavior"] for item in peer_tests]
             assert {item["test_id"] for item in source_tests}.isdisjoint({item["test_id"] for item in peer_tests})
             assert client.post(f"/api/v1/audits/{runs[1]['run_id']}/generate-tests").status_code == 200
+            late_member = client.post("/api/v1/audits", json={
+                "conversation_id": conversation_id, "experiment_id": experiment["experiment_id"],
+                "target_configuration": "strong", "provider": "rule_based",
+            })
+            assert late_member.status_code == 409
     finally:
         app.dependency_overrides.clear()
 
@@ -305,5 +318,99 @@ def test_cancelling_every_condition_finishes_the_experiment_group(monkeypatch, t
             group = next(item for item in listed if item["experiment_id"] == experiment["experiment_id"])
             assert group["status"] == "CANCELLED"
             assert group["completed_at"] is not None
+    finally:
+        app.dependency_overrides.clear()
+
+
+def test_cancelling_an_experiment_stops_unfinished_conditions_without_retry(monkeypatch, tmp_path):
+    monkeypatch.setenv("PIPELINE_PROVIDER", "rule_based")
+    engine = create_engine(f"sqlite:///{tmp_path / 'cancel-experiment.db'}")
+    Base.metadata.create_all(engine)
+    session_factory = sessionmaker(bind=engine, autoflush=False, autocommit=False)
+
+    def test_db():
+        db = session_factory()
+        try:
+            yield db
+        finally:
+            db.close()
+
+    app.dependency_overrides[get_db] = test_db
+    try:
+        with TestClient(app) as client:
+            timestamp = datetime.now(timezone.utc).isoformat()
+            conversation_id = client.post("/api/v1/conversations", json={
+                "authorised": True,
+                "messages": [{"message_id": "MSG001", "role": "user", "timestamp": timestamp,
+                              "content": "I am based in Sydney."}],
+            }).json()["conversation_id"]
+            memories = client.post(f"/api/v1/conversations/{conversation_id}/extract").json()
+            assert client.post(f"/api/v1/conversations/{conversation_id}/confirm-ground-truth", json={
+                "confirmed_memory_ids": [item["memory_id"] for item in memories]
+            }).status_code == 200
+            experiment = client.post("/api/v1/experiments", json={
+                "conversation_id": conversation_id, "label": "Stop comparison"
+            }).json()
+            runs = [client.post("/api/v1/audits", json={
+                "conversation_id": conversation_id, "experiment_id": experiment["experiment_id"],
+                "target_configuration": target, "provider": "rule_based",
+            }).json() for target in ("weak", "strong")]
+
+            cancelled = client.post(f"/api/v1/experiments/{experiment['experiment_id']}/cancel")
+            assert cancelled.status_code == 200
+            assert cancelled.json()["status"] == "CANCELLED"
+            assert all(client.get(f"/api/v1/audits/{run['run_id']}").json()["status"] == "CANCELLED" for run in runs)
+            assert all(client.get(f"/api/v1/audits/{run['run_id']}/retry-plan").json()["retryable"] is False for run in runs)
+            assert all(client.post(f"/api/v1/audits/{run['run_id']}/retry").json()["status"] == "CANCELLED" for run in runs)
+            late_member = client.post("/api/v1/audits", json={
+                "conversation_id": conversation_id, "experiment_id": experiment["experiment_id"],
+                "target_configuration": "strong", "provider": "rule_based",
+            })
+            assert late_member.status_code == 409
+    finally:
+        app.dependency_overrides.clear()
+
+
+def test_experiment_freezes_evaluator_identity_for_every_condition(monkeypatch, tmp_path):
+    monkeypatch.setenv("PIPELINE_PROVIDER", "rule_based")
+    engine = create_engine(f"sqlite:///{tmp_path / 'frozen-evaluator.db'}")
+    Base.metadata.create_all(engine)
+    session_factory = sessionmaker(bind=engine, autoflush=False, autocommit=False)
+
+    def test_db():
+        db = session_factory()
+        try:
+            yield db
+        finally:
+            db.close()
+
+    app.dependency_overrides[get_db] = test_db
+    try:
+        with TestClient(app) as client:
+            timestamp = datetime.now(timezone.utc).isoformat()
+            conversation_id = client.post("/api/v1/conversations", json={
+                "authorised": True,
+                "messages": [{"message_id": "MSG001", "role": "user", "timestamp": timestamp,
+                              "content": "I am based in Sydney."}],
+            }).json()["conversation_id"]
+            memories = client.post(f"/api/v1/conversations/{conversation_id}/extract").json()
+            assert client.post(f"/api/v1/conversations/{conversation_id}/confirm-ground-truth", json={
+                "confirmed_memory_ids": [item["memory_id"] for item in memories]
+            }).status_code == 200
+            experiment = client.post("/api/v1/experiments", json={
+                "conversation_id": conversation_id, "label": "Frozen evaluator",
+                "test_suite_configuration": {
+                    "pipeline_provider": "rule_based", "pipeline_model": "rule-based-v2",
+                    "evaluator_provider": "rule_based", "evaluator_model": "rule-based-v2",
+                },
+            }).json()
+            audit = client.post("/api/v1/audits", json={
+                "conversation_id": conversation_id, "experiment_id": experiment["experiment_id"],
+                "target_configuration": "strong", "provider": "rule_based",
+                "evaluator_provider": "openai", "evaluator_model": "unrelated-judge",
+            })
+            assert audit.status_code == 201, audit.text
+            assert audit.json()["evaluator_provider"] == "rule_based"
+            assert audit.json()["evaluator_model"] == "rule-based-v2"
     finally:
         app.dependency_overrides.clear()

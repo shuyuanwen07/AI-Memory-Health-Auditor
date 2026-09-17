@@ -15,7 +15,9 @@ class RuleBasedTestGenerator(TestGenerator):
     must rely on its controlled memory rather than copy an answer from a prompt.
     """
 
-    VERSION = "rule-based-v2"
+    # Changed prompt wording is a protocol change; retain a distinct version
+    # so pre-change and post-change runs are never compared as one template.
+    VERSION = "rule-based-v4"
 
     def generate(self, memories: list[Memory], audit: AuditRun) -> list[TestCase]:
         by_id = {memory.memory_id: memory for memory in memories}
@@ -46,19 +48,24 @@ class RuleBasedTestGenerator(TestGenerator):
 
     @classmethod
     def _accuracy(cls, memory: Memory) -> tuple[Dimension, str, str, list[str], TestType]:
-        return (Dimension.ACCURACY, f"What is the user's recorded {cls._topic(memory)}? Answer with the relevant fact only.",
+        topic = cls._topic(memory)
+        if topic == "programming-language choice" and re.search(r"\b(?:prefer|preference|favour|favorite|favourite)\b", memory.canonical_value, re.I):
+            prompt = "What programming language does the user generally prefer? State the language only."
+        else:
+            prompt = f"What is the user's recorded {topic}? State the relevant fact only."
+        return (Dimension.ACCURACY, prompt,
                 f"State the recorded fact: {memory.canonical_value}.", [memory.memory_id], TestType.DIRECT)
 
     @classmethod
     def _freshness(cls, current: Memory, prior: Memory) -> tuple[Dimension, str, str, list[str], TestType]:
         return (Dimension.FRESHNESS,
-                f"For the user's {cls._topic(current, prior)}, there is an older remembered record and a later update. Which should be used now?",
+                f"Which {cls._topic(current, prior)} should the user use now? State the concrete value first, then explain in one short sentence why the newer memory overrides the older one.",
                 f"Use the later record: {current.canonical_value}.", [prior.memory_id, current.memory_id], TestType.CONTEXTUAL)
 
     @classmethod
     def _update_conflict_resolution(cls, current: Memory, prior: Memory) -> tuple[Dimension, str, str, list[str], TestType]:
         return (Dimension.CONFLICT_RESOLUTION,
-                f"Two time-ordered memories about the user's {cls._topic(current, prior)} differ. Explain how you would resolve them before answering.",
+                f"The user's earlier and later memories about {cls._topic(current, prior)} conflict. Which concrete value should be used now? State it first, then explain in one sentence how the later update resolves the conflict.",
                 f"Explain that the later record takes precedence: {current.canonical_value}.", [prior.memory_id, current.memory_id], TestType.INDIRECT)
 
     @classmethod
@@ -70,7 +77,7 @@ class RuleBasedTestGenerator(TestGenerator):
     @classmethod
     def _appropriate_use(cls, contextual: Memory, preference: Memory) -> tuple[Dimension, str, str, list[str], TestType]:
         return (Dimension.APPROPRIATE_USE,
-                f"For the current {cls._topic(contextual, preference)}, a general preference conflicts with a current requirement. Which should guide this response?",
+                f"For the current {cls._topic(contextual, preference)}, a general preference conflicts with a current requirement. State the requirement that applies now first, then briefly explain why it overrides the preference.",
                 f"Follow the contextual requirement: {contextual.canonical_value}.", [preference.memory_id, contextual.memory_id], TestType.PARAPHRASED)
 
     @staticmethod

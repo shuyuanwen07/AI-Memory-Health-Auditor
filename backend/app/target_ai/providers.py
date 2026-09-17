@@ -21,8 +21,10 @@ from app.services.interfaces import TargetAIConnector
 from app.target_ai.rule_based import RuleBasedTargetAIConnector, private_context_instruction
 
 
+_OLLAMA_DEFAULT_MODEL = os.getenv("OLLAMA_DEFAULT_MODEL", "qwen3:1.7b").strip() or "qwen3:1.7b"
 PROVIDERS = {
     TargetProvider.RULE_BASED: ("Local rule-based baseline", "rule-based-target-ai", "Runs locally without an API key."),
+    TargetProvider.OLLAMA: ("Local Qwen 3 1.7B (Ollama)", _OLLAMA_DEFAULT_MODEL, "Runs locally through Ollama; no API key is sent to the browser."),
     TargetProvider.OPENAI: ("OpenAI GPT-5.6 Luna", "gpt-5.6-luna", "Low-cost OpenAI target model."),
     TargetProvider.DEEPSEEK: ("DeepSeek Flash", "deepseek-flash", "DeepSeek's OpenAI-compatible Flash API."),
     TargetProvider.GEMINI: ("Gemini 2.5 Flash-Lite", "gemini-2.5-flash-lite", "Google Gemini API free-tier eligible model."),
@@ -36,6 +38,10 @@ _ENVIRONMENT_KEY = {
 _RETRYABLE_STATUS_CODES = frozenset({408, 409, 425, 429, 500, 502, 503, 504})
 _MAX_ATTEMPTS = 3
 _REQUEST_TIMEOUT_SECONDS = 60.0
+_OLLAMA_DEFAULT_BASE_URL = "http://host.docker.internal:11434"
+# Docker Desktop's host bridge can take longer than a sub-second probe on a
+# memory-constrained laptop even while local inference is healthy.
+_OLLAMA_AVAILABILITY_TIMEOUT_SECONDS = 5.0
 # Request-local facts are captured without saving raw upstream payloads.  They
 # also remain correct when several audits execute concurrently in one process.
 _ATTEMPTS: ContextVar[int] = ContextVar("target_provider_attempts", default=0)
@@ -43,11 +49,28 @@ _USAGE: ContextVar[dict[str, int | None]] = ContextVar("target_provider_usage", 
 
 
 def configured(provider: TargetProvider) -> bool:
-    """Return whether the backend has a non-blank credential for a provider."""
+    """Return whether a provider can be used without exposing credentials."""
     if provider == TargetProvider.RULE_BASED:
         return True
+    if provider == TargetProvider.OLLAMA:
+        try:
+            return httpx.get(f"{ollama_base_url()}/api/tags", timeout=_OLLAMA_AVAILABILITY_TIMEOUT_SECONDS).is_success
+        except httpx.HTTPError:
+            return False
     key_name = _ENVIRONMENT_KEY.get(provider)
     return bool(key_name and os.getenv(key_name, "").strip())
+
+
+def ollama_base_url() -> str:
+    """Resolve the backend-only Ollama endpoint, without any browser exposure."""
+    return os.getenv("OLLAMA_BASE_URL", _OLLAMA_DEFAULT_BASE_URL).strip().rstrip("/")
+
+
+def _positive_int_env(name: str, default: int, maximum: int) -> int:
+    try:
+        return max(1, min(maximum, int(os.getenv(name, str(default)))))
+    except ValueError:
+        return default
 
 
 class ProviderRequestError(RuntimeError):
@@ -65,7 +88,7 @@ class HttpTargetAIConnector(TargetAIConnector):
         if audit.provider == TargetProvider.RULE_BASED:
             return RuleBasedTargetAIConnector().execute(test, audit)
 
-        credential = self._credential_for(audit.provider)
+        credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
         # This derives only from target_memory_context. expected_behavior is
         # evaluator-private and must never reach the model under test.
         instructions = private_context_instruction(test, audit.target_configuration)
@@ -108,6 +131,26 @@ class HttpTargetAIConnector(TargetAIConnector):
         return credential
 
     def _execute_provider(self, audit: AuditRun, test: TestCase, instructions: str, credential: str) -> str:
+        if audit.provider == TargetProvider.OLLAMA:
+            data = self._post(f"{ollama_base_url()}/api/chat", {}, {
+                "model": audit.model,
+                "messages": [{"role": "system", "content": instructions}, {"role": "user", "content": test.prompt}],
+                "stream": False,
+                # The default Qwen3 template may spend the complete bounded
+                # output budget in its private thinking field. Audit targets
+                # must return an inspectable user-facing answer instead.
+                "think": False,
+                "keep_alive": "5m",
+                "options": {
+                    "temperature": audit.temperature,
+                    # A bounded context protects the local development stack
+                    # from an oversized KV cache on memory-constrained Macs.
+                    "num_ctx": _positive_int_env("OLLAMA_NUM_CTX", 2048, 32768),
+                    "num_predict": _positive_int_env("OLLAMA_NUM_PREDICT", 120, 1024),
+                },
+            })
+            _USAGE.set(self._usage(data, audit.provider))
+            return self._ollama_text(data)
         if audit.provider == TargetProvider.OPENAI:
             data = self._post("https://api.openai.com/v1/responses", {"Authorization": f"Bearer {credential}"}, {
                 "model": audit.model, "instructions": instructions, "input": test.prompt, "temperature": audit.temperature,
@@ -163,6 +206,16 @@ class HttpTargetAIConnector(TargetAIConnector):
     @staticmethod
     def _usage(data: Mapping[str, Any], provider: TargetProvider) -> dict[str, int | None]:
         """Normalise provider-reported usage only when a response includes it."""
+        if provider == TargetProvider.OLLAMA:
+            input_tokens = data.get("prompt_eval_count")
+            output_tokens = data.get("eval_count")
+            input_tokens = input_tokens if isinstance(input_tokens, int) and not isinstance(input_tokens, bool) else None
+            output_tokens = output_tokens if isinstance(output_tokens, int) and not isinstance(output_tokens, bool) else None
+            return {
+                "input_tokens": input_tokens,
+                "output_tokens": output_tokens,
+                "total_tokens": input_tokens + output_tokens if input_tokens is not None and output_tokens is not None else None,
+            }
         raw = data.get("usage") if provider != TargetProvider.GEMINI else data.get("usageMetadata")
         if not isinstance(raw, Mapping):
             return {}
@@ -228,3 +281,11 @@ class HttpTargetAIConnector(TargetAIConnector):
             if text:
                 return text
         raise ProviderRequestError("Gemini returned a response without usable text.")
+
+    @staticmethod
+    def _ollama_text(data: Mapping[str, Any]) -> str:
+        message = data.get("message")
+        content = message.get("content") if isinstance(message, Mapping) else None
+        if isinstance(content, str):
+            return content
+        raise ProviderRequestError("Ollama returned a response without usable text.")

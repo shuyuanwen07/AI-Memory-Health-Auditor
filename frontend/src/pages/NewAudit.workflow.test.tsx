@@ -23,6 +23,8 @@ const apiMocks = vi.hoisted(() => ({
   regenerateTest: vi.fn(),
   execute: vi.fn(),
   evaluate: vi.fn(),
+  cancel: vi.fn(),
+  cancelExperiment: vi.fn(),
   results: vi.fn(),
   retry: vi.fn(),
   targetMemoryTrace: vi.fn(),
@@ -70,6 +72,8 @@ beforeEach(() => {
   apiMocks.reviewTest.mockResolvedValue(acceptedTest);
   apiMocks.execute.mockResolvedValue({ status: 'TESTS_EXECUTED' });
   apiMocks.evaluate.mockResolvedValue({ status: 'COMPLETED' });
+  apiMocks.cancel.mockResolvedValue({ status: 'CANCELLED' });
+  apiMocks.cancelExperiment.mockResolvedValue({ status: 'CANCELLED' });
   apiMocks.results.mockResolvedValue(result);
   apiMocks.targetMemoryTrace.mockResolvedValue({
     run_id: 'RUN001', memory_strategy: 'weak_first_hit',
@@ -113,7 +117,39 @@ test('completes the local audit workflow from consent through reviewed results a
   expect(screen.getAllByText('1 of 1 tests passed')).toHaveLength(2);
 
   await user.click(screen.getByRole('button', { name: 'Inspect Memory Trace' }));
-  await screen.findByText('Stored Memory Lifecycle');
+  await screen.findByText('Stored memories');
   expect(screen.getByText('The backend now uses PostgreSQL.')).toBeTruthy();
-  expect(screen.getByText(/selected TM001/i)).toBeTruthy();
+  expect(screen.getByText(/1 relevant memory record selected/i)).toBeTruthy();
+});
+
+test('cancelling a running comparison stops the browser queue before its next condition', async () => {
+  const user = userEvent.setup();
+  let rejectExecution: ((reason?: unknown) => void) | undefined;
+  apiMocks.createAudit
+    .mockResolvedValueOnce({ run_id: 'RUN001' })
+    .mockResolvedValueOnce({ run_id: 'RUN002' });
+  apiMocks.execute.mockImplementationOnce(() => new Promise((_, reject) => { rejectExecution = reject; }));
+  render(<NewAudit />);
+
+  await user.click(screen.getByRole('checkbox', { name: /authorised to use this conversation/i }));
+  await user.click(screen.getByRole('button', { name: 'Continue to Ground Truth' }));
+  await screen.findByRole('heading', { name: 'Review Extracted Memories' });
+  await user.click(screen.getByRole('button', { name: 'Accept' }));
+  await user.click(screen.getByRole('button', { name: 'Confirm Ground Truth & Continue' }));
+  await screen.findByRole('heading', { name: 'Configure Memory Audit' });
+  await user.click(screen.getByRole('checkbox', { name: /Strong Rule-Based/i }));
+  await user.click(screen.getByRole('button', { name: 'Start 2-Run Comparison' }));
+  await user.click(screen.getByRole('button', { name: 'Generate Tests for Review' }));
+  await screen.findByRole('heading', { name: 'Review Generated Test Suite' });
+  await user.click(screen.getByRole('button', { name: 'Accept' }));
+  await user.click(screen.getByRole('button', { name: 'Run Comparison & View Results' }));
+  await screen.findByRole('button', { name: 'Cancel current run & stop queue' });
+
+  await user.click(screen.getByRole('button', { name: 'Cancel current run & stop queue' }));
+  expect(apiMocks.cancel).toHaveBeenCalledWith('RUN001');
+  rejectExecution?.(new Error('cancelled by user'));
+
+  await waitFor(() => expect(screen.getByText(/Execution was stopped/i)).toBeTruthy());
+  expect(apiMocks.execute).toHaveBeenCalledTimes(1);
+  expect(screen.getByRole('button', { name: 'Execution Queue Cancelled' })).toBeTruthy();
 });

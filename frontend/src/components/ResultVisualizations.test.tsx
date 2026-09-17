@@ -48,3 +48,15 @@ test('renders overall, dimension, and failure comparison charts for experimental
   expect(screen.getByRole('img', { name: /Grouped bar chart\. Accuracy: Weak Memory 100%, Strong Memory 100%/ })).toBeTruthy();
   expect(screen.getByRole('img', { name: /Grouped failure bar chart\. .*Freshness: Weak Memory 2, Strong Memory 0/ })).toBeTruthy();
 });
+
+test('keeps provider/model labels with dots as display names rather than Recharts data paths', () => {
+  render(<ComparisonVisualizations runs={[
+    { label: 'Ollama · qwen3:1.7b · Weak', result: result('RUN-DOTTED', 25, 0) },
+    { label: 'Ollama · qwen3:1.7b · Strong', result: result('RUN-DOTTED-STRONG', 75, 100) },
+  ]} />);
+
+  // This accessible summary comes from the same keyed data series as the
+  // rendered bars. A dotted display label must retain its actual values.
+  expect(screen.getByRole('img', { name: /Accuracy: Ollama · qwen3:1.7b · Weak 100%, Ollama · qwen3:1.7b · Strong 100%/ })).toBeTruthy();
+  expect(screen.getByRole('img', { name: /Freshness: Ollama · qwen3:1.7b · Weak 0%, Ollama · qwen3:1.7b · Strong 100%/ })).toBeTruthy();
+});

@@ -32,6 +32,12 @@ Use only synthetic or explicitly authorised, de-identified conversations. Store 
 
 Run a pilot before formal evaluation. Resolve unclear memory boundaries, leaked-answer tests, ambiguous expected behaviour, and evaluator disagreements. Do not silently change prompts, labels, policies, benchmark mapping or sample membership after the freeze. Any change creates a new protocol ID and a new experiment group.
 
+### Current synthetic-pilot execution path
+
+For the repository's approved synthetic Pilot v2, open **Experiments → Research Workspace** and upload both `datasets/annotation/synthetic-pilot-v2/synthetic_pilot_annotations.json` and `datasets/annotation/synthetic-pilot-v2/double-annotation/human_double_annotation.json`. Analyse the pilot first; only a ready matching package enables **Formal Synthetic Pilot Matrix**. Select one fixed target model and at least two predeclared retrieval strategies, create the matrix, then explicitly execute its pending conditions.
+
+The matrix creates one Experiment Group per synthetic scenario and copies the exact same accepted fixed test suite to every condition. It records the dataset fingerprint, pilot ID, suite version, model, temperature, seed and strategy in durable metadata. It is limited to explicitly declared synthetic data; do not use it to materialise participant conversations. After completion, use **Experiments** to inspect paired comparisons and download the CSV/artifact before generating paper figures.
+
 ## Primary outcomes and analysis
 
 The primary outcome is macro-average Memory Health across measured dimensions. A zero-test dimension remains unmeasured and is excluded, never converted to zero. Report each dimension's pass/total/percentage, failure categories and traceable evidence.

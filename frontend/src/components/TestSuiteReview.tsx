@@ -15,8 +15,8 @@ export function TestSuiteReview({ tests, busy, onReview, onRegenerate }: {
     <h2>Review Generated Test Suite</h2>
     <p>Inspect the frozen questions before any target model is executed. A decision or replacement is synchronised to every model and strategy condition in this experiment.</p>
     <div className="summary"><span>Accepted {accepted}</span><span>Needs review {pending}</span><span>Rejected {rejected}</span></div>
-    <div className="test-review-list">{tests.map((test) => <article className={`test-review-card ${test.quality_status ?? 'pending'}`} key={test.test_id}>
-      <div className="row"><b>{test.test_id}</b><span className="pill">{typeLabels[test.test_type ?? 'contextual'] ?? test.test_type}</span></div>
+    <div className="test-review-list">{tests.map((test, index) => <article className={`test-review-card ${test.quality_status ?? 'pending'}`} key={test.test_id} title={`Technical test ID: ${test.test_id}`}>
+      <div className="row"><b>Test {index + 1}</b><span className="pill">{typeLabels[test.test_type ?? 'contextual'] ?? test.test_type}</span></div>
       <p className="test-dimension">{test.dimension.replaceAll('_', ' ')}</p>
       <p><b>Question</b><br />{test.prompt}</p>
       <p><b>Expected behaviour</b><br />{test.expected_behavior}</p>

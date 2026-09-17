@@ -5,9 +5,10 @@ type Props = {
   memory: Memory;
   memoryLabels?: Record<string, string>;
   onChange: (patch: MemoryReviewPatch) => void;
+  position?: number;
 };
 
-export function MemoryCard({ memory, memoryLabels = {}, onChange }: Props) {
+export function MemoryCard({ memory, memoryLabels = {}, onChange, position }: Props) {
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(memory.canonical_value);
   const [sourceIds, setSourceIds] = useState(memory.source_message_ids.join(', '));
@@ -32,13 +33,13 @@ export function MemoryCard({ memory, memoryLabels = {}, onChange }: Props) {
   };
   const resetEdit = () => { setValue(memory.canonical_value); setSourceIds(memory.source_message_ids.join(', ')); setTimestamp(memory.timestamp ?? ''); setRelationships(memory.relationships); setEditing(false); };
   const relationshipTargets = Object.entries(memoryLabels).filter(([id]) => id !== memory.memory_id);
-  return <article className={`memory-card ${memory.status}`} aria-label={`Memory ${memory.memory_id}`}>
-    <div className="row"><strong>{memory.memory_id}</strong><span className="pill">{memory.status}</span></div>
+  return <article className={`memory-card ${memory.status}`} aria-label={`Memory ${position ?? ''}`.trim()} title={`Technical memory ID: ${memory.memory_id}`}>
+    <div className="row"><strong>Memory{position ? ` ${position}` : ''}</strong><span className="pill">{memory.status}</span></div>
     {editing ? <form onSubmit={submitEdit} className="memory-edit">
       <label htmlFor={`memory-${memory.memory_id}`}>Canonical memory<input id={`memory-${memory.memory_id}`} value={value} onChange={(event) => setValue(event.target.value)} autoFocus /></label>
       <label htmlFor={`evidence-${memory.memory_id}`}>Source evidence IDs<input id={`evidence-${memory.memory_id}`} value={sourceIds} onChange={(event) => setSourceIds(event.target.value)} placeholder="MSG001, MSG004" /><small>Use IDs from the authorised conversation; leave empty for a researcher-added memory.</small></label>
       <label htmlFor={`timestamp-${memory.memory_id}`}>Observed timestamp (optional)<input id={`timestamp-${memory.memory_id}`} value={timestamp} onChange={(event) => setTimestamp(event.target.value)} placeholder="2026-01-01T12:00:00Z" /></label>
-      <fieldset className="relationship-editor"><legend>Relationships</legend>{relationships.length === 0 ? <p className="input-help">No relationship evidence recorded.</p> : <ul>{relationships.map((relationship) => <li key={`${relationship.type}-${relationship.target_memory_id}`}><span>{relationship.type.replace('_', ' ')} → {memoryLabels[relationship.target_memory_id] ?? relationship.target_memory_id}</span><button type="button" className="ghost" onClick={() => setRelationships((current) => current.filter((item) => item !== relationship))}>Remove</button></li>)}</ul>}<div><select aria-label={`Relationship type for ${memory.memory_id}`} value={relationshipType} onChange={(event) => setRelationshipType(event.target.value as RelationshipType)}><option value="UPDATE">UPDATE</option><option value="CONFLICT">CONFLICT</option><option value="CONTEXTUAL_OVERRIDE">CONTEXTUAL OVERRIDE</option></select><select aria-label={`Relationship target for ${memory.memory_id}`} value={relationshipTarget} onChange={(event) => setRelationshipTarget(event.target.value)}><option value="">Choose another memory</option>{relationshipTargets.map(([id, label]) => <option key={id} value={id}>{id}: {label}</option>)}</select><button type="button" className="secondary" disabled={!relationshipTarget} onClick={addRelationship}>Add relationship</button></div></fieldset>
+      <fieldset className="relationship-editor"><legend>Relationships</legend>{relationships.length === 0 ? <p className="input-help">No relationship evidence recorded.</p> : <ul>{relationships.map((relationship) => <li key={`${relationship.type}-${relationship.target_memory_id}`}><span>{relationship.type.replace('_', ' ')} → {memoryLabels[relationship.target_memory_id] ?? relationship.target_memory_id}</span><button type="button" className="ghost" onClick={() => setRelationships((current) => current.filter((item) => item !== relationship))}>Remove</button></li>)}</ul>}<div><select aria-label={`Relationship type for ${memory.memory_id}`} value={relationshipType} onChange={(event) => setRelationshipType(event.target.value as RelationshipType)}><option value="UPDATE">UPDATE</option><option value="CONFLICT">CONFLICT</option><option value="CONTEXTUAL_OVERRIDE">CONTEXTUAL OVERRIDE</option></select><select aria-label={`Relationship target for ${memory.memory_id}`} value={relationshipTarget} onChange={(event) => setRelationshipTarget(event.target.value)}><option value="">Choose another memory</option>{relationshipTargets.map(([id, label]) => <option key={id} value={id}>{label}</option>)}</select><button type="button" className="secondary" disabled={!relationshipTarget} onClick={addRelationship}>Add relationship</button></div></fieldset>
       <button type="submit" disabled={!value.trim()}>Save edit</button>
       <button type="button" className="secondary" onClick={resetEdit}>Cancel</button>
     </form> : <p>{memory.canonical_value}</p>}

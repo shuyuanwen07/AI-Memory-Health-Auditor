@@ -58,7 +58,7 @@ def test_generator_creates_traceable_dimension_balanced_tests():
     tests = RuleBasedTestGenerator().generate(memories, run)
 
     assert {test.dimension for test in tests} == set(Dimension)
-    assert all(test.generator_version == "rule-based-v2" for test in tests)
+    assert all(test.generator_version == "rule-based-v4" for test in tests)
     assert all(test.supporting_memory_ids for test in tests)
     assert all(memory_id in {memory.memory_id for memory in memories} for test in tests for memory_id in test.supporting_memory_ids)
     assert len({(test.dimension, tuple(test.supporting_memory_ids)) for test in tests}) == len(tests)

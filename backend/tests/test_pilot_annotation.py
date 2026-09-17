@@ -88,3 +88,23 @@ def test_pilot_endpoint_returns_ephemeral_readiness_report():
     assert body["pilot_id"] == "pilot-deidentified-v1"
     assert body["overall"]["disagreement_count"] == 1
     assert body["fingerprint_sha256"]
+
+
+def test_ai_assisted_synthetic_dry_run_can_never_open_the_formal_gate():
+    payload = _package()
+    payload["annotation_mode"] = "ai_assisted_synthetic_dry_run"
+    for annotator in payload["annotators"]:
+        annotator["labels"] = [
+            {"item_id": item["item_id"], "task": item["task"], "label": "accept" if item["task"] == "test_validity" else "include" if item["task"] == "memory_inclusion" else "fail" if item["task"] == "evaluator_verdict" else "none"}
+            for item in payload["items"]
+        ]
+    payload["adjudications"] = [
+        {"item_id": item["item_id"], "task": item["task"], "label": "accept" if item["task"] == "test_validity" else "include" if item["task"] == "memory_inclusion" else "fail" if item["task"] == "evaluator_verdict" else "none", "basis": "external_reference", "decision_note": "Synthetic reference."}
+        for item in payload["items"]
+    ]
+
+    report = PilotAnnotationService().analyse(PilotAnalysisRequest.model_validate({"package": payload}))
+
+    assert not report.ready_for_formal_evaluation
+    assert report.annotation_mode.value == "ai_assisted_synthetic_dry_run"
+    assert any("not independent human" in blocker for blocker in report.blocking_reasons)

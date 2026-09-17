@@ -24,6 +24,7 @@ from app.models import (
 )
 from app.schemas import (
     Conversation,
+    Dimension,
     MemoryRelationship,
     MemoryStrategy,
     RelationshipType,
@@ -290,7 +291,19 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         ]
         self._annotate_relative_chronology(candidates, conversation)
         self._mark_retrieval_eligibility(candidates, strategy, evicted_ids)
-        eligible = [item for item in candidates if item["eligible"] and item["relevance"] > 0]
+        self._include_update_history_for_resolution(candidates, relations, test, strategy)
+        preferred_scope, _ = _preferred_scope(test.prompt)
+        eligible: list[dict] = []
+        for item in candidates:
+            scope_intent_fallback = (
+                strategy == MemoryStrategy.SCOPE_AWARE
+                and preferred_scope is not None
+                and TargetMemoryScope(item["record"].scope) == preferred_scope
+            )
+            if item["eligible"] and (item["relevance"] > 0 or scope_intent_fallback):
+                if scope_intent_fallback and item["relevance"] == 0:
+                    item["reason"] = f"{item['reason']}, scope_intent_fallback"
+                eligible.append(item)
         selected = self._select(eligible, strategy)
         selected_ids = {choice["record"].id for choice in selected}
         evidence_rows = [
@@ -385,7 +398,25 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         # requirements remain available so unresolved conflicts stay visible.
         preferred = [item for item in candidates if item["scope_match"]]
         if preferred:
-            candidates = preferred
+            # A scope can contain unrelated project requirements.  When the
+            # prompt identifies a topic (for example programming language),
+            # retain only matching topic records rather than accidentally
+            # handing a database constraint to a language question.
+            topic_preferred = [item for item in preferred if item["category_match"]]
+            candidates = topic_preferred or preferred
+        else:
+            # Update/freshness prompts have no preference scope, but their
+            # named topic still makes a narrower context possible.
+            topic_matched = [item for item in candidates if item["category_match"]]
+            if topic_matched:
+                candidates = topic_matched
+
+        # A conflict-resolution test about an explicit UPDATE must see that
+        # relationship pair, not unrelated memories that merely share its
+        # topic. This keeps the evidence condition honest and inspectable.
+        resolution_history = [item for item in candidates if item.get("resolution_history")]
+        if resolution_history:
+            candidates = resolution_history
 
         return sorted(candidates, key=lambda item: (
             item["relevance"] * 10 + item["policy_score"],
@@ -448,6 +479,8 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             reasons.append("unresolved_conflict")
         return {
             "record": record, "relevance": relevance,
+            "category_match": bool(category_match),
+            "resolution_history": False,
             "policy_score": policy_score, "relationship_types": relationship_types,
             "reason": ", ".join(reasons), "test_prompt": test.prompt,
             # Ingested source IDs are resolved against the authorised
@@ -457,6 +490,34 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             "recency_factor": 0.0,
             "eligible": True,
         }
+
+    @staticmethod
+    def _include_update_history_for_resolution(
+        candidates: list[dict], relations: list[TargetAgentMemoryRelationshipModel],
+        test: TestCase, strategy: MemoryStrategy,
+    ) -> None:
+        """Expose both sides of an UPDATE only for a resolution test.
+
+        Strong retrieval normally hides superseded records.  A conflict-
+        resolution question is the deliberate exception: the target needs the
+        old and new observations to explain why the newer one wins.  The old
+        item remains visibly marked as superseded in the trace.
+        """
+        if strategy != MemoryStrategy.SCOPE_AWARE or test.dimension != Dimension.CONFLICT_RESOLUTION:
+            return
+        by_id = {item["record"].id: item for item in candidates}
+        for relation in relations:
+            if relation.relationship_type != RelationshipType.UPDATE.value:
+                continue
+            current = by_id.get(relation.memory_id)
+            prior = by_id.get(relation.target_memory_id)
+            if not current or not prior or not current["category_match"]:
+                continue
+            current["resolution_history"] = True
+            prior["resolution_history"] = True
+            prior["eligible"] = True
+            prior["relevance"] = max(prior["relevance"], current["relevance"])
+            prior["reason"] = f"{prior['reason']}, update_history_included_for_resolution"
 
     @staticmethod
     def _annotate_relative_chronology(candidates: list[dict], conversation: Conversation) -> None:
@@ -762,7 +823,7 @@ def _category(value: str) -> str | None:
     text = value.lower()
     if re.search(r"\b(?:mysql|postgres(?:ql)?|mongodb|sqlite|database|sql)\b", text):
         return "database"
-    if re.search(r"\b(?:python|java|rust|javascript|typescript|(?:programming|scripting)\s+languages?)\b", text):
+    if re.search(r"\b(?:python|java|rust|javascript|typescript|(?:programming|scripting)[ -]+languages?)\b", text):
         return "programming-language"
     if re.search(r"\b(?:sydney|melbourne|london|based in|located in|live in|relocat)\b", text):
         return "location"

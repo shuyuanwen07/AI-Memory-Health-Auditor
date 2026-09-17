@@ -1,10 +1,12 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { History } from './StaticPages';
+import { Experiments, History } from './StaticPages';
 
 const apiMocks = vi.hoisted(() => ({
   audits: vi.fn(), results: vi.fn(), retryPlan: vi.fn(), retry: vi.fn(),
   downloadConversationExport: vi.fn(), deleteConversation: vi.fn(),
+  experimentGroups: vi.fn(), experimentResults: vi.fn(), cancelExperiment: vi.fn(),
+  downloadExperimentCsv: vi.fn(), downloadExperimentBundle: vi.fn(), downloadExperimentArtifact: vi.fn(),
 }));
 
 vi.mock('../services/api', () => ({ api: apiMocks }));
@@ -30,6 +32,7 @@ test('filters history by text and strategy, while retaining frozen settings', as
   const user = userEvent.setup();
   render(<History />);
   await waitFor(() => expect(screen.getByText('RUN-COMPLETE')).not.toBeNull());
+  expect(screen.getByRole('link', { name: 'View report' }).getAttribute('href')).toBe('/audits/RUN-COMPLETE');
 
   await user.type(screen.getByLabelText('Search audit history'), 'deepseek');
   expect(screen.getByText('RUN-FAILED')).not.toBeNull();
@@ -53,4 +56,32 @@ test('shows a recovery plan and can resume an interrupted audit', async () => {
   await user.click(screen.getByRole('button', { name: 'Resume audit' }));
   await waitFor(() => expect(apiMocks.retry).toHaveBeenCalledWith('RUN-FAILED'));
   expect(screen.getByText('Recovery completed. The report is now available.')).not.toBeNull();
+});
+
+test('can cancel an unfinished persisted experiment and reports export errors', async () => {
+  const user = userEvent.setup();
+  const experiment = {
+    experiment_id: 'EXP001', conversation_id: 'C001', label: 'Persisted comparison', status: 'RUNNING',
+    test_suite_configuration: {
+      test_budget: 4, random_seed: 42, prompt_template_version: 'rule-based-v1',
+      pipeline_provider: 'rule_based', pipeline_model: 'rule-based-v2',
+      evaluator_provider: 'rule_based', evaluator_model: 'rule-based-v2', dimensions: ['accuracy'], suite_mode: 'behavioural',
+    },
+    test_suite_metadata: { test_count: 4, dimensions: ['accuracy'] }, created_at: '2026-01-01T00:00:00Z',
+  };
+  const report = { experiment, runs: [], conditions: [], paired_comparisons: [] };
+  apiMocks.experimentGroups.mockResolvedValue([experiment]);
+  apiMocks.experimentResults.mockResolvedValue(report);
+  apiMocks.cancelExperiment.mockResolvedValue({ ...experiment, status: 'CANCELLED' });
+  apiMocks.downloadExperimentCsv.mockRejectedValue(new Error('CSV export unavailable'));
+  vi.spyOn(window, 'confirm').mockReturnValue(true);
+
+  render(<Experiments />);
+  await screen.findByRole('button', { name: 'Cancel unfinished conditions' });
+  await user.click(screen.getByRole('button', { name: 'Cancel unfinished conditions' }));
+  await waitFor(() => expect(apiMocks.cancelExperiment).toHaveBeenCalledWith('EXP001'));
+  expect(screen.getByText('The unfinished conditions were cancelled. Completed results remain available.')).not.toBeNull();
+
+  await user.click(screen.getByRole('button', { name: 'Download group CSV' }));
+  await waitFor(() => expect(screen.getByText('CSV export unavailable')).not.toBeNull());
 });

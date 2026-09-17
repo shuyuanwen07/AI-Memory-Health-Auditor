@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Integer, JSON, String, Text, UniqueConstraint
+from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Index, Integer, JSON, String, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 from app.database.session import Base
 
@@ -16,7 +16,12 @@ class ConversationModel(Base):
 
 class MessageModel(Base):
     __tablename__ = "messages"
-    __table_args__ = (UniqueConstraint("conversation_id", "source_message_id", name="uq_messages_conversation_source_id"),)
+    __table_args__ = (
+        UniqueConstraint(
+            "conversation_id", "source_message_id",
+            name="uq_messages_conversation_source_message_id",
+        ),
+    )
     id: Mapped[str] = mapped_column(String(40), primary_key=True)
     conversation_id: Mapped[str] = mapped_column(ForeignKey("conversations.id", ondelete="CASCADE"), index=True)
     # ``id`` is an internal globally unique database key.  The source ID is
@@ -65,7 +70,14 @@ class ExperimentModel(Base):
     test_suite_configuration: Mapped[dict] = mapped_column(JSON, default=dict)
     test_suite_metadata: Mapped[dict] = mapped_column(JSON, default=dict)
     test_suite_source_run_id: Mapped[str | None] = mapped_column(
-        ForeignKey("audit_runs.id", ondelete="SET NULL"), nullable=True, index=True
+        # This is the deliberate nullable edge in the experiment/run cycle.
+        # ``use_alter`` gives SQLAlchemy a deterministic metadata ordering for
+        # Alembic drift checks while retaining the existing PostgreSQL FK.
+        ForeignKey(
+            "audit_runs.id", ondelete="SET NULL", use_alter=True,
+            name="experiments_test_suite_source_run_id_fkey",
+        ),
+        nullable=True, index=True,
     )
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
     completed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
@@ -89,7 +101,7 @@ class AuditRunModel(Base):
     pipeline_provider: Mapped[str] = mapped_column(String(30), default="rule_based")
     pipeline_model: Mapped[str] = mapped_column(String(100), default="rule-based-v2")
     evaluator_provider: Mapped[str] = mapped_column(String(30), default="rule_based")
-    evaluator_model: Mapped[str] = mapped_column(String(100), default="rule-based-v2")
+    evaluator_model: Mapped[str] = mapped_column(String(100), default="rule-based-v4")
     memory_strategy: Mapped[str] = mapped_column(String(40), default="strong_rule_based")
     memory_maintenance_policy: Mapped[str] = mapped_column(
         String(40), default="update_aware_consolidation"
@@ -165,6 +177,7 @@ class TargetAgentMemoryModel(Base):
     """
 
     __tablename__ = "target_agent_memories"
+    __table_args__ = (Index("ix_target_agent_memories_run_id_scope", "run_id", "scope"),)
     id: Mapped[str] = mapped_column(String(40), primary_key=True)
     run_id: Mapped[str] = mapped_column(
         ForeignKey("audit_runs.id", ondelete="CASCADE"), index=True
@@ -261,6 +274,12 @@ class EvaluationHumanReviewModel(Base):
     """
 
     __tablename__ = "evaluation_human_reviews"
+    __table_args__ = (
+        UniqueConstraint(
+            "evaluation_id", "reviewer_label", "review_role",
+            name="uq_evaluation_human_review_reviewer_role",
+        ),
+    )
     id: Mapped[str] = mapped_column(String(40), primary_key=True)
     run_id: Mapped[str] = mapped_column(
         ForeignKey("audit_runs.id", ondelete="CASCADE"), index=True

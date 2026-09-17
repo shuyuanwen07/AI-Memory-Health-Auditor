@@ -41,6 +41,7 @@ jobs:
           PYTHONPATH: .
         run: |
           alembic upgrade head
+          alembic check
           expected_head="$(alembic heads | awk '{print $1}')"
           current_head="$(alembic current | awk '{print $1}')"
           test "$current_head" = "$expected_head"

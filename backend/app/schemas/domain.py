@@ -31,7 +31,7 @@ class MemoryStatus(str, Enum):
 class RelationshipType(str, Enum):
     UPDATE = "UPDATE"; CONFLICT = "CONFLICT"; CONTEXTUAL_OVERRIDE = "CONTEXTUAL_OVERRIDE"
 class AuditStatus(str, Enum):
-    CREATED="CREATED"; MEMORY_EXTRACTED="MEMORY_EXTRACTED"; GROUND_TRUTH_CONFIRMED="GROUND_TRUTH_CONFIRMED"; TESTS_GENERATED="TESTS_GENERATED"; TESTS_EXECUTED="TESTS_EXECUTED"; EVALUATED="EVALUATED"; COMPLETED="COMPLETED"; FAILED="FAILED"; CANCELLED="CANCELLED"
+    CREATED="CREATED"; MEMORY_EXTRACTED="MEMORY_EXTRACTED"; GROUND_TRUTH_CONFIRMED="GROUND_TRUTH_CONFIRMED"; TESTS_GENERATED="TESTS_GENERATED"; TESTS_EXECUTED="TESTS_EXECUTED"; COMPLETED="COMPLETED"; FAILED="FAILED"; CANCELLED="CANCELLED"
 class TargetConfiguration(str, Enum): WEAK="weak"; STRONG="strong"
 class MemoryStrategy(str, Enum):
     WEAK_FIRST_HIT = "weak_first_hit"
@@ -88,7 +88,7 @@ class HumanReviewRole(str, Enum):
     INDEPENDENT = "independent"
     REFERENCE = "reference"
     ADJUDICATION = "adjudication"
-class TargetProvider(str, Enum): RULE_BASED="rule_based"; OPENAI="openai"; DEEPSEEK="deepseek"; GEMINI="gemini"
+class TargetProvider(str, Enum): RULE_BASED="rule_based"; OPENAI="openai"; DEEPSEEK="deepseek"; GEMINI="gemini"; OLLAMA="ollama"
 class ExperimentStatus(str, Enum):
     CREATED = "CREATED"
     TEST_SUITE_GENERATED = "TEST_SUITE_GENERATED"
@@ -244,9 +244,13 @@ class TestSuiteConfiguration(BaseModel):
     __test__ = False  # avoid pytest treating this Pydantic contract as a test class
     test_budget: int = Field(default=8, ge=1, le=100)
     random_seed: int = 42
-    prompt_template_version: str = "rule-based-v1"
+    prompt_template_version: str = "rule-based-v4"
     pipeline_provider: TargetProvider = TargetProvider.RULE_BASED
     pipeline_model: str = "rule-based-v2"
+    # Evaluation must be held constant within a controlled comparison.  It is
+    # part of the experiment protocol rather than a per-condition preference.
+    evaluator_provider: TargetProvider = TargetProvider.RULE_BASED
+    evaluator_model: str = "rule-based-v4"
     dimensions: list[Dimension] = Field(default_factory=lambda: list(Dimension))
     # Existing experiments retain their behavioural-generator semantics.
     suite_mode: TestSuiteMode = TestSuiteMode.BEHAVIOURAL
@@ -291,7 +295,7 @@ class AuditCreate(BaseModel):
     temperature: float = 0.0
     random_seed: int = 42
     test_budget: int = Field(default=8, ge=1, le=100)
-    prompt_template_version: str = "rule-based-v1"
+    prompt_template_version: str = "rule-based-v4"
     pipeline_provider: TargetProvider | None = None
     pipeline_model: str | None = None
     evaluator_provider: TargetProvider | None = None
@@ -346,7 +350,7 @@ class AuditRun(BaseModel):
     run_id: str; conversation_id: str; experiment_id: str | None = None; status: AuditStatus; target_configuration: TargetConfiguration; provider: TargetProvider
     model: str; temperature: float; random_seed: int; test_budget: int; prompt_template_version: str
     pipeline_provider: str = "rule_based"; pipeline_model: str = "rule-based-v2"
-    evaluator_provider: str = "rule_based"; evaluator_model: str = "rule-based-v2"
+    evaluator_provider: str = "rule_based"; evaluator_model: str = "rule-based-v4"
     memory_strategy: MemoryStrategy = MemoryStrategy.STRONG_RULE_BASED
     memory_maintenance_policy: TargetMemoryMaintenancePolicy = TargetMemoryMaintenancePolicy.UPDATE_AWARE_CONSOLIDATION
     target_memory_capacity: int = 50
@@ -391,6 +395,11 @@ class TargetResponse(BaseModel):
     response_id: str; test_id: str; run_id: str; response_text: str; model: str; temperature: float
     execution_metadata: ExecutionMetadata = Field(default_factory=ExecutionMetadata)
     created_at: datetime
+class CancelledAuditEvidence(BaseModel):
+    """Safe, terminal-only artifacts retained when an audit is cancelled."""
+    audit: AuditRun
+    completed_responses: list[TargetResponse] = Field(default_factory=list)
+    trace: TargetMemoryTrace
 class EvaluationResult(BaseModel):
     evaluation_id: str; test_id: str; response_id: str; passed: bool; failure_type: Dimension | None = None
     reason: str; evidence_memory_ids: list[str]; evaluator: str

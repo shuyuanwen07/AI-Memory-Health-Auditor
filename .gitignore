@@ -6,3 +6,9 @@ dist/
 *.tsbuildinfo
 *.pyc
 .DS_Store
+
+# Local pilot and experiment outputs are never committed.
+datasets/annotation/synthetic-pilot-v2/
+experiments/
+artifacts/local/
+*.sqlite3

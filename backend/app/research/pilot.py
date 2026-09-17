@@ -9,6 +9,7 @@ from app.schemas.pilot import (
     PilotAgreementMetrics,
     PilotAnalysisRequest,
     PilotAnnotationPackage,
+    PilotAnnotationMode,
     PilotReadinessReport,
     PilotTask,
 )
@@ -59,6 +60,7 @@ class PilotAnnotationService:
             dataset_version=package.dataset_version,
             fingerprint_sha256=_fingerprint(package),
             annotator_ids=[annotator_a.annotator_id, annotator_b.annotator_id],
+            annotation_mode=package.annotation_mode,
             minimum_paired_items_per_task=package.minimum_paired_items_per_task,
             minimum_kappa=package.minimum_kappa,
             overall=overall,
@@ -104,6 +106,11 @@ class PilotAnnotationService:
         overall: PilotAgreementMetrics,
     ) -> list[str]:
         blockers: list[str] = []
+        if package.annotation_mode != PilotAnnotationMode.HUMAN_DOUBLE_ANNOTATION:
+            blockers.append(
+                "This package is an AI-assisted synthetic dry run, not independent human double annotation; "
+                "it cannot satisfy formal-evaluation readiness."
+            )
         for metric in by_task:
             name = metric.task.value if metric.task else "overall"
             if metric.paired_items < package.minimum_paired_items_per_task:
