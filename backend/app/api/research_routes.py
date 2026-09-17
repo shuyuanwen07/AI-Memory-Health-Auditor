@@ -37,7 +37,6 @@ from app.schemas.research import (
     annotation_import_report,
 )
 from app.schemas.formal_experiment import FormalMatrixCreateRequest, FormalMatrixCreateResponse
-from app.schemas.pilot import PilotAnalysisRequest
 from app.database.session import get_db
 from app.services.formal_matrix import FormalSyntheticMatrixService
 

@@ -89,6 +89,11 @@ function friendlyExperimentLabel(label: string) {
     .replace(/:\s*(Scenario \d+)/, ' · $1');
 }
 
+function scenarioNumber(label: string) {
+  const match = label.match(/(?:SYN-C0*|Scenario\s+)(\d+)/i);
+  return match ? Number(match[1]) : Number.MAX_SAFE_INTEGER;
+}
+
 function shortDate(value?: string) {
   if (!value) return 'Not completed yet';
   const date = new Date(value);
@@ -169,8 +174,9 @@ export function Experiments() {
     setLoadState('loading');
     api.experimentGroups()
       .then(async (groups) => {
-        const reports = await Promise.all(groups.map((group) => api.experimentResults(group.experiment_id)));
-        setItems(groups);
+        const orderedGroups = [...groups].sort((left, right) => scenarioNumber(left.label) - scenarioNumber(right.label));
+        const reports = await Promise.all(orderedGroups.map((group) => api.experimentResults(group.experiment_id)));
+        setItems(orderedGroups);
         setAnalytics(Object.fromEntries(reports.map((report) => [report.experiment.experiment_id, report])));
         setLoadState('ready');
       })
