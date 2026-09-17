@@ -1,7 +1,4 @@
 """The formal matrix persists only approved synthetic scenarios and frozen suites."""
-import json
-from pathlib import Path
-
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -11,9 +8,140 @@ from app.main import app
 from app.models import AuditRunModel, ExperimentModel, TestCaseModel
 
 
-ROOT = Path(__file__).resolve().parents[2]
-DATASET = json.loads((ROOT / "datasets/annotation/synthetic-pilot-v2/synthetic_pilot_annotations.json").read_text())
-PILOT = json.loads((ROOT / "datasets/annotation/synthetic-pilot-v2/double-annotation/human_double_annotation.json").read_text())
+def _build_dataset() -> dict:
+    """Return a tiny, deterministic fixture that is safe to run in CI.
+
+    The full pilot release is intentionally local and ignored by git.  This
+    test exercises the API contract with synthetic records instead of making
+    CI depend on that private research artefact being present in a checkout.
+    Four dimensions per scenario preserve the formal matrix's paired-suite
+    assertions while keeping the fixture small and readable.
+    """
+    dimensions = [
+        ("accuracy", "direct"),
+        ("freshness", "contextual"),
+        ("conflict_resolution", "indirect"),
+        ("appropriate_use", "paraphrased"),
+    ]
+    conversations = []
+    for scenario_number in range(1, 6):
+        suffix = f"S{scenario_number}"
+        message_id = f"{suffix}-M1"
+        memory_id = f"{suffix}-G1"
+        value = f"Synthetic fact {scenario_number}."
+        tests = [
+            {
+                "test_id": f"{suffix}-T{test_number}",
+                "dimension": dimension,
+                "test_type": test_type,
+                "prompt": f"What is synthetic fact {scenario_number} ({dimension})?",
+                "expected_behavior": f"State {value}",
+                "supporting_memory_ids": [memory_id],
+                "grounded": True,
+                "quality_label": "accept",
+                "quality_note": "Inline synthetic CI fixture.",
+            }
+            for test_number, (dimension, test_type) in enumerate(dimensions, start=1)
+        ]
+        evaluations = [
+            {
+                "response_id": f"{suffix}-R{test_number}",
+                "test_id": test["test_id"],
+                "response_text": value,
+                "passed": True,
+                "failure_type": None,
+                "reason": "Matches the inline synthetic fixture.",
+                "evidence_memory_ids": [memory_id],
+            }
+            for test_number, test in enumerate(tests, start=1)
+        ]
+        conversations.append(
+            {
+                "conversation_id": f"SYN-C{scenario_number:03d}",
+                "messages": [
+                    {
+                        "message_id": message_id,
+                        "role": "user",
+                        "content": value,
+                        "timestamp": "2026-01-01T09:00:00Z",
+                    }
+                ],
+                "gold_memories": [
+                    {
+                        "memory_id": memory_id,
+                        "canonical_value": value,
+                        "source_message_ids": [message_id],
+                    }
+                ],
+                "gold_tests": tests,
+                "gold_evaluations": evaluations,
+            }
+        )
+    return {
+        "dataset_id": "ci-inline-synthetic",
+        "dataset_version": "1.0.0",
+        "created_at": "2026-01-01T00:00:00Z",
+        "authorised_for_research": True,
+        "data_origin": "Five synthetic CI fixtures with no participant data.",
+        "deidentification_note": "Inline synthetic test data only.",
+        "conversations": conversations,
+    }
+
+
+def _build_pilot() -> dict:
+    """Return complete, matching labels for the formal readiness gate."""
+    task_labels = [
+        ("memory_inclusion", "include"),
+        ("relationship_type", "UPDATE"),
+        ("test_validity", "accept"),
+        ("evaluator_verdict", "pass"),
+        ("failure_dimension", "freshness"),
+    ]
+    items = [
+        {"item_id": f"{task.upper()}-{number:02d}", "task": task}
+        for task, _ in task_labels
+        for number in range(1, 6)
+    ]
+    labels_by_task = dict(task_labels)
+
+    def labels():
+        return [
+            {"item_id": item["item_id"], "task": item["task"], "label": labels_by_task[item["task"]]}
+            for item in items
+        ]
+
+    adjudications = [
+        {
+            "item_id": item["item_id"],
+            "task": item["task"],
+            "label": labels_by_task[item["task"]],
+            "basis": "external_reference",
+            "decision_note": "Inline synthetic CI reference label.",
+        }
+        for item in items
+    ]
+    return {
+        "pilot_id": "ci-inline-pilot",
+        "dataset_id": "ci-inline-synthetic",
+        "dataset_version": "1.0.0",
+        "created_at": "2026-01-01T00:00:00Z",
+        "authorised_for_research": True,
+        "data_origin": "Synthetic CI fixture with no participant data.",
+        "deidentification_note": "Inline synthetic labels only.",
+        "annotation_mode": "human_double_annotation",
+        "minimum_paired_items_per_task": 5,
+        "minimum_kappa": 0.6,
+        "items": items,
+        "annotators": [
+            {"annotator_id": "yc", "labels": labels()},
+            {"annotator_id": "sd", "labels": labels()},
+        ],
+        "adjudications": adjudications,
+    }
+
+
+DATASET = _build_dataset()
+PILOT = _build_pilot()
 
 
 def test_ready_human_pilot_materialises_paired_frozen_synthetic_runs(tmp_path):
@@ -77,7 +205,7 @@ def test_matrix_rejects_non_synthetic_dataset_before_persistence(tmp_path):
         finally:
             db.close()
 
-    non_synthetic = json.loads(json.dumps(DATASET))
+    non_synthetic = {**DATASET, "conversations": list(DATASET["conversations"])}
     non_synthetic["data_origin"] = "Authorised research conversations"
     app.dependency_overrides[get_db] = test_db
     try:
