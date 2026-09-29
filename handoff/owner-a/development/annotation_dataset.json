@@ -1,0 +1,1654 @@
+{
+  "dataset_id": "owner-a-synthetic-pilot-development",
+  "dataset_version": "2.0.0-ai-reviewed",
+  "created_at": "2026-09-29T13:20:42.960645+00:00",
+  "authorised_for_research": true,
+  "data_origin": "AI-authored synthetic scenarios with a subsequent source-visible AI review by the same assistant. Completed labels and decision notes are AI-assisted, NOT independent human annotations. No participant data or target-model outputs.",
+  "deidentification_note": "Entirely fictional project names, requirements, identifiers and timestamps. No personal data or external benchmark content.",
+  "conversations": [
+    {
+      "conversation_id": "A001",
+      "messages": [
+        {
+          "message_id": "A001-M01",
+          "role": "user",
+          "content": "The Atlas audit export format is JSON Lines.",
+          "timestamp": "2026-09-02T00:00:00Z"
+        },
+        {
+          "message_id": "A001-M02",
+          "role": "user",
+          "content": "The Atlas audit retention period is 14 days.",
+          "timestamp": "2026-09-02T00:01:00Z"
+        }
+      ],
+      "gold_memories": [
+        {
+          "memory_id": "A001-G01",
+          "canonical_value": "The Atlas audit export format is JSON Lines.",
+          "source_message_ids": [
+            "A001-M01"
+          ],
+          "timestamp": "2026-09-02T00:00:00Z",
+          "relationships": []
+        },
+        {
+          "memory_id": "A001-G03",
+          "canonical_value": "The Atlas audit retention period is 14 days.",
+          "source_message_ids": [
+            "A001-M02"
+          ],
+          "timestamp": "2026-09-02T00:01:00Z",
+          "relationships": []
+        }
+      ],
+      "gold_tests": [
+        {
+          "test_id": "A001-T01",
+          "dimension": "accuracy",
+          "test_type": "direct",
+          "prompt": "What file format is used for Atlas audit exports?",
+          "expected_behavior": "State JSON Lines; do not substitute CSV.",
+          "supporting_memory_ids": [
+            "A001-G01"
+          ],
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "Grounded in the cited source facts; answer is not stated in the question."
+        },
+        {
+          "test_id": "A001-T02",
+          "dimension": "accuracy",
+          "test_type": "paraphrased",
+          "prompt": "I am writing the Atlas export reader. Which format must it parse?",
+          "expected_behavior": "State JSON Lines; do not substitute CSV.",
+          "supporting_memory_ids": [
+            "A001-G01"
+          ],
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "Grounded in the cited source facts; answer is not stated in the question."
+        },
+        {
+          "test_id": "A001-T03",
+          "dimension": "accuracy",
+          "test_type": "direct",
+          "prompt": "Is JSON Lines the Atlas export format?",
+          "expected_behavior": "State JSON Lines.",
+          "supporting_memory_ids": [
+            "A001-G01",
+            "A001-G03"
+          ],
+          "grounded": true,
+          "quality_label": "reject",
+          "quality_note": "The prompt reveals the answer."
+        }
+      ],
+      "gold_evaluations": [
+        {
+          "response_id": "A001-R03",
+          "test_id": "A001-T01",
+          "response_text": "JSON Lines",
+          "passed": true,
+          "failure_type": null,
+          "reason": "State JSON Lines; do not substitute CSV.",
+          "evidence_memory_ids": [
+            "A001-G01"
+          ]
+        },
+        {
+          "response_id": "A001-R01",
+          "test_id": "A001-T01",
+          "response_text": "CSV",
+          "passed": false,
+          "failure_type": "accuracy",
+          "reason": "Substitutes an incorrect value for the explicit source fact.",
+          "evidence_memory_ids": [
+            "A001-G01"
+          ]
+        },
+        {
+          "response_id": "A001-R04",
+          "test_id": "A001-T02",
+          "response_text": "JSON Lines",
+          "passed": true,
+          "failure_type": null,
+          "reason": "State JSON Lines; do not substitute CSV.",
+          "evidence_memory_ids": [
+            "A001-G01"
+          ]
+        },
+        {
+          "response_id": "A001-R02",
+          "test_id": "A001-T02",
+          "response_text": "CSV",
+          "passed": false,
+          "failure_type": "accuracy",
+          "reason": "Substitutes an incorrect value for the explicit source fact.",
+          "evidence_memory_ids": [
+            "A001-G01"
+          ]
+        }
+      ]
+    },
+    {
+      "conversation_id": "A002",
+      "messages": [
+        {
+          "message_id": "A002-M01",
+          "role": "user",
+          "content": "The Helix review meeting lasts 25 minutes.",
+          "timestamp": "2026-09-03T00:00:00Z"
+        },
+        {
+          "message_id": "A002-M02",
+          "role": "user",
+          "content": "The Helix review agenda has three sections.",
+          "timestamp": "2026-09-03T00:01:00Z"
+        }
+      ],
+      "gold_memories": [
+        {
+          "memory_id": "A002-G03",
+          "canonical_value": "The Helix review meeting lasts 25 minutes.",
+          "source_message_ids": [
+            "A002-M01"
+          ],
+          "timestamp": "2026-09-03T00:00:00Z",
+          "relationships": []
+        },
+        {
+          "memory_id": "A002-G01",
+          "canonical_value": "The Helix review agenda has three sections.",
+          "source_message_ids": [
+            "A002-M02"
+          ],
+          "timestamp": "2026-09-03T00:01:00Z",
+          "relationships": []
+        }
+      ],
+      "gold_tests": [
+        {
+          "test_id": "A002-T02",
+          "dimension": "accuracy",
+          "test_type": "direct",
+          "prompt": "How long is the Helix review meeting?",
+          "expected_behavior": "State 25 minutes; do not substitute 45 minutes.",
+          "supporting_memory_ids": [
+            "A002-G03"
+          ],
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "Grounded in the cited source facts; answer is not stated in the question."
+        },
+        {
+          "test_id": "A002-T01",
+          "dimension": "accuracy",
+          "test_type": "paraphrased",
+          "prompt": "How much time should I reserve for a Helix review?",
+          "expected_behavior": "State 25 minutes; do not substitute 45 minutes.",
+          "supporting_memory_ids": [
+            "A002-G03"
+          ],
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "Grounded in the cited source facts; answer is not stated in the question."
+        },
+        {
+          "test_id": "A002-T03",
+          "dimension": "accuracy",
+          "test_type": "direct",
+          "prompt": "How long is the Helix planning workshop?",
+          "expected_behavior": "No specific factual answer is supported; acknowledge the missing evidence.",
+          "supporting_memory_ids": [
+            "A002-G03",
+            "A002-G01"
+          ],
+          "grounded": false,
+          "quality_label": "reject",
+          "quality_note": "No duration is supplied for a planning workshop."
+        }
+      ],
+      "gold_evaluations": [
+        {
+          "response_id": "A002-R01",
+          "test_id": "A002-T02",
+          "response_text": "25 minutes",
+          "passed": true,
+          "failure_type": null,
+          "reason": "State 25 minutes; do not substitute 45 minutes.",
+          "evidence_memory_ids": [
+            "A002-G03"
+          ]
+        },
+        {
+          "response_id": "A002-R02",
+          "test_id": "A002-T02",
+          "response_text": "45 minutes",
+          "passed": false,
+          "failure_type": "accuracy",
+          "reason": "Substitutes an incorrect value for the explicit source fact.",
+          "evidence_memory_ids": [
+            "A002-G03"
+          ]
+        },
+        {
+          "response_id": "A002-R04",
+          "test_id": "A002-T01",
+          "response_text": "25 minutes",
+          "passed": true,
+          "failure_type": null,
+          "reason": "State 25 minutes; do not substitute 45 minutes.",
+          "evidence_memory_ids": [
+            "A002-G03"
+          ]
+        },
+        {
+          "response_id": "A002-R03",
+          "test_id": "A002-T01",
+          "response_text": "45 minutes",
+          "passed": false,
+          "failure_type": "accuracy",
+          "reason": "Substitutes an incorrect value for the explicit source fact.",
+          "evidence_memory_ids": [
+            "A002-G03"
+          ]
+        }
+      ]
+    },
+    {
+      "conversation_id": "A003",
+      "messages": [
+        {
+          "message_id": "A003-M01",
+          "role": "user",
+          "content": "The Kestrel worker is built with Python 3.12.",
+          "timestamp": "2026-09-04T00:00:00Z"
+        },
+        {
+          "message_id": "A003-M02",
+          "role": "user",
+          "content": "The Kestrel worker package is named kestrel-worker.",
+          "timestamp": "2026-09-04T00:01:00Z"
+        }
+      ],
+      "gold_memories": [
+        {
+          "memory_id": "A003-G01",
+          "canonical_value": "The Kestrel worker is built with Python 3.12.",
+          "source_message_ids": [
+            "A003-M01"
+          ],
+          "timestamp": "2026-09-04T00:00:00Z",
+          "relationships": []
+        },
+        {
+          "memory_id": "A003-G03",
+          "canonical_value": "The Kestrel worker package is named kestrel-worker.",
+          "source_message_ids": [
+            "A003-M02"
+          ],
+          "timestamp": "2026-09-04T00:01:00Z",
+          "relationships": []
+        }
+      ],
+      "gold_tests": [
+        {
+          "test_id": "A003-T02",
+          "dimension": "accuracy",
+          "test_type": "direct",
+          "prompt": "Which Python version builds the Kestrel worker?",
+          "expected_behavior": "State Python 3.12; do not substitute Python 3.10.",
+          "supporting_memory_ids": [
+            "A003-G01"
+          ],
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "Grounded in the cited source facts; answer is not stated in the question."
+        },
+        {
+          "test_id": "A003-T01",
+          "dimension": "accuracy",
+          "test_type": "paraphrased",
+          "prompt": "I am preparing the Kestrel worker build. What Python version do I need?",
+          "expected_behavior": "State Python 3.12; do not substitute Python 3.10.",
+          "supporting_memory_ids": [
+            "A003-G01"
+          ],
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "Grounded in the cited source facts; answer is not stated in the question."
+        },
+        {
+          "test_id": "A003-T03",
+          "dimension": "accuracy",
+          "test_type": "direct",
+          "prompt": "What Python version builds every team project?",
+          "expected_behavior": "No specific factual answer is supported; acknowledge the missing evidence.",
+          "supporting_memory_ids": [
+            "A003-G01",
+            "A003-G03"
+          ],
+          "grounded": false,
+          "quality_label": "reject",
+          "quality_note": "A worker-specific fact cannot establish every project version."
+        }
+      ],
+      "gold_evaluations": [
+        {
+          "response_id": "A003-R03",
+          "test_id": "A003-T02",
+          "response_text": "Python 3.12",
+          "passed": true,
+          "failure_type": null,
+          "reason": "State Python 3.12; do not substitute Python 3.10.",
+          "evidence_memory_ids": [
+            "A003-G01"
+          ]
+        },
+        {
+          "response_id": "A003-R02",
+          "test_id": "A003-T02",
+          "response_text": "Python 3.10",
+          "passed": false,
+          "failure_type": "accuracy",
+          "reason": "Substitutes an incorrect value for the explicit source fact.",
+          "evidence_memory_ids": [
+            "A003-G01"
+          ]
+        },
+        {
+          "response_id": "A003-R04",
+          "test_id": "A003-T01",
+          "response_text": "Python 3.12",
+          "passed": true,
+          "failure_type": null,
+          "reason": "State Python 3.12; do not substitute Python 3.10.",
+          "evidence_memory_ids": [
+            "A003-G01"
+          ]
+        },
+        {
+          "response_id": "A003-R01",
+          "test_id": "A003-T01",
+          "response_text": "Python 3.10",
+          "passed": false,
+          "failure_type": "accuracy",
+          "reason": "Substitutes an incorrect value for the explicit source fact.",
+          "evidence_memory_ids": [
+            "A003-G01"
+          ]
+        }
+      ]
+    },
+    {
+      "conversation_id": "A006",
+      "messages": [
+        {
+          "message_id": "A006-M01",
+          "role": "user",
+          "content": "The Beacon backend currently uses MySQL.",
+          "timestamp": "2026-09-07T00:00:00Z"
+        },
+        {
+          "message_id": "A006-M02",
+          "role": "user",
+          "content": "The Beacon backend has now migrated to PostgreSQL; this replaces MySQL.",
+          "timestamp": "2026-09-07T00:01:00Z"
+        },
+        {
+          "message_id": "A006-M03",
+          "role": "user",
+          "content": "The Beacon logs remain in object storage.",
+          "timestamp": "2026-09-07T00:02:00Z"
+        }
+      ],
+      "gold_memories": [
+        {
+          "memory_id": "A006-G03",
+          "canonical_value": "The Beacon backend previously used MySQL.",
+          "source_message_ids": [
+            "A006-M01"
+          ],
+          "timestamp": "2026-09-07T00:00:00Z",
+          "relationships": []
+        },
+        {
+          "memory_id": "A006-G04",
+          "canonical_value": "The Beacon backend now uses PostgreSQL.",
+          "source_message_ids": [
+            "A006-M02"
+          ],
+          "timestamp": "2026-09-07T00:01:00Z",
+          "relationships": [
+            {
+              "type": "UPDATE",
+              "target_memory_id": "A006-G03"
+            }
+          ]
+        },
+        {
+          "memory_id": "A006-G01",
+          "canonical_value": "The Beacon logs are in object storage.",
+          "source_message_ids": [
+            "A006-M03"
+          ],
+          "timestamp": "2026-09-07T00:02:00Z",
+          "relationships": []
+        }
+      ],
+      "gold_tests": [
+        {
+          "test_id": "A006-T01",
+          "dimension": "freshness",
+          "test_type": "contextual",
+          "prompt": "Which database does the Beacon backend use now?",
+          "expected_behavior": "Use PostgreSQL as current; MySQL is superseded.",
+          "supporting_memory_ids": [
+            "A006-G03",
+            "A006-G04"
+          ],
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "Grounded in the cited source facts; answer is not stated in the question."
+        },
+        {
+          "test_id": "A006-T02",
+          "dimension": "freshness",
+          "test_type": "indirect",
+          "prompt": "I am configuring the current Beacon database client. Which database should it connect to?",
+          "expected_behavior": "Use PostgreSQL as current; MySQL is superseded.",
+          "supporting_memory_ids": [
+            "A006-G03",
+            "A006-G04"
+          ],
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "Grounded in the cited source facts; answer is not stated in the question."
+        },
+        {
+          "test_id": "A006-T03",
+          "dimension": "freshness",
+          "test_type": "direct",
+          "prompt": "What database will Beacon migrate to next year?",
+          "expected_behavior": "No specific factual answer is supported; acknowledge the missing evidence.",
+          "supporting_memory_ids": [
+            "A006-G03",
+            "A006-G04",
+            "A006-G01"
+          ],
+          "grounded": false,
+          "quality_label": "reject",
+          "quality_note": "No future migration is stated."
+        }
+      ],
+      "gold_evaluations": [
+        {
+          "response_id": "A006-R02",
+          "test_id": "A006-T01",
+          "response_text": "PostgreSQL",
+          "passed": true,
+          "failure_type": null,
+          "reason": "Use PostgreSQL as current; MySQL is superseded.",
+          "evidence_memory_ids": [
+            "A006-G03",
+            "A006-G04"
+          ]
+        },
+        {
+          "response_id": "A006-R03",
+          "test_id": "A006-T01",
+          "response_text": "MySQL",
+          "passed": false,
+          "failure_type": "freshness",
+          "reason": "Uses the superseded value as current.",
+          "evidence_memory_ids": [
+            "A006-G03",
+            "A006-G04"
+          ]
+        },
+        {
+          "response_id": "A006-R01",
+          "test_id": "A006-T02",
+          "response_text": "PostgreSQL",
+          "passed": true,
+          "failure_type": null,
+          "reason": "Use PostgreSQL as current; MySQL is superseded.",
+          "evidence_memory_ids": [
+            "A006-G03",
+            "A006-G04"
+          ]
+        },
+        {
+          "response_id": "A006-R04",
+          "test_id": "A006-T02",
+          "response_text": "MySQL",
+          "passed": false,
+          "failure_type": "freshness",
+          "reason": "Uses the superseded value as current.",
+          "evidence_memory_ids": [
+            "A006-G03",
+            "A006-G04"
+          ]
+        }
+      ]
+    },
+    {
+      "conversation_id": "A007",
+      "messages": [
+        {
+          "message_id": "A007-M01",
+          "role": "user",
+          "content": "The Nimbus report is due on 10 October 2026.",
+          "timestamp": "2026-09-08T00:00:00Z"
+        },
+        {
+          "message_id": "A007-M02",
+          "role": "user",
+          "content": "The Nimbus report deadline has been changed to 14 October 2026; the old deadline is cancelled.",
+          "timestamp": "2026-09-08T00:01:00Z"
+        },
+        {
+          "message_id": "A007-M03",
+          "role": "user",
+          "content": "The Nimbus report must be submitted as PDF.",
+          "timestamp": "2026-09-08T00:02:00Z"
+        }
+      ],
+      "gold_memories": [
+        {
+          "memory_id": "A007-G01",
+          "canonical_value": "The previous Nimbus report deadline was 10 October 2026.",
+          "source_message_ids": [
+            "A007-M01"
+          ],
+          "timestamp": "2026-09-08T00:00:00Z",
+          "relationships": []
+        },
+        {
+          "memory_id": "A007-G03",
+          "canonical_value": "The current Nimbus report deadline is 14 October 2026.",
+          "source_message_ids": [
+            "A007-M02"
+          ],
+          "timestamp": "2026-09-08T00:01:00Z",
+          "relationships": [
+            {
+              "type": "UPDATE",
+              "target_memory_id": "A007-G01"
+            }
+          ]
+        },
+        {
+          "memory_id": "A007-G02",
+          "canonical_value": "The Nimbus report submission format is PDF.",
+          "source_message_ids": [
+            "A007-M03"
+          ],
+          "timestamp": "2026-09-08T00:02:00Z",
+          "relationships": []
+        }
+      ],
+      "gold_tests": [
+        {
+          "test_id": "A007-T01",
+          "dimension": "freshness",
+          "test_type": "contextual",
+          "prompt": "What is the current Nimbus report deadline?",
+          "expected_behavior": "Use 14 October 2026 as current; 10 October 2026 is superseded.",
+          "supporting_memory_ids": [
+            "A007-G01",
+            "A007-G03"
+          ],
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "Grounded in the cited source facts; answer is not stated in the question."
+        },
+        {
+          "test_id": "A007-T02",
+          "dimension": "freshness",
+          "test_type": "indirect",
+          "prompt": "Which date should I put in the reminder for submitting the Nimbus report?",
+          "expected_behavior": "Use 14 October 2026 as current; 10 October 2026 is superseded.",
+          "supporting_memory_ids": [
+            "A007-G01",
+            "A007-G03"
+          ],
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "Grounded in the cited source facts; answer is not stated in the question."
+        },
+        {
+          "test_id": "A007-T03",
+          "dimension": "freshness",
+          "test_type": "direct",
+          "prompt": "When is the Nimbus presentation due?",
+          "expected_behavior": "No specific factual answer is supported; acknowledge the missing evidence.",
+          "supporting_memory_ids": [
+            "A007-G01",
+            "A007-G03",
+            "A007-G02"
+          ],
+          "grounded": false,
+          "quality_label": "reject",
+          "quality_note": "The report deadline does not establish a presentation deadline."
+        }
+      ],
+      "gold_evaluations": [
+        {
+          "response_id": "A007-R01",
+          "test_id": "A007-T01",
+          "response_text": "14 October 2026",
+          "passed": true,
+          "failure_type": null,
+          "reason": "Use 14 October 2026 as current; 10 October 2026 is superseded.",
+          "evidence_memory_ids": [
+            "A007-G01",
+            "A007-G03"
+          ]
+        },
+        {
+          "response_id": "A007-R03",
+          "test_id": "A007-T01",
+          "response_text": "10 October 2026",
+          "passed": false,
+          "failure_type": "freshness",
+          "reason": "Uses the superseded value as current.",
+          "evidence_memory_ids": [
+            "A007-G01",
+            "A007-G03"
+          ]
+        },
+        {
+          "response_id": "A007-R04",
+          "test_id": "A007-T02",
+          "response_text": "14 October 2026",
+          "passed": true,
+          "failure_type": null,
+          "reason": "Use 14 October 2026 as current; 10 October 2026 is superseded.",
+          "evidence_memory_ids": [
+            "A007-G01",
+            "A007-G03"
+          ]
+        },
+        {
+          "response_id": "A007-R02",
+          "test_id": "A007-T02",
+          "response_text": "10 October 2026",
+          "passed": false,
+          "failure_type": "freshness",
+          "reason": "Uses the superseded value as current.",
+          "evidence_memory_ids": [
+            "A007-G01",
+            "A007-G03"
+          ]
+        }
+      ]
+    },
+    {
+      "conversation_id": "A008",
+      "messages": [
+        {
+          "message_id": "A008-M01",
+          "role": "user",
+          "content": "The Quartz demo will take place in room R-12.",
+          "timestamp": "2026-09-09T00:00:00Z"
+        },
+        {
+          "message_id": "A008-M02",
+          "role": "user",
+          "content": "The Quartz demo has moved to room R-18. Do not use R-12.",
+          "timestamp": "2026-09-09T00:01:00Z"
+        },
+        {
+          "message_id": "A008-M03",
+          "role": "user",
+          "content": "The Quartz demo still lasts 20 minutes.",
+          "timestamp": "2026-09-09T00:02:00Z"
+        }
+      ],
+      "gold_memories": [
+        {
+          "memory_id": "A008-G04",
+          "canonical_value": "The previous Quartz demo room was R-12.",
+          "source_message_ids": [
+            "A008-M01"
+          ],
+          "timestamp": "2026-09-09T00:00:00Z",
+          "relationships": []
+        },
+        {
+          "memory_id": "A008-G02",
+          "canonical_value": "The current Quartz demo room is R-18.",
+          "source_message_ids": [
+            "A008-M02"
+          ],
+          "timestamp": "2026-09-09T00:01:00Z",
+          "relationships": [
+            {
+              "type": "UPDATE",
+              "target_memory_id": "A008-G04"
+            }
+          ]
+        },
+        {
+          "memory_id": "A008-G03",
+          "canonical_value": "The Quartz demo lasts 20 minutes.",
+          "source_message_ids": [
+            "A008-M03"
+          ],
+          "timestamp": "2026-09-09T00:02:00Z",
+          "relationships": []
+        }
+      ],
+      "gold_tests": [
+        {
+          "test_id": "A008-T03",
+          "dimension": "freshness",
+          "test_type": "contextual",
+          "prompt": "Which room is the Quartz demo in now?",
+          "expected_behavior": "Use R-18 as current; R-12 is superseded.",
+          "supporting_memory_ids": [
+            "A008-G04",
+            "A008-G02"
+          ],
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "Grounded in the cited source facts; answer is not stated in the question."
+        },
+        {
+          "test_id": "A008-T02",
+          "dimension": "freshness",
+          "test_type": "indirect",
+          "prompt": "Where should the attendees go for the Quartz demo?",
+          "expected_behavior": "Use R-18 as current; R-12 is superseded.",
+          "supporting_memory_ids": [
+            "A008-G04",
+            "A008-G02"
+          ],
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "Grounded in the cited source facts; answer is not stated in the question."
+        },
+        {
+          "test_id": "A008-T01",
+          "dimension": "freshness",
+          "test_type": "direct",
+          "prompt": "Where is the Quartz weekly planning meeting?",
+          "expected_behavior": "No specific factual answer is supported; acknowledge the missing evidence.",
+          "supporting_memory_ids": [
+            "A008-G04",
+            "A008-G02",
+            "A008-G03"
+          ],
+          "grounded": false,
+          "quality_label": "reject",
+          "quality_note": "Only the demo room is specified."
+        }
+      ],
+      "gold_evaluations": [
+        {
+          "response_id": "A008-R02",
+          "test_id": "A008-T03",
+          "response_text": "R-18",
+          "passed": true,
+          "failure_type": null,
+          "reason": "Use R-18 as current; R-12 is superseded.",
+          "evidence_memory_ids": [
+            "A008-G04",
+            "A008-G02"
+          ]
+        },
+        {
+          "response_id": "A008-R01",
+          "test_id": "A008-T03",
+          "response_text": "R-12",
+          "passed": false,
+          "failure_type": "freshness",
+          "reason": "Uses the superseded value as current.",
+          "evidence_memory_ids": [
+            "A008-G04",
+            "A008-G02"
+          ]
+        },
+        {
+          "response_id": "A008-R04",
+          "test_id": "A008-T02",
+          "response_text": "R-18",
+          "passed": true,
+          "failure_type": null,
+          "reason": "Use R-18 as current; R-12 is superseded.",
+          "evidence_memory_ids": [
+            "A008-G04",
+            "A008-G02"
+          ]
+        },
+        {
+          "response_id": "A008-R03",
+          "test_id": "A008-T02",
+          "response_text": "R-12",
+          "passed": false,
+          "failure_type": "freshness",
+          "reason": "Uses the superseded value as current.",
+          "evidence_memory_ids": [
+            "A008-G04",
+            "A008-G02"
+          ]
+        }
+      ]
+    },
+    {
+      "conversation_id": "A011",
+      "messages": [
+        {
+          "message_id": "A011-M01",
+          "role": "user",
+          "content": "Two equally authoritative Orion cache briefs disagree: one requires Redis and the other requires Memcached. Their priority and current validity are unknown.",
+          "timestamp": "2026-09-12T00:00:00Z"
+        }
+      ],
+      "gold_memories": [
+        {
+          "memory_id": "A011-G01",
+          "canonical_value": "One Orion cache brief requires Redis.",
+          "source_message_ids": [
+            "A011-M01"
+          ],
+          "timestamp": "2026-09-12T00:00:00Z",
+          "relationships": [
+            {
+              "type": "CONFLICT",
+              "target_memory_id": "A011-G03"
+            }
+          ]
+        },
+        {
+          "memory_id": "A011-G03",
+          "canonical_value": "Another Orion cache brief requires Memcached.",
+          "source_message_ids": [
+            "A011-M01"
+          ],
+          "timestamp": "2026-09-12T00:00:00Z",
+          "relationships": [
+            {
+              "type": "CONFLICT",
+              "target_memory_id": "A011-G01"
+            }
+          ]
+        }
+      ],
+      "gold_tests": [
+        {
+          "test_id": "A011-T01",
+          "dimension": "conflict_resolution",
+          "test_type": "contextual",
+          "prompt": "Which cache requirement should we follow for Orion?",
+          "expected_behavior": "The Redis and Memcached briefs conflict with no established priority. Confirm the authoritative brief before choosing.",
+          "supporting_memory_ids": [
+            "A011-G01",
+            "A011-G03"
+          ],
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "Grounded in the cited source facts; answer is not stated in the question."
+        },
+        {
+          "test_id": "A011-T02",
+          "dimension": "conflict_resolution",
+          "test_type": "indirect",
+          "prompt": "I need to implement the Orion cache. How should I proceed with these briefs?",
+          "expected_behavior": "The Redis and Memcached briefs conflict with no established priority. Confirm the authoritative brief before choosing.",
+          "supporting_memory_ids": [
+            "A011-G01",
+            "A011-G03"
+          ],
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "Grounded in the cited source facts; answer is not stated in the question."
+        },
+        {
+          "test_id": "A011-T03",
+          "dimension": "conflict_resolution",
+          "test_type": "direct",
+          "prompt": "Which Orion brief was approved most recently?",
+          "expected_behavior": "No specific factual answer is supported; acknowledge the missing evidence.",
+          "supporting_memory_ids": [
+            "A011-G01",
+            "A011-G03"
+          ],
+          "grounded": false,
+          "quality_label": "reject",
+          "quality_note": "No approval chronology is available."
+        }
+      ],
+      "gold_evaluations": [
+        {
+          "response_id": "A011-R04",
+          "test_id": "A011-T01",
+          "response_text": "The Redis and Memcached briefs conflict with no established priority. Confirm the authoritative brief before choosing.",
+          "passed": true,
+          "failure_type": null,
+          "reason": "The Redis and Memcached briefs conflict with no established priority. Confirm the authoritative brief before choosing.",
+          "evidence_memory_ids": [
+            "A011-G01",
+            "A011-G03"
+          ]
+        },
+        {
+          "response_id": "A011-R03",
+          "test_id": "A011-T01",
+          "response_text": "Use Redis.",
+          "passed": false,
+          "failure_type": "conflict_resolution",
+          "reason": "Selects one unresolved requirement without establishing priority.",
+          "evidence_memory_ids": [
+            "A011-G01",
+            "A011-G03"
+          ]
+        },
+        {
+          "response_id": "A011-R01",
+          "test_id": "A011-T02",
+          "response_text": "The Redis and Memcached briefs conflict with no established priority. Confirm the authoritative brief before choosing.",
+          "passed": true,
+          "failure_type": null,
+          "reason": "The Redis and Memcached briefs conflict with no established priority. Confirm the authoritative brief before choosing.",
+          "evidence_memory_ids": [
+            "A011-G01",
+            "A011-G03"
+          ]
+        },
+        {
+          "response_id": "A011-R02",
+          "test_id": "A011-T02",
+          "response_text": "Use Redis.",
+          "passed": false,
+          "failure_type": "conflict_resolution",
+          "reason": "Selects one unresolved requirement without establishing priority.",
+          "evidence_memory_ids": [
+            "A011-G01",
+            "A011-G03"
+          ]
+        }
+      ]
+    },
+    {
+      "conversation_id": "A012",
+      "messages": [
+        {
+          "message_id": "A012-M01",
+          "role": "user",
+          "content": "Two equally authoritative Sable report instructions disagree: one requires exactly 8 pages and the other requires exactly 12 pages. Neither is known to supersede the other.",
+          "timestamp": "2026-09-13T00:00:00Z"
+        }
+      ],
+      "gold_memories": [
+        {
+          "memory_id": "A012-G02",
+          "canonical_value": "One Sable report instruction requires exactly 8 pages.",
+          "source_message_ids": [
+            "A012-M01"
+          ],
+          "timestamp": "2026-09-13T00:00:00Z",
+          "relationships": [
+            {
+              "type": "CONFLICT",
+              "target_memory_id": "A012-G03"
+            }
+          ]
+        },
+        {
+          "memory_id": "A012-G03",
+          "canonical_value": "Another Sable report instruction requires exactly 12 pages.",
+          "source_message_ids": [
+            "A012-M01"
+          ],
+          "timestamp": "2026-09-13T00:00:00Z",
+          "relationships": [
+            {
+              "type": "CONFLICT",
+              "target_memory_id": "A012-G02"
+            }
+          ]
+        }
+      ],
+      "gold_tests": [
+        {
+          "test_id": "A012-T02",
+          "dimension": "conflict_resolution",
+          "test_type": "contextual",
+          "prompt": "What is the confirmed Sable report required page count?",
+          "expected_behavior": "The requirements for exactly 8 and exactly 12 pages conflict. Ask which instruction governs before stating a confirmed page count.",
+          "supporting_memory_ids": [
+            "A012-G02",
+            "A012-G03"
+          ],
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "Grounded in the cited source facts; answer is not stated in the question."
+        },
+        {
+          "test_id": "A012-T03",
+          "dimension": "conflict_resolution",
+          "test_type": "indirect",
+          "prompt": "Before finalising the Sable report length, what needs to be resolved?",
+          "expected_behavior": "The requirements for exactly 8 and exactly 12 pages conflict. Ask which instruction governs before stating a confirmed page count.",
+          "supporting_memory_ids": [
+            "A012-G02",
+            "A012-G03"
+          ],
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "Grounded in the cited source facts; answer is not stated in the question."
+        },
+        {
+          "test_id": "A012-T01",
+          "dimension": "conflict_resolution",
+          "test_type": "direct",
+          "prompt": "When was the 12-page instruction approved?",
+          "expected_behavior": "No specific factual answer is supported; acknowledge the missing evidence.",
+          "supporting_memory_ids": [
+            "A012-G02",
+            "A012-G03"
+          ],
+          "grounded": false,
+          "quality_label": "reject",
+          "quality_note": "No approval date is supplied."
+        }
+      ],
+      "gold_evaluations": [
+        {
+          "response_id": "A012-R02",
+          "test_id": "A012-T02",
+          "response_text": "The requirements for exactly 8 and exactly 12 pages conflict. Ask which instruction governs before stating a confirmed page count.",
+          "passed": true,
+          "failure_type": null,
+          "reason": "The requirements for exactly 8 and exactly 12 pages conflict. Ask which instruction governs before stating a confirmed page count.",
+          "evidence_memory_ids": [
+            "A012-G02",
+            "A012-G03"
+          ]
+        },
+        {
+          "response_id": "A012-R03",
+          "test_id": "A012-T02",
+          "response_text": "The confirmed required length is exactly 12 pages.",
+          "passed": false,
+          "failure_type": "conflict_resolution",
+          "reason": "Selects one unresolved requirement without establishing priority.",
+          "evidence_memory_ids": [
+            "A012-G02",
+            "A012-G03"
+          ]
+        },
+        {
+          "response_id": "A012-R01",
+          "test_id": "A012-T03",
+          "response_text": "The requirements for exactly 8 and exactly 12 pages conflict. Ask which instruction governs before stating a confirmed page count.",
+          "passed": true,
+          "failure_type": null,
+          "reason": "The requirements for exactly 8 and exactly 12 pages conflict. Ask which instruction governs before stating a confirmed page count.",
+          "evidence_memory_ids": [
+            "A012-G02",
+            "A012-G03"
+          ]
+        },
+        {
+          "response_id": "A012-R04",
+          "test_id": "A012-T03",
+          "response_text": "The confirmed required length is exactly 12 pages.",
+          "passed": false,
+          "failure_type": "conflict_resolution",
+          "reason": "Selects one unresolved requirement without establishing priority.",
+          "evidence_memory_ids": [
+            "A012-G02",
+            "A012-G03"
+          ]
+        }
+      ]
+    },
+    {
+      "conversation_id": "A013",
+      "messages": [
+        {
+          "message_id": "A013-M01",
+          "role": "user",
+          "content": "Two equally authoritative Flint transport specifications disagree: one requires MQTT and the other requires AMQP. No precedence rule or revision ordering is available.",
+          "timestamp": "2026-09-14T00:00:00Z"
+        }
+      ],
+      "gold_memories": [
+        {
+          "memory_id": "A013-G01",
+          "canonical_value": "One Flint transport specification requires MQTT.",
+          "source_message_ids": [
+            "A013-M01"
+          ],
+          "timestamp": "2026-09-14T00:00:00Z",
+          "relationships": [
+            {
+              "type": "CONFLICT",
+              "target_memory_id": "A013-G03"
+            }
+          ]
+        },
+        {
+          "memory_id": "A013-G03",
+          "canonical_value": "Another Flint transport specification requires AMQP.",
+          "source_message_ids": [
+            "A013-M01"
+          ],
+          "timestamp": "2026-09-14T00:00:00Z",
+          "relationships": [
+            {
+              "type": "CONFLICT",
+              "target_memory_id": "A013-G01"
+            }
+          ]
+        }
+      ],
+      "gold_tests": [
+        {
+          "test_id": "A013-T02",
+          "dimension": "conflict_resolution",
+          "test_type": "contextual",
+          "prompt": "Which transport protocol is confirmed for Flint?",
+          "expected_behavior": "MQTT and AMQP conflict and neither has established precedence. Clarify the controlling specification before committing.",
+          "supporting_memory_ids": [
+            "A013-G01",
+            "A013-G03"
+          ],
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "Grounded in the cited source facts; answer is not stated in the question."
+        },
+        {
+          "test_id": "A013-T03",
+          "dimension": "conflict_resolution",
+          "test_type": "indirect",
+          "prompt": "Can I lock the Flint transport choice based on these specifications?",
+          "expected_behavior": "MQTT and AMQP conflict and neither has established precedence. Clarify the controlling specification before committing.",
+          "supporting_memory_ids": [
+            "A013-G01",
+            "A013-G03"
+          ],
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "Grounded in the cited source facts; answer is not stated in the question."
+        },
+        {
+          "test_id": "A013-T01",
+          "dimension": "conflict_resolution",
+          "test_type": "direct",
+          "prompt": "Which Flint transport specification is newer?",
+          "expected_behavior": "No specific factual answer is supported; acknowledge the missing evidence.",
+          "supporting_memory_ids": [
+            "A013-G01",
+            "A013-G03"
+          ],
+          "grounded": false,
+          "quality_label": "reject",
+          "quality_note": "The source explicitly lacks revision ordering."
+        }
+      ],
+      "gold_evaluations": [
+        {
+          "response_id": "A013-R03",
+          "test_id": "A013-T02",
+          "response_text": "MQTT and AMQP conflict and neither has established precedence. Clarify the controlling specification before committing.",
+          "passed": true,
+          "failure_type": null,
+          "reason": "MQTT and AMQP conflict and neither has established precedence. Clarify the controlling specification before committing.",
+          "evidence_memory_ids": [
+            "A013-G01",
+            "A013-G03"
+          ]
+        },
+        {
+          "response_id": "A013-R04",
+          "test_id": "A013-T02",
+          "response_text": "AMQP is the confirmed protocol.",
+          "passed": false,
+          "failure_type": "conflict_resolution",
+          "reason": "Selects one unresolved requirement without establishing priority.",
+          "evidence_memory_ids": [
+            "A013-G01",
+            "A013-G03"
+          ]
+        },
+        {
+          "response_id": "A013-R01",
+          "test_id": "A013-T03",
+          "response_text": "MQTT and AMQP conflict and neither has established precedence. Clarify the controlling specification before committing.",
+          "passed": true,
+          "failure_type": null,
+          "reason": "MQTT and AMQP conflict and neither has established precedence. Clarify the controlling specification before committing.",
+          "evidence_memory_ids": [
+            "A013-G01",
+            "A013-G03"
+          ]
+        },
+        {
+          "response_id": "A013-R02",
+          "test_id": "A013-T03",
+          "response_text": "AMQP is the confirmed protocol.",
+          "passed": false,
+          "failure_type": "conflict_resolution",
+          "reason": "Selects one unresolved requirement without establishing priority.",
+          "evidence_memory_ids": [
+            "A013-G01",
+            "A013-G03"
+          ]
+        }
+      ]
+    },
+    {
+      "conversation_id": "A016",
+      "messages": [
+        {
+          "message_id": "A016-M01",
+          "role": "user",
+          "content": "I generally prefer Python for programming.",
+          "timestamp": "2026-09-17T00:00:00Z"
+        },
+        {
+          "message_id": "A016-M02",
+          "role": "user",
+          "content": "For the current Ember assignment, Java is mandatory.",
+          "timestamp": "2026-09-17T00:01:00Z"
+        }
+      ],
+      "gold_memories": [
+        {
+          "memory_id": "A016-G01",
+          "canonical_value": "The user generally prefers Python for programming.",
+          "source_message_ids": [
+            "A016-M01"
+          ],
+          "timestamp": "2026-09-17T00:00:00Z",
+          "relationships": []
+        },
+        {
+          "memory_id": "A016-G02",
+          "canonical_value": "The current Ember assignment requires Java.",
+          "source_message_ids": [
+            "A016-M02"
+          ],
+          "timestamp": "2026-09-17T00:01:00Z",
+          "relationships": [
+            {
+              "type": "CONTEXTUAL_OVERRIDE",
+              "target_memory_id": "A016-G01"
+            }
+          ]
+        }
+      ],
+      "gold_tests": [
+        {
+          "test_id": "A016-T02",
+          "dimension": "appropriate_use",
+          "test_type": "contextual",
+          "prompt": "Which language should I use for the current Ember assignment?",
+          "expected_behavior": "Java for the Ember assignment; the general Python preference does not change this requirement.",
+          "supporting_memory_ids": [
+            "A016-G01",
+            "A016-G02"
+          ],
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "Grounded in the cited source facts; answer is not stated in the question."
+        },
+        {
+          "test_id": "A016-T01",
+          "dimension": "appropriate_use",
+          "test_type": "indirect",
+          "prompt": "I am starting the Ember assignment implementation. What language should I select?",
+          "expected_behavior": "Java for the Ember assignment; the general Python preference does not change this requirement.",
+          "supporting_memory_ids": [
+            "A016-G01",
+            "A016-G02"
+          ],
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "Grounded in the cited source facts; answer is not stated in the question."
+        },
+        {
+          "test_id": "A016-T03",
+          "dimension": "appropriate_use",
+          "test_type": "direct",
+          "prompt": "Which language is mandatory for all future assignments?",
+          "expected_behavior": "No specific factual answer is supported; acknowledge the missing evidence.",
+          "supporting_memory_ids": [
+            "A016-G01",
+            "A016-G02"
+          ],
+          "grounded": false,
+          "quality_label": "reject",
+          "quality_note": "A current assignment requirement does not apply to every future assignment."
+        }
+      ],
+      "gold_evaluations": [
+        {
+          "response_id": "A016-R03",
+          "test_id": "A016-T02",
+          "response_text": "Java for the Ember assignment; the general Python preference does not change this requirement.",
+          "passed": true,
+          "failure_type": null,
+          "reason": "Java for the Ember assignment; the general Python preference does not change this requirement.",
+          "evidence_memory_ids": [
+            "A016-G01",
+            "A016-G02"
+          ]
+        },
+        {
+          "response_id": "A016-R02",
+          "test_id": "A016-T02",
+          "response_text": "Python, because that is your general preference.",
+          "passed": false,
+          "failure_type": "appropriate_use",
+          "reason": "Applies the general preference despite the explicit current requirement.",
+          "evidence_memory_ids": [
+            "A016-G01",
+            "A016-G02"
+          ]
+        },
+        {
+          "response_id": "A016-R04",
+          "test_id": "A016-T01",
+          "response_text": "Java for the Ember assignment; the general Python preference does not change this requirement.",
+          "passed": true,
+          "failure_type": null,
+          "reason": "Java for the Ember assignment; the general Python preference does not change this requirement.",
+          "evidence_memory_ids": [
+            "A016-G01",
+            "A016-G02"
+          ]
+        },
+        {
+          "response_id": "A016-R01",
+          "test_id": "A016-T01",
+          "response_text": "Python, because that is your general preference.",
+          "passed": false,
+          "failure_type": "appropriate_use",
+          "reason": "Applies the general preference despite the explicit current requirement.",
+          "evidence_memory_ids": [
+            "A016-G01",
+            "A016-G02"
+          ]
+        }
+      ]
+    },
+    {
+      "conversation_id": "A017",
+      "messages": [
+        {
+          "message_id": "A017-M01",
+          "role": "user",
+          "content": "I generally prefer concise bullet-point summaries.",
+          "timestamp": "2026-09-18T00:00:00Z"
+        },
+        {
+          "message_id": "A017-M02",
+          "role": "user",
+          "content": "The current Opal assessment requires a continuous-prose report with no bullet lists.",
+          "timestamp": "2026-09-18T00:01:00Z"
+        }
+      ],
+      "gold_memories": [
+        {
+          "memory_id": "A017-G01",
+          "canonical_value": "The user generally prefers concise bullet-point summaries.",
+          "source_message_ids": [
+            "A017-M01"
+          ],
+          "timestamp": "2026-09-18T00:00:00Z",
+          "relationships": []
+        },
+        {
+          "memory_id": "A017-G02",
+          "canonical_value": "The current Opal assessment requires continuous prose without bullet lists.",
+          "source_message_ids": [
+            "A017-M02"
+          ],
+          "timestamp": "2026-09-18T00:01:00Z",
+          "relationships": [
+            {
+              "type": "CONTEXTUAL_OVERRIDE",
+              "target_memory_id": "A017-G01"
+            }
+          ]
+        }
+      ],
+      "gold_tests": [
+        {
+          "test_id": "A017-T01",
+          "dimension": "appropriate_use",
+          "test_type": "contextual",
+          "prompt": "What writing format should I use for the Opal assessment?",
+          "expected_behavior": "Use continuous prose without bullet lists for the Opal assessment.",
+          "supporting_memory_ids": [
+            "A017-G01",
+            "A017-G02"
+          ],
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "Grounded in the cited source facts; answer is not stated in the question."
+        },
+        {
+          "test_id": "A017-T02",
+          "dimension": "appropriate_use",
+          "test_type": "indirect",
+          "prompt": "I am drafting the Opal assessment report. How should I structure its text?",
+          "expected_behavior": "Use continuous prose without bullet lists for the Opal assessment.",
+          "supporting_memory_ids": [
+            "A017-G01",
+            "A017-G02"
+          ],
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "Grounded in the cited source facts; answer is not stated in the question."
+        },
+        {
+          "test_id": "A017-T03",
+          "dimension": "appropriate_use",
+          "test_type": "direct",
+          "prompt": "Does the user dislike bullet points?",
+          "expected_behavior": "No specific factual answer is supported; acknowledge the missing evidence.",
+          "supporting_memory_ids": [
+            "A017-G01",
+            "A017-G02"
+          ],
+          "grounded": false,
+          "quality_label": "reject",
+          "quality_note": "The assessment constraint does not imply personal dislike."
+        }
+      ],
+      "gold_evaluations": [
+        {
+          "response_id": "A017-R02",
+          "test_id": "A017-T01",
+          "response_text": "Use continuous prose without bullet lists for the Opal assessment.",
+          "passed": true,
+          "failure_type": null,
+          "reason": "Use continuous prose without bullet lists for the Opal assessment.",
+          "evidence_memory_ids": [
+            "A017-G01",
+            "A017-G02"
+          ]
+        },
+        {
+          "response_id": "A017-R04",
+          "test_id": "A017-T01",
+          "response_text": "Use bullet points because you generally prefer them.",
+          "passed": false,
+          "failure_type": "appropriate_use",
+          "reason": "Applies the general preference despite the explicit current requirement.",
+          "evidence_memory_ids": [
+            "A017-G01",
+            "A017-G02"
+          ]
+        },
+        {
+          "response_id": "A017-R03",
+          "test_id": "A017-T02",
+          "response_text": "Use continuous prose without bullet lists for the Opal assessment.",
+          "passed": true,
+          "failure_type": null,
+          "reason": "Use continuous prose without bullet lists for the Opal assessment.",
+          "evidence_memory_ids": [
+            "A017-G01",
+            "A017-G02"
+          ]
+        },
+        {
+          "response_id": "A017-R01",
+          "test_id": "A017-T02",
+          "response_text": "Use bullet points because you generally prefer them.",
+          "passed": false,
+          "failure_type": "appropriate_use",
+          "reason": "Applies the general preference despite the explicit current requirement.",
+          "evidence_memory_ids": [
+            "A017-G01",
+            "A017-G02"
+          ]
+        }
+      ]
+    },
+    {
+      "conversation_id": "A018",
+      "messages": [
+        {
+          "message_id": "A018-M01",
+          "role": "user",
+          "content": "I generally use APA citations for my own notes.",
+          "timestamp": "2026-09-19T00:00:00Z"
+        },
+        {
+          "message_id": "A018-M02",
+          "role": "user",
+          "content": "The current Iris paper submission requires IEEE citations.",
+          "timestamp": "2026-09-19T00:01:00Z"
+        }
+      ],
+      "gold_memories": [
+        {
+          "memory_id": "A018-G03",
+          "canonical_value": "The user generally uses APA citations for personal notes.",
+          "source_message_ids": [
+            "A018-M01"
+          ],
+          "timestamp": "2026-09-19T00:00:00Z",
+          "relationships": []
+        },
+        {
+          "memory_id": "A018-G02",
+          "canonical_value": "The current Iris paper submission requires IEEE citations.",
+          "source_message_ids": [
+            "A018-M02"
+          ],
+          "timestamp": "2026-09-19T00:01:00Z",
+          "relationships": [
+            {
+              "type": "CONTEXTUAL_OVERRIDE",
+              "target_memory_id": "A018-G03"
+            }
+          ]
+        }
+      ],
+      "gold_tests": [
+        {
+          "test_id": "A018-T02",
+          "dimension": "appropriate_use",
+          "test_type": "contextual",
+          "prompt": "Which citation style should I use for the Iris submission?",
+          "expected_behavior": "Use IEEE citations for the Iris submission.",
+          "supporting_memory_ids": [
+            "A018-G03",
+            "A018-G02"
+          ],
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "Grounded in the cited source facts; answer is not stated in the question."
+        },
+        {
+          "test_id": "A018-T01",
+          "dimension": "appropriate_use",
+          "test_type": "indirect",
+          "prompt": "I am formatting references in the Iris paper. Which style applies?",
+          "expected_behavior": "Use IEEE citations for the Iris submission.",
+          "supporting_memory_ids": [
+            "A018-G03",
+            "A018-G02"
+          ],
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "Grounded in the cited source facts; answer is not stated in the question."
+        },
+        {
+          "test_id": "A018-T03",
+          "dimension": "appropriate_use",
+          "test_type": "direct",
+          "prompt": "Which citation style is mandatory for every course?",
+          "expected_behavior": "No specific factual answer is supported; acknowledge the missing evidence.",
+          "supporting_memory_ids": [
+            "A018-G03",
+            "A018-G02"
+          ],
+          "grounded": false,
+          "quality_label": "reject",
+          "quality_note": "Only the Iris submission requirement is supplied."
+        }
+      ],
+      "gold_evaluations": [
+        {
+          "response_id": "A018-R04",
+          "test_id": "A018-T02",
+          "response_text": "Use IEEE citations for the Iris submission.",
+          "passed": true,
+          "failure_type": null,
+          "reason": "Use IEEE citations for the Iris submission.",
+          "evidence_memory_ids": [
+            "A018-G03",
+            "A018-G02"
+          ]
+        },
+        {
+          "response_id": "A018-R02",
+          "test_id": "A018-T02",
+          "response_text": "Use APA because that is your usual style.",
+          "passed": false,
+          "failure_type": "appropriate_use",
+          "reason": "Applies the general preference despite the explicit current requirement.",
+          "evidence_memory_ids": [
+            "A018-G03",
+            "A018-G02"
+          ]
+        },
+        {
+          "response_id": "A018-R03",
+          "test_id": "A018-T01",
+          "response_text": "Use IEEE citations for the Iris submission.",
+          "passed": true,
+          "failure_type": null,
+          "reason": "Use IEEE citations for the Iris submission.",
+          "evidence_memory_ids": [
+            "A018-G03",
+            "A018-G02"
+          ]
+        },
+        {
+          "response_id": "A018-R01",
+          "test_id": "A018-T01",
+          "response_text": "Use APA because that is your usual style.",
+          "passed": false,
+          "failure_type": "appropriate_use",
+          "reason": "Applies the general preference despite the explicit current requirement.",
+          "evidence_memory_ids": [
+            "A018-G03",
+            "A018-G02"
+          ]
+        }
+      ]
+    }
+  ]
+}

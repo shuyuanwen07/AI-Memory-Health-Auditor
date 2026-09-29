@@ -12,3 +12,8 @@ datasets/annotation/synthetic-pilot-v2/
 experiments/
 artifacts/local/
 *.sqlite3
+
+# Owner A source archives and held-out answers stay with the local custodian.
+/datasets/annotation/owner-a-pilot-v1/
+/datasets/annotation/owner-a-pilot-v2-ai-reviewed/
+/handoff/owner-a-custodian/

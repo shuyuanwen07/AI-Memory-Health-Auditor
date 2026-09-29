@@ -1,0 +1,14 @@
+{
+  "distribution": "public_development",
+  "dataset_version": "2.0.0-ai-reviewed",
+  "split": "development",
+  "conversations": 12,
+  "completed_label_rows": 195,
+  "completed_decision_rows": 195,
+  "evidence_sets_refined": 60,
+  "human_annotators_completed": 0,
+  "ready_for_formal_evaluation": false,
+  "annotation_mode": "ai_assisted_synthetic_dry_run",
+  "review_method": "Same-assistant source-visible AI review; not independent human annotation.",
+  "source_release": "owner-a-pilot-v2-ai-reviewed"
+}

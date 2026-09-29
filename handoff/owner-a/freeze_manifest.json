@@ -1,0 +1,31 @@
+{
+  "distribution_id": "owner-a-english-v1",
+  "dataset_version": "2.0.0-ai-reviewed",
+  "frozen_at": "2026-09-29T13:31:46.786485+00:00",
+  "api_dataset_fingerprints": {
+    "development": "6ac3dc23b4af33e9bcc081ad3c9ce096d86826756d4a7688ed85790f44252fb5"
+  },
+  "annotation_mode": "ai_assisted_synthetic_dry_run",
+  "human_labels": 0,
+  "ready_for_formal_evaluation": false,
+  "files": {
+    "ANNOTATION_GUIDE.md": "7dcfe57dc9a797a3b66ccebd3674c72b2bb9d7df95afbd8493c8df2485be063b",
+    "README.md": "e679ef1a994cb2173abcce83e3b63f96f2db73b81c2d373e1d9536a5e14aadfb",
+    "REVIEW_NOTES.md": "466c6366bf373d880407af8b3e163a9871d3c19f89bd3d6795d5ca7d7830e6ca",
+    "development/annotation_dataset.json": "8423353d0eb4711e1109cc703df09b43b36aa2a4da64751032bbe5ada70a1356",
+    "development/blind/stage_1.md": "d7449c109b460f59741ceb94d053570888209043afeaa4363bc11268ac48248c",
+    "development/blind/stage_2.md": "79e5286d7aca4d2524ae3cf585f222e1bab6af53c6912c87889a2f19ca913613",
+    "development/blind/stage_3.md": "19e766722a7c3150fa4671f19dd6af113c239f0d55dcefccdc6776df4a008bb1",
+    "development/completed_labels.csv": "863f0b22e6f4a14fb157f7ca74ddc816324a01378c26c7fa3b3f5a38b1549edf",
+    "development/decision_log.csv": "e6dc94f23ebdce8404d46286894d047561c4aff6f9fb1882f61809c941022ce6",
+    "development/forms/adjudication.csv": "65f1ee4198ba4477754fc624046e9c7f5b95110206428bf477709242a41faf46",
+    "development/forms/annotator_1.csv": "8f8686c7c690aee2fda768603ff221712b763adb25b607ffcdc0d65e7da8c929",
+    "development/forms/annotator_2.csv": "8f8686c7c690aee2fda768603ff221712b763adb25b607ffcdc0d65e7da8c929",
+    "development/forms/human_annotation_pending.json": "edc0e965ef18089851ecb657d506325a8d9d84299f116c25aba477597d48529e",
+    "development/source_conversations.json": "306093e55870f1fea9923af00f22211947028383552b0602fae4033ecc140bbd",
+    "review_summary.json": "5b970ca8c1c495671a37196edbda8910477b0dc3d767290b6b1f248f8e47b5ff",
+    "source_revision_log.json": "827a7746a6f40ffbef0038e8197ef7997c121159b39c4fa3643ef19887dda556",
+    "validation_report.json": "99f829b8ded696705a960850b65dc8592779279e84e3d50e40c62aab0825f0ec"
+  },
+  "packaging_note": "English distribution; CSV line endings normalized to LF without changing records."
+}

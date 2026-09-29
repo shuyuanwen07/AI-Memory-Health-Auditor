@@ -1,0 +1,211 @@
+{
+  "dataset_id": "owner-a-synthetic-pilot-development",
+  "dataset_version": "2.0.0-ai-reviewed",
+  "provenance": "AI-authored synthetic scenarios with a subsequent source-visible AI review by the same assistant. Completed labels and decision notes are AI-assisted, NOT independent human annotations. No participant data or target-model outputs.",
+  "conversations": [
+    {
+      "conversation_id": "A001",
+      "messages": [
+        {
+          "message_id": "A001-M01",
+          "role": "user",
+          "content": "The Atlas audit export format is JSON Lines.",
+          "timestamp": "2026-09-02T00:00:00Z"
+        },
+        {
+          "message_id": "A001-M02",
+          "role": "user",
+          "content": "The Atlas audit retention period is 14 days.",
+          "timestamp": "2026-09-02T00:01:00Z"
+        }
+      ]
+    },
+    {
+      "conversation_id": "A002",
+      "messages": [
+        {
+          "message_id": "A002-M01",
+          "role": "user",
+          "content": "The Helix review meeting lasts 25 minutes.",
+          "timestamp": "2026-09-03T00:00:00Z"
+        },
+        {
+          "message_id": "A002-M02",
+          "role": "user",
+          "content": "The Helix review agenda has three sections.",
+          "timestamp": "2026-09-03T00:01:00Z"
+        }
+      ]
+    },
+    {
+      "conversation_id": "A003",
+      "messages": [
+        {
+          "message_id": "A003-M01",
+          "role": "user",
+          "content": "The Kestrel worker is built with Python 3.12.",
+          "timestamp": "2026-09-04T00:00:00Z"
+        },
+        {
+          "message_id": "A003-M02",
+          "role": "user",
+          "content": "The Kestrel worker package is named kestrel-worker.",
+          "timestamp": "2026-09-04T00:01:00Z"
+        }
+      ]
+    },
+    {
+      "conversation_id": "A006",
+      "messages": [
+        {
+          "message_id": "A006-M01",
+          "role": "user",
+          "content": "The Beacon backend currently uses MySQL.",
+          "timestamp": "2026-09-07T00:00:00Z"
+        },
+        {
+          "message_id": "A006-M02",
+          "role": "user",
+          "content": "The Beacon backend has now migrated to PostgreSQL; this replaces MySQL.",
+          "timestamp": "2026-09-07T00:01:00Z"
+        },
+        {
+          "message_id": "A006-M03",
+          "role": "user",
+          "content": "The Beacon logs remain in object storage.",
+          "timestamp": "2026-09-07T00:02:00Z"
+        }
+      ]
+    },
+    {
+      "conversation_id": "A007",
+      "messages": [
+        {
+          "message_id": "A007-M01",
+          "role": "user",
+          "content": "The Nimbus report is due on 10 October 2026.",
+          "timestamp": "2026-09-08T00:00:00Z"
+        },
+        {
+          "message_id": "A007-M02",
+          "role": "user",
+          "content": "The Nimbus report deadline has been changed to 14 October 2026; the old deadline is cancelled.",
+          "timestamp": "2026-09-08T00:01:00Z"
+        },
+        {
+          "message_id": "A007-M03",
+          "role": "user",
+          "content": "The Nimbus report must be submitted as PDF.",
+          "timestamp": "2026-09-08T00:02:00Z"
+        }
+      ]
+    },
+    {
+      "conversation_id": "A008",
+      "messages": [
+        {
+          "message_id": "A008-M01",
+          "role": "user",
+          "content": "The Quartz demo will take place in room R-12.",
+          "timestamp": "2026-09-09T00:00:00Z"
+        },
+        {
+          "message_id": "A008-M02",
+          "role": "user",
+          "content": "The Quartz demo has moved to room R-18. Do not use R-12.",
+          "timestamp": "2026-09-09T00:01:00Z"
+        },
+        {
+          "message_id": "A008-M03",
+          "role": "user",
+          "content": "The Quartz demo still lasts 20 minutes.",
+          "timestamp": "2026-09-09T00:02:00Z"
+        }
+      ]
+    },
+    {
+      "conversation_id": "A011",
+      "messages": [
+        {
+          "message_id": "A011-M01",
+          "role": "user",
+          "content": "Two equally authoritative Orion cache briefs disagree: one requires Redis and the other requires Memcached. Their priority and current validity are unknown.",
+          "timestamp": "2026-09-12T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "conversation_id": "A012",
+      "messages": [
+        {
+          "message_id": "A012-M01",
+          "role": "user",
+          "content": "Two equally authoritative Sable report instructions disagree: one requires exactly 8 pages and the other requires exactly 12 pages. Neither is known to supersede the other.",
+          "timestamp": "2026-09-13T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "conversation_id": "A013",
+      "messages": [
+        {
+          "message_id": "A013-M01",
+          "role": "user",
+          "content": "Two equally authoritative Flint transport specifications disagree: one requires MQTT and the other requires AMQP. No precedence rule or revision ordering is available.",
+          "timestamp": "2026-09-14T00:00:00Z"
+        }
+      ]
+    },
+    {
+      "conversation_id": "A016",
+      "messages": [
+        {
+          "message_id": "A016-M01",
+          "role": "user",
+          "content": "I generally prefer Python for programming.",
+          "timestamp": "2026-09-17T00:00:00Z"
+        },
+        {
+          "message_id": "A016-M02",
+          "role": "user",
+          "content": "For the current Ember assignment, Java is mandatory.",
+          "timestamp": "2026-09-17T00:01:00Z"
+        }
+      ]
+    },
+    {
+      "conversation_id": "A017",
+      "messages": [
+        {
+          "message_id": "A017-M01",
+          "role": "user",
+          "content": "I generally prefer concise bullet-point summaries.",
+          "timestamp": "2026-09-18T00:00:00Z"
+        },
+        {
+          "message_id": "A017-M02",
+          "role": "user",
+          "content": "The current Opal assessment requires a continuous-prose report with no bullet lists.",
+          "timestamp": "2026-09-18T00:01:00Z"
+        }
+      ]
+    },
+    {
+      "conversation_id": "A018",
+      "messages": [
+        {
+          "message_id": "A018-M01",
+          "role": "user",
+          "content": "I generally use APA citations for my own notes.",
+          "timestamp": "2026-09-19T00:00:00Z"
+        },
+        {
+          "message_id": "A018-M02",
+          "role": "user",
+          "content": "The current Iris paper submission requires IEEE citations.",
+          "timestamp": "2026-09-19T00:01:00Z"
+        }
+      ]
+    }
+  ]
+}

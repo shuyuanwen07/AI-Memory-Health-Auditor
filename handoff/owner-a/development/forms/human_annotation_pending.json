@@ -1,0 +1,805 @@
+{
+  "pilot_id": "owner-a-v2-development-human-pending",
+  "dataset_id": "owner-a-synthetic-pilot-development",
+  "dataset_version": "2.0.0-ai-reviewed",
+  "created_at": "2026-09-29T13:00:00Z",
+  "authorised_for_research": true,
+  "data_origin": "Synthetic annotation task inventory. Human annotation has NOT taken place; empty slots are not annotator identities.",
+  "deidentification_note": "Only task IDs and empty label slots; no participant data.",
+  "annotation_mode": "human_double_annotation",
+  "minimum_paired_items_per_task": 5,
+  "minimum_kappa": 0.6,
+  "items": [
+    {
+      "item_id": "A001-R01",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A001-R02",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A001-R03",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A001-R04",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A001-R01",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A001-R02",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A001-R03",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A001-R04",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A001-G01",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A001-G02",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A001-G03",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A001-P01",
+      "task": "relationship_type"
+    },
+    {
+      "item_id": "A001-P02",
+      "task": "relationship_type"
+    },
+    {
+      "item_id": "A001-T01",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A001-T02",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A001-T03",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A002-R01",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A002-R02",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A002-R03",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A002-R04",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A002-R01",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A002-R02",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A002-R03",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A002-R04",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A002-G01",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A002-G02",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A002-G03",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A002-P01",
+      "task": "relationship_type"
+    },
+    {
+      "item_id": "A002-P02",
+      "task": "relationship_type"
+    },
+    {
+      "item_id": "A002-T01",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A002-T02",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A002-T03",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A003-R01",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A003-R02",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A003-R03",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A003-R04",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A003-R01",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A003-R02",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A003-R03",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A003-R04",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A003-G01",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A003-G02",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A003-G03",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A003-P01",
+      "task": "relationship_type"
+    },
+    {
+      "item_id": "A003-P02",
+      "task": "relationship_type"
+    },
+    {
+      "item_id": "A003-T01",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A003-T02",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A003-T03",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A006-R01",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A006-R02",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A006-R03",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A006-R04",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A006-R01",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A006-R02",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A006-R03",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A006-R04",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A006-G01",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A006-G02",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A006-G03",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A006-G04",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A006-P01",
+      "task": "relationship_type"
+    },
+    {
+      "item_id": "A006-P02",
+      "task": "relationship_type"
+    },
+    {
+      "item_id": "A006-T01",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A006-T02",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A006-T03",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A007-R01",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A007-R02",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A007-R03",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A007-R04",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A007-R01",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A007-R02",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A007-R03",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A007-R04",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A007-G01",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A007-G02",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A007-G03",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A007-G04",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A007-P01",
+      "task": "relationship_type"
+    },
+    {
+      "item_id": "A007-P02",
+      "task": "relationship_type"
+    },
+    {
+      "item_id": "A007-T01",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A007-T02",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A007-T03",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A008-R01",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A008-R02",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A008-R03",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A008-R04",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A008-R01",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A008-R02",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A008-R03",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A008-R04",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A008-G01",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A008-G02",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A008-G03",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A008-G04",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A008-P01",
+      "task": "relationship_type"
+    },
+    {
+      "item_id": "A008-P02",
+      "task": "relationship_type"
+    },
+    {
+      "item_id": "A008-T01",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A008-T02",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A008-T03",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A011-R01",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A011-R02",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A011-R03",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A011-R04",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A011-R01",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A011-R02",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A011-R03",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A011-R04",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A011-G01",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A011-G02",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A011-G03",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A011-P01",
+      "task": "relationship_type"
+    },
+    {
+      "item_id": "A011-P02",
+      "task": "relationship_type"
+    },
+    {
+      "item_id": "A011-T01",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A011-T02",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A011-T03",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A012-R01",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A012-R02",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A012-R03",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A012-R04",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A012-R01",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A012-R02",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A012-R03",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A012-R04",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A012-G01",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A012-G02",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A012-G03",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A012-P01",
+      "task": "relationship_type"
+    },
+    {
+      "item_id": "A012-P02",
+      "task": "relationship_type"
+    },
+    {
+      "item_id": "A012-T01",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A012-T02",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A012-T03",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A013-R01",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A013-R02",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A013-R03",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A013-R04",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A013-R01",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A013-R02",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A013-R03",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A013-R04",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A013-G01",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A013-G02",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A013-G03",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A013-P01",
+      "task": "relationship_type"
+    },
+    {
+      "item_id": "A013-P02",
+      "task": "relationship_type"
+    },
+    {
+      "item_id": "A013-T01",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A013-T02",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A013-T03",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A016-R01",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A016-R02",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A016-R03",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A016-R04",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A016-R01",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A016-R02",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A016-R03",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A016-R04",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A016-G01",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A016-G02",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A016-G03",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A016-P01",
+      "task": "relationship_type"
+    },
+    {
+      "item_id": "A016-P02",
+      "task": "relationship_type"
+    },
+    {
+      "item_id": "A016-T01",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A016-T02",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A016-T03",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A017-R01",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A017-R02",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A017-R03",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A017-R04",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A017-R01",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A017-R02",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A017-R03",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A017-R04",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A017-G01",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A017-G02",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A017-G03",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A017-P01",
+      "task": "relationship_type"
+    },
+    {
+      "item_id": "A017-P02",
+      "task": "relationship_type"
+    },
+    {
+      "item_id": "A017-T01",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A017-T02",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A017-T03",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A018-R01",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A018-R02",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A018-R03",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A018-R04",
+      "task": "evaluator_verdict"
+    },
+    {
+      "item_id": "A018-R01",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A018-R02",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A018-R03",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A018-R04",
+      "task": "failure_dimension"
+    },
+    {
+      "item_id": "A018-G01",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A018-G02",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A018-G03",
+      "task": "memory_inclusion"
+    },
+    {
+      "item_id": "A018-P01",
+      "task": "relationship_type"
+    },
+    {
+      "item_id": "A018-P02",
+      "task": "relationship_type"
+    },
+    {
+      "item_id": "A018-T01",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A018-T02",
+      "task": "test_validity"
+    },
+    {
+      "item_id": "A018-T03",
+      "task": "test_validity"
+    }
+  ],
+  "annotators": [
+    {
+      "annotator_id": "unassigned-human-1",
+      "labels": []
+    },
+    {
+      "annotator_id": "unassigned-human-2",
+      "labels": []
+    }
+  ],
+  "adjudications": []
+}

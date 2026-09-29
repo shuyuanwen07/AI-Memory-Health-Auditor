@@ -1,0 +1,23 @@
+{
+  "integrity": "passed",
+  "schema_checked": true,
+  "splits": {
+    "development": {
+      "completed_labels": 195,
+      "completed_decisions": 195,
+      "api_fingerprint_sha256": "6ac3dc23b4af33e9bcc081ad3c9ce096d86826756d4a7688ed85790f44252fb5",
+      "human_paired_items": 0,
+      "pydantic_version": "2.13.5"
+    }
+  },
+  "evidence_sets_refined": 60,
+  "ready_for_formal_evaluation": false,
+  "human_labels": 0,
+  "python_version": "3.12.14",
+  "validation_boundary": {
+    "http_endpoints_exercised": false,
+    "target_model_run": false,
+    "full_pytest_suite_run": false,
+    "note": "Direct schema and pilot service checks using bundled Pydantic; human double annotation remains pending."
+  }
+}
