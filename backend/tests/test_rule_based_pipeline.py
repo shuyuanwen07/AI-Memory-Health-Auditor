@@ -114,3 +114,97 @@ def test_generator_hides_answers_and_balances_a_small_budget():
         for memory_id in test.supporting_memory_ids:
             value = next(memory.canonical_value for memory in memories if memory.memory_id == memory_id)
             assert value.lower() not in test.prompt.lower()
+    
+
+def test_generator_deduplicates_bidirectional_conflicts():
+    timestamp = datetime.now(timezone.utc)
+    conversation = Conversation(
+        conversation_id="C6",
+        created_at=timestamp,
+        authorised=True,
+        messages=[
+            ConversationMessage(
+                message_id="MSG001",
+                role="user",
+                content="One cache brief requires Redis.",
+                timestamp=timestamp,
+            ),
+            ConversationMessage(
+                message_id="MSG002",
+                role="user",
+                content="Another cache brief requires Memcached.",
+                timestamp=timestamp,
+            ),
+        ],
+    )
+    run = AuditRun(
+        run_id="RUN6",
+        conversation_id="C6",
+        status=AuditStatus.CREATED,
+        target_configuration=TargetConfiguration.WEAK,
+        provider=TargetProvider.RULE_BASED,
+        model="rule-based-target-ai",
+        temperature=0.0,
+        random_seed=7,
+        test_budget=20,
+        prompt_template_version="rule-based-v1",
+        created_at=timestamp,
+    )
+
+    memories = RuleBasedMemoryExtractor().extract(conversation)
+    tests = RuleBasedTestGenerator().generate(memories, run)
+
+    conflict_tests = [
+        test for test in tests
+        if test.dimension == Dimension.CONFLICT_RESOLUTION
+    ]
+
+    assert len(conflict_tests) == 1
+    assert set(conflict_tests[0].supporting_memory_ids) == {"M001", "M002"}
+
+
+def test_generator_uses_specific_topics_for_supported_memory_patterns():
+    timestamp = datetime.now(timezone.utc)
+    conversation = Conversation(
+        conversation_id="C7",
+        created_at=timestamp,
+        authorised=True,
+        messages=[
+            ConversationMessage(
+                message_id="MSG001",
+                role="user",
+                content=(
+                    "The report must be submitted as PDF. "
+                    "The paper requires IEEE citations. "
+                    "One transport specification requires MQTT. "
+                    "Another transport specification requires AMQP. "
+                    "One report instruction requires exactly 8 pages. "
+                    "Another report instruction requires exactly 12 pages."
+                ),
+                timestamp=timestamp,
+            ),
+        ],
+    )
+    run = AuditRun(
+        run_id="RUN7",
+        conversation_id="C7",
+        status=AuditStatus.CREATED,
+        target_configuration=TargetConfiguration.WEAK,
+        provider=TargetProvider.RULE_BASED,
+        model="rule-based-target-ai",
+        temperature=0.0,
+        random_seed=7,
+        test_budget=20,
+        prompt_template_version="rule-based-v1",
+        created_at=timestamp,
+    )
+
+    memories = RuleBasedMemoryExtractor().extract(conversation)
+    tests = RuleBasedTestGenerator().generate(memories, run)
+
+    prompts = [test.prompt.lower() for test in tests]
+
+    assert any("file format" in prompt for prompt in prompts)
+    assert any("citation style" in prompt for prompt in prompts)
+    assert any("transport protocol" in prompt for prompt in prompts)
+    assert any("report page count" in prompt for prompt in prompts)
