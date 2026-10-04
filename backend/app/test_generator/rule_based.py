@@ -81,14 +81,28 @@ class RuleBasedTestGenerator(TestGenerator):
                 f"Follow the contextual requirement: {contextual.canonical_value}.", [preference.memory_id, contextual.memory_id], TestType.PARAPHRASED)
 
     @staticmethod
-    def _deduplicate(candidates: list[tuple[Dimension, str, str, list[str], TestType]]) -> list[tuple[Dimension, str, str, list[str], TestType]]:
+    def _deduplicate(
+        candidates: list[tuple[Dimension, str, str, list[str], TestType]]
+    ) -> list[tuple[Dimension, str, str, list[str], TestType]]:
         unique: list[tuple[Dimension, str, str, list[str], TestType]] = []
         seen: set[tuple[Dimension, tuple[str, ...]]] = set()
+
         for candidate in candidates:
-            key = (candidate[0], tuple(candidate[3]))
+            dimension, _, _, memory_ids, _ = candidate
+
+            # A conflict is symmetric: M001 <-> M002 is the same pair
+            # regardless of which relationship direction produced it.
+            if dimension == Dimension.CONFLICT_RESOLUTION:
+                memory_key = tuple(sorted(memory_ids))
+            else:
+                memory_key = tuple(memory_ids)
+
+            key = (dimension, memory_key)
+
             if key not in seen:
                 seen.add(key)
                 unique.append(candidate)
+
         return unique
 
     @staticmethod
@@ -105,10 +119,101 @@ class RuleBasedTestGenerator(TestGenerator):
     @staticmethod
     def _topic(*memories: Memory) -> str:
         text = " ".join(memory.canonical_value.lower() for memory in memories)
-        if re.search(r"\b(?:mysql|postgres(?:ql)?|mongodb|sqlite|database|sql)\b", text): return "database technology"
-        if re.search(r"\b(?:python|java|rust|javascript|typescript|(?:programming|scripting)\s+languages?)\b", text): return "programming-language choice"
-        if re.search(r"\b(?:based in|located in|live in|sydney|melbourne|london)\b", text): return "location"
-        if re.search(r"\b(?:remote|from home|office|hybrid)\b", text): return "working arrangement"
-        if re.search(r"\b(?:assignment|project|task|require|must|need|mandatory)\b", text): return "current task"
-        if re.search(r"\b(?:prefer|preference|favour|favorite|favourite)\b", text): return "preference"
+
+        if re.search(
+            r"\b(?:mysql|postgres(?:ql)?|mongodb|sqlite|database|sql)\b",
+            text,
+        ):
+            return "database technology"
+
+        if re.search(
+            r"\b(?:python|java|rust|javascript|typescript|"
+            r"(?:programming|scripting)\s+languages?)\b",
+            text,
+        ):
+            return "programming-language choice"
+
+        if re.search(
+            r"\b(?:export|file)\s+format\b|"
+            r"\bformat\b.*\b(?:json|jsonl|json lines|csv|xml|yaml|pdf)\b|"
+            r"\b(?:json|jsonl|json lines|csv|xml|yaml|pdf)\b.*\bformat\b",
+            text,
+        ):
+            return "file format"
+
+        if re.search(
+            r"\b(?:citation|citations)\b.*\b(?:apa|ieee|mla|chicago)\b|"
+            r"\b(?:apa|ieee|mla|chicago)\b.*\bcitation",
+            text,
+        ):
+            return "citation style"
+
+        if re.search(
+            r"\b(?:exactly|about|around)?\s*\d+\s+pages?\b|"
+            r"\bpage\s+count\b|\bnumber\s+of\s+pages\b",
+            text,
+        ):
+            return "report page count"
+
+        if re.search(
+            r"\b(?:mqtt|amqp|http|https|tcp|udp|protocol)\b",
+            text,
+        ):
+            return "transport protocol"
+
+        if re.search(
+            r"\b(?:meeting|review)\b.*\b(?:lasts?|duration|minutes?|hours?)\b",
+            text,
+        ):
+            return "meeting duration"
+
+        if re.search(
+            r"\b(?:room|location)\b.*\b(?:demo|meeting|session|event)\b|"
+            r"\b(?:demo|meeting|session|event)\b.*\broom\b",
+            text,
+        ):
+            return "event room"
+
+        if re.search(
+            r"\b(?:deadline|due)\b",
+            text,
+        ):
+            return "submission deadline"
+
+        if re.search(
+            r"\b(?:writing|written|prose|bullet|bullets|bullet-point)\b",
+            text,
+        ):
+            return "writing format"
+
+        if re.search(
+            r"\b(?:based in|located in|live in|sydney|melbourne|london)\b",
+            text,
+        ):
+            return "location"
+
+        if re.search(
+            r"\b(?:remote|from home|office|hybrid)\b",
+            text,
+        ):
+            return "working arrangement"
+
+        if re.search(
+            r"\b(?:prefer|preference|favour|favorite|favourite)\b",
+            text,
+        ):
+            return "preference"
+        
+        if re.search(
+            r"\b(?:json|jsonl|json lines|csv|xml|yaml|pdf)\b",
+            text,
+        ):
+            return "file format"
+
+        if re.search(
+            r"\b(?:assignment|project|task|require|must|need|mandatory)\b",
+            text,
+        ):
+            return "current task"
+
         return "stored information"
