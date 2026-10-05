@@ -74,7 +74,7 @@ def main():
     (ROOT/'handoff/owner-c/step5_metrics.json').write_text(json.dumps(report,indent=2)+'\n')
     with (ROOT/'handoff/owner-c/step5_dimension_scores.csv').open('w',newline='') as f:
         fields=['dimension','tests','automated_passed','automated_score','reference_passed','reference_score']
-        w=csv.DictWriter(f,fieldnames=fields);w.writeheader();w.writerows({k:r[k] for k in fields} for r in per_dimension)
+        w=csv.DictWriter(f,fieldnames=fields,lineterminator="\n");w.writeheader();w.writerows({k:r[k] for k in fields} for r in per_dimension)
     # Check independently derived contingency counts against the existing service.
     assert validity['true_positives']==0 and validity['false_positives']==0 and validity['true_negatives']==8 and validity['false_negatives']==1
     assert validity['accuracy']==88.9 and validity['failure_recall']==0.0 and validity['cohens_kappa']==0.0
