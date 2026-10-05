@@ -1,0 +1,5 @@
+dimension,tests,automated_passed,automated_score,reference_passed,reference_score
+accuracy,8,8,100.0,8,100.0
+freshness,0,0,,0,
+conflict_resolution,0,0,,0,
+appropriate_use,1,1,100.0,0,0.0

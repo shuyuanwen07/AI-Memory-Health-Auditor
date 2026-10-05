@@ -1,0 +1,43 @@
+{
+  "recorded_on": "2026-10-05",
+  "branch": "codex/owner-c-validation",
+  "baseline_ref": "origin/codex/owner-b-english-handoff",
+  "baseline_commit": "a241e3d28ee58bdd5a66bfd724f8aa02ab315bb9",
+  "scope": "Owner B engineering / synthetic development baseline; not completed formal validation",
+  "owner_a_commit": "7918f54a8bf6bb9b741d44792b572c92c279b920",
+  "configuration_from_owner_b": {
+    "provider": "rule_based",
+    "model": "rule-based-target-ai",
+    "target_configuration": "WEAK",
+    "temperature": 0,
+    "generator_version": "rule-based-v4",
+    "prompt_template_version": "rule-based-v1",
+    "formal_protocol": "mha-formal-v1",
+    "extractor": "RuleBasedMemoryExtractor",
+    "test_generator": "RuleBasedTestGenerator",
+    "evaluator": "RuleBasedBehaviourEvaluator",
+    "random_seed": 7
+  },
+  "configuration_from_b_generated_tests_script": {
+    "random_seed": 42,
+    "test_budget": 100
+  },
+  "owner_a_development_fingerprint": "6ac3dc23b4af33e9bcc081ad3c9ce096d86826756d4a7688ed85790f44252fb5",
+  "human_labels": 0,
+  "ready_for_formal_evaluation": false,
+  "sha256": {
+    "backend/app/test_generator/rule_based.py": "f442f10ab9909c718c46bfac656684aa71fad5af72a5a522744974f78f88f06e",
+    "backend/tests/test_rule_based_pipeline.py": "19c3fad156c9b75d6f5a593ff544609b21dfd025aed2f168ec971df7eb9c2b69",
+    "handoff/owner-b/FREEZE_MANIFEST.md": "f5e35ce550953cd810daabed16ceeacb13738b4e04c1dc153cf2494119db8f2a",
+    "handoff/owner-b/README.md": "ce6bc47127628f0f80fc5ed3e1e348ef5c29bd0c3d7e4a474b196540a4a7b080",
+    "handoff/owner-b/TEST_RESULTS.md": "a6b617f18b797fa93bdcfd04bc440bf776c5b297219c9737943638e867cf672d",
+    "handoff/owner-a/freeze_manifest.json": "6abf9dc2732a0af955a5fc0680d3551b97084ed83dec13b999cd5c8d8f0cf501",
+    "handoff/owner-a/development/annotation_dataset.json": "8423353d0eb4711e1109cc703df09b43b36aa2a4da64751032bbe5ada70a1356"
+  },
+  "open_items": [
+    "Genuine independent human reference labels remain pending.",
+    "C must generate and freeze its held-out suite; B confirms no formal held-out suite was produced.",
+    "Explicit C test budget and memory strategy require a recorded protocol."
+  ],
+  "owner_b_confirmation": "owner_b_confirmation.json"
+}

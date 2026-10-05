@@ -1,0 +1,139 @@
+{
+  "recorded_on": "2026-10-05",
+  "positive_class": "failure",
+  "reference": "User-confirmed step 4 adjudication",
+  "input_sha256": {
+    "final_adjudication": "7f49b472d76397d566fc6935fd571b343d91454be35ebfa946e4a5dd7f44a3d9",
+    "results": "35f40d0d9a18ee1b0bde922ad9f60de5e0d49b0d2aad66f1bd928c74719be8aa",
+    "frozen_suite": "fe4886007aaf7b7796a73af1f46b0335d76f34749a4eab1d50cd76d5905c50d5"
+  },
+  "evaluator_validity": {
+    "labelled_cases": 9,
+    "true_positives": 0,
+    "false_positives": 0,
+    "true_negatives": 8,
+    "false_negatives": 1,
+    "accuracy": 88.9,
+    "failure_precision": null,
+    "failure_recall": 0.0,
+    "false_positive_rate": 0.0,
+    "cohens_kappa": 0.0
+  },
+  "failure_f1": 0.0,
+  "failure_f1_note": "Computed directly as 2TP/(2TP+FP+FN); precision is separately undefined when no failure was predicted.",
+  "automated_macro_dimension_score": 100.0,
+  "reference_macro_dimension_score": 50.0,
+  "reference_micro_test_pass_rate": 88.9,
+  "by_dimension": [
+    {
+      "dimension": "accuracy",
+      "tests": 8,
+      "automated_passed": 8,
+      "automated_score": 100.0,
+      "reference_passed": 8,
+      "reference_score": 100.0,
+      "evaluator_validity": {
+        "labelled_cases": 8,
+        "true_positives": 0,
+        "false_positives": 0,
+        "true_negatives": 8,
+        "false_negatives": 0,
+        "accuracy": 100.0,
+        "failure_precision": null,
+        "failure_recall": null,
+        "false_positive_rate": 0.0,
+        "cohens_kappa": null
+      }
+    },
+    {
+      "dimension": "freshness",
+      "tests": 0,
+      "automated_passed": 0,
+      "automated_score": null,
+      "reference_passed": 0,
+      "reference_score": null,
+      "evaluator_validity": {
+        "labelled_cases": 0,
+        "true_positives": 0,
+        "false_positives": 0,
+        "true_negatives": 0,
+        "false_negatives": 0,
+        "accuracy": null,
+        "failure_precision": null,
+        "failure_recall": null,
+        "false_positive_rate": null,
+        "cohens_kappa": null
+      }
+    },
+    {
+      "dimension": "conflict_resolution",
+      "tests": 0,
+      "automated_passed": 0,
+      "automated_score": null,
+      "reference_passed": 0,
+      "reference_score": null,
+      "evaluator_validity": {
+        "labelled_cases": 0,
+        "true_positives": 0,
+        "false_positives": 0,
+        "true_negatives": 0,
+        "false_negatives": 0,
+        "accuracy": null,
+        "failure_precision": null,
+        "failure_recall": null,
+        "false_positive_rate": null,
+        "cohens_kappa": null
+      }
+    },
+    {
+      "dimension": "appropriate_use",
+      "tests": 1,
+      "automated_passed": 1,
+      "automated_score": 100.0,
+      "reference_passed": 0,
+      "reference_score": 0.0,
+      "evaluator_validity": {
+        "labelled_cases": 1,
+        "true_positives": 0,
+        "false_positives": 0,
+        "true_negatives": 0,
+        "false_negatives": 1,
+        "accuracy": 0.0,
+        "failure_precision": null,
+        "failure_recall": 0.0,
+        "false_positive_rate": null,
+        "cohens_kappa": 0.0
+      }
+    }
+  ],
+  "raw_worksheet_agreement": {
+    "compared_rows": 9,
+    "verdict_agreements": 8,
+    "verdict_agreement_percent": 88.9,
+    "verdict_cohens_kappa": 0.609,
+    "verdict_and_dimension_agreements": 7,
+    "qualification": "Descriptive worksheet agreement only, not independent blind human inter-rater reliability. Reviewer 1 received assistant judgement suggestions; reviewer 2 independence has not been established."
+  },
+  "coverage": {
+    "source_scenarios": 8,
+    "scenarios_with_tests": 7,
+    "tests": 9,
+    "measured_dimensions": 2,
+    "unmeasured_dimensions": [
+      "freshness",
+      "conflict_resolution"
+    ],
+    "empty_suite_scenarios": [
+      "A004"
+    ]
+  },
+  "limitations": [
+    "Nine tests, including only one reference failure, cannot support broad generalisation.",
+    "Freshness and conflict-resolution dimensions were not tested; unmeasured scores are null, not zero.",
+    "Generic prompts allow more than one source-supported relevant fact; adjudication used a stated non-exhaustive-answer interpretation.",
+    "Suite expectations were derived from extracted memories, so automated pass scores alone do not establish extraction correctness.",
+    "Only the deterministic WEAK target was run; there is no paired strategy/model comparison or stochastic variance estimate.",
+    "Actual-reference provenance is qualified and does not establish two independent blind annotators.",
+    "This source-only engineering runner does not execute the persisted web application target-memory lifecycle."
+  ]
+}

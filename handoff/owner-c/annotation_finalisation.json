@@ -1,0 +1,20 @@
+{
+  "recorded_on": "2026-10-05",
+  "rows": 130,
+  "categorical_agreements": 130,
+  "categorical_disagreements": 0,
+  "source_set_difference_resolution": {
+    "item_id": "A004-T03",
+    "task": "test_validity",
+    "final_label": "reject",
+    "final_source_message_ids": [
+      "A004-M01",
+      "A004-M02"
+    ],
+    "reason": "No model number appears anywhere in the two-message source; retain both to document absence after full-source review."
+  },
+  "adjudication_sha256": "be814662298ed32d07e026646f628ef99304a0da4dbaf7afd5081437a9584c4f",
+  "original_worksheets_preserved": true,
+  "human_verification": "User confirms both worksheets have been manually verified.",
+  "provenance_qualification": "First worksheet is AI-assisted human review, not independent blind human annotation; no independent-human reliability claim is made."
+}

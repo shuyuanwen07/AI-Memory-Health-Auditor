@@ -1,0 +1,34 @@
+{
+  "recorded_on": "2026-10-05",
+  "source": "Owner B reply supplied by user in chat; self-reported, not independently rerun",
+  "baseline_commit": "a241e3d28ee58bdd5a66bfd724f8aa02ab315bb9",
+  "final_frozen_version_confirmed": true,
+  "reported_post_freeze_regression": {
+    "passed": 136,
+    "skipped": 1,
+    "warnings": 1,
+    "failures": 0,
+    "skip_reason": "PostgreSQL integration environment required"
+  },
+  "configuration": {
+    "provider": "rule_based",
+    "model": "rule-based-target-ai",
+    "target_configuration": "WEAK",
+    "extractor": "RuleBasedMemoryExtractor",
+    "test_generator": "RuleBasedTestGenerator",
+    "generator_version": "rule-based-v4",
+    "evaluator": "RuleBasedBehaviourEvaluator",
+    "prompt_template_version": "rule-based-v1",
+    "temperature": 0,
+    "random_seed": 7
+  },
+  "heldout_exposure_statement": "B states they did not view or use any of the eight held-out scenarios or answers during development, tuning or configuration selection.",
+  "formal_heldout_suite_produced": false,
+  "formal_pilot_result_set_produced": false,
+  "suite_handoff": "C generates and freezes held-out suite using frozen generator, recording IDs, generation settings and freeze metadata.",
+  "independent_human_annotations_completed": false,
+  "remaining_configuration_questions": [
+    "Final C test budget has not been specified.",
+    "WEAK target configuration must be distinguished from the separately configurable memory_strategy in AuditRun; document explicit settings before executing."
+  ]
+}

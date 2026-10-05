@@ -1,0 +1,14 @@
+{
+  "rows_each": 130,
+  "label_agreements": 130,
+  "label_disagreements": [],
+  "evidence_set_disagreements": [
+    {
+      "item_id": "A004-T03",
+      "task": "test_validity"
+    }
+  ],
+  "invalid_labels": [],
+  "adjudicated_rows": 0,
+  "provenance": "Annotator 1 is user-confirmed AI-assisted review, not independent blind annotation; annotator 2 completion received, provenance not yet confirmed."
+}

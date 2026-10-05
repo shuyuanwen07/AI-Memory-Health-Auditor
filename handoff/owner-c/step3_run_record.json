@@ -1,0 +1,73 @@
+{
+  "status": "engineering_run_completed_with_coverage_limitations",
+  "configuration": {
+    "baseline_commit": "a241e3d28ee58bdd5a66bfd724f8aa02ab315bb9",
+    "provider": "rule_based",
+    "model": "rule-based-target-ai",
+    "target_configuration": "weak",
+    "memory_strategy": "weak_first_hit",
+    "temperature": 0,
+    "random_seed": 7,
+    "test_budget": 20,
+    "prompt_template_version": "rule-based-v1",
+    "generator_version": "rule-based-v4",
+    "budget_origin": "C pre-run engineering choice; B did not specify a final budget",
+    "scope": "Source-only extracted-memory engineering pipeline matching B investigation style; not the persisted web-app target adapter or a formal human-gated experiment",
+    "reference_origin": "Expected behaviour generated from extractor outputs, not human gold labels. Actual-output human review remains pending.",
+    "source_sha256": "107737c831f4c3a98db3ca12b0c1e589564d268e84bd84b3364de609e189c07d",
+    "component_sha256": {
+      "backend/app/extraction/rule_based.py": "e986153cbcdbcce6bf66be3023553a76e848a1de2cc69c193de8fc77056b1981",
+      "backend/app/test_generator/rule_based.py": "f442f10ab9909c718c46bfac656684aa71fad5af72a5a522744974f78f88f06e",
+      "backend/app/target_ai/rule_based.py": "ba17b9405cb8d4363c5244f973d1dc127b99ff2296c25e16cf3d916be65c1dde",
+      "backend/app/evaluator/rule_based.py": "b98d6430edee53826d7c69922acbfc7d0044aadd368555bb3f1005a7ebd2886f"
+    }
+  },
+  "freeze": {
+    "frozen_before_execution": true,
+    "frozen_at": "2026-10-05T12:09:17.674498+00:00",
+    "suite_sha256": "fe4886007aaf7b7796a73af1f46b0335d76f34749a4eab1d50cd76d5905c50d5",
+    "configuration_sha256": "b3907ae5855323c5f50eac22c4faac89ba3e03227b8bc77a84ca7bc0274a06ca",
+    "scenarios": 8,
+    "tests": 9
+  },
+  "summary": {
+    "scenarios": 8,
+    "tests": 9,
+    "passed": 9,
+    "failed": 0,
+    "overall_score": 100.0,
+    "dimension_scores": [
+      {
+        "dimension": "accuracy",
+        "percentage": 100.0,
+        "passed": 8,
+        "total": 8
+      },
+      {
+        "dimension": "freshness",
+        "percentage": null,
+        "passed": 0,
+        "total": 0
+      },
+      {
+        "dimension": "conflict_resolution",
+        "percentage": null,
+        "passed": 0,
+        "total": 0
+      },
+      {
+        "dimension": "appropriate_use",
+        "percentage": 100.0,
+        "passed": 1,
+        "total": 1
+      }
+    ],
+    "interpretation": "Automated engineering scores only; not validated against human labels of actual responses.",
+    "empty_suite_scenarios": [
+      "A004"
+    ]
+  },
+  "local_artifact_directory": "artifacts/local/owner-c-heldout-v1",
+  "actual_response_human_labels": "pending; authored-example labels cannot be reused for these responses",
+  "baseline_modified": false
+}

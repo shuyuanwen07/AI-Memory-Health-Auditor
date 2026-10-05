@@ -1,0 +1,98 @@
+{
+  "checked_on": "2026-10-05",
+  "step": 2,
+  "status": "reference_adjudication_prepared_human_review_confirmed_provenance_qualified",
+  "development_verification": {
+    "integrity": "passed",
+    "schema_checked": true,
+    "splits": {
+      "development": {
+        "completed_labels": 195,
+        "completed_decisions": 195,
+        "api_fingerprint_sha256": "6ac3dc23b4af33e9bcc081ad3c9ce096d86826756d4a7688ed85790f44252fb5",
+        "human_paired_items": 0,
+        "pydantic_version": "2.13.4"
+      }
+    },
+    "evidence_sets_refined": 60,
+    "ready_for_formal_evaluation": false,
+    "human_labels": 0,
+    "python_version": "3.12.11"
+  },
+  "heldout_package_expected_path": "handoff/owner-a-custodian",
+  "heldout_package_present": true,
+  "expected_heldout_counts_from_A_documentation": {
+    "scenarios": 8,
+    "messages": 16,
+    "gold_memories": 18,
+    "relationships": 8,
+    "accepted_candidate_tests": 16,
+    "rejected_candidate_tests": 8,
+    "illustrative_responses": 32,
+    "ai_label_decisions": 130
+  },
+  "counts_verified_on_heldout": true,
+  "ready_for_formal_evaluation": false,
+  "required_inputs": [],
+  "notes": [
+    "Illustrative response labels do not label future actual target outputs; actual responses need their own human review.",
+    "B markdown fingerprint has a transcription mismatch: A JSON fingerprint has been verified by the schema checker."
+  ],
+  "heldout_verified_counts": {
+    "scenarios": 8,
+    "messages": 16,
+    "gold_memories": 18,
+    "relationships": 8,
+    "accepted_candidate_tests": 16,
+    "rejected_candidate_tests": 8,
+    "illustrative_responses": 32
+  },
+  "heldout_verification": {
+    "integrity": "passed",
+    "schema_checked": true,
+    "splits": {
+      "heldout": {
+        "completed_labels": 130,
+        "completed_decisions": 130,
+        "api_fingerprint_sha256": "0752519163c307db2506981885c1cddaca6849399deae084c499c3b88d236c06",
+        "human_paired_items": 0,
+        "pydantic_version": "2.13.4"
+      }
+    },
+    "evidence_sets_refined": 40,
+    "ready_for_formal_evaluation": false,
+    "human_labels": 0,
+    "python_version": "3.12.11"
+  },
+  "split_checks": {
+    "overlapping_conversation_ids": [],
+    "exact_normalised_message_overlap_count": 0,
+    "near_duplicate_review_completed": false,
+    "B_exposure_attestation_received": true,
+    "note": "ID and exact-text checks do not establish absence of prior exposure; task families overlap.",
+    "B_exposure_attestation_source": "owner_b_confirmation.json; user-supplied B reply"
+  },
+  "human_forms": {
+    "annotator_1": {
+      "items": 130,
+      "filled_labels": 130,
+      "label_provenance": "AI draft subsequently reviewed and confirmed by human, per user",
+      "human_confirmed_labels": 130
+    },
+    "annotator_2": {
+      "items": 130,
+      "filled_labels": 130,
+      "human_confirmed_labels": 130,
+      "label_provenance": "Human verification confirmed by user; independent preparation method not established"
+    },
+    "adjudication": {
+      "items": 130,
+      "filled_labels": 130,
+      "label_provenance": "Agreement finalisation prepared by assistant at user request; source-set difference resolved using full supplied conversation"
+    }
+  },
+  "delivery_status_sha256": "766820822644c1571401c2fd9b4150d4beeb52de02bcf9b0cec4d950fff86c3a",
+  "current_working_package_matches_original_manifest": false,
+  "working_package_change": "User requested AI draft in annotator_1.csv; original blank preserved under artifacts/local/owner-c-annotation. Added AI provenance sidecar; original manifest unchanged.",
+  "qualification": "Reference labels are usable with disclosed provenance; these records do not establish two independent blind human annotations or satisfaction of the formal human-double-annotation gate."
+}

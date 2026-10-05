@@ -1,0 +1,35 @@
+{
+  "status": "completed",
+  "reviewed_responses": 9,
+  "raw_verdict_agreements": 8,
+  "raw_verdict_and_dimension_agreements": 7,
+  "disputed_test_ids": [
+    "A019-T002",
+    "A020-T001"
+  ],
+  "raw_review_sha256": {
+    "actual_response_review_1.csv": "07c6405a79eb01fcf942e3e939b2121a370b8288c50e720a5e7eb7cf2b7fb43b",
+    "actual_response_review_2.csv": "4f6d4d75c2612d5638a77c930bbdf2d1dd17a3219864ec1d11a119551fb88451"
+  },
+  "raw_reviews_modified": false,
+  "provenance_note": "Reviewer 1 received assistant judgement suggestions before revising the worksheet; this is not evidence of two independent blind raw label sets. Reviewer 2 independence has not been verified.",
+  "comparison_note": "Final reference frozen after explicit user-confirmed adjudication of the two disputed rows; step 5 metrics completed.",
+  "confirmed_on": "2026-10-05",
+  "user_confirmed_disputes": [
+    "A019-T002",
+    "A020-T001"
+  ],
+  "final_reference_passes": 8,
+  "final_reference_failures": 1,
+  "automated_matches_reference": 8,
+  "automated_disagreements": [
+    {
+      "test_id": "A019-T002",
+      "automated_passed": true,
+      "reference_passed": false,
+      "reference_failure_dimension": "appropriate_use",
+      "reason": "Automated evaluator passed a response that repeats the general colourful preference instead of the grayscale task requirement."
+    }
+  ],
+  "final_adjudication_sha256": "7f49b472d76397d566fc6935fd571b343d91454be35ebfa946e4a5dd7f44a3d9"
+}
