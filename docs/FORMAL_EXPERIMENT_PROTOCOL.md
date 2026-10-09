@@ -4,6 +4,23 @@
 **Status:** template to freeze before collecting formal results  
 **Scope:** controlled memory-policy evaluation; this document does not report results.
 
+## Proposal scope and required experiments
+
+The user reaffirmed proposal-only development on 2026-10-09. Independent
+external-Agent/vendor adapters are optional retained infrastructure, not a
+required experiment or a development priority. The prototype uses a fixed
+base LLM and configurable target-memory retrieval/update policies.
+
+This document is a draft template, not evidence of a completed protocol freeze.
+Formal acceptance must cover all three proposal experiments: A compares
+equal-budget direct questions, manually authored fixed templates and Auditor
+contextual/indirect tests against independently labelled failures; B compares
+Weak/Strong target-memory policies under the same model and controls; C tests
+their relative ranking agreement with technically compatible LongMemEval
+semantic evaluation. Extraction/relationship validity, test validity and
+failure-detection/classification metrics require genuine independent labels.
+An exploratory original/generic/directed repair study does not replace A/B/C.
+
 ## Research questions
 
 1. Under a fixed underlying target model and frozen question suite, how do controlled memory strategies affect Accuracy, Freshness, Conflict Resolution and Appropriate Use?
@@ -34,7 +51,7 @@ Run a pilot before formal evaluation. Resolve unclear memory boundaries, leaked-
 
 ### Current synthetic-pilot execution path
 
-For the repository's approved synthetic Pilot v2, open **Experiments → Research Workspace** and upload both `datasets/annotation/synthetic-pilot-v2/synthetic_pilot_annotations.json` and `datasets/annotation/synthetic-pilot-v2/double-annotation/human_double_annotation.json`. Analyse the pilot first; only a ready matching package enables **Formal Synthetic Pilot Matrix**. Select one fixed target model and at least two predeclared retrieval strategies, create the matrix, then explicitly execute its pending conditions.
+For a source-verified human-labelled synthetic release, open **Experiments → Research Workspace** and upload the matching annotation dataset and double-annotation package. Bundled Pilot v2 files exercise the format; their filenames and self-declared human provenance are not independent verification that a real review occurred. Analyse the pilot first: memory inclusion, relationship type, test validity, evaluator verdict and failure dimension must all meet the declared coverage and resolution criteria. Only a ready matching package enables **Formal Synthetic Pilot Matrix**. Select one fixed target model and at least two predeclared retrieval strategies, create the matrix, then explicitly execute its pending conditions.
 
 The matrix creates one Experiment Group per synthetic scenario and copies the exact same accepted fixed test suite to every condition. It records the dataset fingerprint, pilot ID, suite version, model, temperature, seed and strategy in durable metadata. It is limited to explicitly declared synthetic data; do not use it to materialise participant conversations. After completion, use **Experiments** to inspect paired comparisons and download the CSV/artifact before generating paper figures.
 

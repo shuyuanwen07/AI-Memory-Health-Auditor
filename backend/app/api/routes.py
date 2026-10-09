@@ -14,6 +14,7 @@ import hashlib
 import json
 import zipfile
 from sqlalchemy import delete, select, text, update
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 from app.database.session import SessionLocal, get_db
 from app.evaluator.factory import get_behaviour_evaluator
@@ -25,6 +26,7 @@ from app.metrics.service import MetricsService
 from app.metrics.retrieval_quality import RetrievalQualityService
 from app.services.audit_execution import AuditExecutionService, AuditExecutionSnapshot, RunArtifacts
 from app.services.experiment_analytics import ExperimentAnalyticsService
+from app.services.audit_comparison import compare_audit_evidence
 from app.models import AuditRunModel, ConversationModel, EvaluationHumanReviewModel, EvaluationResultModel, ExperimentModel, MemoryModel, MemoryRelationshipModel, MessageModel, TargetAgentMemoryEventModel, TargetAgentMemoryModel, TargetAgentMemoryRelationshipModel, TargetAgentRetrievalModel, TargetResponseModel, TestCaseModel
 from app.schemas import *
 from app.target_ai.providers import PROVIDERS, configured
@@ -58,12 +60,12 @@ def audit_run_lock(run_id: str):
 def ident(prefix: str) -> str: return f"{prefix}{uuid4().hex.upper()}"
 def missing(kind: str): raise HTTPException(404, f"{kind} was not found.")
 def ensure_supported_pipeline_role(provider: TargetProvider, role: str) -> None:
-    """Keep a target-only provider out of structured pipeline/judge roles."""
+    """Ollama structured extraction/generation is not implemented; judging is separate."""
     if provider == TargetProvider.OLLAMA:
         raise HTTPException(
             422,
-            f"Ollama is currently supported only as the controlled target AI, not as the {role}. "
-            "Choose rule_based, openai, deepseek, or gemini for that role.",
+            f"Ollama supports target answers and semantic evaluation, but not the {role}. "
+            "Choose rule_based, openrouter, openai, deepseek, or gemini for that role.",
         )
 def conversation_schema(db, obj):
     messages = db.scalars(select(MessageModel).where(MessageModel.conversation_id == obj.id).order_by(MessageModel.sequence, MessageModel.timestamp)).all()
@@ -104,8 +106,11 @@ def reproducibility_snapshot(*, provider: str, model: str, temperature: float, r
                              memory_strategy: str, memory_maintenance_policy: str,
                              target_memory_writer: TargetMemoryWriterKind | str,
                              target_memory_capacity: int,
-                             target_system_adapter: TargetSystemAdapterKind | str) -> dict:
+                             target_system_adapter: TargetSystemAdapterKind | str,
+                             target_memory_profile: TargetMemoryProfile | None = None) -> dict:
     """Freeze safe reproducibility facts when a run is created."""
+    profile = target_memory_profile or TargetMemoryProfile()
+    adapter_version = "external-http-v1" if TargetSystemAdapterKind(target_system_adapter) == TargetSystemAdapterKind.EXTERNAL_HTTP else "controlled-memory-v2"
     writer_kind = TargetMemoryWriterKind(target_memory_writer)
     writer = get_target_memory_writer(pipeline_provider, pipeline_model, writer_kind)
     writer_version = getattr(writer, "VERSION", writer.__class__.__name__)
@@ -120,7 +125,8 @@ def reproducibility_snapshot(*, provider: str, model: str, temperature: float, r
         "target_memory_writer": writer_kind.value,
         "target_memory_writer_version": writer_version,
         "target_system_adapter": TargetSystemAdapterKind(target_system_adapter).value,
-        "target_system_adapter_version": "controlled-memory-v1",
+        "target_system_adapter_version": adapter_version,
+        "target_memory_profile": profile.model_dump(),
     }
     return {
         "schema_version": "reproducibility-v1",
@@ -133,8 +139,9 @@ def reproducibility_snapshot(*, provider: str, model: str, temperature: float, r
         "target_memory_writer_version": writer_version,
         "target_memory_writer": writer_kind.value,
         "target_system_adapter": TargetSystemAdapterKind(target_system_adapter).value,
-        "target_system_adapter_version": "controlled-memory-v1",
-        "memory_policy_version": "target-memory-policy-v1",
+        "target_system_adapter_version": adapter_version,
+        "target_memory_profile": profile.model_dump(),
+        "memory_policy_version": "target-memory-policy-v6",
         # A seed is fully deterministic for the local baseline. Third-party
         # APIs do not share one portable seed contract, so retain it as a
         # configuration identifier rather than implying bit-for-bit replay.
@@ -162,17 +169,17 @@ def audit_schema(obj):
     writer_version = getattr(obj, "target_memory_writer_version", None) or metadata.get("target_memory_writer_version")
     adapter = getattr(obj, "target_system_adapter", None) or metadata.get("target_system_adapter") or "controlled-memory"
     adapter_version = getattr(obj, "target_system_adapter_version", None) or metadata.get("target_system_adapter_version")
-    return AuditRun(run_id=obj.id, conversation_id=obj.conversation_id, experiment_id=obj.experiment_id, status=obj.status, target_configuration=obj.target_configuration, provider=obj.provider, model=obj.model, temperature=obj.temperature, random_seed=obj.random_seed, test_budget=obj.test_budget, prompt_template_version=obj.prompt_template_version, pipeline_provider=obj.pipeline_provider, pipeline_model=obj.pipeline_model, evaluator_provider=obj.evaluator_provider, evaluator_model=obj.evaluator_model, memory_strategy=obj.memory_strategy, memory_maintenance_policy=getattr(obj, "memory_maintenance_policy", "update_aware_consolidation"), target_memory_capacity=getattr(obj, "target_memory_capacity", 50), target_memory_writer=writer_kind, target_memory_writer_version=writer_version, target_system_adapter=adapter, target_system_adapter_version=adapter_version, reproducibility=metadata, created_at=obj.created_at, completed_at=obj.completed_at)
+    return AuditRun(run_id=obj.id, conversation_id=obj.conversation_id, experiment_id=obj.experiment_id, status=obj.status, target_configuration=obj.target_configuration, provider=obj.provider, model=obj.model, temperature=obj.temperature, random_seed=obj.random_seed, test_budget=obj.test_budget, prompt_template_version=obj.prompt_template_version, pipeline_provider=obj.pipeline_provider, pipeline_model=obj.pipeline_model, evaluator_provider=obj.evaluator_provider, evaluator_model=obj.evaluator_model, memory_strategy=obj.memory_strategy, memory_maintenance_policy=getattr(obj, "memory_maintenance_policy", "update_aware_consolidation"), target_memory_capacity=getattr(obj, "target_memory_capacity", 50), target_memory_writer=writer_kind, target_memory_writer_version=writer_version, target_system_adapter=adapter, target_system_adapter_version=adapter_version, reproducibility=metadata, target_memory_profile=metadata.get("target_memory_profile", {}), created_at=obj.created_at, completed_at=obj.completed_at)
 def experiment_schema(obj):
     return Experiment(experiment_id=obj.id, conversation_id=obj.conversation_id, label=obj.label, status=obj.status, test_suite_configuration=TestSuiteConfiguration.model_validate(obj.test_suite_configuration), test_suite_metadata=TestSuiteMetadata.model_validate(obj.test_suite_metadata), test_suite_source_run_id=obj.test_suite_source_run_id, created_at=obj.created_at, completed_at=obj.completed_at)
-def test_schema(o): return TestCase(test_id=o.id, run_id=o.run_id, dimension=o.dimension, prompt=o.prompt, expected_behavior=o.expected_behavior, supporting_memory_ids=o.supporting_memory_ids, generator_version=o.generator_version, test_type=o.test_type, quality_status=o.quality_status, grounding_status=o.grounding_status, validation_notes=o.validation_notes, target_memory_context=o.target_memory_context)
+def test_schema(o): return TestCase(test_id=o.id, run_id=o.run_id, dimension=o.dimension, prompt=o.prompt, expected_behavior=o.expected_behavior, supporting_memory_ids=o.supporting_memory_ids, generator_version=o.generator_version, test_type=o.test_type, quality_status=o.quality_status, grounding_status=o.grounding_status, validation_notes=o.validation_notes, probe_group_id=o.probe_group_id, probe_variant=o.probe_variant, target_memory_context=o.target_memory_context)
 def public_test_schema(o):
     return TestCasePublic(
         test_id=o.id if hasattr(o, "id") else o.test_id, run_id=o.run_id,
         dimension=o.dimension, prompt=o.prompt, expected_behavior=o.expected_behavior,
         supporting_memory_ids=o.supporting_memory_ids, generator_version=o.generator_version,
         test_type=o.test_type, quality_status=o.quality_status,
-        grounding_status=o.grounding_status, validation_notes=o.validation_notes,
+        grounding_status=o.grounding_status, validation_notes=o.validation_notes, probe_group_id=o.probe_group_id, probe_variant=o.probe_variant,
     )
 def validate_memory_evidence(db: Session, conversation_id: str, source_message_ids: list[str], relationships: list[MemoryRelationship], memory_id: str | None = None):
     if len(source_message_ids) != len(set(source_message_ids)):
@@ -227,7 +234,7 @@ def validate_memory_evidence(db: Session, conversation_id: str, source_message_i
     if any(has_cycle(node) for node in update_edges):
         raise HTTPException(422, "UPDATE relationships cannot form a cycle.")
 def response_schema(o): return TargetResponse(response_id=o.id, test_id=o.test_id, run_id=o.run_id, response_text=o.response_text, model=o.model, temperature=o.temperature, execution_metadata=getattr(o, "execution_metadata", {}) or {}, created_at=o.created_at)
-def eval_schema(o): return EvaluationResult(evaluation_id=o.id, test_id=o.test_id, response_id=o.response_id, passed=o.passed, failure_type=o.failure_type, reason=o.reason, evidence_memory_ids=o.evidence_memory_ids, evaluator=o.evaluator)
+def eval_schema(o): return EvaluationResult(evaluation_id=o.id, test_id=o.test_id, response_id=o.response_id, passed=o.passed, failure_type=o.failure_type, reason=o.reason, evidence_memory_ids=o.evidence_memory_ids, evaluator=o.evaluator, judge_execution=o.judge_execution)
 def human_review_schema(o): return EvaluationHumanReview(review_id=o.id, evaluation_id=o.evaluation_id, human_passed=o.human_passed, human_failure_type=o.human_failure_type, reviewer_label=o.reviewer_label, review_role=getattr(o, "review_role", "reference"), based_on_review_ids=getattr(o, "based_on_review_ids", []) or [], note=o.note, created_at=o.created_at, updated_at=o.updated_at)
 def require_state(run, allowed: set[AuditStatus]):
     if AuditStatus(run.status) not in allowed:
@@ -282,7 +289,39 @@ def health():
     return {"status": "ok", "service": "AI Memory Health Auditor", "database": "ready"}
 @router.get("/target-providers", response_model=list[ProviderOption])
 def target_providers():
-    return [ProviderOption(provider=provider, label=label, default_model=model, configured=configured(provider), description=description) for provider, (label, model, description) in PROVIDERS.items()]
+    return [ProviderOption(provider=provider, label=label, default_model=model, configured=configured(provider), description=description, default_pipeline_model=configured_pipeline_model("openrouter") if provider == TargetProvider.OPENROUTER else None, default_evaluator_model=configured_evaluator()[1] if provider == TargetProvider.OPENROUTER and configured_evaluator()[0] == "openrouter" else None) for provider, (label, model, description) in PROVIDERS.items()]
+
+@router.get("/ollama-models")
+def ollama_models():
+    import httpx
+    from app.target_ai.providers import ollama_base_url
+    try:
+        response = httpx.get(f"{ollama_base_url()}/api/tags", timeout=10.0)
+        response.raise_for_status()
+        return [{"value": item["name"], "label": item["name"]} for item in response.json()["models"]]
+    except (httpx.HTTPError, ValueError, KeyError, TypeError):
+        raise HTTPException(502, "The installed local model list could not be loaded. Please retry.") from None
+
+@router.get("/openrouter-models")
+def openrouter_models():
+    """Return text model names only; credentials remain on the backend."""
+    import httpx
+    key = os.getenv("OPENROUTER_API_KEY", "").strip()
+    if not key:
+        raise HTTPException(503, "OpenRouter API key is not configured on the backend.")
+    try:
+        response = httpx.get("https://openrouter.ai/api/v1/models", headers={"Authorization": f"Bearer {key}"}, timeout=15.0)
+        response.raise_for_status()
+        models = response.json()["data"]
+        return sorted([
+            {"value": model["id"], "label": f"{model.get('name', model['id'])} ({model['id']})"}
+            for model in models
+            if isinstance(model.get("id"), str)
+            and "text" in model.get("architecture", {}).get("input_modalities", ["text"])
+            and "text" in model.get("architecture", {}).get("output_modalities", ["text"])
+        ], key=lambda model: model["label"].lower())
+    except (httpx.HTTPError, ValueError, KeyError, TypeError):
+        raise HTTPException(502, "The OpenRouter model list could not be loaded. Please retry.") from None
 
 @router.post("/conversations", response_model=Conversation, status_code=201)
 def create_conversation(payload: ConversationCreate, db: Session = Depends(get_db)):
@@ -391,12 +430,14 @@ def delete_conversation_data(conversation_id: str, payload: ConversationDeletion
     return ConversationDeletionReceipt(conversation_id=conversation_id, deleted_audit_runs=len(runs), deleted_experiments=len(experiments),
         message="The authorised conversation and all locally derived audit data were permanently deleted.")
 @router.post("/conversations/{conversation_id}/extract", response_model=list[Memory])
-def extract(conversation_id: str, db: Session = Depends(get_db)):
+def extract(conversation_id: str, payload: ExtractionRequest | None = None, db: Session = Depends(get_db)):
     c = db.get(ConversationModel, conversation_id)
     if not c: missing("Conversation")
     existing = db.scalars(select(MemoryModel).where(MemoryModel.conversation_id == conversation_id)).all()
     if existing: return [memory_schema(db, x) for x in existing]
-    extracted = get_memory_extractor().extract(conversation_schema(db, c))
+    if payload and payload.provider:
+        ensure_supported_pipeline_role(payload.provider, "memory extraction")
+    extracted = get_memory_extractor(payload.provider.value if payload and payload.provider else None, payload.model if payload else None).extract(conversation_schema(db, c))
     # Extractors may deliberately use short, conversation-local labels such
     # as M001 so their relationship output is easy to inspect.  Persisting
     # those labels directly made two independent conversations collide on the
@@ -435,17 +476,26 @@ def extract(conversation_id: str, db: Session = Depends(get_db)):
 @router.get("/conversations/{conversation_id}/memories", response_model=list[Memory])
 def memories(conversation_id: str, db: Session = Depends(get_db)):
     return [memory_schema(db, x) for x in db.scalars(select(MemoryModel).where(MemoryModel.conversation_id == conversation_id)).all()]
+def ensure_ground_truth_editable(db: Session, conversation_id: str) -> None:
+    if db.scalar(select(AuditRunModel.id).where(AuditRunModel.conversation_id == conversation_id).limit(1)):
+        raise HTTPException(409, "Ground truth is frozen after an audit is created. Start a new conversation to revise the evidence.")
+
 @router.post("/memories", response_model=Memory, status_code=201)
 def add_memory(payload: MemoryCreate, db: Session = Depends(get_db)):
     if not db.get(ConversationModel, payload.conversation_id): missing("Conversation")
+    ensure_ground_truth_editable(db, payload.conversation_id)
     validate_memory_evidence(db, payload.conversation_id, payload.source_message_ids, payload.relationships)
-    m = MemoryModel(id=ident("M"), conversation_id=payload.conversation_id, canonical_value=payload.canonical_value, status="candidate", source_message_ids=payload.source_message_ids, timestamp=payload.timestamp); db.add(m); db.flush()
+    timestamp = payload.timestamp
+    if timestamp is None and payload.source_message_ids:
+        timestamp = db.scalar(select(MessageModel.timestamp).where(MessageModel.conversation_id == payload.conversation_id, MessageModel.source_message_id.in_(payload.source_message_ids)).order_by(MessageModel.timestamp.desc()))
+    m = MemoryModel(id=ident("M"), conversation_id=payload.conversation_id, canonical_value=payload.canonical_value, status="candidate", source_message_ids=payload.source_message_ids, timestamp=timestamp); db.add(m); db.flush()
     for r in payload.relationships: db.add(MemoryRelationshipModel(id=ident("MR"), memory_id=m.id, relationship_type=r.type.value, target_memory_id=r.target_memory_id))
     db.commit(); return memory_schema(db,m)
 @router.patch("/memories/{memory_id}", response_model=Memory)
 def patch_memory(memory_id: str, payload: MemoryUpdate, db: Session = Depends(get_db)):
     m=db.get(MemoryModel,memory_id)
     if not m: missing("Memory")
+    ensure_ground_truth_editable(db, m.conversation_id)
     next_sources = payload.source_message_ids if payload.source_message_ids is not None else list(m.source_message_ids)
     next_relationships = payload.relationships if payload.relationships is not None else memory_schema(db, m).relationships
     validate_memory_evidence(db, m.conversation_id, next_sources, next_relationships, m.id)
@@ -455,15 +505,20 @@ def patch_memory(memory_id: str, payload: MemoryUpdate, db: Session = Depends(ge
     if "timestamp" in payload.model_fields_set: m.timestamp=payload.timestamp
     if payload.relationships is not None:
         for r in db.scalars(select(MemoryRelationshipModel).where(MemoryRelationshipModel.memory_id==m.id)).all(): db.delete(r)
+        # Persist removals before replacements: the database enforces unique
+        # relationship edges, and ORM inserts can otherwise precede deletes.
+        db.flush()
         for r in payload.relationships: db.add(MemoryRelationshipModel(id=ident("MR"), memory_id=m.id, relationship_type=r.type.value, target_memory_id=r.target_memory_id))
     db.commit(); return memory_schema(db,m)
 @router.delete("/memories/{memory_id}", status_code=204)
 def reject_memory(memory_id: str, db: Session = Depends(get_db)):
     m=db.get(MemoryModel,memory_id)
     if not m: missing("Memory")
+    ensure_ground_truth_editable(db, m.conversation_id)
     m.status="rejected"; db.commit()
 @router.post("/conversations/{conversation_id}/confirm-ground-truth", response_model=list[Memory])
 def confirm_ground_truth(conversation_id: str, payload: GroundTruthConfirm, db: Session = Depends(get_db)):
+    ensure_ground_truth_editable(db, conversation_id)
     rows=db.scalars(select(MemoryModel).where(MemoryModel.conversation_id==conversation_id)).all()
     if not rows: raise HTTPException(409, "Extract candidate memories before confirming ground truth.")
     for m in rows:
@@ -471,20 +526,50 @@ def confirm_ground_truth(conversation_id: str, payload: GroundTruthConfirm, db: 
     if not any(m.status in ("confirmed", "edited") for m in rows): raise HTTPException(422, "Confirm or edit at least one memory.")
     db.commit(); return [memory_schema(db,m) for m in rows]
 
+def creation_fingerprint(payload) -> str:
+    data = payload.model_dump(mode="json", exclude={"creation_request_key"})
+    return hashlib.sha256(json.dumps(data, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+
+
+def existing_creation(db: Session, model, payload):
+    if not payload.creation_request_key:
+        return None
+    row = db.scalar(select(model).where(model.creation_request_key == payload.creation_request_key))
+    if row and row.creation_request_fingerprint != creation_fingerprint(payload):
+        raise HTTPException(409, "This creation request belongs to different settings. Resume the original request or start a separate audit.")
+    return row
+
+
 @router.post("/experiments", response_model=Experiment, status_code=201)
 def create_experiment(payload: ExperimentCreate, db: Session = Depends(get_db)):
+    existing = existing_creation(db, ExperimentModel, payload)
+    if existing:
+        return experiment_schema(existing)
     if not db.get(ConversationModel, payload.conversation_id): missing("Conversation")
     ensure_supported_pipeline_role(payload.test_suite_configuration.pipeline_provider, "memory-extraction and test-generation pipeline")
-    ensure_supported_pipeline_role(payload.test_suite_configuration.evaluator_provider, "behaviour evaluator")
     confirmed = db.scalars(select(MemoryModel).where(MemoryModel.conversation_id == payload.conversation_id, MemoryModel.status.in_(["confirmed", "edited"]))).all()
     if not confirmed: raise HTTPException(409, "Confirm ground truth before creating an experiment.")
+    suite_configuration = payload.test_suite_configuration.model_dump(mode="json")
+    if payload.test_suite_configuration.evaluator_provider == TargetProvider.RULE_BASED:
+        suite_configuration["evaluator_model"] = configured_evaluator("rule_based")[1]
     experiment = ExperimentModel(
         id=ident("EXP"), conversation_id=payload.conversation_id, label=payload.label,
+        creation_request_key=payload.creation_request_key,
+        creation_request_fingerprint=creation_fingerprint(payload) if payload.creation_request_key else None,
         status=ExperimentStatus.CREATED.value,
-        test_suite_configuration=payload.test_suite_configuration.model_dump(mode="json"),
+        test_suite_configuration=suite_configuration,
         test_suite_metadata=TestSuiteMetadata().model_dump(mode="json"),
     )
-    db.add(experiment); db.commit(); db.refresh(experiment)
+    db.add(experiment)
+    try:
+        db.commit()
+    except IntegrityError:
+        db.rollback()
+        existing = existing_creation(db, ExperimentModel, payload)
+        if existing:
+            return experiment_schema(existing)
+        raise
+    db.refresh(experiment)
     return experiment_schema(experiment)
 
 @router.get("/experiments", response_model=list[Experiment])
@@ -500,6 +585,21 @@ def list_experiments(db: Session = Depends(get_db)):
 
 @router.post("/audits", response_model=AuditRun, status_code=201)
 def create_audit(payload: AuditCreate, db: Session = Depends(get_db)):
+    existing = existing_creation(db, AuditRunModel, payload)
+    if existing:
+        return audit_schema(existing)
+    try:
+        result = build_audit(payload, db)
+        db.commit()
+    except IntegrityError:
+        db.rollback()
+        existing = existing_creation(db, AuditRunModel, payload)
+        if existing:
+            return audit_schema(existing)
+        raise
+    return result
+
+def build_audit(payload: AuditCreate, db: Session):
     if not db.get(ConversationModel,payload.conversation_id): missing("Conversation")
     experiment = db.get(ExperimentModel, payload.experiment_id) if payload.experiment_id else None
     if payload.experiment_id and not experiment: missing("Experiment")
@@ -519,12 +619,11 @@ def create_audit(payload: AuditCreate, db: Session = Depends(get_db)):
     ensure_supported_pipeline_role(TargetProvider(selected_pipeline_provider), "memory-extraction and test-generation pipeline")
     if suite:
         selected_evaluator_provider = suite.evaluator_provider.value
-        selected_evaluator_model = suite.evaluator_model
+        selected_evaluator_model = configured_evaluator("rule_based")[1] if suite.evaluator_provider == TargetProvider.RULE_BASED else suite.evaluator_model
     else:
         selected_evaluator_provider, selected_evaluator_model = configured_evaluator(
             payload.evaluator_provider.value if payload.evaluator_provider else None, payload.evaluator_model,
         )
-    ensure_supported_pipeline_role(TargetProvider(selected_evaluator_provider), "behaviour evaluator")
     selected_strategy = payload.memory_strategy or (MemoryStrategy.WEAK_FIRST_HIT if payload.target_configuration == TargetConfiguration.WEAK else MemoryStrategy.STRONG_RULE_BASED)
     selected_seed = suite.random_seed if suite else payload.random_seed
     selected_budget = suite.test_budget if suite else payload.test_budget
@@ -545,9 +644,10 @@ def create_audit(payload: AuditCreate, db: Session = Depends(get_db)):
         target_memory_writer=selected_target_memory_writer,
         target_memory_capacity=selected_memory_capacity,
         target_system_adapter=payload.target_system_adapter,
+        target_memory_profile=payload.target_memory_profile,
     )
-    a=AuditRunModel(id=ident("RUN"), conversation_id=payload.conversation_id, experiment_id=payload.experiment_id, status="CREATED", target_configuration=payload.target_configuration.value, provider=payload.provider.value, model=model, temperature=payload.temperature, random_seed=selected_seed, test_budget=selected_budget, prompt_template_version=selected_template, pipeline_provider=selected_pipeline_provider, pipeline_model=selected_pipeline_model, evaluator_provider=selected_evaluator_provider, evaluator_model=selected_evaluator_model, memory_strategy=selected_strategy.value, memory_maintenance_policy=selected_maintenance_policy, target_memory_capacity=selected_memory_capacity, target_memory_writer=selected_target_memory_writer.value, target_memory_writer_version=metadata["target_memory_writer_version"], target_system_adapter=payload.target_system_adapter.value, target_system_adapter_version=metadata["target_system_adapter_version"], reproducibility_metadata=metadata)
-    db.add(a); db.commit(); db.refresh(a); return audit_schema(a)
+    a=AuditRunModel(id=ident("RUN"), creation_request_key=payload.creation_request_key, creation_request_fingerprint=creation_fingerprint(payload) if payload.creation_request_key else None, conversation_id=payload.conversation_id, experiment_id=payload.experiment_id, status="CREATED", target_configuration=payload.target_configuration.value, provider=payload.provider.value, model=model, temperature=payload.temperature, random_seed=selected_seed, test_budget=selected_budget, prompt_template_version=selected_template, pipeline_provider=selected_pipeline_provider, pipeline_model=selected_pipeline_model, evaluator_provider=selected_evaluator_provider, evaluator_model=selected_evaluator_model, memory_strategy=selected_strategy.value, memory_maintenance_policy=selected_maintenance_policy, target_memory_capacity=selected_memory_capacity, target_memory_writer=selected_target_memory_writer.value, target_memory_writer_version=metadata["target_memory_writer_version"], target_system_adapter=payload.target_system_adapter.value, target_system_adapter_version=metadata["target_system_adapter_version"], reproducibility_metadata=metadata)
+    db.add(a); db.flush(); db.refresh(a); return audit_schema(a)
 @router.get("/audits", response_model=list[AuditRun])
 def list_audits(db: Session = Depends(get_db)): return [audit_schema(a) for a in db.scalars(select(AuditRunModel).order_by(AuditRunModel.created_at.desc())).all()]
 @router.get("/audits/{run_id}", response_model=AuditRun)
@@ -560,7 +660,7 @@ def persist_generated_tests(db: Session, run: AuditRunModel, generated: list[Tes
     """Persist a suite with globally unique IDs; generator-local IDs are not DB IDs."""
     rows: list[TestCaseModel] = []
     for test in generated:
-        row = TestCaseModel(id=ident("T"), run_id=run.id, dimension=test.dimension.value if isinstance(test.dimension, Dimension) else test.dimension, prompt=test.prompt, expected_behavior=test.expected_behavior, supporting_memory_ids=test.supporting_memory_ids, generator_version=test.generator_version, test_type=test.test_type.value if isinstance(test.test_type, TestType) else test.test_type, quality_status=test.quality_status.value if isinstance(test.quality_status, TestQualityStatus) else test.quality_status, grounding_status=test.grounding_status.value if isinstance(test.grounding_status, GroundingStatus) else test.grounding_status, validation_notes=test.validation_notes, target_memory_context=test.target_memory_context)
+        row = TestCaseModel(id=ident("T"), run_id=run.id, dimension=test.dimension.value if isinstance(test.dimension, Dimension) else test.dimension, prompt=test.prompt, expected_behavior=test.expected_behavior, supporting_memory_ids=test.supporting_memory_ids, generator_version=test.generator_version, test_type=test.test_type.value if isinstance(test.test_type, TestType) else test.test_type, quality_status=test.quality_status.value if isinstance(test.quality_status, TestQualityStatus) else test.quality_status, grounding_status=test.grounding_status.value if isinstance(test.grounding_status, GroundingStatus) else test.grounding_status, validation_notes=test.validation_notes, probe_group_id=test.probe_group_id, probe_variant=test.probe_variant, target_memory_context=test.target_memory_context)
         db.add(row); rows.append(row)
     db.flush()
     return rows
@@ -569,7 +669,7 @@ def clone_shared_suite(db: Session, source_tests: list[TestCaseModel], run: Audi
     """Give a peer run an isolated copy of the exact canonical suite."""
     clones: list[TestCaseModel] = []
     for source in source_tests:
-        clone = TestCaseModel(id=ident("T"), run_id=run.id, suite_test_id=source.id, dimension=source.dimension, prompt=source.prompt, expected_behavior=source.expected_behavior, supporting_memory_ids=list(source.supporting_memory_ids), generator_version=source.generator_version, test_type=source.test_type, quality_status=source.quality_status, grounding_status=source.grounding_status, validation_notes=source.validation_notes, target_memory_context=[])
+        clone = TestCaseModel(id=ident("T"), run_id=run.id, suite_test_id=source.id, comparison_test_id=source.comparison_test_id, dimension=source.dimension, prompt=source.prompt, expected_behavior=source.expected_behavior, supporting_memory_ids=list(source.supporting_memory_ids), generator_version=source.generator_version, test_type=source.test_type, quality_status=source.quality_status, grounding_status=source.grounding_status, validation_notes=source.validation_notes, probe_group_id=source.probe_group_id, probe_variant=source.probe_variant, target_memory_context=[])
         db.add(clone); clones.append(clone)
     db.flush()
     return clones
@@ -600,6 +700,10 @@ def ensure_suite_editable(db: Session, run: AuditRunModel) -> None:
     would make the comparison unfair: completed peers would answer an older
     version while later peers would answer the edited prompt.
     """
+    if (run.reproducibility_metadata or {}).get('formal_matrix_version'):
+        raise HTTPException(409, 'This formal reference suite is frozen. Create a newly reviewed dataset version to change its questions.')
+    if run.status in {AuditStatus.TESTS_EXECUTED.value, AuditStatus.COMPLETED.value, AuditStatus.FAILED.value, AuditStatus.CANCELLED.value}:
+        raise HTTPException(409, "The test suite is frozen once execution has started.")
     if not run.experiment_id:
         return
     experiment = db.get(ExperimentModel, run.experiment_id)
@@ -639,6 +743,8 @@ def sync_canonical_test(db: Session, source: TestCaseModel) -> list[TestCaseMode
         peer.quality_status = source.quality_status
         peer.grounding_status = source.grounding_status
         peer.validation_notes = source.validation_notes
+        peer.probe_group_id = source.probe_group_id
+        peer.probe_variant = source.probe_variant
         # This must be empty before execution.  It is only ever computed by
         # the independent target store for the specific peer run.
         peer.target_memory_context = []
@@ -659,7 +765,16 @@ def generated_candidate_for_review(db: Session, source: TestCaseModel) -> TestCa
     suite_mode = TestSuiteConfiguration.model_validate(experiment.test_suite_configuration).suite_mode if experiment else TestSuiteMode.BEHAVIOURAL
     generator = get_suite_generator(suite_mode, get_test_generator(source_run.pipeline_provider, source_run.pipeline_model))
     candidates = generator.generate(memories, audit_schema(source_run))
-    matching = [candidate for candidate in candidates if candidate.dimension.value == source.dimension and candidate.test_type.value == source.test_type]
+    matching = [candidate for candidate in candidates if candidate.dimension.value == source.dimension and candidate.test_type.value == source.test_type
+                and set(candidate.supporting_memory_ids) == set(source.supporting_memory_ids)]
+    if not matching:
+        # Updated grounding may add a newly recognised conflicting source. A
+        # compatible replacement may expand evidence, never alter executed data.
+        matching = [candidate for candidate in candidates if candidate.dimension.value == source.dimension
+            and candidate.test_type.value == source.test_type
+            and set(candidate.supporting_memory_ids).intersection(source.supporting_memory_ids)]
+    peer_prompts = set(db.scalars(select(TestCaseModel.prompt).where(TestCaseModel.run_id == source.run_id, TestCaseModel.id != source.id)).all())
+    matching = [candidate for candidate in matching if candidate.prompt not in peer_prompts]
     # A deterministic baseline can legitimately reproduce the same wording;
     # the review history still records that the reviewer asked for a new pass.
     candidate = next((item for item in matching if item.prompt != source.prompt), None) or (matching[0] if matching else None)
@@ -700,6 +815,9 @@ def generate(run_id: str, db: Session=Depends(get_db)):
     if not generated:
         raise HTTPException(422, "The test generator produced no executable tests for the confirmed ground truth.")
     validator = RuleBasedTestQualityValidator()
+    suite_problem = validator.validate_suite(generated)
+    if suite_problem:
+        raise HTTPException(422, suite_problem)
     tests: list[TestCase] = []
     for test in generated:
         assessment = validator.validate(test, memories)
@@ -738,8 +856,7 @@ def test_review_suite(run_id: str, db: Session = Depends(get_db)):
     """
     audit = db.get(AuditRunModel, run_id)
     if not audit: missing("Audit")
-    require_state(audit, {AuditStatus.TESTS_GENERATED})
-    ensure_suite_editable(db, audit)
+    require_state(audit, {AuditStatus.TESTS_GENERATED, AuditStatus.TESTS_EXECUTED, AuditStatus.COMPLETED})
     experiment = db.get(ExperimentModel, audit.experiment_id) if audit.experiment_id else None
     source_run_id = experiment.test_suite_source_run_id if experiment and experiment.test_suite_source_run_id else run_id
     source_tests = db.scalars(select(TestCaseModel).where(TestCaseModel.run_id == source_run_id).order_by(TestCaseModel.id)).all()
@@ -757,7 +874,7 @@ def review_test(run_id: str, test_id: str, payload: TestReviewUpdate, db: Sessio
     source = canonical_test_for_review(db, audit, test_id)
     source.quality_status = payload.quality_status.value
     review_note = payload.note.strip() if payload.note else "No reviewer note provided."
-    source.validation_notes = f"Human review: {payload.quality_status.value}. {review_note}"
+    source.validation_notes = f"Review decision: {payload.quality_status.value}. {review_note}"
     sync_canonical_test(db, source)
     db.commit(); db.refresh(source)
     return public_test_schema(source)
@@ -781,6 +898,8 @@ def regenerate_test(run_id: str, test_id: str, db: Session = Depends(get_db)):
     source.grounding_status = replacement.grounding_status.value
     source.validation_notes = replacement.validation_notes
     source.target_memory_context = []
+    source.probe_group_id = replacement.probe_group_id
+    source.probe_variant = replacement.probe_variant
     sync_canonical_test(db, source)
     db.commit(); db.refresh(source)
     return public_test_schema(source)
@@ -845,8 +964,14 @@ def execute(run_id:str,db:Session=Depends(get_db)):
 def _execute(run_id: str, db: Session):
     a=db.get(AuditRunModel,run_id)
     if not a: missing("Audit")
+    from app.services.formal_freeze import assert_formal_runtime_frozen, assert_formal_inputs_frozen
+    assert_formal_runtime_frozen(a)
+    assert_formal_inputs_frozen(db, a)
     require_state(a,{AuditStatus.TESTS_GENERATED})
     review_rows = db.scalars(select(TestCaseModel).where(TestCaseModel.run_id == run_id)).all()
+    suite_problem = RuleBasedTestQualityValidator.validate_suite([test_schema(row) for row in review_rows])
+    if suite_problem:
+        raise HTTPException(409, suite_problem)
     if any(test.quality_status == TestQualityStatus.REJECTED.value for test in review_rows):
         raise HTTPException(409, "Resolve rejected tests by regenerating or accepting them before execution.")
     if any(test.quality_status == TestQualityStatus.PENDING.value for test in review_rows):
@@ -943,6 +1068,9 @@ def evaluate(run_id:str,db:Session=Depends(get_db)):
 def _evaluate(run_id: str, db: Session):
     a=db.get(AuditRunModel,run_id)
     if not a: missing("Audit")
+    from app.services.formal_freeze import assert_formal_runtime_frozen, assert_formal_inputs_frozen
+    assert_formal_runtime_frozen(a)
+    assert_formal_inputs_frozen(db, a)
     require_state(a,{AuditStatus.TESTS_EXECUTED})
     mems=[memory_schema(db,m) for m in db.scalars(select(MemoryModel).where(MemoryModel.conversation_id==a.conversation_id)).all()]; outputs=[]
     try:
@@ -953,7 +1081,23 @@ def _evaluate(run_id: str, db: Session):
             db.refresh(a)
             if a.status == AuditStatus.CANCELLED.value:
                 raise HTTPException(409, "This audit was cancelled. Completed evaluations were retained for traceability.")
-            r=db.scalar(select(TargetResponseModel).where(TargetResponseModel.test_id==t.id)); e=get_behaviour_evaluator(a.evaluator_provider, a.evaluator_model).evaluate(test_schema(t),response_schema(r),mems); outputs.append(e); db.add(EvaluationResultModel(id=e.evaluation_id,test_id=e.test_id,response_id=e.response_id,passed=e.passed,failure_type=e.failure_type.value if e.failure_type else None,reason=e.reason,evidence_memory_ids=e.evidence_memory_ids,evaluator=e.evaluator)); db.flush()
+            r = db.scalar(select(TargetResponseModel).where(TargetResponseModel.test_id == t.id))
+            test, response = test_schema(t), response_schema(r)
+            e = get_behaviour_evaluator(a.evaluator_provider, a.evaluator_model).evaluate(test, response, mems)
+            from app.services.memory_grounding import annotate_memory_grounding
+            receipt = response.execution_metadata.memory_input
+            supplied = None
+            if receipt is not None and receipt.sent_memory_ids is not None:
+                records = db.scalars(select(TargetAgentMemoryModel).where(
+                    TargetAgentMemoryModel.run_id == run_id,
+                    TargetAgentMemoryModel.id.in_(receipt.sent_memory_ids),
+                )).all()
+                if len(records) == len(set(receipt.sent_memory_ids)):
+                    supplied = [record.canonical_value for record in records]
+            e = annotate_memory_grounding(e, test, response, supplied)
+            outputs.append(e)
+            db.add(EvaluationResultModel(id=e.evaluation_id,test_id=e.test_id,response_id=e.response_id,passed=e.passed,failure_type=e.failure_type.value if e.failure_type else None,reason=e.reason,evidence_memory_ids=e.evidence_memory_ids,evaluator=e.evaluator,judge_execution=e.judge_execution.model_dump() if e.judge_execution else None))
+            db.flush()
         transition_audit_status(
             db, a, AuditStatus.TESTS_EXECUTED, AuditStatus.COMPLETED,
             completed_at=datetime.now(timezone.utc),
@@ -990,6 +1134,9 @@ def retry_audit(run_id: str, db: Session = Depends(get_db)):
     """Resume only the incomplete durable stage of an interrupted audit."""
     audit = db.get(AuditRunModel, run_id)
     if not audit: missing("Audit")
+    from app.services.formal_freeze import assert_formal_runtime_frozen, assert_formal_inputs_frozen
+    assert_formal_runtime_frozen(audit)
+    assert_formal_inputs_frozen(db, audit)
     plan = retry_plan(run_id, db)
     if not plan["retryable"]:
         # A provider/database interruption can occur after the final durable
@@ -1016,15 +1163,22 @@ def result_for(run_id,db):
     if a.status != "COMPLETED": raise HTTPException(409,"Results are available after evaluation is complete.")
     ts={t.id: test_schema(t) for t in db.scalars(select(TestCaseModel).where(TestCaseModel.run_id==run_id)).all()}; rs={r.id: response_schema(r) for r in db.scalars(select(TargetResponseModel).where(TargetResponseModel.run_id==run_id)).all()}; es=[eval_schema(e) for e in db.scalars(select(EvaluationResultModel).join(TestCaseModel).where(TestCaseModel.run_id==run_id)).all()]
     overall, dimensions=MetricsService().calculate(es,{k:v.dimension for k,v in ts.items()}); failures=[]
+    source_messages = db.scalars(select(MessageModel).where(MessageModel.conversation_id == a.conversation_id).order_by(MessageModel.sequence, MessageModel.timestamp)).all()
     for e in es:
-        if not e.passed:
-            evidence=[memory_schema(db,m) for m in db.scalars(select(MemoryModel).where(MemoryModel.id.in_(e.evidence_memory_ids))).all()]
-            failures.append(FailureDetail(failure_id=e.evaluation_id,test=TestCasePublic(**ts[e.test_id].model_dump(exclude={"target_memory_context"})),response=rs[e.response_id],evaluation=e,evidence=evidence))
+        if e.passed is False:
+            evidence=[memory_schema(db,m) for m in db.scalars(select(MemoryModel).where(MemoryModel.id.in_(e.evidence_memory_ids), MemoryModel.conversation_id == a.conversation_id)).all()]
+            failures.append(FailureDetail(failure_id=e.evaluation_id,test=TestCasePublic(**ts[e.test_id].model_dump(exclude={"target_memory_context"})),response=rs[e.response_id],evaluation=e,evidence=evidence,source_statements=[SourceStatement(role=message.role, content=message.content, timestamp=message.timestamp) for message in source_messages if (message.source_message_id or message.id) in {source for memory in evidence for source in memory.source_message_ids}]))
     fallback_count = sum(1 for evaluation in es if evaluation.evaluator.startswith("fallback-"))
     warnings = [
-        f"{fallback_count} evaluation(s) used the deterministic fallback because the configured LLM judge did not return a valid decision."
+        f"{fallback_count} evaluation(s) remain uncertain because the configured LLM judge did not return a valid decision; advisory fallback decisions are excluded from scores."
     ] if fallback_count else []
-    return AuditResult(run_id=run_id,overall_score=overall,tests_passed=sum(e.passed for e in es),tests_total=len(es),dimensions=dimensions,failures=failures,evaluation_warnings=warnings,retrieval_quality=RetrievalQualityService().calculate(run_id, db),reproducibility=getattr(a, "reproducibility_metadata", {}) or {})
+    disagreements = sum(e.judge_execution is not None and e.judge_execution.verdict_status == "review_disagreement" for e in es)
+    if disagreements:
+        warnings.append(f"{disagreements} local semantic judgment(s) disagree with the evidence-rule check; both automated judgments are advisory and these answers remain excluded from scoring until independent review.")
+    source_uncertainties = sum(e.judge_execution is not None and e.judge_execution.verdict_status == "review_source_uncertainty" for e in es)
+    if source_uncertainties:
+        warnings.append(f"{source_uncertainties} local semantic judgment(s) cannot resolve source-check uncertainty; the original explanations are retained and these answers remain excluded from scoring until independent review.")
+    return AuditResult(run_id=run_id,overall_score=overall,tests_passed=sum(e.passed is True for e in es),tests_total=sum(e.passed is not None for e in es),uncertain_count=sum(e.passed is None for e in es),evaluated_count=len(es),dimensions=dimensions,failures=failures,evaluation_warnings=warnings,retrieval_quality=RetrievalQualityService().calculate(run_id, db),reproducibility=getattr(a, "reproducibility_metadata", {}) or {})
 @router.get("/audits/{run_id}/results", response_model=AuditResult)
 def results(run_id:str,db:Session=Depends(get_db)): return result_for(run_id,db)
 
@@ -1104,6 +1258,8 @@ def review_evaluation(run_id: str, evaluation_id: str, payload: EvaluationHumanR
             row.review_role != HumanReviewRole.INDEPENDENT.value for row in cited
         ):
             raise HTTPException(422, "An adjudication may cite only independent reviews for this evaluation.")
+        if len({row.reviewer_label for row in cited}) < 2:
+            raise HTTPException(422, "Adjudication requires two independently named reviewers for this evaluation.")
     if role == HumanReviewRole.INDEPENDENT.value:
         review = db.scalar(select(EvaluationHumanReviewModel).where(
             EvaluationHumanReviewModel.evaluation_id == evaluation_id,
@@ -1143,8 +1299,8 @@ def evaluation_calibration(run_id: str, db: Session = Depends(get_db)):
     silently majority-voted into the automated-evaluator calibration set.
     """
     items = evaluation_review_items_for(run_id, db)
-    reviewed = [item for item in items if item.human_review]
-    automated_failures = sum(not item.automated.passed for item in items)
+    reviewed = [item for item in items if item.human_review and item.automated.passed is not None]
+    automated_failures = sum(item.automated.passed is False for item in items)
     agreements = sum(item.automated.passed == item.human_review.human_passed for item in reviewed if item.human_review)
     true_positive = sum((not item.automated.passed) and (not item.human_review.human_passed) for item in reviewed if item.human_review)
     false_positive = sum((not item.automated.passed) and item.human_review.human_passed for item in reviewed if item.human_review)
@@ -1229,6 +1385,18 @@ def safe_trace_event_schema(event: TargetAgentMemoryEventModel) -> TargetMemoryT
         created_at=event.created_at,
     )
 
+def target_retrieval_trace_schema(db: Session, item: TargetAgentRetrievalModel) -> TargetMemoryTraceRetrieval:
+    test = db.get(TestCaseModel, item.test_id)
+    response = db.get(TargetResponseModel, item.final_response_id) if item.final_response_id else None
+    receipt = ExecutionMetadata.model_validate(response.execution_metadata or {}).memory_input if response else None
+    return TargetMemoryTraceRetrieval(
+        question=getattr(test, "prompt", None),
+        retrieval_id=item.id, test_id=item.test_id, strategy=item.strategy,
+        selected_memory_ids=list(item.selected_memory_ids), ranking_evidence=list(item.ranking_evidence),
+        final_response_id=item.final_response_id, memory_input=receipt, created_at=item.created_at,
+    )
+
+
 def target_memory_trace_payload(audit: AuditRunModel, db: Session) -> TargetMemoryTrace:
     """Build terminal target-memory evidence without evaluator-only material."""
     run_id = audit.id
@@ -1253,12 +1421,7 @@ def target_memory_trace_payload(audit: AuditRunModel, db: Session) -> TargetMemo
                                       or (audit.reproducibility_metadata or {}).get("target_memory_writer_version")),
         records=[target_trace_record_schema(db, record) for record in records],
         events=[safe_trace_event_schema(event) for event in events],
-        retrievals=[TargetMemoryTraceRetrieval(
-            retrieval_id=item.id, test_id=item.test_id, strategy=item.strategy,
-            selected_memory_ids=list(item.selected_memory_ids),
-            ranking_evidence=list(item.ranking_evidence), final_response_id=item.final_response_id,
-            created_at=item.created_at,
-        ) for item in retrievals],
+        retrievals=[target_retrieval_trace_schema(db, item) for item in retrievals],
     )
 
 
@@ -1291,6 +1454,22 @@ def cancelled_audit_evidence(run_id: str, db: Session = Depends(get_db)):
         audit=audit_schema(audit), completed_responses=[response_schema(item) for item in responses],
         trace=target_memory_trace_payload(audit, db),
     )
+
+@router.get("/audit-comparisons")
+def audit_comparison(before: str, after: str, db: Session = Depends(get_db)):
+    if before == after:
+        raise HTTPException(422, "Choose two different audits.")
+    audits = [db.get(AuditRunModel, run_id) for run_id in (before, after)]
+    if any(audit is None for audit in audits):
+        missing("Audit")
+    if any(audit.status != AuditStatus.COMPLETED.value for audit in audits):
+        raise HTTPException(409, "Both audits must be complete before comparison.")
+    return {
+        "before": {"run": audit_schema(audits[0]), "result": result_for(before, db)},
+        "after": {"run": audit_schema(audits[1]), "result": result_for(after, db)},
+        **compare_audit_evidence(db, audits[0], audits[1]),
+    }
+
 
 @router.get("/audits/{run_id}/failures/{failure_id}", response_model=FailureDetail)
 def failure(run_id:str,failure_id:str,db:Session=Depends(get_db)):
@@ -1382,12 +1561,7 @@ def _safe_artifact_trace(run_id: str, db: Session) -> dict:
     return {
         "records": [target_trace_record_schema(db, record).model_dump(mode="json") for record in records],
         "events": [safe_trace_event_schema(event).model_dump(mode="json") for event in events],
-        "retrievals": [TargetMemoryTraceRetrieval(
-            retrieval_id=item.id, test_id=item.test_id, strategy=item.strategy,
-            selected_memory_ids=list(item.selected_memory_ids),
-            ranking_evidence=list(item.ranking_evidence), final_response_id=item.final_response_id,
-            created_at=item.created_at,
-        ).model_dump(mode="json") for item in retrievals],
+        "retrievals": [target_retrieval_trace_schema(db, item).model_dump(mode="json") for item in retrievals],
     }
 
 

@@ -1,0 +1,13 @@
+{
+  "reviewers": [
+    "A",
+    "B",
+    "C"
+  ],
+  "identical_material_sha256": "a5678ef1679f1211802cd137dc075eda04ec2ab7a032d48e54cbfe2523b17acc",
+  "histories": 6,
+  "ordinary_answers": 32,
+  "official_answers": 21,
+  "human_labels": 0,
+  "status": "Blank independent development review worksheets, not held-out calibration results."
+}

@@ -1,0 +1,979 @@
+{
+  "protocol_id": "independent-repair-v1",
+  "annotation_origin": "AI-authored and AI-pre-reviewed; human validation pending",
+  "data_origin": "Synthetic sources newly authored after repair implementation freeze, not independent human-authored data",
+  "target_provider": "ollama",
+  "target_models": [
+    "qwen3:1.7b"
+  ],
+  "evaluator_provider": "rule_based",
+  "evaluator_model": "rule-based-v8",
+  "strategies": [
+    "no_memory",
+    "full_context",
+    "strong_rule_based",
+    "strong_score_based",
+    "scope_aware"
+  ],
+  "repetitions": {
+    "diagnostic": 0,
+    "held_out": 3
+  },
+  "temperature": 0,
+  "random_seed": 42,
+  "policy_freeze": "No policy, writer, target prompt, evaluator or question tuning after collection begins. Shared Strong prompt across all conditions.",
+  "expected_implementation_fingerprint_sha256": "0f0011785cc8236af2e999b010b64eb7ea9ec2c64b905612734a776d751f19b7",
+  "primary_comparison": {
+    "before": "strong_score_based",
+    "after": "scope_aware"
+  },
+  "mechanism_ablation": {
+    "before": "strong_rule_based",
+    "after": "strong_score_based"
+  },
+  "additional_comparisons": [
+    {
+      "name": "targeted_vs_original",
+      "before": "strong_rule_based",
+      "after": "scope_aware"
+    }
+  ],
+  "human_labels_completed": false,
+  "notice": "Fresh synthetic held-out pilot under a frozen already repaired pipeline; tests incremental scope-aware retrieval, not the entire historical repair package. Generic control is the existing relevance-score policy with update reconciliation. Same model and shared Strong prompt; no weight changes. Repeated deterministic-temperature runs are not independent source samples. Four source histories, not 240 independent questions. No human validation or commercial superiority claim.",
+  "scenarios": [
+    {
+      "conversation_id": "INDEPENDENT-1",
+      "split": "held_out",
+      "novelty": {
+        "new_source_history": true,
+        "used_for_policy_tuning": false,
+        "late_general_preference": false,
+        "cross_project_distractor": true,
+        "assistant_not_gold_evidence": true
+      },
+      "messages": [
+        {
+          "message_id": "MSG1",
+          "role": "user",
+          "content": "I am based in Oslo.",
+          "timestamp": "2026-10-09T00:00:00+00:00"
+        },
+        {
+          "message_id": "MSG2",
+          "role": "user",
+          "content": "I generally prefer Java.",
+          "timestamp": "2026-10-09T01:00:00+00:00"
+        },
+        {
+          "message_id": "MSG3",
+          "role": "user",
+          "content": "The Alder backend previously used PostgreSQL.",
+          "timestamp": "2026-10-09T02:00:00+00:00"
+        },
+        {
+          "message_id": "MSG4",
+          "role": "user",
+          "content": "The Alder backend has now migrated to MySQL.",
+          "timestamp": "2026-10-09T03:00:00+00:00"
+        },
+        {
+          "message_id": "MSG5",
+          "role": "user",
+          "content": "For this assignment, Rust is required.",
+          "timestamp": "2026-10-09T04:00:00+00:00"
+        },
+        {
+          "message_id": "MSG6",
+          "role": "user",
+          "content": "The Alder deployment policy requires secrets in environment variables.",
+          "timestamp": "2026-10-09T05:00:00+00:00"
+        },
+        {
+          "message_id": "MSG7",
+          "role": "user",
+          "content": "A conflicting Alder deployment policy requires secrets in a configuration file; neither policy supersedes the other.",
+          "timestamp": "2026-10-09T06:00:00+00:00"
+        },
+        {
+          "message_id": "MSG8",
+          "role": "user",
+          "content": "The Alder logs now remain in object storage.",
+          "timestamp": "2026-10-09T07:00:00+00:00"
+        },
+        {
+          "message_id": "MSG9",
+          "role": "user",
+          "content": "The unrelated Maple backend now uses PostgreSQL.",
+          "timestamp": "2026-10-09T08:00:00+00:00"
+        },
+        {
+          "message_id": "MSG10",
+          "role": "assistant",
+          "content": "I suggest Sydney, Python, and PostgreSQL regardless of the project records.",
+          "timestamp": "2026-10-09T09:00:00+00:00"
+        }
+      ],
+      "gold_memories": [
+        {
+          "memory_id": "M1",
+          "canonical_value": "I am based in Oslo",
+          "source_message_ids": [
+            "MSG1"
+          ],
+          "timestamp": "2026-10-09T00:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M2",
+          "canonical_value": "I generally prefer Java",
+          "source_message_ids": [
+            "MSG2"
+          ],
+          "timestamp": "2026-10-09T01:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M3",
+          "canonical_value": "The Alder backend previously used PostgreSQL",
+          "source_message_ids": [
+            "MSG3"
+          ],
+          "timestamp": "2026-10-09T02:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M4",
+          "canonical_value": "The Alder backend has now migrated to MySQL",
+          "source_message_ids": [
+            "MSG4"
+          ],
+          "timestamp": "2026-10-09T03:00:00+00:00",
+          "relationships": [
+            {
+              "type": "UPDATE",
+              "target_memory_id": "M3"
+            }
+          ]
+        },
+        {
+          "memory_id": "M5",
+          "canonical_value": "For this assignment, Rust is required",
+          "source_message_ids": [
+            "MSG5"
+          ],
+          "timestamp": "2026-10-09T04:00:00+00:00",
+          "relationships": [
+            {
+              "type": "CONTEXTUAL_OVERRIDE",
+              "target_memory_id": "M2"
+            }
+          ]
+        },
+        {
+          "memory_id": "M6",
+          "canonical_value": "The Alder deployment policy requires secrets in environment variables",
+          "source_message_ids": [
+            "MSG6"
+          ],
+          "timestamp": "2026-10-09T05:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M7",
+          "canonical_value": "A conflicting Alder deployment policy requires secrets in a configuration file; neither policy supersedes the other",
+          "source_message_ids": [
+            "MSG7"
+          ],
+          "timestamp": "2026-10-09T06:00:00+00:00",
+          "relationships": [
+            {
+              "type": "CONFLICT",
+              "target_memory_id": "M6"
+            }
+          ]
+        },
+        {
+          "memory_id": "M8",
+          "canonical_value": "The Alder logs now remain in object storage",
+          "source_message_ids": [
+            "MSG8"
+          ],
+          "timestamp": "2026-10-09T07:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M9",
+          "canonical_value": "The unrelated Maple backend now uses PostgreSQL",
+          "source_message_ids": [
+            "MSG9"
+          ],
+          "timestamp": "2026-10-09T08:00:00+00:00",
+          "relationships": []
+        }
+      ],
+      "gold_tests": [
+        {
+          "test_id": "T1",
+          "dimension": "accuracy",
+          "prompt": "In which city is the user based?",
+          "expected_behavior": "State the recorded city: Oslo.",
+          "supporting_memory_ids": [
+            "M1"
+          ],
+          "test_type": "contextual",
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "AI source review only; human validation pending. No disagreement or answer disclosed in question."
+        },
+        {
+          "test_id": "T2",
+          "dimension": "freshness",
+          "prompt": "Which database does the Alder backend use now?",
+          "expected_behavior": "Use the later record: MySQL.",
+          "supporting_memory_ids": [
+            "M3",
+            "M4"
+          ],
+          "test_type": "contextual",
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "AI source review only; human validation pending. No disagreement or answer disclosed in question."
+        },
+        {
+          "test_id": "T3",
+          "dimension": "appropriate_use",
+          "prompt": "Which programming language is required for this assignment?",
+          "expected_behavior": "Follow the contextual requirement: Rust is required.",
+          "supporting_memory_ids": [
+            "M2",
+            "M5"
+          ],
+          "test_type": "contextual",
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "AI source review only; human validation pending. No disagreement or answer disclosed in question."
+        },
+        {
+          "test_id": "T4",
+          "dimension": "conflict_resolution",
+          "prompt": "Where should Alder deployment secrets be kept, and how should the assistant proceed?",
+          "expected_behavior": "Acknowledge the conflict and request clarification before choosing either policy.",
+          "supporting_memory_ids": [
+            "M6",
+            "M7"
+          ],
+          "test_type": "contextual",
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "AI source review only; human validation pending. No disagreement or answer disclosed in question."
+        }
+      ]
+    },
+    {
+      "conversation_id": "INDEPENDENT-2",
+      "split": "held_out",
+      "novelty": {
+        "new_source_history": true,
+        "used_for_policy_tuning": false,
+        "late_general_preference": true,
+        "cross_project_distractor": true,
+        "assistant_not_gold_evidence": true
+      },
+      "messages": [
+        {
+          "message_id": "MSG1",
+          "role": "user",
+          "content": "I am based in Dublin.",
+          "timestamp": "2026-10-10T00:00:00+00:00"
+        },
+        {
+          "message_id": "MSG2",
+          "role": "user",
+          "content": "The Birch backend previously used MySQL.",
+          "timestamp": "2026-10-10T01:00:00+00:00"
+        },
+        {
+          "message_id": "MSG3",
+          "role": "user",
+          "content": "For this assignment, TypeScript is required.",
+          "timestamp": "2026-10-10T02:00:00+00:00"
+        },
+        {
+          "message_id": "MSG4",
+          "role": "user",
+          "content": "The Birch backend has now migrated to SQLite.",
+          "timestamp": "2026-10-10T03:00:00+00:00"
+        },
+        {
+          "message_id": "MSG5",
+          "role": "user",
+          "content": "The Birch deployment policy requires secrets in a configuration file.",
+          "timestamp": "2026-10-10T04:00:00+00:00"
+        },
+        {
+          "message_id": "MSG6",
+          "role": "user",
+          "content": "A conflicting Birch deployment policy requires secrets in environment variables; neither policy supersedes the other.",
+          "timestamp": "2026-10-10T05:00:00+00:00"
+        },
+        {
+          "message_id": "MSG7",
+          "role": "user",
+          "content": "The Birch logs now remain in object storage.",
+          "timestamp": "2026-10-10T06:00:00+00:00"
+        },
+        {
+          "message_id": "MSG8",
+          "role": "user",
+          "content": "The unrelated Maple backend now uses MySQL.",
+          "timestamp": "2026-10-10T07:00:00+00:00"
+        },
+        {
+          "message_id": "MSG9",
+          "role": "user",
+          "content": "I generally prefer Python.",
+          "timestamp": "2026-10-10T08:00:00+00:00"
+        },
+        {
+          "message_id": "MSG10",
+          "role": "assistant",
+          "content": "I suggest Sydney, Python, and PostgreSQL regardless of the project records.",
+          "timestamp": "2026-10-10T09:00:00+00:00"
+        }
+      ],
+      "gold_memories": [
+        {
+          "memory_id": "M1",
+          "canonical_value": "I am based in Dublin",
+          "source_message_ids": [
+            "MSG1"
+          ],
+          "timestamp": "2026-10-10T00:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M2",
+          "canonical_value": "The Birch backend previously used MySQL",
+          "source_message_ids": [
+            "MSG2"
+          ],
+          "timestamp": "2026-10-10T01:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M3",
+          "canonical_value": "For this assignment, TypeScript is required",
+          "source_message_ids": [
+            "MSG3"
+          ],
+          "timestamp": "2026-10-10T02:00:00+00:00",
+          "relationships": [
+            {
+              "type": "CONTEXTUAL_OVERRIDE",
+              "target_memory_id": "M9"
+            }
+          ]
+        },
+        {
+          "memory_id": "M4",
+          "canonical_value": "The Birch backend has now migrated to SQLite",
+          "source_message_ids": [
+            "MSG4"
+          ],
+          "timestamp": "2026-10-10T03:00:00+00:00",
+          "relationships": [
+            {
+              "type": "UPDATE",
+              "target_memory_id": "M2"
+            }
+          ]
+        },
+        {
+          "memory_id": "M5",
+          "canonical_value": "The Birch deployment policy requires secrets in a configuration file",
+          "source_message_ids": [
+            "MSG5"
+          ],
+          "timestamp": "2026-10-10T04:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M6",
+          "canonical_value": "A conflicting Birch deployment policy requires secrets in environment variables; neither policy supersedes the other",
+          "source_message_ids": [
+            "MSG6"
+          ],
+          "timestamp": "2026-10-10T05:00:00+00:00",
+          "relationships": [
+            {
+              "type": "CONFLICT",
+              "target_memory_id": "M5"
+            }
+          ]
+        },
+        {
+          "memory_id": "M7",
+          "canonical_value": "The Birch logs now remain in object storage",
+          "source_message_ids": [
+            "MSG7"
+          ],
+          "timestamp": "2026-10-10T06:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M8",
+          "canonical_value": "The unrelated Maple backend now uses MySQL",
+          "source_message_ids": [
+            "MSG8"
+          ],
+          "timestamp": "2026-10-10T07:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M9",
+          "canonical_value": "I generally prefer Python",
+          "source_message_ids": [
+            "MSG9"
+          ],
+          "timestamp": "2026-10-10T08:00:00+00:00",
+          "relationships": []
+        }
+      ],
+      "gold_tests": [
+        {
+          "test_id": "T1",
+          "dimension": "accuracy",
+          "prompt": "In which city is the user based?",
+          "expected_behavior": "State the recorded city: Dublin.",
+          "supporting_memory_ids": [
+            "M1"
+          ],
+          "test_type": "contextual",
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "AI source review only; human validation pending. No disagreement or answer disclosed in question."
+        },
+        {
+          "test_id": "T2",
+          "dimension": "freshness",
+          "prompt": "Which database does the Birch backend use now?",
+          "expected_behavior": "Use the later record: SQLite.",
+          "supporting_memory_ids": [
+            "M2",
+            "M4"
+          ],
+          "test_type": "contextual",
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "AI source review only; human validation pending. No disagreement or answer disclosed in question."
+        },
+        {
+          "test_id": "T3",
+          "dimension": "appropriate_use",
+          "prompt": "Which programming language is required for this assignment?",
+          "expected_behavior": "Follow the contextual requirement: TypeScript is required.",
+          "supporting_memory_ids": [
+            "M9",
+            "M3"
+          ],
+          "test_type": "contextual",
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "AI source review only; human validation pending. No disagreement or answer disclosed in question."
+        },
+        {
+          "test_id": "T4",
+          "dimension": "conflict_resolution",
+          "prompt": "Where should Birch deployment secrets be kept, and how should the assistant proceed?",
+          "expected_behavior": "Acknowledge the conflict and request clarification before choosing either policy.",
+          "supporting_memory_ids": [
+            "M5",
+            "M6"
+          ],
+          "test_type": "contextual",
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "AI source review only; human validation pending. No disagreement or answer disclosed in question."
+        }
+      ]
+    },
+    {
+      "conversation_id": "INDEPENDENT-3",
+      "split": "held_out",
+      "novelty": {
+        "new_source_history": true,
+        "used_for_policy_tuning": false,
+        "late_general_preference": false,
+        "cross_project_distractor": true,
+        "assistant_not_gold_evidence": true
+      },
+      "messages": [
+        {
+          "message_id": "MSG1",
+          "role": "user",
+          "content": "I am based in Prague.",
+          "timestamp": "2026-10-11T00:00:00+00:00"
+        },
+        {
+          "message_id": "MSG2",
+          "role": "user",
+          "content": "I generally prefer Rust.",
+          "timestamp": "2026-10-11T01:00:00+00:00"
+        },
+        {
+          "message_id": "MSG3",
+          "role": "user",
+          "content": "The Cedar backend previously used SQLite.",
+          "timestamp": "2026-10-11T02:00:00+00:00"
+        },
+        {
+          "message_id": "MSG4",
+          "role": "user",
+          "content": "The Cedar backend has now migrated to MongoDB.",
+          "timestamp": "2026-10-11T03:00:00+00:00"
+        },
+        {
+          "message_id": "MSG5",
+          "role": "user",
+          "content": "For this assignment, JavaScript is required.",
+          "timestamp": "2026-10-11T04:00:00+00:00"
+        },
+        {
+          "message_id": "MSG6",
+          "role": "user",
+          "content": "The Cedar deployment policy requires secrets in environment variables.",
+          "timestamp": "2026-10-11T05:00:00+00:00"
+        },
+        {
+          "message_id": "MSG7",
+          "role": "user",
+          "content": "A conflicting Cedar deployment policy requires secrets in a configuration file; neither policy supersedes the other.",
+          "timestamp": "2026-10-11T06:00:00+00:00"
+        },
+        {
+          "message_id": "MSG8",
+          "role": "user",
+          "content": "The Cedar logs now remain in object storage.",
+          "timestamp": "2026-10-11T07:00:00+00:00"
+        },
+        {
+          "message_id": "MSG9",
+          "role": "user",
+          "content": "The unrelated Maple backend now uses SQLite.",
+          "timestamp": "2026-10-11T08:00:00+00:00"
+        },
+        {
+          "message_id": "MSG10",
+          "role": "assistant",
+          "content": "I suggest Sydney, Python, and PostgreSQL regardless of the project records.",
+          "timestamp": "2026-10-11T09:00:00+00:00"
+        },
+        {
+          "message_id": "MSG11",
+          "role": "user",
+          "content": "I am based in Prague.",
+          "timestamp": "2026-10-11T10:00:00+00:00"
+        }
+      ],
+      "gold_memories": [
+        {
+          "memory_id": "M1",
+          "canonical_value": "I am based in Prague",
+          "source_message_ids": [
+            "MSG1",
+            "MSG11"
+          ],
+          "timestamp": "2026-10-11T00:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M2",
+          "canonical_value": "I generally prefer Rust",
+          "source_message_ids": [
+            "MSG2"
+          ],
+          "timestamp": "2026-10-11T01:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M3",
+          "canonical_value": "The Cedar backend previously used SQLite",
+          "source_message_ids": [
+            "MSG3"
+          ],
+          "timestamp": "2026-10-11T02:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M4",
+          "canonical_value": "The Cedar backend has now migrated to MongoDB",
+          "source_message_ids": [
+            "MSG4"
+          ],
+          "timestamp": "2026-10-11T03:00:00+00:00",
+          "relationships": [
+            {
+              "type": "UPDATE",
+              "target_memory_id": "M3"
+            }
+          ]
+        },
+        {
+          "memory_id": "M5",
+          "canonical_value": "For this assignment, JavaScript is required",
+          "source_message_ids": [
+            "MSG5"
+          ],
+          "timestamp": "2026-10-11T04:00:00+00:00",
+          "relationships": [
+            {
+              "type": "CONTEXTUAL_OVERRIDE",
+              "target_memory_id": "M2"
+            }
+          ]
+        },
+        {
+          "memory_id": "M6",
+          "canonical_value": "The Cedar deployment policy requires secrets in environment variables",
+          "source_message_ids": [
+            "MSG6"
+          ],
+          "timestamp": "2026-10-11T05:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M7",
+          "canonical_value": "A conflicting Cedar deployment policy requires secrets in a configuration file; neither policy supersedes the other",
+          "source_message_ids": [
+            "MSG7"
+          ],
+          "timestamp": "2026-10-11T06:00:00+00:00",
+          "relationships": [
+            {
+              "type": "CONFLICT",
+              "target_memory_id": "M6"
+            }
+          ]
+        },
+        {
+          "memory_id": "M8",
+          "canonical_value": "The Cedar logs now remain in object storage",
+          "source_message_ids": [
+            "MSG8"
+          ],
+          "timestamp": "2026-10-11T07:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M9",
+          "canonical_value": "The unrelated Maple backend now uses SQLite",
+          "source_message_ids": [
+            "MSG9"
+          ],
+          "timestamp": "2026-10-11T08:00:00+00:00",
+          "relationships": []
+        }
+      ],
+      "gold_tests": [
+        {
+          "test_id": "T1",
+          "dimension": "accuracy",
+          "prompt": "In which city is the user based?",
+          "expected_behavior": "State the recorded city: Prague.",
+          "supporting_memory_ids": [
+            "M1"
+          ],
+          "test_type": "contextual",
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "AI source review only; human validation pending. No disagreement or answer disclosed in question."
+        },
+        {
+          "test_id": "T2",
+          "dimension": "freshness",
+          "prompt": "Which database does the Cedar backend use now?",
+          "expected_behavior": "Use the later record: MongoDB.",
+          "supporting_memory_ids": [
+            "M3",
+            "M4"
+          ],
+          "test_type": "contextual",
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "AI source review only; human validation pending. No disagreement or answer disclosed in question."
+        },
+        {
+          "test_id": "T3",
+          "dimension": "appropriate_use",
+          "prompt": "Which programming language is required for this assignment?",
+          "expected_behavior": "Follow the contextual requirement: JavaScript is required.",
+          "supporting_memory_ids": [
+            "M2",
+            "M5"
+          ],
+          "test_type": "contextual",
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "AI source review only; human validation pending. No disagreement or answer disclosed in question."
+        },
+        {
+          "test_id": "T4",
+          "dimension": "conflict_resolution",
+          "prompt": "Where should Cedar deployment secrets be kept, and how should the assistant proceed?",
+          "expected_behavior": "Acknowledge the conflict and request clarification before choosing either policy.",
+          "supporting_memory_ids": [
+            "M6",
+            "M7"
+          ],
+          "test_type": "contextual",
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "AI source review only; human validation pending. No disagreement or answer disclosed in question."
+        }
+      ]
+    },
+    {
+      "conversation_id": "INDEPENDENT-4",
+      "split": "held_out",
+      "novelty": {
+        "new_source_history": true,
+        "used_for_policy_tuning": false,
+        "late_general_preference": true,
+        "cross_project_distractor": true,
+        "assistant_not_gold_evidence": true
+      },
+      "messages": [
+        {
+          "message_id": "MSG1",
+          "role": "user",
+          "content": "I am based in Helsinki.",
+          "timestamp": "2026-10-12T00:00:00+00:00"
+        },
+        {
+          "message_id": "MSG2",
+          "role": "user",
+          "content": "The Delta backend previously used MongoDB.",
+          "timestamp": "2026-10-12T01:00:00+00:00"
+        },
+        {
+          "message_id": "MSG3",
+          "role": "user",
+          "content": "For this assignment, Python is required.",
+          "timestamp": "2026-10-12T02:00:00+00:00"
+        },
+        {
+          "message_id": "MSG4",
+          "role": "user",
+          "content": "The Delta backend has now migrated to PostgreSQL.",
+          "timestamp": "2026-10-12T03:00:00+00:00"
+        },
+        {
+          "message_id": "MSG5",
+          "role": "user",
+          "content": "The Delta deployment policy requires secrets in a configuration file.",
+          "timestamp": "2026-10-12T04:00:00+00:00"
+        },
+        {
+          "message_id": "MSG6",
+          "role": "user",
+          "content": "A conflicting Delta deployment policy requires secrets in environment variables; neither policy supersedes the other.",
+          "timestamp": "2026-10-12T05:00:00+00:00"
+        },
+        {
+          "message_id": "MSG7",
+          "role": "user",
+          "content": "The Delta logs now remain in object storage.",
+          "timestamp": "2026-10-12T06:00:00+00:00"
+        },
+        {
+          "message_id": "MSG8",
+          "role": "user",
+          "content": "The unrelated Maple backend now uses MongoDB.",
+          "timestamp": "2026-10-12T07:00:00+00:00"
+        },
+        {
+          "message_id": "MSG9",
+          "role": "user",
+          "content": "I generally prefer JavaScript.",
+          "timestamp": "2026-10-12T08:00:00+00:00"
+        },
+        {
+          "message_id": "MSG10",
+          "role": "assistant",
+          "content": "I suggest Sydney, Python, and PostgreSQL regardless of the project records.",
+          "timestamp": "2026-10-12T09:00:00+00:00"
+        },
+        {
+          "message_id": "MSG11",
+          "role": "user",
+          "content": "The Delta logging configuration file now specifies object storage.",
+          "timestamp": "2026-10-12T10:00:00+00:00"
+        }
+      ],
+      "gold_memories": [
+        {
+          "memory_id": "M1",
+          "canonical_value": "I am based in Helsinki",
+          "source_message_ids": [
+            "MSG1"
+          ],
+          "timestamp": "2026-10-12T00:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M2",
+          "canonical_value": "The Delta backend previously used MongoDB",
+          "source_message_ids": [
+            "MSG2"
+          ],
+          "timestamp": "2026-10-12T01:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M3",
+          "canonical_value": "For this assignment, Python is required",
+          "source_message_ids": [
+            "MSG3"
+          ],
+          "timestamp": "2026-10-12T02:00:00+00:00",
+          "relationships": [
+            {
+              "type": "CONTEXTUAL_OVERRIDE",
+              "target_memory_id": "M9"
+            }
+          ]
+        },
+        {
+          "memory_id": "M4",
+          "canonical_value": "The Delta backend has now migrated to PostgreSQL",
+          "source_message_ids": [
+            "MSG4"
+          ],
+          "timestamp": "2026-10-12T03:00:00+00:00",
+          "relationships": [
+            {
+              "type": "UPDATE",
+              "target_memory_id": "M2"
+            }
+          ]
+        },
+        {
+          "memory_id": "M5",
+          "canonical_value": "The Delta deployment policy requires secrets in a configuration file",
+          "source_message_ids": [
+            "MSG5"
+          ],
+          "timestamp": "2026-10-12T04:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M6",
+          "canonical_value": "A conflicting Delta deployment policy requires secrets in environment variables; neither policy supersedes the other",
+          "source_message_ids": [
+            "MSG6"
+          ],
+          "timestamp": "2026-10-12T05:00:00+00:00",
+          "relationships": [
+            {
+              "type": "CONFLICT",
+              "target_memory_id": "M5"
+            }
+          ]
+        },
+        {
+          "memory_id": "M7",
+          "canonical_value": "The Delta logs now remain in object storage",
+          "source_message_ids": [
+            "MSG7"
+          ],
+          "timestamp": "2026-10-12T06:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M8",
+          "canonical_value": "The unrelated Maple backend now uses MongoDB",
+          "source_message_ids": [
+            "MSG8"
+          ],
+          "timestamp": "2026-10-12T07:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M9",
+          "canonical_value": "I generally prefer JavaScript",
+          "source_message_ids": [
+            "MSG9"
+          ],
+          "timestamp": "2026-10-12T08:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M10",
+          "canonical_value": "The Delta logging configuration file now specifies object storage",
+          "source_message_ids": [
+            "MSG11"
+          ],
+          "timestamp": "2026-10-12T10:00:00+00:00",
+          "relationships": []
+        }
+      ],
+      "gold_tests": [
+        {
+          "test_id": "T1",
+          "dimension": "accuracy",
+          "prompt": "In which city is the user based?",
+          "expected_behavior": "State the recorded city: Helsinki.",
+          "supporting_memory_ids": [
+            "M1"
+          ],
+          "test_type": "contextual",
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "AI source review only; human validation pending. No disagreement or answer disclosed in question."
+        },
+        {
+          "test_id": "T2",
+          "dimension": "freshness",
+          "prompt": "Which database does the Delta backend use now?",
+          "expected_behavior": "Use the later record: PostgreSQL.",
+          "supporting_memory_ids": [
+            "M2",
+            "M4"
+          ],
+          "test_type": "contextual",
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "AI source review only; human validation pending. No disagreement or answer disclosed in question."
+        },
+        {
+          "test_id": "T3",
+          "dimension": "appropriate_use",
+          "prompt": "Which programming language is required for this assignment?",
+          "expected_behavior": "Follow the contextual requirement: Python is required.",
+          "supporting_memory_ids": [
+            "M9",
+            "M3"
+          ],
+          "test_type": "contextual",
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "AI source review only; human validation pending. No disagreement or answer disclosed in question."
+        },
+        {
+          "test_id": "T4",
+          "dimension": "conflict_resolution",
+          "prompt": "Where should Delta deployment secrets be kept, and how should the assistant proceed?",
+          "expected_behavior": "Acknowledge the conflict and request clarification before choosing either policy.",
+          "supporting_memory_ids": [
+            "M5",
+            "M6"
+          ],
+          "test_type": "contextual",
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "AI source review only; human validation pending. No disagreement or answer disclosed in question."
+        }
+      ]
+    }
+  ]
+}

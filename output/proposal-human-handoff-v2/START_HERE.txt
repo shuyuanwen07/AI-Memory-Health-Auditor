@@ -1,0 +1,21 @@
+Three Independent Reviews: A, B and C Complete the Same Tasks
+
+Each reviewer opens their own HTML worksheet in a browser, completes it independently and selects Export My Review. Return one final exported JSON file per reviewer.
+A: A-review.html
+B: B-review.html
+C: C-review.html
+
+Complete these sections in order:
+1. Six original conversations: independently identify the facts to remember, cite source message numbers and identify updates, unresolved conflicts or task requirements overriding general preferences. Enter None when there are no relationships. Do not consult system-extracted candidates first.
+2. Thirty-two audit responses: assess answer correctness, including explanations; question validity; and whether reference behavior is supported. For incorrect answers, identify the main failure dimension. Explain uncertain judgments and important evidence.
+3. Twenty-one pilot responses from official dataset sources: judge meaning using the original conversations. A lexical match alone does not establish correctness. Consider justified abstention, open-ended preference advice and source-specific details.
+
+All three reviewers review the same material. Do not discuss judgments or inspect automated scores before submitting independent results. Reviewer C also completes an independent review before any adjudication.
+
+Export before refreshing or closing: this version does not autosave or import partially completed exports. Keep the page open while completing it. You can export current entries, but export again after any changes. Uncompleted fields remain blank; they are not converted into passes.
+
+After receiving the three reviews, I will validate coverage and material fingerprints, compare agreement and disagreements, identify missing facts and compare labels with the relevant automated evaluator versions. Disagreements should then be resolved using original evidence. A majority vote alone is not a gold standard; unresolved cases remain uncertain. I will implement repairs and run regression tests.
+
+These are development review materials for calibration, system improvements and pilot threshold selection. They are not independent held-out evaluation results. Completed human worksheets must be mapped and validated before becoming a formal annotation release. Subsequent proposal Experiments A/B/C require frozen controls and new scenarios not used for repair.
+
+This assignment replaces the earlier arrangement where C acted only as an adjudicator. The source evidence, item identities and blank labels are unchanged in the English worksheets.

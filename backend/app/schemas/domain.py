@@ -1,6 +1,8 @@
+from typing import Literal
 from datetime import datetime
 from enum import Enum
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator, computed_field
+from app.schemas.target_profile import TargetMemoryProfile
 
 class Dimension(str, Enum):
     ACCURACY = "accuracy"
@@ -18,6 +20,7 @@ class TestSuiteMode(str, Enum):
     BEHAVIOURAL = "behavioural"
     DIRECT_GROUND_TRUTH = "direct_ground_truth"
     FIXED_TEMPLATE = "fixed_template"
+    PAIRED_CONTEXTUAL = "paired_contextual"
 class TestQualityStatus(str, Enum):
     PENDING = "pending"
     ACCEPTED = "accepted"
@@ -68,12 +71,14 @@ class TargetMemoryWriterKind(str, Enum):
 class TargetSystemAdapterKind(str, Enum):
     """The system-under-test runtime selected for one reproducible audit."""
     CONTROLLED_MEMORY = "controlled-memory"
+    EXTERNAL_HTTP = "external-http"
 class TargetMemoryLifecycleState(str, Enum):
     """Private state of a controlled target agent's independently written record."""
     ACTIVE = "ACTIVE"
     SUPERSEDED = "SUPERSEDED"
     CONFLICTED = "CONFLICTED"
     EVICTED = "EVICTED"
+    DIAGNOSTIC_ONLY = "DIAGNOSTIC_ONLY"
 class TargetMemoryEventType(str, Enum):
     INGESTED = "INGESTED"
     WRITTEN = "WRITTEN"
@@ -92,7 +97,7 @@ class HumanReviewRole(str, Enum):
     INDEPENDENT = "independent"
     REFERENCE = "reference"
     ADJUDICATION = "adjudication"
-class TargetProvider(str, Enum): RULE_BASED="rule_based"; OPENAI="openai"; DEEPSEEK="deepseek"; GEMINI="gemini"; OLLAMA="ollama"
+class TargetProvider(str, Enum): RULE_BASED="rule_based"; OPENAI="openai"; DEEPSEEK="deepseek"; GEMINI="gemini"; OLLAMA="ollama"; OPENROUTER="openrouter"
 class ExperimentStatus(str, Enum):
     CREATED = "CREATED"
     TEST_SUITE_GENERATED = "TEST_SUITE_GENERATED"
@@ -207,13 +212,24 @@ class TargetMemoryTraceEvent(BaseModel):
     details: dict = Field(default_factory=dict)
     created_at: datetime
 
+class TargetMemoryInputEvidence(BaseModel):
+    """Client-side input receipt, not proof of provider attention or grounding."""
+    version: str = "target-memory-input-v1"
+    record_count: int
+    context_sha256: str
+    instruction_sha256: str
+    prompt_sha256: str
+    sent_memory_ids: list[str] | None = None
+
 class TargetMemoryTraceRetrieval(BaseModel):
+    question: str | None = None
     retrieval_id: str
     test_id: str
     strategy: MemoryStrategy
     selected_memory_ids: list[str] = []
     ranking_evidence: list[dict] = []
     final_response_id: str | None = None
+    memory_input: TargetMemoryInputEvidence | None = None
     created_at: datetime
 
 class TargetMemoryTrace(BaseModel):
@@ -228,6 +244,11 @@ class TargetMemoryTrace(BaseModel):
     records: list[TargetMemoryTraceRecord] = []
     events: list[TargetMemoryTraceEvent] = []
     retrievals: list[TargetMemoryTraceRetrieval] = []
+class ExtractionRequest(BaseModel):
+    provider: TargetProvider | None = None
+    model: str | None = Field(default=None, min_length=1, max_length=200)
+
+
 class MemoryCreate(BaseModel):
     conversation_id: str
     canonical_value: str = Field(min_length=1, max_length=4000)
@@ -259,6 +280,12 @@ class TestSuiteConfiguration(BaseModel):
     # Existing experiments retain their behavioural-generator semantics.
     suite_mode: TestSuiteMode = TestSuiteMode.BEHAVIOURAL
 
+    @model_validator(mode="after")
+    def complete_pairs(self):
+        if self.suite_mode == TestSuiteMode.PAIRED_CONTEXTUAL and self.test_budget < 2:
+            raise ValueError("Paired probes require a budget of at least two questions.")
+        return self
+
 class TestSuiteMetadata(BaseModel):
     """Facts recorded after suite generation, rather than user-supplied configuration."""
     __test__ = False
@@ -268,6 +295,7 @@ class TestSuiteMetadata(BaseModel):
     generated_at: datetime | None = None
 
 class ExperimentCreate(BaseModel):
+    creation_request_key: str | None = Field(default=None, min_length=16, max_length=100, pattern=r"^[A-Za-z0-9_-]+$")
     conversation_id: str
     label: str = Field(min_length=1, max_length=160)
     test_suite_configuration: TestSuiteConfiguration = Field(default_factory=TestSuiteConfiguration)
@@ -291,6 +319,7 @@ class Experiment(BaseModel):
     completed_at: datetime | None = None
 
 class AuditCreate(BaseModel):
+    creation_request_key: str | None = Field(default=None, min_length=16, max_length=100, pattern=r"^[A-Za-z0-9_-]+$")
     conversation_id: str
     experiment_id: str | None = None
     target_configuration: TargetConfiguration
@@ -312,6 +341,7 @@ class AuditCreate(BaseModel):
     # re-read from the environment during execution.
     target_memory_writer: TargetMemoryWriterKind | None = None
     target_system_adapter: TargetSystemAdapterKind = TargetSystemAdapterKind.CONTROLLED_MEMORY
+    target_memory_profile: TargetMemoryProfile = Field(default_factory=TargetMemoryProfile)
 
 
 class RetryPolicyMetadata(BaseModel):
@@ -335,7 +365,14 @@ class ReproducibilityMetadata(BaseModel):
     target_memory_writer: TargetMemoryWriterKind = TargetMemoryWriterKind.RULE_BASED
     target_system_adapter: TargetSystemAdapterKind = TargetSystemAdapterKind.CONTROLLED_MEMORY
     target_system_adapter_version: str | None = None
+    intervention: str | None = None
+    diagnostic_source_run_id: str | None = None
+    diagnosis_note: str | None = None
+    study_role: str | None = None
+    validation_split: str | None = None
+    human_validation: str | None = None
     memory_policy_version: str | None = None
+    target_memory_profile: TargetMemoryProfile = Field(default_factory=TargetMemoryProfile)
     seed_control: dict[str, str] = Field(default_factory=dict)
     target_retry_policy: RetryPolicyMetadata = Field(default_factory=RetryPolicyMetadata)
     execution_budget: dict[str, int] = Field(default_factory=dict)
@@ -349,6 +386,9 @@ class ExecutionMetadata(BaseModel):
     output_tokens: int | None = None
     total_tokens: int | None = None
     response_source: str = "unknown"
+    completion_status: Literal["complete", "truncated"] | None = None
+    finish_reason: str | None = Field(default=None, max_length=40)
+    memory_input: TargetMemoryInputEvidence | None = None
 
 class AuditRun(BaseModel):
     run_id: str; conversation_id: str; experiment_id: str | None = None; status: AuditStatus; target_configuration: TargetConfiguration; provider: TargetProvider
@@ -363,6 +403,7 @@ class AuditRun(BaseModel):
     target_system_adapter: TargetSystemAdapterKind = TargetSystemAdapterKind.CONTROLLED_MEMORY
     target_system_adapter_version: str | None = None
     reproducibility: ReproducibilityMetadata = Field(default_factory=ReproducibilityMetadata)
+    target_memory_profile: TargetMemoryProfile = Field(default_factory=TargetMemoryProfile)
     created_at: datetime; completed_at: datetime | None = None
 class TestCase(BaseModel):
     test_id: str; run_id: str; dimension: Dimension; prompt: str; expected_behavior: str
@@ -371,6 +412,8 @@ class TestCase(BaseModel):
     quality_status: TestQualityStatus = TestQualityStatus.PENDING
     grounding_status: GroundingStatus = GroundingStatus.PENDING
     validation_notes: str | None = None
+    probe_group_id: str | None = None
+    probe_variant: str | None = None
     # Private runtime memory supplied to the controlled target, not displayed in the UI.
     target_memory_context: list[str] = []
 class TestCasePublic(BaseModel):
@@ -381,6 +424,8 @@ class TestCasePublic(BaseModel):
     quality_status: TestQualityStatus = TestQualityStatus.PENDING
     grounding_status: GroundingStatus = GroundingStatus.PENDING
     validation_notes: str | None = None
+    probe_group_id: str | None = None
+    probe_variant: str | None = None
 class TestReviewUpdate(BaseModel):
     """A researcher decision on a generated test before target execution."""
     quality_status: TestQualityStatus
@@ -404,9 +449,28 @@ class CancelledAuditEvidence(BaseModel):
     audit: AuditRun
     completed_responses: list[TargetResponse] = Field(default_factory=list)
     trace: TargetMemoryTrace
+class JudgeExecutionEvidence(BaseModel):
+    """Sanitised HTTP-boundary observations; historical missing data stays unknown."""
+    version: str = "judge-http-meter-v1"
+    provider: str
+    model: str
+    request_attempts: int = Field(ge=0)
+    failed_http_attempts: int = Field(ge=0)
+    elapsed_ms: float = Field(ge=0)
+    reported_input_tokens: int | None = Field(default=None, ge=0)
+    reported_output_tokens: int | None = Field(default=None, ge=0)
+    reported_total_tokens: int | None = Field(default=None, ge=0)
+    usage_scope: str = "last successful provider reply only; failed-attempt usage unknown"
+    verdict_status: str
+    provider_verdict: bool | None = None
+    rule_cross_check_verdict: bool | None = None
+    cross_check_version: str | None = None
+
+
 class EvaluationResult(BaseModel):
-    evaluation_id: str; test_id: str; response_id: str; passed: bool; failure_type: Dimension | None = None
+    evaluation_id: str; test_id: str; response_id: str; passed: bool | None; failure_type: Dimension | None = None
     reason: str; evidence_memory_ids: list[str]; evaluator: str
+    judge_execution: JudgeExecutionEvidence | None = None
 class EvaluationHumanReviewUpdate(BaseModel):
     """Human calibration label; keeps automated result immutable."""
     human_passed: bool
@@ -463,22 +527,40 @@ class EvaluationCalibrationSummary(BaseModel):
     independent_pair_kappa: float | None = None
 class DimensionScores(BaseModel):
     dimension: Dimension; percentage: float | None; passed: int; total: int
+    uncertain_count: int = 0
 class RetrievalQualityScores(BaseModel):
     """Source-evidence proxy metrics for the target's retrieval trace."""
     tests_measured: int = 0
+    unlinked_attempts_excluded: int = 0
     evidence_recall_at_k: float | None = None
     evidence_precision_at_k: float | None = None
     update_evidence_recall: float | None = None
     conflict_evidence_coverage: float | None = None
     unnecessary_memory_retrieval_rate: float | None = None
+class SourceStatement(BaseModel):
+    role: str
+    content: str
+    timestamp: datetime
+
 class FailureDetail(BaseModel):
     failure_id: str; test: TestCasePublic; response: TargetResponse; evaluation: EvaluationResult; evidence: list[Memory]
+    source_statements: list[SourceStatement] = Field(default_factory=list)
 class AuditResult(BaseModel):
     run_id: str; overall_score: float | None; tests_passed: int; tests_total: int
     dimensions: list[DimensionScores]; failures: list[FailureDetail]
+    uncertain_count: int = 0
+    evaluated_count: int = 0
     evaluation_warnings: list[str] = Field(default_factory=list)
     retrieval_quality: RetrievalQualityScores = Field(default_factory=RetrievalQualityScores)
     reproducibility: ReproducibilityMetadata = Field(default_factory=ReproducibilityMetadata)
+    @computed_field
+    @property
+    def formal_overall_score(self) -> float | None:
+        scores = {item.dimension: item.percentage for item in self.dimensions}
+        if set(scores) != set(Dimension) or any(value is None for value in scores.values()):
+            return None
+        return round(sum(scores.values()) / len(Dimension), 2)
+
 class ExperimentResult(BaseModel):
     experiment_id: str; label: str; weak_score: float; strong_score: float; notes: str
 
@@ -545,3 +627,5 @@ class ProviderOption(BaseModel):
     default_model: str
     configured: bool
     description: str
+    default_pipeline_model: str | None = None
+    default_evaluator_model: str | None = None

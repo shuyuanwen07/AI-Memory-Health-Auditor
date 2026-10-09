@@ -1,0 +1,43 @@
+Browser tab: 12, Title: "localhost:5173/new-audit", URL: "http://localhost:5173/new-audit".
+1 AXWebArea localhost:5173/new-audit
+	2 container root
+		3 container
+			4 link Description: Memory Auditor, Value: localhost:5173/
+			5 container Primary navigation
+				6 link Description: Dashboard, Value: localhost:5173/
+				7 link Description: New audit, Value: localhost:5173/new-audit
+				8 link Description: History, Value: localhost:5173/history
+				9 link Description: Before & after, Value: localhost:5173/compare
+				10 link Description: Experiments, Value: localhost:5173/experiments
+				11 link Description: About, Value: localhost:5173/about
+		12 container
+			13 content list Audit progress
+				14 container
+					15 text 1 Conversation
+				16 container
+					17 text 2 Ground Truth
+				18 container
+					19 text 3 Configuration
+				20 container
+					21 text 4 Audit
+				22 container
+					23 text 5 Results
+			40 text Duplicate question wording; regenerate a specific, unambiguous suite before execution.
+			24 heading Prepare Memory Audit, Value: 1
+				25 text Prepare Memory Audit
+			26 content list
+				27 container
+					28 text Preparing confirmed ground truth Complete
+				29 container
+					30 text Generating shared behavioural tests Waiting
+				31 container
+					32 text Test-suite quality checks Waiting
+				33 container
+					34 text Initialising target AI Waiting
+				35 container
+					36 text Executing memory tests Waiting
+				37 container
+					38 text Evaluating responses Waiting
+			39 button Generate Tests for Review
+
+The focused UI element is 1 AXWebArea localhost:5173/new-audit

@@ -1,0 +1,14 @@
+{
+  "base_rounds": 10,
+  "completed_rounds": 17,
+  "new_issues": 7,
+  "required_rounds": 17,
+  "round_rule_satisfied": true,
+  "target_source_unchanged": true,
+  "direct_business_api_calls": 0,
+  "frontend_tests_passed": 57,
+  "frontend_build": "passed",
+  "model_training": false,
+  "new_qwen_questions": 2,
+  "new_qwen_passed": 0
+}

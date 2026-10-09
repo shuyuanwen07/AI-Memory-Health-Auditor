@@ -1,0 +1,3 @@
+
+# Preserve raw UI evidence transcripts exactly as captured.
+frontend/public/reports/** -whitespace

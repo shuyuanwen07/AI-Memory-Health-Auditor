@@ -7,8 +7,10 @@ to the evaluator and is deliberately withheld from the system under test.
 from __future__ import annotations
 
 from datetime import datetime, timezone
+import hashlib
+import json
 
-from app.schemas import AuditRun, Dimension, TargetConfiguration, TargetResponse, TestCase
+from app.schemas import AuditRun, Dimension, TargetConfiguration, TargetMemoryInputEvidence, TargetResponse, TestCase
 from app.services.interfaces import TargetAIConnector
 
 
@@ -40,11 +42,36 @@ def private_context_instruction(test: TestCase, configuration: TargetConfigurati
         )
     else:
         policy = "Use only the single retrieved record below. Do not reconcile records that were not retrieved."
+    if configuration == TargetConfiguration.STRONG and len(context) > 1 and any(
+        "neither" in record.lower() and "supersedes" in record.lower() for record in context
+    ):
+        policy += (
+            " The supplied policies explicitly say neither supersedes the other. This is an unresolved "
+            "conflict, not a later update. Your answer must identify the two incompatible options and "
+            "ask which policy to follow. Do not suggest selecting by recency or invent a priority."
+            " Describe each policy as a source statement, not as your recommendation. "
+            "Do not begin or end with a chosen storage option and then add a clarification request. "
+            "Logging destinations and database technologies are separate facts, not secret-storage policies."
+        )
     return (
         f"PRIVATE TARGET MEMORY CONTEXT\n{records}\n\nMEMORY POLICY\n{policy}\n\n"
         "RESPONSE FORMAT\n"
-        "Start with the concrete factual answer from the supplied records. Then give at most one short "
-        "sentence of reasoning if the question asks for it. Do not answer with a generic policy alone."
+        "Answer personal and project facts only when supported by the supplied records. If no relevant "
+        "record supports the answer, say you do not have enough remembered information; do not guess "
+        "from a project name or general knowledge. For unresolved conflicting records, state the conflict "
+        "and ask for clarification before selecting either option; later chronology alone does not "
+        "resolve an explicitly unresolved conflict. Otherwise start with one unambiguous concrete factual "
+        "answer from the records, followed by at most one short sentence of reasoning."
+    )
+
+
+def memory_input_evidence(test: TestCase, configuration: TargetConfiguration, instructions: str) -> TargetMemoryInputEvidence:
+    context = selected_memory_context(test, configuration)
+    digest = lambda value: hashlib.sha256(value.encode("utf-8")).hexdigest()
+    return TargetMemoryInputEvidence(
+        record_count=len(context),
+        context_sha256=digest(json.dumps(context, ensure_ascii=False, separators=(",", ":"))),
+        instruction_sha256=digest(instructions), prompt_sha256=digest(test.prompt),
     )
 
 
@@ -57,7 +84,9 @@ class RuleBasedTargetAIConnector(TargetAIConnector):
         return TargetResponse(
             response_id=f"R{test.test_id[1:]}", test_id=test.test_id, run_id=audit.run_id,
             response_text=text, model=audit.model, temperature=audit.temperature,
-            execution_metadata={"request_attempts": 0, "latency_ms": 0.0, "response_source": "rule_based"},
+            execution_metadata={"request_attempts": 0, "latency_ms": 0.0, "response_source": "rule_based",
+                                "memory_input": memory_input_evidence(test, audit.target_configuration,
+                                                                      private_context_instruction(test, audit.target_configuration))},
             created_at=datetime.now(timezone.utc),
         )
 

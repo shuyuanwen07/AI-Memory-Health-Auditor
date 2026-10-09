@@ -12,3 +12,8 @@ datasets/annotation/synthetic-pilot-v2/
 experiments/
 artifacts/local/
 *.sqlite3
+
+# Keep local audit logs, databases and screenshots out of source control.
+output/*
+!output/proposal-human-handoff-v2/
+.ruff_cache/

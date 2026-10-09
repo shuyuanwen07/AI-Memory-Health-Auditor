@@ -1,0 +1,23 @@
+[
+  {
+    "reviewer": "A",
+    "material_sha256": "a5678ef1679f1211802cd137dc075eda04ec2ab7a032d48e54cbfe2523b17acc",
+    "source_payload_unchanged": true,
+    "interface_language": "English",
+    "html_sha256": "731f74f062669113fa742e01c2796223dafe679e6ec6d4c3b31a9533bfceac99"
+  },
+  {
+    "reviewer": "B",
+    "material_sha256": "a5678ef1679f1211802cd137dc075eda04ec2ab7a032d48e54cbfe2523b17acc",
+    "source_payload_unchanged": true,
+    "interface_language": "English",
+    "html_sha256": "3904a4ba395aa0f3baf0218553943077d960fa76369e2a1a2b3b71abf936be3e"
+  },
+  {
+    "reviewer": "C",
+    "material_sha256": "a5678ef1679f1211802cd137dc075eda04ec2ab7a032d48e54cbfe2523b17acc",
+    "source_payload_unchanged": true,
+    "interface_language": "English",
+    "html_sha256": "ca9228dd165b01143308abfed3837c202fc69878791acb2d4d455ef0dbdb18d7"
+  }
+]

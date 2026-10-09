@@ -5,5 +5,5 @@ export default defineConfig({
     host: '0.0.0.0',
     watch: { usePolling: true, interval: 250 },
   },
-  test: { environment: 'jsdom', globals: true },
+  test: { environment: 'jsdom', globals: true, maxWorkers: 1, testTimeout: 60000, setupFiles: ['./src/testSetup.ts'] },
 });

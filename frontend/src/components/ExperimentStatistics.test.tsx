@@ -53,5 +53,14 @@ test('shows variation once a condition has repeated runs', () => {
   ]} />);
 
   expect(screen.queryByText(/^Repeat-run statistics are not available yet\. Complete/)).toBeNull();
-  expect(screen.getByText(/Overall standard deviation: 10%/)).toBeTruthy();
+  expect(screen.getByText(/Tested ability standard deviation: 10%/)).toBeTruthy();
+});
+
+
+test('keeps awaiting answers visible in aggregated condition totals', () => {
+  const partial = {...auditResult('PENDING',100,100),tests_total:2,tests_passed:2,uncertain_count:3,evaluated_count:5};
+  render(<ExperimentStatistics runs={[{label:'Qwen scope',result:partial}]} />);
+  expect(screen.getByRole('columnheader',{name:'Awaiting review'})).toBeTruthy();
+  expect(screen.getByText('3 / 5 answers')).toBeTruthy();
+  expect(calculateExperimentStatistics([{label:'Qwen scope',result:partial}])[0].uncertainCount).toBe(3);
 });

@@ -1,0 +1,7 @@
+Please download the repository from GitHub main and open your assigned worksheet: A-review.html, B-review.html or C-review.html in output/proposal-human-handoff-v2. No coding, server, API key or model selection is required.
+
+Work independently through the same three sections: identify memories from six original conversations; assess 32 audit answers and their questions/reference behavior; assess 21 benchmark pilot answers against the original source. Base judgments on evidence, not keywords alone. Explain incorrect or uncertain answers. Do not discuss judgments or inspect automated scores before submitting.
+
+Click Export My Review and send back your final A-independent-review.json, B-independent-review.json or C-independent-review.json. Export before refreshing or closing: the worksheet does not autosave. Export again after edits.
+
+Your reviews help us find incorrect extraction, invalid questions and scoring errors. We will compare the three reviews, resolve disagreements using source evidence, and improve the auditing system.

@@ -7,11 +7,12 @@ boundary between a study harness and participant data explicit.
 """
 from __future__ import annotations
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 from app.schemas.annotation import AnnotationDataset
 from app.schemas.domain import MemoryStrategy, TargetConfiguration, TargetProvider
 from app.schemas.pilot import PilotAnnotationPackage
+from app.target_ai.openrouter import default_model
 
 
 class FormalMatrixCondition(BaseModel):
@@ -19,9 +20,21 @@ class FormalMatrixCondition(BaseModel):
 
     label: str = Field(min_length=1, max_length=100)
     memory_strategy: MemoryStrategy
-    provider: TargetProvider = TargetProvider.OLLAMA
-    model: str = Field(default="qwen3:1.7b", min_length=1, max_length=100)
+    provider: TargetProvider = TargetProvider.OPENROUTER
+    model: str = Field(default_factory=default_model, min_length=1, max_length=100)
     temperature: float = Field(default=0.0, ge=0.0, le=2.0)
+
+    @field_validator('model', 'label')
+    @classmethod
+    def nonblank_name(cls, value: str) -> str:
+        value = value.strip()
+        if not value:
+            raise ValueError('Provide a non-empty model name and condition label.')
+        return value
+
+    @property
+    def identity(self) -> tuple[str, str, str, float]:
+        return (self.memory_strategy.value, self.provider.value, self.model, self.temperature)
 
     @property
     def target_configuration(self) -> TargetConfiguration:
@@ -50,9 +63,9 @@ class FormalMatrixCreateRequest(BaseModel):
             raise ValueError("Only a dataset explicitly identified as synthetic may be imported into the formal matrix runner.")
         if (self.pilot.dataset_id, self.pilot.dataset_version) != (self.dataset.dataset_id, self.dataset.dataset_version):
             raise ValueError("The double-annotation pilot must refer to the selected dataset and version.")
-        strategies = [condition.memory_strategy for condition in self.conditions]
-        if len(strategies) != len(set(strategies)):
-            raise ValueError("Each memory strategy may appear only once in a formal matrix.")
+        identities = [condition.identity for condition in self.conditions]
+        if len(identities) != len(set(identities)):
+            raise ValueError("Each strategy, service, model and temperature combination may appear only once. Different labels do not create different conditions.")
         return self
 
 

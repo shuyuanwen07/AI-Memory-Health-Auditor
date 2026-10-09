@@ -77,7 +77,8 @@ def test_strong_and_weak_contexts_are_isolated_and_have_distinct_policies():
     assert "now uses PostgreSQL" not in weak
     assert "Prefer an explicit later update" in strong
     assert "single retrieved record" in weak
-    assert "Start with the concrete factual answer" in strong
+    assert "do not guess" in strong
+    assert "one unambiguous concrete factual answer" in strong
     assert "EVALUATOR_ONLY_SECRET" not in strong
     assert "EVALUATOR_ONLY_SECRET" not in weak
 

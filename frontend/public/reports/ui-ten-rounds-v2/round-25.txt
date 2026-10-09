@@ -1,0 +1,413 @@
+Browser tab: 6, Title: "localhost:5173/experiments", URL: "http://localhost:5173/experiments".
+1 AXWebArea localhost:5173/experiments
+	2 container root
+		3 container
+			4 link Description: Memory Auditor, Value: localhost:5173/
+			5 container Primary navigation
+				6 link Description: Dashboard, Value: localhost:5173/
+				7 link Description: New audit, Value: localhost:5173/new-audit
+				8 link Description: History, Value: localhost:5173/history
+				9 link Description: Before & after, Value: localhost:5173/compare
+				10 link Description: Experiments, Value: localhost:5173/experiments
+				11 link Description: About, Value: localhost:5173/about
+		12 container
+			13 heading Experiments, Value: 1
+				14 text Experiments
+			99 heading Memory strategy comparison 2026-10-08T03:21:03.079Z, Value: 2
+				100 text Memory strategy comparison 2026-10-08T03:21:03.079Z
+			101 container
+				102 button Download group CSV
+				103 button Download reproducibility bundle
+				104 button Download frozen artifact
+			105 text Shared tests
+			106 text 2
+			107 text Conditions complete
+			108 container
+				109 text 0  /  1
+			110 container
+				111 text Created  10/8/2026, 3:21:03 AM  · Suite: seed  42  ·  4  test budget
+			112 table
+				113 row
+					114 cell
+						115 text Condition
+					116 cell
+						117 text Completed
+					118 cell
+						119 text Overall mean
+					120 cell
+						121 text Variation
+					122 cell
+						123 text Tests passed
+					124 cell
+						125 text Failures
+					126 cell
+						127 text Runtime
+				128 row
+					129 cell
+						130 text Ollama · qwen3:1.7b · Weak First Hit
+					131 cell
+						132 text 0  /  1
+					133 cell
+						134 text Not tested
+					135 cell
+						136 text Not tested
+					137 cell
+						138 text 0  /  0
+					139 cell
+						140 text 0
+					141 cell
+						142 text —  ·  tokens —
+			143 button (collapsed) Condition reports and detected failures, Secondary Actions: Expand
+				144 text Condition reports and detected failures
+			145 text Paired comparison signals will appear after at least two conditions complete.
+			146 heading Memory strategy comparison 2026-10-08T03:14:09.279Z, Value: 2
+				147 text Memory strategy comparison 2026-10-08T03:14:09.279Z
+			148 container
+				149 button Download group CSV
+				150 button Download reproducibility bundle
+				151 button Download frozen artifact
+			152 text Shared tests
+			153 text 2
+			154 text Conditions complete
+			155 container
+				156 text 1  /  1
+			157 container
+				158 text Created  10/8/2026, 3:14:09 AM  · Suite: seed  42  ·  4  test budget
+			159 table
+				160 row
+					161 cell
+						162 text Condition
+					163 cell
+						164 text Completed
+					165 cell
+						166 text Overall mean
+					167 cell
+						168 text Variation
+					169 cell
+						170 text Tests passed
+					171 cell
+						172 text Failures
+					173 cell
+						174 text Runtime
+				175 row
+					176 cell
+						177 text Ollama · qwen3:1.7b · Weak First Hit
+					178 cell
+						179 text 1  /  1
+					180 cell
+						181 text 50%
+					182 cell
+						183 text Not tested
+					184 cell
+						185 text 1  /  2
+					186 cell
+						187 text 1
+					188 cell
+						189 text 3082 ms avg  ·  351 tokens
+			190 button (collapsed) Condition reports and detected failures, Secondary Actions: Expand
+				191 text Condition reports and detected failures
+			192 text Paired comparison signals will appear after at least two conditions complete.
+			193 heading Memory strategy comparison 2026-10-08T03:10:05.693Z, Value: 2
+				194 text Memory strategy comparison 2026-10-08T03:10:05.693Z
+			195 container
+				196 button Download group CSV
+				197 button Download reproducibility bundle
+				198 button Download frozen artifact
+				199 button Cancel unfinished conditions
+			200 text Shared tests
+			201 text 2
+			202 text Conditions complete
+			203 container
+				204 text 0  /  1
+			205 container
+				206 text Created  10/8/2026, 3:10:05 AM  · Suite: seed  42  ·  4  test budget
+			207 table
+				208 row
+					209 cell
+						210 text Condition
+					211 cell
+						212 text Completed
+					213 cell
+						214 text Overall mean
+					215 cell
+						216 text Variation
+					217 cell
+						218 text Tests passed
+					219 cell
+						220 text Failures
+					221 cell
+						222 text Runtime
+				223 row
+					224 cell
+						225 text Ollama · qwen3:1.7b · Weak First Hit
+					226 cell
+						227 text 0  /  1
+					228 cell
+						229 text Not tested
+					230 cell
+						231 text Not tested
+					232 cell
+						233 text 0  /  0
+					234 cell
+						235 text 0
+					236 cell
+						237 text —  ·  tokens —
+			238 button (collapsed) Condition reports and detected failures, Secondary Actions: Expand
+				239 text Condition reports and detected failures
+			240 text Paired comparison signals will appear after at least two conditions complete.
+			16 container Experiment pages
+				17 button (disabled) Previous experiments
+				18 text Page  1  of  17  ·  50  experiment groups
+				19 button Next experiments
+			20 container Research Workspace
+				21 heading Research Workspace, Value: 2, ID: research-validation-title
+					22 text Research Workspace
+				23 text Run permitted local benchmark files, check double-annotation readiness and validate Auditor outputs. Research uploads are request-scoped, except an explicitly authorised synthetic formal matrix that you choose to materialise as audit records.
+				24 container Local Benchmark Workspace
+					25 heading Local Benchmark Workspace, Value: 3, ID: benchmark-workspace-title
+						26 text Local Benchmark Workspace
+					27 text Use this deterministic policy baseline to compare memory strategies on a local, permitted source. It is not an official score for any external benchmark.
+					28 container
+						29 text Benchmark family
+						30 pop up button (collapsed, settable) Description: Benchmark family, Value: LongMemEval, Secondary Actions: Expand
+							31 menu
+								32 (selected) LongMemEval
+								33 LoCoMo
+								34 BEAM
+						35 text Long-horizon memory questions, including information updates and multi-session reasoning.
+						36 text Local benchmark JSON
+						37 button Local benchmark JSON
+						38 text No file selected
+						39 text Memory strategy
+						40 pop up button (collapsed, settable) Description: Benchmark memory strategy, Value: Strong rule-based, Secondary Actions: Expand
+							41 menu
+								42 No memory
+								43 Full context
+								44 Weak first-hit
+								45 (selected) Strong rule-based
+								46 Strong score-based
+								47 Scope-aware retrieval
+								48 Temporal & importance
+						49 text Runs use seed 42 and isolated in-memory records.
+						50 checkbox (settable, integer) Description: Benchmark source authorisation, Value: 0
+						51 text  I confirm that I am authorised to process this local source and comply with its licence, citation and privacy terms.
+						52 button (disabled) Validate Benchmark Input
+						53 button (disabled) Run Local Baseline
+				54 container Double-Annotation Pilot
+					55 heading Double-Annotation Pilot, Value: 3, ID: pilot-workspace-title
+						56 text Double-Annotation Pilot
+					57 text Upload one de-identified package containing two independent label sets and adjudications. The analysis shows coverage, disagreement resolution, Cohen’s κ and formal-study readiness.
+					58 container
+						59 text Pilot package JSON
+						60 button Pilot package JSON
+						61 text double_annotation_pilot_template.json
+						62 button Analyse Pilot Package
+					241 container
+						242 heading Pilot needs resolution before formal evaluation, Value: 3
+							243 text Pilot needs resolution before formal evaluation
+						244 text Dataset version  replace-with-frozen-dataset-version  ·  two independent reviewers 0  paired labels 0  disagreements 0  unresolved Overall κ  Not measured
+						245 table
+							246 row
+								247 cell
+									248 text Task
+								249 cell
+									250 text Annotator A coverage
+								251 cell
+									252 text Annotator B coverage
+								253 cell
+									254 text Paired coverage
+								255 cell
+									256 text Disagreements
+								257 cell
+									258 text Unresolved
+								259 cell
+									260 text Agreement
+								261 cell
+									262 text Cohen’s κ
+							263 row
+								264 cell
+									265 text evaluator verdict
+								266 cell
+									267 text 0  /  1
+								268 cell
+									269 text 0  /  1
+								270 cell
+									271 text 0  /  1
+								272 cell
+									273 text 0
+								274 cell
+									275 text 0
+								276 cell
+									277 text Not measured
+								278 cell
+									279 text Not measured
+							280 row
+								281 cell
+									282 text failure dimension
+								283 cell
+									284 text 0  /  1
+								285 cell
+									286 text 0  /  1
+								287 cell
+									288 text 0  /  1
+								289 cell
+									290 text 0
+								291 cell
+									292 text 0
+								293 cell
+									294 text Not measured
+								295 cell
+									296 text Not measured
+							297 row
+								298 cell
+									299 text memory inclusion
+								300 cell
+									301 text 0  /  1
+								302 cell
+									303 text 0  /  1
+								304 cell
+									305 text 0  /  1
+								306 cell
+									307 text 0
+								308 cell
+									309 text 0
+								310 cell
+									311 text Not measured
+								312 cell
+									313 text Not measured
+							314 row
+								315 cell
+									316 text relationship type
+								317 cell
+									318 text 0  /  1
+								319 cell
+									320 text 0  /  1
+								321 cell
+									322 text 0  /  1
+								323 cell
+									324 text 0
+								325 cell
+									326 text 0
+								327 cell
+									328 text Not measured
+								329 cell
+									330 text Not measured
+							331 row
+								332 cell
+									333 text test validity
+								334 cell
+									335 text 0  /  1
+								336 cell
+									337 text 0  /  1
+								338 cell
+									339 text 0  /  1
+								340 cell
+									341 text 0
+								342 cell
+									343 text 0
+								344 cell
+									345 text Not measured
+								346 cell
+									347 text Not measured
+							348 row
+								349 cell
+									350 text Overall
+								351 cell
+									352 text 0  /  5
+								353 cell
+									354 text 0  /  5
+								355 cell
+									356 text 0  /  5
+								357 cell
+									358 text 0
+								359 cell
+									360 text 0
+								361 cell
+									362 text Not measured
+								363 cell
+									364 text Not measured
+						365 text Formal-evaluation blockers
+						366 content list
+							367 container
+								368 AXListMarker • 
+								369 text evaluator_verdict: only 0 paired items; minimum is 5.
+							370 container
+								371 AXListMarker • 
+								372 text evaluator_verdict: both annotators have not labelled every declared item.
+							373 container
+								374 AXListMarker • 
+								375 text evaluator_verdict: every declared item needs an adjudicated or external-reference label.
+							376 container
+								377 AXListMarker • 
+								378 text failure_dimension: only 0 paired items; minimum is 5.
+							379 container
+								380 AXListMarker • 
+								381 text failure_dimension: both annotators have not labelled every declared item.
+							382 container
+								383 AXListMarker • 
+								384 text failure_dimension: every declared item needs an adjudicated or external-reference label.
+							385 container
+								386 AXListMarker • 
+								387 text memory_inclusion: only 0 paired items; minimum is 5.
+							388 container
+								389 AXListMarker • 
+								390 text memory_inclusion: both annotators have not labelled every declared item.
+							391 container
+								392 AXListMarker • 
+								393 text memory_inclusion: every declared item needs an adjudicated or external-reference label.
+							394 container
+								395 AXListMarker • 
+								396 text relationship_type: only 0 paired items; minimum is 5.
+							397 container
+								398 AXListMarker • 
+								399 text relationship_type: both annotators have not labelled every declared item.
+							400 container
+								401 AXListMarker • 
+								402 text relationship_type: every declared item needs an adjudicated or external-reference label.
+							403 container
+								404 AXListMarker • 
+								405 text test_validity: only 0 paired items; minimum is 5.
+							406 container
+								407 AXListMarker • 
+								408 text test_validity: both annotators have not labelled every declared item.
+							409 container
+								410 AXListMarker • 
+								411 text test_validity: every declared item needs an adjudicated or external-reference label.
+				63 container Auditor Validity Checks
+					64 heading Auditor Validity Checks, Value: 3, ID: validity-workspace-title
+						65 text Auditor Validity Checks
+					66 text Validate a frozen human-label dataset, then optionally compare it against prediction data. These metrics evaluate the Auditor, not a benchmark target.
+					67 container
+						68 text Annotation dataset JSON
+						69 button Annotation dataset JSON
+						70 text No file selected
+						71 text Prediction set JSON
+						72 button Prediction set JSON
+						73 text No file selected
+						74 button (disabled) Validate Research Files
+				75 container Formal Synthetic Pilot Matrix
+					76 heading Formal Synthetic Pilot Matrix, Value: 3, ID: formal-matrix-title
+						77 text Formal Synthetic Pilot Matrix
+					78 text Create one frozen comparison group per synthetic scenario. Every selected strategy receives the same human-labelled test suite.
+					79 container
+						80 text Target runtime
+						81 pop up button (collapsed, settable) Description: Formal matrix target runtime, Value: OpenRouter, Secondary Actions: Expand
+							82 menu
+								83 (selected) OpenRouter
+								84 Deterministic rule-based baseline
+						85 text Target model
+						86 text field (settable) Description: Formal matrix target model, Value: google/gemini-2.5-flash-lite
+						87 container Memory strategies
+							88 text Memory strategies
+							89 checkbox (settable, integer) Description: no memory, Value: 1
+							90 checkbox (settable, integer) Description: full context, Value: 1
+							91 checkbox (settable, integer) Description: weak first hit, Value: 1
+							92 checkbox (settable, integer) Description: strong rule based, Value: 1
+							93 checkbox (settable, integer) Description: strong score based, Value: 1
+							94 checkbox (settable, integer) Description: scope aware, Value: 1
+							95 checkbox (settable, integer) Description: temporal importance, Value: 1
+						96 checkbox (settable, integer) Description: Synthetic data confirmation, Value: 1
+						97 text  I confirm that this is authorised synthetic data and may be materialised as operational audit records.
+						98 button (disabled) Create Formal Matrix
+
+The focused UI element is 96 checkbox (settable, integer) Description: Synthetic data confirmation, Value: 1

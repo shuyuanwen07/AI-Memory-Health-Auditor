@@ -1,0 +1,67 @@
+Browser tab: 10, Title: "localhost:5173/new-audit", URL: "http://localhost:5173/new-audit".
+0 AXWebArea localhost:5173/new-audit
+	1 container root
+		2 container
+			3 link Description: Memory Auditor, Value: localhost:5173/
+			4 container Primary navigation
+				5 link Description: Dashboard, Value: localhost:5173/
+				6 link Description: New audit, Value: localhost:5173/new-audit
+				7 link Description: History, Value: localhost:5173/history
+				8 link Description: Before & after, Value: localhost:5173/compare
+				9 link Description: Experiments, Value: localhost:5173/experiments
+				10 link Description: About, Value: localhost:5173/about
+		11 container
+			12 content list Audit progress
+				13 container
+					14 text 1 Conversation
+				15 container
+					16 text 2 Ground Truth
+				17 container
+					18 text 3 Configuration
+				19 container
+					20 text 4 Audit
+				21 container
+					22 text 5 Results
+			23 container Review Extracted Memories
+				24 heading Review Extracted Memories, Value: 1, ID: ground-truth-title
+					38 text Review Extracted Memories
+				39 container Memory review summary
+					40 text Extracted  2 To review  2 Accepted  0 Edited  0 Rejected  0
+				41 text 2 memories still need review
+				42 text 0  /  2  reviewed
+				43 progress indicator Description: Memory review progress, Value: 0
+				44 container
+					45 text 0  accepted for reference evidence ·  0  excluded
+				25 container
+					46 text Show memories
+					26 pop up button (collapsed, settable) Show memories, Value: All statuses (2), ID: memory-status-filter, Secondary Actions: Expand
+						27 menu
+							28 (selected) All statuses (2)
+							47 To review (2)
+							48 Accepted (0)
+							49 Edited (0)
+							50 Rejected (0)
+				51 container
+					52 text Showing  2  of  2  memories.
+				29 container Memory 1
+					53 container
+						54 text Memory  1
+					55 text Needs review
+					56 text I am based in Reykjavik
+					57 text Source evidence:  Message 1 · User: I am based in Reykjavik.  ·  10/8/2026, 4:16:24 AM
+					30 button Accept
+					31 button Edit
+					32 button Reject
+				33 container Memory 2
+					58 container
+						59 text Memory  2
+					60 text Needs review
+					61 text I generally prefer Kotlin
+					62 text Source evidence:  Message 2 · User: I generally prefer Kotlin.  ·  10/8/2026, 4:16:24 AM
+					34 button Accept
+					35 button Edit
+					36 button Reject
+				37 button Add Missing Memory
+				63 button (disabled) Confirm Ground Truth & Continue
+
+The focused UI element is 0 AXWebArea localhost:5173/new-audit

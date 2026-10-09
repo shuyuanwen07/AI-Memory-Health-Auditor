@@ -60,7 +60,7 @@ class EvaluatorPrediction(BaseModel):
     conversation_id: str
     response_id: str
     test_id: str
-    passed: bool
+    passed: bool | None
 
 
 class ResearchPredictionSet(BaseModel):
@@ -120,6 +120,14 @@ class BinaryClassificationMetrics(BaseModel):
     cohens_kappa: float | None
 
 
+class PredictionCoverage(BaseModel):
+    expected: int
+    submitted: int
+    decided: int
+    missing: int
+    abstained: int
+
+
 class ResearchValidityReport(BaseModel):
     dataset_id: str
     dataset_version: str
@@ -128,6 +136,8 @@ class ResearchValidityReport(BaseModel):
     relationship: BinaryClassificationMetrics
     test_validity: BinaryClassificationMetrics
     evaluator: BinaryClassificationMetrics
+    test_assessment_coverage: PredictionCoverage
+    evaluator_coverage: PredictionCoverage
 
 
 def annotation_fingerprint(dataset: AnnotationDataset) -> str:

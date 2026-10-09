@@ -9,6 +9,9 @@ stable replacement seam for a future agent memory backend.
 from __future__ import annotations
 
 import re
+from app.services.location_facts import location_value
+from app.services.memory_entities import named_projects
+from app.services.memory_topics import is_language_topic
 from datetime import datetime, timezone
 from uuid import uuid4
 
@@ -40,6 +43,7 @@ from app.schemas import (
     TestCase,
 )
 from app.services.interfaces import MemoryExtractor, TargetMemoryStore
+from app.schemas.target_profile import TargetMemoryProfile
 
 
 _WORDS = re.compile(r"[a-zA-Z][a-zA-Z0-9_+-]*")
@@ -69,9 +73,9 @@ def infer_target_memory_scope(canonical_value: str) -> TargetMemoryScope:
     value = canonical_value.lower()
     if re.search(r"\b(?:assignment|project|task|requirement|requires|required|must|mandatory|for\s+this)\b", value):
         return TargetMemoryScope.PROJECT_REQUIREMENT
-    if re.search(r"\b(?:prefer(?:s|red|ence)?|favour(?:s|ed|ite)?|favorite|favourite|rather\s+than)\b", value):
+    if re.search(r"\b(?:prefer(?:s|red|ence)?|favour(?:s|ed|ite)?|favorite|favourite|(?:would|\'d)\s+rather)\b", value):
         return TargetMemoryScope.PREFERENCE
-    if re.search(r"\b(?:i\s+am|my\s+name|based\s+in|live\s+in|located\s+in|work\s+as|(?:my|the)\s+backend|i\s+(?:now\s+)?use)\b", value):
+    if location_value(value) or re.search(r"\b(?:i\s+am|my\s+name|based\s+in|live\s+in|located\s+in|(?:moved|relocated)\s+to|work\s+as|(?:my|the)\s+backend|i\s+(?:now\s+)?use)\b", value):
         return TargetMemoryScope.PROFILE
     return TargetMemoryScope.EPISODIC
 
@@ -93,6 +97,7 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         capacity: int | None = 50,
         *,
         max_active_records: int | None = None,
+        profile: TargetMemoryProfile | None = None,
     ):
         """Create a deterministic private memory store.
 
@@ -108,6 +113,7 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         resolved_capacity = max_active_records if max_active_records is not None else capacity
         if resolved_capacity is not None and resolved_capacity < 1:
             raise ValueError("capacity must be a positive integer or None.")
+        self.profile = profile or TargetMemoryProfile()
         self.db = db
         self.extractor = extractor or RuleBasedMemoryExtractor()
         self.writer_version = getattr(self.extractor, "VERSION", self.extractor.__class__.__name__)
@@ -312,7 +318,8 @@ class SqlTargetMemoryStore(TargetMemoryStore):
                 if scope_intent_fallback and item["relevance"] == 0:
                     item["reason"] = f"{item['reason']}, scope_intent_fallback"
                 eligible.append(item)
-        selected = self._select(eligible, strategy)
+        eligible = self._filter_profile_candidates(eligible, test)
+        selected = self._apply_profile(self._select(eligible, strategy), test, strategy)
         selected_ids = {choice["record"].id for choice in selected}
         evidence_rows = [
             {
@@ -361,6 +368,38 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             ),
         )
 
+    def _filter_profile_candidates(self, candidates: list[dict], test: TestCase) -> list[dict]:
+        requested = named_projects(test.prompt)
+        retained = []
+        historical = bool(re.search(r"\b(?:previous|previously|before|formerly|historical|past|earlier|used to)\b", test.prompt, re.I))
+        for item in candidates:
+            projects = named_projects(item["record"].canonical_value)
+            if self.profile.isolate_project_scope and requested and projects and not requested.intersection(projects):
+                item["reason"] += ", profile_excluded_other_project"
+                continue
+            if self.profile.prefer_current_state and not historical and item["record"].lifecycle_state == "SUPERSEDED":
+                item["reason"] += ", profile_excluded_superseded_current_query"
+                continue
+            retained.append(item)
+        return retained
+
+    def _apply_profile(self, selected: list[dict], test: TestCase, strategy: MemoryStrategy) -> list[dict]:
+        """Apply only target-side budget, never auditor support IDs or answers."""
+        retained = selected
+        # Ranking policies order from low to high priority. Keep the strongest
+        # records without reversing the supplied chronology/order.
+        priority = retained if strategy in {MemoryStrategy.FULL_CONTEXT, MemoryStrategy.WEAK_FIRST_HIT} else list(reversed(retained))
+        chosen = set()
+        characters = 0
+        for item in priority:
+            cost = len(item["record"].canonical_value) + 3
+            if len(chosen) >= self.profile.max_retrieved_records or characters + cost > self.profile.context_character_budget:
+                item["reason"] += ", profile_context_budget_excluded"
+                continue
+            chosen.add(item["record"].id)
+            characters += cost
+        return [item for item in retained if item["record"].id in chosen]
+
     def _select(self, candidates: list[dict], strategy: MemoryStrategy) -> list[dict]:
         if not candidates:
             return []
@@ -398,6 +437,18 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         priority so all existing target connectors preserve their contract of
         treating the last strong-context record as the decision record.
         """
+        requested_projects = named_projects(candidates[0]["test_prompt"])
+        if requested_projects:
+            retained = []
+            for item in candidates:
+                record_projects = named_projects(item["record"].canonical_value)
+                if record_projects and not requested_projects.intersection(record_projects):
+                    item["reason"] += ", excluded_other_named_project"
+                else:
+                    retained.append(item)
+            candidates = retained
+            if not candidates:
+                return []
         preferred_scope, intent_reason = _preferred_scope(candidates[0]["test_prompt"])
         for item in candidates:
             record_scope = TargetMemoryScope(item["record"].scope)
@@ -610,10 +661,11 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             record = item["record"]
             if (
                 record.id in evicted_ids
-                or record.lifecycle_state == TargetMemoryLifecycleState.EVICTED.value
+                or record.lifecycle_state in {TargetMemoryLifecycleState.EVICTED.value, TargetMemoryLifecycleState.DIAGNOSTIC_ONLY.value}
             ):
                 item["eligible"] = False
-                item["reason"] = f"{item['reason']}, capacity_evicted_excluded"
+                exclusion = "diagnostic_packet_excluded" if record.lifecycle_state == TargetMemoryLifecycleState.DIAGNOSTIC_ONLY.value else "capacity_evicted_excluded"
+                item["reason"] = f"{item['reason']}, {exclusion}"
             elif (
                 record.lifecycle_state == TargetMemoryLifecycleState.SUPERSEDED.value
                 and strategy != MemoryStrategy.WEAK_FIRST_HIT
@@ -642,6 +694,7 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             and record.lifecycle_state not in {
                 TargetMemoryLifecycleState.SUPERSEDED.value,
                 TargetMemoryLifecycleState.EVICTED.value,
+                TargetMemoryLifecycleState.DIAGNOSTIC_ONLY.value,
             }
         ]
         protected = [
@@ -813,11 +866,13 @@ def _is_conservative_near_duplicate(value: str) -> bool:
 def _preferred_scope(prompt: str) -> tuple[TargetMemoryScope | None, str]:
     """Infer a retrieval intent solely from the user-facing test prompt."""
     text = prompt.lower()
+    if re.search(r"\b(?:deployment|policies|policy|secrets?|credentials?)\b", text):
+        return TargetMemoryScope.PROJECT_REQUIREMENT, "intent=project_policy"
     if re.search(r"\b(?:this|current|currently|for\s+the)\s+(?:assignment|project|task)\b|\b(?:must|required|requirement|mandatory)\b", text):
         return TargetMemoryScope.PROJECT_REQUIREMENT, "intent=current_project_requirement"
     if re.search(r"\b(?:prefer|preference|favour(?:ite)?|favorite|usually\s+use)\b", text):
         return TargetMemoryScope.PREFERENCE, "intent=general_preference"
-    if re.search(r"\b(?:where|location|based|live|located|name|background|profile)\b", text):
+    if re.search(r"\b(?:location|based|live|located|name|background|profile|city)\b|\bwhere\b.*\b(?:user|you|i|we)\b", text):
         return TargetMemoryScope.PROFILE, "intent=profile_fact"
     return None, "intent=general_relevance"
 
@@ -839,9 +894,13 @@ def _category(value: str) -> str | None:
     text = value.lower()
     if re.search(r"\b(?:mysql|postgres(?:ql)?|mongodb|sqlite|database|sql)\b", text):
         return "database"
-    if re.search(r"\b(?:python|java|rust|javascript|typescript|(?:programming|scripting)[ -]+languages?)\b", text):
+    if re.search(r"\b(?:logs?|logging|object storage|storage bucket)\b", text):
+        return "log-storage"
+    if re.search(r"\b(?:secrets?|credentials?|environment variables?|config(?:uration)? files?)\b", text):
+        return "secret-configuration"
+    if is_language_topic(text):
         return "programming-language"
-    if re.search(r"\b(?:sydney|melbourne|london|based in|located in|live in|relocat)\b", text):
+    if re.search(r"\b(?:sydney|melbourne|london|location|city|based (?:in|now)|located (?:in|now)|live in|(?:moved|relocated)\s+to|relocat)\b", text):
         return "location"
     if re.search(r"\b(?:remote|from home|office|hybrid)\b", text):
         return "working-arrangement"

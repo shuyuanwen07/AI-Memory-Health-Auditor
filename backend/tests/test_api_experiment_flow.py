@@ -10,6 +10,7 @@ from sqlalchemy.orm import sessionmaker
 
 from app.database.session import Base, get_db
 from app.main import app
+from app.evaluator.factory import configured_evaluator
 from app.models import AuditRunModel, TargetAgentMemoryModel, TargetAgentRetrievalModel
 
 
@@ -205,7 +206,7 @@ def test_experiment_can_freeze_a_direct_ground_truth_baseline(monkeypatch, tmp_p
             tests = client.post(f"/api/v1/audits/{run['run_id']}/generate-tests").json()
             assert tests
             assert {test["test_type"] for test in tests} == {"direct"}
-            assert {test["generator_version"] for test in tests} == {"direct-ground-truth-v1"}
+            assert {test["generator_version"] for test in tests} == {"direct-ground-truth-v3"}
     finally:
         app.dependency_overrides.clear()
 
@@ -411,6 +412,6 @@ def test_experiment_freezes_evaluator_identity_for_every_condition(monkeypatch, 
             })
             assert audit.status_code == 201, audit.text
             assert audit.json()["evaluator_provider"] == "rule_based"
-            assert audit.json()["evaluator_model"] == "rule-based-v2"
+            assert audit.json()["evaluator_model"] == configured_evaluator("rule_based")[1]
     finally:
         app.dependency_overrides.clear()

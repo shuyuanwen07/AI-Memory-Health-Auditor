@@ -112,7 +112,7 @@ def get_target_memory_writer(
         return RuleBasedMemoryExtractor()
     if choice == "llm_structured":
         if provider == "rule_based":
-            raise PipelineRequestError("A structured LLM target-memory writer requires an OpenAI, DeepSeek, or Gemini pipeline provider.", 422)
+            raise PipelineRequestError("A structured LLM target-memory writer requires an OpenRouter, OpenAI, DeepSeek, or Gemini pipeline provider.", 422)
         return LLMTargetMemoryWriter(provider, model)
     # The enum validation above makes this unreachable, but keep a clear
     # boundary error if an untyped implementation calls this in future.

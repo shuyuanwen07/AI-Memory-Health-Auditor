@@ -1,0 +1,85 @@
+Browser tab: 7, Title: "localhost:5173/audits/RUNC6B8DF744E744D83BDA447B26C8D43F8", URL: "http://localhost:5173/audits/RUNC6B8DF744E744D83BDA447B26C8D43F8".
+1 AXWebArea localhost:5173/audits/RUNC6B8DF744E744D83BDA447B26C8D43F8
+	2 container root
+		3 container
+			4 link Description: Memory Auditor, Value: localhost:5173/
+			5 container Primary navigation
+				6 link Description: Dashboard, Value: localhost:5173/
+				7 link Description: New audit, Value: localhost:5173/new-audit
+				8 link Description: History, Value: localhost:5173/history
+				9 link Description: Before & after, Value: localhost:5173/compare
+				10 link Description: Experiments, Value: localhost:5173/experiments
+				11 link Description: About, Value: localhost:5173/about
+		12 container
+			13 text SAVED AUDIT REPORT
+			14 heading Memory Health Report, Value: 1
+				15 text Memory Health Report
+			16 link Description: Compare before & after →, Value: localhost:5173/compare?before=RUNC6B8DF744E744D83BDA447B26C8D43F8
+			17 container Memory Health report details
+				18 text OVERALL MEMORY HEALTH
+				19 heading 0%, Value: 2
+					20 text 0%
+				21 text 0 of 2 tests passed
+				22 heading Results at a glance, Value: 2
+					23 text Results at a glance
+				24 text Memory behaviour was needs attention across 1 tested dimension.
+				25 button Download CSV
+				26 container
+					27 text Score coverage:  1  of  4  Memory Health dimensions were tested. Untested dimensions are excluded from the macro-average.
+				28 container
+					29 heading Accuracy, Value: 3
+						30 text Accuracy
+					31 text 0% 0 of 2 tests passed
+				32 container
+					33 heading Freshness, Value: 3
+						34 text Freshness
+					35 text Not tested No completed tests in this dimension
+				36 container
+					37 heading Conflict Resolution, Value: 3
+						38 text Conflict Resolution
+					39 text Not tested No completed tests in this dimension
+				40 container
+					41 heading Appropriate Use, Value: 3
+						42 text Appropriate Use
+					43 text Not tested No completed tests in this dimension
+				44 container Memory Health profile
+					45 heading Memory Health Profile, Value: 2
+						46 text Memory Health Profile
+					47 container Memory Health profile. Accuracy: 0%; Freshness: Not tested; Conflict Resolution: Not tested; Appropriate Use: Not tested
+						48 container Radar chart: Accuracy: 0%; Freshness: Not tested; Conflict Resolution: Not tested; Appropriate Use: Not tested
+						49 text Accuracy: 0%; Freshness: Not tested; Conflict Resolution: Not tested; Appropriate Use: Not tested
+				50 container Retrieval evidence quality
+					51 heading Retrieval Evidence Quality, Value: 2
+						52 text Retrieval Evidence Quality
+					53 container
+						54 text Evidence recall @ k 0% Required source evidence retrieved
+					55 container
+						56 text Evidence precision @ k Not tested Retrieved source evidence that was relevant
+					57 container
+						58 text Update evidence recall Not tested Freshness-test evidence retrieved
+					59 container
+						60 text Conflict evidence coverage Not tested Conflict-test evidence retrieved
+					61 container
+						62 text Unnecessary retrieval Not tested Lower is better
+				63 heading Detected Memory Failures, Value: 2
+					64 text Detected Memory Failures
+				65 text 2  detected
+				66 button (collapsed) Secondary Actions: Expand, Accuracy Failure: Failed accuracy: expected behaviour was 'I am based in Geneva.'. The response did not demonstrate: geneva. Supporting memories were checked.
+					67 text Accuracy
+					68 text Failure: 
+					69 text Failed accuracy: expected behaviour was 'I am based in Geneva.'. The response did not demonstrate: geneva. Supporting memories were checked.
+				70 button (collapsed) Secondary Actions: Expand, Accuracy Failure: Failed accuracy: expected behaviour was 'I generally prefer Lua.'. The response did not demonstrate: lua. Supporting memories were checked.
+					71 text Accuracy
+					72 text Failure: 
+					73 text Failed accuracy: expected behaviour was 'I generally prefer Lua.'. The response did not demonstrate: lua. Supporting memories were checked.
+				74 container Evaluator calibration review
+					75 heading Evaluator Calibration Review, Value: 2
+						76 text Evaluator Calibration Review
+					77 text Independent mode is blind: review the question and response without seeing the automated verdict or other reviewers. Your label is calibration evidence and never overwrites the original audit result.
+					78 button Review Evaluations
+			79 container Target agent memory trace
+				80 heading Memory retrieval and model input, Value: 2
+					81 text Memory retrieval and model input
+				82 button Inspect Memory Trace
+
+The focused UI element is 1 AXWebArea localhost:5173/audits/RUNC6B8DF744E744D83BDA447B26C8D43F8

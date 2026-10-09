@@ -1,6 +1,6 @@
 # API
 
-The interactive OpenAPI contract is available at `/docs` when the backend is running. All JSON endpoints are versioned beneath `/api/v1`.
+The interactive OpenAPI contract is available at `/api/v1/docs` when the backend is running. All JSON endpoints are versioned beneath `/api/v1`.
 
 | Method | Path | Purpose |
 | --- | --- | --- |
@@ -56,9 +56,9 @@ The interactive OpenAPI contract is available at `/docs` when the backend is run
 The API returns `409 Conflict` for an invalid audit lifecycle action and `422 Unprocessable Entity` when consent or required review data is absent.
 
 The audit result also includes `evaluation_warnings` when one or more stored
-verdicts used the deterministic fallback. This keeps a provider outage visible
-even when every individual test passed; fallback verdicts are not presented as
-ordinary LLM-judge outcomes.
+judge calls were unavailable or invalid. Their verdict is uncertain, excluded
+from scores, and any deterministic advisory result is not treated as an LLM
+verdict. Independently selected rule-based evaluation remains a lexical baseline.
 
 Shared-suite review is also frozen as soon as any condition in the comparison
 group enters execution or a terminal state. This prevents a later edit from
@@ -117,3 +117,33 @@ Each condition summary also reports the mean recorded response latency and total
 input/output/combined token counts when the selected provider exposes them. A
 dash means the provider did not report that measurement; monetary cost is not
 calculated because provider pricing is not fixed by the audit protocol.
+
+### Reliability and evidence qualification
+
+`GET /auditor-quality` counts every resolved human label in review coverage, including answers for which the automatic judge abstained. `decided_reference_count` and `labelled_abstention_rate` expose that excluded subset. Binary `accuracy` does not imply correct diagnosis categories: `failure_classification_accuracy` measures category agreement among jointly detected failures with known human categories, while `failure_detection_and_classification_recall` includes human-labelled failures the automatic judge missed. `category_confusion` distinguishes missed failures from unclassified automatic failures. Missing eligible references produce null percentages rather than invented scores.
+
+Audit results retain the historical `overall_score` tested-dimension macro-average. Derived `formal_overall_score` is null unless all four core dimensions have decided scores. Failure details add ordered `source_statements` containing role, original content and timestamp, restricted to the audit conversation and linked evidence; identifiers belonging to other histories cannot expose their source text.
+
+
+### Lost creation response recovery
+`POST /experiments` and `POST /audits` accept an optional `creation_request_key` (16–100 ASCII letters, digits, underscore or hyphen). Retry exactly the same validated request with the same key to recover its saved identity, including after the suite freezes. A different payload with the same key returns 409; intentional repetitions use separate keys. Unique constraints arbitrate simultaneous requests in PostgreSQL. The key and request fingerprint are internal and excluded from public reports. Clients without keys retain the historical creation behaviour. This does not provide idempotency for source import or diagnostic experiment package endpoints.
+
+Local Ollama semantic evaluator v2 cross-checks definite provider verdicts against evidence-rule judgment. Disagreement becomes unscored pending review, retaining both advisory explanations and both verdicts in the saved judge receipt. It is not a rule override or a guarantee of accuracy when both methods agree. Historical results are preserved.
+
+### Saved assessment comparability
+
+Audit comparison pairs only decided, unchanged canonical questions with matching saved assessment implementation, configured judge identity, receipt judge identity and local cross-check version. Local judge v2 without a saved cross-check version is incomplete evidence and is excluded. `excluded_assessments` preserves original answers and pass labels for review; these rows do not enter fixed/regressed counts or paired pass-rate deltas. Historical full-suite scores remain descriptive. This version check does not establish independent evaluator accuracy.
+
+Research validity coverage (2026-10-09)
+The offline validity report compares submitted question assessments and decided answer judgments against matching gold references. Missing predictions are not negative decisions. An evaluator prediction may explicitly use `passed: null`; it is counted as abstained, excluded from binary confusion counts, and retained in coverage. Reports include `test_assessment_coverage` and `evaluator_coverage` with expected/submitted/decided/missing/abstained counts. Exact response-to-test correspondence is validated within the annotation release. Partial coverage can yield high decided-case accuracy; it does not establish complete recall or formal acceptance. Extraction and relationship set recall assumes the submitted candidate inventory is complete; a missing inventory must not be presented as a verified extraction result.
+
+
+Target answer execution metadata may include `completion_status` (`complete`, `truncated`, or null) and a whitelisted `finish_reason`. The status describes provider termination, not semantic correctness. An explicit output-limit termination is unscored (`passed: null`, no failure dimension) by both supported evaluator types. The saved answer remains inspectable. Legacy responses without termination evidence remain unknown and are never silently reclassified using token count alone. No database migration is required: these optional values are retained in the existing JSON execution metadata.
+Diagnosis `fact-aware-diagnosis-v8` adds `answer_and_history_review` when
+the supplied exact supporting update covers the missing old reference facts,
+and every missing unit is exclusively observed as excluded by the superseded
+policy. `memory_availability.superseded_only_missing_fact_units` is `null`
+when supply is unknown. Unknown matching copies and other exclusion reasons
+do not qualify. The diagnosis asks for answer/assessment and historical-context
+review together; it does not establish a causal failure or change the target
+configuration.

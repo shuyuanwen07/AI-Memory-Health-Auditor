@@ -74,3 +74,29 @@ def test_annotation_import_fingerprint_is_stable_and_records_counts():
     second = annotation_import_report(dataset())
     assert first.fingerprint_sha256 == second.fingerprint_sha256
     assert (first.conversations, first.gold_memories, first.gold_relationships, first.gold_tests, first.gold_evaluations) == (1, 7, 4, 5, 5)
+
+
+def test_missing_judgments_never_become_passes_or_rejections():
+    empty = ResearchPredictionSet(dataset_id=dataset().dataset_id, dataset_version=dataset().dataset_version)
+    report = ResearchValidityService().calculate(dataset(), empty)
+    assert report.evaluator.labelled_cases == report.test_validity.labelled_cases == 0
+    assert report.evaluator.accuracy is report.test_validity.accuracy is None
+    assert report.evaluator.true_negatives == report.test_validity.true_negatives == 0
+    assert report.evaluator_coverage.model_dump() == dict(expected=5, submitted=0, decided=0, missing=5, abstained=0)
+
+
+def test_uncertain_judgment_is_separate_from_missing_and_preserves_decided_failure():
+    payload = predictions().model_dump()
+    payload['evaluator_predictions'] = [payload['evaluator_predictions'][2], {**payload['evaluator_predictions'][0], 'passed': None}]
+    report = ResearchValidityService().calculate(dataset(), ResearchPredictionSet.model_validate(payload))
+    assert report.evaluator.labelled_cases == report.evaluator.true_positives == 1
+    assert report.evaluator.accuracy == 100
+    assert report.evaluator_coverage.model_dump() == dict(expected=5, submitted=2, decided=1, missing=3, abstained=1)
+    assert report.evaluator.false_negatives == report.evaluator.true_negatives == 0
+
+
+def test_response_identity_cannot_be_joined_to_another_valid_test():
+    payload = predictions().model_dump()
+    payload['evaluator_predictions'][0]['test_id'] = 'ANN-T002'
+    with pytest.raises(ValueError, match='same gold evidence pair'):
+        ResearchValidityService().calculate(dataset(), ResearchPredictionSet.model_validate(payload))

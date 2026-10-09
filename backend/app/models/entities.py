@@ -61,6 +61,8 @@ class ExperimentModel(Base):
     """
 
     __tablename__ = "experiments"
+    creation_request_key: Mapped[str | None] = mapped_column(String(100), nullable=True, unique=True)
+    creation_request_fingerprint: Mapped[str | None] = mapped_column(String(64), nullable=True)
     id: Mapped[str] = mapped_column(String(40), primary_key=True)
     conversation_id: Mapped[str] = mapped_column(
         ForeignKey("conversations.id", ondelete="CASCADE"), index=True
@@ -85,6 +87,8 @@ class ExperimentModel(Base):
 
 class AuditRunModel(Base):
     __tablename__ = "audit_runs"
+    creation_request_key: Mapped[str | None] = mapped_column(String(100), nullable=True, unique=True)
+    creation_request_fingerprint: Mapped[str | None] = mapped_column(String(64), nullable=True)
     id: Mapped[str] = mapped_column(String(40), primary_key=True)
     conversation_id: Mapped[str] = mapped_column(ForeignKey("conversations.id"), index=True)
     experiment_id: Mapped[str | None] = mapped_column(
@@ -152,6 +156,9 @@ class TestCaseModel(Base):
     quality_status: Mapped[str] = mapped_column(String(20), default="pending")
     grounding_status: Mapped[str] = mapped_column(String(20), default="pending")
     validation_notes: Mapped[str | None] = mapped_column(Text, nullable=True)
+    comparison_test_id: Mapped[str | None] = mapped_column(String(40), nullable=True)
+    probe_group_id: Mapped[str | None] = mapped_column(String(40), nullable=True)
+    probe_variant: Mapped[str | None] = mapped_column(String(40), nullable=True)
     target_memory_context: Mapped[list] = mapped_column(JSON, default=list)
 
 class TargetResponseModel(Base):
@@ -255,11 +262,12 @@ class EvaluationResultModel(Base):
     id: Mapped[str] = mapped_column(String(40), primary_key=True)
     test_id: Mapped[str] = mapped_column(ForeignKey("test_cases.id", ondelete="CASCADE"), index=True)
     response_id: Mapped[str] = mapped_column(ForeignKey("target_responses.id", ondelete="CASCADE"))
-    passed: Mapped[bool] = mapped_column(Boolean)
+    passed: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
     failure_type: Mapped[str | None] = mapped_column(String(40), nullable=True)
     reason: Mapped[str] = mapped_column(Text)
     evidence_memory_ids: Mapped[list] = mapped_column(JSON, default=list)
     evaluator: Mapped[str] = mapped_column(String(40))
+    judge_execution: Mapped[dict | None] = mapped_column(JSON, nullable=True)
 
 
 class EvaluationHumanReviewModel(Base):
@@ -295,3 +303,12 @@ class EvaluationHumanReviewModel(Base):
     note: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now, onupdate=utc_now)
+
+
+class OperatorSessionModel(Base):
+    """Only high-entropy token hashes persist; logout revokes them immediately."""
+    __tablename__ = 'operator_sessions'
+    token_digest: Mapped[str] = mapped_column(String(64), primary_key=True)
+    credential_fingerprint: Mapped[str] = mapped_column(String(64), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, index=True)

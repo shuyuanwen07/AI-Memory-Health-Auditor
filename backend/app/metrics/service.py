@@ -36,13 +36,15 @@ class MetricsService:
                 for test_id, evaluation in valid_by_test.items()
                 if tests[test_id] == dimension
             ]
-            total = len(scoped)
-            passed = sum(evaluation.passed for evaluation in scoped)
+            definitive = [evaluation for evaluation in scoped if evaluation.passed is not None]
+            total = len(definitive)
+            passed = sum(evaluation.passed for evaluation in definitive)
             scores.append(DimensionScores(
                 dimension=dimension,
                 percentage=round((passed / total) * 100, 1) if total else None,
                 passed=passed,
                 total=total,
+                uncertain_count=len(scoped) - total,
             ))
 
         # Macro-average only across dimensions with one or more valid tests.

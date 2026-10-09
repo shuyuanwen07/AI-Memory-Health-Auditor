@@ -1,0 +1,138 @@
+[
+  {
+    "round": 1,
+    "title": "对比结果空状态",
+    "finding": "选择零条退步结果后明细区域变成空白",
+    "repair": "显示当前筛选无匹配解释和返回全部的操作",
+    "verification": "visible browser controls",
+    "direct_api_calls": 0
+  },
+  {
+    "round": 2,
+    "title": "浏览器前后导航一致性",
+    "finding": "浏览器后退恢复网址但选择器和结果仍停留在上一组",
+    "repair": "对比对象由网址统一控制，前进后退同步更新",
+    "verification": "visible browser controls",
+    "direct_api_calls": 0
+  },
+  {
+    "round": 3,
+    "title": "对比对象快速查找",
+    "finding": "两组下拉列表各有二百多条记录，难以定位需要展示的实验",
+    "repair": "增加搜索与交换按钮，筛选保留已选对象且不改动结果",
+    "verification": "visible browser controls",
+    "direct_api_calls": 0
+  },
+  {
+    "round": 4,
+    "title": "成果摘要与展示模式",
+    "finding": "分数、设置和明细混在一起，无法迅速看懂具体改善",
+    "repair": "增加同题改善摘要、退步与仍失败数量，展示模式聚焦结论和图表",
+    "verification": "visible browser controls",
+    "direct_api_calls": 0
+  },
+  {
+    "round": 5,
+    "title": "反向对比与图表导出",
+    "finding": null,
+    "repair": "反向对比显示一个退步和负分差，交换两次恢复原结果；通过保存按钮导出图表",
+    "verification": "visible browser controls",
+    "direct_api_calls": 0
+  },
+  {
+    "round": 6,
+    "title": "不存在页面的恢复导航",
+    "finding": "无效页面链接只显示导航，主区域空白",
+    "repair": "增加页面不存在提示和历史、新建审计入口",
+    "verification": "visible browser controls",
+    "direct_api_calls": 0
+  },
+  {
+    "round": 7,
+    "title": "对话导入后刷新恢复",
+    "finding": null,
+    "repair": "合成对话刷新后保留两条消息，授权状态正确；上传草稿时间字段保留",
+    "verification": "visible browser controls",
+    "direct_api_calls": 0
+  },
+  {
+    "round": 8,
+    "title": "可选日期清空保存",
+    "finding": "编辑日期清空后未保存为空，取消再打开恢复旧日期",
+    "repair": "提交显式空日期，界面反复打开确认已清除",
+    "verification": "visible browser controls",
+    "direct_api_calls": 0
+  },
+  {
+    "round": 9,
+    "title": "配置输入与固定模型",
+    "finding": null,
+    "repair": "小数预算与次数转为有效整数；容量50、单次、预算4、Qwen3:1.7b，其余配置固定",
+    "verification": "visible browser controls",
+    "direct_api_calls": 0
+  },
+  {
+    "round": 10,
+    "title": "题目重生成与执行门槛",
+    "finding": null,
+    "repair": "拒绝题目后无法执行，重生成仍检查Lua偏好，与Geneva题不重复；审核后才可运行",
+    "verification": "visible browser controls",
+    "direct_api_calls": 0
+  },
+  {
+    "round": 11,
+    "title": "真实Qwen结果与证据一致性",
+    "finding": null,
+    "repair": "两个问题均未通过，检索召回为零；失败回答与证据一致，其他三个维度明确未测试",
+    "verification": "visible browser controls",
+    "direct_api_calls": 0
+  },
+  {
+    "round": 12,
+    "title": "保存报告与刷新",
+    "finding": null,
+    "repair": "最新审计可从历史打开，刷新仍保留零分和两道实际题数，预算仍显示上限",
+    "verification": "visible browser controls",
+    "direct_api_calls": 0
+  },
+  {
+    "round": 13,
+    "title": "实验分组与复現资料",
+    "finding": null,
+    "repair": "最新实验显示两条失败与单次报告一致，分页保留；通过按钮导出冻结资料",
+    "verification": "visible browser controls",
+    "direct_api_calls": 0
+  },
+  {
+    "round": 14,
+    "title": "不可比较场景的中性展示",
+    "finding": "没有共享题时新摘要仍使用成功色并显示零失败，容易误读",
+    "repair": "没有可比题时使用中性提示，说明分数属于不同题集，不显示零退步或零失败",
+    "verification": "visible browser controls",
+    "direct_api_calls": 0
+  },
+  {
+    "round": 15,
+    "title": "展示模式与图表范围切换",
+    "finding": null,
+    "repair": "展示模式隐藏设置和逐题明细，保留有效性提示与图表；退出恢复完整操作，范围切换不改动结果",
+    "verification": "visible browser controls",
+    "direct_api_calls": 0
+  },
+  {
+    "round": 16,
+    "title": "页面导航与首页回归",
+    "finding": null,
+    "repair": "说明页、首页和历史入口正常；新成果功能未影响原有导航与分页",
+    "verification": "visible browser controls",
+    "direct_api_calls": 0
+  },
+  {
+    "round": 17,
+    "title": "最终成果与图表导出",
+    "finding": null,
+    "repair": "最终展示保留75%到100%、一道改善、零退步和双色四维度对比；从按钮导出同题SVG图",
+    "verification": "visible browser controls",
+    "direct_api_calls": 0
+  }
+]

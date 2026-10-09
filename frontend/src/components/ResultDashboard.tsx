@@ -1,6 +1,11 @@
+import { saveBlob } from '../services/download';
+import { ValidationWorkbench } from "./ValidationWorkbench";
+import { UICard, UIAlert } from './ui';
+import { UIPanel, UISummary, UIButton } from './ui';
 import { lazy, Suspense } from 'react';
 import type { AuditResult, Dimension, DimensionScores, FailureDetail, RetrievalQualityScores } from '../types/domain';
 import { EvaluationReview } from './EvaluationReview';
+import { assessmentLabel, friendlyText } from '../services/display';
 
 const ScoreRadarChart = lazy(() => import('./ResultVisualizations').then((module) => ({ default: module.ScoreRadarChart })));
 
@@ -24,13 +29,13 @@ export function buildAuditResultCsv(result: AuditResult) {
     'Target response', 'Evidence memory IDs', 'Evidence memories', 'Evaluator',
   ];
   const rows: unknown[][] = [[
-    'Audit summary', result.run_id, '', '', '', result.overall_score ?? 'Not tested',
+    'Audit summary', result.run_id, '', '', '', result.overall_score ?? ((result.uncertain_count ?? 0) > 0 ? 'Awaiting review' : 'Not tested'),
     result.tests_passed, result.tests_total, '', '', '', '', '', '', '',
   ]];
 
   result.dimensions.forEach((dimension) => rows.push([
     'Dimension summary', result.run_id, labels[dimension.dimension], '', '',
-    dimension.percentage ?? 'Not tested', dimension.passed, dimension.total,
+    dimension.percentage ?? ((dimension.uncertain_count ?? 0) > 0 ? 'Awaiting review' : 'Not tested'), dimension.passed, dimension.total,
     '', '', '', '', '', '', '',
   ]));
 
@@ -48,25 +53,34 @@ export function buildAuditResultCsv(result: AuditResult) {
 
 function downloadAuditResultCsv(result: AuditResult) {
   const csv = buildAuditResultCsv(result);
-  const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = `memory-health-audit-${result.run_id}.csv`;
-  document.body.append(link);
-  link.click();
-  link.remove();
-  URL.revokeObjectURL(url);
+  saveBlob(new Blob([csv], { type: 'text/csv;charset=utf-8' }), 'memory-health-report.csv');
 }
 
 function overallAssessment(score: number | null, coveredDimensions: number) {
   if (score === null) return 'No overall score is available until at least one completed test has been evaluated.';
-  const reliability = score >= 85 ? 'consistently reliable' : score >= 65 ? 'partly reliable' : 'needs attention';
-  return `Memory behaviour was ${reliability} across ${coveredDimensions} tested ${coveredDimensions === 1 ? 'dimension' : 'dimensions'}.`;
+  return `Automatically assessed average: ${score.toFixed(1)}% across ${coveredDimensions} tested ${coveredDimensions === 1 ? 'dimension' : 'dimensions'}. Independent review is needed before drawing a reliability conclusion.`;
+}
+
+function AnswerOutcomes({ result }: { result: AuditResult }) {
+  const uncertain = result.uncertain_count ?? 0;
+  const failed = Math.max(0, result.tests_total - result.tests_passed);
+  const completed = result.tests_total + uncertain;
+  const outcomes = [
+    { label: 'Passed', count: result.tests_passed, className: 'passed' },
+    { label: 'Failed', count: failed, className: 'failed' },
+    { label: 'Awaiting review', count: uncertain, className: 'uncertain' },
+  ];
+  return <section className="answer-outcomes" aria-label="Answer outcomes">
+    <h3>{completed} completed {completed === 1 ? 'answer' : 'answers'}</h3>
+    <div className="outcome-counts">{outcomes.map(outcome => <span key={outcome.className} className={outcome.className}><b>{outcome.count}</b> {outcome.label}</span>)}</div>
+    {completed > 0 && <div className="outcome-bar" role="img" aria-label={`${result.tests_passed} passed, ${failed} failed, ${uncertain} awaiting review out of ${completed} completed answers`}>{outcomes.filter(outcome => outcome.count > 0).map(outcome => <span key={outcome.className} className={outcome.className} style={{ width: `${outcome.count / completed * 100}%` }}/>)}</div>}
+    <p>{completed === 0 ? 'No assessed answers are available.' : uncertain > 0 ? 'The percentage above uses decided assessments only. Awaiting review does not mean passed.' : 'These are automated assessments; independent review is required for a reliability claim.'}</p>
+  </section>;
 }
 
 function DimensionCard({ score }: { score: DimensionScores }) {
   const isMeasured = score.percentage !== null;
-  return <article className="dimension"><h3>{labels[score.dimension]}</h3><strong>{formatPercentage(score.percentage)}</strong><span>{isMeasured ? `${score.passed} of ${score.total} tests passed` : 'No completed tests in this dimension'}</span></article>;
+  return <UICard className="dimension"><h3>{labels[score.dimension]}</h3><strong>{!isMeasured && (score.uncertain_count ?? 0) > 0 ? 'Awaiting review' : formatPercentage(score.percentage)}</strong><span>{isMeasured ? `${score.passed} of ${score.total} tests passed` : (score.uncertain_count ?? 0) > 0 ? 'Completed answers need independent review' : 'No completed tests in this dimension'}</span>{(score.uncertain_count ?? 0) > 0 && <small>{score.uncertain_count} uncertain assessment(s) excluded from scoring</small>}</UICard>;
 }
 
 const retrievalLabels: Array<[keyof RetrievalQualityScores, string, string]> = [
@@ -79,25 +93,26 @@ const retrievalLabels: Array<[keyof RetrievalQualityScores, string, string]> = [
 
 function RetrievalQuality({ scores }: { scores?: RetrievalQualityScores }) {
   if (!scores) return <section className="retrieval-quality"><h2>Retrieval Evidence Quality</h2><p className="empty">No retrieval trace with source evidence is available for these completed tests.</p></section>;
-  if (!scores.tests_measured) return <section className="retrieval-quality"><h2>Retrieval Evidence Quality</h2><p className="empty">No retrieval trace with source evidence is available for these completed tests.</p></section>;
+  const excludedNotice = (scores.unlinked_attempts_excluded ?? 0) > 0 ? <p className="trace-note">{scores.unlinked_attempts_excluded} retrieval attempts without a linked saved answer are excluded. Their input and outcome remain unverified.</p> : null;
+  if (!scores.tests_measured) return <section className="retrieval-quality"><h2>Retrieval Evidence Quality</h2><p className="empty">No retrieval trace with source evidence is available for these completed tests.</p>{excludedNotice}</section>;
   return <section className="retrieval-quality" aria-label="Retrieval evidence quality">
-    <div><h2>Retrieval Evidence Quality</h2></div>
-    <div className="retrieval-grid">{retrievalLabels.map(([key, label, note]) => <article key={key} className="retrieval-card"><span>{label}</span><strong>{formatPercentage(scores[key] as number | null)}</strong><small>{note}</small></article>)}</div>
+    <div><h2>Retrieval Evidence Quality</h2><p className="trace-note">These proxies match source messages and normalised fact text in retrieved records. Reworded or bundled source evidence can score lower despite containing the required information. They do not measure causal model use or the final supplied context.</p></div>
+    {excludedNotice}
+    <div className="retrieval-grid">{retrievalLabels.map(([key, label, note]) => <UICard key={key} className="retrieval-card"><span>{label}</span><strong>{formatPercentage(scores[key] as number | null)}</strong><small>{note}</small></UICard>)}</div>
   </section>;
 }
 
 function FailureEvidence({ failure }: { failure: FailureDetail }) {
-  if (!failure.evidence.length) return <p className="empty evidence-empty">No traceable ground-truth evidence was returned for this failure.</p>;
-  return <ul className="evidence-list">{failure.evidence.map((memory, index) => <li key={memory.memory_id} title={`Technical memory ID: ${memory.memory_id}`}><b>Supporting memory {index + 1}</b><span>{memory.canonical_value}</span></li>)}</ul>;
+  return <>{!failure.evidence.length ? <p className="empty evidence-empty">No traceable ground-truth evidence was returned for this failure.</p> : <ul className="evidence-list">{failure.evidence.map((memory, index) => <li key={memory.memory_id}><b>Supporting memory {index + 1}</b><span>{memory.canonical_value}</span></li>)}</ul>}<p><b>Original conversation evidence</b></p>{failure.source_statements?.length ? <ul className="evidence-list">{failure.source_statements.map((source,index)=><li key={index}><b>Source {index+1} · {source.role} · {new Date(source.timestamp).toLocaleString()}</b><span>{source.content}</span></li>)}</ul> : <p className="empty">Original source statements are unavailable for this failure. Review its trace before relying on the diagnosis.</p>}</>;
 }
 
 function FailureCard({ failure }: { failure: FailureDetail }) {
   const label = labels[failure.test.dimension];
-  return <details className="failure-card"><summary><b>{label}</b><span>Failure: {failure.evaluation.reason}</span></summary><div className="failure-content"><p><b>Why this failed</b><br />{failure.evaluation.reason}</p><p><b>Behavioural test</b><br />{failure.test.prompt}</p><p><b>Expected behaviour</b><br />{failure.test.expected_behavior}</p><p><b>Target AI response</b><br />{failure.response.response_text || 'The target AI returned no text.'}</p><p><b>Ground-truth evidence</b></p><FailureEvidence failure={failure} /><p className="failure-meta">Evaluator: {failure.evaluation.evaluator}</p><details className="technical-inline"><summary>Technical evidence details</summary><code>Test ID: {failure.test.test_id}</code></details></div></details>;
+  return <UIPanel className="failure-card"><UISummary><b>{label}</b><span>Failure: {friendlyText(failure.evaluation.reason)}</span></UISummary><div className="failure-content"><p><b>Why this failed</b><br />{friendlyText(failure.evaluation.reason)}</p><p><b>Behavioural test</b><br />{failure.test.prompt}</p><p><b>Expected behaviour</b><br />{failure.test.expected_behavior}</p><p><b>Target AI response</b><br />{failure.response.response_text || 'The target AI returned no text.'}</p><p><b>Ground-truth evidence</b></p><FailureEvidence failure={failure} /><p className="failure-meta">Evaluator: {assessmentLabel(failure.evaluation.evaluator)}</p></div></UIPanel>;
 }
 
 export function ResultDashboard({ result }: { result: AuditResult }) {
   const measuredDimensions = result.dimensions.filter((dimension) => dimension.percentage !== null).length;
   const hasCompletedTests = result.tests_total > 0;
-  return <section className="result-dashboard" aria-label="Memory Health report details"><div className="report-hero"><p>OVERALL MEMORY HEALTH</p><h2>{formatPercentage(result.overall_score)}</h2><span>{hasCompletedTests ? `${result.tests_passed} of ${result.tests_total} tests passed` : 'No completed tests are available for scoring'}</span></div><div className="failure-heading"><div><h2>Results at a glance</h2><p>{overallAssessment(result.overall_score, measuredDimensions)}</p></div><button type="button" className="secondary" onClick={() => downloadAuditResultCsv(result)}>Download CSV</button></div><p className="report-coverage">Score coverage: {measuredDimensions} of {result.dimensions.length} Memory Health dimensions were tested. Untested dimensions are excluded from the macro-average.</p>{result.evaluation_warnings?.map((warning) => <p className="alert" role="status" key={warning}>{warning}</p>)}<div className="dimension-grid">{result.dimensions.map((dimension) => <DimensionCard key={dimension.dimension} score={dimension} />)}</div><Suspense fallback={<p className="chart-loading" role="status">Loading Memory Health profile…</p>}><ScoreRadarChart result={result} /></Suspense><RetrievalQuality scores={result.retrieval_quality} /><div className="failure-heading"><div><h2>Detected Memory Failures</h2></div><span className="failure-count">{result.failures.length} detected</span></div>{result.failures.length === 0 ? <p className="empty">No failures were detected in the completed tests.</p> : <div className="failure-list">{result.failures.map((failure) => <FailureCard key={failure.failure_id} failure={failure} />)}</div>}<EvaluationReview runId={result.run_id} /></section>;
+  return <section className="result-dashboard" aria-label="Memory Health report details"><div className="report-hero"><p>{measuredDimensions === 4 ? 'OVERALL MEMORY HEALTH' : 'TESTED ABILITY AVERAGE'}</p><h2>{result.overall_score === null && (result.uncertain_count ?? 0) > 0 ? 'Unscored' : formatPercentage(result.overall_score)}</h2><span>{hasCompletedTests ? `${result.tests_passed} of ${result.tests_total} tests passed` : (result.uncertain_count ?? 0) > 0 ? `${result.uncertain_count} completed answers await review` : 'No completed tests are available for scoring'}</span></div><AnswerOutcomes result={result}/><div className="failure-heading"><div><h2>Results at a glance</h2><p>{result.overall_score === null && (result.uncertain_count ?? 0) > 0 ? 'No definitive score is available while completed answers await review.' : overallAssessment(result.overall_score, measuredDimensions)}</p></div><UIButton type="button" className="secondary" onClick={() => downloadAuditResultCsv(result)}>Download CSV</UIButton></div><p>{result.uncertain_count??0} uncertain assessments are excluded from the score. Scores are automated until calibrated against independent human labels.</p><p className="report-coverage">Score coverage: {measuredDimensions} of {result.dimensions.length} Memory Health dimensions have definitive scores. Untested dimensions are excluded from the macro-average. Uncertain assessments also stay outside the score. {measuredDimensions < 4 && 'A formal overall Memory Health score requires all four dimensions.'}</p>{result.evaluation_warnings?.map((warning) => <UIAlert className="alert" role="status" key={warning}>{friendlyText(warning)}</UIAlert>)}<div className="dimension-grid">{result.dimensions.map((dimension) => <DimensionCard key={dimension.dimension} score={dimension} />)}</div><Suspense fallback={<p className="chart-loading" role="status">Loading Memory Health profile…</p>}><ScoreRadarChart result={result} /></Suspense><RetrievalQuality scores={result.retrieval_quality} /><div className="failure-heading"><div><h2>Answers marked as failed</h2><p>A failed answer can reflect the test setup. Inspect diagnosis before attributing a memory defect.</p></div><span className="failure-count">{result.failures.length} flagged</span></div>{result.failures.length === 0 ? <p className="empty">No completed answers were marked as failed.</p> : <div className="failure-list">{result.failures.map((failure) => <FailureCard key={failure.failure_id} failure={failure} />)}</div>}<EvaluationReview runId={result.run_id} /><ValidationWorkbench runId={result.run_id}/></section>;
 }

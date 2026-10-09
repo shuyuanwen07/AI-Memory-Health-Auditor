@@ -14,27 +14,35 @@ from app.test_generator.rule_based import RuleBasedTestGenerator
 class DirectGroundTruthTestGenerator(TestGenerator):
     """Baseline A: ask a direct question for each confirmed memory."""
 
-    VERSION = "direct-ground-truth-v1"
+    VERSION = "direct-ground-truth-v3"
 
     def generate(self, memories: list[Memory], audit: AuditRun) -> list[TestCase]:
+        # Match the current facts/relationships used by other suite methods.
+        # Asking an unscoped current question about a superseded record would
+        # create an invalid baseline, not evidence of a memory defect.
         confirmed = [memory for memory in memories if memory.status in {MemoryStatus.CONFIRMED, MemoryStatus.EDITED}]
-        tests: list[TestCase] = []
-        for index, memory in enumerate(confirmed[:audit.test_budget], start=1):
-            tests.append(TestCase(
-                test_id=f"T{index:03d}", run_id=audit.run_id, dimension=Dimension.ACCURACY,
-                prompt=f"What is the user's recorded {RuleBasedTestGenerator._topic(memory)}? Answer with the relevant fact only.",
-                expected_behavior=f"State the recorded fact: {memory.canonical_value}.",
-                supporting_memory_ids=[memory.memory_id], generator_version=self.VERSION,
-                test_type=TestType.DIRECT,
-                target_memory_context=[memory.canonical_value],
-            ))
+        by_id = {memory.memory_id: memory for memory in confirmed}
+        base = RuleBasedTestGenerator().generate(confirmed, audit)
+        tests = []
+        seen = set()
+        for case in base:
+            family = tuple(sorted(case.supporting_memory_ids))
+            if family in seen:
+                continue
+            seen.add(family)
+            support = [by_id[key] for key in case.supporting_memory_ids]
+            topic = RuleBasedTestGenerator._scoped_topic(*support)
+            tests.append(case.model_copy(update={"test_id": f"T{len(tests)+1:03d}",
+                "prompt": case.prompt if case.dimension == Dimension.ACCURACY else f"For {'the current task requirement' if case.dimension == Dimension.APPROPRIATE_USE else 'the latest applicable record'}, what is the user's {topic}? If conflicting constraints are unresolved, state them and request clarification.",
+                "generator_version": self.VERSION, "test_type": TestType.DIRECT, "target_memory_context": []}))
         return tests
+
 
 
 class FixedTemplateTestGenerator(RuleBasedTestGenerator):
     """Baseline B: standard deterministic templates with explicit provenance."""
 
-    VERSION = "fixed-template-v1"
+    VERSION = "fixed-template-v2"
 
     def generate(self, memories: list[Memory], audit: AuditRun) -> list[TestCase]:
         tests = super().generate(memories, audit)
@@ -47,6 +55,9 @@ def get_suite_generator(mode: TestSuiteMode, behavioural_generator: TestGenerato
     A behavioural generator may be LLM-backed.  Baselines stay local and
     deterministic even if the standard suite generator is not.
     """
+    if mode == TestSuiteMode.PAIRED_CONTEXTUAL:
+        from app.test_generator.paired import PairedContextualTestGenerator
+        return PairedContextualTestGenerator()
     if mode == TestSuiteMode.DIRECT_GROUND_TRUTH:
         return DirectGroundTruthTestGenerator()
     if mode == TestSuiteMode.FIXED_TEMPLATE:

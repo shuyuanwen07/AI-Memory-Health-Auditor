@@ -1,0 +1,95 @@
+{
+  "review_date": "2026-10-09",
+  "comparison_type": "official-documentation review; no competitor systems executed",
+  "products": [
+    {
+      "name": "Mem0",
+      "documented_capabilities": [
+        "Persistent memory extraction and search",
+        "Memory update/history mechanisms",
+        "Published memory evaluation documentation and benchmark tooling",
+        "LoCoMo/LongMemEval/BEAM benchmark suite, retrieval evidence UI, logs and run comparison"
+      ],
+      "sources": [
+        "https://docs.mem0.ai/features/contextual-add",
+        "https://github.com/mem0ai/mem0/blob/main/docs/core-concepts/memory-evaluation.mdx",
+        "https://github.com/mem0ai/memory-benchmarks"
+      ],
+      "our_position": "An audit workflow that links reviewed source facts, behavioural failures, controlled repairs and paired retests. Do not claim Mem0 has no evaluation or audit trail.",
+      "empirical_superiority": "not measured"
+    },
+    {
+      "name": "Zep",
+      "documented_capabilities": [
+        "Temporal context graph and agent context retrieval",
+        "Custom evaluation dataset and retrieval-response evaluation workflow",
+        "Category-level scenario evaluation"
+      ],
+      "sources": [
+        "https://help.getzep.com/v3/agent-memory-solution",
+        "https://help.getzep.com/evaluate-zep-for-your-use-case"
+      ],
+      "our_position": "Expose a local, inspectable four-dimension Auditor workflow and controlled before/after evidence. Custom evaluation alone is not a unique advantage over Zep.",
+      "empirical_superiority": "not measured"
+    },
+    {
+      "name": "LongMemEval",
+      "documented_capabilities": [
+        "Standardised evaluation of long-term interactive memory",
+        "Knowledge updates, temporal reasoning and other memory abilities",
+        "Public benchmark and evaluation code"
+      ],
+      "sources": [
+        "https://github.com/xiaowu0162/longmemeval",
+        "https://openreview.net/pdf?id=wIonk5yTDq"
+      ],
+      "our_position": "Audit a specific user's authorised history and test targeted repairs; use official benchmark protocols separately for external validity.",
+      "empirical_superiority": "not measured"
+    },
+    {
+      "name": "LangSmith",
+      "documented_capabilities": [
+        "Offline/online evaluation, datasets and multiple evaluator types"
+      ],
+      "sources": [
+        "https://docs.langchain.com/langsmith/evaluation-types"
+      ],
+      "our_position": "Evaluate the incremental value of human-confirmed personal-history probes and controlled diagnosis/repair studies; do not claim this existing capability is unique.",
+      "empirical_superiority": "not measured"
+    },
+    {
+      "name": "Graphiti",
+      "documented_capabilities": [
+        "Temporal knowledge graph, provenance and hybrid retrieval for agent memory"
+      ],
+      "sources": [
+        "https://github.com/getzep/graphiti"
+      ],
+      "our_position": "Evaluate the incremental value of human-confirmed personal-history probes and controlled diagnosis/repair studies; do not claim this existing capability is unique.",
+      "empirical_superiority": "not measured"
+    },
+    {
+      "name": "Ragas",
+      "documented_capabilities": [
+        "Context-supported claim assessment via faithfulness"
+      ],
+      "sources": [
+        "https://docs.ragas.io/en/stable/concepts/metrics/available_metrics/faithfulness/"
+      ],
+      "our_position": "Evaluate the incremental value of human-confirmed personal-history probes and controlled diagnosis/repair studies; do not claim this existing capability is unique.",
+      "empirical_superiority": "not measured"
+    }
+  ],
+  "current_project_advantages_to_test": [
+    "Traceability from source messages to diagnosed failure and final supplied memory",
+    "Same-model paired retests with frozen question identities",
+    "Integrated failure inspection and regression comparison",
+    "Explicit separation of AI pre-review from human validation"
+  ],
+  "limitations": [
+    "The current connector executes the controlled built-in memory system, not actual Mem0/Zep installations",
+    "Local benchmark-compatible simulations are not official benchmark scores",
+    "The synthetic pilot cannot establish general commercial superiority",
+    "Actual improvements must be measured; favourable scores are not guaranteed"
+  ]
+}

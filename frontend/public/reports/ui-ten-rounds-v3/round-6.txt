@@ -1,0 +1,20 @@
+Browser tab: 7, Title: "localhost:5173/no-such-page", URL: "http://localhost:5173/no-such-page".
+1 AXWebArea localhost:5173/no-such-page
+	2 container root
+		3 container
+			4 link Description: Memory Auditor, Value: localhost:5173/
+			5 container Primary navigation
+				6 link Description: Dashboard, Value: localhost:5173/
+				7 link Description: New audit, Value: localhost:5173/new-audit
+				8 link Description: History, Value: localhost:5173/history
+				9 link Description: Before & after, Value: localhost:5173/compare
+				10 link Description: Experiments, Value: localhost:5173/experiments
+				11 link Description: About, Value: localhost:5173/about
+		12 container
+			13 heading Page not found, Value: 1
+				14 text Page not found
+			15 text This link does not lead to an available page. Choose where to continue.
+			16 link Description: Open Audit History, Value: localhost:5173/history
+			17 link Description: Start a new audit, Value: localhost:5173/new-audit
+
+The focused UI element is 1 AXWebArea localhost:5173/no-such-page

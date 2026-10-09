@@ -4,11 +4,16 @@ No supplied annotation or benchmark payload is written to the operational audit
 database.  This keeps research releases versioned in team-controlled files and
 avoids mixing consent scopes with ordinary audit records.
 """
-from fastapi import APIRouter, Depends, HTTPException
+import asyncio
+from threading import Event
+from fastapi import APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 
 from app.benchmarks.longmemeval import LongMemEvalAdapter
 from app.benchmarks.runner import LongMemEvalDeterministicRunner
+from app.benchmarks.live import LiveBenchmarkRunner
+from app.benchmarks.semantic_review import SemanticReviewService
+from app.schemas.semantic_review import SemanticReviewRequest, SemanticReviewReport
 from app.benchmarks.local_compatible import BEAMAdapter, LoCoMoAdapter
 from app.benchmarks.local_runner import BEAMDeterministicRunner, LoCoMoDeterministicRunner
 from app.research.validity import ResearchValidityService
@@ -28,6 +33,7 @@ from app.schemas.benchmark import (
     LongMemEvalRunRequest,
     LongMemEvalRunResponse,
     LongMemEvalValidationResponse,
+    LiveBenchmarkRequest, LiveBenchmarkResponse,
 )
 from app.schemas.research import (
     AnnotationImportReport,
@@ -42,6 +48,31 @@ from app.services.formal_matrix import FormalSyntheticMatrixService
 
 
 research_router = APIRouter(prefix="/api/v1/research", tags=["research-validation"])
+
+
+@research_router.post("/benchmarks/longmemeval/semantic-review", response_model=SemanticReviewReport)
+def import_semantic_review(payload: SemanticReviewRequest):
+    """Validate imported automated scores against frozen source and replies."""
+    try:
+        return SemanticReviewService().analyse(payload)
+    except ValueError as error:
+        raise HTTPException(422, detail=str(error)) from error
+
+
+@research_router.post("/benchmarks/longmemeval/live", response_model=LiveBenchmarkResponse)
+async def run_live_longmemeval(payload: LiveBenchmarkRequest, request: Request):
+    cancelled = Event()
+    task = asyncio.create_task(asyncio.to_thread(LiveBenchmarkRunner().run, payload, cancelled))
+    try:
+        while not task.done():
+            if await request.is_disconnected():
+                cancelled.set()
+            await asyncio.sleep(0.1)
+        return await task
+    except ValueError as error:
+        raise HTTPException(422, detail=str(error)) from error
+    finally:
+        cancelled.set()
 
 
 @research_router.post("/annotations/validate", response_model=AnnotationImportReport)

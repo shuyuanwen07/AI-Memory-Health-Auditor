@@ -13,6 +13,7 @@ from app.schemas.research import (
     BinaryClassificationMetrics,
     ResearchPredictionSet,
     ResearchValidityReport,
+    PredictionCoverage,
 )
 
 
@@ -115,10 +116,11 @@ class ResearchValidityService:
             for test in conversation.gold_tests
         }
         predicted_tests = {_case(item.conversation_id, item.test_id): item.grounded and item.quality_label == TestQualityLabel.ACCEPT for item in predictions.test_assessments}
-        test_universe = set(gold_tests) | set(predicted_tests)
+        # An absent assessment is not a negative decision.
+        test_universe = set(predicted_tests)
         test_validity = _binary_metrics(
             {key for key, value in predicted_tests.items() if value},
-            {key for key, value in gold_tests.items() if value},
+            {key for key, value in gold_tests.items() if value and key in test_universe},
             test_universe,
         )
 
@@ -127,11 +129,12 @@ class ResearchValidityService:
             for conversation in dataset.conversations
             for evaluation in conversation.gold_evaluations
         }
-        predicted_evaluations = {_case(item.conversation_id, item.response_id): not item.passed for item in predictions.evaluator_predictions}
-        evaluator_universe = set(gold_evaluations) | set(predicted_evaluations)
+        submitted_evaluations = {_case(item.conversation_id, item.response_id): item.passed for item in predictions.evaluator_predictions}
+        predicted_evaluations = {key: not passed for key, passed in submitted_evaluations.items() if passed is not None}
+        evaluator_universe = set(predicted_evaluations)
         evaluator = _binary_metrics(
             {key for key, value in predicted_evaluations.items() if value},
-            {key for key, value in gold_evaluations.items() if value},
+            {key for key, value in gold_evaluations.items() if value and key in evaluator_universe},
             evaluator_universe,
         )
 
@@ -143,6 +146,8 @@ class ResearchValidityService:
             relationship=relationship,
             test_validity=test_validity,
             evaluator=evaluator,
+            test_assessment_coverage=PredictionCoverage(expected=len(gold_tests), submitted=len(predicted_tests), decided=len(predicted_tests), missing=len(gold_tests)-len(predicted_tests), abstained=0),
+            evaluator_coverage=PredictionCoverage(expected=len(gold_evaluations), submitted=len(submitted_evaluations), decided=len(predicted_evaluations), missing=len(gold_evaluations)-len(submitted_evaluations), abstained=len(submitted_evaluations)-len(predicted_evaluations)),
         )
 
     @staticmethod
@@ -166,9 +171,12 @@ class ResearchValidityService:
             if item.test_id not in valid_tests.get(item.conversation_id, set()):
                 raise ValueError("Test predictions must reference a gold test in the same conversation.")
         valid_responses = {item.conversation_id: {evaluation.response_id for evaluation in item.gold_evaluations} for item in dataset.conversations}
+        response_tests = {item.conversation_id: {evaluation.response_id: evaluation.test_id for evaluation in item.gold_evaluations} for item in dataset.conversations}
         for item in predictions.evaluator_predictions:
             if item.response_id not in valid_responses.get(item.conversation_id, set()):
                 raise ValueError("Evaluator predictions must reference a gold response in the same conversation.")
+            if response_tests[item.conversation_id][item.response_id] != item.test_id:
+                raise ValueError("Evaluator response and test must match the same gold evidence pair.")
 
 
 def _relationship_key(conversation_id: str, source_id: str, relation_type: str, target_id: str) -> str:

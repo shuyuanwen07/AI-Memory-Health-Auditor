@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import hashlib
+import json
 from datetime import timezone
 
 from fastapi import HTTPException
@@ -20,6 +21,9 @@ from app.schemas.formal_experiment import (
     FormalMatrixCreateRequest, FormalMatrixCreateResponse, FormalMatrixScenario,
 )
 from app.schemas.research import annotation_fingerprint
+from app.evaluator.rule_based import RuleBasedBehaviourEvaluator
+from app.extraction.rule_based import RuleBasedMemoryExtractor
+from app.services.formal_freeze import formal_runtime_signature, formal_input_signature
 
 
 def _stable_id(prefix: str, *parts: str) -> str:
@@ -37,11 +41,12 @@ class FormalSyntheticMatrixService:
     answered, and comparisons remain paired.
     """
 
-    VERSION = "synthetic-formal-matrix-v1"
+    VERSION = "synthetic-formal-matrix-v4"
 
     def create(self, db: Session, request: FormalMatrixCreateRequest) -> FormalMatrixCreateResponse:
         dataset = request.dataset
         dataset_hash = annotation_fingerprint(dataset)
+        runtime = formal_runtime_signature()
         scenarios: list[FormalMatrixScenario] = []
 
         for source in dataset.conversations:
@@ -89,7 +94,7 @@ class FormalSyntheticMatrixService:
                 test_budget=len(source.gold_tests), random_seed=request.random_seed,
                 prompt_template_version=self.VERSION, pipeline_provider="rule_based",
                 pipeline_model="frozen-human-suite", evaluator_provider="rule_based",
-                evaluator_model="rule-based-v4", dimensions=dimensions,
+                evaluator_model=RuleBasedBehaviourEvaluator.VERSION, dimensions=dimensions,
                 suite_mode=TestSuiteMode.FIXED_TEMPLATE,
             )
             experiment = ExperimentModel(
@@ -106,22 +111,23 @@ class FormalSyntheticMatrixService:
             runs: list[AuditRunModel] = []
             for condition in request.conditions:
                 run = AuditRunModel(
-                    id=_stable_id("RUN", experiment.id, condition.memory_strategy.value),
+                    id=_stable_id("RUN", experiment.id, json.dumps(condition.identity, separators=(",", ":"))),
                     conversation_id=conversation_id, experiment_id=experiment.id,
                     status="CREATED", target_configuration=condition.target_configuration.value,
                     provider=condition.provider.value, model=condition.model,
                     temperature=condition.temperature, random_seed=request.random_seed,
                     test_budget=len(source.gold_tests), prompt_template_version=self.VERSION,
                     pipeline_provider="rule_based", pipeline_model="frozen-human-suite",
-                    evaluator_provider="rule_based", evaluator_model="rule-based-v4",
+                    evaluator_provider="rule_based", evaluator_model=RuleBasedBehaviourEvaluator.VERSION,
                     memory_strategy=condition.memory_strategy.value,
                     memory_maintenance_policy=TargetMemoryMaintenancePolicy.UPDATE_AWARE_CONSOLIDATION.value,
                     target_memory_capacity=50, target_memory_writer=TargetMemoryWriterKind.RULE_BASED.value,
-                    target_memory_writer_version="rule-based-memory-extractor-v1",
+                    target_memory_writer_version=RuleBasedMemoryExtractor.VERSION,
                     target_system_adapter=TargetSystemAdapterKind.CONTROLLED_MEMORY.value,
-                    target_system_adapter_version="controlled-memory-v1",
+                    target_system_adapter_version=runtime['adapter'],
                     reproducibility_metadata={
                         "schema_version": "reproducibility-v1", "formal_matrix_version": self.VERSION,
+                        "formal_runtime_signature": runtime,
                         "dataset_id": dataset.dataset_id, "dataset_version": dataset.dataset_version,
                         "dataset_fingerprint_sha256": dataset_hash, "pilot_id": request.pilot.pilot_id,
                         "suite_kind": "frozen_human_labelled_synthetic", "condition_label": condition.label,
@@ -170,6 +176,10 @@ class FormalSyntheticMatrixService:
                 test_count=len(source_tests), dimensions=dimensions, generator_version=self.VERSION,
                 generated_at=source.messages[-1].timestamp,
             ).model_dump(mode="json")
+            db.flush()
+            for run in runs:
+                run.reproducibility_metadata = {**run.reproducibility_metadata,
+                                               'formal_input_sha256': formal_input_signature(db, run)}
             scenarios.append(FormalMatrixScenario(
                 source_conversation_id=source.conversation_id, experiment_id=experiment.id,
                 run_ids=[run.id for run in runs], test_count=len(source_tests),

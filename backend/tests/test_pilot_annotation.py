@@ -108,3 +108,29 @@ def test_ai_assisted_synthetic_dry_run_can_never_open_the_formal_gate():
     assert not report.ready_for_formal_evaluation
     assert report.annotation_mode.value == "ai_assisted_synthetic_dry_run"
     assert any("not independent human" in blocker for blocker in report.blocking_reasons)
+
+@pytest.mark.parametrize('missing_task', ['memory_inclusion', 'relationship_type', 'test_validity', 'evaluator_verdict', 'failure_dimension'])
+def test_omitting_entire_review_task_cannot_open_formal_gate(monkeypatch, missing_task):
+    from copy import deepcopy
+    from test_formal_synthetic_matrix import PILOT, DATASET
+    from app.database.session import get_db
+    from app.services.formal_matrix import FormalSyntheticMatrixService
+    payload = deepcopy(PILOT)
+    payload['items'] = [x for x in payload['items'] if x['task'] != missing_task]
+    for reviewer in payload['annotators']:
+        reviewer['labels'] = [x for x in reviewer['labels'] if x['task'] != missing_task]
+    payload['adjudications'] = [x for x in payload['adjudications'] if x['task'] != missing_task]
+    report = PilotAnnotationService().analyse(PilotAnalysisRequest.model_validate({'package':payload}))
+    assert not report.ready_for_formal_evaluation
+    assert any(missing_task in reason for reason in report.blocking_reasons)
+    monkeypatch.setattr(FormalSyntheticMatrixService, 'create', lambda *a: pytest.fail('Incomplete pilot must not materialise any audit rows'))
+    app.dependency_overrides[get_db] = lambda: None
+    try:
+        with TestClient(app) as client:
+            response = client.post('/api/v1/research/formal/synthetic-matrix', json={
+                'dataset':DATASET, 'pilot':payload, 'synthetic_data_confirmation':True,
+                'conditions':[{'label':'Scope','memory_strategy':'scope_aware','provider':'rule_based'},
+                              {'label':'Temporal','memory_strategy':'temporal_importance','provider':'rule_based'}]})
+            assert response.status_code == 422
+    finally:
+        app.dependency_overrides.clear()

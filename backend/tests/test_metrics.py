@@ -21,3 +21,15 @@ def test_no_valid_evaluations_has_no_overall_score():
     score, dimensions = MetricsService().calculate([item('UNKNOWN', True)], {})
     assert score is None
     assert all(dimension.percentage is None and dimension.total == 0 for dimension in dimensions)
+
+
+def test_uncertain_dimension_is_not_reported_as_never_tested():
+    score, dimensions = MetricsService().calculate(
+        [item('T1', None), item('T1', True), item('T2', True), item('UNKNOWN', None)],
+        {'T1': Dimension.APPROPRIATE_USE, 'T2': Dimension.ACCURACY},
+    )
+    pending = next(d for d in dimensions if d.dimension == Dimension.APPROPRIATE_USE)
+    assert pending.percentage is None and pending.total == 0
+    assert pending.uncertain_count == 1
+    assert score == 100
+    assert next(d for d in dimensions if d.dimension == Dimension.FRESHNESS).uncertain_count == 0

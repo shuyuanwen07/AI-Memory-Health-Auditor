@@ -1,3 +1,4 @@
+from app.extraction.rule_based import RuleBasedMemoryExtractor
 """Public contracts for pre-execution suite review and post-audit target traces."""
 from datetime import datetime, timezone
 
@@ -93,8 +94,14 @@ def test_target_memory_trace_is_post_completion_only_and_hides_evaluator_materia
             assert trace.status_code == 200
             payload = trace.json()
             assert payload["records"] and payload["retrievals"]
+            for retrieval in payload["retrievals"]:
+                receipt = retrieval["memory_input"]
+                assert receipt is not None
+                assert receipt["record_count"] == len(receipt["sent_memory_ids"])
+                assert set(receipt["sent_memory_ids"]) <= set(retrieval["selected_memory_ids"])
+                assert len(receipt["instruction_sha256"]) == 64
             assert payload["target_memory_writer"] == "rule_based"
-            assert payload["target_memory_writer_version"] == "rule-based-memory-extractor-v1"
+            assert payload["target_memory_writer_version"] == RuleBasedMemoryExtractor.VERSION
             assert "expected_behavior" not in str(payload)
             assert "target_memory_context" not in str(payload)
             assert any(event["details"].get("writer_version") for event in payload["events"])
@@ -258,7 +265,7 @@ def test_target_memory_writer_is_frozen_at_creation_even_if_environment_changes(
             run_id = source["run_id"]
             assert source["target_memory_writer"] == "rule_based"
             assert source["reproducibility"]["target_memory_writer"] == "rule_based"
-            assert source["target_memory_writer_version"] == "rule-based-memory-extractor-v1"
+            assert source["target_memory_writer_version"] == RuleBasedMemoryExtractor.VERSION
 
             assert client.post(f"/api/v1/audits/{run_id}/generate-tests").status_code == 200
             # An invalid value would make the legacy env-resolving factory

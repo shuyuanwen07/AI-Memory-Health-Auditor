@@ -1,3 +1,4 @@
+import { UIPanel, UISummary, UITable } from './ui';
 import type { AuditResult, Dimension } from '../types/domain';
 
 export type ExperimentStatisticsRun = {
@@ -25,6 +26,7 @@ export type DimensionAggregate = {
   total: number;
   measuredRuns: number;
   failures: number;
+  uncertainCount: number;
 };
 
 export type ExperimentGroupStatistics = {
@@ -34,6 +36,7 @@ export type ExperimentGroupStatistics = {
   overallStandardDeviation: number | null;
   testsPassed: number;
   testsTotal: number;
+  uncertainCount: number;
   failureCount: number;
   measuredDimensionRuns: number;
   totalDimensionRuns: number;
@@ -85,6 +88,7 @@ export function calculateExperimentStatistics(runs: ExperimentStatisticsRun[]): 
         total: measured.reduce((sum, item) => sum + item.total, 0),
         measuredRuns: measured.length,
         failures,
+        uncertainCount: groupRuns.reduce((sum, run) => sum + (resultDimension(run.result, key)?.uncertain_count ?? 0), 0),
       };
     });
 
@@ -95,6 +99,7 @@ export function calculateExperimentStatistics(runs: ExperimentStatisticsRun[]): 
       overallStandardDeviation: standardDeviation(overallScores),
       testsPassed: groupRuns.reduce((sum, run) => sum + run.result.tests_passed, 0),
       testsTotal: groupRuns.reduce((sum, run) => sum + run.result.tests_total, 0),
+      uncertainCount: groupRuns.reduce((sum, run) => sum + (run.result.uncertain_count ?? 0), 0),
       failureCount: groupRuns.reduce((sum, run) => sum + run.result.failures.length, 0),
       measuredDimensionRuns: dimensionTotals.reduce((sum, item) => sum + item.measuredRuns, 0),
       totalDimensionRuns: groupRuns.length * dimensions.length,
@@ -104,29 +109,29 @@ export function calculateExperimentStatistics(runs: ExperimentStatisticsRun[]): 
 }
 
 function percentage(value: number | null) {
-  return value === null ? 'Not tested' : `${value.toLocaleString(undefined, { maximumFractionDigits: 1 })}%`;
+  return value === null ? 'Not scored' : `${value.toLocaleString(undefined, { maximumFractionDigits: 1 })}%`;
 }
 
 function GroupDetail({ group }: { group: ExperimentGroupStatistics }) {
   const repeatRunMessage = group.runs < 2
     ? 'Repeat-run statistics are not available yet. Run this condition at least twice to assess variation.'
-    : `Based on ${group.runs} repeated runs. Overall standard deviation: ${percentage(group.overallStandardDeviation)}.`;
+    : `Based on ${group.runs} repeated runs. Tested ability standard deviation: ${percentage(group.overallStandardDeviation)}.`;
 
-  return <details className="experiment-group-detail">
-    <summary>{group.label}: dimension averages and failures</summary>
+  return <UIPanel className="experiment-group-detail">
+    <UISummary>{group.label}: dimension averages and failures</UISummary>
     <p className="repeat-note">{repeatRunMessage}</p>
-    <div className="comparison-scroll"><table>
+    <div className="comparison-scroll"><UITable>
       <thead><tr><th>Dimension</th><th>Average score</th><th>Passed tests</th><th>Measured runs</th><th>Failures</th></tr></thead>
       <tbody>{group.dimensions.map((dimension) => <tr key={dimension.dimension}>
         <th scope="row">{dimension.label}</th>
-        <td>{percentage(dimension.average)}</td>
+        <td>{dimension.average === null && dimension.uncertainCount > 0 ? 'Awaiting review' : percentage(dimension.average)}{dimension.uncertainCount > 0 && <small> · {dimension.uncertainCount} awaiting review</small>}</td>
         <td>{dimension.passed} / {dimension.total}</td>
         <td>{dimension.measuredRuns} / {group.runs}</td>
         <td>{dimension.failures}</td>
       </tr>)}</tbody>
-    </table></div>
-    {group.failureCount === 0 && <p className="empty">No failures were detected for this condition.</p>}
-  </details>;
+    </UITable></div>
+    {group.failureCount === 0 && <p className="empty">No failures were detected among decided answers.{group.uncertainCount > 0 && ` ${group.uncertainCount} answers still await review.`}</p>}
+  </UIPanel>;
 }
 
 /** A reusable research view for fair comparisons and repeated-run summaries. */
@@ -137,19 +142,20 @@ export function ExperimentStatistics({ runs }: { runs: ExperimentStatisticsRun[]
   const hasRepeatedCondition = groups.some((group) => group.runs >= 2);
   return <section className="experiment-statistics" aria-label="Experiment statistics">
     <h2>Research Comparison</h2>
-    <p>Completed runs are grouped by experimental condition. Untested dimensions are excluded from score averages.</p>
+    <p>Completed runs are grouped by experimental condition. Untested dimensions and uncertain judgments are excluded from score averages. Compare coverage alongside averages; a formal overall score requires all four dimensions.</p>
     {!hasRepeatedCondition && <p className="statistics-warning" role="status">Repeat-run statistics are not available yet. Complete at least two runs for the same condition to measure variation.</p>}
-    <div className="comparison-scroll"><table>
-      <thead><tr><th>Experimental condition</th><th>Runs</th><th>Overall average</th><th>Coverage</th><th>Passed tests</th><th>Failures</th></tr></thead>
+    <div className="comparison-scroll"><UITable>
+      <thead><tr><th>Experimental condition</th><th>Runs</th><th>Tested ability average</th><th>Coverage</th><th>Passed / decided</th><th>Awaiting review</th><th>Failures</th></tr></thead>
       <tbody>{groups.map((group) => <tr key={group.label}>
         <th scope="row">{group.label}</th>
         <td>{group.runs}</td>
         <td><b>{percentage(group.overallAverage)}</b></td>
         <td>{group.measuredDimensionRuns} / {group.totalDimensionRuns} dimension-runs</td>
         <td>{group.testsPassed} / {group.testsTotal}</td>
+        <td>{group.uncertainCount} / {group.testsTotal + group.uncertainCount} answers</td>
         <td>{group.failureCount}</td>
       </tr>)}</tbody>
-    </table></div>
+    </UITable></div>
     <div className="experiment-group-details">{groups.map((group) => <GroupDetail key={group.label} group={group} />)}</div>
   </section>;
 }

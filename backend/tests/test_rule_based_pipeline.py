@@ -4,6 +4,17 @@ from app.extraction.rule_based import RuleBasedMemoryExtractor
 from app.test_generator.rule_based import RuleBasedTestGenerator
 from app.target_ai.rule_based import RuleBasedTargetAIConnector
 from app.evaluator.rule_based import RuleBasedBehaviourEvaluator
+
+def test_extractor_retains_named_places_and_titles_without_merging_real_sentences():
+    timestamp = datetime(2026, 1, 1, tzinfo=timezone.utc)
+    text = "I attended mass at St. Mary's Church on January 2. I met Dr. Chen on January 3. I generally prefer Python."
+    conversation = Conversation(conversation_id='C-title', created_at=timestamp, authorised=True,
+        messages=[ConversationMessage(message_id='MSG-title', role='user', content=text, timestamp=timestamp)])
+    memories = RuleBasedMemoryExtractor().extract(conversation)
+    assert [m.canonical_value for m in memories] == [
+        "I attended mass at St. Mary's Church on January 2", "I met Dr. Chen on January 3", "I generally prefer Python"]
+    assert all(m.source_message_ids == ['MSG-title'] for m in memories)
+
 def test_rule_based_pipeline_has_pass_and_fail_cases():
     c=Conversation(conversation_id='C1',created_at=datetime.now(timezone.utc),authorised=True,messages=[ConversationMessage(message_id='MSG001',role='user',content='I used MySQL before. The backend now uses PostgreSQL. I generally prefer Python. This current assignment requires Java. I am based in Sydney.',timestamp=datetime.now(timezone.utc))])
     memories=RuleBasedMemoryExtractor().extract(c)
@@ -58,7 +69,7 @@ def test_generator_creates_traceable_dimension_balanced_tests():
     tests = RuleBasedTestGenerator().generate(memories, run)
 
     assert {test.dimension for test in tests} == set(Dimension)
-    assert all(test.generator_version == "rule-based-v4" for test in tests)
+    assert all(test.generator_version == RuleBasedTestGenerator.VERSION for test in tests)
     assert all(test.supporting_memory_ids for test in tests)
     assert all(memory_id in {memory.memory_id for memory in memories} for test in tests for memory_id in test.supporting_memory_ids)
     assert len({(test.dimension, tuple(test.supporting_memory_ids)) for test in tests}) == len(tests)
@@ -114,3 +125,20 @@ def test_generator_hides_answers_and_balances_a_small_budget():
         for memory_id in test.supporting_memory_ids:
             value = next(memory.canonical_value for memory in memories if memory.memory_id == memory_id)
             assert value.lower() not in test.prompt.lower()
+
+
+def test_elided_subject_transition_keeps_both_facts_and_update_source():
+    timestamp = datetime.now(timezone.utc)
+    conversation = Conversation(conversation_id='C_ELISION', created_at=timestamp, authorised=True, messages=[
+        ConversationMessage(message_id='MSG_ELISION', role='user', content='Our Iris backend used MySQL before, but now uses PostgreSQL.', timestamp=timestamp),
+    ])
+    memories = RuleBasedMemoryExtractor().extract(conversation)
+    assert [m.canonical_value for m in memories] == ['Our Iris backend used MySQL before', 'Our Iris backend now uses PostgreSQL']
+    assert all(m.source_message_ids == ['MSG_ELISION'] for m in memories)
+    assert any(r.type == RelationshipType.UPDATE and r.target_memory_id == memories[0].memory_id for r in memories[1].relationships)
+
+
+def test_subject_completion_does_not_replace_explicit_other_subject_or_freeform_clause():
+    fragments = RuleBasedMemoryExtractor._statement_fragments
+    assert fragments('Our Iris backend used MySQL before, but our Rose backend now uses PostgreSQL.') == ['Our Iris backend used MySQL before', 'our Rose backend now uses PostgreSQL.']
+    assert fragments('I used MySQL before, but now the client prefers PostgreSQL.') == ['I used MySQL before', 'now the client prefers PostgreSQL.']

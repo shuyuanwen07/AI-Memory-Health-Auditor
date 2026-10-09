@@ -6,6 +6,7 @@
   "authorised_for_research": true,
   "data_origin": "Describe the approved synthetic or de-identified source without including conversation text.",
   "deidentification_note": "Confirm that this package contains no names, accounts, contacts, locations, source text, tokens, or other identifying data.",
+  "annotation_mode": "human_double_annotation",
   "minimum_paired_items_per_task": 5,
   "minimum_kappa": 0.6,
   "items": [

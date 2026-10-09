@@ -47,7 +47,10 @@ class PilotAnnotationService:
         labels_b = {(label.item_id, label.task): label.label for label in annotator_b.labels}
         adjudications = {(label.item_id, label.task): label for label in package.adjudications}
 
-        tasks = sorted({item.task for item in package.items}, key=lambda task: task.value)
+        # Readiness covers all five proposal validation tasks, even when a
+        # package omits a whole task. Otherwise an empty category disappears
+        # from the denominator and a partial pilot can appear ready.
+        tasks = sorted(PilotTask, key=lambda task: task.value)
         by_task = [
             self._metrics(task, {key for key in declared if key[1] == task}, labels_a, labels_b, adjudications)
             for task in tasks

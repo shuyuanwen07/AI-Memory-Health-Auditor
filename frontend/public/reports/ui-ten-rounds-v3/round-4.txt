@@ -1,0 +1,66 @@
+Browser tab: 7, Title: "localhost:5173/compare?before=RUNCB51964989A46F4F74686EFE87843B&after=RUN584254EE85253C329E0E5B1E24F5CC", URL: "http://localhost:5173/compare?before=RUNCB51964989A46F4F74686EFE87843B&after=RUN584254EE85253C329E0E5B1E24F5CC".
+0 AXWebArea localhost:5173/compare?before=RUNCB51964989A46F4F74686EFE87843B&after=RUN584254EE85253C329E0E5B1E24F5CC
+	1 container root
+		2 container
+			3 link Description: Memory Auditor, Value: localhost:5173/
+			4 container Primary navigation
+				5 link Description: Dashboard, Value: localhost:5173/
+				6 link Description: New audit, Value: localhost:5173/new-audit
+				7 link Description: History, Value: localhost:5173/history
+				8 link Description: Before & after, Value: localhost:5173/compare
+				9 link Description: Experiments, Value: localhost:5173/experiments
+				10 link Description: About, Value: localhost:5173/about
+		11 container
+			12 text BEFORE & AFTER
+			13 heading Memory improvement results, Value: 1
+				14 text Memory improvement results
+			15 checkbox Exit presentation view, Value: 1
+			471 container Comparison takeaway
+				472 text ON THE SAME QUESTIONS
+				473 heading 1 answer improved, Value: 2
+					474 text 1 answer improved
+				475 text 4  shared questions 0  regressions 0  still failing
+				476 container
+					477 text Same model: qwen3:1.7b  · Memory approach:  strong rule based  →  scope aware
+				478 text Results are automatically assessed. A change in memory approach does not mean the model was trained.
+			523 text This synthetic pilot was pre-reviewed by AI. Independent human validation is still pending. Before improvement
+			485 text 75.0%
+			486 container
+				487 text 3  /  4  tests passed
+			488 container
+				489 text qwen3:1.7b  ·  strong rule based
+			490 link Description: Open full report →, Value: localhost:5173/audits/RUNCB51964989A46F4F74686EFE87843B
+			491 text After improvement
+			492 text 100.0%
+			493 container
+				494 text 4  /  4  tests passed
+			495 container
+				496 text qwen3:1.7b  ·  scope aware
+			497 link Description: Open full report →, Value: localhost:5173/audits/RUN584254EE85253C329E0E5B1E24F5CC
+			498 text Change on shared questions
+			499 text +25.0 pp
+			500 container
+				501 text 4  identical frozen questions
+			502 text Percentage points in paired pass rate. Each score is an automated assessment.
+			503 container Memory improvement charts
+				504 text MEMORY ABILITIES
+				505 heading Before and after, side by side, Value: 2
+					506 text Before and after, side by side
+				507 text Compare each ability on the same 0–100% scale.
+				508 container Chart question scope
+					509 checkbox Shared questions, Value: 1
+					510 checkbox Full test suites, Value: 0
+				511 container
+					512 container Memory ability pass rates before and after improvement Accuracy: before 0% (0/1), after 100% (1/1), change +100 pp. Freshness: before 100% (1/1), after 100% (1/1), change 0 pp. Conflict resolution: before 100% (1/1), after 100% (1/1), change 0 pp. Appropriate use: before 100% (1/1), after 100% (1/1), change 0 pp., Help: Accuracy: before 0% (0/1), after 100% (1/1), change +100 pp. Freshness: before 100% (1/1), after 100% (1/1), change 0 pp. Conflict resolution: before 100% (1/1), after 100% (1/1), change 0 pp. Appropriate use: before 100% (1/1), after 100% (1/1), change 0 pp.
+					513 text 4 identical questions  · Counts below the bars show passed / tested. An untested ability has no bar.
+					514 button Save chart (SVG)
+				515 container Shared question outcomes
+					516 text 1
+					517 text fixed ·
+					518 text 0
+					519 text regressed ·
+					520 text 3
+					521 text unchanged
+					522 text on shared questions
+
+The focused UI element is 15 checkbox Exit presentation view, Value: 1

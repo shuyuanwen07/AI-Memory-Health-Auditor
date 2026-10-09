@@ -1,0 +1,123 @@
+Browser tab: 10, Title: "localhost:5173/new-audit", URL: "http://localhost:5173/new-audit".
+0 AXWebArea localhost:5173/new-audit
+	1 container root
+		2 container
+			3 link Description: Memory Auditor, Value: localhost:5173/
+			4 container Primary navigation
+				5 link Description: Dashboard, Value: localhost:5173/
+				6 link Description: New audit, Value: localhost:5173/new-audit
+				7 link Description: History, Value: localhost:5173/history
+				8 link Description: Before & after, Value: localhost:5173/compare
+				9 link Description: Experiments, Value: localhost:5173/experiments
+				10 link Description: About, Value: localhost:5173/about
+		11 container
+			12 content list Audit progress
+				13 container
+					14 text 1 Conversation
+				15 container
+					16 text 2 Ground Truth
+				17 container
+					18 text 3 Configuration
+				19 container
+					20 text 4 Audit
+				21 container
+					22 text 5 Results
+			23 heading Configure Memory Audit, Value: 1
+				24 text Configure Memory Audit
+			25 heading Controlled Memory Strategies, Value: 3
+				26 text Controlled Memory Strategies
+			27 container
+				28 checkbox (settable, integer) Description: No Memory Reference baseline that gives the target AI no retrieved long-term memory., Value: 0
+				29 text No Memory Reference baseline that gives the target AI no retrieved long-term memory.
+			30 container
+				31 checkbox (settable, integer) Description: Full Context Reference baseline that replays all active memories without ranking., Value: 0
+				32 text Full Context Reference baseline that replays all active memories without ranking.
+			33 container
+				34 checkbox (settable, integer) Description: Weak First-Hit Uses only the first related memory, without resolving updates or conflicts., Value: 1
+				35 text Weak First-Hit Uses only the first related memory, without resolving updates or conflicts.
+			36 container
+				37 checkbox (settable, integer) Description: Strong Rule-Based Prioritises contextual requirements, updates, stable facts and superseded records., Value: 0
+				38 text Strong Rule-Based Prioritises contextual requirements, updates, stable facts and superseded records.
+			39 container
+				40 checkbox (settable, integer) Description: Strong Score-Based Ranks memories with transparent relevance, freshness and context weights., Value: 0
+				41 text Strong Score-Based Ranks memories with transparent relevance, freshness and context weights.
+			42 container
+				43 checkbox (settable, integer) Value: 0, Description: Scope-Aware Prioritises project requirements for task prompts and uses profile or preferences only when relevant.
+				44 text Scope-Aware Prioritises project requirements for task prompts and uses profile or preferences only when relevant.
+			45 container
+				46 checkbox (settable, integer) Value: 0, Description: Temporal & Importance Ranks source-message recency and durable task importance using a frozen, explainable relative chronology.
+				47 text Temporal & Importance Ranks source-message recency and durable task importance using a frozen, explainable relative chronology.
+			48 heading Target Models to Compare, Value: 3
+				49 text Target Models to Compare
+			50 container
+				51 checkbox (disabled, settable, integer) Value: 0, Description: OpenRouter Calls the selected model through OpenRouter; the API key stays on the backend. API key required
+				52 text OpenRouter Calls the selected model through OpenRouter; the API key stays on the backend. API key required
+			53 container
+				54 checkbox (settable, integer) Description: Local rule-based baseline Runs locally without an API key. Available for comparison, Value: 0
+				55 text Local rule-based baseline Runs locally without an API key. Available for comparison
+			56 container
+				57 checkbox (settable, integer) Value: 1, Description: Local Qwen 3 1.7B (Ollama) Runs locally through Ollama; no API key is sent to the browser. Available for comparison
+				58 text Local Qwen 3 1.7B (Ollama) Runs locally through Ollama; no API key is sent to the browser. Available for comparison
+			59 text API keys remain on the backend. Selecting several strategies with one model measures memory policy; selecting several models compares model and policy.
+			60 container
+				61 text Test suite design
+				62 pop up button (collapsed, settable) Test suite design Frozen once and shared by every condition., Value: Behavioural tests, Secondary Actions: Expand
+					63 menu
+						64 (selected) Behavioural tests
+						65 Direct Ground-Truth baseline
+						66 Fixed-Template baseline
+				67 text Frozen once and shared by every condition.
+			68 container
+				69 text Memory maintenance
+				70 pop up button (collapsed, settable) Memory maintenance Controls how the target agent writes and updates its own memory store., Value: Update-aware consolidation, Secondary Actions: Expand
+					71 menu
+						72 (selected) Update-aware consolidation
+						73 Append only
+				74 text Controls how the target agent writes and updates its own memory store.
+			75 container
+				76 text Target memory capacity
+				77 stepper (settable, integer) Value: 50, Target memory capacity Maximum retained records. Capacity pressure creates traceable evictions; conflicts are preserved.
+				78 text Maximum retained records. Capacity pressure creates traceable evictions; conflicts are preserved.
+			79 container
+				80 text Target memory writer
+				81 pop up button (collapsed, settable) Target memory writer Frozen on every run. The structured writer requires a configured LLM pipeline., Value: Rule-based writer, Secondary Actions: Expand
+					82 menu
+						83 (selected) Rule-based writer
+						84 (disabled) Structured LLM writer
+				85 text Frozen on every run. The structured writer requires a configured LLM pipeline.
+			86 container
+				87 text Test generation service
+				88 pop up button (collapsed, settable) Test generation service, Value: Local rule-based baseline, Secondary Actions: Expand
+					89 menu
+						90 (disabled) OpenRouter — key required
+						91 (selected) Local rule-based baseline
+			92 container
+				93 text Behaviour evaluator
+				94 pop up button (collapsed, settable) Behaviour evaluator, Value: Local rule-based baseline, Secondary Actions: Expand
+					95 menu
+						96 (disabled) OpenRouter — key required
+						97 (selected) Local rule-based baseline
+			98 container
+				99 text Test budget
+				100 stepper (settable, integer) Test budget, Value: 4
+			101 container
+				102 text Repeated runs per condition
+				103 stepper (settable, integer) Repeated runs per condition, Value: 1
+			104 container
+				105 text Temperature
+				106 text field Temperature, Value: 0.0
+			107 container
+				108 text Random seed
+				109 text field Random seed, Value: 42
+			120 container
+				121 text Target model for  Local Qwen 3 1.7B (Ollama)
+				122 text field (settable) Value: qwen3:1.7b, Target model for Local Qwen 3 1.7B (Ollama) Record an explicit deployed model name for this comparison.
+				123 text Record an explicit deployed model name for this comparison.
+			114 heading Audit Dimensions, Value: 3
+				115 text Audit Dimensions
+			116 text Accuracy · Freshness · Conflict Resolution · Appropriate Use
+			117 button Start Memory Audit
+				118 text Start 
+				119 text Memory Audit
+
+The focused UI element is 100 stepper (settable, integer) Test budget, Value: 4

@@ -14,15 +14,19 @@ from collections.abc import Mapping
 from typing import Any
 
 import httpx
+
+from app.target_ai.openrouter import CHAT_COMPLETIONS_URL, default_model, request_options
 from fastapi import HTTPException
 
 
 _KEY_BY_PROVIDER = {
+    "openrouter": "OPENROUTER_API_KEY",
     "openai": "OPENAI_API_KEY",
     "deepseek": "DEEPSEEK_API_KEY",
     "gemini": "GEMINI_API_KEY",
 }
 _DEFAULT_MODEL_BY_PROVIDER = {
+    "openrouter": default_model(),
     "openai": "gpt-5.6-luna",
     "deepseek": "deepseek-flash",
     "gemini": "gemini-2.5-flash-lite",
@@ -44,7 +48,7 @@ def pipeline_provider() -> str:
     provider = os.getenv("PIPELINE_PROVIDER", "rule_based").strip().lower()
     if provider not in {"rule_based", *_KEY_BY_PROVIDER}:
         raise PipelineRequestError(
-            "PIPELINE_PROVIDER must be one of: rule_based, openai, deepseek, gemini.",
+            "PIPELINE_PROVIDER must be one of: rule_based, openrouter, openai, deepseek, gemini.",
             status_code=500,
         )
     return provider
@@ -76,7 +80,18 @@ class PipelineLLMClient:
     def complete_json(self, *, instructions: str, prompt: str, schema_name: str, schema: dict[str, Any]) -> Any:
         """Request strict JSON and parse it without accepting prose or Markdown."""
         credential = self._credential()
-        if self.provider == "openai":
+        if self.provider == "openrouter":
+            payload = {
+                "model": self.model, "temperature": 0,
+                "messages": [{"role": "system", "content": instructions}, {"role": "user", "content": prompt}],
+                "response_format": {"type": "json_schema", "json_schema": {
+                    "name": schema_name, "strict": True, "schema": schema,
+                }},
+                **request_options(),
+            }
+            data = self._post(CHAT_COMPLETIONS_URL, {"Authorization": f"Bearer {credential}"}, payload)
+            text = self._deepseek_text(data)
+        elif self.provider == "openai":
             payload = {
                 "model": self.model,
                 "instructions": instructions,

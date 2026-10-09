@@ -50,7 +50,7 @@ test('renders overall, dimension, and failure comparison charts for experimental
   ]} />);
 
   expect(screen.getByRole('heading', { name: 'Visual Comparison' })).toBeTruthy();
-  expect(screen.getByRole('heading', { name: 'Overall Memory Health by Condition' })).toBeTruthy();
+  expect(screen.getByRole('heading', { name: 'Tested Ability Average by Condition' })).toBeTruthy();
   expect(screen.getByRole('heading', { name: 'Dimension Comparison' })).toBeTruthy();
   expect(screen.getByRole('heading', { name: 'Detected Failure Distribution' })).toBeTruthy();
   expect(screen.getByRole('img', { name: /Horizontal bar chart\. Weak Memory: 55%.*Strong Memory: 90%/ })).toBeTruthy();
@@ -68,4 +68,35 @@ test('keeps provider/model labels with dots as display names rather than Rechart
   // rendered bars. A dotted display label must retain its actual values.
   expect(screen.getByRole('img', { name: /Accuracy: Ollama · qwen3:1.7b · Weak 100%, Ollama · qwen3:1.7b · Strong 100%/ })).toBeTruthy();
   expect(screen.getByRole('img', { name: /Freshness: Ollama · qwen3:1.7b · Weak 0%, Ollama · qwen3:1.7b · Strong 100%/ })).toBeTruthy();
+});
+
+
+test('comparison distinguishes pending judgments from untested dimensions', () => {
+  const pending = result('PENDING', 100, 100);
+  pending.dimensions[3] = { dimension: 'appropriate_use', percentage: null, passed: 0, total: 0, uncertain_count: 1 };
+  render(<ComparisonVisualizations runs={[{ label: 'Qwen pending', result: pending }]} />);
+  expect(screen.getByRole('img', { name: /Grouped bar chart.*Appropriate Use: Qwen pending Awaiting review/ })).toBeTruthy();
+  expect(screen.getByText('Awaiting review')).toBeTruthy();
+});
+
+
+test('shows pending coverage above aggregate charts instead of implying every answer passed', () => {
+  const partial = {...result('PENDING',100,100), tests_total:2, tests_passed:2, uncertain_count:3, evaluated_count:5};
+  render(<ComparisonVisualizations runs={[{label:'Qwen · Scope-Aware',result:partial}]} />);
+  expect(screen.getByText('3 answers await review')).toBeTruthy();
+  expect(screen.getByText(/2 \/ 5 answers decided · 3 awaiting review/)).toBeTruthy();
+  expect(screen.getByText(/does not mean all executed answers passed/)).toBeTruthy();
+});
+
+
+test('retains compact model identity when matching strategy has an unscored peer', () => {
+  const pending = {...result('PENDING', 100, 100), overall_score:null, tests_total:0, tests_passed:0, uncertain_count:5, evaluated_count:5,
+    dimensions: result('PENDING',100,100).dimensions.map(d => ({...d,percentage:null,passed:0,total:0,uncertain_count:1}))};
+  render(<ComparisonVisualizations runs={[
+    {label:'Ollama · qwen3:1.7b · Full Context', result:result('SCORED',100,100)},
+    {label:'Ollama · qwen3:4b · Full Context', result:pending},
+  ]} />);
+  expect(screen.getAllByText('qwen3:1.7b · Full Context').length).toBeGreaterThan(0);
+  expect(screen.getAllByText('qwen3:4b · Full Context').length).toBeGreaterThan(0);
+  expect(screen.getByRole('img', {name:/Horizontal bar chart/})).not.toHaveAccessibleName(/qwen3:4b.*100%/);
 });

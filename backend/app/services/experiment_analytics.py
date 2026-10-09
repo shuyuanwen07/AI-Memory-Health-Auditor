@@ -32,7 +32,10 @@ def condition_label(run: AuditRun | AuditRunModel) -> str:
     """Keep labels stable and readable across the history UI and CSV export."""
     provider = run.provider.replace("_", " ").title()
     strategy = run.memory_strategy.replace("_", " ").title()
-    return f"{provider} · {run.model} · {strategy}"
+    metadata = getattr(run, "reproducibility_metadata", None)
+    profile = metadata.get("target_memory_profile", {}) if metadata else run.target_memory_profile.model_dump()
+    label = profile.get("label", "Original configuration")
+    return f"{provider} · {run.model} · {strategy} · {label}"
 
 
 def _mean(values: list[float]) -> float | None:
@@ -88,10 +91,10 @@ class ExperimentAnalyticsService:
     ) -> list[ExperimentConditionSummary]:
         grouped: dict[tuple[str, str, str], list[AuditRun]] = defaultdict(list)
         for run in runs:
-            grouped[(run.provider.value, run.model, run.memory_strategy.value)].append(run)
+            grouped[(run.provider.value, run.model, run.memory_strategy.value + "::" + str(run.reproducibility.configuration_fingerprint))].append(run)
 
         summaries: list[ExperimentConditionSummary] = []
-        for (provider, model, strategy), grouped_runs in grouped.items():
+        for (provider, model, condition_key), grouped_runs in grouped.items():
             completed = [run for run in grouped_runs if run.run_id in results_by_run]
             result_rows = [results_by_run[run.run_id] for run in completed]
             dimensions: list[ExperimentDimensionSummary] = []
@@ -131,7 +134,7 @@ class ExperimentAnalyticsService:
                     return None
                 return sum(values)
             summaries.append(ExperimentConditionSummary(
-                condition_id="::".join((provider, model, strategy)),
+                condition_id="::".join((provider, model, condition_key)),
                 label=condition_label(exemplar),
                 provider=exemplar.provider,
                 model=model,
@@ -163,16 +166,18 @@ class ExperimentAnalyticsService:
                 TestCaseModel.run_id,
                 TestCaseModel.id,
                 TestCaseModel.suite_test_id,
+                TestCaseModel.comparison_test_id,
                 EvaluationResultModel.passed,
             )
             .join(EvaluationResultModel, EvaluationResultModel.test_id == TestCaseModel.id)
             .where(TestCaseModel.run_id.in_(run_ids))
         ).all()
         outcomes: dict[str, dict[str, bool]] = defaultdict(dict)
-        for run_id, test_id, suite_test_id, passed in rows:
+        for run_id, test_id, suite_test_id, comparison_test_id, passed in rows:
             # The source test is its own canonical key.  A peer uses the source
             # link established during shared-suite cloning.
-            outcomes[run_id][suite_test_id or test_id] = bool(passed)
+            if passed is not None:
+                outcomes[run_id][comparison_test_id or suite_test_id or test_id] = bool(passed)
 
         comparisons: list[PairedComparison] = []
         for reference, candidate in combinations(completed, 2):

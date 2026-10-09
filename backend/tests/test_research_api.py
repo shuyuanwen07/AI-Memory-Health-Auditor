@@ -38,8 +38,10 @@ def test_validity_endpoint_reports_extraction_test_and_evaluator_metrics():
     assert response.status_code == 200
     body = response.json()
     assert body["extraction"]["true_positives"] == 1
-    assert body["test_validity"]["labelled_cases"] == 5
-    assert body["evaluator"]["labelled_cases"] == 5
+    assert body["test_validity"]["labelled_cases"] == 1
+    assert body["test_assessment_coverage"]["missing"] == 4
+    assert body["evaluator"]["labelled_cases"] == 1
+    assert body["evaluator_coverage"]["missing"] == 4
 
 
 def test_evaluator_calibration_endpoint_is_request_scoped_and_reports_agreement():

@@ -1,0 +1,56 @@
+Browser tab: 7, Title: "localhost:5173/new-audit", URL: "http://localhost:5173/new-audit".
+1 AXWebArea localhost:5173/new-audit
+	2 container root
+		3 container
+			4 link Description: Memory Auditor, Value: localhost:5173/
+			5 container Primary navigation
+				6 link Description: Dashboard, Value: localhost:5173/
+				7 link Description: New audit, Value: localhost:5173/new-audit
+				8 link Description: History, Value: localhost:5173/history
+				9 link Description: Before & after, Value: localhost:5173/compare
+				10 link Description: Experiments, Value: localhost:5173/experiments
+				11 link Description: About, Value: localhost:5173/about
+		12 container
+			13 content list Audit progress
+				14 container
+					15 text 1 Conversation
+				16 container
+					17 text 2 Ground Truth
+				18 container
+					19 text 3 Configuration
+				20 container
+					21 text 4 Audit
+				22 container
+					23 text 5 Results
+			24 text Memory extraction service
+			25 pop up button (collapsed, settable) Memory extraction service, Value: Local rule-based baseline, Secondary Actions: Expand
+				26 menu
+					27 (disabled) OpenRouter — unavailable
+					28 (selected) Local rule-based baseline
+			29 text Choose the service that extracts candidate memories before review. Qwen can be selected separately as the AI being tested.
+			30 container AI Memory Health Auditor
+				31 heading AI Memory Health Auditor, Value: 1, ID: new-audit-title
+					32 text AI Memory Health Auditor
+				33 container
+					34 text Authorised conversation text
+					35 text entry area (settable) Authorised conversation text, ID: conversation-text, Value: [user] I am based in Geneva.
+[user] I generally prefer Lua.
+				36 container conversation-help
+					37 text Paste one message per line. To retain speaker context, use 
+					38 text [User]
+					39 text  or 
+					40 text [Assistant]
+					41 text  at the start of each line. You can also import a JSON file.
+				42 container
+					43 text This browser tab temporarily keeps this draft so it can recover after a refresh. 
+					44 button Clear local draft
+				45 text 2 message lines ready for review.
+				46 container
+					47 text Or upload conversation JSON
+					48 button Or upload conversation JSON, ID: conversation-upload
+				49 container
+					50 text Supported format:  { "messages": [{ "role": "user", "content": "…" }] } . A top-level message array is also accepted. Optional source references and timestamps are retained. JSON uploads are limited to 1 MB.
+				51 checkbox (settable, integer) Description: I confirm that I am authorised to use this conversation data for this audit., Value: 0
+				52 button (disabled) Continue to Ground Truth
+
+The focused UI element is 1 AXWebArea localhost:5173/new-audit

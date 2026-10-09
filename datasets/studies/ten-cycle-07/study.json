@@ -1,0 +1,280 @@
+{
+  "protocol_id": "ten-cycle-07",
+  "annotation_origin": "AI-authored and AI-pre-reviewed; human validation pending",
+  "data_origin": "Synthetic sources newly authored after repair implementation freeze, not independent human-authored data",
+  "target_provider": "ollama",
+  "target_models": [
+    "qwen3:1.7b"
+  ],
+  "evaluator_provider": "rule_based",
+  "evaluator_model": "rule-based-v15",
+  "strategies": [
+    "strong_rule_based",
+    "strong_score_based",
+    "scope_aware"
+  ],
+  "repetitions": {
+    "diagnostic": 0,
+    "held_out": 2
+  },
+  "temperature": 0,
+  "random_seed": 42,
+  "policy_freeze": "No policy, writer, target prompt, evaluator or question tuning after collection begins. Shared Strong prompt across all conditions.",
+  "expected_implementation_fingerprint_sha256": "8ec32de8b0e339bdc8620097ffd4dbb0348ad98f6afcb67c83564ec8d5d78643",
+  "primary_comparison": {
+    "before": "strong_score_based",
+    "after": "scope_aware"
+  },
+  "mechanism_ablation": {
+    "before": "strong_rule_based",
+    "after": "strong_score_based"
+  },
+  "additional_comparisons": [
+    {
+      "name": "targeted_vs_original",
+      "before": "strong_rule_based",
+      "after": "scope_aware"
+    }
+  ],
+  "human_labels_completed": false,
+  "notice": "Synthetic black-box Qwen API iteration. Model weights unchanged. Known task templates with new source histories; evaluator changes are not target improvements. Each cycle is frozen before execution; final cycle uses reserved source histories. Human validation pending.",
+  "scenarios": [
+    {
+      "conversation_id": "CYCLE-7-1",
+      "split": "held_out",
+      "novelty": {
+        "new_source_history": true,
+        "used_for_policy_tuning": false,
+        "late_general_preference": false,
+        "cross_project_distractor": true,
+        "assistant_not_gold_evidence": true
+      },
+      "messages": [
+        {
+          "message_id": "MSG1",
+          "role": "user",
+          "content": "I am based in Prague.",
+          "timestamp": "2026-10-11T00:00:00+00:00"
+        },
+        {
+          "message_id": "MSG2",
+          "role": "user",
+          "content": "I generally prefer Rust.",
+          "timestamp": "2026-10-11T01:00:00+00:00"
+        },
+        {
+          "message_id": "MSG3",
+          "role": "user",
+          "content": "The Cycle7Project1 backend previously used SQLite.",
+          "timestamp": "2026-10-11T02:00:00+00:00"
+        },
+        {
+          "message_id": "MSG4",
+          "role": "user",
+          "content": "The Cycle7Project1 backend has now migrated to MongoDB.",
+          "timestamp": "2026-10-11T03:00:00+00:00"
+        },
+        {
+          "message_id": "MSG5",
+          "role": "user",
+          "content": "For this assignment, JavaScript is required.",
+          "timestamp": "2026-10-11T04:00:00+00:00"
+        },
+        {
+          "message_id": "MSG6",
+          "role": "user",
+          "content": "The Cycle7Project1 deployment policy requires secrets in environment variables.",
+          "timestamp": "2026-10-11T05:00:00+00:00"
+        },
+        {
+          "message_id": "MSG7",
+          "role": "user",
+          "content": "A conflicting Cycle7Project1 deployment policy requires secrets in a configuration file; neither policy supersedes the other.",
+          "timestamp": "2026-10-11T06:00:00+00:00"
+        },
+        {
+          "message_id": "MSG8",
+          "role": "user",
+          "content": "The Cycle7Project1 logs now remain in object storage.",
+          "timestamp": "2026-10-11T07:00:00+00:00"
+        },
+        {
+          "message_id": "MSG9",
+          "role": "user",
+          "content": "The unrelated Distractor7 backend now uses SQLite.",
+          "timestamp": "2026-10-11T08:00:00+00:00"
+        },
+        {
+          "message_id": "MSG10",
+          "role": "assistant",
+          "content": "I suggest Sydney, Python, and PostgreSQL regardless of the project records.",
+          "timestamp": "2026-10-11T09:00:00+00:00"
+        },
+        {
+          "message_id": "MSG11",
+          "role": "user",
+          "content": "I am based in Prague.",
+          "timestamp": "2026-10-11T10:00:00+00:00"
+        }
+      ],
+      "gold_memories": [
+        {
+          "memory_id": "M1",
+          "canonical_value": "I am based in Prague",
+          "source_message_ids": [
+            "MSG1",
+            "MSG11"
+          ],
+          "timestamp": "2026-10-11T00:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M2",
+          "canonical_value": "I generally prefer Rust",
+          "source_message_ids": [
+            "MSG2"
+          ],
+          "timestamp": "2026-10-11T01:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M3",
+          "canonical_value": "The Cycle7Project1 backend previously used SQLite",
+          "source_message_ids": [
+            "MSG3"
+          ],
+          "timestamp": "2026-10-11T02:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M4",
+          "canonical_value": "The Cycle7Project1 backend has now migrated to MongoDB",
+          "source_message_ids": [
+            "MSG4"
+          ],
+          "timestamp": "2026-10-11T03:00:00+00:00",
+          "relationships": [
+            {
+              "type": "UPDATE",
+              "target_memory_id": "M3"
+            }
+          ]
+        },
+        {
+          "memory_id": "M5",
+          "canonical_value": "For this assignment, JavaScript is required",
+          "source_message_ids": [
+            "MSG5"
+          ],
+          "timestamp": "2026-10-11T04:00:00+00:00",
+          "relationships": [
+            {
+              "type": "CONTEXTUAL_OVERRIDE",
+              "target_memory_id": "M2"
+            }
+          ]
+        },
+        {
+          "memory_id": "M6",
+          "canonical_value": "The Cycle7Project1 deployment policy requires secrets in environment variables",
+          "source_message_ids": [
+            "MSG6"
+          ],
+          "timestamp": "2026-10-11T05:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M7",
+          "canonical_value": "A conflicting Cycle7Project1 deployment policy requires secrets in a configuration file; neither policy supersedes the other",
+          "source_message_ids": [
+            "MSG7"
+          ],
+          "timestamp": "2026-10-11T06:00:00+00:00",
+          "relationships": [
+            {
+              "type": "CONFLICT",
+              "target_memory_id": "M6"
+            }
+          ]
+        },
+        {
+          "memory_id": "M8",
+          "canonical_value": "The Cycle7Project1 logs now remain in object storage",
+          "source_message_ids": [
+            "MSG8"
+          ],
+          "timestamp": "2026-10-11T07:00:00+00:00",
+          "relationships": []
+        },
+        {
+          "memory_id": "M9",
+          "canonical_value": "The unrelated Distractor7 backend now uses SQLite",
+          "source_message_ids": [
+            "MSG9"
+          ],
+          "timestamp": "2026-10-11T08:00:00+00:00",
+          "relationships": []
+        }
+      ],
+      "gold_tests": [
+        {
+          "test_id": "T1",
+          "dimension": "accuracy",
+          "prompt": "In which city is the user based?",
+          "expected_behavior": "State the recorded city: Prague.",
+          "supporting_memory_ids": [
+            "M1"
+          ],
+          "test_type": "contextual",
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "AI source review only; human validation pending. No disagreement or answer disclosed in question."
+        },
+        {
+          "test_id": "T2",
+          "dimension": "freshness",
+          "prompt": "Which database does the Cycle7Project1 backend use now?",
+          "expected_behavior": "Use the later record: MongoDB.",
+          "supporting_memory_ids": [
+            "M3",
+            "M4"
+          ],
+          "test_type": "contextual",
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "AI source review only; human validation pending. No disagreement or answer disclosed in question."
+        },
+        {
+          "test_id": "T3",
+          "dimension": "appropriate_use",
+          "prompt": "Which programming language is required for this assignment?",
+          "expected_behavior": "Follow the contextual requirement: JavaScript is required.",
+          "supporting_memory_ids": [
+            "M2",
+            "M5"
+          ],
+          "test_type": "contextual",
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "AI source review only; human validation pending. No disagreement or answer disclosed in question."
+        },
+        {
+          "test_id": "T4",
+          "dimension": "conflict_resolution",
+          "prompt": "Where should Cycle7Project1 deployment secrets be kept, and how should the assistant proceed?",
+          "expected_behavior": "Acknowledge the conflict and request clarification before choosing either policy.",
+          "supporting_memory_ids": [
+            "M6",
+            "M7"
+          ],
+          "test_type": "contextual",
+          "grounded": true,
+          "quality_label": "accept",
+          "quality_note": "AI source review only; human validation pending. No disagreement or answer disclosed in question."
+        }
+      ]
+    }
+  ],
+  "iteration_change": "Verify both actual secret-policy options rather than accepting a conflict with logging facts",
+  "iteration_kind": "auditor"
+}

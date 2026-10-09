@@ -1,0 +1,152 @@
+Mature-product comparison: native Mem0 OSS pilot
+
+Status: standalone native target and real shared-reader GUI pilots implemented.
+Contract tests use a fake SDK and establish envelope behavior only. The saved
+real pilots below establish local functionality; independent semantic validity
+and general performance advantage remain unproved.
+
+Run with docker compose --profile mem0-demo up -d --build mem0-target.
+The target has no host-published port, uses its own data volume, and does not
+read auditor tables. Model dependencies: qwen3:1.7b plus nomic-embed-text (768D).
+The SDK is the installed PyPI mem0ai 2.2.1; dependencies are frozen in
+mem0_target/requirements.lock.txt. This is not a managed Mem0 platform test.
+Official sources:
+https://pypi.org/project/mem0ai/2.2.1/
+https://github.com/mem0ai/mem0
+https://github.com/mem0ai/memory-benchmarks
+https://docs.mem0.ai/components/llms/models/ollama
+https://docs.mem0.ai/components/embedders/models/ollama
+
+Native behavior
+- Mem0.add uses infer=True, native Qwen fact extraction and native Qdrant
+  storage. There is no raw-message infer=False replacement and no homegrown
+  imitation of Mem0 retrieval.
+- One ordered batch contains the authorised user/assistant messages. Stable
+  timestamp sorting preserves their order. This installed OSS SDK explicitly
+  does not support native source timestamps; no temporal feature is claimed.
+- Search uses native filters/user namespace, top_k up to20, threshold0.1.
+  A common downstream count/character budget selects complete records.
+- Successful ingestion exposes the observed stored listing size (limit500).
+  An empty extraction remains observable; it is not silently repaired.
+- Staged stores prevent a failed ingestion from being marked ready. Interrupted
+  stores remain for review rather than automatic deletion. Limit24 staging
+  directories and20 completed namespaces bounds this local pilot.
+- Repeat namespace/identical configuration and question identifiers are cached;
+  changing a frozen configuration or question is rejected. Native internal
+  intermediate writes cannot be made transactional by this wrapper.
+- Anonymous Mem0 telemetry is disabled before loading the SDK. Only configured
+  local Ollama receives source text. No vendor cloud account or key is created.
+- Answer receipts include supplied native records, count and instruction/prompt
+  hashes. They are target-reported, not proof of causal model reliance. Per-fact
+  original-message attribution is not fabricated.
+
+Shared-reader GUI comparison (verified 2026-10-09)
+Experiments > Real-model benchmark offers an optional native Mem0 condition.
+The SDK memory-only /retrieve endpoint provides actual native facts; the auditor
+runs every condition through the same strong reader connector, model, temperature,
+answer instructions and context-character budget. The standalone /answer endpoint
+is retained for the generic external contract but is NOT used in this comparison.
+No gold answer, supporting-session label or reviewer fact is passed to Mem0.
+Native conditions reject unsupported custom project/current-state filters rather
+than silently pretending to implement them. Native listing/source attribution
+limitations are recorded. Main audit data are isolated from benchmark histories;
+Mem0 preparation persists in its independent local research volume.
+
+Real functionality pilot
+Three synthetic official-layout cases, Qwen3:1.7b, nine actual answer requests:
+weak_first_hit 1/3 lexical matches, scope_aware 3/3, mem0_native 2/3.
+The native assignment case retrieved and supplied both a Go requirement and a
+Ruby preference, but the shared reader answered Ruby. This supports a traceable
+failure observation, not a causal attribution to one component or market victory.
+All nine replies were AI pre-reviewed; independent human labels remain absent.
+Actual GUI-exported evidence: output/mature-product-v1/shared-reader-native-evidence.json.
+
+Fairness limits
+Installed mem0ai 2.2.1 uses local Qdrant vector search, nomic-embed-text embeddings
+and Qwen extraction with infer=True. Optional spaCy NLP and fastembed BM25 are
+not installed and reranking is disabled. This is the tested OSS core vector
+configuration, not a managed-service or best-tuned hybrid configuration.
+Native retrieval has a 20-record cap while the controlled profile has a 50-record
+cap; all pilot cases supplied at most three records. The reader budget is fixed,
+but total storage, retrieval and preparation cost is not equalised. Native
+extraction/embedding calls are additional. New completed-preparation receipts
+meter SDK attempts, while historical preparation costs remain unknown and
+lower-level retries, aborted preparation and hardware costs remain incomplete. Answer
+request counts are not total LLM calls. Native preparation took approximately
+67.3, 20.7 and 20.9 seconds for the three cases, excluding shared-reader latency.
+The SDK does not natively accept source timestamps or provide original per-fact
+message attribution here. Source order is retained; source links are not invented.
+Temperature zero does not certify deterministic generation. Lexical proxy scores
+are not official benchmark scores, calibrated human judgments or statistical
+superiority. The pilot is development evidence, not an untouched held-out study.
+
+Recommended study
+Freeze diagnostic histories, diagnose defects, freeze a general repair, then
+run baseline/native Mem0/generic repair/directed repair on untouched held-out
+histories. Retain regressions and unsupported explanations. Two independent
+human reviewers must label the frozen stratified sample. Compute detection
+precision/recall, uncertainty coverage, per-history paired changes and cost.
+Do not reuse development histories or claim market superiority from a tiny
+synthetic functionality pilot.
+
+Practical problem and candidate distinction
+A deployed personal assistant may store the correct fact but send an obsolete
+or unrelated memory, or receive the right memory yet answer incorrectly. The
+auditor separates source truth, retrieval, actual supply and final behavior,
+then tests whether a diagnosis-guided general change helps independent tasks.
+The value to verify is actionable and traceable diagnosis over personal-history
+behavior, not merely persistent memory or a benchmark dashboard. Mature Mem0
+already provides memory and an evaluation suite; these alone are not innovations.
+
+Current prospective native repair evidence
+The frozen six-case pilot recorded controlled Scope-aware5/6, native Mem04/6,
+generic instructions3/6 and directed filtering4/6 lexical matches. Directed
+filtering did not improve the native baseline. Merged preference/requirement
+facts and ambiguous Go wording need independent review; they are not proof of
+a native SDK defect. Evidence: output/native-repair-v1/VALIDATION_REPORT.txt.
+New SDK cost boundary evidence: output/native-cost-v1/evidence.json.
+
+Official capability check,2026-10-09
+Mem0's memory-benchmarks repository documents LoCoMo, LongMemEval and BEAM,
+retrieval details, per-question evaluations, logs, configurable models and run
+comparison. Therefore neither benchmark execution, tracing nor comparison
+charts alone can be claimed as our innovation.
+Source: https://github.com/mem0ai/memory-benchmarks
+LangSmith documents curated-dataset offline evaluation and production online
+evaluation. General evaluation workflows also are not exclusive to our system.
+Source: https://docs.langchain.com/langsmith/evaluation-types
+LongMemEval publishes memory benchmarks and evaluation code; official scoring
+and full-history performance are separate from our local oracle pilot.
+Source: https://github.com/xiaowu0162/LongMemEval
+
+Candidate contribution to demonstrate
+A personal-history workflow that independently confirms source facts, separates
+stored/retrieved/supplied evidence from final answers, freezes diagnosis-guided
+repairs, and checks generic controls plus independent scenarios. This is our
+implemented specialised workflow and research hypothesis; it is not a verified
+claim that competitors cannot implement it, or that ours outperforms them.
+
+Additional official check,2026-10-09
+Langfuse also supports production scoring, dataset experiments, comparison and
+manual/automated evaluation. These capabilities are established baselines, not
+unique contributions of this project.
+Sources: https://langfuse.com/docs/evaluation/overview
+https://langfuse.com/docs/evaluation/experiments/data-model
+Its current data-model documentation says each dataset item occurs once per
+experiment. Our repeated runs in a condition are an implementation difference,
+not proof of innovation: a competitor can repeat experiments or implement the
+same analysis. Do not frame documentation silence as absence of a feature.
+
+Contribution acceptance boundary
+The concrete practical problem is wasted repair effort after a memory-related
+wrong answer: extraction, retention, retrieval, final supplied context and answer
+generation can fail differently, so a total score does not identify what to change.
+The proposed specialised contribution is evidence-bound diagnosis plus prospective
+generic-versus-directed repair validation on independent personal histories.
+To support it, freeze the repair before validation; blind human reviewers build
+an independent failure inventory (including cases the auditor did not flag);
+compare diagnosis precision/recall and repair regressions at matched reader
+budget; report preparation/retrieval costs separately and unknown costs explicitly.
+The current native pilot's directed4/6 versus baseline4/6 is a null result. It
+does not establish superiority or diagnosis-guided repair value. New GUI template
+regressions and green engineering tests do not replace this experiment.

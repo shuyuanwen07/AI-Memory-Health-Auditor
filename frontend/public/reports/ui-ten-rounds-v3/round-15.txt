@@ -1,0 +1,566 @@
+Browser tab: 7, Title: "localhost:5173/compare?before=RUNCB51964989A46F4F74686EFE87843B&after=RUN584254EE85253C329E0E5B1E24F5CC", URL: "http://localhost:5173/compare?before=RUNCB51964989A46F4F74686EFE87843B&after=RUN584254EE85253C329E0E5B1E24F5CC".
+1 AXWebArea localhost:5173/compare?before=RUNCB51964989A46F4F74686EFE87843B&after=RUN584254EE85253C329E0E5B1E24F5CC
+	2 container root
+		3 container
+			4 link Description: Memory Auditor, Value: localhost:5173/
+			5 container Primary navigation
+				6 link Description: Dashboard, Value: localhost:5173/
+				7 link Description: New audit, Value: localhost:5173/new-audit
+				8 link Description: History, Value: localhost:5173/history
+				9 link Description: Before & after, Value: localhost:5173/compare
+				10 link Description: Experiments, Value: localhost:5173/experiments
+				11 link Description: About, Value: localhost:5173/about
+		12 container
+			13 text BEFORE & AFTER
+			14 heading Memory improvement results, Value: 1
+				15 text Memory improvement results
+			16 checkbox Presentation view, Value: 0
+			521 text Compare saved tests before and after a change. Check the repaired failures and any regressions alongside the score. Find saved audits
+			522 text field (settable) Find saved audits
+			523 button Swap before & after
+			524 text 223  matching audits. Your selected audits stay available. Before improvement
+			525 pop up button (collapsed, settable) Before improvement, Value: Audit 185 · qwen3:1.7b · strong rule based · 10/8/2026, 1:16:03 AM, Secondary Actions: Expand
+				526 menu
+					527 Choose a completed audit
+					528 Audit 365 · qwen3:1.7b · weak first hit · 10/8/2026, 3:46:56 AM
+					529 Audit 363 · qwen3:1.7b · weak first hit · 10/8/2026, 3:14:09 AM
+					530 Audit 361 · qwen3:1.7b · weak first hit · 10/8/2026, 2:39:43 AM
+					531 Audit 360 · qwen3:1.7b · scope aware · 10/8/2026, 2:26:54 AM
+					532 Audit 359 · qwen3:1.7b · scope aware · 10/8/2026, 2:26:54 AM
+					533 Audit 358 · qwen3:1.7b · strong score based · 10/8/2026, 2:26:54 AM
+					534 Audit 357 · qwen3:1.7b · strong score based · 10/8/2026, 2:26:54 AM
+					535 Audit 356 · qwen3:1.7b · strong rule based · 10/8/2026, 2:26:54 AM
+					536 Audit 355 · qwen3:1.7b · strong rule based · 10/8/2026, 2:26:54 AM
+					537 Audit 354 · qwen3:1.7b · scope aware · 10/8/2026, 2:25:24 AM
+					538 Audit 353 · qwen3:1.7b · scope aware · 10/8/2026, 2:25:24 AM
+					539 Audit 352 · qwen3:1.7b · scope aware · 10/8/2026, 2:25:24 AM
+					540 Audit 351 · qwen3:1.7b · scope aware · 10/8/2026, 2:25:24 AM
+					541 Audit 350 · qwen3:1.7b · scope aware · 10/8/2026, 2:25:24 AM
+					542 Audit 349 · qwen3:1.7b · scope aware · 10/8/2026, 2:25:24 AM
+					543 Audit 348 · qwen3:1.7b · scope aware · 10/8/2026, 2:25:24 AM
+					544 Audit 347 · qwen3:1.7b · scope aware · 10/8/2026, 2:25:24 AM
+					545 Audit 346 · qwen3:1.7b · scope aware · 10/8/2026, 2:25:24 AM
+					546 Audit 345 · qwen3:1.7b · scope aware · 10/8/2026, 2:25:24 AM
+					547 Audit 344 · qwen3:1.7b · scope aware · 10/8/2026, 2:25:24 AM
+					548 Audit 343 · qwen3:1.7b · scope aware · 10/8/2026, 2:25:24 AM
+					549 Audit 342 · qwen3:1.7b · scope aware · 10/8/2026, 2:22:12 AM
+					550 Audit 341 · qwen3:1.7b · scope aware · 10/8/2026, 2:22:12 AM
+					551 Audit 340 · qwen3:1.7b · scope aware · 10/8/2026, 2:22:12 AM
+					552 Audit 339 · qwen3:1.7b · strong score based · 10/8/2026, 2:22:12 AM
+					553 Audit 338 · qwen3:1.7b · strong score based · 10/8/2026, 2:22:12 AM
+					554 Audit 337 · qwen3:1.7b · strong score based · 10/8/2026, 2:22:12 AM
+					555 Audit 336 · qwen3:1.7b · strong rule based · 10/8/2026, 2:22:12 AM
+					556 Audit 335 · qwen3:1.7b · strong rule based · 10/8/2026, 2:22:12 AM
+					557 Audit 334 · qwen3:1.7b · strong rule based · 10/8/2026, 2:22:12 AM
+					558 Audit 333 · qwen3:1.7b · scope aware · 10/8/2026, 2:22:12 AM
+					559 Audit 332 · qwen3:1.7b · scope aware · 10/8/2026, 2:22:12 AM
+					560 Audit 331 · qwen3:1.7b · scope aware · 10/8/2026, 2:22:12 AM
+					561 Audit 330 · qwen3:1.7b · strong score based · 10/8/2026, 2:22:12 AM
+					562 Audit 329 · qwen3:1.7b · strong score based · 10/8/2026, 2:22:12 AM
+					563 Audit 328 · qwen3:1.7b · strong score based · 10/8/2026, 2:22:12 AM
+					564 Audit 327 · qwen3:1.7b · strong rule based · 10/8/2026, 2:22:12 AM
+					565 Audit 326 · qwen3:1.7b · strong rule based · 10/8/2026, 2:22:12 AM
+					566 Audit 325 · qwen3:1.7b · strong rule based · 10/8/2026, 2:22:12 AM
+					567 Audit 324 · qwen3:1.7b · scope aware · 10/8/2026, 2:22:12 AM
+					568 Audit 323 · qwen3:1.7b · scope aware · 10/8/2026, 2:22:12 AM
+					569 Audit 322 · qwen3:1.7b · scope aware · 10/8/2026, 2:22:12 AM
+					570 Audit 321 · qwen3:1.7b · strong score based · 10/8/2026, 2:22:12 AM
+					571 Audit 320 · qwen3:1.7b · strong score based · 10/8/2026, 2:22:12 AM
+					572 Audit 319 · qwen3:1.7b · strong score based · 10/8/2026, 2:22:12 AM
+					573 Audit 318 · qwen3:1.7b · strong rule based · 10/8/2026, 2:22:12 AM
+					574 Audit 317 · qwen3:1.7b · strong rule based · 10/8/2026, 2:22:12 AM
+					575 Audit 316 · qwen3:1.7b · strong rule based · 10/8/2026, 2:22:12 AM
+					576 Audit 315 · qwen3:1.7b · scope aware · 10/8/2026, 2:22:12 AM
+					577 Audit 314 · qwen3:1.7b · scope aware · 10/8/2026, 2:22:12 AM
+					578 Audit 313 · qwen3:1.7b · scope aware · 10/8/2026, 2:22:12 AM
+					579 Audit 312 · qwen3:1.7b · strong score based · 10/8/2026, 2:22:12 AM
+					580 Audit 311 · qwen3:1.7b · strong score based · 10/8/2026, 2:22:12 AM
+					581 Audit 310 · qwen3:1.7b · strong score based · 10/8/2026, 2:22:12 AM
+					582 Audit 309 · qwen3:1.7b · strong rule based · 10/8/2026, 2:22:12 AM
+					583 Audit 308 · qwen3:1.7b · strong rule based · 10/8/2026, 2:22:12 AM
+					584 Audit 307 · qwen3:1.7b · strong rule based · 10/8/2026, 2:22:12 AM
+					585 Audit 306 · qwen3:1.7b · scope aware · 10/8/2026, 2:20:33 AM
+					586 Audit 305 · qwen3:1.7b · scope aware · 10/8/2026, 2:20:33 AM
+					587 Audit 304 · qwen3:1.7b · strong score based · 10/8/2026, 2:20:33 AM
+					588 Audit 303 · qwen3:1.7b · strong score based · 10/8/2026, 2:20:33 AM
+					589 Audit 302 · qwen3:1.7b · strong rule based · 10/8/2026, 2:20:33 AM
+					590 Audit 301 · qwen3:1.7b · strong rule based · 10/8/2026, 2:20:33 AM
+					591 Audit 300 · qwen3:1.7b · scope aware · 10/8/2026, 2:19:29 AM
+					592 Audit 299 · qwen3:1.7b · scope aware · 10/8/2026, 2:19:29 AM
+					593 Audit 298 · qwen3:1.7b · strong score based · 10/8/2026, 2:19:29 AM
+					594 Audit 297 · qwen3:1.7b · strong score based · 10/8/2026, 2:19:29 AM
+					595 Audit 296 · qwen3:1.7b · strong rule based · 10/8/2026, 2:19:29 AM
+					596 Audit 295 · qwen3:1.7b · strong rule based · 10/8/2026, 2:19:29 AM
+					597 Audit 294 · qwen3:1.7b · scope aware · 10/8/2026, 2:18:31 AM
+					598 Audit 293 · qwen3:1.7b · scope aware · 10/8/2026, 2:18:31 AM
+					599 Audit 292 · qwen3:1.7b · strong score based · 10/8/2026, 2:18:31 AM
+					600 Audit 291 · qwen3:1.7b · strong score based · 10/8/2026, 2:18:31 AM
+					601 Audit 290 · qwen3:1.7b · strong rule based · 10/8/2026, 2:18:31 AM
+					602 Audit 289 · qwen3:1.7b · strong rule based · 10/8/2026, 2:18:31 AM
+					603 Audit 288 · qwen3:1.7b · scope aware · 10/8/2026, 2:17:01 AM
+					604 Audit 287 · qwen3:1.7b · scope aware · 10/8/2026, 2:17:01 AM
+					605 Audit 286 · qwen3:1.7b · strong score based · 10/8/2026, 2:17:01 AM
+					606 Audit 285 · qwen3:1.7b · strong score based · 10/8/2026, 2:17:01 AM
+					607 Audit 284 · qwen3:1.7b · strong rule based · 10/8/2026, 2:17:01 AM
+					608 Audit 283 · qwen3:1.7b · strong rule based · 10/8/2026, 2:17:01 AM
+					609 Audit 282 · qwen3:1.7b · scope aware · 10/8/2026, 2:16:10 AM
+					610 Audit 281 · qwen3:1.7b · scope aware · 10/8/2026, 2:16:10 AM
+					611 Audit 280 · qwen3:1.7b · strong score based · 10/8/2026, 2:16:10 AM
+					612 Audit 279 · qwen3:1.7b · strong score based · 10/8/2026, 2:16:10 AM
+					613 Audit 278 · qwen3:1.7b · strong rule based · 10/8/2026, 2:16:10 AM
+					614 Audit 277 · qwen3:1.7b · strong rule based · 10/8/2026, 2:16:10 AM
+					615 Audit 276 · qwen3:1.7b · scope aware · 10/8/2026, 2:15:17 AM
+					616 Audit 275 · qwen3:1.7b · scope aware · 10/8/2026, 2:15:17 AM
+					617 Audit 274 · qwen3:1.7b · strong score based · 10/8/2026, 2:15:17 AM
+					618 Audit 273 · qwen3:1.7b · strong score based · 10/8/2026, 2:15:17 AM
+					619 Audit 272 · qwen3:1.7b · strong rule based · 10/8/2026, 2:15:17 AM
+					620 Audit 271 · qwen3:1.7b · strong rule based · 10/8/2026, 2:15:17 AM
+					621 Audit 270 · qwen3:1.7b · scope aware · 10/8/2026, 2:14:25 AM
+					622 Audit 269 · qwen3:1.7b · scope aware · 10/8/2026, 2:14:25 AM
+					623 Audit 268 · qwen3:1.7b · strong score based · 10/8/2026, 2:14:25 AM
+					624 Audit 267 · qwen3:1.7b · strong score based · 10/8/2026, 2:14:25 AM
+					625 Audit 266 · qwen3:1.7b · strong rule based · 10/8/2026, 2:14:25 AM
+					626 Audit 265 · qwen3:1.7b · strong rule based · 10/8/2026, 2:14:25 AM
+					627 Audit 264 · qwen3:1.7b · scope aware · 10/8/2026, 2:13:13 AM
+					628 Audit 263 · qwen3:1.7b · scope aware · 10/8/2026, 2:13:13 AM
+					629 Audit 262 · qwen3:1.7b · strong score based · 10/8/2026, 2:13:13 AM
+					630 Audit 261 · qwen3:1.7b · strong score based · 10/8/2026, 2:13:13 AM
+					631 Audit 260 · qwen3:1.7b · strong rule based · 10/8/2026, 2:13:13 AM
+					632 Audit 259 · qwen3:1.7b · strong rule based · 10/8/2026, 2:13:13 AM
+					633 Audit 258 · qwen3:1.7b · scope aware · 10/8/2026, 2:11:55 AM
+					634 Audit 257 · qwen3:1.7b · scope aware · 10/8/2026, 2:11:55 AM
+					635 Audit 256 · qwen3:1.7b · strong score based · 10/8/2026, 2:11:55 AM
+					636 Audit 255 · qwen3:1.7b · strong score based · 10/8/2026, 2:11:55 AM
+					637 Audit 254 · qwen3:1.7b · strong rule based · 10/8/2026, 2:11:55 AM
+					638 Audit 253 · qwen3:1.7b · strong rule based · 10/8/2026, 2:11:55 AM
+					639 Audit 252 · qwen3:1.7b · scope aware · 10/8/2026, 2:10:51 AM
+					640 Audit 251 · qwen3:1.7b · scope aware · 10/8/2026, 2:10:51 AM
+					641 Audit 250 · qwen3:1.7b · strong score based · 10/8/2026, 2:10:51 AM
+					642 Audit 249 · qwen3:1.7b · strong score based · 10/8/2026, 2:10:51 AM
+					643 Audit 248 · qwen3:1.7b · strong rule based · 10/8/2026, 2:10:51 AM
+					644 Audit 247 · qwen3:1.7b · strong rule based · 10/8/2026, 2:10:51 AM
+					645 Audit 246 · qwen3:1.7b · scope aware · 10/8/2026, 1:56:23 AM
+					646 Audit 245 · qwen3:1.7b · scope aware · 10/8/2026, 1:56:23 AM
+					647 Audit 244 · qwen3:1.7b · scope aware · 10/8/2026, 1:56:23 AM
+					648 Audit 243 · qwen3:1.7b · strong score based · 10/8/2026, 1:56:23 AM
+					649 Audit 242 · qwen3:1.7b · strong score based · 10/8/2026, 1:56:23 AM
+					650 Audit 241 · qwen3:1.7b · strong score based · 10/8/2026, 1:56:23 AM
+					651 Audit 240 · qwen3:1.7b · strong rule based · 10/8/2026, 1:56:23 AM
+					652 Audit 239 · qwen3:1.7b · strong rule based · 10/8/2026, 1:56:23 AM
+					653 Audit 238 · qwen3:1.7b · strong rule based · 10/8/2026, 1:56:23 AM
+					654 Audit 237 · qwen3:1.7b · full context · 10/8/2026, 1:56:23 AM
+					655 Audit 236 · qwen3:1.7b · full context · 10/8/2026, 1:56:23 AM
+					656 Audit 235 · qwen3:1.7b · full context · 10/8/2026, 1:56:23 AM
+					657 Audit 234 · qwen3:1.7b · no memory · 10/8/2026, 1:56:23 AM
+					658 Audit 233 · qwen3:1.7b · no memory · 10/8/2026, 1:56:23 AM
+					659 Audit 232 · qwen3:1.7b · no memory · 10/8/2026, 1:56:23 AM
+					660 Audit 231 · qwen3:1.7b · scope aware · 10/8/2026, 1:56:23 AM
+					661 Audit 230 · qwen3:1.7b · scope aware · 10/8/2026, 1:56:23 AM
+					662 Audit 229 · qwen3:1.7b · scope aware · 10/8/2026, 1:56:23 AM
+					663 Audit 228 · qwen3:1.7b · strong score based · 10/8/2026, 1:56:23 AM
+					664 Audit 227 · qwen3:1.7b · strong score based · 10/8/2026, 1:56:23 AM
+					665 Audit 226 · qwen3:1.7b · strong score based · 10/8/2026, 1:56:23 AM
+					666 Audit 225 · qwen3:1.7b · strong rule based · 10/8/2026, 1:56:23 AM
+					667 Audit 224 · qwen3:1.7b · strong rule based · 10/8/2026, 1:56:23 AM
+					668 Audit 223 · qwen3:1.7b · strong rule based · 10/8/2026, 1:56:23 AM
+					669 Audit 222 · qwen3:1.7b · full context · 10/8/2026, 1:56:23 AM
+					670 Audit 221 · qwen3:1.7b · full context · 10/8/2026, 1:56:23 AM
+					671 Audit 220 · qwen3:1.7b · full context · 10/8/2026, 1:56:23 AM
+					672 Audit 219 · qwen3:1.7b · no memory · 10/8/2026, 1:56:23 AM
+					673 Audit 218 · qwen3:1.7b · no memory · 10/8/2026, 1:56:23 AM
+					674 Audit 217 · qwen3:1.7b · no memory · 10/8/2026, 1:56:23 AM
+					675 Audit 216 · qwen3:1.7b · scope aware · 10/8/2026, 1:56:23 AM
+					676 Audit 215 · qwen3:1.7b · scope aware · 10/8/2026, 1:56:23 AM
+					677 Audit 214 · qwen3:1.7b · scope aware · 10/8/2026, 1:56:23 AM
+					678 Audit 213 · qwen3:1.7b · strong score based · 10/8/2026, 1:56:23 AM
+					679 Audit 212 · qwen3:1.7b · strong score based · 10/8/2026, 1:56:23 AM
+					680 Audit 211 · qwen3:1.7b · strong score based · 10/8/2026, 1:56:23 AM
+					681 Audit 210 · qwen3:1.7b · strong rule based · 10/8/2026, 1:56:23 AM
+					682 Audit 209 · qwen3:1.7b · strong rule based · 10/8/2026, 1:56:23 AM
+					683 Audit 208 · qwen3:1.7b · strong rule based · 10/8/2026, 1:56:23 AM
+					684 Audit 207 · qwen3:1.7b · full context · 10/8/2026, 1:56:23 AM
+					685 Audit 206 · qwen3:1.7b · full context · 10/8/2026, 1:56:23 AM
+					686 Audit 205 · qwen3:1.7b · full context · 10/8/2026, 1:56:23 AM
+					687 Audit 204 · qwen3:1.7b · no memory · 10/8/2026, 1:56:23 AM
+					688 Audit 203 · qwen3:1.7b · no memory · 10/8/2026, 1:56:23 AM
+					689 Audit 202 · qwen3:1.7b · no memory · 10/8/2026, 1:56:23 AM
+					690 Audit 201 · qwen3:1.7b · scope aware · 10/8/2026, 1:56:23 AM
+					691 Audit 200 · qwen3:1.7b · scope aware · 10/8/2026, 1:56:23 AM
+					692 Audit 199 · qwen3:1.7b · scope aware · 10/8/2026, 1:56:23 AM
+					693 Audit 198 · qwen3:1.7b · strong score based · 10/8/2026, 1:56:23 AM
+					694 Audit 197 · qwen3:1.7b · strong score based · 10/8/2026, 1:56:23 AM
+					695 Audit 196 · qwen3:1.7b · strong score based · 10/8/2026, 1:56:23 AM
+					696 Audit 195 · qwen3:1.7b · strong rule based · 10/8/2026, 1:56:23 AM
+					697 Audit 194 · qwen3:1.7b · strong rule based · 10/8/2026, 1:56:23 AM
+					698 Audit 193 · qwen3:1.7b · strong rule based · 10/8/2026, 1:56:23 AM
+					699 Audit 192 · qwen3:1.7b · full context · 10/8/2026, 1:56:23 AM
+					700 Audit 191 · qwen3:1.7b · full context · 10/8/2026, 1:56:23 AM
+					701 Audit 190 · qwen3:1.7b · full context · 10/8/2026, 1:56:23 AM
+					702 Audit 189 · qwen3:1.7b · no memory · 10/8/2026, 1:56:23 AM
+					703 Audit 188 · qwen3:1.7b · no memory · 10/8/2026, 1:56:23 AM
+					704 Audit 187 · qwen3:1.7b · no memory · 10/8/2026, 1:56:23 AM
+					705 Audit 186 · qwen3:1.7b · scope aware · 10/8/2026, 1:16:03 AM
+					706 (selected) Audit 185 · qwen3:1.7b · strong rule based · 10/8/2026, 1:16:03 AM
+					707 Audit 184 · qwen3:1.7b · weak first hit · 10/8/2026, 1:16:03 AM
+					708 Audit 183 · qwen3:1.7b · full context · 10/8/2026, 1:16:03 AM
+					709 Audit 182 · qwen3:1.7b · no memory · 10/8/2026, 1:16:03 AM
+					710 Audit 181 · qwen3:1.7b · scope aware · 10/8/2026, 1:16:03 AM
+					711 Audit 180 · qwen3:1.7b · strong rule based · 10/8/2026, 1:16:03 AM
+					712 Audit 179 · qwen3:1.7b · weak first hit · 10/8/2026, 1:16:03 AM
+					713 Audit 178 · qwen3:1.7b · full context · 10/8/2026, 1:16:03 AM
+					714 Audit 177 · qwen3:1.7b · no memory · 10/8/2026, 1:16:03 AM
+					715 Audit 176 · qwen3:1.7b · scope aware · 10/8/2026, 1:14:25 AM
+					716 Audit 175 · qwen3:1.7b · strong rule based · 10/8/2026, 1:14:25 AM
+					717 Audit 174 · qwen3:1.7b · weak first hit · 10/8/2026, 1:14:25 AM
+					718 Audit 173 · qwen3:1.7b · full context · 10/8/2026, 1:14:25 AM
+					719 Audit 172 · qwen3:1.7b · no memory · 10/8/2026, 1:14:25 AM
+					720 Audit 171 · qwen3:1.7b · scope aware · 10/8/2026, 1:14:25 AM
+					721 Audit 170 · qwen3:1.7b · strong rule based · 10/8/2026, 1:14:25 AM
+					722 Audit 169 · qwen3:1.7b · weak first hit · 10/8/2026, 1:14:25 AM
+					723 Audit 168 · qwen3:1.7b · full context · 10/8/2026, 1:14:25 AM
+					724 Audit 167 · qwen3:1.7b · no memory · 10/8/2026, 1:14:25 AM
+					725 Audit 166 · qwen3:1.7b · scope aware · 10/8/2026, 1:11:37 AM
+					726 Audit 165 · qwen3:1.7b · strong rule based · 10/8/2026, 1:11:37 AM
+					727 Audit 164 · qwen3:1.7b · weak first hit · 10/8/2026, 1:11:37 AM
+					728 Audit 163 · qwen3:1.7b · full context · 10/8/2026, 1:11:37 AM
+					729 Audit 162 · qwen3:1.7b · no memory · 10/8/2026, 1:11:37 AM
+					730 Audit 161 · qwen3:1.7b · scope aware · 10/8/2026, 1:11:37 AM
+					731 Audit 160 · qwen3:1.7b · strong rule based · 10/8/2026, 1:11:37 AM
+					732 Audit 159 · qwen3:1.7b · weak first hit · 10/8/2026, 1:11:37 AM
+					733 Audit 158 · qwen3:1.7b · full context · 10/8/2026, 1:11:37 AM
+					734 Audit 157 · qwen3:1.7b · no memory · 10/8/2026, 1:11:37 AM
+					735 Audit 156 · qwen3:1.7b · scope aware · 10/8/2026, 1:01:32 AM
+					736 Audit 155 · qwen3:1.7b · strong rule based · 10/8/2026, 1:01:32 AM
+					737 Audit 154 · qwen3:1.7b · weak first hit · 10/8/2026, 1:01:32 AM
+					738 Audit 153 · qwen3:1.7b · full context · 10/8/2026, 1:01:32 AM
+					739 Audit 152 · qwen3:1.7b · no memory · 10/8/2026, 1:01:32 AM
+					740 Audit 151 · qwen3:1.7b · scope aware · 10/8/2026, 1:01:32 AM
+					741 Audit 150 · qwen3:1.7b · strong rule based · 10/8/2026, 1:01:32 AM
+					742 Audit 149 · qwen3:1.7b · weak first hit · 10/8/2026, 1:01:32 AM
+					743 Audit 148 · qwen3:1.7b · full context · 10/8/2026, 1:01:32 AM
+					744 Audit 147 · qwen3:1.7b · no memory · 10/8/2026, 1:01:32 AM
+					745 Audit 6 · qwen3:1.7b · strong rule based · 10/6/2026, 11:46:03 PM
+					746 Audit 5 · qwen3:1.7b · weak first hit · 10/6/2026, 11:46:03 PM
+					747 Audit 4 · qwen3:1.7b · strong rule based · 10/6/2026, 10:33:05 AM
+					748 Audit 3 · qwen3:1.7b · weak first hit · 10/6/2026, 10:33:05 AM
+					749 Audit 2 · rule-based-target-ai · strong rule based · 10/6/2026, 10:02:11 AM
+					750 Audit 1 · rule-based-target-ai · weak first hit · 10/6/2026, 10:02:11 AM
+			751 text After improvement
+			752 pop up button (collapsed, settable) After improvement, Value: Audit 186 · qwen3:1.7b · scope aware · 10/8/2026, 1:16:03 AM, Secondary Actions: Expand
+				753 menu
+					754 Choose a completed audit
+					755 Audit 365 · qwen3:1.7b · weak first hit · 10/8/2026, 3:46:56 AM
+					756 Audit 363 · qwen3:1.7b · weak first hit · 10/8/2026, 3:14:09 AM
+					757 Audit 361 · qwen3:1.7b · weak first hit · 10/8/2026, 2:39:43 AM
+					758 Audit 360 · qwen3:1.7b · scope aware · 10/8/2026, 2:26:54 AM
+					759 Audit 359 · qwen3:1.7b · scope aware · 10/8/2026, 2:26:54 AM
+					760 Audit 358 · qwen3:1.7b · strong score based · 10/8/2026, 2:26:54 AM
+					761 Audit 357 · qwen3:1.7b · strong score based · 10/8/2026, 2:26:54 AM
+					762 Audit 356 · qwen3:1.7b · strong rule based · 10/8/2026, 2:26:54 AM
+					763 Audit 355 · qwen3:1.7b · strong rule based · 10/8/2026, 2:26:54 AM
+					764 Audit 354 · qwen3:1.7b · scope aware · 10/8/2026, 2:25:24 AM
+					765 Audit 353 · qwen3:1.7b · scope aware · 10/8/2026, 2:25:24 AM
+					766 Audit 352 · qwen3:1.7b · scope aware · 10/8/2026, 2:25:24 AM
+					767 Audit 351 · qwen3:1.7b · scope aware · 10/8/2026, 2:25:24 AM
+					768 Audit 350 · qwen3:1.7b · scope aware · 10/8/2026, 2:25:24 AM
+					769 Audit 349 · qwen3:1.7b · scope aware · 10/8/2026, 2:25:24 AM
+					770 Audit 348 · qwen3:1.7b · scope aware · 10/8/2026, 2:25:24 AM
+					771 Audit 347 · qwen3:1.7b · scope aware · 10/8/2026, 2:25:24 AM
+					772 Audit 346 · qwen3:1.7b · scope aware · 10/8/2026, 2:25:24 AM
+					773 Audit 345 · qwen3:1.7b · scope aware · 10/8/2026, 2:25:24 AM
+					774 Audit 344 · qwen3:1.7b · scope aware · 10/8/2026, 2:25:24 AM
+					775 Audit 343 · qwen3:1.7b · scope aware · 10/8/2026, 2:25:24 AM
+					776 Audit 342 · qwen3:1.7b · scope aware · 10/8/2026, 2:22:12 AM
+					777 Audit 341 · qwen3:1.7b · scope aware · 10/8/2026, 2:22:12 AM
+					778 Audit 340 · qwen3:1.7b · scope aware · 10/8/2026, 2:22:12 AM
+					779 Audit 339 · qwen3:1.7b · strong score based · 10/8/2026, 2:22:12 AM
+					780 Audit 338 · qwen3:1.7b · strong score based · 10/8/2026, 2:22:12 AM
+					781 Audit 337 · qwen3:1.7b · strong score based · 10/8/2026, 2:22:12 AM
+					782 Audit 336 · qwen3:1.7b · strong rule based · 10/8/2026, 2:22:12 AM
+					783 Audit 335 · qwen3:1.7b · strong rule based · 10/8/2026, 2:22:12 AM
+					784 Audit 334 · qwen3:1.7b · strong rule based · 10/8/2026, 2:22:12 AM
+					785 Audit 333 · qwen3:1.7b · scope aware · 10/8/2026, 2:22:12 AM
+					786 Audit 332 · qwen3:1.7b · scope aware · 10/8/2026, 2:22:12 AM
+					787 Audit 331 · qwen3:1.7b · scope aware · 10/8/2026, 2:22:12 AM
+					788 Audit 330 · qwen3:1.7b · strong score based · 10/8/2026, 2:22:12 AM
+					789 Audit 329 · qwen3:1.7b · strong score based · 10/8/2026, 2:22:12 AM
+					790 Audit 328 · qwen3:1.7b · strong score based · 10/8/2026, 2:22:12 AM
+					791 Audit 327 · qwen3:1.7b · strong rule based · 10/8/2026, 2:22:12 AM
+					792 Audit 326 · qwen3:1.7b · strong rule based · 10/8/2026, 2:22:12 AM
+					793 Audit 325 · qwen3:1.7b · strong rule based · 10/8/2026, 2:22:12 AM
+					794 Audit 324 · qwen3:1.7b · scope aware · 10/8/2026, 2:22:12 AM
+					795 Audit 323 · qwen3:1.7b · scope aware · 10/8/2026, 2:22:12 AM
+					796 Audit 322 · qwen3:1.7b · scope aware · 10/8/2026, 2:22:12 AM
+					797 Audit 321 · qwen3:1.7b · strong score based · 10/8/2026, 2:22:12 AM
+					798 Audit 320 · qwen3:1.7b · strong score based · 10/8/2026, 2:22:12 AM
+					799 Audit 319 · qwen3:1.7b · strong score based · 10/8/2026, 2:22:12 AM
+					800 Audit 318 · qwen3:1.7b · strong rule based · 10/8/2026, 2:22:12 AM
+					801 Audit 317 · qwen3:1.7b · strong rule based · 10/8/2026, 2:22:12 AM
+					802 Audit 316 · qwen3:1.7b · strong rule based · 10/8/2026, 2:22:12 AM
+					803 Audit 315 · qwen3:1.7b · scope aware · 10/8/2026, 2:22:12 AM
+					804 Audit 314 · qwen3:1.7b · scope aware · 10/8/2026, 2:22:12 AM
+					805 Audit 313 · qwen3:1.7b · scope aware · 10/8/2026, 2:22:12 AM
+					806 Audit 312 · qwen3:1.7b · strong score based · 10/8/2026, 2:22:12 AM
+					807 Audit 311 · qwen3:1.7b · strong score based · 10/8/2026, 2:22:12 AM
+					808 Audit 310 · qwen3:1.7b · strong score based · 10/8/2026, 2:22:12 AM
+					809 Audit 309 · qwen3:1.7b · strong rule based · 10/8/2026, 2:22:12 AM
+					810 Audit 308 · qwen3:1.7b · strong rule based · 10/8/2026, 2:22:12 AM
+					811 Audit 307 · qwen3:1.7b · strong rule based · 10/8/2026, 2:22:12 AM
+					812 Audit 306 · qwen3:1.7b · scope aware · 10/8/2026, 2:20:33 AM
+					813 Audit 305 · qwen3:1.7b · scope aware · 10/8/2026, 2:20:33 AM
+					814 Audit 304 · qwen3:1.7b · strong score based · 10/8/2026, 2:20:33 AM
+					815 Audit 303 · qwen3:1.7b · strong score based · 10/8/2026, 2:20:33 AM
+					816 Audit 302 · qwen3:1.7b · strong rule based · 10/8/2026, 2:20:33 AM
+					817 Audit 301 · qwen3:1.7b · strong rule based · 10/8/2026, 2:20:33 AM
+					818 Audit 300 · qwen3:1.7b · scope aware · 10/8/2026, 2:19:29 AM
+					819 Audit 299 · qwen3:1.7b · scope aware · 10/8/2026, 2:19:29 AM
+					820 Audit 298 · qwen3:1.7b · strong score based · 10/8/2026, 2:19:29 AM
+					821 Audit 297 · qwen3:1.7b · strong score based · 10/8/2026, 2:19:29 AM
+					822 Audit 296 · qwen3:1.7b · strong rule based · 10/8/2026, 2:19:29 AM
+					823 Audit 295 · qwen3:1.7b · strong rule based · 10/8/2026, 2:19:29 AM
+					824 Audit 294 · qwen3:1.7b · scope aware · 10/8/2026, 2:18:31 AM
+					825 Audit 293 · qwen3:1.7b · scope aware · 10/8/2026, 2:18:31 AM
+					826 Audit 292 · qwen3:1.7b · strong score based · 10/8/2026, 2:18:31 AM
+					827 Audit 291 · qwen3:1.7b · strong score based · 10/8/2026, 2:18:31 AM
+					828 Audit 290 · qwen3:1.7b · strong rule based · 10/8/2026, 2:18:31 AM
+					829 Audit 289 · qwen3:1.7b · strong rule based · 10/8/2026, 2:18:31 AM
+					830 Audit 288 · qwen3:1.7b · scope aware · 10/8/2026, 2:17:01 AM
+					831 Audit 287 · qwen3:1.7b · scope aware · 10/8/2026, 2:17:01 AM
+					832 Audit 286 · qwen3:1.7b · strong score based · 10/8/2026, 2:17:01 AM
+					833 Audit 285 · qwen3:1.7b · strong score based · 10/8/2026, 2:17:01 AM
+					834 Audit 284 · qwen3:1.7b · strong rule based · 10/8/2026, 2:17:01 AM
+					835 Audit 283 · qwen3:1.7b · strong rule based · 10/8/2026, 2:17:01 AM
+					836 Audit 282 · qwen3:1.7b · scope aware · 10/8/2026, 2:16:10 AM
+					837 Audit 281 · qwen3:1.7b · scope aware · 10/8/2026, 2:16:10 AM
+					838 Audit 280 · qwen3:1.7b · strong score based · 10/8/2026, 2:16:10 AM
+					839 Audit 279 · qwen3:1.7b · strong score based · 10/8/2026, 2:16:10 AM
+					840 Audit 278 · qwen3:1.7b · strong rule based · 10/8/2026, 2:16:10 AM
+					841 Audit 277 · qwen3:1.7b · strong rule based · 10/8/2026, 2:16:10 AM
+					842 Audit 276 · qwen3:1.7b · scope aware · 10/8/2026, 2:15:17 AM
+					843 Audit 275 · qwen3:1.7b · scope aware · 10/8/2026, 2:15:17 AM
+					844 Audit 274 · qwen3:1.7b · strong score based · 10/8/2026, 2:15:17 AM
+					845 Audit 273 · qwen3:1.7b · strong score based · 10/8/2026, 2:15:17 AM
+					846 Audit 272 · qwen3:1.7b · strong rule based · 10/8/2026, 2:15:17 AM
+					847 Audit 271 · qwen3:1.7b · strong rule based · 10/8/2026, 2:15:17 AM
+					848 Audit 270 · qwen3:1.7b · scope aware · 10/8/2026, 2:14:25 AM
+					849 Audit 269 · qwen3:1.7b · scope aware · 10/8/2026, 2:14:25 AM
+					850 Audit 268 · qwen3:1.7b · strong score based · 10/8/2026, 2:14:25 AM
+					851 Audit 267 · qwen3:1.7b · strong score based · 10/8/2026, 2:14:25 AM
+					852 Audit 266 · qwen3:1.7b · strong rule based · 10/8/2026, 2:14:25 AM
+					853 Audit 265 · qwen3:1.7b · strong rule based · 10/8/2026, 2:14:25 AM
+					854 Audit 264 · qwen3:1.7b · scope aware · 10/8/2026, 2:13:13 AM
+					855 Audit 263 · qwen3:1.7b · scope aware · 10/8/2026, 2:13:13 AM
+					856 Audit 262 · qwen3:1.7b · strong score based · 10/8/2026, 2:13:13 AM
+					857 Audit 261 · qwen3:1.7b · strong score based · 10/8/2026, 2:13:13 AM
+					858 Audit 260 · qwen3:1.7b · strong rule based · 10/8/2026, 2:13:13 AM
+					859 Audit 259 · qwen3:1.7b · strong rule based · 10/8/2026, 2:13:13 AM
+					860 Audit 258 · qwen3:1.7b · scope aware · 10/8/2026, 2:11:55 AM
+					861 Audit 257 · qwen3:1.7b · scope aware · 10/8/2026, 2:11:55 AM
+					862 Audit 256 · qwen3:1.7b · strong score based · 10/8/2026, 2:11:55 AM
+					863 Audit 255 · qwen3:1.7b · strong score based · 10/8/2026, 2:11:55 AM
+					864 Audit 254 · qwen3:1.7b · strong rule based · 10/8/2026, 2:11:55 AM
+					865 Audit 253 · qwen3:1.7b · strong rule based · 10/8/2026, 2:11:55 AM
+					866 Audit 252 · qwen3:1.7b · scope aware · 10/8/2026, 2:10:51 AM
+					867 Audit 251 · qwen3:1.7b · scope aware · 10/8/2026, 2:10:51 AM
+					868 Audit 250 · qwen3:1.7b · strong score based · 10/8/2026, 2:10:51 AM
+					869 Audit 249 · qwen3:1.7b · strong score based · 10/8/2026, 2:10:51 AM
+					870 Audit 248 · qwen3:1.7b · strong rule based · 10/8/2026, 2:10:51 AM
+					871 Audit 247 · qwen3:1.7b · strong rule based · 10/8/2026, 2:10:51 AM
+					872 Audit 246 · qwen3:1.7b · scope aware · 10/8/2026, 1:56:23 AM
+					873 Audit 245 · qwen3:1.7b · scope aware · 10/8/2026, 1:56:23 AM
+					874 Audit 244 · qwen3:1.7b · scope aware · 10/8/2026, 1:56:23 AM
+					875 Audit 243 · qwen3:1.7b · strong score based · 10/8/2026, 1:56:23 AM
+					876 Audit 242 · qwen3:1.7b · strong score based · 10/8/2026, 1:56:23 AM
+					877 Audit 241 · qwen3:1.7b · strong score based · 10/8/2026, 1:56:23 AM
+					878 Audit 240 · qwen3:1.7b · strong rule based · 10/8/2026, 1:56:23 AM
+					879 Audit 239 · qwen3:1.7b · strong rule based · 10/8/2026, 1:56:23 AM
+					880 Audit 238 · qwen3:1.7b · strong rule based · 10/8/2026, 1:56:23 AM
+					881 Audit 237 · qwen3:1.7b · full context · 10/8/2026, 1:56:23 AM
+					882 Audit 236 · qwen3:1.7b · full context · 10/8/2026, 1:56:23 AM
+					883 Audit 235 · qwen3:1.7b · full context · 10/8/2026, 1:56:23 AM
+					884 Audit 234 · qwen3:1.7b · no memory · 10/8/2026, 1:56:23 AM
+					885 Audit 233 · qwen3:1.7b · no memory · 10/8/2026, 1:56:23 AM
+					886 Audit 232 · qwen3:1.7b · no memory · 10/8/2026, 1:56:23 AM
+					887 Audit 231 · qwen3:1.7b · scope aware · 10/8/2026, 1:56:23 AM
+					888 Audit 230 · qwen3:1.7b · scope aware · 10/8/2026, 1:56:23 AM
+					889 Audit 229 · qwen3:1.7b · scope aware · 10/8/2026, 1:56:23 AM
+					890 Audit 228 · qwen3:1.7b · strong score based · 10/8/2026, 1:56:23 AM
+					891 Audit 227 · qwen3:1.7b · strong score based · 10/8/2026, 1:56:23 AM
+					892 Audit 226 · qwen3:1.7b · strong score based · 10/8/2026, 1:56:23 AM
+					893 Audit 225 · qwen3:1.7b · strong rule based · 10/8/2026, 1:56:23 AM
+					894 Audit 224 · qwen3:1.7b · strong rule based · 10/8/2026, 1:56:23 AM
+					895 Audit 223 · qwen3:1.7b · strong rule based · 10/8/2026, 1:56:23 AM
+					896 Audit 222 · qwen3:1.7b · full context · 10/8/2026, 1:56:23 AM
+					897 Audit 221 · qwen3:1.7b · full context · 10/8/2026, 1:56:23 AM
+					898 Audit 220 · qwen3:1.7b · full context · 10/8/2026, 1:56:23 AM
+					899 Audit 219 · qwen3:1.7b · no memory · 10/8/2026, 1:56:23 AM
+					900 Audit 218 · qwen3:1.7b · no memory · 10/8/2026, 1:56:23 AM
+					901 Audit 217 · qwen3:1.7b · no memory · 10/8/2026, 1:56:23 AM
+					902 Audit 216 · qwen3:1.7b · scope aware · 10/8/2026, 1:56:23 AM
+					903 Audit 215 · qwen3:1.7b · scope aware · 10/8/2026, 1:56:23 AM
+					904 Audit 214 · qwen3:1.7b · scope aware · 10/8/2026, 1:56:23 AM
+					905 Audit 213 · qwen3:1.7b · strong score based · 10/8/2026, 1:56:23 AM
+					906 Audit 212 · qwen3:1.7b · strong score based · 10/8/2026, 1:56:23 AM
+					907 Audit 211 · qwen3:1.7b · strong score based · 10/8/2026, 1:56:23 AM
+					908 Audit 210 · qwen3:1.7b · strong rule based · 10/8/2026, 1:56:23 AM
+					909 Audit 209 · qwen3:1.7b · strong rule based · 10/8/2026, 1:56:23 AM
+					910 Audit 208 · qwen3:1.7b · strong rule based · 10/8/2026, 1:56:23 AM
+					911 Audit 207 · qwen3:1.7b · full context · 10/8/2026, 1:56:23 AM
+					912 Audit 206 · qwen3:1.7b · full context · 10/8/2026, 1:56:23 AM
+					913 Audit 205 · qwen3:1.7b · full context · 10/8/2026, 1:56:23 AM
+					914 Audit 204 · qwen3:1.7b · no memory · 10/8/2026, 1:56:23 AM
+					915 Audit 203 · qwen3:1.7b · no memory · 10/8/2026, 1:56:23 AM
+					916 Audit 202 · qwen3:1.7b · no memory · 10/8/2026, 1:56:23 AM
+					917 Audit 201 · qwen3:1.7b · scope aware · 10/8/2026, 1:56:23 AM
+					918 Audit 200 · qwen3:1.7b · scope aware · 10/8/2026, 1:56:23 AM
+					919 Audit 199 · qwen3:1.7b · scope aware · 10/8/2026, 1:56:23 AM
+					920 Audit 198 · qwen3:1.7b · strong score based · 10/8/2026, 1:56:23 AM
+					921 Audit 197 · qwen3:1.7b · strong score based · 10/8/2026, 1:56:23 AM
+					922 Audit 196 · qwen3:1.7b · strong score based · 10/8/2026, 1:56:23 AM
+					923 Audit 195 · qwen3:1.7b · strong rule based · 10/8/2026, 1:56:23 AM
+					924 Audit 194 · qwen3:1.7b · strong rule based · 10/8/2026, 1:56:23 AM
+					925 Audit 193 · qwen3:1.7b · strong rule based · 10/8/2026, 1:56:23 AM
+					926 Audit 192 · qwen3:1.7b · full context · 10/8/2026, 1:56:23 AM
+					927 Audit 191 · qwen3:1.7b · full context · 10/8/2026, 1:56:23 AM
+					928 Audit 190 · qwen3:1.7b · full context · 10/8/2026, 1:56:23 AM
+					929 Audit 189 · qwen3:1.7b · no memory · 10/8/2026, 1:56:23 AM
+					930 Audit 188 · qwen3:1.7b · no memory · 10/8/2026, 1:56:23 AM
+					931 Audit 187 · qwen3:1.7b · no memory · 10/8/2026, 1:56:23 AM
+					932 (selected) Audit 186 · qwen3:1.7b · scope aware · 10/8/2026, 1:16:03 AM
+					933 Audit 185 · qwen3:1.7b · strong rule based · 10/8/2026, 1:16:03 AM
+					934 Audit 184 · qwen3:1.7b · weak first hit · 10/8/2026, 1:16:03 AM
+					935 Audit 183 · qwen3:1.7b · full context · 10/8/2026, 1:16:03 AM
+					936 Audit 182 · qwen3:1.7b · no memory · 10/8/2026, 1:16:03 AM
+					937 Audit 181 · qwen3:1.7b · scope aware · 10/8/2026, 1:16:03 AM
+					938 Audit 180 · qwen3:1.7b · strong rule based · 10/8/2026, 1:16:03 AM
+					939 Audit 179 · qwen3:1.7b · weak first hit · 10/8/2026, 1:16:03 AM
+					940 Audit 178 · qwen3:1.7b · full context · 10/8/2026, 1:16:03 AM
+					941 Audit 177 · qwen3:1.7b · no memory · 10/8/2026, 1:16:03 AM
+					942 Audit 176 · qwen3:1.7b · scope aware · 10/8/2026, 1:14:25 AM
+					943 Audit 175 · qwen3:1.7b · strong rule based · 10/8/2026, 1:14:25 AM
+					944 Audit 174 · qwen3:1.7b · weak first hit · 10/8/2026, 1:14:25 AM
+					945 Audit 173 · qwen3:1.7b · full context · 10/8/2026, 1:14:25 AM
+					946 Audit 172 · qwen3:1.7b · no memory · 10/8/2026, 1:14:25 AM
+					947 Audit 171 · qwen3:1.7b · scope aware · 10/8/2026, 1:14:25 AM
+					948 Audit 170 · qwen3:1.7b · strong rule based · 10/8/2026, 1:14:25 AM
+					949 Audit 169 · qwen3:1.7b · weak first hit · 10/8/2026, 1:14:25 AM
+					950 Audit 168 · qwen3:1.7b · full context · 10/8/2026, 1:14:25 AM
+					951 Audit 167 · qwen3:1.7b · no memory · 10/8/2026, 1:14:25 AM
+					952 Audit 166 · qwen3:1.7b · scope aware · 10/8/2026, 1:11:37 AM
+					953 Audit 165 · qwen3:1.7b · strong rule based · 10/8/2026, 1:11:37 AM
+					954 Audit 164 · qwen3:1.7b · weak first hit · 10/8/2026, 1:11:37 AM
+					955 Audit 163 · qwen3:1.7b · full context · 10/8/2026, 1:11:37 AM
+					956 Audit 162 · qwen3:1.7b · no memory · 10/8/2026, 1:11:37 AM
+					957 Audit 161 · qwen3:1.7b · scope aware · 10/8/2026, 1:11:37 AM
+					958 Audit 160 · qwen3:1.7b · strong rule based · 10/8/2026, 1:11:37 AM
+					959 Audit 159 · qwen3:1.7b · weak first hit · 10/8/2026, 1:11:37 AM
+					960 Audit 158 · qwen3:1.7b · full context · 10/8/2026, 1:11:37 AM
+					961 Audit 157 · qwen3:1.7b · no memory · 10/8/2026, 1:11:37 AM
+					962 Audit 156 · qwen3:1.7b · scope aware · 10/8/2026, 1:01:32 AM
+					963 Audit 155 · qwen3:1.7b · strong rule based · 10/8/2026, 1:01:32 AM
+					964 Audit 154 · qwen3:1.7b · weak first hit · 10/8/2026, 1:01:32 AM
+					965 Audit 153 · qwen3:1.7b · full context · 10/8/2026, 1:01:32 AM
+					966 Audit 152 · qwen3:1.7b · no memory · 10/8/2026, 1:01:32 AM
+					967 Audit 151 · qwen3:1.7b · scope aware · 10/8/2026, 1:01:32 AM
+					968 Audit 150 · qwen3:1.7b · strong rule based · 10/8/2026, 1:01:32 AM
+					969 Audit 149 · qwen3:1.7b · weak first hit · 10/8/2026, 1:01:32 AM
+					970 Audit 148 · qwen3:1.7b · full context · 10/8/2026, 1:01:32 AM
+					971 Audit 147 · qwen3:1.7b · no memory · 10/8/2026, 1:01:32 AM
+					972 Audit 6 · qwen3:1.7b · strong rule based · 10/6/2026, 11:46:03 PM
+					973 Audit 5 · qwen3:1.7b · weak first hit · 10/6/2026, 11:46:03 PM
+					974 Audit 4 · qwen3:1.7b · strong rule based · 10/6/2026, 10:33:05 AM
+					975 Audit 3 · qwen3:1.7b · weak first hit · 10/6/2026, 10:33:05 AM
+					976 Audit 2 · rule-based-target-ai · strong rule based · 10/6/2026, 10:02:11 AM
+					977 Audit 1 · rule-based-target-ai · weak first hit · 10/6/2026, 10:02:11 AM
+			474 container Comparison takeaway
+				485 text ON THE SAME QUESTIONS
+				475 heading 1 answer improved, Value: 2
+					486 text 1 answer improved
+				487 text 4  shared questions 0  regressions 0  still failing
+				488 container
+					489 text Same model: qwen3:1.7b  · Memory approach:  strong rule based  →  scope aware
+				490 text Results are automatically assessed. A change in memory approach does not mean the model was trained.
+			978 text Check before interpreting improvement
+			979 content list
+				980 container
+					981 AXListMarker • 
+					982 text This synthetic pilot was pre-reviewed by AI. Independent human validation is still pending.
+			983 text Before improvement
+			492 text 75.0%
+			493 container
+				494 text 3  /  4  tests passed
+			495 container
+				496 text qwen3:1.7b  ·  strong rule based
+			476 link Description: Open full report →, Value: localhost:5173/audits/RUNCB51964989A46F4F74686EFE87843B
+			497 text After improvement
+			498 text 100.0%
+			499 container
+				500 text 4  /  4  tests passed
+			501 container
+				502 text qwen3:1.7b  ·  scope aware
+			477 link Description: Open full report →, Value: localhost:5173/audits/RUN584254EE85253C329E0E5B1E24F5CC
+			503 text Change on shared questions
+			504 text +25.0 pp
+			505 container
+				506 text 4  identical frozen questions
+			507 text Percentage points in paired pass rate. Each score is an automated assessment.
+			478 container Memory improvement charts
+				508 text MEMORY ABILITIES
+				479 heading Before and after, side by side, Value: 2
+					509 text Before and after, side by side
+				510 text Compare each ability on the same 0–100% scale.
+				480 container Chart question scope
+					481 checkbox Shared questions, Value: 1
+					482 checkbox Full test suites, Value: 0
+				483 container
+					511 container Memory ability pass rates before and after improvement Accuracy: before 0% (0/1), after 100% (1/1), change +100 pp. Freshness: before 100% (1/1), after 100% (1/1), change 0 pp. Conflict resolution: before 100% (1/1), after 100% (1/1), change 0 pp. Appropriate use: before 100% (1/1), after 100% (1/1), change 0 pp., Help: Accuracy: before 0% (0/1), after 100% (1/1), change +100 pp. Freshness: before 100% (1/1), after 100% (1/1), change 0 pp. Conflict resolution: before 100% (1/1), after 100% (1/1), change 0 pp. Appropriate use: before 100% (1/1), after 100% (1/1), change 0 pp.
+					512 text 4 identical questions  · Counts below the bars show passed / tested. An untested ability has no bar.
+					484 button Save chart (SVG)
+				513 container Shared question outcomes
+					514 text 1
+					515 text fixed ·
+					516 text 0
+					517 text regressed ·
+					518 text 3
+					519 text unchanged
+					520 text on shared questions
+			984 button (collapsed) View exact dimension scores, Secondary Actions: Expand
+				985 text View exact dimension scores
+			986 heading What changed on the same questions?, Value: 2
+				987 text What changed on the same questions?
+			988 checkbox Description: 1 Fixed, Value: 0
+				989 text 1
+				990 text Fixed
+			991 checkbox Description: 0 Regressed, Value: 0
+				992 text 0
+				993 text Regressed
+			994 checkbox Description: 0 Still failing, Value: 0
+				995 text 0
+				996 text Still failing
+			997 checkbox Description: 3 Still passing, Value: 0
+				998 text 3
+				999 text Still passing
+			1000 button (collapsed) Secondary Actions: Expand, Still passing Where should Juniper deployment secrets be kept, and how should the assistant proceed? conflict resolution
+				1001 AXListMarker ▸ 
+				1002 text Still passing
+				1003 text Where should Juniper deployment secrets be kept, and how should the assistant proceed?
+				1004 text conflict resolution
+			1005 button (collapsed) Still passing Which database does the Juniper backend use now? freshness, Secondary Actions: Expand
+				1006 AXListMarker ▸ 
+				1007 text Still passing
+				1008 text Which database does the Juniper backend use now?
+				1009 text freshness
+			1010 button (collapsed) Still passing Which programming language must be used for this assignment? appropriate use, Secondary Actions: Expand
+				1011 AXListMarker ▸ 
+				1012 text Still passing
+				1013 text Which programming language must be used for this assignment?
+				1014 text appropriate use
+			1015 button (collapsed) Fixed What city is recorded as the user's location? accuracy, Secondary Actions: Expand
+				1016 AXListMarker ▸ 
+				1017 text Fixed
+				1018 text What city is recorded as the user's location?
+				1019 text accuracy
+			1020 button (collapsed) Comparison settings, Secondary Actions: Expand
+				1021 text Comparison settings
+
+The focused UI element is 16 checkbox Presentation view, Value: 0

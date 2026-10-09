@@ -1,0 +1,249 @@
+{
+  "created_at": "2026-10-08T03:27:59.070802+00:00",
+  "base_rounds": 10,
+  "completed_ui_rounds": 27,
+  "distinct_new_issues": 14,
+  "minimum_required_rounds": 24,
+  "rule_satisfied": true,
+  "verification_mode": "visible_browser_controls",
+  "agent_direct_business_api_calls": 0,
+  "target_code_unchanged": true,
+  "frozen_target_sha256": {
+    "backend/app/target_ai/providers.py": "97fb4cd73228ac39864305e85fb0e83797a90eb9ccee4848194f76278945ac54",
+    "backend/app/target_ai/rule_based.py": "9c9a470621b6efb796ffe918700951d9f4005a93cbd568f33c69a14388a97a1b",
+    "backend/app/memory_agent/store.py": "d26a4bc9def0bba17adad8b9b2a8e93316d71b2da2cc2126cdd16ae75fc9d507",
+    "backend/app/memory_agent/writers.py": "14cba32bdb3b50f470f6a52fe2747d99358a5150bb60f0134cab01ae175ed4ce",
+    "backend/app/extraction/rule_based.py": "3a180fa2d89d9938d075948c1d03a3f5c19b77bda75929f15f904cda8a2794a9",
+    "backend/app/target_systems/controlled.py": "b268832d0d15cc97bdbc75a8c4daeab911a004820ea4ebb5523c282704c89f25"
+  },
+  "target_model": "qwen3:1.7b",
+  "training_performed": false,
+  "frontend_build": "passed",
+  "frontend_tests_passed": 53,
+  "human_annotation_submitted_by_ai": false,
+  "rounds": [
+    {
+      "round": 1,
+      "title": "首页与历史搜索",
+      "finding": "搜索页面展示的 Audit 361 返回零条",
+      "repair": "搜索加入用户看到的审计名称、策略和服务名称",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 2,
+      "title": "历史分页",
+      "finding": "首页一次展示361条记录，没有分页",
+      "repair": "每页20条，增加前后翻页和筛选自动回到首页",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 3,
+      "title": "清空草稿与刷新",
+      "finding": "清空草稿却自动填入示例，空草稿刷新又被示例替代",
+      "repair": "清空后保持空白，恢复草稿使用空值合并",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 4,
+      "title": "标准记忆完整审核",
+      "finding": "只审核一条时仍能跳过另一条候选记忆",
+      "repair": "所有候选都有决定后才能继续，仍要求至少一条有效记忆",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 5,
+      "title": "记忆编辑失败保留",
+      "finding": "无效时间保存后编辑器消失且显示 object Object",
+      "repair": "本地校验时间，等待保存成功再关闭；失败保留编辑内容",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 6,
+      "title": "输入错误友好提示",
+      "finding": "服务器校验失败显示 object Object",
+      "repair": "解析字段校验错误，显示可读原因而非对象字符串",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 7,
+      "title": "运行配置边界",
+      "finding": "测试预算为零时仍可点击运行，数值可为小数",
+      "repair": "预算、重复次数、容量统一限制为有效范围内整数",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 8,
+      "title": "重新生成保留证据与题目覆盖",
+      "finding": "重生成偏好题被替换为重复的地点题",
+      "repair": "限定同一支持记忆并排除其他题目的重复问题",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 9,
+      "title": "运行阶段反馈",
+      "finding": "Qwen正在执行时进度列表仍显示Waiting",
+      "repair": "增加执行、评估和恢复阶段状态，界面显示执行中",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 10,
+      "title": "历史题数与报告一致性",
+      "finding": "历史将预算4写成已运行4题，但实际报告只有2题",
+      "repair": "明确标注最多四题的预算，实际题数保留在报告",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 11,
+      "title": "单次报告与记忆轨迹",
+      "finding": null,
+      "repair": "报告、失败解释、两次检索、供应数量一致；未检索到地点时 Qwen 承认不知道",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 12,
+      "title": "评估复核界面",
+      "finding": null,
+      "repair": "独立标签、角色、备注与自动结果分开显示；未将 AI 操作提交为人工标签",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 13,
+      "title": "前后对比与图表",
+      "finding": null,
+      "repair": "检查双色柱状图、精确分数、同题前后回答、全部与共享题切换、统计限制提示",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 14,
+      "title": "实验页面可浏览性",
+      "finding": "实验页同时绘制全部历史实验和大量图表，研究区被推到页面末尾",
+      "repair": "每页三组实验，增加前后翻页，保留研究工具区",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 15,
+      "title": "研究文件上传与基准校验",
+      "finding": null,
+      "repair": "通过文件选择器上传合成本地样例，界面验证两条记录；未把兼容样例宣称官方分数",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 16,
+      "title": "项目说明页",
+      "finding": null,
+      "repair": "描述明确区分语言模型与记忆策略，四维度与当前配置一致",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 17,
+      "title": "数据导出与删除保护",
+      "finding": null,
+      "repair": "从按钮下载有效JSON并留存；打开删除确认时按钮禁用，关闭确认，未删除任何记录",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 18,
+      "title": "翻页后筛选与空结果",
+      "finding": null,
+      "repair": "第二页搜索最新友好名称返回一条并回第一页；无匹配提示正常，清空后恢复",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 19,
+      "title": "对话JSON导入与错误恢复",
+      "finding": null,
+      "repair": "错误文件保留原文并提示原因，正确文件显示两条消息并保留时间；授权前无法继续",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 20,
+      "title": "补充记忆失败保留草稿",
+      "finding": "新增记忆保存失败会关闭表单并清空文本",
+      "repair": "等待成功再关闭，失败保留文本和可读错误，禁止重复保存",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 21,
+      "title": "撤销审核与继续按钮回归",
+      "finding": null,
+      "repair": "接受后撤销恢复待审计数和按钮，仍无法跳过其他候选；新增失败没有遗留第三条记录",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 22,
+      "title": "取消后的剩余队列",
+      "finding": "单条件取消后仍出现继续剩余条件按钮，但实际没有剩余条件",
+      "repair": "根据未完成且未取消条件显示按钮，无剩余时提供历史记录入口",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 23,
+      "title": "取消运行证据入口",
+      "finding": "已取消记录仍说完成后才有报告，无法从历史查看保留证据",
+      "repair": "历史卡片提供保留回答和检索轨迹入口，取消记录不可恢复",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 24,
+      "title": "恢复计划与取消状态隔离",
+      "finding": null,
+      "repair": "未完成运行可检查恢复计划；取消运行不显示恢复按钮，旧失败实验保留且不重跑",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 25,
+      "title": "双人标注与正式实验门槛",
+      "finding": null,
+      "repair": "上传空白标注模板显示零覆盖和未就绪；确认合成数据后正式矩阵按钮仍禁用",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 26,
+      "title": "审计系统效度数据入口",
+      "finding": null,
+      "repair": "合成标签文件校验成功，显示记忆、关系、题目和评估数量；无预测文件时不生成虚假的效度指标",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    },
+    {
+      "round": 27,
+      "title": "实验复现资料导出",
+      "finding": null,
+      "repair": "通过界面导出可打开的ZIP，包含冻结题目、Qwen回答、评估、结果及检索轨迹",
+      "verification": "Rechecked through visible browser controls",
+      "direct_api_calls": 0
+    }
+  ],
+  "limits": [
+    "UI inspection rounds are not repeated full model experiments.",
+    "Independent human validation remains pending.",
+    "Destructive deletion was inspected before submission only.",
+    "Formal matrix execution was blocked correctly by missing independent labels.",
+    "No real OpenRouter calls were performed in this UI review."
+  ]
+}
