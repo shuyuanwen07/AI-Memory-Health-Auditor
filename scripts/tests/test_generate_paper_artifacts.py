@@ -5,10 +5,9 @@ import csv
 import hashlib
 import importlib.util
 import json
-from pathlib import Path
 import tempfile
 import unittest
-
+from pathlib import Path
 
 SCRIPT = Path(__file__).parents[1] / "generate_paper_artifacts.py"
 SPEC = importlib.util.spec_from_file_location("paper_artifacts", SCRIPT)

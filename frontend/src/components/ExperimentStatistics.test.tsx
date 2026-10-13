@@ -1,4 +1,5 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { calculateExperimentStatistics, ExperimentStatistics } from './ExperimentStatistics';
 import type { AuditResult } from '../types/domain';
 
@@ -63,4 +64,19 @@ test('keeps awaiting answers visible in aggregated condition totals', () => {
   expect(screen.getByRole('columnheader',{name:'Awaiting review'})).toBeTruthy();
   expect(screen.getByText('3 / 5 answers')).toBeTruthy();
   expect(calculateExperimentStatistics([{label:'Qwen scope',result:partial}])[0].uncertainCount).toBe(3);
+});
+
+test('dimension details retain measured zeros without inventing pass or failure counts for missing decisions', async () => {
+  const partial = auditResult('PARTIAL',100,null);
+  partial.dimensions = partial.dimensions.filter(item => item.dimension !== 'conflict_resolution')
+    .map(item => item.dimension === 'appropriate_use' ? {...item, percentage:null, total:0, passed:0, uncertain_count:1} : item);
+  partial.tests_passed = partial.tests_total = 1;
+  partial.uncertain_count = 1;
+  render(<ExperimentStatistics runs={[{label:'Partial setting',result:partial}]} />);
+  await userEvent.setup().click(screen.getByText('Partial setting: dimension averages and failures'));
+  const cells = (dimension:string) => within(screen.getByText(dimension).closest('tr')!).getAllByRole('cell').map(cell=>cell.textContent);
+  expect(cells('Accuracy').slice(1)).toEqual(['100%','1 / 1','1 / 1','0 failures']);
+  expect(cells('Freshness').slice(1)).toEqual(['Not tested','Not tested','0 / 1','Not tested']);
+  expect(cells('Appropriate Use')[2]).toBe('Awaiting review');
+  expect(cells('Appropriate Use')[4]).toBe('Awaiting review');
 });

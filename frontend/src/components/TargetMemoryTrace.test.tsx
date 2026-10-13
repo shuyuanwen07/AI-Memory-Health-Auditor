@@ -1,3 +1,4 @@
+import { MemoryRouter } from 'react-router-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { TargetMemoryTrace } from './TargetMemoryTrace';
@@ -60,4 +61,34 @@ test('shows supplied diagnostic evidence even when it is outside normal ranking'
   await userEvent.click(await screen.findByRole('button', { name: /Retrieval 1/ }));
   expect(screen.getByText('Memory record 3 · supplied to target')).toBeTruthy();
   expect(screen.getByText(/Supplied outside ordinary retrieval ranking/)).toBeTruthy();
+});
+
+test('clears original retrieval evidence when switching to another audit',async()=>{
+  mocks.targetMemoryTrace.mockResolvedValue(trace);
+  const view=render(<TargetMemoryTrace runId="RUN1"/>);
+  await userEvent.click(screen.getByRole('button',{name:'Inspect Memory Trace'}));
+  expect(await screen.findByRole('heading',{name:'Stored memories'})).toBeInTheDocument();
+  view.rerender(<TargetMemoryTrace runId="RUN2"/>);
+  expect(screen.queryByRole('heading',{name:'Stored memories'})).not.toBeInTheDocument();
+  expect(screen.getByRole('button',{name:'Inspect Memory Trace'})).toBeEnabled();
+});
+
+
+test('saved-answer reuse is informational and directs evidence to the original execution',async()=>{
+  mocks.targetMemoryTrace.mockResolvedValue({...trace,shared_answer_source_run_id:'ORIGINAL',records:[],retrievals:[]});
+  render(<MemoryRouter><TargetMemoryTrace runId="REPLAY"/></MemoryRouter>);
+  await userEvent.click(screen.getByRole('button',{name:'Inspect Memory Trace'}));
+  expect(await screen.findByRole('status')).toHaveTextContent('reused the saved target answers without another model call');
+  expect(screen.queryByRole('alert')).toBeNull();
+  expect(screen.getByRole('link',{name:'View the original memory and model-input evidence'})).toHaveAttribute('href','/audits/ORIGINAL');
+});
+
+
+test('missing saved update settings do not invent consolidation or a retained-record limit',async()=>{
+  mocks.targetMemoryTrace.mockResolvedValue({...trace,memory_maintenance_policy:null,target_memory_capacity:null});
+  render(<TargetMemoryTrace runId="LEGACY"/>);
+  await userEvent.click(screen.getByRole('button',{name:'Inspect Memory Trace'}));
+  expect(await screen.findByText(/Memory updates:/)).toHaveTextContent('Memory updates: Not recorded');
+  expect(screen.getByText(/Configured retained-record limit/)).toHaveTextContent('Configured retained-record limit: Not recorded');
+  expect(screen.queryByText(/Replace outdated facts/)).toBeNull();
 });

@@ -30,9 +30,14 @@ class LongMemEvalCase(BaseModel):
 
 
 class LongMemEvalImportRequest(BaseModel):
-    """Raw JSON from a locally obtained, licence-compliant source file."""
+    """Raw JSON from a locally obtained, licence-compliant source file.
+
+    Even validation parses conversation data, so callers must explicitly
+    authorise that processing before the adapter examines the payload.
+    """
 
     payload: dict | list
+    source_authorised: bool = False
 
 
 class LongMemEvalImportReport(BaseModel):
@@ -48,6 +53,16 @@ class LongMemEvalValidationResponse(BaseModel):
     report: LongMemEvalImportReport
     # Small metadata previews, not full source conversations.
     cases: list[LongMemEvalCase]
+
+
+class BenchmarkDatasetProvenance(BaseModel):
+    """Caller-declared source metadata for an authorised local benchmark subset."""
+
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    dataset_version: str = Field(min_length=1, max_length=120)
+    license: str = Field(min_length=1, max_length=1000)
+    citation: str = Field(min_length=1, max_length=2000)
 
 
 class LongMemEvalRunRequest(BaseModel):
@@ -152,8 +167,12 @@ class LongMemEvalRunResponse(BaseModel):
 # deliberately small local compatibility boundary; they do not claim complete
 # parser coverage or reproduce an upstream scorer.
 class LocalCompatibleImportRequest(BaseModel):
-    """Caller-supplied JSON for a permitted local LoCoMo/BEAM-style source."""
+    """Caller-supplied JSON for a permitted local LoCoMo/BEAM-style source.
+
+    Validation is data processing and requires an explicit source declaration.
+    """
     payload: dict | list
+    source_authorised: bool = False
 
 
 class LocalCompatibleRunRequest(LocalCompatibleImportRequest):
@@ -212,10 +231,11 @@ class LiveBenchmarkRequest(BaseModel):
     payload: dict | list
     source_authorised: bool = False
     source_label: str | None = Field(default=None, max_length=160)
+    dataset_provenance: BenchmarkDatasetProvenance
     random_seed: int = 42
     provider: TargetProvider = TargetProvider.OLLAMA
     model: str = Field(default="qwen3:1.7b", min_length=1, max_length=100)
-    strategies: list[MemoryStrategy] = Field(default_factory=lambda: [MemoryStrategy.WEAK_FIRST_HIT, MemoryStrategy.SCOPE_AWARE], min_length=1, max_length=4)
+    strategies: list[MemoryStrategy] = Field(default_factory=lambda: [MemoryStrategy.WEAK_FIRST_HIT, MemoryStrategy.STRONG_RULE_BASED], min_length=1, max_length=4)
     temperature: float = Field(default=0, ge=0, le=2)
     target_memory_capacity: int = Field(default=50, ge=1, le=500)
     target_memory_profile: TargetMemoryProfile = Field(default_factory=TargetMemoryProfile)
@@ -257,14 +277,19 @@ class LiveBenchmarkResponse(BaseModel):
     run_id: str
     source_fingerprint_sha256: str
     configuration_fingerprint_sha256: str
+    dataset_provenance: BenchmarkDatasetProvenance | None = None
     runner_version: str
     adapter_version: str
+    adapter_fingerprint_sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
+    compatibility_limitations: list[str] = Field(default_factory=list)
     target_adapter_version: str
     writer_version: str
     reader_configuration: str = "strong"
     provider: TargetProvider
     model: str
     temperature: float
+    random_seed: int | None = None
+    audit_runtime_signature: dict[str, str] | None = None
     seed_control: str
     target_memory_capacity: int
     target_memory_profile: TargetMemoryProfile

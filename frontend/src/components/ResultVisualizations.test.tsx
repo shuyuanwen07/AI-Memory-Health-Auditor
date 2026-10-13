@@ -1,6 +1,8 @@
-import { render, screen } from '@testing-library/react';
+import { UIProvider } from './ui';
+import { render, screen, waitFor } from '@testing-library/react';
 import { ComparisonVisualizations, ScoreRadarChart } from './ResultVisualizations';
 import type { AuditResult } from '../types/domain';
+import { calculateExperimentStatistics } from './ExperimentStatistics';
 
 function result(runId: string, overall: number, freshness: number): AuditResult {
   return {
@@ -24,6 +26,51 @@ function result(runId: string, overall: number, freshness: number): AuditResult 
   };
 }
 
+test('keeps different frozen conditions separate even when their display names match', () => {
+  const runs = [
+    {label:'Original configuration', groupLabel:'Same name', groupKey:'internal-condition-one', result:result('ONE',25,0)},
+    {label:'Original configuration', groupLabel:'Same name', groupKey:'internal-condition-two', result:result('TWO',75,100)},
+  ];
+  const groups = calculateExperimentStatistics(runs);
+  expect(groups.map(group => group.overallAverage)).toEqual([25,75]);
+  expect(groups.map(group => group.runs)).toEqual([1,1]);
+  render(<ComparisonVisualizations runs={runs} />);
+  expect(screen.getByRole('img', {name:/Horizontal bar chart.*Same name · Setting 1: 25%.*Same name · Setting 2: 75%/})).toBeInTheDocument();
+  expect(screen.queryByText(/internal-condition/)).not.toBeInTheDocument();
+});
+
+test('a completed assessor keeps its plan colour when preceding assessors have no result',()=>{
+  const {container}=render(<ComparisonVisualizations compact hideFailureChart runs={[
+    {label:'Third assessor',groupKey:'third-assessor',colour:'#b7791f',result:result('SAVED',75,100)},
+  ]}/>);
+  const bars=container.querySelectorAll('.dimension-column');
+  expect(bars.length).toBeGreaterThan(0);
+  bars.forEach(bar=>expect(bar).toHaveStyle({backgroundColor:'#b7791f'}));
+});
+
+test('does not invent zero variation when a repeated condition has only one decided score', () => {
+  const pending: AuditResult = {...result('PENDING',0,0), overall_score:null, tests_passed:0, tests_total:0, failures:[], uncertain_count:4,
+    dimensions:result('PENDING',0,0).dimensions.map(score => ({...score, percentage:null, passed:0, total:0, uncertain_count:1}))};
+  render(<ComparisonVisualizations runs={[
+    {label:'First attempt', groupKey:'same-condition', groupLabel:'Repeated setting', result:result('SCORED',75,100)},
+    {label:'Second attempt', groupKey:'same-condition', groupLabel:'Repeated setting', result:pending},
+  ]} />);
+  const chart = screen.getByRole('img', {name:/Horizontal bar chart.*Repeated setting: 75% tested-ability average · n=1 scored run; 4 decided answers; 4 awaiting review.*variation not measured/});
+  expect(chart).toBeInTheDocument();
+  expect(chart.getAttribute('aria-label')).not.toContain('± 0');
+  expect(screen.getByText(/Repeated setting: n=1 scored run; 4 decided answers; 4 awaiting review/)).toBeInTheDocument();
+});
+
+test('keeps an entirely unmeasured condition visible as pending instead of plotting zero', () => {
+  const pending: AuditResult = {...result('PENDING-ONLY', 0, 0), overall_score:null, tests_passed:0, tests_total:0,
+    failures:[], uncertain_count:4, dimensions:result('PENDING-ONLY', 0, 0).dimensions.map(score =>
+      ({...score, percentage:null, passed:0, total:0, uncertain_count:1}))};
+  render(<ComparisonVisualizations runs={[{label:'Pending only', result:pending}]}/>);
+
+  expect(screen.getByRole('img', {name:/Horizontal bar chart\. Pending only: Not measured.*n=0 scored runs; 0 decided answers; 4 awaiting review/})).toBeInTheDocument();
+  expect(screen.getByText('Pending only: Overall not measured · n=0 scored runs; 0 decided answers; 4 awaiting review')).toBeInTheDocument();
+});
+
 test('renders the accessible four-dimension Memory Health profile', () => {
   render(<ScoreRadarChart result={result('RUN-RADAR', 68.75, 50)} />);
 
@@ -42,6 +89,20 @@ test('keeps an untested dimension out of the chart as Not tested rather than zer
   expect(screen.getByText(/Conflict Resolution: Not tested/)).toBeTruthy();
 });
 
+test('failure counts distinguish untested, pending-only and measured zero dimensions', () => {
+  const partial = result('PARTIAL', 100, 100);
+  partial.dimensions = partial.dimensions.filter(item => item.dimension !== 'conflict_resolution')
+    .map(item => item.dimension === 'appropriate_use' ? {...item, percentage:null, passed:0, total:0, uncertain_count:1}
+      : item.dimension === 'accuracy' ? {...item, uncertain_count:1} : item);
+  partial.uncertain_count = 2;
+  render(<ComparisonVisualizations runs={[{label:'Partial setting',result:partial}]} />);
+  const chart = screen.getByRole('img', {name:/Grouped failure bar chart/});
+  expect(chart).toHaveAccessibleName(/Accuracy: Partial setting 0 failures · 1 awaiting review · n=1 decided answer/);
+  expect(chart).toHaveAccessibleName(/Freshness: Partial setting 0 failures · n=1 decided answer/);
+  expect(chart).toHaveAccessibleName(/Conflict Resolution: Partial setting Not tested · n=0 decided answers/);
+  expect(chart).toHaveAccessibleName(/Appropriate Use: Partial setting Awaiting review · n=0 decided answers · 1 awaiting review/);
+});
+
 test('renders overall, dimension, and failure comparison charts for experimental conditions', () => {
   render(<ComparisonVisualizations runs={[
     { label: 'Weak run one', groupLabel: 'Weak Memory', result: result('RUN-WEAK-1', 50, 0) },
@@ -52,10 +113,10 @@ test('renders overall, dimension, and failure comparison charts for experimental
   expect(screen.getByRole('heading', { name: 'Visual Comparison' })).toBeTruthy();
   expect(screen.getByRole('heading', { name: 'Tested Ability Average by Condition' })).toBeTruthy();
   expect(screen.getByRole('heading', { name: 'Dimension Comparison' })).toBeTruthy();
-  expect(screen.getByRole('heading', { name: 'Detected Failure Distribution' })).toBeTruthy();
+  expect(screen.getByRole('heading', { name: 'Failed Tests by Tested Ability' })).toBeTruthy();
   expect(screen.getByRole('img', { name: /Horizontal bar chart\. Weak Memory: 55%.*Strong Memory: 90%/ })).toBeTruthy();
-  expect(screen.getByRole('img', { name: /Grouped bar chart\. Accuracy: Weak Memory 100%, Strong Memory 100%/ })).toBeTruthy();
-  expect(screen.getByRole('img', { name: /Grouped failure bar chart\. .*Freshness: Weak Memory 2, Strong Memory 0/ })).toBeTruthy();
+  expect(screen.getByRole('img', { name: /Grouped bar chart\. Accuracy: Weak Memory 100% average · n=2 decided answers · 2 measured runs, Strong Memory 100% average · n=1 decided answer · 1 measured run/ })).toBeTruthy();
+  expect(screen.getByRole('img', { name: /Grouped failure bar chart\. .*Freshness: Weak Memory 2 failures · n=2 decided answers, Strong Memory 0 failures · n=1 decided answer/ })).toBeTruthy();
 });
 
 test('keeps provider/model labels with dots as display names rather than Recharts data paths', () => {
@@ -66,8 +127,8 @@ test('keeps provider/model labels with dots as display names rather than Rechart
 
   // This accessible summary comes from the same keyed data series as the
   // rendered bars. A dotted display label must retain its actual values.
-  expect(screen.getByRole('img', { name: /Accuracy: Ollama · qwen3:1.7b · Weak 100%, Ollama · qwen3:1.7b · Strong 100%/ })).toBeTruthy();
-  expect(screen.getByRole('img', { name: /Freshness: Ollama · qwen3:1.7b · Weak 0%, Ollama · qwen3:1.7b · Strong 100%/ })).toBeTruthy();
+  expect(screen.getByRole('img', { name: /Accuracy: Ollama · qwen3:1.7b · Weak 100% average · n=1 decided answer · 1 measured run, Ollama · qwen3:1.7b · Strong 100% average · n=1 decided answer · 1 measured run/ })).toBeTruthy();
+  expect(screen.getByRole('img', { name: /Freshness: Ollama · qwen3:1.7b · Weak 0% average · n=1 decided answer · 1 measured run, Ollama · qwen3:1.7b · Strong 100% average · n=1 decided answer · 1 measured run/ })).toBeTruthy();
 });
 
 
@@ -75,8 +136,8 @@ test('comparison distinguishes pending judgments from untested dimensions', () =
   const pending = result('PENDING', 100, 100);
   pending.dimensions[3] = { dimension: 'appropriate_use', percentage: null, passed: 0, total: 0, uncertain_count: 1 };
   render(<ComparisonVisualizations runs={[{ label: 'Qwen pending', result: pending }]} />);
-  expect(screen.getByRole('img', { name: /Grouped bar chart.*Appropriate Use: Qwen pending Awaiting review/ })).toBeTruthy();
-  expect(screen.getByText('Awaiting review')).toBeTruthy();
+  expect(screen.getByRole('img', { name: /Grouped bar chart.*Appropriate Use: Qwen pending Awaiting review · n=0 decided answers · 1 awaiting review/ })).toBeTruthy();
+  expect(screen.getAllByText(/Awaiting review/)).toHaveLength(2);
 });
 
 
@@ -84,7 +145,7 @@ test('shows pending coverage above aggregate charts instead of implying every an
   const partial = {...result('PENDING',100,100), tests_total:2, tests_passed:2, uncertain_count:3, evaluated_count:5};
   render(<ComparisonVisualizations runs={[{label:'Qwen · Scope-Aware',result:partial}]} />);
   expect(screen.getByText('3 answers await review')).toBeTruthy();
-  expect(screen.getByText(/2 \/ 5 answers decided · 3 awaiting review/)).toBeTruthy();
+  expect(screen.getByText(/n=1 scored run; 2 decided answers; 3 awaiting review/)).toBeTruthy();
   expect(screen.getByText(/does not mean all executed answers passed/)).toBeTruthy();
 });
 
@@ -99,4 +160,38 @@ test('retains compact model identity when matching strategy has an unscored peer
   expect(screen.getAllByText('qwen3:1.7b · Full Context').length).toBeGreaterThan(0);
   expect(screen.getAllByText('qwen3:4b · Full Context').length).toBeGreaterThan(0);
   expect(screen.getByRole('img', {name:/Horizontal bar chart/})).not.toHaveAccessibleName(/qwen3:4b.*100%/);
+});
+
+
+it('warns when an apparent average increase excludes abilities that remain uncertain',()=>{
+  const original=result('original',25,0);
+  const candidate=result('candidate',50,0);
+  candidate.dimensions=candidate.dimensions.map(dimension=>dimension.dimension==='freshness'?{...dimension,percentage:null,total:0,uncertain_count:1}:dimension);
+  candidate.uncertain_count=1;
+  render(<ComparisonVisualizations runs={[{label:'Original',result:original},{label:'Candidate',result:candidate}]}/>);
+  expect(screen.getByText('Different score coverage')).toBeInTheDocument();
+  expect(screen.getByText(/their averages are not directly comparable/)).toBeInTheDocument();
+});
+
+
+test('compact presentation leads with one grouped dimension chart and keeps supplemental charts expandable', async()=>{
+  const user=(await import('@testing-library/user-event')).default.setup();
+  render(<UIProvider><ComparisonVisualizations compact runs={[{label:'Original',result:result('before',25,0)},{label:'Candidate',result:result('after',100,100)}]}/></UIProvider>);
+  expect(screen.getByRole('img',{name:/Grouped bar chart/})).toBeVisible();
+  expect(screen.queryByRole('img',{name:/Horizontal bar chart/})).toBeNull();
+  await user.click(screen.getByRole('button',{name:'Average scores & failed-question counts'}));
+  await waitFor(()=>expect(screen.getByRole('heading',{name:'Tested Ability Average by Condition'})).toBeVisible());
+  expect(screen.getByRole('img',{name:/Horizontal bar chart/})).toBeInTheDocument();
+  expect(screen.getByRole('img',{name:/Grouped failure bar chart/})).toBeVisible();
+});
+
+
+test('radar and grouped comparisons distinguish unavailable evidence from untested dimensions',()=>{
+ const unavailable=result('unavailable',100,100);
+ unavailable.dimensions=unavailable.dimensions.map(d=>d.dimension==='accuracy'?{...d,percentage:null,total:0,passed:0,expected_tests:1,excluded_evidence_count:1}:d);
+ const {unmount}=render(<ScoreRadarChart result={unavailable}/>);
+ expect(screen.getByRole('img',{name:/Radar chart: Accuracy: Evidence unavailable/})).toBeInTheDocument();
+ unmount();
+ render(<UIProvider><ComparisonVisualizations compact runs={[{label:'Test setting',result:unavailable}]}/></UIProvider>);
+ expect(screen.getByRole('img',{name:/Grouped bar chart.*Accuracy:.*Evidence unavailable/})).toBeInTheDocument();
 });

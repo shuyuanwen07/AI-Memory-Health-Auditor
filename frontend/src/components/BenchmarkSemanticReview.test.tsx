@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, expect, test, vi } from 'vitest';
 import { BenchmarkSemanticReview } from './BenchmarkSemanticReview';
@@ -14,16 +14,17 @@ async function upload(kind:string,value:unknown,name:string){
   fireEvent.change(screen.getByLabelText(`Semantic review ${kind}`),{target:{files:[new File([typeof value==='string'?value:JSON.stringify(value)],name,{type:'application/json'})]}});
   await screen.findByText(name);
 }
-async function files(){await upload('source',source,'original.json');await upload('evidence',evidence,'saved.json');await upload('scores',JSON.stringify(row)+'\n','scores.jsonl');}
+async function files(user=userEvent.setup()){await user.click(screen.getByLabelText('Semantic review source authorisation'));await upload('source',source,'original.json');await upload('evidence',evidence,'saved.json');await upload('scores',JSON.stringify(row)+'\n','scores.jsonl');}
 
 test('requires matching source evidence scores and declared revision, without starting model calls',async()=>{
   const user=userEvent.setup();render(<BenchmarkSemanticReview/>);
+  for(const kind of ['source','evidence','scores'])expect(screen.getByLabelText(`Semantic review ${kind}`)).toBeDisabled();
   expect(screen.getByRole('button',{name:'Validate & compare assessments'})).toBeDisabled();
-  await files();expect(screen.getByRole('button',{name:'Validate & compare assessments'})).toBeDisabled();
+  await files(user);expect(screen.getByRole('button',{name:'Validate & compare assessments'})).toBeDisabled();
   await user.type(screen.getByLabelText('Semantic review evaluator revision'),'0'.repeat(40));
   await user.click(screen.getByRole('button',{name:'Validate & compare assessments'}));
   await screen.findByText('Imported automated assessment summary');
-  expect(calls.importSemanticReview).toHaveBeenCalledWith({source,evidence,rows:[row],strategy:'no_memory',evaluator_revision:'0'.repeat(40)});
+  expect(calls.importSemanticReview).toHaveBeenCalledWith({source,source_authorised:true,evidence,rows:[row],strategy:'no_memory',evaluator_revision:'0'.repeat(40)});
   expect(screen.getByText('Assessment incomplete — no overall score is shown.')).toBeInTheDocument();
   expect(screen.getByText(/1 assessments differ/)).toBeInTheDocument();
   expect(screen.queryByText('50% labelled correct in this saved pilot')).not.toBeInTheDocument();
@@ -36,7 +37,7 @@ test('requires matching source evidence scores and declared revision, without st
 
 test('reports complete pilot separately and invalidates stale report on edits',async()=>{
   calls.importSemanticReview.mockResolvedValue({...report,reviewed:2,pending:0,percentage:50});
-  const user=userEvent.setup();render(<BenchmarkSemanticReview/>);await files();
+  const user=userEvent.setup();render(<BenchmarkSemanticReview/>);await files(user);
   await user.type(screen.getByLabelText('Semantic review evaluator revision'),'0'.repeat(40));await user.click(screen.getByRole('button',{name:'Validate & compare assessments'}));
   await screen.findByText('50% labelled correct in this saved pilot');
   expect(screen.getByText(/Complete pilot coverage is not an official full-benchmark score/)).toBeInTheDocument();
@@ -46,17 +47,42 @@ test('reports complete pilot separately and invalidates stale report on edits',a
 });
 
 test('rejects malformed files and clears prior valid score file',async()=>{
-  const user=userEvent.setup();render(<BenchmarkSemanticReview/>);await files();await user.type(screen.getByLabelText('Semantic review evaluator revision'),'0'.repeat(40));
+  const user=userEvent.setup();render(<BenchmarkSemanticReview/>);await files(user);await user.type(screen.getByLabelText('Semantic review evaluator revision'),'0'.repeat(40));
   fireEvent.change(screen.getByLabelText('Semantic review scores'),{target:{files:[new File(['{"bad"}'],'bad.jsonl')]}});
   await screen.findByText('Choose a valid JSON file, or one complete JSON object per line for evaluation output.');
   expect(screen.getByRole('button',{name:'Validate & compare assessments'})).toBeDisabled();expect(calls.importSemanticReview).not.toHaveBeenCalled();
 });
 
 test('server rejects different saved reply and does not retain an old success report',async()=>{
-  const user=userEvent.setup();render(<BenchmarkSemanticReview/>);await files();await user.type(screen.getByLabelText('Semantic review evaluator revision'),'0'.repeat(40));
+  const user=userEvent.setup();render(<BenchmarkSemanticReview/>);await files(user);await user.type(screen.getByLabelText('Semantic review evaluator revision'),'0'.repeat(40));
   await user.click(screen.getByRole('button',{name:'Validate & compare assessments'}));await screen.findByText('Imported automated assessment summary');
   calls.importSemanticReview.mockRejectedValue(new Error('An evaluated hypothesis differs from the exact saved reply.'));
   await user.click(screen.getByRole('button',{name:'Validate & compare assessments'}));
   await screen.findByText('An evaluated hypothesis differs from the exact saved reply.');
   expect(screen.queryByText('Imported automated assessment summary')).not.toBeInTheDocument();
+});
+
+test('revoking consent clears every imported file and disables all inputs',async()=>{
+  const user=userEvent.setup();render(<BenchmarkSemanticReview/>);await files(user);
+  await user.click(screen.getByLabelText('Semantic review source authorisation'));
+  for(const kind of ['source','evidence','scores']){
+    expect(screen.getByLabelText(`Semantic review ${kind}`)).toBeDisabled();
+    expect(screen.getAllByText('No file selected')).toHaveLength(3);
+  }
+  expect(screen.getByRole('button',{name:'Validate & compare assessments'})).toBeDisabled();
+  expect(calls.importSemanticReview).not.toHaveBeenCalled();
+});
+
+test('ignores a late semantic-review file read after consent is revoked',async()=>{
+  const user=userEvent.setup();render(<BenchmarkSemanticReview/>);
+  await user.click(screen.getByLabelText('Semantic review source authorisation'));
+  let resolveRead!:(value:string)=>void;
+  const file=new File(['pending'],'slow.json',{type:'application/json'});
+  Object.defineProperty(file,'text',{value:()=>new Promise<string>(resolve=>{resolveRead=resolve;})});
+  fireEvent.change(screen.getByLabelText('Semantic review source'),{target:{files:[file]}});
+  await user.click(screen.getByLabelText('Semantic review source authorisation'));
+  await act(async()=>resolveRead(JSON.stringify(source)));
+  expect(screen.getAllByText('No file selected')).toHaveLength(3);
+  expect(screen.getByLabelText('Semantic review source')).toBeDisabled();
+  expect(calls.importSemanticReview).not.toHaveBeenCalled();
 });

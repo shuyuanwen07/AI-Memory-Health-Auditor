@@ -1,0 +1,22 @@
+{
+  "messages": [
+    {
+      "message_id": "CANDIDATE-06-MSG-1",
+      "role": "user",
+      "content": "I generally prefer walking tours.",
+      "timestamp": "2026-10-11T01:00:00+00:00"
+    },
+    {
+      "message_id": "CANDIDATE-06-MSG-2",
+      "role": "user",
+      "content": "For this accessibility tour use step-free transport.",
+      "timestamp": "2026-10-11T02:00:00+00:00"
+    },
+    {
+      "message_id": "CANDIDATE-06-MSG-3",
+      "role": "user",
+      "content": "The walk preference remains for my personal weekend plans.",
+      "timestamp": "2026-10-11T03:00:00+00:00"
+    }
+  ]
+}

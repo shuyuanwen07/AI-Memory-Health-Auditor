@@ -17,6 +17,8 @@ class SemanticReviewService:
     VERSION = "bound-upstream-review-v1"
 
     def analyse(self, request: SemanticReviewRequest) -> SemanticReviewReport:
+        if not request.source_authorised:
+            raise ValueError("Confirm source_authorised=true before processing the local benchmark source.")
         if len(json.dumps(request.model_dump(mode="json"), ensure_ascii=False).encode()) > 10_000_000:
             raise ValueError("Choose a saved pilot package smaller than 10 MB.")
         evidence = request.evidence
@@ -75,6 +77,9 @@ class SemanticReviewService:
                 percentage=round(100*passed/len(group), 2) if count == len(group) else None))
         return SemanticReviewReport(version=self.VERSION, run_id=evidence.run_id, strategy=request.strategy,
             source_fingerprint_sha256=source_hash, configuration_fingerprint_sha256=evidence.configuration_fingerprint_sha256,
+            dataset_provenance=evidence.dataset_provenance, adapter_version=evidence.adapter_version,
+            adapter_fingerprint_sha256=evidence.adapter_fingerprint_sha256,
+            compatibility_limitations=evidence.compatibility_limitations,
             evidence_fingerprint_sha256=LongMemEvalDeterministicRunner._fingerprint(evidence.model_dump(mode="json")),
             evaluation_fingerprint_sha256=LongMemEvalDeterministicRunner._fingerprint([r.model_dump(mode="json") for r in request.rows]),
             evaluator_revision=request.evaluator_revision, evaluator_model=next(iter(models)),

@@ -11,7 +11,7 @@ def test_explicit_extractor_overrides_unavailable_server_default_and_freezes_evi
         try:
             cid = client.post('/api/v1/conversations', json={'authorised': True, 'messages': [{'role': 'user', 'content': 'I am based in Sydney.'}]}).json()['conversation_id']
             endpoint = f'/api/v1/conversations/{cid}'
-            invalid = client.post(endpoint + '/extract', json={'provider': 'ollama'})
+            invalid = client.post(endpoint + '/extract', json={'provider': 'not-a-provider'})
             assert invalid.status_code == 422
             memories = client.post(endpoint + '/extract', json={'provider': 'rule_based'})
             assert memories.status_code == 200
@@ -35,7 +35,7 @@ def test_local_semantic_evaluator_freezes_separately_from_rule_pipeline(tmp_path
     from app.evaluator.llm_judge import LLMBehaviourEvaluator
 
     monkeypatch.setattr(LLMBehaviourEvaluator, '_post', staticmethod(lambda *_: {
-        'done': True, 'message': {'content': '{"passed":null,"reason":"Needs independent review","evidence_memory_ids":[]}'},
+        'done': True, 'message': {'content': '{"passed":null,"reason":"Needs independent review","evidence_memory_ids":[],"failure_type":null,"classification_reason":"Insufficient evidence."}'},
     }))
     with client_for(tmp_path) as client:
         try:

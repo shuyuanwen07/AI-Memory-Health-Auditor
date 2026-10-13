@@ -60,3 +60,15 @@ def test_profile_filters_are_distinct_from_context_budgets():
         {'memory_id':'a','eligible':True,'selected':False,'reason':'profile_excluded_other_project'}])
     assert result['profile_filter_excluded_fact_units'] == 1
     assert result['context_budget_excluded_fact_units'] == 0
+
+
+@pytest.mark.parametrize('reference,selected', [([record('a')],None),([],[]),([],['a'])])
+def test_absent_selection_or_reference_cannot_establish_incomplete_retrieval(reference,selected):
+    result=input_delivery(reference,[record('a')],selected,None,[])
+    assert result['complete_retrieved_match'] is None
+
+
+def test_observed_empty_selection_with_known_reference_is_incomplete():
+    result=input_delivery([record('a')],[record('a')],[],[],[])
+    assert result['complete_retrieved_match'] is False
+    assert result['retrieved_fact_units'] == 0

@@ -47,7 +47,7 @@ Automated or AI pre-review does not create independent human references. The ded
 
 The reliability page separates binary pass/fail agreement from failure-category accuracy. Category accuracy uses jointly detected failures with known human categories; detection-and-classification recall also counts human failures missed by the auditor. Unknown human categories are excluded explicitly. Human-labelled uncertain answers count toward review coverage and labelled abstention, but not binary decision accuracy. The page shows unmeasured metrics when eligible labels do not exist. Wilson intervals describe the reviewed items, not independent scenario confidence. Questions within a history are correlated; formal analyses must use histories/scenarios as the resampling unit. An independent defect inventory is necessary to measure how many underlying failures the auditor missed.
 
-Method comparisons freeze three independently generated suites (direct reference, fixed template and paired probes) under equal call caps. Compare **actual calls** as well as caps. Count distinct human-confirmed failure families per history; do not use raw failure counts or target pass-rate improvements as auditor reliability.
+Method comparisons freeze three independently generated suites (direct reference, fixed template and contextual/indirect Auditor probes with no direct items) under equal call caps. Compare **actual calls** as well as caps. Count distinct human-confirmed failure families per history; do not use raw failure counts or target pass-rate improvements as auditor reliability.
 
 ## Independent example service
 

@@ -28,12 +28,15 @@ def _kappa(left: list[str], right: list[str]) -> float | None:
     """Unweighted Cohen's kappa for matching categorical item labels."""
     if not left:
         return None
-    observed = sum(a == b for a, b in zip(left, right, strict=True)) / len(left)
+    agreement_count = sum(a == b for a, b in zip(left, right, strict=True))
     left_counts, right_counts = Counter(left), Counter(right)
-    expected = sum((left_counts[label] / len(left)) * (right_counts[label] / len(right)) for label in set(left_counts) | set(right_counts))
-    if expected == 1:
+    expected_product = sum(left_counts[label] * right_counts[label] for label in set(left_counts) | set(right_counts))
+    denominator = len(left) ** 2 - expected_product
+    if denominator == 0:
         return None
-    return round((observed - expected) / (1 - expected), 3)
+    # Integer counts avoid cancellation at exact boundaries; display rounding
+    # must never turn a below-threshold pilot into a formally ready release.
+    return (agreement_count * len(left) - expected_product) / denominator
 
 
 class PilotAnnotationService:
@@ -114,6 +117,10 @@ class PilotAnnotationService:
                 "This package is an AI-assisted synthetic dry run, not independent human double annotation; "
                 "it cannot satisfy formal-evaluation readiness."
             )
+        if not package.dataset_fingerprint_sha256:
+            blockers.append(
+                "The package is not bound to the exact validated dataset fingerprint; validate the dataset and record its fingerprint before formal evaluation."
+            )
         for metric in by_task:
             name = metric.task.value if metric.task else "overall"
             if metric.paired_items < package.minimum_paired_items_per_task:
@@ -130,7 +137,7 @@ class PilotAnnotationService:
                 and metric.cohens_kappa is not None
                 and metric.cohens_kappa < package.minimum_kappa
             ):
-                blockers.append(f"{name}: Cohen's kappa {metric.cohens_kappa} is below the declared minimum {package.minimum_kappa}.")
+                blockers.append(f"{name}: Cohen's kappa {metric.cohens_kappa:.6f} is below the declared minimum {package.minimum_kappa}; readiness uses the unrounded value.")
         if overall.declared_items == 0:
             blockers.append("No pilot items were declared.")
         return blockers

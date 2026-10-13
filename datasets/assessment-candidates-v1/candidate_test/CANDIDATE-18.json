@@ -1,0 +1,22 @@
+{
+  "messages": [
+    {
+      "message_id": "CANDIDATE-18-MSG-1",
+      "role": "user",
+      "content": "I prefer phone calls for personal enquiries.",
+      "timestamp": "2026-10-11T01:00:00+00:00"
+    },
+    {
+      "message_id": "CANDIDATE-18-MSG-2",
+      "role": "user",
+      "content": "For the warranty claim the manufacturer requires a written form.",
+      "timestamp": "2026-10-11T02:00:00+00:00"
+    },
+    {
+      "message_id": "CANDIDATE-18-MSG-3",
+      "role": "user",
+      "content": "Use the form for this claim while keeping my general phone preference.",
+      "timestamp": "2026-10-11T03:00:00+00:00"
+    }
+  ]
+}

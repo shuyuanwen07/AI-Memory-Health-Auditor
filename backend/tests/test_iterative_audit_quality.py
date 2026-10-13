@@ -123,3 +123,25 @@ def test_short_requirement_value_does_not_require_the_word_requires():
     assert value_result('State the recorded fact: The Lantern assignment requires Go.', 'Go').passed
     assert not value_result('State the recorded fact: The Lantern assignment requires Go.', 'The requirement requires action.').passed
     assert not value_result('State the recorded fact: The Lantern assignment requires Go.', 'Do not use Go.').passed
+
+
+def test_passive_project_requirement_uses_answer_value_not_context_prepositions():
+    expected = 'The AI should state that TypeScript must be used for the Willow project, overriding the general preference for Go.'
+    assert value_result(expected,'The Willow project requires the use of TypeScript instead of the usual Go preference.').passed
+    assert not value_result(expected,'Go must be used for the Willow project.').passed
+    assert not value_result(expected,'Do not use TypeScript.').passed
+
+
+def test_project_requirement_value_is_preserved_before_preference_explanations():
+    expected = 'Follow the contextual requirement: The Aspen project requires TypeScript instead of the general Go preference for personal tools.'
+    assert value_result(expected,'TypeScript is required for Aspen.').passed
+    assert not value_result(expected,'Go is required for Aspen.').passed
+    assert value_result('The project requires the use of TypeScript for this assignment.','TypeScript').passed
+
+
+def test_passive_clarification_is_recognised_without_accepting_its_negation():
+    expected = 'Identify both conflicting recorded constraints, acknowledge the conflict and request clarification before relying on either record.'
+    answer = 'The two platform constraints conflict. The conflict should be acknowledged and clarified before providing an answer. The user must resolve it by specifying which platform the review must use.'
+    assert value_result(expected,answer).passed
+    assert not value_result(expected,'The constraints conflict. The conflict should not be clarified.').passed
+    assert not value_result(expected,'The constraints conflict. Never clarify this conflict.').passed

@@ -13,6 +13,7 @@ from dataclasses import dataclass
 from app.schemas import Conversation, Memory, MemoryRelationship, MemoryStatus, RelationshipType
 from app.services.memory_topics import is_language_topic
 from app.services.interfaces import MemoryExtractor
+from app.services.meeting_facts import PLATFORM_PATTERN, exclusive_platform_value, is_meeting_platform_topic, equivalent_exclusive_platform_rules
 
 _SENTENCE_BOUNDARY = re.compile(r"(?<=[.!?])\s+|\n+")
 _TITLE_END = re.compile(r"\b(?:St|Dr|Mr|Mrs|Ms|Prof|Sr|Jr)\.$")
@@ -25,6 +26,11 @@ _PREFERENCE_SIGNALS = ("prefer", "preference", "rather", "favour", "favorite", "
 _REQUIREMENT_SIGNALS = ("require", "must", "need", "should", "assigned", "mandatory", "avoid")
 _CONFLICT_SIGNALS = ("conflict", "contradict", "inconsistent", "instead", "however", "but ")
 _TEMPORAL_PAST = ("before", "previously", "formerly", "used to", "old ", "earlier")
+_PLATFORM = PLATFORM_PATTERN
+_WITHDRAWN_PLATFORM = re.compile(rf"\b(?P<old>{_PLATFORM})\s+requirement\s+(?:is|has\s+been)\s+(?:withdrawn|revoked|cancelled|canceled)\b", re.I)
+_PLATFORM_REPLACEMENT = re.compile(
+    _WITHDRAWN_PLATFORM.pattern + rf"\s*;\s*(?:please\s+)?use\s+(?P<new>{_PLATFORM})\s+instead\s*[.!?]*$", re.I,
+)
 
 
 @dataclass(frozen=True)
@@ -37,7 +43,7 @@ class _Candidate:
 class RuleBasedMemoryExtractor(MemoryExtractor):
     """Extract durable-looking user statements and explicit relationships."""
 
-    VERSION = "rule-based-memory-extractor-v13"
+    VERSION = "rule-based-memory-extractor-v23"
 
     def extract(self, conversation: Conversation) -> list[Memory]:
         candidates = self._candidates(conversation)
@@ -50,7 +56,11 @@ class RuleBasedMemoryExtractor(MemoryExtractor):
         return memories
 
     def _candidates(self, conversation: Conversation) -> list[_Candidate]:
-        ordered = sorted(enumerate(conversation.messages), key=lambda item: (item[1].timestamp, item[0]))
+        # Mixed known/unknown timezones cannot establish absolute chronology.
+        # Preserve supplied message order rather than guessing a server zone.
+        offsets = {message.timestamp.utcoffset() is not None for message in conversation.messages}
+        ordered = (list(enumerate(conversation.messages)) if len(offsets) > 1 else
+                   sorted(enumerate(conversation.messages), key=lambda item: (item[1].timestamp, item[0])))
         candidates: list[_Candidate] = []
         positions: dict[str, int] = {}
         for _, message in ordered:
@@ -60,17 +70,44 @@ class RuleBasedMemoryExtractor(MemoryExtractor):
             for sentence in self._sentences(message.content):
                 for fragment in self._statement_fragments(sentence):
                     value = self._normalise(fragment)
+                    replacement = self._resolved_platform_replacement(value, candidates)
+                    sources = (message.message_id,)
+                    if replacement:
+                        value, inherited_sources = replacement
+                        sources = tuple(dict.fromkeys((*inherited_sources, message.message_id)))
                     if not self._is_memory_statement(value):
                         continue
                     key = re.sub(r"\W+", " ", value.lower()).strip()
                     if key in positions:
                         prior = candidates[positions[key]]
-                        if message.message_id not in prior.source_message_ids:
-                            candidates[positions[key]] = _Candidate(prior.value, prior.source_message_ids + (message.message_id,), prior.timestamp)
+                        candidates[positions[key]] = _Candidate(prior.value, tuple(dict.fromkeys((*prior.source_message_ids, *sources))), prior.timestamp)
                     else:
                         positions[key] = len(candidates)
-                        candidates.append(_Candidate(value, (message.message_id,), message.timestamp))
+                        candidates.append(_Candidate(value, sources, message.timestamp))
         return candidates
+
+    @classmethod
+    def _resolved_platform_replacement(cls, value: str, prior: list[_Candidate]) -> tuple[str, tuple[str, ...]] | None:
+        """Resolve only explicit replacements with one identifiable source scope.
+
+        Preserve the replacement clause and its provenance; never guess which
+        project an unscoped correction belongs to when multiple projects match.
+        Conditional and denied withdrawals remain unmodified review candidates.
+        """
+        match = _PLATFORM_REPLACEMENT.search(value)
+        if not match or re.search(r"\b(?:if|unless|might|may|could|hypothetical)\b", value[:match.start()], re.I):
+            return None
+        from app.services.memory_entities import named_projects
+        projects = named_projects(value)
+        applicable = [candidate for candidate in prior
+                      if cls._category(candidate.value) == 'meeting-platform'
+                      and re.search(rf"\b(?:must\s+use|should\s+use|requires?|uses?)\s+{re.escape(match['old'])}\b", candidate.value, re.I)
+                      and (not projects or named_projects(candidate.value) == projects)]
+        if len(applicable) != 1:
+            return None
+        source = applicable[0]
+        subject = re.split(r"\s+(?:must\s+use|should\s+use|requires?|uses?)\s+", source.value, maxsplit=1, flags=re.I)[0]
+        return (f"{subject} now requires {match['new']} instead of {match['old']}; the {match['old']} requirement has been withdrawn", source.source_message_ids)
 
     @staticmethod
     def _sentences(text: str) -> list[str]:
@@ -114,6 +151,8 @@ class RuleBasedMemoryExtractor(MemoryExtractor):
         # resolve the contradiction.
         if re.search(r";\s*neither\b.*\bsupersedes\b", sentence, re.IGNORECASE):
             return [sentence]
+        if re.search(r"\b(?:withdrawn|revoked|cancelled|canceled)\b[^.!?]*;\s*(?:please\s+)?use\b[^.!?]*\binstead\b", sentence, re.I):
+            return [sentence]
         return [part for part in re.split(r"\s*(?:;|,\s*(?:but|however|while)\s+)\s*", sentence, flags=re.IGNORECASE) if part]
 
     @staticmethod
@@ -132,18 +171,40 @@ class RuleBasedMemoryExtractor(MemoryExtractor):
         from app.services.memory_entities import named_projects
         subject = bool(re.search(r"\b(?:i|we|my|our|the|this)\b", lower)) or bool(named_projects(value))
         explicit_policy = bool(re.search(r"\b(?:policy|requirement|rule)\b.*\b(?:requires?|must|mandates?)\b", lower))
-        return any(signal in lower for signal in _MEMORY_SIGNALS) and (subject or explicit_policy)
+        return (any(signal in lower for signal in _MEMORY_SIGNALS) or exclusive_platform_value(value) is not None) and (subject or explicit_policy)
 
     def _relationships(self, current: Memory, prior_memories: list[Memory]) -> list[MemoryRelationship]:
         lower = current.canonical_value.lower()
         relationships: list[MemoryRelationship] = []
+        from app.services.memory_entities import named_projects
+        withdrawal = _WITHDRAWN_PLATFORM.search(current.canonical_value)
+        if withdrawal:
+            scopes = named_projects(current.canonical_value)
+            matching = [memory for memory in prior_memories
+                        if self._category(memory.canonical_value) == 'meeting-platform'
+                        and re.search(rf"\b(?:must\s+use|should\s+use|requires?|uses?)\s+{re.escape(withdrawal['old'])}\b", memory.canonical_value, re.I)
+                        and (not scopes or named_projects(memory.canonical_value) == scopes)]
+            if len(matching) > 1:
+                return []
+            # An elided source correction retains the original full wording.
+            # No relationship is asserted until its scope is unambiguous.
+            if not scopes and not self._has_any(lower, _UPDATE_SIGNALS):
+                return []
         related = self._best_related(current, prior_memories)
-        if related and self._has_any(lower, _UPDATE_SIGNALS) and self._is_temporally_compatible(current, related):
-            relationships.append(MemoryRelationship(type=RelationshipType.UPDATE, target_memory_id=related.memory_id))
+        if withdrawal and matching and self._has_any(lower, _UPDATE_SIGNALS):
+            related = matching[0]
         if (self._has_any(lower, _CONTEXT_SIGNALS) or re.search(r"\b(?:assignment|task|project)\b", lower)) and self._has_any(lower, _REQUIREMENT_SIGNALS):
             preference = self._best_preference(current, prior_memories)
             if preference and self._context_compatible(current, preference):
                 relationships.append(MemoryRelationship(type=RelationshipType.CONTEXTUAL_OVERRIDE, target_memory_id=preference.memory_id))
+        # A task-specific requirement overrides a preference only for that
+        # task. Wording such as "instead of my usual preference" must not
+        # retire the general preference from the memory store.
+        if (related and self._has_any(lower, _UPDATE_SIGNALS)
+            and self._is_temporally_compatible(current, related)
+            and not any(item.type == RelationshipType.CONTEXTUAL_OVERRIDE
+                        and item.target_memory_id == related.memory_id for item in relationships)):
+            relationships.insert(0, MemoryRelationship(type=RelationshipType.UPDATE, target_memory_id=related.memory_id))
         if related and self._is_conflict(current, related) and all(item.target_memory_id != related.memory_id for item in relationships):
             relationships.append(MemoryRelationship(type=RelationshipType.CONFLICT, target_memory_id=related.memory_id))
         return relationships
@@ -175,21 +236,35 @@ class RuleBasedMemoryExtractor(MemoryExtractor):
         return max(preferences, key=lambda memory: (self._overlap(terms, self._topic_terms(memory.canonical_value)) + (3 if category and category == self._category(memory.canonical_value) else 0), memory.memory_id))
 
     def _is_temporally_compatible(self, current: Memory, prior: Memory) -> bool:
+        current_topic, prior_topic = self._category(current.canonical_value), self._category(prior.canonical_value)
+        # A shared project or person name is not a shared fact field.
+        if current_topic and prior_topic and current_topic != prior_topic:
+            return False
         if self._overlap(self._topic_terms(current.canonical_value), self._topic_terms(prior.canonical_value)):
             return True
         current_category, prior_category = self._category(current.canonical_value), self._category(prior.canonical_value)
         return bool(current_category and current_category == prior_category) or self._has_any(prior.canonical_value.lower(), _TEMPORAL_PAST)
 
     def _context_compatible(self, current: Memory, preference: Memory) -> bool:
+        current_topic, prior_topic = self._category(current.canonical_value), self._category(preference.canonical_value)
+        # A shared project or person name is not a shared fact field.
+        if current_topic and prior_topic and current_topic != prior_topic:
+            return False
         current_category, preference_category = self._category(current.canonical_value), self._category(preference.canonical_value)
         return bool(current_category and current_category == preference_category) or bool(self._overlap(self._topic_terms(current.canonical_value), self._topic_terms(preference.canonical_value)))
 
     def _is_conflict(self, current: Memory, prior: Memory) -> bool:
+        current_topic, prior_topic = self._category(current.canonical_value), self._category(prior.canonical_value)
+        # A shared project or person name is not a shared fact field.
+        if current_topic and prior_topic and current_topic != prior_topic:
+            return False
         current_text, prior_text = current.canonical_value.lower(), prior.canonical_value.lower()
+        if equivalent_exclusive_platform_rules(current_text, prior_text):
+            return False
         same_topic = bool(self._overlap(self._topic_terms(current_text), self._topic_terms(prior_text))) or (self._category(current_text) is not None and self._category(current_text) == self._category(prior_text))
         explicit = self._has_any(current_text, _CONFLICT_SIGNALS)
         polarity_changed = self._negated(current_text) != self._negated(prior_text)
-        both_requirements = self._has_any(current_text, _REQUIREMENT_SIGNALS) and self._has_any(prior_text, _REQUIREMENT_SIGNALS)
+        both_requirements = (self._has_any(current_text, _REQUIREMENT_SIGNALS) or exclusive_platform_value(current_text) is not None) and (self._has_any(prior_text, _REQUIREMENT_SIGNALS) or exclusive_platform_value(prior_text) is not None)
         return same_topic and (explicit or polarity_changed or both_requirements)
 
     @staticmethod
@@ -214,6 +289,7 @@ class RuleBasedMemoryExtractor(MemoryExtractor):
         if re.search(r"\b(?:mysql|postgres(?:ql)?|mongodb|sqlite|redis|mariadb|cassandra|dynamodb|database|sql)\b", text): return "database"
         if re.search(r"\b(?:logs?|logging|object storage|storage bucket)\b", text): return "log-storage"
         if re.search(r"\b(?:secrets?|credentials?|environment variables?|config(?:uration)? files?)\b", text): return "secret-configuration"
+        if is_meeting_platform_topic(text): return "meeting-platform"
         if is_language_topic(text): return "programming-language"
         if location_value(text) or re.search(r"\b(?:sydney|melbourne|london|relocat)\b", text): return "location"
         if re.search(r"\b(?:remote|from home|office|hybrid)\b", text): return "working-arrangement"

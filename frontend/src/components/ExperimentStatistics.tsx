@@ -1,11 +1,15 @@
 import { UIPanel, UISummary, UITable } from './ui';
 import type { AuditResult, Dimension } from '../types/domain';
+import { failureCountLabel } from '../services/display';
 
 export type ExperimentStatisticsRun = {
+  colour?: string;
   /** A human-readable label for this individual audit execution. */
   label: string;
   /** Runs with the same group label are treated as repeated experimental conditions. */
   groupLabel?: string;
+  /** Stable condition identity; display names alone may be reused for different settings. */
+  groupKey?: string;
   result: AuditResult;
 };
 
@@ -27,16 +31,21 @@ export type DimensionAggregate = {
   measuredRuns: number;
   failures: number;
   uncertainCount: number;
+  excludedCount?: number;
 };
 
 export type ExperimentGroupStatistics = {
+  colour?: string;
   label: string;
   runs: number;
+  overallMeasuredRuns: number;
   overallAverage: number | null;
   overallStandardDeviation: number | null;
   testsPassed: number;
   testsTotal: number;
   uncertainCount: number;
+  unassessedCount: number;
+  excludedEvidenceCount: number;
   failureCount: number;
   measuredDimensionRuns: number;
   totalDimensionRuns: number;
@@ -67,10 +76,15 @@ export function calculateExperimentStatistics(runs: ExperimentStatisticsRun[]): 
   const groups = new Map<string, ExperimentStatisticsRun[]>();
   runs.forEach((run) => {
     const label = run.groupLabel?.trim() || run.label;
-    groups.set(label, [...(groups.get(label) ?? []), run]);
+    const key = JSON.stringify([run.groupKey ? 'condition' : 'label', run.groupKey || label]);
+    groups.set(key, [...(groups.get(key) ?? []), run]);
   });
 
-  return [...groups.entries()].map(([label, groupRuns]) => {
+  const labels = [...groups.values()].map(group => group[0].groupLabel?.trim() || group[0].label);
+  return [...groups.values()].map((groupRuns, index) => {
+    const originalLabel = labels[index];
+    const label = labels.filter(item => item === originalLabel).length > 1
+      ? `${originalLabel} · Setting ${index + 1}` : originalLabel;
     const overallScores = groupRuns.flatMap((run) => run.result.overall_score === null ? [] : [run.result.overall_score]);
     const dimensionTotals = dimensions.map(({ key, label: dimensionLabel }) => {
       const measured = groupRuns.flatMap((run) => {
@@ -78,7 +92,7 @@ export function calculateExperimentStatistics(runs: ExperimentStatisticsRun[]): 
         return score?.percentage === null || score?.percentage === undefined ? [] : [score];
       });
       const failures = groupRuns.reduce((count, run) => count + run.result.failures.filter((failure) =>
-        (failure.evaluation.failure_type ?? failure.test.dimension) === key,
+        failure.test.dimension === key,
       ).length, 0);
       return {
         dimension: key,
@@ -88,18 +102,23 @@ export function calculateExperimentStatistics(runs: ExperimentStatisticsRun[]): 
         total: measured.reduce((sum, item) => sum + item.total, 0),
         measuredRuns: measured.length,
         failures,
+        excludedCount: groupRuns.reduce((sum,run)=>sum+(resultDimension(run.result,key)?.excluded_evidence_count??0),0),
         uncertainCount: groupRuns.reduce((sum, run) => sum + (resultDimension(run.result, key)?.uncertain_count ?? 0), 0),
       };
     });
 
     return {
       label,
+      colour:groupRuns[0].colour&&/^#[0-9a-f]{6}$/i.test(groupRuns[0].colour)&&groupRuns.every(run=>run.colour===groupRuns[0].colour)?groupRuns[0].colour:undefined,
       runs: groupRuns.length,
+      overallMeasuredRuns: overallScores.length,
       overallAverage: average(overallScores),
       overallStandardDeviation: standardDeviation(overallScores),
       testsPassed: groupRuns.reduce((sum, run) => sum + run.result.tests_passed, 0),
       testsTotal: groupRuns.reduce((sum, run) => sum + run.result.tests_total, 0),
       uncertainCount: groupRuns.reduce((sum, run) => sum + (run.result.uncertain_count ?? 0), 0),
+      unassessedCount: groupRuns.reduce((sum, run) => sum + (run.result.answers?.filter(answer => answer.outcome === 'unassessed').length ?? 0), 0),
+      excludedEvidenceCount: groupRuns.reduce((sum, run) => sum + (run.result.excluded_evidence_count ?? 0), 0),
       failureCount: groupRuns.reduce((sum, run) => sum + run.result.failures.length, 0),
       measuredDimensionRuns: dimensionTotals.reduce((sum, item) => sum + item.measuredRuns, 0),
       totalDimensionRuns: groupRuns.length * dimensions.length,
@@ -124,13 +143,13 @@ function GroupDetail({ group }: { group: ExperimentGroupStatistics }) {
       <thead><tr><th>Dimension</th><th>Average score</th><th>Passed tests</th><th>Measured runs</th><th>Failures</th></tr></thead>
       <tbody>{group.dimensions.map((dimension) => <tr key={dimension.dimension}>
         <th scope="row">{dimension.label}</th>
-        <td>{dimension.average === null && dimension.uncertainCount > 0 ? 'Awaiting review' : percentage(dimension.average)}{dimension.uncertainCount > 0 && <small> · {dimension.uncertainCount} awaiting review</small>}</td>
-        <td>{dimension.passed} / {dimension.total}</td>
+        <td>{dimension.average === null ? (dimension.excludedCount??0)>0?'Evidence unavailable':dimension.uncertainCount > 0 ? 'Awaiting review' : 'Not tested' : percentage(dimension.average)}{dimension.uncertainCount > 0 && <small> · {dimension.uncertainCount} awaiting review</small>}</td>
+        <td>{dimension.total > 0 ? `${dimension.passed} / ${dimension.total}` : (dimension.excludedCount??0)>0?'Evidence unavailable':dimension.uncertainCount > 0 ? 'Awaiting review' : 'Not tested'}</td>
         <td>{dimension.measuredRuns} / {group.runs}</td>
-        <td>{dimension.failures}</td>
+        <td>{dimension.total===0&&(dimension.excludedCount??0)>0?'Evidence unavailable':failureCountLabel(dimension.total > 0 ? dimension.failures : null, dimension.uncertainCount)}</td>
       </tr>)}</tbody>
     </UITable></div>
-    {group.failureCount === 0 && <p className="empty">No failures were detected among decided answers.{group.uncertainCount > 0 && ` ${group.uncertainCount} answers still await review.`}</p>}
+    {group.failureCount === 0 && <p className="empty">{group.testsTotal > 0 ? 'No failures were detected among decided answers.' : 'No decided answers yet.'}{group.uncertainCount > 0 && ` ${group.uncertainCount} answers still await review.`}</p>}
   </UIPanel>;
 }
 

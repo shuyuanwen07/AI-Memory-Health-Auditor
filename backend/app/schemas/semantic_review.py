@@ -1,7 +1,7 @@
 """Import contracts for external automated scoring; never human labels."""
 from pydantic import BaseModel, ConfigDict, Field, StrictBool
 
-from app.schemas.benchmark import LiveBenchmarkResponse
+from app.schemas.benchmark import BenchmarkDatasetProvenance, LiveBenchmarkResponse
 
 
 class AutoevalLabel(BaseModel):
@@ -20,6 +20,7 @@ class UpstreamEvaluationRow(BaseModel):
 class SemanticReviewRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
     source: dict | list
+    source_authorised: bool = False
     evidence: LiveBenchmarkResponse
     strategy: str = Field(min_length=1, max_length=100)
     evaluator_revision: str = Field(pattern=r"^[0-9a-f]{40}$")
@@ -50,6 +51,10 @@ class SemanticReviewReport(BaseModel):
     strategy: str
     source_fingerprint_sha256: str
     configuration_fingerprint_sha256: str
+    dataset_provenance: BenchmarkDatasetProvenance | None = None
+    adapter_version: str
+    adapter_fingerprint_sha256: str | None = None
+    compatibility_limitations: list[str] = Field(default_factory=list)
     evidence_fingerprint_sha256: str
     evaluation_fingerprint_sha256: str
     evaluator_revision: str

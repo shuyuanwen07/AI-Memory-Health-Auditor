@@ -8,6 +8,9 @@ official data and follow its licence separately before using it.
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from hashlib import sha256
+import inspect
+import json
 import math
 from typing import Any
 
@@ -17,6 +20,18 @@ from app.schemas.benchmark import BenchmarkMessage, LongMemEvalCase, LongMemEval
 class LongMemEvalAdapter:
     """Normalise common LongMemEval-style JSON into deterministic local cases."""
 
+    VERSION = "longmemeval-compatible-v3"
+
+    @classmethod
+    def fingerprint_sha256(cls) -> str:
+        """Fingerprint adapter implementation and the portable case contract."""
+        material = {
+            "adapter_source": inspect.getsource(cls),
+            "case_schema": LongMemEvalCase.model_json_schema(mode="validation"),
+        }
+        canonical = json.dumps(material, sort_keys=True, separators=(",", ":"))
+        return sha256(canonical.encode("utf-8")).hexdigest()
+
     def adapt(self, payload: Any) -> tuple[list[LongMemEvalCase], LongMemEvalImportReport]:
         records = self._records(payload)
         cases = [self._adapt_record(record, index) for index, record in enumerate(records, 1)]
@@ -25,7 +40,7 @@ class LongMemEvalAdapter:
             raise ValueError("LongMemEval-compatible records must have unique question IDs.")
         dimensions = sorted({case.dimension_hint for case in cases if case.dimension_hint})
         return cases, LongMemEvalImportReport(
-            adapter_version="longmemeval-compatible-v3",
+            adapter_version=self.VERSION,
             cases_imported=len(cases),
             case_ids=ids,
             dimension_hints=dimensions,

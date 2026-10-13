@@ -9,11 +9,10 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
-from collections import Counter
-from pathlib import Path
 import sys
-from typing import Iterable
-
+from collections import Counter
+from collections.abc import Iterable
+from pathlib import Path
 
 CHART_WIDTH = 920
 COLOURS = ("#176b87", "#5a8f4c", "#b36a3c", "#765aa6", "#a13e66")

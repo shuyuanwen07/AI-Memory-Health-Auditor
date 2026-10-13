@@ -5,6 +5,26 @@ from app.test_generator.rule_based import RuleBasedTestGenerator
 from app.target_ai.rule_based import RuleBasedTargetAIConnector
 from app.evaluator.rule_based import RuleBasedBehaviourEvaluator
 
+
+def test_single_message_update_probe_does_not_invent_two_records_or_an_unresolved_conflict():
+    timestamp = datetime(2026, 1, 1, tzinfo=timezone.utc)
+    conversation = Conversation(conversation_id='C-update', created_at=timestamp, authorised=True,
+        messages=[ConversationMessage(message_id='MSG-update', role='user',
+            content='Our Marigold backend used SQLite before, but now uses MongoDB.', timestamp=timestamp)])
+    memories = RuleBasedMemoryExtractor().extract(conversation)
+    current = next(m for m in memories if m.relationships)
+    prior = next(m for m in memories if m.memory_id == current.relationships[0].target_memory_id)
+    for candidate in (RuleBasedTestGenerator._freshness(current, prior),
+                      RuleBasedTestGenerator._update_conflict_resolution(current, prior)):
+        _, prompt, expected, evidence, _ = candidate
+        assert 'memories' not in prompt
+        assert 'newer memory' not in prompt
+        assert 'conflict' not in prompt
+        assert 'MongoDB' not in prompt and 'SQLite' not in prompt
+        assert 'historical' in expected and 'SQLite' in expected and 'MongoDB' in expected
+        assert set(evidence) == {current.memory_id, prior.memory_id}
+
+
 def test_extractor_retains_named_places_and_titles_without_merging_real_sentences():
     timestamp = datetime(2026, 1, 1, tzinfo=timezone.utc)
     text = "I attended mass at St. Mary's Church on January 2. I met Dr. Chen on January 3. I generally prefer Python."
@@ -142,3 +162,25 @@ def test_subject_completion_does_not_replace_explicit_other_subject_or_freeform_
     fragments = RuleBasedMemoryExtractor._statement_fragments
     assert fragments('Our Iris backend used MySQL before, but our Rose backend now uses PostgreSQL.') == ['Our Iris backend used MySQL before', 'our Rose backend now uses PostgreSQL.']
     assert fragments('I used MySQL before, but now the client prefers PostgreSQL.') == ['I used MySQL before', 'now the client prefers PostgreSQL.']
+
+
+def test_shared_project_name_does_not_create_cross_field_conflicts_or_updates():
+    timestamp=datetime(2026,1,1,tzinfo=timezone.utc)
+    statements=[
+        'For the Harbor project, TypeScript is required.',
+        'The Harbor review must be held only over Zoom.',
+        'The Harbor review must be held only over Teams.',
+        'The Harbor review is now held only over Webex.',
+    ]
+    conversation=Conversation(conversation_id='C-fields',created_at=timestamp,authorised=True,messages=[ConversationMessage(message_id=f'MSG-{index}',role='user',content=text,timestamp=timestamp) for index,text in enumerate(statements)])
+    memories=RuleBasedMemoryExtractor().extract(conversation)
+    assert len(memories)==4
+    assert memories[1].relationships==[]
+    assert any(relation.type==RelationshipType.CONFLICT and relation.target_memory_id==memories[1].memory_id for relation in memories[2].relationships)
+    assert all(relation.target_memory_id!=memories[0].memory_id for memory in memories[1:] for relation in memory.relationships)
+
+
+def test_go_preference_with_personal_tool_scope_is_a_language_not_a_movement():
+    from app.services.memory_topics import language_words
+    assert language_words('I generally prefer Go for personal tools.')=={'go'}
+    assert language_words('I prefer to go for a walk.')==set()

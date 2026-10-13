@@ -22,10 +22,34 @@ validation requirements.
 Real-model LongMemEval pilot comparisons are available under Experiments →
 Research tools. See [live benchmark setup and score limits](docs/LIVE_BENCHMARKS.md).
 
-## Legacy local Qwen setup (API only)
+With OpenRouter configured, **New audit** automatically prepares three methods:
+rule tests + rule review, model tests + rule review, and model tests + hybrid
+review. Confirm the shared facts, review the two question suites, then execute
+all conditions. **Audit methods** restores saved three-colour comparisons.
+The two model methods share questions and the same saved target answers; all three share confirmed facts and
+target settings. These charts show target-answer pass rates, not auditor
+accuracy. Independent labels are required to establish auditor reliability.
+See the [architecture](docs/ARCHITECTURE.md) and
+[formal experiment protocol](docs/FORMAL_EXPERIMENT_PROTOCOL.md).
 
-The local target-AI option uses Qwen 3 1.7B through Ollama. Install Ollama on
-the host, then run:
+## Assessment evidence and handoff
+
+See [requirements and evidence](docs/REQUIREMENTS_TRACEABILITY.txt),
+[the report draft](docs/A2_REPORT_DRAFT.txt), and
+[the remaining human tasks](docs/HUMAN_EVIDENCE_HANDOFF.txt).
+The research workspace guides proposal A/B/C and general repair validation.
+Independent blind review offers a complete blank source-and-answer download.
+Formal results and actual member contributions require human verification.
+
+Create a clean source package with `python3 scripts/package_assessment_source.py`.
+The package manifest records included-file hashes; it excludes local conversations,
+credentials, databases and development outputs.
+
+## Local Qwen setup
+
+Qwen 3 1.7B through Ollama can be selected as the target AI, memory extractor,
+test-generation Agent, semantic duplicate reviewer, or answer assessor. Install
+Ollama on the host, then run:
 
 ```sh
 ollama pull qwen3:1.7b
@@ -39,9 +63,9 @@ OLLAMA_BASE_URL=http://host.docker.internal:11434
 OLLAMA_DEFAULT_MODEL=qwen3:1.7b
 ```
 
-No Qwen API key is required. The model is called by the backend only; it is
-never exposed to the browser. Start with a small four-test audit on an Apple
-M1 before increasing the test budget.
+No Qwen API key is required. Model requests go through the backend to the local
+Ollama service; the browser only selects an installed model. Start with a small
+four-test audit on an Apple M1 before increasing the test budget.
 
 ## Development hot reload
 

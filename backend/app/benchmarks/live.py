@@ -22,6 +22,14 @@ from app.benchmarks.runner import LongMemEvalDeterministicRunner
 from app.target_systems.controlled import ControlledTargetSystemAdapter
 
 
+LONGMEMEVAL_COMPATIBILITY_LIMITATIONS = [
+    "The local adapter accepts a documented subset of LongMemEval-compatible JSON layouts; parser coverage is not the complete official benchmark implementation.",
+    "This pilot uses the Auditor's controlled memory writer and reader, not the official LongMemEval execution stack or scorer.",
+    "Word-match and token-F1 values are exploratory proxies; imported automated semantic assessments remain caller-supplied and unauthenticated.",
+    "The controlled writer extracts user facts; assistant-only evidence may not be retained.",
+]
+
+
 class LiveBenchmarkRunner:
     VERSION = "shared-reader-live-benchmark-v4"
 
@@ -58,6 +66,8 @@ class LiveBenchmarkRunner:
             if any(len(c.messages)>40 or sum(len(m.content) for m in c.messages)>24000 for c in cases):
                 raise ValueError("Each native Mem0 pilot history must contain at most 40 messages and 24,000 characters.")
         source_hash = LongMemEvalDeterministicRunner._fingerprint(request.payload)
+        from app.services.runtime_freeze import audit_runtime_signature
+        runtime_signature = audit_runtime_signature()
         configuration = request.model_dump(mode="json", exclude={"payload", "source_authorised", "source_label"})
         conditions = []
         writer_version = ""
@@ -140,16 +150,25 @@ class LiveBenchmarkRunner:
             configuration['native_mem0_versions']=[{k:r.memory_preparation.get(k) for k in ('sdk_version','target_service')} for r in native_conditions['baseline']]
         configuration.update({"reader_configuration":"strong", "runner_version":self.VERSION,
             "adapter_version":report.adapter_version, "target_adapter_version":ControlledTargetSystemAdapter.version,
+            "adapter_fingerprint_sha256":LongMemEvalAdapter.fingerprint_sha256(),
+            "compatibility_limitations":LONGMEMEVAL_COMPATIBILITY_LIMITATIONS,
             "writer_version":writer_version})
+        if runtime_signature != audit_runtime_signature():
+            raise ValueError("The benchmark software changed during execution. Rerun with one frozen implementation.")
+        configuration["audit_runtime_signature"] = runtime_signature
         config_hash = sha256(json.dumps(configuration, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
         return LiveBenchmarkResponse(run_id="LB" + uuid4().hex[:20], source_fingerprint_sha256=source_hash,
             configuration_fingerprint_sha256=config_hash, runner_version=self.VERSION, adapter_version=report.adapter_version,
+            dataset_provenance=request.dataset_provenance,
+            adapter_fingerprint_sha256=LongMemEvalAdapter.fingerprint_sha256(),
+            compatibility_limitations=LONGMEMEVAL_COMPATIBILITY_LIMITATIONS,
             target_adapter_version=ControlledTargetSystemAdapter.version, writer_version=writer_version,
-            provider=request.provider, model=request.model, temperature=request.temperature,
+            provider=request.provider, model=request.model, temperature=request.temperature, random_seed=request.random_seed,
+            audit_runtime_signature=runtime_signature,
             seed_control="Recorded for provenance; provider seed is not sent and deterministic generation is not guaranteed.",
             target_memory_capacity=request.target_memory_capacity, target_memory_profile=request.target_memory_profile,
             conditions=conditions,
-            notice=("Native Mem0, when selected, uses the same answer connector/instructions and reader budget. Its native extraction and embedding costs are additional and not counted in reader requests; source timestamps and per-fact attribution are unsupported. Native retention is not constrained by the controlled-store capacity. Native repair variants share one extraction/retrieval snapshot; generic adds a careful-answer instruction, directed filters separable task facts, without changing model weights. " if request.include_mem0 else "") + "Actual model calls using the ordinary controlled rule-based memory writer and retrieval policies. The writer extracts user facts; assistant-only evidence may not be retained. Capacity and context limits apply. Every case is isolated; no benchmark history is saved in the audit database. Lexical matches and token F1 are exploratory proxies, not official LongMemEval scores or calibrated semantic judgments. Download hypotheses for the upstream evaluator and independently review answers. Full reference answers, evidence-session IDs and has_answer labels are excluded from model inputs.")
+            notice=("Native Mem0, when selected, uses the same answer connector/instructions and reader budget. Its native extraction and embedding costs are additional and not counted in reader requests; source timestamps and per-fact attribution are unsupported. Native retention is not constrained by the controlled-store capacity. Native repair variants share one extraction/retrieval snapshot; generic adds a careful-answer instruction, directed filters separable task facts, without changing model weights. " if request.include_mem0 else "") + "Actual model calls using the ordinary controlled rule-based memory writer and retrieval policies. Dataset version, licence and citation are caller-declared metadata, not independently verified. Capacity and context limits apply. Every case is isolated; no benchmark history is saved in the audit database. Lexical matches and token F1 are exploratory proxies, not official LongMemEval scores or calibrated semantic judgments. Download hypotheses for the upstream evaluator and independently review answers. Full reference answers, evidence-session IDs and has_answer labels are excluded from model inputs.")
 
     @staticmethod
     def _lexical_match(expected: str, response: str) -> bool:

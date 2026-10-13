@@ -5,7 +5,7 @@ from app.benchmarks.live import LiveBenchmarkRunner
 from app.benchmarks.longmemeval import LongMemEvalAdapter
 from app.schemas.benchmark import LiveBenchmarkRequest
 from app.target_ai.providers import HttpTargetAIConnector
-from test_live_benchmark import source
+from test_live_benchmark import PROVENANCE, source
 
 
 def test_native_same_reader_and_gold_isolation(monkeypatch):
@@ -22,7 +22,7 @@ def test_native_same_reader_and_gold_isolation(monkeypatch):
         assert test.expected_behavior=='' and test.supporting_memory_ids==[]
         seen.append((instructions,test.prompt,audit.model,audit.temperature,audit.target_configuration.value));return 'PostgreSQL'
     monkeypatch.setattr(HttpTargetAIConnector,'_execute_provider',reader)
-    request=LiveBenchmarkRequest(payload=source(),source_authorised=True,strategies=['scope_aware'],include_mem0=True)
+    request=LiveBenchmarkRequest(payload=source(),source_authorised=True,dataset_provenance=PROVENANCE,strategies=['scope_aware'],include_mem0=True)
     first=LiveBenchmarkRunner().run(request)
     assert seen[0]==seen[1]
     assert 'GOLD_SECRET' not in str(requests) and 'GOLD_SESSION_SECRET' not in str(requests)
@@ -47,7 +47,7 @@ def test_invalid_native_supply_is_rejected_before_reader(monkeypatch):
     monkeypatch.setattr(HttpTargetAIConnector,'execute',forbidden)
     case=LongMemEvalAdapter().adapt(source())[0][0]
     with pytest.raises(ValueError,match='do not match'):
-        mem0.run_case(LiveBenchmarkRequest(payload=source(),source_authorised=True),case,None,'unit')
+        mem0.run_case(LiveBenchmarkRequest(payload=source(),source_authorised=True,dataset_provenance=PROVENANCE),case,None,'unit')
 
 
 def test_native_repairs_share_snapshot_and_do_not_change_extraction_or_gold(monkeypatch):
@@ -64,7 +64,7 @@ def test_native_repairs_share_snapshot_and_do_not_change_extraction_or_gold(monk
     monkeypatch.setattr(mem0,'call',native)
     monkeypatch.setattr(HttpTargetAIConnector,'_execute_provider',reader)
     case=LongMemEvalAdapter().adapt(source())[0][0].model_copy(update={'question':'Which language must I use for my assignment?'})
-    request=LiveBenchmarkRequest(payload=source(),source_authorised=True)
+    request=LiveBenchmarkRequest(payload=source(),source_authorised=True,dataset_provenance=PROVENANCE)
     results=mem0.run_case_comparison(request,case,None,'unit')
     assert [name for name,_ in calls]==['ingest','retrieve']
     assert all(r.memory_preparation['native_llm_calls']==2 and r.memory_preparation['embedding_calls']==4 for r in results.values())
@@ -101,4 +101,4 @@ def test_repair_comparison_preflight_refuses_invalid_conditions_before_any_model
         ({'native_repair_comparison':True,'include_mem0':True},'Choose one'),
         ({'native_repair_comparison':True,'include_mem0':True,'strategies':['scope_aware'], 'target_memory_profile':{'additional_instructions':'x'*4000}},'Leave room')]:
         with pytest.raises(ValueError,match=reason):
-            LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source(),source_authorised=True,**kwargs))
+            LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source(),source_authorised=True,dataset_provenance=PROVENANCE,**kwargs))

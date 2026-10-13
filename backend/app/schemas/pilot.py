@@ -92,11 +92,12 @@ class PilotAnnotationPackage(BaseModel):
     pilot_id: str = Field(min_length=1)
     dataset_id: str = Field(min_length=1)
     dataset_version: str = Field(min_length=1)
+    dataset_fingerprint_sha256: str | None = Field(default=None, pattern=r"^[a-f0-9]{64}$")
     created_at: datetime
     authorised_for_research: bool
     data_origin: str = Field(min_length=1)
     deidentification_note: str = Field(min_length=1)
-    annotation_mode: PilotAnnotationMode = PilotAnnotationMode.HUMAN_DOUBLE_ANNOTATION
+    annotation_mode: PilotAnnotationMode
     minimum_paired_items_per_task: int = Field(default=5, ge=1)
     minimum_kappa: float | None = Field(default=0.6, ge=-1, le=1)
     items: list[PilotItem] = Field(min_length=1)
@@ -107,7 +108,9 @@ class PilotAnnotationPackage(BaseModel):
     def package_is_traceable_and_double_annotated(self) -> "PilotAnnotationPackage":
         if not self.authorised_for_research:
             raise ValueError("Pilot annotation data must be authorised for research.")
-        annotator_ids = [annotator.annotator_id for annotator in self.annotators]
+        annotator_ids = [annotator.annotator_id.strip().casefold() for annotator in self.annotators]
+        if not all(annotator_ids):
+            raise ValueError("Pilot annotator IDs must contain a non-whitespace identifier.")
         if len(set(annotator_ids)) != 2:
             raise ValueError("Pilot packages require exactly two distinct annotator IDs.")
 

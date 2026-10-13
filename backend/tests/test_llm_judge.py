@@ -33,6 +33,34 @@ def _memories() -> list[Memory]:
     ]
 
 
+def test_semantic_failure_category_can_differ_from_test_dimension(monkeypatch):
+    monkeypatch.setattr(LLMBehaviourEvaluator, '_judge', lambda *_: {
+        'passed': False, 'reason': 'The answer names an unrelated language rather than a database.',
+        'evidence_memory_ids': ['M002'], 'failure_type': 'accuracy',
+        'classification_reason': 'The source specifies PostgreSQL; Rust is a different attribute.',
+    })
+    result = LLMBehaviourEvaluator('ollama').evaluate(_test_case(), _response('Rust.'), _memories())
+    assert result.passed is False
+    assert result.failure_type == Dimension.ACCURACY
+    assert result.failure_classification.status == 'classified'
+
+
+@pytest.mark.parametrize('passed,category', [(True, 'accuracy'), (None, 'freshness'), (False, 'invented')])
+def test_semantic_category_contract_rejects_impossible_or_unknown_labels(passed, category):
+    with pytest.raises(ValueError):
+        LLMBehaviourEvaluator._validated_result({
+            'passed': passed, 'reason': 'A grounded reason.', 'evidence_memory_ids': ['M002'],
+            'failure_type': category, 'classification_reason': 'A category reason.',
+        }, {'M002'})
+
+
+def test_unrelated_wrong_answer_does_not_inherit_freshness_category():
+    result = RuleBasedBehaviourEvaluator().evaluate(_test_case(), _response('Rust.'), _memories())
+    assert result.passed is False
+    assert result.failure_type is None
+    assert result.failure_classification.status == 'unclassified'
+
+
 def test_factory_defaults_to_rule_based_and_selects_llm_provider(monkeypatch):
     monkeypatch.delenv("EVALUATOR_PROVIDER", raising=False)
     assert isinstance(get_behaviour_evaluator(), RuleBasedBehaviourEvaluator)
@@ -50,14 +78,14 @@ def test_openai_judge_uses_strict_json_and_only_relevant_confirmed_evidence(monk
 
     def fake_post(url, headers, payload):
         captured.update(url=url, headers=headers, payload=payload)
-        return {"output_text": '{"passed": false, "reason": "It retained the old database.", "evidence_memory_ids": ["M001", "M002"]}'}
+        return {"output_text": '{"passed": false, "reason": "It retained the old database.", "evidence_memory_ids": ["M001", "M002"], "failure_type": "freshness", "classification_reason": "The supplied source records support the observed error category."}'}
 
     monkeypatch.setattr(LLMBehaviourEvaluator, "_post", staticmethod(fake_post))
     result = LLMBehaviourEvaluator("openai").evaluate(_test_case(), _response("Use MySQL."), _memories())
     assert not result.passed
     assert result.failure_type == Dimension.FRESHNESS
     assert result.evidence_memory_ids == ["M001", "M002"]
-    assert result.evaluator == "llm-judge-openai-v4"
+    assert result.evaluator == "llm-judge-openai-v6"
     assert captured["payload"]["text"]["format"]["strict"] is True
     assert captured["payload"]["text"]["format"]["schema"]["additionalProperties"] is False
     assert "judge-secret" not in str(captured["payload"])
@@ -69,7 +97,7 @@ def test_malformed_or_hallucinated_judge_output_falls_back_without_leaking_secre
     monkeypatch.setattr(
         LLMBehaviourEvaluator,
         "_post",
-        staticmethod(lambda *_: {"choices": [{"message": {"content": '{"passed": true, "reason": "ok", "evidence_memory_ids": ["M999"]}'}}]}),
+        staticmethod(lambda *_: {"choices": [{"message": {"content": '{"passed": true, "reason": "ok", "evidence_memory_ids": ["M999"], "failure_type": null, "classification_reason": "No unique observed failure category is established."}'}}]}),
     )
     result = LLMBehaviourEvaluator("deepseek").evaluate(_test_case(), _response(), _memories())
     assert result.evaluator == f"fallback-{RuleBasedBehaviourEvaluator.VERSION}"
@@ -90,30 +118,47 @@ def test_local_judge_uses_schema_without_credentials_and_marks_pre_review(monkey
 
     def local_post(url, headers, payload):
         captured.update(url=url, headers=headers, payload=payload)
-        return {"done": True, "done_reason": "stop", "message": {"content": '{"passed": false, "reason": "The explanation invents an unsupported reason.", "evidence_memory_ids": ["M002"]}'}}
+        return {"done": True, "done_reason": "stop", "message": {"content": '{"passed": false, "reason": "The explanation invents an unsupported reason.", "evidence_memory_ids": ["M002"], "failure_type": null, "classification_reason": "No unique observed failure category is established."}'}}
 
     monkeypatch.setenv("OLLAMA_BASE_URL", "http://local-judge:11434")
     monkeypatch.setattr(LLMBehaviourEvaluator, "_post", staticmethod(local_post))
     evaluator = get_behaviour_evaluator("ollama", "qwen3:1.7b")
     result = evaluator.evaluate(_test_case(), _response("PostgreSQL, because it supports the newer memory policy."), _memories())
     assert result.passed is None
-    assert result.judge_execution.verdict_status == "review_disagreement"
-    assert result.evaluator == "llm-judge-ollama-v4"
+    assert result.judge_execution.verdict_status == "review_source_uncertainty"
+    assert result.evaluator == "llm-judge-ollama-v6"
     assert "not independent human validation" in result.reason
     assert captured["headers"] == {}
     assert captured["url"] == "http://local-judge:11434/api/chat"
     assert captured["payload"]["format"]["additionalProperties"] is False
+    assert captured["payload"]["format"]["properties"]["evidence_memory_ids"]["items"]["enum"] == ["M001", "M002"]
     assert captured["payload"]["think"] is False
     assert "M003" not in str(captured["payload"])
+    assert "C1" not in str(captured["payload"])
+
+
+def test_judge_schema_constrains_evidence_ids_and_empty_evidence():
+    schema = LLMBehaviourEvaluator._openai_schema({"M002", "M001"})["schema"]
+    assert schema["properties"]["evidence_memory_ids"]["items"]["enum"] == ["M001", "M002"]
+    empty_schema = LLMBehaviourEvaluator._openai_schema(set())["schema"]
+    assert empty_schema["properties"]["evidence_memory_ids"]["maxItems"] == 0
+
+
+def test_judge_prompt_does_not_expose_source_message_ids_or_allow_them_as_citations():
+    memory = _memories()[1].model_copy(update={"source_message_ids": ["SRC001"]})
+    prompt = LLMBehaviourEvaluator("ollama")._judge_prompt(_test_case(), _response(), [memory])
+    assert "SRC001" not in prompt
+    assert "source message IDs are not valid here" in prompt
+    assert "M002" in prompt
 
 
 @pytest.mark.parametrize("reply", [
     {"done": False, "message": {"content": '{}'}},
     {"done": True, "done_reason": "length", "message": {"content": '{}'}},
     {"done": True, "message": {"content": "not json"}},
-    {"done": True, "message": {"content": '{"passed": true, "reason": "ok", "evidence_memory_ids": []}'}},
-    {"done": True, "message": {"content": '{"passed": true, "reason": "ok", "evidence_memory_ids": ["M999"]}'}},
-    {"done": True, "message": {"content": '{"passed": "true", "reason": "ok", "evidence_memory_ids": ["M002"]}'}},
+    {"done": True, "message": {"content": '{"passed": true, "reason": "ok", "evidence_memory_ids": [], "failure_type": null, "classification_reason": "No unique observed failure category is established."}'}},
+    {"done": True, "message": {"content": '{"passed": true, "reason": "ok", "evidence_memory_ids": ["M999"], "failure_type": null, "classification_reason": "No unique observed failure category is established."}'}},
+    {"done": True, "message": {"content": '{"passed": "true", "reason": "ok", "evidence_memory_ids": ["M002"], "failure_type": null, "classification_reason": "No unique observed failure category is established."}'}},
 ])
 def test_local_judge_invalid_or_uncited_verdict_stays_unscored(monkeypatch, reply):
     monkeypatch.setattr(LLMBehaviourEvaluator, "_post", staticmethod(lambda *_: reply))
@@ -124,11 +169,11 @@ def test_local_judge_invalid_or_uncited_verdict_stays_unscored(monkeypatch, repl
 
 def test_local_judge_can_explicitly_abstain_without_claiming_cited_evidence(monkeypatch):
     monkeypatch.setattr(LLMBehaviourEvaluator, "_post", staticmethod(lambda *_: {
-        "done": True, "message": {"content": '{"passed": null, "reason": "Insufficient evidence", "evidence_memory_ids": []}'},
+        "done": True, "message": {"content": '{"passed": null, "reason": "Insufficient evidence", "evidence_memory_ids": [], "failure_type": null, "classification_reason": "No unique observed failure category is established."}'},
     }))
     result = LLMBehaviourEvaluator("ollama").evaluate(_test_case(), _response(), [])
     assert result.passed is None
-    assert result.evaluator == "llm-judge-ollama-v4"
+    assert result.evaluator == "llm-judge-ollama-v6"
 
 
 def test_http_transport_errors_retry_and_remain_internal(monkeypatch):
@@ -169,7 +214,7 @@ def test_judge_meter_retains_retry_counts_and_usage_on_invalid_semantic_output(m
 
 def test_judge_meter_missing_usage_remains_unknown_and_does_not_leak_across_answers(monkeypatch):
     replies = iter([
-        httpx.Response(200, json={'done': True, 'message': {'content': '{"passed":null,"reason":"uncertain","evidence_memory_ids":[]}'}, 'prompt_eval_count': True, 'eval_count': -3}),
+        httpx.Response(200, json={'done': True, 'message': {'content': '{"passed": null, "reason": "uncertain", "evidence_memory_ids": [], "failure_type": null, "classification_reason": "No unique observed failure category is established."}'}, 'prompt_eval_count': True, 'eval_count': -3}),
         httpx.Response(400, json={'error': 'private upstream data'}),
     ])
     monkeypatch.setattr('app.evaluator.llm_judge.httpx.post', lambda *_, **__: next(replies))
@@ -183,6 +228,33 @@ def test_judge_meter_missing_usage_remains_unknown_and_does_not_leak_across_answ
     assert second.judge_execution.failed_http_attempts == 1
     assert second.judge_execution.reported_total_tokens is None
     assert 'private upstream data' not in second.model_dump_json()
+
+
+@pytest.mark.parametrize('cost',[None,True,-1,float('nan'),float('inf'),'0.01',10**1000])
+def test_invalid_or_unreported_credit_cost_stays_unknown(cost):
+    meter={}
+    LLMBehaviourEvaluator._record_usage({'usage':{'cost':cost}},meter,provider='openrouter')
+    assert 'reported_cost_credits' not in meter
+
+
+def test_credit_cost_is_only_recorded_for_openrouter_and_does_not_cross_answers(monkeypatch):
+    meter={}
+    LLMBehaviourEvaluator._record_usage({'usage':{'cost':0.02}},meter,provider='ollama')
+    assert 'reported_cost_credits' not in meter
+    monkeypatch.setenv('OPENROUTER_API_KEY','synthetic-test-key')
+    replies=iter([httpx.Response(200,json={'choices':[{'message':{'content':'not JSON'}}],'usage':{'cost':0.02}}),
+                  httpx.Response(200,json={'choices':[{'message':{'content':'not JSON'}}],'usage':{}})])
+    monkeypatch.setattr('app.evaluator.llm_judge.httpx.post',lambda *_,**__:next(replies))
+    evaluator=LLMBehaviourEvaluator('openrouter',model='fixed-test')
+    first=evaluator.evaluate(_test_case(),_response(),_memories())
+    second=evaluator.evaluate(_test_case(),_response(),_memories())
+    assert first.judge_execution.reported_cost_credits==0.02
+    assert first.judge_execution.verdict_status=='uncertain_fallback'
+    assert second.judge_execution.reported_cost_credits is None
+    assert 'synthetic-test-key' not in first.model_dump_json()
+    free={}
+    LLMBehaviourEvaluator._record_usage({'usage':{'cost':0}},free,provider='openrouter')
+    assert free['reported_cost_credits']==0
 
 
 def test_missing_judge_key_records_zero_actual_http_requests(monkeypatch):
@@ -200,7 +272,7 @@ def test_concurrent_judges_keep_independent_request_and_usage_receipts(monkeypat
 
     def post(*_, json, **__):
         barrier.wait(timeout=5)
-        return httpx.Response(200, json={'done': True, 'message': {'content': '{"passed":null,"reason":"uncertain","evidence_memory_ids":[]}'}, 'prompt_eval_count': 11 if json['model'] == 'judge-a' else 21, 'eval_count': 3})
+        return httpx.Response(200, json={'done': True, 'message': {'content': '{"passed": null, "reason": "uncertain", "evidence_memory_ids": [], "failure_type": null, "classification_reason": "No unique observed failure category is established."}'}, 'prompt_eval_count': 11 if json['model'] == 'judge-a' else 21, 'eval_count': 3})
 
     monkeypatch.setattr('app.evaluator.llm_judge.httpx.post', post)
     with ThreadPoolExecutor(2) as pool:
@@ -217,13 +289,13 @@ def test_concurrent_judges_keep_independent_request_and_usage_receipts(monkeypat
 ])
 def test_local_semantic_rule_disagreement_is_review_only(monkeypatch, provider_passed, response_text):
     import json
-    verdict = {'passed': provider_passed, 'reason': 'Original provider explanation', 'evidence_memory_ids': ['M002']}
+    verdict = {'failure_type': None, 'classification_reason': 'No unique category established.', 'passed': provider_passed, 'reason': 'Original provider explanation', 'evidence_memory_ids': ['M002']}
     monkeypatch.setattr(LLMBehaviourEvaluator, '_post', staticmethod(lambda *_: {'done': True, 'message': {'content': json.dumps(verdict)}}))
     result = LLMBehaviourEvaluator('ollama').evaluate(_test_case(), _response(response_text), _memories())
     assert result.passed is None and result.failure_type is None
     assert 'Original provider explanation' in result.reason
     assert 'excluded from scoring' in result.reason
-    assert result.evaluator == 'llm-judge-ollama-v4'
+    assert result.evaluator == 'llm-judge-ollama-v6'
     assert result.judge_execution.verdict_status == 'review_disagreement'
     assert result.judge_execution.provider_verdict is provider_passed
     assert result.judge_execution.rule_cross_check_verdict is (not provider_passed)
@@ -231,7 +303,7 @@ def test_local_semantic_rule_disagreement_is_review_only(monkeypatch, provider_p
 
 
 def test_local_judge_agreement_is_still_only_automated_pre_review(monkeypatch):
-    monkeypatch.setattr(LLMBehaviourEvaluator, '_post', staticmethod(lambda *_: {'done': True, 'message': {'content': '{"passed":false,"reason":"Wrong old database","evidence_memory_ids":["M001","M002"]}'}}))
+    monkeypatch.setattr(LLMBehaviourEvaluator, '_post', staticmethod(lambda *_: {'done': True, 'message': {'content': '{"passed": false, "reason": "Wrong old database", "evidence_memory_ids": ["M001", "M002"], "failure_type": "freshness", "classification_reason": "The supplied source records support the observed error category."}'}}))
     result = LLMBehaviourEvaluator('ollama').evaluate(_test_case(), _response('Use MySQL.'), _memories())
     assert result.passed is False
     assert result.judge_execution.verdict_status == 'valid'
@@ -253,7 +325,7 @@ def test_local_judge_preserves_source_check_abstention(monkeypatch, provider_pas
                        canonical_value='Python is required.', status=MemoryStatus.CONFIRMED)]
     answer = _response('Python 3.12 is required.')
     assert RuleBasedBehaviourEvaluator().evaluate(case, answer, memories).passed is None
-    verdict = {'passed': provider_passed, 'reason': 'Provider original decision',
+    verdict = {'failure_type': None, 'classification_reason': 'No unique category established.', 'passed': provider_passed, 'reason': 'Provider original decision',
                'evidence_memory_ids': ['M002']}
     monkeypatch.setattr(LLMBehaviourEvaluator, '_post', staticmethod(
         lambda *_: {'done': True, 'message': {'content': json.dumps(verdict)}}))
@@ -276,7 +348,7 @@ def test_cloud_judges_preserve_the_same_source_uncertainty_as_local(monkeypatch,
     memories = [Memory(memory_id='M002',conversation_id='C1',canonical_value='Python is required.',status=MemoryStatus.CONFIRMED)]
     answer = _response('Python 3.12 is required.')
     monkeypatch.setattr(LLMBehaviourEvaluator,'_credential',lambda _: 'isolated-fixture-only')
-    monkeypatch.setattr(LLMBehaviourEvaluator,'_judge',lambda *_: {'passed':provider_passed,
+    monkeypatch.setattr(LLMBehaviourEvaluator,'_judge',lambda *_: {'failure_type': None, 'classification_reason': 'No unique category established.', 'passed':provider_passed,
         'reason':'Original cloud explanation','evidence_memory_ids':['M002']})
     result = LLMBehaviourEvaluator(provider).evaluate(case,answer,memories)
     assert result.passed is None and result.failure_type is None
@@ -291,7 +363,7 @@ def test_cloud_judges_preserve_the_same_source_uncertainty_as_local(monkeypatch,
 @pytest.mark.parametrize('provider_passed,response_text', [(True,'Use MySQL.'),(False,'Use PostgreSQL.')])
 def test_cloud_disagreement_is_unscored_without_trusting_provider_size(monkeypatch,provider,provider_passed,response_text):
     monkeypatch.setattr(LLMBehaviourEvaluator,'_credential',lambda _: 'isolated-fixture-only')
-    monkeypatch.setattr(LLMBehaviourEvaluator,'_judge',lambda *_: {'passed':provider_passed,
+    monkeypatch.setattr(LLMBehaviourEvaluator,'_judge',lambda *_: {'failure_type': None, 'classification_reason': 'No unique category established.', 'passed':provider_passed,
         'reason':'Original cloud explanation','evidence_memory_ids':['M002']})
     result = LLMBehaviourEvaluator(provider).evaluate(_test_case(),_response(response_text),_memories())
     assert result.passed is None

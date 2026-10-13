@@ -18,10 +18,10 @@ def input_delivery(reference, records, selected_ids, sent_ids, ranking):
             (entry := observations.get(key)) and entry.get('eligible') is True and
             entry.get('selected') is False and marker in str(entry.get('reason', ''))])
     already_present = (selected or set()) | (supplied or set())
-    return {'version': 'input-stage-correspondence-v1', 'expected_fact_units': len(expected),
+    return {'version': 'input-stage-correspondence-v3', 'expected_fact_units': len(expected),
         'retrieved_fact_units': len(expected & selected) if selected is not None else None,
-        'complete_retrieved_match': bool(expected) and selected is not None and expected.issubset(selected),
+        'complete_retrieved_match': expected.issubset(selected) if expected and selected is not None else None,
         'selected_not_supplied_fact_units': len((expected & selected) - supplied) if selected is not None and supplied is not None else None,
         'context_budget_excluded_fact_units': len((expected & excluded('profile_context_budget_excluded')) - already_present),
         'profile_filter_excluded_fact_units': len((expected & excluded('profile_excluded_')) - already_present),
-        'notice': 'Exact source-and-fact matches are proxies. Paraphrases and duplicate facts may supply the same meaning; these observations do not establish the sole cause of failure.'}
+        'notice': 'Exclusion counts include only unambiguous recorded supporting-fact exclusions; zero does not establish that every exclusion was observed. Exact source-and-fact matches are proxies. Paraphrases and duplicate facts may supply the same meaning; these observations do not establish the sole cause of failure.'}

@@ -1,0 +1,22 @@
+{
+  "messages": [
+    {
+      "message_id": "CANDIDATE-01-MSG-1",
+      "role": "user",
+      "content": "I booked the train for Monday.",
+      "timestamp": "2026-10-11T01:00:00+00:00"
+    },
+    {
+      "message_id": "CANDIDATE-01-MSG-2",
+      "role": "user",
+      "content": "The railway cancelled it; my replacement train leaves Wednesday.",
+      "timestamp": "2026-10-11T02:00:00+00:00"
+    },
+    {
+      "message_id": "CANDIDATE-01-MSG-3",
+      "role": "user",
+      "content": "Monday is the date of my old ticket, not the replacement.",
+      "timestamp": "2026-10-11T03:00:00+00:00"
+    }
+  ]
+}

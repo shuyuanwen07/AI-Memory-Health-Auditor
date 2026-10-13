@@ -5,6 +5,7 @@ from uuid import uuid4
 from app.models import MemoryModel, TargetAgentMemoryModel, TargetAgentRetrievalModel
 
 from app.memory_agent import SqlTargetMemoryStore, get_target_memory_writer
+from app.memory_agent.retrieval_agent import AgentMemoryRetriever
 from app.schemas import (
     AuditRun, Conversation, MemoryStrategy, TargetMemoryMaintenancePolicy,
     TargetResponse, TestCase,
@@ -34,6 +35,9 @@ class ControlledTargetSystemAdapter(TargetSystemAdapter):
             ),
             capacity=audit.target_memory_capacity if audit.target_memory_capacity is not None else 50,
             profile=audit.target_memory_profile,
+            retrieval_agent=(AgentMemoryRetriever(audit.retrieval_provider, audit.retrieval_model)
+                            if audit.retrieval_mode.value == "agent"
+                            and audit.retrieval_provider and audit.retrieval_model else None),
         )
         self._conversation: Conversation | None = None
         self._last_retrieval_id: str | None = None
@@ -46,7 +50,8 @@ class ControlledTargetSystemAdapter(TargetSystemAdapter):
         if self._conversation is None:
             raise RuntimeError("The target system must ingest its authorised conversation before answering.")
         retrieval = self.store.retrieve(
-            self.audit.run_id, self._conversation, test, MemoryStrategy(audit.memory_strategy)
+            self.audit.run_id, self._conversation, test, MemoryStrategy(audit.memory_strategy),
+            retrieval_mode=audit.retrieval_mode.value,
         )
         self._last_retrieval_id = retrieval.evidence.retrieval_id
         intervention = audit.reproducibility.intervention

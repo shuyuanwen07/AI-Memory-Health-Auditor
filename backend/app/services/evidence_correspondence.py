@@ -2,11 +2,16 @@
 import re
 
 
-VERSION = "source-fact-correspondence-v1"
+VERSION = "source-fact-correspondence-v2"
 
 
 def evidence_units(record):
-    value = " ".join(re.findall(r"\w+", record.canonical_value.casefold()))
+    # Retain signs, decimals, operators and identifier punctuation. Removing
+    # every symbol would certify different facts (-100/100, C++/C) as equal.
+    tokens = re.findall(r"\w+|[^\w\s]", record.canonical_value.casefold())
+    while tokens and tokens[-1] in {".", "!", "?"}:
+        tokens.pop()
+    value = " ".join(tokens)
     return {(source, value) for source in record.source_message_ids or []} if value else set()
 
 

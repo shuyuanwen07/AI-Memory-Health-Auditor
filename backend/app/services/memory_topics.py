@@ -6,7 +6,7 @@ LANGUAGE_WORDS = frozenset({
     'golang', 'ruby', 'php', 'perl', 'scala', 'haskell', 'julia', 'lua', 'matlab',
 })
 _LANGUAGE = re.compile(r'\b(?:' + '|'.join(sorted(LANGUAGE_WORDS)) + r')\b', re.I)
-_GO = re.compile(r'\b(?:prefer|favour|favorite|favourite|requires?|required|using|use)\s+(?:using\s+)?go\s*(?:[.!?,;]|$)|\bgo\s+(?:programming\s+)?language\b|(?<!to )\bgo\s+is\s+required\b', re.I)
+_GO = re.compile(r'\b(?:prefers?|favours?|favorite|favourite|requires?|required|using|use)\s+(?:using\s+)?go\s*(?:[.!?,;]|$|(?=for\b|when\b|on\b))|\bgo\s+(?:programming\s+)?language\b|(?<!to )\bgo\s+is\s+required\b', re.I)
 
 
 def language_words(text: str) -> set[str]:

@@ -59,7 +59,7 @@ def formal_input_signature(db: Session, audit) -> str:
     def rows(model, predicate, excluded=()):
         return [{column.name: getattr(row, column.name) for column in model.__table__.columns
                  if column.name not in excluded}
-                for row in db.scalars(select(model).where(predicate).order_by(model.id))]
+                for row in db.scalars(select(model).where(predicate).order_by(model.id).execution_options(populate_existing=True))]
 
     def serial(value):
         if isinstance(value, datetime):
@@ -68,26 +68,38 @@ def formal_input_signature(db: Session, audit) -> str:
 
     memories = rows(MemoryModel, MemoryModel.conversation_id == audit.conversation_id)
     memory_ids = [item['id'] for item in memories]
-    experiment = db.get(ExperimentModel, audit.experiment_id)
+    experiment = db.get(ExperimentModel, audit.experiment_id) if audit.experiment_id else None
     fields = ('conversation_id', 'experiment_id', 'target_configuration', 'provider', 'model',
               'temperature', 'random_seed', 'test_budget', 'prompt_template_version',
-              'pipeline_provider', 'pipeline_model', 'evaluator_provider', 'evaluator_model',
+              'pipeline_provider', 'pipeline_model', 'semantic_review_provider', 'semantic_review_model',
+              'evaluator_provider', 'evaluator_model',
               'memory_strategy', 'memory_maintenance_policy', 'target_memory_capacity',
               'target_memory_writer', 'target_memory_writer_version',
               'target_system_adapter', 'target_system_adapter_version')
     metadata = audit.reproducibility_metadata or {}
+    messages = rows(MessageModel, MessageModel.conversation_id == audit.conversation_id)
+    for message in messages:
+        # An additive, empty provenance column must not invalidate pre-0025
+        # input receipts. Non-empty provenance is an input and stays frozen.
+        if message.get('original_timestamp') is None:
+            message.pop('original_timestamp', None)
     payload = {
-        'version': 'formal-inputs-v1',
+        'version': 'formal-inputs-v2',
         'configuration': {field: getattr(audit, field) for field in fields},
         'execution_controls': {key: metadata.get(key) for key in
                                ('target_memory_profile', 'target_retry_policy', 'execution_budget')},
-        'messages': rows(MessageModel, MessageModel.conversation_id == audit.conversation_id),
+        'acceptance_protocol': metadata.get('formal_acceptance_protocol'),
+        'messages': messages,
         'memories': memories,
         'relationships': rows(MemoryRelationshipModel, MemoryRelationshipModel.memory_id.in_(memory_ids)),
         'tests': rows(TestCaseModel, TestCaseModel.run_id == audit.id, ('target_memory_context',)),
         'suite_configuration': experiment.test_suite_configuration if experiment else None,
         'canonical_run': experiment.test_suite_source_run_id if experiment else None,
     }
+    if 'formal_repetition_index' in metadata:
+        payload['repetition'] = {key: metadata.get(key) for key in ('formal_repetition_index', 'formal_repetition_count')}
+    if 'formal_matrix_manifest' in metadata:
+        payload['matrix_manifest'] = metadata['formal_matrix_manifest']
     return hashlib.sha256(json.dumps(payload, sort_keys=True, separators=(',', ':'),
                                      ensure_ascii=False, default=serial).encode()).hexdigest()
 

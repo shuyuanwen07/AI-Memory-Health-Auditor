@@ -12,6 +12,8 @@ class TargetMemoryProfile(BaseModel):
     isolate_project_scope: bool = False
     prefer_current_state: bool = False
     additional_instructions: str = Field(default="", max_length=4000)
+    # None keeps legacy records honest: no per-run output limit was frozen.
+    output_token_limit: int | None = Field(default=None, ge=1, le=8192, strict=True)
 
 
 class RepairExperimentRequest(BaseModel):

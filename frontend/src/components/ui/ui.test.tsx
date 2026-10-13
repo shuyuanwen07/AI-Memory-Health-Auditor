@@ -63,3 +63,11 @@ test('a local JSON import can choose the same file again without automatic uploa
   expect(imported).toHaveBeenLastCalledWith('fixture.json');
   expect(screen.queryByText(/Uploading/)).toBeNull();
 });
+
+test('required numeric settings retain their last value while cleared for replacement', async () => {
+  function RequiredBudget(){const [value,setValue]=useState(4);return <UIInput preserveValueOnClear type="number" aria-label="Required budget" min="1" max="100" value={value} onChange={e=>setValue(Number(e.target.value)||1)}/>;}
+  const user=userEvent.setup();render(<RequiredBudget/>);
+  await user.clear(screen.getByRole('spinbutton',{name:'Required budget'}));
+  await user.type(screen.getByRole('spinbutton',{name:'Required budget'}),'7');
+  expect(screen.getByRole('spinbutton',{name:'Required budget'})).toHaveValue('7');
+});

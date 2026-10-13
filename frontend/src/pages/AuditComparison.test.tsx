@@ -11,6 +11,20 @@ const pair = (id:string,outcome:string) => ({suite_test_id:id,prompt:`Question $
 const data = {before:{run:run('BEFORE'),result:result(25)},after:{run:run('AFTER'),result:result(75)},warnings:[],setting_differences:[],counts:{fixed:2,regressed:0,still_failed:1,still_passed:1},paired_delta_percentage_points:50,unpaired_before:0,unpaired_after:0,paired_tests:[pair('1','fixed'),pair('2','still_failed')]};
 beforeEach(() => {mocks.audits.mockResolvedValue([run('BEFORE'),run('AFTER')]);mocks.compareAudits.mockResolvedValue(data);});
 
+test('distinguishes review methods for identical models and strategies and can search by method',async()=>{
+  mocks.audits.mockResolvedValue([
+    {...run('BEFORE'),reproducibility:{auditor_method:'rules'}},
+    {...run('AFTER'),reproducibility:{auditor_method:'hybrid'}},
+  ]);
+  render(<MemoryRouter initialEntries={['/compare?before=BEFORE&after=AFTER']}><AuditComparisonPage/></MemoryRouter>);
+  await screen.findByText('2 answers improved');
+  expect(selectedUILabel('Before improvement')).toContain('Rule tests + rule review');
+  expect(selectedUILabel('After improvement')).toContain('Model tests + hybrid review');
+  await userEvent.type(screen.getByRole('textbox',{name:'Find saved audits'}),'hybrid review');
+  expect(screen.getByText(/1 matching audits/)).toBeInTheDocument();
+  expect(selectedUILabel('Before improvement')).toContain('Rule tests + rule review');
+});
+
 test('shows before/after scores, paired delta, and repaired question evidence', async () => {
   render(<MemoryRouter initialEntries={['/compare?before=BEFORE&after=AFTER']}><AuditComparisonPage /></MemoryRouter>);
   expect((await screen.findAllByText('+50.0 pp')).length).toBeGreaterThan(0);
@@ -100,4 +114,65 @@ test('exact dimension changes use canonical paired answers, not different full-s
   await screen.findByText('A direct improvement comparison is not available');
   await userEvent.click(screen.getByText('View exact dimension scores'));
   expect(screen.getByRole('row',{name:/Accuracy.*Unmeasured/})).toHaveTextContent('Unmeasured');
+});
+
+
+test('saved-answer reassessment is labelled as changed assessment rather than memory improvement',async()=>{
+  mocks.compareAudits.mockResolvedValue({...data,after:{...data.after,run:{...data.after.run,
+    reproducibility:{assessment_source_run_id:'BEFORE'}}},paired_tests:[],paired_delta_percentage_points:null});
+  render(<MemoryRouter initialEntries={['/compare?before=BEFORE&after=AFTER']}><AuditComparisonPage/></MemoryRouter>);
+  expect(await screen.findByRole('heading',{name:'Saved-answer assessment comparison'})).toBeInTheDocument();
+  expect(screen.getByRole('combobox',{name:'Before · original assessment'})).toBeInTheDocument();
+  expect(screen.getByRole('combobox',{name:'After · reassessment'})).toBeInTheDocument();
+  expect(screen.getByText(/Check whether both sides reuse the same original answers or come from different executions/)).toBeInTheDocument();
+  expect(screen.queryByRole('heading',{name:'Memory improvement results'})).toBeNull();
+});
+
+test('two reassessments retain distinct before and after selection labels',async()=>{
+  mocks.compareAudits.mockResolvedValue({...data,
+    before:{...data.before,run:{...data.before.run,reproducibility:{assessment_source_run_id:'ORIGINAL'}}},
+    after:{...data.after,run:{...data.after.run,reproducibility:{assessment_source_run_id:'ORIGINAL'}}}});
+  render(<MemoryRouter initialEntries={['/compare?before=BEFORE&after=AFTER']}><AuditComparisonPage/></MemoryRouter>);
+  await screen.findByRole('heading',{name:'Saved-answer assessment comparison'});
+  expect(screen.getByRole('combobox',{name:'Before · reassessment'})).toBeInTheDocument();
+  expect(screen.getByRole('combobox',{name:'After · reassessment'})).toBeInTheDocument();
+  expect(screen.queryByRole('combobox',{name:'Reassessment'})).toBeNull();
+});
+
+
+test('distinguishes unchanged questions from comparable decided assessments',async()=>{
+  mocks.compareAudits.mockResolvedValue({...data,shared_question_count:4,
+    decided_shared_question_count:4,comparable_decided_question_count:0,
+    paired_tests:[],paired_delta_percentage_points:null});
+  render(<MemoryRouter initialEntries={['/compare?before=BEFORE&after=AFTER']}><AuditComparisonPage/></MemoryRouter>);
+  expect(await screen.findByLabelText('Comparison coverage')).toHaveTextContent(
+    '4 unchanged shared questions · 4 with decided assessments on both sides · 0 assessed under matching standards.');
+  expect(screen.getByText('0 questions with comparable decided assessments')).toBeInTheDocument();
+  expect(screen.queryByText('0 identical frozen questions')).toBeNull();
+  expect(screen.queryByRole('button',{name:/ (Fixed|Regressed|Still failing|Still passing)$/})).toBeNull();
+  expect(screen.queryByLabelText('Shared question outcomes')).toBeNull();
+});
+
+
+test('reused-answer score changes never claim improved answers in the takeaway or chart',async()=>{
+  mocks.compareAudits.mockResolvedValue({...data,answer_provenance:'same_saved_answers',after:{...data.after,run:{...data.after.run,reproducibility:{shared_answer_source_run_id:'BEFORE'}}}});
+  render(<MemoryRouter initialEntries={['/compare?before=BEFORE&after=AFTER']}><AuditComparisonPage/></MemoryRouter>);
+  expect(await screen.findByRole('heading',{name:'Assessment decisions on saved answers'})).toBeInTheDocument();
+  expect(screen.queryByRole('heading',{name:/answers improved/})).toBeNull();
+  expect(screen.getByRole('region',{name:'Saved-answer assessment charts'})).toBeInTheDocument();
+  expect(screen.getByRole('img',{name:/Saved-answer assessment pass rates/})).toBeInTheDocument();
+  expect(screen.getByRole('button',{name:'2 Fail → pass'})).toBeInTheDocument();
+  expect(screen.getAllByText(/Score changes describe assessment decisions, not target-model or memory improvement/)).toHaveLength(2);
+  expect(screen.getByRole('region',{name:'Comparison takeaway'})).toHaveClass('neutral');
+});
+
+
+test('different original executions rescored under one assessor are not called judgement-only changes',async()=>{
+  mocks.compareAudits.mockResolvedValue({...data,answer_provenance:'different_saved_executions',
+    after:{...data.after,run:{...data.after.run,reproducibility:{assessment_source_run_id:'ANOTHER_EXECUTION'}}}});
+  render(<MemoryRouter initialEntries={['/compare?before=BEFORE&after=AFTER']}><AuditComparisonPage/></MemoryRouter>);
+  expect(await screen.findByRole('heading',{name:'Different original executions, reassessed'})).toBeInTheDocument();
+  expect(screen.getAllByText(/These answers come from different original target executions/)).toHaveLength(2);
+  expect(screen.queryByText(/Any score change describes assessment decisions/)).toBeNull();
+  expect(screen.getByRole('img',{name:/Saved-answer assessment pass rates/}).textContent).toContain('Different original executions · reassessed saved answers');
 });

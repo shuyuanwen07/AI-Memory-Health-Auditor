@@ -1,0 +1,303 @@
+{
+  "data_origin": "AI-authored synthetic source-only candidates; independent review pending",
+  "scenarios": [
+    {
+      "scenario_id": "CANDIDATE-11",
+      "domain": "travel",
+      "coverage_hint": "conflict_resolution",
+      "proposed_split": "candidate_test",
+      "messages": [
+        {
+          "message_id": "CANDIDATE-11-MSG-1",
+          "role": "user",
+          "content": "The ferry app lists gate 3.",
+          "timestamp": "2026-10-11T01:00:00+00:00"
+        },
+        {
+          "message_id": "CANDIDATE-11-MSG-2",
+          "role": "user",
+          "content": "The printed boarding pass lists gate 5.",
+          "timestamp": "2026-10-11T02:00:00+00:00"
+        },
+        {
+          "message_id": "CANDIDATE-11-MSG-3",
+          "role": "user",
+          "content": "Both notices refer to the same departure and neither has an update time.",
+          "timestamp": "2026-10-11T03:00:00+00:00"
+        }
+      ],
+      "human_source_verified": false,
+      "independence_verified": false
+    },
+    {
+      "scenario_id": "CANDIDATE-12",
+      "domain": "cooking",
+      "coverage_hint": "accuracy",
+      "proposed_split": "candidate_test",
+      "messages": [
+        {
+          "message_id": "CANDIDATE-12-MSG-1",
+          "role": "user",
+          "content": "We have one blue mixing bowl and two white bowls.",
+          "timestamp": "2026-10-11T01:00:00+00:00"
+        },
+        {
+          "message_id": "CANDIDATE-12-MSG-2",
+          "role": "user",
+          "content": "The blue bowl is reserved for bread dough.",
+          "timestamp": "2026-10-11T02:00:00+00:00"
+        },
+        {
+          "message_id": "CANDIDATE-12-MSG-3",
+          "role": "user",
+          "content": "The white bowls are for the salad.",
+          "timestamp": "2026-10-11T03:00:00+00:00"
+        },
+        {
+          "message_id": "CANDIDATE-12-MSG-4",
+          "role": "assistant",
+          "content": "I might assume an additional detail, but please verify it against your original notes.",
+          "timestamp": "2026-10-11T04:00:00+00:00"
+        }
+      ],
+      "human_source_verified": false,
+      "independence_verified": false
+    },
+    {
+      "scenario_id": "CANDIDATE-13",
+      "domain": "support",
+      "coverage_hint": "freshness",
+      "proposed_split": "candidate_test",
+      "messages": [
+        {
+          "message_id": "CANDIDATE-13-MSG-1",
+          "role": "user",
+          "content": "The account notification address was inbox Alpha.",
+          "timestamp": "2026-10-11T01:00:00+00:00"
+        },
+        {
+          "message_id": "CANDIDATE-13-MSG-2",
+          "role": "user",
+          "content": "The administrator changed it to inbox Beta.",
+          "timestamp": "2026-10-11T02:00:00+00:00"
+        },
+        {
+          "message_id": "CANDIDATE-13-MSG-3",
+          "role": "user",
+          "content": "Alpha is retained only as an archive with notifications disabled.",
+          "timestamp": "2026-10-11T03:00:00+00:00"
+        }
+      ],
+      "human_source_verified": false,
+      "independence_verified": false
+    },
+    {
+      "scenario_id": "CANDIDATE-14",
+      "domain": "study",
+      "coverage_hint": "appropriate_use",
+      "proposed_split": "candidate_test",
+      "messages": [
+        {
+          "message_id": "CANDIDATE-14-MSG-1",
+          "role": "user",
+          "content": "I like long essays when practising at home.",
+          "timestamp": "2026-10-11T01:00:00+00:00"
+        },
+        {
+          "message_id": "CANDIDATE-14-MSG-2",
+          "role": "user",
+          "content": "This assignment has a strict 300-word response limit.",
+          "timestamp": "2026-10-11T02:00:00+00:00"
+        },
+        {
+          "message_id": "CANDIDATE-14-MSG-3",
+          "role": "user",
+          "content": "Use the limit for the assignment, not for my practice notes.",
+          "timestamp": "2026-10-11T03:00:00+00:00"
+        }
+      ],
+      "human_source_verified": false,
+      "independence_verified": false
+    },
+    {
+      "scenario_id": "CANDIDATE-15",
+      "domain": "software",
+      "coverage_hint": "conflict_resolution",
+      "proposed_split": "candidate_test",
+      "messages": [
+        {
+          "message_id": "CANDIDATE-15-MSG-1",
+          "role": "user",
+          "content": "The release checklist specifies build 17.",
+          "timestamp": "2026-10-11T01:00:00+00:00"
+        },
+        {
+          "message_id": "CANDIDATE-15-MSG-2",
+          "role": "user",
+          "content": "The signed test record specifies build 18.",
+          "timestamp": "2026-10-11T02:00:00+00:00"
+        },
+        {
+          "message_id": "CANDIDATE-15-MSG-3",
+          "role": "user",
+          "content": "The release owner has not decided which build to distribute.",
+          "timestamp": "2026-10-11T03:00:00+00:00"
+        }
+      ],
+      "human_source_verified": false,
+      "independence_verified": false
+    },
+    {
+      "scenario_id": "CANDIDATE-16",
+      "domain": "travel",
+      "coverage_hint": "accuracy",
+      "proposed_split": "candidate_test",
+      "messages": [
+        {
+          "message_id": "CANDIDATE-16-MSG-1",
+          "role": "user",
+          "content": "My museum pass covers two adult visitors.",
+          "timestamp": "2026-10-11T01:00:00+00:00"
+        },
+        {
+          "message_id": "CANDIDATE-16-MSG-2",
+          "role": "user",
+          "content": "The guided workshop is purchased separately.",
+          "timestamp": "2026-10-11T02:00:00+00:00"
+        },
+        {
+          "message_id": "CANDIDATE-16-MSG-3",
+          "role": "user",
+          "content": "The pass does not include workshop entry.",
+          "timestamp": "2026-10-11T03:00:00+00:00"
+        },
+        {
+          "message_id": "CANDIDATE-16-MSG-4",
+          "role": "assistant",
+          "content": "I might assume an additional detail, but please verify it against your original notes.",
+          "timestamp": "2026-10-11T04:00:00+00:00"
+        }
+      ],
+      "human_source_verified": false,
+      "independence_verified": false
+    },
+    {
+      "scenario_id": "CANDIDATE-17",
+      "domain": "cooking",
+      "coverage_hint": "freshness",
+      "proposed_split": "candidate_test",
+      "messages": [
+        {
+          "message_id": "CANDIDATE-17-MSG-1",
+          "role": "user",
+          "content": "The team planned to serve soup at noon.",
+          "timestamp": "2026-10-11T01:00:00+00:00"
+        },
+        {
+          "message_id": "CANDIDATE-17-MSG-2",
+          "role": "user",
+          "content": "The revised schedule moves soup to 1 pm.",
+          "timestamp": "2026-10-11T02:00:00+00:00"
+        },
+        {
+          "message_id": "CANDIDATE-17-MSG-3",
+          "role": "user",
+          "content": "The kitchen still opens at noon.",
+          "timestamp": "2026-10-11T03:00:00+00:00"
+        }
+      ],
+      "human_source_verified": false,
+      "independence_verified": false
+    },
+    {
+      "scenario_id": "CANDIDATE-18",
+      "domain": "support",
+      "coverage_hint": "appropriate_use",
+      "proposed_split": "candidate_test",
+      "messages": [
+        {
+          "message_id": "CANDIDATE-18-MSG-1",
+          "role": "user",
+          "content": "I prefer phone calls for personal enquiries.",
+          "timestamp": "2026-10-11T01:00:00+00:00"
+        },
+        {
+          "message_id": "CANDIDATE-18-MSG-2",
+          "role": "user",
+          "content": "For the warranty claim the manufacturer requires a written form.",
+          "timestamp": "2026-10-11T02:00:00+00:00"
+        },
+        {
+          "message_id": "CANDIDATE-18-MSG-3",
+          "role": "user",
+          "content": "Use the form for this claim while keeping my general phone preference.",
+          "timestamp": "2026-10-11T03:00:00+00:00"
+        }
+      ],
+      "human_source_verified": false,
+      "independence_verified": false
+    },
+    {
+      "scenario_id": "CANDIDATE-19",
+      "domain": "study",
+      "coverage_hint": "conflict_resolution",
+      "proposed_split": "candidate_test",
+      "messages": [
+        {
+          "message_id": "CANDIDATE-19-MSG-1",
+          "role": "user",
+          "content": "The laboratory sheet says measure in millimetres.",
+          "timestamp": "2026-10-11T01:00:00+00:00"
+        },
+        {
+          "message_id": "CANDIDATE-19-MSG-2",
+          "role": "user",
+          "content": "The marking guide says report in centimetres.",
+          "timestamp": "2026-10-11T02:00:00+00:00"
+        },
+        {
+          "message_id": "CANDIDATE-19-MSG-3",
+          "role": "user",
+          "content": "The lecturer has not clarified the required unit.",
+          "timestamp": "2026-10-11T03:00:00+00:00"
+        }
+      ],
+      "human_source_verified": false,
+      "independence_verified": false
+    },
+    {
+      "scenario_id": "CANDIDATE-20",
+      "domain": "software",
+      "coverage_hint": "accuracy",
+      "proposed_split": "candidate_test",
+      "messages": [
+        {
+          "message_id": "CANDIDATE-20-MSG-1",
+          "role": "user",
+          "content": "The export file contains three fields: name, count, and status.",
+          "timestamp": "2026-10-11T01:00:00+00:00"
+        },
+        {
+          "message_id": "CANDIDATE-20-MSG-2",
+          "role": "user",
+          "content": "The internal debug token is not part of the export schema.",
+          "timestamp": "2026-10-11T02:00:00+00:00"
+        },
+        {
+          "message_id": "CANDIDATE-20-MSG-3",
+          "role": "user",
+          "content": "The current task is to describe the public export fields.",
+          "timestamp": "2026-10-11T03:00:00+00:00"
+        },
+        {
+          "message_id": "CANDIDATE-20-MSG-4",
+          "role": "assistant",
+          "content": "I might assume an additional detail, but please verify it against your original notes.",
+          "timestamp": "2026-10-11T04:00:00+00:00"
+        }
+      ],
+      "human_source_verified": false,
+      "independence_verified": false
+    }
+  ]
+}

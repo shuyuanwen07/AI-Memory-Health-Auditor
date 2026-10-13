@@ -22,7 +22,7 @@ export function UICard({ children, className = '', ...props }: HTMLAttributes<HT
 }
 
 export function UIAlert({ children, className = '', role, ...props }: HTMLAttributes<HTMLDivElement>) {
-  return <Alert {...props} role={role ?? 'alert'} type={role === 'status' ? 'info' : 'error'} showIcon
+  return <Alert {...props} role={role ?? 'alert'} type={role === 'status' ? 'info' : role === 'note' ? 'warning' : 'error'} showIcon
     title={children} className={`ui-alert ${className}`} />;
 }
 
@@ -50,7 +50,7 @@ function change(value: string, checked?: boolean, files?: File[]): ChangeEvent<H
   return { target, currentTarget: target } as unknown as ChangeEvent<HTMLInputElement>;
 }
 
-export function UIInput({ type, onChange, value, className = '', ...props }: InputHTMLAttributes<HTMLInputElement>) {
+export function UIInput({ type, onChange, value, preserveValueOnClear = false, className = '', ...props }: InputHTMLAttributes<HTMLInputElement> & { preserveValueOnClear?: boolean }) {
   if (type === 'checkbox') {
     return <Checkbox {...props} onChange={event => onChange?.(event as unknown as ChangeEvent<HTMLInputElement>)}
       className={`ui-checkbox ${className}`} />;
@@ -68,7 +68,7 @@ export function UIInput({ type, onChange, value, className = '', ...props }: Inp
       disabled={props.disabled} readOnly={props.readOnly} autoFocus={props.autoFocus} placeholder={props.placeholder}
       min={min == null ? undefined : Number(min)} max={max == null ? undefined : Number(max)}
       step={step === 'any' ? undefined : step} value={value === '' || value == null ? null : Number(value)}
-      onChange={next => onChange?.(change(next == null ? '' : String(next)))} className={`ui-number ${className}`} />;
+      onChange={next => { if(next != null || !preserveValueOnClear) onChange?.(change(next == null ? '' : String(next))); }} className={`ui-number ${className}`} />;
   }
   const { size: _size, ...inputProps } = props;
   return <Input {...inputProps} type={type} value={value} onChange={onChange} className={`ui-input ${className}`} />;

@@ -8,10 +8,17 @@ import { selectedUILabel, selectUIOption } from '../components/ui/testHelpers';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { NewAudit } from './NewAudit';
+import { defaultTargetProfile } from '../components/TargetProfileEditor';
 
 const apiMocks = vi.hoisted(() => ({
   targetProviders: vi.fn(),
+  getConversation: vi.fn(),
+  conversationMemories: vi.fn(),
+  conversationAgentExecutions: vi.fn(),
+  audits: vi.fn(),
   openRouterModels: vi.fn(),
+  openRouterModelChecks: vi.fn(),
+  checkOpenRouterModel: vi.fn(),
   ollamaModels: vi.fn(),
   createConversation: vi.fn(),
   extract: vi.fn(),
@@ -25,12 +32,17 @@ const apiMocks = vi.hoisted(() => ({
   reviewTest: vi.fn(),
   regenerateTest: vi.fn(),
   execute: vi.fn(),
+  reuseAnswers: vi.fn(),
   evaluate: vi.fn(),
   cancel: vi.fn(),
   cancelExperiment: vi.fn(),
   results: vi.fn(),
   retry: vi.fn(),
+  retryPlan: vi.fn(),
+  continueGeneration: vi.fn(),
   targetMemoryTrace: vi.fn(),
+  targetSystems: vi.fn(),
+  coveragePreview: vi.fn(),
 }));
 
 vi.mock('../services/api', () => ({ api: apiMocks }));
@@ -61,12 +73,29 @@ const result = {
 };
 
 beforeEach(() => {
+  sessionStorage.clear();
   vi.resetAllMocks();
-  apiMocks.openRouterModels.mockResolvedValue([{value: 'test/independent-judge', label: 'Independent judge'}]);
+  apiMocks.getConversation.mockResolvedValue({conversation_id:'C001',authorised:true,messages:[{message_id:'MSG001',role:'user',content:'The backend now uses PostgreSQL.',timestamp:'2026-01-01T00:00:00Z'}]});
+  apiMocks.conversationMemories.mockResolvedValue([confirmedMemory]);
+  apiMocks.conversationAgentExecutions.mockResolvedValue([]);
+  apiMocks.audits.mockResolvedValue([]);
+  const verifiedMockModels = ['test/independent-judge', 'test/target', 'test/pipeline', 'test/judge', 'test/generator', 'cloud', 'cloud/new-default', 'changed/cloud-default', 'target']
+    .map(value => ({ value, label: value === 'test/independent-judge' ? 'Independent judge' : value, status: 'available' as const, checked_at: '2026-10-12T00:00:00Z' }));
+  apiMocks.openRouterModels.mockResolvedValue(verifiedMockModels.map(({ value, label }) => ({ value, label })));
+  apiMocks.openRouterModelChecks.mockResolvedValue(verifiedMockModels);
   apiMocks.ollamaModels.mockResolvedValue([{value: 'qwen3:1.7b', label: 'qwen3:1.7b'}, {value: 'qwen3:4b', label: 'qwen3:4b'}, ...Array.from({length: 9}, (_, i) => ({value: `qwen:${i}`, label: `qwen:${i}`}))]);
   apiMocks.targetProviders.mockResolvedValue([
     { provider: 'rule_based', label: 'Rule-Based Baseline', default_model: 'rule-based-v1', configured: true, description: 'Deterministic local target.' },
   ]);
+  apiMocks.targetSystems.mockResolvedValue([{value:'controlled-memory',label:'Controlled memory',configured:true}]);
+  apiMocks.coveragePreview.mockImplementation(async (_id: string, budget: number) => ({
+    requested_test_count: budget, minimum_met: true,
+    dimensions: ['accuracy','freshness','conflict_resolution','appropriate_use'].map((dimension) => ({
+      dimension, evidence_supported: true, reason: 'Synthetic workflow fixture.',
+      planned_question_count: 1, required_question_count: 1,
+      available_question_count: 1, accepted_question_count: 0,
+    })),
+  }));
   apiMocks.createConversation.mockResolvedValue({ conversation_id: 'C001' });
   apiMocks.extract.mockResolvedValue([memory]);
   apiMocks.updateMemory.mockResolvedValue(confirmedMemory);
@@ -76,7 +105,9 @@ beforeEach(() => {
   apiMocks.generate.mockResolvedValue([pendingTest]);
   apiMocks.testReview.mockResolvedValue({ run_id: 'RUN001', canonical_run_id: 'RUN001', tests: [pendingTest] });
   apiMocks.reviewTest.mockResolvedValue(acceptedTest);
+  apiMocks.retryPlan.mockResolvedValue({busy:false,retryable:true,next_stage:'evaluate_responses',pending:1});
   apiMocks.execute.mockResolvedValue({ status: 'TESTS_EXECUTED' });
+  apiMocks.reuseAnswers.mockResolvedValue({status:'TESTS_EXECUTED'});
   apiMocks.evaluate.mockResolvedValue({ status: 'COMPLETED' });
   apiMocks.cancel.mockResolvedValue({ status: 'CANCELLED' });
   apiMocks.cancelExperiment.mockResolvedValue({ status: 'CANCELLED' });
@@ -89,7 +120,55 @@ beforeEach(() => {
   });
 });
 
-test('defaults all cloud roles to OpenRouter and freezes independent model selections', async () => {
+test('keeps pasted drafts out of browser storage until consent and clears them when consent is withdrawn',async()=>{
+  const user=userEvent.setup();render(<NewAudit/>);
+  await user.type(screen.getByLabelText('Authorised conversation text'),'A local draft');
+  expect(sessionStorage.getItem('mha-new-audit-draft-v1')).toBeNull();
+  await user.click(screen.getByRole('checkbox',{name:/authorised to use this conversation/i}));
+  await waitFor(()=>expect(JSON.parse(sessionStorage.getItem('mha-new-audit-draft-v1')!).text).toContain('A local draft'));
+  await user.click(screen.getByRole('checkbox',{name:/authorised to use this conversation/i}));
+  await waitFor(()=>expect(sessionStorage.getItem('mha-new-audit-draft-v1')).toBeNull());
+});
+
+test('configured OpenRouter defaults to three methods with two reviewed suites and a saved comparison', async () => {
+  apiMocks.targetProviders.mockResolvedValue([
+    { provider: 'rule_based', label: 'Rule-Based Baseline', default_model: 'rule-based-v1', configured: true, description: 'Offline.' },
+    { provider: 'openrouter', label: 'OpenRouter', default_model: 'test/target', default_pipeline_model: 'test/pipeline', default_evaluator_model: 'test/judge', configured: true, description: 'Cloud.' },
+  ]);
+  let experimentCount = 0, runCount = 0;
+  apiMocks.createExperiment.mockImplementation(async () => ({ experiment_id: `EXP${++experimentCount}` }));
+  apiMocks.createAudit.mockImplementation(async () => ({ run_id: `RUN${++runCount}` }));
+  apiMocks.testReview.mockImplementation(async (runId: string) => ({ tests: [{ ...acceptedTest, run_id: runId, test_id: `T-${runId}` }] }));
+  apiMocks.results.mockImplementation(async (runId: string) => ({ ...result, run_id: runId }));
+  const user = userEvent.setup();
+  render(<NewAudit />);
+  await user.click(screen.getByRole('checkbox', { name: /authorised to use this conversation/i }));
+  await user.click(screen.getByRole('button', { name: 'Continue to Ground Truth' }));
+  await screen.findByRole('heading', { name: 'Review Extracted Memories' });
+  await user.click(screen.getByRole('button', { name: 'Accept' }));
+  await user.click(screen.getByRole('button', { name: 'Confirm Ground Truth & Continue' }));
+  expect(await screen.findByRole('checkbox', { name: /compare all three audit methods/i })).toBeChecked();
+  await user.click(screen.getByRole('button', { name: 'Start 3-Run Comparison' }));
+  await screen.findByRole('heading', { name: 'Prepare Memory Audit' });
+  expect(apiMocks.createExperiment).toHaveBeenCalledTimes(2);
+  const configurations = apiMocks.createExperiment.mock.calls.map(([body]) => body.test_suite_configuration);
+  expect(configurations[0].auditor_comparison_id).toBe(configurations[1].auditor_comparison_id);
+  expect(configurations[1].compare_evaluators).toBe(true);
+  expect(apiMocks.createAudit.mock.calls.every(([body]) => body.target_memory_profile.output_token_limit === 512)).toBe(true);
+  expect(apiMocks.createAudit.mock.calls.map(([body]) => [body.pipeline_provider, body.evaluator_provider])).toEqual([
+    ['rule_based', 'rule_based'], ['openrouter', 'rule_based'], ['openrouter', 'openrouter'],
+  ]);
+  await user.click(screen.getByRole('button', { name: 'Generate Tests for Review' }));
+  await screen.findByRole('heading', { name: 'Model-generated questions · shared by both reviewers' });
+  expect(apiMocks.generate).toHaveBeenCalledTimes(2);
+  await user.click(screen.getByRole('button', { name: 'Run Comparison & View Results' }));
+  await screen.findByRole('heading', { name: 'Audit Method Comparison' });
+  expect(apiMocks.execute).toHaveBeenCalledTimes(2);
+  expect(apiMocks.reuseAnswers).toHaveBeenCalledWith('RUN3','RUN2');
+  expect(screen.getByRole('link', { name: 'Open saved three-method comparison' })).toHaveAttribute('href', '/audit-methods?groups=EXP1%2CEXP2');
+});
+
+test('defaults internal Agents to the shared OpenRouter model and freezes its use', async () => {
   apiMocks.targetProviders.mockResolvedValue([
     { provider: 'rule_based', label: 'Rule-Based Baseline', default_model: 'rule-based-v1', configured: true, description: 'Offline.' },
     { provider: 'openrouter', label: 'OpenRouter', default_model: 'test/target', default_pipeline_model: 'test/pipeline', default_evaluator_model: 'test/judge', configured: true, description: 'Cloud gateway.' },
@@ -103,16 +182,31 @@ test('defaults all cloud roles to OpenRouter and freezes independent model selec
   await user.click(screen.getByRole('button', { name: 'Accept' }));
   await user.click(screen.getByRole('button', { name: 'Confirm Ground Truth & Continue' }));
   await screen.findByRole('heading', { name: 'Configure Memory Audit' });
-  expect(selectedUILabel('Test generation service')).toContain('OpenRouter');
-  expect(selectedUILabel('Behaviour evaluator')).toContain('OpenRouter');
+  expect(screen.getByRole('checkbox', {name: /compare all three audit methods/i})).toBeChecked();
+  expect(screen.getByText(/OpenRouter · test\/pipeline/)).toBeTruthy();
   expect(screen.queryByText('Legacy Direct Provider')).toBeNull();
-  await chooseModel(user, 'Evaluator model', 'Independent judge');
-  await user.click(screen.getByRole('button', { name: 'Start Memory Audit' }));
+  await user.click(screen.getByRole('button', { name: 'Start 3-Run Comparison' }));
   expect(apiMocks.createAudit).toHaveBeenCalledWith(expect.objectContaining({
     provider: 'openrouter', model: 'test/target',
     pipeline_provider: 'openrouter', pipeline_model: 'test/pipeline',
-    evaluator_provider: 'openrouter', evaluator_model: 'test/independent-judge',
+    evaluator_provider: 'openrouter', evaluator_model: 'test/pipeline',
   }));
+});
+
+test('explains Agents and ground truth at setup without changing the workflow labels', async () => {
+  const user = userEvent.setup();
+  render(<NewAudit />);
+
+  await screen.findByRole('combobox', { name: 'Shared Agent service' });
+  expect(screen.getByText(/An Agent is an AI task worker for one audit step/)).toBeInTheDocument();
+
+  await user.click(screen.getByRole('checkbox', { name: /authorised to use this conversation/i }));
+  await user.click(screen.getByRole('button', { name: 'Continue to Ground Truth' }));
+  await screen.findByRole('heading', { name: 'Review Extracted Memories' });
+  await user.click(screen.getByRole('button', { name: 'Accept' }));
+  await user.click(screen.getByRole('button', { name: 'Confirm Ground Truth & Continue' }));
+  await screen.findByRole('heading', { name: 'Configure Memory Audit' });
+  expect(screen.getByText(/Ground truth is the set of conversation-supported facts you confirmed/)).toBeInTheDocument();
 });
 
 test('completes the local audit workflow from consent through reviewed results and target trace', async () => {
@@ -169,7 +263,7 @@ test('cancelling a running comparison stops the browser queue before its next co
   await user.click(screen.getByRole('button', { name: 'Accept' }));
   await user.click(screen.getByRole('button', { name: 'Confirm Ground Truth & Continue' }));
   await screen.findByRole('heading', { name: 'Configure Memory Audit' });
-  await user.click(screen.getByRole('checkbox', { name: /Strong Rule-Based/i }));
+  await user.click(screen.getByRole('checkbox', { name: /Prioritise requirements and updates/i }));
   await user.click(screen.getByRole('button', { name: 'Start 2-Run Comparison' }));
   await user.click(screen.getByRole('button', { name: 'Generate Tests for Review' }));
   await screen.findByRole('heading', { name: 'Review Generated Test Suite' });
@@ -194,7 +288,7 @@ test('cancelling a running comparison stops the browser queue before its next co
   expect(apiMocks.execute).toHaveBeenCalledTimes(2);
 });
 
-test('keeps local Qwen visible and explicitly selects extraction before submitting', async () => {
+test('selects local Qwen as the shared Agent before extracting and freezes it for the audit', async () => {
   apiMocks.targetProviders.mockResolvedValue([
     { provider: 'rule_based', label: 'Rule-Based Baseline', default_model: 'rule-based-v1', configured: true, description: 'Offline.' },
     { provider: 'openrouter', label: 'OpenRouter', default_model: 'cloud', configured: false, description: 'Missing key.' },
@@ -202,26 +296,17 @@ test('keeps local Qwen visible and explicitly selects extraction before submitti
   ]);
   const user = userEvent.setup();
   render(<NewAudit />);
-  const extraction = await screen.findByLabelText('Memory extraction service');
-  await waitFor(() => expect(selectedUILabel('Memory extraction service')).toContain('Rule-Based Baseline'));
-  await user.click(extraction);
-  expect(await screen.findAllByRole('option')).toHaveLength(2);
-  await user.keyboard('{Escape}');
+  await screen.findByLabelText('Shared Agent service');
+  await selectUIOption(user, 'Shared Agent service', 'Local Qwen');
   await user.click(screen.getByRole('checkbox', { name: /authorised to use this conversation/i }));
   await user.click(screen.getByRole('button', { name: 'Continue to Ground Truth' }));
   await screen.findByRole('heading', { name: 'Review Extracted Memories' });
-  expect(apiMocks.extract).toHaveBeenCalledWith('C001', 'rule_based', undefined);
+  expect(apiMocks.extract).toHaveBeenCalledWith('C001', 'ollama', 'qwen3:1.7b');
   await user.click(screen.getByRole('button', { name: 'Accept' }));
   await user.click(screen.getByRole('button', { name: 'Confirm Ground Truth & Continue' }));
-  expect(await screen.findByText('Local Qwen')).toBeTruthy();
-  await selectUIOption(user, 'Behaviour evaluator', 'Local Qwen');
-  expect(screen.getByRole('note').textContent).toContain('same model for answers and judging can share errors');
-  expect(selectedUILabel('Evaluator model')).toContain('qwen3:1.7b');
-  await user.click(screen.getByRole('button', { name: 'Start Memory Audit' }));
-  expect(apiMocks.createExperiment).toHaveBeenCalledWith(expect.objectContaining({
-    test_suite_configuration: expect.objectContaining({evaluator_provider: 'ollama', evaluator_model: 'qwen3:1.7b', pipeline_provider: 'rule_based'}),
-  }));
-  expect(apiMocks.createAudit).toHaveBeenCalledWith(expect.objectContaining({evaluator_provider: 'ollama', evaluator_model: 'qwen3:1.7b'}));
+  expect(await screen.findByText(/Local Qwen · qwen3:1.7b/)).toBeTruthy();
+  await user.click(screen.getByRole('button', { name: 'Start 3-Run Comparison' }));
+  expect(apiMocks.createAudit).toHaveBeenCalledWith(expect.objectContaining({pipeline_provider: 'ollama', pipeline_model: 'qwen3:1.7b', evaluator_provider: 'ollama', evaluator_model: 'qwen3:1.7b'}));
 });
 
 
@@ -254,7 +339,7 @@ test('partial comparison retries only the unknown condition with its original ke
   apiMocks.createAudit.mockResolvedValueOnce({ run_id: 'RUN001' }).mockRejectedValueOnce(new Error('Response lost')).mockResolvedValueOnce({ run_id: 'RUN002' });
   const user = userEvent.setup(); render(<NewAudit />);
   await reachCreationConfiguration(user);
-  await user.click(screen.getByRole('checkbox', { name: /Scope-Aware/i }));
+  await user.click(screen.getByRole('checkbox', { name: /Match the task and project/i }));
   await user.click(screen.getByRole('button', { name: 'Start 2-Run Comparison' }));
   await screen.findByRole('heading', { name: 'Continue Preparing Your Audit' });
   expect(screen.getByText(/1 of 2 conditions acknowledged/)).toBeTruthy();
@@ -278,10 +363,8 @@ test('compares unique models on one service with identical frozen settings and d
   apiMocks.results.mockImplementation(async (runId: string) => ({ ...result, run_id: runId }));
   const user = userEvent.setup(); render(<NewAudit />);
   await reachCreationConfiguration(user);
-  await user.click(screen.getByRole('checkbox', { name: /Local models/ }));
-  await user.click(screen.getByRole('checkbox', { name: /Rule-Based Baseline/ }));
+  await user.click(screen.getByRole('checkbox', {name:/compare all three audit methods/i}));
   await chooseModel(user, 'Target model for Local models (Ollama)', 'qwen3:4b');
-  expect(screen.getByText(/2 planned runs · up to 16 answer requests/)).toBeTruthy();
   await user.click(screen.getByRole('button', { name: 'Start 2-Run Comparison' }));
   await screen.findByRole('heading', { name: 'Prepare Memory Audit' });
   expect(apiMocks.createExperiment).toHaveBeenCalledTimes(1);
@@ -298,8 +381,8 @@ test('compares unique models on one service with identical frozen settings and d
   await screen.findByRole('heading', { name: 'Memory Health Model Comparison' });
   expect(apiMocks.generate).toHaveBeenCalledTimes(1);
   expect(apiMocks.execute.mock.calls).toEqual([['RUN001'], ['RUN002']]);
-  expect(screen.getByText('Local models (Ollama) · qwen3:1.7b · Weak First-Hit detailed report')).toBeTruthy();
-  expect(screen.getByText('Local models (Ollama) · qwen3:4b · Weak First-Hit detailed report')).toBeTruthy();
+  expect(screen.getByText('Local models (Ollama) · qwen3:1.7b · AI retrieval Agent detailed report')).toBeTruthy();
+  expect(screen.getByText('Local models (Ollama) · qwen3:4b · AI retrieval Agent detailed report')).toBeTruthy();
 });
 
 test('blocks empty model selections, caps the picker at eight and keeps rule identity fixed', async () => {
@@ -309,8 +392,9 @@ test('blocks empty model selections, caps the picker at eight and keeps rule ide
   ]);
   const user = userEvent.setup(); render(<NewAudit />);
   await reachCreationConfiguration(user);
-  expect(screen.getByLabelText(/Target model for Rule-Based Baseline/)).toBeDisabled();
-  await user.click(screen.getByRole('checkbox', { name: /Local models/ }));
+  await user.click(screen.getByRole('checkbox', {name:/compare all three audit methods/i}));
+  await user.click(screen.getByRole('checkbox', {name:/Rule-Based Baseline/}));
+  expect(screen.getByRole('combobox', { name: /Target model for Rule-Based Baseline/ })).toBeDisabled();
   const models = screen.getByRole('combobox', {name: 'Target model for Local models (Ollama)'});
   await user.click(models.closest('.ant-select')!.querySelector('.ant-select-selection-item-remove') as HTMLElement);
   expect(screen.getByRole('alert')).toHaveTextContent('Select at least one model for Local models (Ollama)');
@@ -328,6 +412,394 @@ async function chooseModel(user: ReturnType<typeof userEvent.setup>, label: stri
   const input = screen.getByRole('combobox', {name: label});
   await user.click(input);
   await user.type(input, option);
-  await user.click(await screen.findByText(option, {selector: '.ant-select-item-option-content'}));
+  const optionContent = await waitFor(() => {
+    const match = [...document.querySelectorAll('.ant-select-dropdown .ant-select-item-option-content')]
+      .find(element => element.textContent?.trim() === option);
+    if (!match) throw new Error(`Visible model option not found: ${option}`);
+    return match;
+  });
+  await user.click(optionContent);
   await user.keyboard('{Escape}');
 }
+
+
+test('uses one selected shared Agent model for extraction and audit preparation',async()=>{
+  apiMocks.targetProviders.mockResolvedValue([
+    {provider:'rule_based',label:'Rule-Based Baseline',default_model:'rules',configured:true,description:'Offline.'},
+    {provider:'openrouter',label:'OpenRouter',default_model:'target',default_pipeline_model:'test/generator',default_evaluator_model:'test/judge',configured:true,description:'Cloud.'},
+  ]);
+  const user=userEvent.setup();
+  render(<NewAudit/>);
+  await screen.findByLabelText('Shared Agent service');
+  await waitFor(()=>expect(selectedUILabel('Shared Agent service')).toContain('OpenRouter'));
+  await reachCreationConfiguration(user);
+  expect(apiMocks.extract).toHaveBeenCalledWith('C001','openrouter','test/generator');
+  expect(screen.getByText(/OpenRouter · test\/generator/)).toBeTruthy();
+  const target=screen.getByRole('checkbox',{name:/OpenRouter.*Cloud/i});
+  await user.click(target);
+  expect(target).not.toBeChecked();
+  expect(screen.getByRole('button',{name:'Start Memory Audit'})).toBeDisabled();
+  expect(screen.getByText(/Choose at least one target service/)).toBeTruthy();
+  await user.click(target);
+  await user.click(screen.getByRole('button',{name:'Start 3-Run Comparison'}));
+  await screen.findByRole('heading',{name:'Prepare Memory Audit'});
+  expect(apiMocks.createAudit.mock.calls.map(([body])=>body.pipeline_provider)).toEqual(['rule_based','openrouter','openrouter']);
+  expect(apiMocks.createAudit.mock.calls[1][0].pipeline_model).toBe('test/generator');
+});
+
+test('one recovery action finishes durable stages for every interrupted comparison condition',async()=>{
+  apiMocks.targetProviders.mockResolvedValue([{provider:'openrouter',label:'OpenRouter',default_model:'test/target',default_pipeline_model:'test/pipeline',default_evaluator_model:'test/judge',configured:true,description:'Cloud.'}]);
+  let experimentCount=0,runCount=0;
+  apiMocks.createExperiment.mockImplementation(async()=>({experiment_id:`EXP${++experimentCount}`}));
+  apiMocks.createAudit.mockImplementation(async()=>({run_id:`RUN${++runCount}`}));
+  apiMocks.testReview.mockImplementation(async(runId:string)=>({tests:[{...acceptedTest,run_id:runId,test_id:`T-${runId}`}]}));
+  apiMocks.results.mockImplementation(async(runId:string)=>({...result,run_id:runId}));
+  apiMocks.execute.mockResolvedValueOnce({status:'TESTS_EXECUTED'}).mockRejectedValueOnce(new Error('Connection interrupted'));
+  apiMocks.reuseAnswers.mockRejectedValueOnce(new Error('Source condition still running'));
+  const recoveryCounts=new Map<string,number>();
+  apiMocks.retry.mockImplementation(async(id:string)=>{const count=(recoveryCounts.get(id)||0)+1;recoveryCounts.set(id,count);return {status:count===1?'TESTS_EXECUTED':'COMPLETED'};});
+  const user=userEvent.setup();render(<NewAudit/>);
+  await reachCreationConfiguration(user);
+  await user.click(screen.getByRole('button',{name:'Start 3-Run Comparison'}));
+  await user.click(await screen.findByRole('button',{name:'Generate Tests for Review'}));
+  await user.click(await screen.findByRole('button',{name:'Run Comparison & View Results'}));
+  await user.click(await screen.findByRole('button',{name:'Check progress & resume'}));
+  await waitFor(()=>expect(screen.queryByRole('button',{name:'Check progress & resume'})).toBeNull());
+  expect(apiMocks.retry.mock.calls.map(([id])=>id)).toEqual(['RUN2','RUN2','RUN3','RUN3']);
+  expect(apiMocks.execute).toHaveBeenCalledTimes(2);
+  expect(apiMocks.reuseAnswers).toHaveBeenCalledTimes(1);
+});
+
+
+test('an interrupted single audit exposes recovery and checks a live stage without executing again',async()=>{
+  apiMocks.execute.mockRejectedValueOnce(new Error('Connection interrupted'));
+  apiMocks.retryPlan.mockResolvedValueOnce({busy:true,busy_reason:'this_run',retryable:true,next_stage:'execute_tests',pending:1}).mockResolvedValue({busy:false,retryable:true,next_stage:'evaluate_responses',pending:1});
+  apiMocks.retry.mockResolvedValue({status:'COMPLETED'});
+  const user=userEvent.setup();render(<NewAudit/>);
+  await reachCreationConfiguration(user);
+  await user.click(screen.getByRole('button',{name:'Start Memory Audit'}));
+  await user.click(await screen.findByRole('button',{name:'Generate Tests for Review'}));
+  await user.click(await screen.findByRole('button',{name:'Accept'}));
+  await user.click(screen.getByRole('button',{name:'Run Audit & View Results'}));
+  expect(await screen.findByRole('heading',{name:'Audit needs attention'})).toBeInTheDocument();
+  await user.click(screen.getByRole('button',{name:'Check progress & resume'}));
+  expect(await screen.findByText(/Work is still running in the background/)).toBeInTheDocument();
+  expect(apiMocks.retry).not.toHaveBeenCalled();
+  await user.click(screen.getByRole('button',{name:'Check progress & resume'}));
+  expect(await screen.findByRole('heading',{name:'Memory Health Report'})).toBeInTheDocument();
+  expect(apiMocks.execute).toHaveBeenCalledTimes(1);
+  expect(apiMocks.retry).toHaveBeenCalledTimes(1);
+});
+
+test('refresh restores saved review decisions and full source without another extraction or creation', async () => {
+  const user = userEvent.setup();
+  const first = render(<NewAudit/>);
+  await user.click(screen.getByRole('checkbox',{name:/authorised to use this conversation/i}));
+  await user.click(screen.getByRole('button',{name:'Continue to Ground Truth'}));
+  await screen.findByRole('heading',{name:'Review Extracted Memories'});
+  await user.click(screen.getByRole('button',{name:'Accept'}));
+  first.unmount();
+  apiMocks.conversationMemories.mockResolvedValue([confirmedMemory,{...memory,memory_id:'M002',canonical_value:'Background explanation',status:'rejected'}]);
+  render(<NewAudit/>);
+  expect(screen.getByRole('region',{name:'Unfinished memory review'})).toBeTruthy();
+  await user.click(screen.getByRole('button',{name:'Resume saved review'}));
+  await screen.findByRole('heading',{name:'Review Extracted Memories'});
+  expect(screen.getByText(/Saved review.*restored/)).toBeTruthy();
+  expect(screen.getByRole('status',{name:'Memory review summary'})).toHaveTextContent('Rejected 1');
+  await user.click(screen.getByRole('button',{name:/Read the complete original conversation/}));
+  expect(await screen.findByText('The backend now uses PostgreSQL.',{selector:'.review-source-history p'})).toBeTruthy();
+  expect(apiMocks.createConversation).toHaveBeenCalledTimes(1);
+  expect(apiMocks.extract).toHaveBeenCalledTimes(1);
+  expect(apiMocks.execute).not.toHaveBeenCalled();
+});
+
+test('failed review recovery remains retryable without creating new source data', async () => {
+  sessionStorage.setItem('mha-new-audit-review-v1',JSON.stringify({conversationId:'C001'}));
+  apiMocks.getConversation.mockRejectedValueOnce(new Error('Connection interrupted'));
+  const user=userEvent.setup();render(<NewAudit/>);
+  await user.click(screen.getByRole('button',{name:'Resume saved review'}));
+  expect(await screen.findByRole('alert')).toHaveTextContent('Connection interrupted');
+  await user.click(screen.getByRole('button',{name:'Resume saved review'}));
+  await screen.findByRole('heading',{name:'Review Extracted Memories'});
+  expect(apiMocks.createConversation).not.toHaveBeenCalled();
+  expect(apiMocks.extract).not.toHaveBeenCalled();
+});
+
+test('recovery redirects frozen reference memories to history instead of offering edits', async () => {
+  sessionStorage.setItem('mha-new-audit-review-v1',JSON.stringify({conversationId:'C001'}));
+  apiMocks.audits.mockResolvedValue([{conversation_id:'C001',run_id:'RUN001'}]);
+  const user=userEvent.setup();render(<NewAudit/>);
+  await user.click(screen.getByRole('button',{name:'Resume saved review'}));
+  expect(await screen.findByText(/An audit already uses this conversation/)).toBeTruthy();
+  expect(screen.queryByRole('heading',{name:'Review Extracted Memories'})).toBeNull();
+  expect(apiMocks.updateMemory).not.toHaveBeenCalled();
+  expect(apiMocks.execute).not.toHaveBeenCalled();
+});
+
+test('configuration survives refresh and configured cloud defaults cannot replace restored selections', async () => {
+  const user=userEvent.setup();const first=render(<NewAudit/>);
+  await user.click(screen.getByRole('checkbox',{name:/authorised to use this conversation/i}));
+  await user.click(screen.getByRole('button',{name:'Continue to Ground Truth'}));
+  await screen.findByRole('heading',{name:'Review Extracted Memories'});
+  await user.click(screen.getByRole('button',{name:'Accept'}));
+  await user.click(screen.getByRole('button',{name:'Confirm Ground Truth & Continue'}));
+  await screen.findByRole('heading',{name:'Configure Memory Audit'});
+  await user.clear(screen.getByRole('spinbutton',{name:/Requested test count/}));await user.type(screen.getByRole('spinbutton',{name:/Requested test count/}),'3');
+  await user.clear(screen.getByLabelText('Answer length limit'));await user.type(screen.getByLabelText('Answer length limit'),'256');
+  await user.type(screen.getByLabelText('Additional target instructions'),'Use the latest facts for the current task.');
+  first.unmount();
+  apiMocks.targetProviders.mockResolvedValue([
+    {provider:'rule_based',label:'Rule-Based Baseline',configured:true,default_model:'changed-baseline'},
+    {provider:'openrouter',label:'OpenRouter',configured:true,default_model:'cloud/new-default'}]);
+  render(<NewAudit/>);
+  await user.click(screen.getByRole('button',{name:'Resume saved review'}));
+  await screen.findByRole('heading',{name:'Review Extracted Memories'});
+  await user.click(screen.getByRole('button',{name:'Confirm Ground Truth & Continue'}));
+  expect(await screen.findByRole('heading',{name:'Configure Memory Audit'})).toBeTruthy();
+  expect(screen.getByRole('spinbutton',{name:/Requested test count/})).toHaveValue('3');
+  expect(screen.getByLabelText('Answer length limit')).toHaveValue('256');
+  expect(screen.getByLabelText('Additional target instructions')).toHaveValue('Use the latest facts for the current task.');
+  expect(screen.getByRole('checkbox',{name:/compare all three audit methods/i})).not.toBeChecked();
+  expect(screen.getByRole('checkbox',{name:/Rule-Based Baseline/})).toBeChecked();
+  await user.click(screen.getByRole('button',{name:'Start Memory Audit'}));
+  await screen.findByRole('heading',{name:'Prepare Memory Audit'});
+  expect(screen.queryByText(/Saved review and audit settings restored/)).toBeNull();
+  expect(apiMocks.createAudit.mock.calls[0][0].test_budget).toBe(3);
+  expect(apiMocks.createAudit.mock.calls[0][0].target_memory_profile.output_token_limit).toBe(256);
+  expect(apiMocks.createConversation).toHaveBeenCalledTimes(1);
+  expect(apiMocks.extract).toHaveBeenCalledTimes(1);
+  expect(apiMocks.execute).not.toHaveBeenCalled();
+});
+
+test('an explicitly blank restored shared Agent model must not silently select a default model', async () => {
+  const user=userEvent.setup();
+  apiMocks.targetProviders.mockResolvedValue([
+    {provider:'rule_based',label:'Rule-Based Baseline',configured:true,default_model:'rule-based-v1'},
+    {provider:'openrouter',label:'OpenRouter',configured:true,default_model:'test/independent-judge'}]);
+  sessionStorage.setItem('mha-new-audit-review-v1', JSON.stringify({conversationId:'C001', settings:{
+    selectedStrategies:['scope_aware'],targetProviders:['rule_based'],targetModels:{rule_based:'rule-based-v1'},
+    pipelineProvider:'openrouter',evaluatorProvider:'openrouter',pipelineModel:'',evaluatorModel:'test/independent-judge',
+    budget:4,repetitions:1,suiteMode:'behavioural',maintenancePolicy:'update_aware_consolidation',targetMemoryCapacity:50,
+    targetMemoryWriter:'rule_based',targetProfile:{...defaultTargetProfile,label:'Review check'},targetSystem:'controlled-memory',compareAuditors:false
+  }}));
+  render(<NewAudit/>);
+  await user.click(screen.getByRole('button',{name:'Resume saved review'}));
+  await screen.findByRole('heading',{name:'Review Extracted Memories'});
+  await user.click(screen.getByRole('button',{name:'Confirm Ground Truth & Continue'}));
+  await screen.findByRole('heading',{name:'Configure Memory Audit'});
+  expect(screen.getByRole('alert')).toHaveTextContent('Choose the shared Agent model');
+  expect(screen.getByRole('button',{name:'Start Memory Audit'})).toBeDisabled();
+  expect(apiMocks.createExperiment).not.toHaveBeenCalled();
+  expect(apiMocks.createAudit).not.toHaveBeenCalled();
+});
+
+test('three-method comparison uses the configured shared model for the AI review', async () => {
+  const user=userEvent.setup();
+  apiMocks.targetProviders.mockResolvedValue([
+    {provider:'rule_based',label:'Rule-Based Baseline',configured:true,default_model:'rules'},
+    {provider:'openrouter',label:'OpenRouter',configured:true,default_model:'test/independent-judge'}]);
+  sessionStorage.setItem('mha-new-audit-review-v1',JSON.stringify({conversationId:'C001',settings:{
+    selectedStrategies:['scope_aware'],targetProviders:['rule_based'],targetModels:{rule_based:'rules'},
+    pipelineProvider:'openrouter',evaluatorProvider:'rule_based',pipelineModel:null,evaluatorModel:null,
+    budget:4,repetitions:1,suiteMode:'behavioural',maintenancePolicy:'update_aware_consolidation',targetMemoryCapacity:50,
+    targetMemoryWriter:'rule_based',targetProfile:defaultTargetProfile,targetSystem:'controlled-memory',compareAuditors:true
+  }}));
+  const view=render(<NewAudit/>);
+  await user.click(screen.getByRole('button',{name:'Resume saved review'}));
+  await screen.findByRole('heading',{name:'Review Extracted Memories'});
+  await user.click(screen.getByRole('button',{name:'Confirm Ground Truth & Continue'}));
+  await screen.findByRole('heading',{name:'Configure Memory Audit'});
+  expect(screen.getByText(/OpenRouter · test\/independent-judge/)).toBeTruthy();
+  await waitFor(()=>expect(JSON.parse(sessionStorage.getItem('mha-new-audit-review-v1')!).settings.pipelineModel).toBe('test/independent-judge'));
+  view.unmount();render(<NewAudit/>);
+  await user.click(screen.getByRole('button',{name:'Resume saved review'}));
+  await screen.findByRole('heading',{name:'Review Extracted Memories'});
+  await user.click(screen.getByRole('button',{name:'Confirm Ground Truth & Continue'}));
+  await user.click(await screen.findByRole('button',{name:'Start 3-Run Comparison'}));
+  await screen.findByRole('heading',{name:'Prepare Memory Audit'});
+  const hybrid=apiMocks.createAudit.mock.calls.map(call=>call[0]).find(body=>body.evaluator_provider==='openrouter');
+  expect(hybrid.evaluator_model).toBe('test/independent-judge');
+  expect(apiMocks.execute).not.toHaveBeenCalled();
+});
+
+test('lost conversation response survives refresh and replays the original submission identity and source', async () => {
+  const user=userEvent.setup();const first=render(<NewAudit/>);
+  apiMocks.createConversation.mockRejectedValueOnce(new Error('Connection interrupted'));
+  await user.click(screen.getByRole('checkbox',{name:/authorised to use this conversation/i}));
+  await user.click(screen.getByRole('button',{name:'Continue to Ground Truth'}));
+  expect(await screen.findByRole('alert')).toHaveTextContent('Connection interrupted');
+  const original=apiMocks.createConversation.mock.calls[0];
+  expect(original[3]).toMatch(/^[a-f0-9-]{36}$/);
+  first.unmount();render(<NewAudit/>);
+  expect(screen.getByRole('region',{name:'Unfinished conversation submission'})).toBeTruthy();
+  await user.click(screen.getByRole('button',{name:'Continue saved submission'}));
+  await screen.findByRole('heading',{name:'Review Extracted Memories'});
+  expect(apiMocks.createConversation.mock.calls[1]).toEqual(original);
+  expect(apiMocks.extract).toHaveBeenCalledTimes(1);
+  expect(apiMocks.execute).not.toHaveBeenCalled();
+});
+
+test('interrupted extraction recovers a committed empty result without extracting or creating again', async () => {
+  const user=userEvent.setup();const first=render(<NewAudit/>);
+  apiMocks.extract.mockRejectedValueOnce(new Error('Connection interrupted'));
+  await user.click(screen.getByRole('checkbox',{name:/authorised to use this conversation/i}));
+  await user.click(screen.getByRole('button',{name:'Continue to Ground Truth'}));
+  expect(await screen.findByRole('alert')).toHaveTextContent('Connection interrupted');
+  first.unmount();
+  apiMocks.getConversation.mockResolvedValue({conversation_id:'C001',messages:[],extraction_provenance:{provider:'rule_based',candidate_count:0}});
+  apiMocks.conversationMemories.mockResolvedValue([]);
+  render(<NewAudit/>);
+  await user.click(screen.getByRole('button',{name:'Continue saved submission'}));
+  await screen.findByRole('heading',{name:'Review Extracted Memories'});
+  expect(screen.getByText('No candidate memories were found. Add a memory to continue.')).toBeTruthy();
+  expect(apiMocks.createConversation).toHaveBeenCalledTimes(1);
+  expect(apiMocks.extract).toHaveBeenCalledTimes(1);
+  expect(apiMocks.execute).not.toHaveBeenCalled();
+});
+
+test('unfinished extraction retries the frozen extractor rather than new cloud defaults', async () => {
+  const user=userEvent.setup();const first=render(<NewAudit/>);
+  apiMocks.extract.mockRejectedValueOnce(new Error('Memory extraction is still running.'));
+  await user.click(screen.getByRole('checkbox',{name:/authorised to use this conversation/i}));
+  await user.click(screen.getByRole('button',{name:'Continue to Ground Truth'}));
+  expect(await screen.findByRole('alert')).toHaveTextContent('Memory extraction is still running');
+  first.unmount();
+  apiMocks.targetProviders.mockResolvedValue([
+    {provider:'rule_based',configured:true,default_model:'rules',label:'Rule-Based Baseline'},
+    {provider:'openrouter',configured:true,default_model:'changed/cloud-default',label:'OpenRouter'}]);
+  render(<NewAudit/>);
+  await user.click(screen.getByRole('button',{name:'Continue saved submission'}));
+  await screen.findByRole('heading',{name:'Review Extracted Memories'});
+  expect(apiMocks.extract.mock.calls).toEqual([['C001','rule_based',undefined],['C001','rule_based',undefined]]);
+  expect(apiMocks.createConversation).toHaveBeenCalledTimes(1);
+});
+
+test('service loading keeps the source editable but blocks submission until services are known',async()=>{
+  let finish!: (items:unknown[])=>void;
+  apiMocks.targetProviders.mockReturnValue(new Promise(resolve=>{finish=resolve;}));
+  const user=userEvent.setup();render(<NewAudit/>);
+  expect(screen.getByRole('status',{name:'Model service availability'})).toHaveTextContent('Loading available model services');
+  expect(screen.queryByRole('combobox',{name:'Shared Agent service'})).toBeNull();
+  await user.click(screen.getByRole('checkbox',{name:/authorised to use this conversation/i}));
+  expect(screen.getByRole('button',{name:'Continue to Ground Truth'})).toBeDisabled();
+  expect(apiMocks.createConversation).not.toHaveBeenCalled();
+  finish([{provider:'rule_based',label:'Rule-Based Baseline',configured:true,default_model:'rule-based-v1',description:'Local processing'}]);
+  await waitFor(()=>expect(screen.getByRole('button',{name:'Continue to Ground Truth'})).toBeEnabled());
+  expect(selectedUILabel('Shared Agent service')).toBe('Rule-Based Baseline');
+});
+
+test.each(['failed','empty'])('service %s result offers a safe retry without submitting source or showing internal service names',async(mode)=>{
+  if(mode==='failed')apiMocks.targetProviders.mockRejectedValueOnce(new Error('PRIVATE diagnostic'));
+  else apiMocks.targetProviders.mockResolvedValueOnce([]);
+  const user=userEvent.setup();render(<NewAudit/>);
+  expect(await screen.findByRole('alert')).toHaveTextContent('We could not load the available model services');
+  expect(screen.queryByText('PRIVATE diagnostic')).toBeNull();
+  expect(screen.queryByRole('combobox',{name:'Shared Agent service'})).toBeNull();
+  await user.click(screen.getByRole('checkbox',{name:/authorised to use this conversation/i}));
+  expect(screen.getByRole('button',{name:'Continue to Ground Truth'})).toBeDisabled();
+  await user.click(screen.getByRole('button',{name:'Retry loading services'}));
+  await waitFor(()=>expect(screen.getByRole('button',{name:'Continue to Ground Truth'})).toBeEnabled());
+  expect(apiMocks.targetProviders).toHaveBeenCalledTimes(2);
+  expect(apiMocks.createConversation).not.toHaveBeenCalled();
+  expect(apiMocks.extract).not.toHaveBeenCalled();
+  expect(screen.getByRole('checkbox',{name:/authorised to use this conversation/i})).toBeChecked();
+});
+
+test('retrying failed services preserves restored audit choices instead of applying cloud defaults',async()=>{
+  sessionStorage.setItem('mha-new-audit-review-v1',JSON.stringify({conversationId:'C001',settings:{selectedStrategies:['scope_aware'],targetProviders:['ollama'],targetModels:{ollama:'qwen3:1.7b'},pipelineProvider:'rule_based',evaluatorProvider:'rule_based',pipelineModel:null,evaluatorModel:null,budget:3,repetitions:1,suiteMode:'behavioural',maintenancePolicy:'update_aware_consolidation',targetMemoryCapacity:50,targetMemoryWriter:'rule_based',targetProfile:{...defaultTargetProfile,label:'Preserved settings',output_token_limit:256},targetSystem:'controlled-memory',compareAuditors:false}}));
+  apiMocks.targetProviders.mockRejectedValueOnce(new Error('Connection interrupted')).mockResolvedValue([
+    {provider:'rule_based',label:'Rule-Based Baseline',configured:true,default_model:'rule-based-v1'},
+    {provider:'openrouter',label:'OpenRouter',configured:true,default_model:'test/independent-judge'},
+    {provider:'ollama',label:'Local models (Ollama)',configured:true,default_model:'qwen3:1.7b'},
+  ]);
+  const user=userEvent.setup();render(<NewAudit/>);
+  await screen.findByRole('alert');
+  await user.click(screen.getByRole('button',{name:'Resume saved review'}));
+  await screen.findByRole('heading',{name:'Review Extracted Memories'});
+  await user.click(screen.getByRole('button',{name:'Confirm Ground Truth & Continue'}));
+  expect(screen.queryByRole('button',{name:'Start Memory Audit'})).toBeNull();
+  await user.click(screen.getByRole('button',{name:'Retry loading services'}));
+  await screen.findByRole('button',{name:'Start Memory Audit'});
+  expect(screen.getByRole('checkbox',{name:/Compare all three audit methods/})).not.toBeChecked();
+  expect(screen.getByRole('checkbox',{name:/Local models \(Ollama\)/})).toBeChecked();
+  expect(screen.getByRole('checkbox',{name:/Match the task and project/})).toBeChecked();
+  expect(screen.getByRole('spinbutton',{name:'Answer length limit'})).toHaveValue('256');
+  expect(apiMocks.createAudit).not.toHaveBeenCalled();
+});
+
+
+test('starts a separate audit from prepared questions without executing or cancelling saved records',async()=>{
+ const user=userEvent.setup();render(<NewAudit/>);
+ await user.click(screen.getByRole('checkbox',{name:/authorised to use this conversation/i}));
+ await user.click(screen.getByRole('button',{name:'Continue to Ground Truth'}));
+ await user.click(await screen.findByRole('button',{name:'Accept'}));
+ await user.click(screen.getByRole('button',{name:'Confirm Ground Truth & Continue'}));
+ await screen.findByRole('heading',{name:'Configure Memory Audit'});
+ await user.click(screen.getByRole('button',{name:'Start Memory Audit'}));
+ await screen.findByRole('heading',{name:'Prepare Memory Audit'});
+ let finish!:(value:typeof pendingTest[])=>void;
+ apiMocks.generate.mockReturnValueOnce(new Promise(resolve=>finish=resolve));
+ await user.click(screen.getByRole('button',{name:'Generate Tests for Review'}));
+ expect(screen.getByRole('button',{name:'Start a separate audit'})).toBeDisabled();
+ finish([pendingTest]);
+ await screen.findByRole('heading',{name:'Review Generated Test Suite'});
+ await user.click(screen.getByRole('button',{name:'Start a separate audit'}));
+ expect(await screen.findByLabelText('Authorised conversation text')).toHaveValue('');
+ expect(screen.getByRole('checkbox',{name:/authorised to use this conversation/i})).not.toBeChecked();
+ expect(screen.queryByRole('heading',{name:'Review Generated Test Suite'})).toBeNull();
+ expect(apiMocks.execute).not.toHaveBeenCalled();expect(apiMocks.cancel).not.toHaveBeenCalled();
+ expect(apiMocks.createAudit).toHaveBeenCalledTimes(1);
+});
+
+test('a separate audit resets a structured writer when restoring default three-method comparison',async()=>{
+ apiMocks.targetProviders.mockResolvedValue([{provider:'openrouter',label:'OpenRouter',configured:true,
+  default_model:'test/target',default_pipeline_model:'test/pipeline',default_evaluator_model:'test/judge'}]);
+ const user=userEvent.setup();render(<NewAudit/>);
+ await user.click(screen.getByRole('checkbox',{name:/authorised to use this conversation/i}));
+ await user.click(screen.getByRole('button',{name:'Continue to Ground Truth'}));
+ await user.click(await screen.findByRole('button',{name:'Accept'}));
+ await user.click(screen.getByRole('button',{name:'Confirm Ground Truth & Continue'}));
+ const comparison=await screen.findByRole('checkbox',{name:'Compare all three audit methods (recommended)'}) as HTMLInputElement;
+ expect(comparison).toBeChecked();
+ if(comparison.checked) await user.click(comparison);
+ expect(comparison).not.toBeChecked();
+ expect(screen.getByRole('combobox',{name:'Target memory writer'})).toBeEnabled();
+ await user.click(screen.getByRole('combobox',{name:'Target memory writer'}));
+ const structuredWriter=await screen.findByRole('option',{name:'Structured LLM writer'});
+ expect(structuredWriter).toBeEnabled();
+ await user.click(structuredWriter);
+ await waitFor(()=>expect(selectedUILabel('Target memory writer')).toContain('Structured LLM writer'));
+ await user.click(screen.getByRole('button',{name:'Start Memory Audit'}));
+ await screen.findByRole('heading',{name:'Prepare Memory Audit'});
+ expect(apiMocks.createAudit.mock.calls[0][0].target_memory_writer).toBe('llm_structured');
+ await user.click(screen.getByRole('button',{name:'Start a separate audit'}));
+ await user.type(screen.getByRole('textbox',{name:'Authorised conversation text'}),'[User] The backend now uses PostgreSQL.');
+ await user.click(screen.getByRole('checkbox',{name:/authorised to use this conversation/i}));
+ await user.click(screen.getByRole('button',{name:'Continue to Ground Truth'}));
+ await user.click(await screen.findByRole('button',{name:'Accept'}));
+ await user.click(screen.getByRole('button',{name:'Confirm Ground Truth & Continue'}));
+ expect(await screen.findByRole('checkbox',{name:'Compare all three audit methods (recommended)'})).toBeChecked();
+ expect(selectedUILabel('Target memory writer')).toContain('Rule-based writer');
+ expect(apiMocks.execute).not.toHaveBeenCalled();
+});
+
+
+test('opening an unfinished submission never calls extraction and starting new removes the old failure',async()=>{
+ const user=userEvent.setup();const first=render(<NewAudit/>);
+ apiMocks.extract.mockRejectedValueOnce(new Error('The configured pipeline model returned an invalid memory relationship reference.'));
+ await user.click(screen.getByRole('checkbox',{name:/authorised to use this conversation/i}));
+ await user.click(screen.getByRole('button',{name:'Continue to Ground Truth'}));
+ expect(await screen.findByRole('alert')).toHaveTextContent('This saved submission did not finish');
+ expect(screen.getByRole('alert')).toHaveTextContent('missing record or to itself');
+ first.unmount();render(<NewAudit/>);
+ expect(screen.getByRole('heading',{name:'Previous unfinished submission'})).toBeInTheDocument();
+ expect(screen.queryByRole('alert')).toBeNull();
+ expect(apiMocks.extract).toHaveBeenCalledTimes(1);
+ expect(apiMocks.createConversation).toHaveBeenCalledTimes(1);
+ await user.click(screen.getByRole('button',{name:'Start a new conversation'}));
+ expect(await screen.findByRole('textbox',{name:'Authorised conversation text'})).toBeInTheDocument();
+ expect(screen.queryByRole('heading',{name:'Previous unfinished submission'})).toBeNull();
+ expect(screen.queryByRole('alert')).toBeNull();
+ expect(apiMocks.extract).toHaveBeenCalledTimes(1);
+ expect(apiMocks.execute).not.toHaveBeenCalled();
+});

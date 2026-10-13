@@ -24,6 +24,9 @@ def source():
         "answer_session_ids":["GOLD_SESSION_SECRET"]}]
 
 
+PROVENANCE = {"dataset_version":"synthetic-fixture-v1", "license":"synthetic test fixture", "citation":"Unit-test data; no external benchmark source"}
+
+
 def test_official_session_arrays_preserve_dates_roles_and_reject_corrupt_alignment():
     cases, _ = LongMemEvalAdapter().adapt(source())
     assert len(cases[0].messages)==3
@@ -46,12 +49,13 @@ def test_live_calls_use_controlled_policy_without_reference_leakage(monkeypatch)
         seen.append((audit.memory_strategy.value,test.expected_behavior,test.supporting_memory_ids,instructions,test.prompt))
         return 'PostgreSQL'
     monkeypatch.setattr(HttpTargetAIConnector,'_execute_provider',provider)
-    first=LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source(),source_authorised=True))
+    first=LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source(),source_authorised=True,dataset_provenance=PROVENANCE))
     changed=deepcopy(source());changed[0]['answer']='DIFFERENT_GOLD';changed[0]['answer_session_ids']=['OTHER_SECRET']
     changed[0]['haystack_sessions'][0][0]['has_answer']=False
     changed[0]['question_type']='conflict_resolution';changed[0]['dimension_hint']='conflict_resolution'
-    second=LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=changed,source_authorised=True))
+    second=LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=changed,source_authorised=True,dataset_provenance=PROVENANCE))
     assert seen[:2]==seen[2:]
+    assert [condition.strategy for condition in first.conditions] == ['weak_first_hit', 'strong_rule_based']
     assert all(expected=='' and ids==[] for _,expected,ids,_,_ in seen)
     assert all('GOLD' not in instructions and 'SECRET' not in instructions for _,_,_,instructions,_ in seen)
     assert 'MySQL' in seen[0][3] and 'PostgreSQL' in seen[1][3]
@@ -65,6 +69,12 @@ def test_live_calls_use_controlled_policy_without_reference_leakage(monkeypatch)
     assert first.writer_version==RuleBasedMemoryExtractor.VERSION
     assert first.source_fingerprint_sha256!=second.source_fingerprint_sha256
     assert first.configuration_fingerprint_sha256==second.configuration_fingerprint_sha256
+    assert first.dataset_provenance.dataset_version==PROVENANCE['dataset_version']
+    assert len(first.adapter_fingerprint_sha256)==64
+    assert first.compatibility_limitations
+    changed_provenance=LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source(),source_authorised=True,
+        dataset_provenance={**PROVENANCE,'dataset_version':'synthetic-fixture-v2'}))
+    assert changed_provenance.configuration_fingerprint_sha256!=first.configuration_fingerprint_sha256
 
 
 def test_rejects_no_consent_duplicates_or_oversize_before_model_calls(monkeypatch):
@@ -74,23 +84,27 @@ def test_rejects_no_consent_duplicates_or_oversize_before_model_calls(monkeypatc
     for kwargs,match in [({},'authorised'),({'source_authorised':True,'provider':'rule_based'},'Real-model'),
                          ({'source_authorised':True,'strategies':['no_memory','no_memory']},'only once'),
                          ({'source_authorised':True,'max_cases':1,'payload':source()+[{**source()[0],'question_id':'second'}]},'No cases')]:
-        values={'payload':source(),**kwargs}
+        values={'payload':source(),'dataset_provenance':PROVENANCE,**kwargs}
         with pytest.raises(ValueError,match=match):runner.run(LiveBenchmarkRequest(**values))
     cancelled=Event();cancelled.set()
-    with pytest.raises(ValueError,match='cancelled'):runner.run(LiveBenchmarkRequest(payload=source(),source_authorised=True),cancelled)
+    with pytest.raises(ValueError,match='cancelled'):runner.run(LiveBenchmarkRequest(payload=source(),source_authorised=True,dataset_provenance=PROVENANCE),cancelled)
 
 
 def test_live_route_uses_real_connector_and_does_not_persist_operational_rows(monkeypatch):
     monkeypatch.setattr(HttpTargetAIConnector,'_execute_provider',lambda *args:'PostgreSQL')
     with TestClient(app) as client:
-        no_consent=client.post('/api/v1/research/benchmarks/longmemeval/live',json={'payload':source()})
+        no_consent=client.post('/api/v1/research/benchmarks/longmemeval/live',json={'payload':source(),'dataset_provenance':PROVENANCE})
         assert no_consent.status_code==422
-        ignored_setting=client.post('/api/v1/research/benchmarks/longmemeval/live',json={'payload':source(),'source_authorised':True,'memory_strategy':'no_memory'})
+        no_provenance=client.post('/api/v1/research/benchmarks/longmemeval/live',json={'payload':source(),'source_authorised':True})
+        assert no_provenance.status_code==422
+        ignored_setting=client.post('/api/v1/research/benchmarks/longmemeval/live',json={'payload':source(),'source_authorised':True,'dataset_provenance':PROVENANCE,'memory_strategy':'no_memory'})
         assert ignored_setting.status_code==422  # plural strategies are explicit; never silently ignore a setting
-        response=client.post('/api/v1/research/benchmarks/longmemeval/live',json={'payload':source(),'source_authorised':True})
+        response=client.post('/api/v1/research/benchmarks/longmemeval/live',json={'payload':source(),'source_authorised':True,'dataset_provenance':PROVENANCE})
         assert response.status_code==200,response.text
         assert len(response.json()['conditions'])==2
         assert 'not official LongMemEval' in response.json()['notice']
+        assert response.json()['dataset_provenance']==PROVENANCE
+        assert len(response.json()['adapter_fingerprint_sha256'])==64
 
 
 def test_cancellation_stops_before_next_provider_call(monkeypatch):
@@ -98,5 +112,5 @@ def test_cancellation_stops_before_next_provider_call(monkeypatch):
     def provider(*args):calls.append(1);cancelled.set();return 'PostgreSQL'
     monkeypatch.setattr(HttpTargetAIConnector,'_execute_provider',provider)
     with pytest.raises(ValueError,match='cancelled'):
-        LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source(),source_authorised=True),cancelled)
+        LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source(),source_authorised=True,dataset_provenance=PROVENANCE),cancelled)
     assert len(calls)==1

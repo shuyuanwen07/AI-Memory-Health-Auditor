@@ -109,6 +109,35 @@ def test_target_memory_trace_is_post_completion_only_and_hides_evaluator_materia
             app.dependency_overrides.clear()
 
 
+def test_explicit_platform_withdrawal_reaches_target_store_without_retiring_other_projects(monkeypatch, tmp_path):
+    monkeypatch.setenv('PIPELINE_PROVIDER', 'rule_based')
+    monkeypatch.setenv('EVALUATOR_PROVIDER', 'rule_based')
+    with _client(tmp_path) as client:
+        try:
+            messages = ['The Maple review meeting must use Zoom only.',
+                        'The Birch review meeting must use Zoom only.',
+                        'For the Maple project, the Zoom requirement is withdrawn; use Teams instead.']
+            conversation_id = client.post('/api/v1/conversations', json={'authorised': True,
+                'messages': [{'role': 'user', 'content': content} for content in messages]}).json()['conversation_id']
+            memories = client.post(f'/api/v1/conversations/{conversation_id}/extract').json()
+            assert client.post(f'/api/v1/conversations/{conversation_id}/confirm-ground-truth', json={
+                'confirmed_memory_ids': [memory['memory_id'] for memory in memories]}).status_code == 200
+            run_id = client.post('/api/v1/audits', json={'conversation_id': conversation_id,
+                'target_configuration': 'strong', 'provider': 'rule_based', 'memory_strategy': 'scope_aware', 'test_budget': 4}).json()['run_id']
+            for stage in ('generate-tests', 'execute', 'evaluate'):
+                assert client.post(f'/api/v1/audits/{run_id}/{stage}').status_code == 200
+            records = client.get(f'/api/v1/audits/{run_id}/target-memory-trace').json()['records']
+            maple_old = next(record for record in records if 'Maple' in record['canonical_value'] and 'only' in record['canonical_value'])
+            maple_current = next(record for record in records if 'requires Teams' in record['canonical_value'])
+            birch = next(record for record in records if 'Birch' in record['canonical_value'])
+            assert maple_old['lifecycle_state'] == 'SUPERSEDED'
+            assert maple_current['lifecycle_state'] == 'ACTIVE'
+            assert birch['lifecycle_state'] == 'ACTIVE'
+            assert not any(record['lifecycle_state'] == 'CONFLICTED' for record in records)
+        finally:
+            app.dependency_overrides.clear()
+
+
 def test_cancelled_audit_exposes_only_terminal_retained_evidence(monkeypatch, tmp_path):
     monkeypatch.setenv("PIPELINE_PROVIDER", "rule_based")
     engine = create_engine(f"sqlite:///{tmp_path / 'cancelled-trace.db'}")
@@ -313,5 +342,168 @@ def test_rule_based_workflow_reviews_then_executes_and_exposes_trace(monkeypatch
             assert trace.status_code == 200
             assert trace.json()["records"]
             assert trace.json()["retrievals"]
+        finally:
+            app.dependency_overrides.clear()
+
+
+def test_rejected_probe_can_recover_from_incorrect_type_without_unfreezing_peers(monkeypatch, tmp_path):
+    from types import SimpleNamespace
+    from app.schemas import TestCase, TestType
+    monkeypatch.setenv('PIPELINE_PROVIDER', 'rule_based')
+    with _client(tmp_path) as client:
+        try:
+            source, peer = _conversation_and_experiment(client)
+            tests=client.post(f"/api/v1/audits/{source['run_id']}/generate-tests").json()
+            initial=TestCase.model_validate(tests[0])
+            new_type=TestType.INDIRECT if initial.test_type!=TestType.INDIRECT else TestType.CONTEXTUAL
+            replacement=initial.model_copy(update={'test_type':new_type,'prompt':initial.prompt+' Answer briefly.'})
+            monkeypatch.setattr(routes,'get_suite_generator',lambda *_: SimpleNamespace(generate=lambda *_:[replacement]))
+            path=f"/api/v1/audits/{source['run_id']}/tests/{initial.test_id}"
+            # An accepted probe keeps the stronger compatible-type guard.
+            assert client.post(path+'/regenerate').status_code==422
+            assert client.patch(path+'/review',json={'quality_status':'rejected'}).status_code==200
+            revised=client.post(path+'/regenerate')
+            assert revised.status_code==200,revised.text
+            assert revised.json()['quality_status']=='pending'
+            assert 'Evidence/type was replaced' in revised.json()['validation_notes']
+            peer_tests=client.get(f"/api/v1/audits/{peer['run_id']}/test-review").json()['tests']
+            assert any(test['prompt']==replacement.prompt and test['quality_status']=='pending' for test in peer_tests)
+            assert client.post(f"/api/v1/audits/{peer['run_id']}/execute").status_code==409
+        finally:
+            app.dependency_overrides.clear()
+
+
+def test_shared_suite_lock_blocks_peer_generation_edits_execution_and_retry(monkeypatch, tmp_path):
+    monkeypatch.setenv("PIPELINE_PROVIDER", "rule_based")
+    with _client(tmp_path) as client:
+        try:
+            source, peer = _conversation_and_experiment(client)
+            suite_key = "suite:" + source["experiment_id"]
+            with routes.audit_run_lock(suite_key):
+                assert client.post(f"/api/v1/audits/{peer['run_id']}/generate-tests").status_code == 409
+            generated = client.post(f"/api/v1/audits/{source['run_id']}/generate-tests").json()
+            tid = generated[0]["test_id"]
+            with routes.audit_run_lock(suite_key):
+                assert client.patch(f"/api/v1/audits/{peer['run_id']}/tests/{tid}/review", json={"quality_status":"rejected"}).status_code == 409
+                assert client.post(f"/api/v1/audits/{peer['run_id']}/tests/{tid}/regenerate").status_code == 409
+                assert client.post(f"/api/v1/audits/{peer['run_id']}/execute").status_code == 409
+                assert client.post(f"/api/v1/audits/{peer['run_id']}/retry").status_code == 409
+            assert client.post(f"/api/v1/audits/{peer['run_id']}/execute").status_code == 200
+        finally:
+            app.dependency_overrides.clear()
+
+
+def test_late_generator_reply_cannot_revive_a_cancelled_experiment(monkeypatch, tmp_path):
+    from app.test_generator.rule_based import RuleBasedTestGenerator
+    monkeypatch.setenv("PIPELINE_PROVIDER", "rule_based")
+    with _client(tmp_path) as client:
+        try:
+            source, peer = _conversation_and_experiment(client)
+            class CancellingGenerator:
+                def generate(self, memories, audit):
+                    assert client.post(f"/api/v1/experiments/{source['experiment_id']}/cancel").status_code == 200
+                    return RuleBasedTestGenerator().generate(memories, audit)
+            monkeypatch.setattr(routes, "get_suite_generator", lambda *_: CancellingGenerator())
+            result = client.post(f"/api/v1/audits/{source['run_id']}/generate-tests")
+            assert result.status_code == 409
+            for run in (source, peer):
+                assert client.get(f"/api/v1/audits/{run['run_id']}").json()["status"] == "CANCELLED"
+                assert client.get(f"/api/v1/audits/{run['run_id']}/tests").json() == []
+        finally:
+            app.dependency_overrides.clear()
+
+
+def test_acceptance_and_execution_cannot_bypass_missing_source_memories(monkeypatch, tmp_path):
+    from app.models import TestCaseModel, TargetResponseModel
+    from sqlalchemy import select
+    monkeypatch.setenv("PIPELINE_PROVIDER", "rule_based")
+    with _client(tmp_path) as client:
+        try:
+            source, _ = _conversation_and_experiment(client)
+            run_id = source['run_id']
+            generated = client.post(f'/api/v1/audits/{run_id}/generate-tests').json()
+            test_id = generated[0]['test_id']
+            session_generator = app.dependency_overrides[get_db]()
+            db = next(session_generator)
+            try:
+                row = db.get(TestCaseModel, test_id)
+                row.supporting_memory_ids = ['M_missing_source']
+                row.quality_status = 'pending'
+                db.commit()
+                refused = client.patch(f'/api/v1/audits/{run_id}/tests/{test_id}/review', json={'quality_status':'accepted'})
+                assert refused.status_code == 422
+                assert 'Review the source memories' in refused.json()['detail']
+                db.refresh(row)
+                assert row.quality_status == 'pending'
+                # Legacy accepted records must also be checked before a target call.
+                row.quality_status = 'accepted'
+                db.commit()
+                blocked = client.post(f'/api/v1/audits/{run_id}/execute')
+                assert blocked.status_code == 409
+                assert 'supporting memories' in blocked.json()['detail']
+                assert db.scalars(select(TargetResponseModel).where(TargetResponseModel.run_id == run_id)).all() == []
+            finally:
+                session_generator.close()
+        finally:
+            app.dependency_overrides.clear()
+
+
+def test_llm_replacement_receives_current_quality_failure_and_keeps_peer_review_pending(monkeypatch,tmp_path):
+    from app.models import TestCaseModel
+    from app.schemas import TestCase
+    from app.test_generator.llm_generator import LLMTestGenerator
+    monkeypatch.setenv('PIPELINE_PROVIDER','rule_based')
+    with _client(tmp_path) as client:
+        try:
+            source,peer = _conversation_and_experiment(client)
+            initial = TestCase.model_validate(client.post(f"/api/v1/audits/{source['run_id']}/generate-tests").json()[0])
+            db = next(app.dependency_overrides[get_db]())
+            try:
+                row = db.get(TestCaseModel,initial.test_id)
+                row.prompt = "What is the user's recorded stored information?"
+                db.commit()
+            finally:
+                db.close()
+            captured = {}
+            def replacement(self,memories,audit,generation_context=None):
+                captured['context'] = generation_context
+                return [initial.model_copy(update={'prompt':initial.prompt+' Answer briefly.'})]
+            monkeypatch.setattr(LLMTestGenerator,'generate',replacement)
+            monkeypatch.setattr(routes,'get_suite_generator',lambda *_:LLMTestGenerator(client=object()))
+            path = f"/api/v1/audits/{source['run_id']}/tests/{initial.test_id}"
+            result = client.post(path+'/regenerate')
+            assert result.status_code == 200,result.text
+            assert 'does not identify the fact or event' in captured['context']
+            assert 'Do not repeat this question' in captured['context']
+            assert result.json()['quality_status'] == 'pending'
+            assert client.post(f"/api/v1/audits/{peer['run_id']}/execute").status_code == 409
+        finally:
+            app.dependency_overrides.clear()
+
+
+def test_recovery_plan_reports_live_locks_without_starting_or_blocking_recovery(monkeypatch,tmp_path):
+    monkeypatch.setenv('PIPELINE_PROVIDER','rule_based')
+    with _client(tmp_path) as client:
+        try:
+            source,_ = _conversation_and_experiment(client)
+            run_id = source['run_id']
+            initial = client.get(f'/api/v1/audits/{run_id}/retry-plan').json()
+            assert initial['busy'] is False
+            assert initial['status'] == source['status']
+            assert initial['completed_at'] is None
+            with routes.audit_run_lock(run_id):
+                current = client.get(f'/api/v1/audits/{run_id}/retry-plan').json()
+                assert current['busy'] is True
+                assert current['busy_reason'] == 'this_run'
+                assert current['retryable'] == initial['retryable']
+            assert client.get(f'/api/v1/audits/{run_id}/tests').json() == []
+            assert client.get(f'/api/v1/audits/{run_id}/retry-plan').json()['busy'] is False
+            assert client.post(f'/api/v1/audits/{run_id}/retry').status_code == 200
+            assert client.post(f'/api/v1/audits/{run_id}/retry').status_code == 200
+            assert client.post(f'/api/v1/audits/{run_id}/retry').status_code == 200
+            finished = client.get(f'/api/v1/audits/{run_id}/retry-plan').json()
+            assert finished['status'] == 'COMPLETED'
+            assert finished['completed_at']
+            assert finished['retryable'] is False
         finally:
             app.dependency_overrides.clear()

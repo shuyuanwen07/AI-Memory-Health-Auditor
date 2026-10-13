@@ -1,0 +1,22 @@
+{
+  "messages": [
+    {
+      "message_id": "CANDIDATE-09-MSG-1",
+      "role": "user",
+      "content": "The draft submission was planned for Thursday.",
+      "timestamp": "2026-10-11T01:00:00+00:00"
+    },
+    {
+      "message_id": "CANDIDATE-09-MSG-2",
+      "role": "user",
+      "content": "The course notice moved submission to Saturday.",
+      "timestamp": "2026-10-11T02:00:00+00:00"
+    },
+    {
+      "message_id": "CANDIDATE-09-MSG-3",
+      "role": "user",
+      "content": "Thursday is still the consultation day.",
+      "timestamp": "2026-10-11T03:00:00+00:00"
+    }
+  ]
+}

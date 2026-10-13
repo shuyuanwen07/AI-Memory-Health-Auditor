@@ -20,9 +20,10 @@ Work proceeds in this order:
 2. Calibrate extraction, relationships, question validity and failure
    detection/classification against genuine independent human labels; freeze
    pilot thresholds before inspecting held-out evaluation results.
-3. Experiment A: compare direct ground-truth questions, fixed manually
-   authored templates and contextual/indirect Auditor tests under equal
-   budgets, with a manually labelled failure inventory and traceable outcomes.
+3. Experiment A: compare direct ground-truth questions, a deterministic
+   rule-generated fixed-template draft that a researcher reviews/edits/confirms,
+   and contextual/indirect Auditor tests under equal budgets, with a manually
+   labelled failure inventory and traceable outcomes.
 4. Experiment B: compare predeclared Weak/Strong retrieval/update policies
    using the same base model, histories, storage and budget. Freeze repetitions
    and generation settings after the pilot; retain non-improving results.
@@ -39,6 +40,8 @@ Exploratory repair studies remain secondary to the proposal's A/B/C experiments.
 1. Copy `.env.example` to `.env`.
 2. Run `docker compose up --build`.
 3. Open `http://localhost:5173`; API documentation is at `http://localhost:8000/api/v1/docs`.
+
+Browser API traffic defaults to `/api/v1` on the page origin. The Vite development server proxies only that route to the backend: Compose uses `AUDITOR_PROXY_TARGET=http://backend:8000`, while a host-run frontend defaults to `http://127.0.0.1:8000`. Browser Origin, cookies and CSRF headers remain intact. No failed write is automatically repeated. `VITE_API_URL` remains an explicit override for deployments with a separate API origin; an empty override uses the same-origin default. A production static deployment must route `/api/v1` through its own reverse proxy, because Vite development proxy configuration is not included in the compiled application.
 
 ## Node.js version
 
@@ -70,8 +73,8 @@ OPENROUTER_PROVIDER=
 
 After changing `.env`, run `docker compose up -d backend` to recreate the
 backend with its new environment. Model IDs use OpenRouter's `author/model`
-format. Configure target, pipeline and evaluator models independently in the
-audit screen. Extraction and judging require an endpoint supporting JSON
+format. Configure target, test-generation, semantic-review and evaluator models
+independently in the audit screen. Extraction, generation and semantic review require an endpoint supporting JSON
 Schema output. Requests require parameter support and disable provider
 fallbacks; a configured `OPENROUTER_PROVIDER` further restricts the upstream
 provider. Missing keys and target/pipeline failures return readable errors.
@@ -84,15 +87,15 @@ and [provider routing](https://openrouter.ai/docs/guides/routing/provider-select
 
 For offline work, set `PIPELINE_PROVIDER=rule_based` and
 `EVALUATOR_PROVIDER=rule_based`, then select the local rule-based target.
-Legacy direct-provider and Ollama connectors remain for saved runs and
-explicit API requests; they are not offered for new cloud audits in the UI.
+Ollama is available for new extraction, test generation, semantic duplicate
+review, target-answer and evaluator calls when the local service is reachable.
 
 ### Local Qwen 3 1.7B through Ollama
 
-Legacy API requests also support **Local Qwen 3 1.7B (Ollama)**.
-It is target-only: extraction, test generation, and the evaluator retain their
-existing rule-based or structured cloud-provider contracts. Install Ollama and
-download the model on the host:
+The audit configuration can use **Local Qwen 3 1.7B (Ollama)** separately for
+test generation and semantic duplicate review, as well as extraction, target
+answers and response assessment. Install Ollama and download the model on the
+host:
 
 ```sh
 ollama pull qwen3:1.7b
@@ -152,13 +155,15 @@ The frontend container uses `npm ci`, and `frontend/package.json` pins the teste
 
 ## Real-model experiment modes
 
-The default `rule_based` pipeline, target and evaluator form a deterministic offline baseline. To use a cloud model for memory extraction and test generation, set `PIPELINE_PROVIDER` to `openai`, `deepseek`, or `gemini`; `PIPELINE_MODEL` is an optional override. To use an LLM-as-judge, set `EVALUATOR_PROVIDER` similarly; `EVALUATOR_MODEL` is optional.
+The default `rule_based` pipeline, target and evaluator form a deterministic offline baseline. To use a cloud or local model for memory extraction and test generation, set `PIPELINE_PROVIDER` to `openai`, `deepseek`, `gemini`, or `ollama`; `PIPELINE_MODEL` is an optional override. To use an LLM-as-judge, set `EVALUATOR_PROVIDER` similarly; `EVALUATOR_MODEL` is optional. The test-generation Agent and semantic duplicate reviewer can also be selected independently in the audit screen; their exact provider/model pair is frozen with the run. New controlled-memory audits also default to an AI retrieval Agent. Its local/cloud service and model can be selected independently; it receives the question and target-private memory records, never expected behaviour or reference-memory IDs. Large stores are reviewed in batches so lexical matching does not pre-filter records before the Agent sees them. The original fixed retrieval policies remain available as comparison conditions. Agent selection is recorded with per-question reasons and a safe provider-call receipt; a failed call is reported rather than replaced by a fixed policy.
+
+The retrieval Agent reviews the target's private records in batches when a store exceeds one model request's input limit, then compares the retained candidates. Every eligible record is reviewed by the Agent; lexical matching does not pre-filter the candidate set. The configured memory-count and context-size limits are applied to its final selection.
 
 The extraction, generation and evaluator modules use structured JSON and locally validate their schemas, source references, evidence references and test budget. A pipeline failure is reported rather than silently substituted, preserving experimental validity. The evaluator falls back to the deterministic judge only when its configured provider cannot return a valid decision, and labels that fallback in the stored result.
 
-The controlled target's private memory writer is separate from the Auditor's ground-truth extractor. Leave `TARGET_MEMORY_WRITER=rule_based` for the deterministic baseline. Set it to `llm_structured` only when the run's frozen pipeline provider/model is a configured cloud provider. This environment setting is a **creation default only**: each `AuditRun` persists its selected writer kind and resolved writer version, and execution never consults a changed environment value. The writer sees only authorised source messages and its configuration is retained in the run response, reproducibility metadata and post-audit memory trace.
+The controlled target's private memory writer is separate from the Auditor's ground-truth extractor. Leave `TARGET_MEMORY_WRITER=rule_based` for the deterministic baseline. Set it to `llm_structured` only when the run's frozen pipeline provider/model is a reachable Ollama service or configured cloud provider. This environment setting is a **creation default only**: each `AuditRun` persists its selected writer kind and resolved writer version, and execution never consults a changed environment value. The writer sees only authorised source messages and its configuration is retained in the run response, reproducibility metadata and post-audit memory trace.
 
-For controlled comparisons, keep provider, model, temperature, seed, test budget and prompt-template version unchanged between weak and strong runs. The audit also records the resolved pipeline and evaluator provider/model at creation, so later generation and evaluation use the same selections even if environment variables are changed. The target receives only private relevant memory context; evaluator-only expected behaviour is never sent to it or exposed by the tests API.
+For controlled comparisons, keep provider, model, temperature, seed, test budget and prompt-template version unchanged between weak and strong runs. The audit also records the resolved generation, semantic-review, retrieval-Agent and evaluator provider/model selections at creation, so later generation, retrieval and evaluation use the same choices even if environment variables are changed. The target receives only private relevant memory context; evaluator-only expected behaviour is never sent to it or exposed by the tests API.
 
 For research comparisons, use the Configuration page to select multiple target models, memory strategies, and optional repeated runs per condition. The application creates one Experiment Group, generates one canonical test suite, and clones it for every model × strategy × repetition row. This is required for a fair comparison when using an LLM test generator. The results page reports condition averages and standard deviation when at least two repetitions complete; a failed condition can be retried without rerunning completed calls.
 

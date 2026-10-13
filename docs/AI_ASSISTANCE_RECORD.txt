@@ -1,0 +1,42 @@
+AI assistance record — 11 October 2026
+
+Codex assisted with requirements/code review, implementation, documentation,
+and regression-test creation. The team remains responsible for submitted
+code, design decisions, claims, references and experimental results.
+
+Important decisions/artifacts
+1. The assessment/proposal audit identified inherited test-dimension error
+   labels, incomplete independent validation and missing formal evidence.
+2. Observed failure classification was separated from the test dimension.
+   Unknown categories are left unknown; historical rows are not rewritten.
+3. The default three-method workflow shares source-reviewed facts and target
+   settings. Two model methods share a canonical suite; the rule method owns
+   its own suite. A target-score chart is not an auditor-accuracy chart.
+4. Semantic judgment keeps evidence whitelisting, strict JSON and unscored
+   disagreement. It does not gain authority from being a larger model.
+5. Calibration retains abstention coverage and distinguishes declared label
+   provenance from independently verified evaluation.
+6. A/C AI-assisted worksheets are development feedback, not human gold.
+7. A real synthetic browser pilot exposed an unrelated extraction update
+   link and an unsupported recency-wins answer for unresolved conflicts.
+   Source records/questions were reviewed in the UI. Extraction/generation
+   prompts and the conflict quality gate were strengthened with regression
+   checks. This AI-operated development review is not independent gold.
+
+Validation boundaries
+Automated tests and AI-operated browser checks verify implementation and
+workflow. They do not certify the correctness of independent human labels,
+source permissions, model improvement or superiority over another product.
+Formal conclusions require actual independent review and held-out results.
+No model weights are trained or changed by this work.
+
+The team should add other substantive AI-assisted decisions made outside
+this session according to course policy. This record is not an assertion
+that every historic AI-assisted artifact has been independently verified.
+
+11 October continuation: AI implemented controlled shared-answer evaluation,
+complete source blind packets and proposal workflow guidance; drafted traceability,
+report/handoff and synthetic source-only candidates. These outputs are engineering
+assistance and unlabelled candidate material. The AI did not submit independent
+human labels, certify novelty, freeze a human gold release or invent contributions.
+A real GUI pilot is developmental and its source/question checks are AI pre-review.

@@ -4,7 +4,8 @@ The PostgreSQL schema is created from the Alembic migration chain in `backend/al
 
 | Table | Purpose |
 | --- | --- |
-| conversations, messages | Authorised source history and ordered message evidence |
+| conversations, messages | Authorised source history, declared origin category (`synthetic`, `authorised`, `deidentified`, or `unknown`), and ordered message evidence |
+| stage_locks | Renewable cross-process leases for long-running stages on persistent non-PostgreSQL databases |
 | memories, memory_relationships | Reviewed facts and UPDATE, CONFLICT, or CONTEXTUAL_OVERRIDE links |
 | audit_runs | Reproducible controlled run configuration, provider/model selection, and lifecycle state |
 | experiments | Frozen comparison configuration, canonical test-suite source, and experiment lifecycle |
@@ -16,6 +17,12 @@ The PostgreSQL schema is created from the Alembic migration chain in `backend/al
 | evaluation_human_reviews | Pseudonymous human calibration labels kept separate from immutable automated verdicts |
 
 All identifiers are stable string IDs and foreign keys preserve audit traceability. Public objects are represented by matching Pydantic models in `backend/app/schemas/domain.py` and TypeScript interfaces in `frontend/src/types/domain.ts`.
+
+Migration `0025_source_timestamp_offsets` adds nullable `messages.original_timestamp`. New timezone-aware observations are stored as UTC clock values and returned with an explicit UTC offset; the original offset representation is retained for export and re-import. This preserves the instant, rather than every character of an uploaded date string. When input omits a timestamp, the server records an observation time. Observation metadata is not a user-stated event date. Re-imported original timestamps must identify the same instant as the canonical timestamp.
+
+Historical rows are not backfilled: a missing original offset remains unknown. New timezone-naive observations also remain naive. When known and unknown timezone messages are mixed, deterministic extraction preserves supplied message order instead of guessing a server timezone. Fully comparable timestamps still establish chronological extraction order; source evidence and exports retain original message sequence.
+
+Formal `formal-inputs-v2` receipts omit the additive `original_timestamp` key only when it is null, preserving pre-0025 input fingerprints. Non-empty offset provenance participates in the input fingerprint and cannot change within a frozen experiment. This compatibility rule does not disable the separate software-drift check or permit altered source facts, questions or settings.
 
 `audit_runs` records the controlled target configuration, provider/model, `memory_strategy`, `memory_maintenance_policy`, temperature, seed, budget and prompt-template version. It also records the resolved pipeline and evaluator provider/model so a stored experiment does not change if default environment settings are later changed. The target Agent's `target_memory_writer` (`rule_based` or `llm_structured`), `target_system_adapter` and their resolved versions are likewise frozen on the run. `TARGET_MEMORY_WRITER` is consulted only to choose the default while creating a new run; execution always uses the persisted run fields. Pre-0011 rows are safely interpreted as the deterministic `rule_based` writer and `controlled-memory` adapter.
 
@@ -48,3 +55,20 @@ Operational conversation data can be exported as a portable JSON bundle before i
 `backend/app/schemas/research.py` adds a request-scoped `ResearchPredictionSet` that joins a frozen annotation release to automated outputs. An extraction candidate is counted as a match only through its explicitly reviewed `matched_gold_memory_id`; relationship predictions are ordered source/type/target tuples; evaluator predictions are keyed by response ID. The research API validates and hashes these releases but does not add a database table, avoiding accidental mixing of research consent scopes and normal audit data.
 
 `datasets/benchmarks/longmemeval-compatible-v1/` holds a synthetic format sample only. The adapter normalises local data to `LongMemEvalCase` and does not persist, download, or execute external benchmark records.
+
+
+AI-assessor comparison plans are stored in `assessor_comparisons` (migration
+0026). Each records its source audit, immutable creation fingerprint, software
+signature, selected assessor configurations and prepared run associations.
+A source foreign key prevents removing the source while its comparison exists.
+The original audit, target response text, reference questions, input receipts
+and human review records are not rewritten. Per-assessor completion is read
+from the ordinary saved audit state; comparison preparation never calls the
+original target.
+
+
+Migration 0027 adds nullable `input_fingerprint` to assessor plans. New plans
+record a source/reference/answer signature; null legacy values remain unknown.
+No historical result or participant label is rewritten or inferred. New saved
+reassessments separately retain an `assessment_input_signature` in provenance
+and include it in their creation identity, preventing reuse after source drift.

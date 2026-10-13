@@ -2,7 +2,7 @@
 from app.services.evidence_correspondence import evidence_units
 
 
-VERSION = "answer-time-memory-availability-v2"
+VERSION = "answer-time-memory-availability-v3"
 
 
 def availability(reference, records, ranking, supplied=None):

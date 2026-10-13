@@ -2,9 +2,12 @@
 
 Open **Experiments → Research tools → Real-model benchmark comparison**.
 Upload a permitted LongMemEval subset (up to 8 cases, 1 MB), review its questions
-and references, select Ollama or OpenRouter and one deployed model, then select
-up to four memory strategies. Confirm permission to send this source to the
-selected provider and run the comparison. Credentials remain backend-only.
+and references, record the exact dataset version, licence or permission basis,
+and citation, then select Ollama or OpenRouter and one deployed model and up to
+four memory strategies. Confirm permission to send this source to the selected
+provider and run the comparison. Credentials remain backend-only. These source
+details are caller-declared; the application does not verify licence rights or
+the citation.
 
 The adapter accepts both the project's flat local format and official session
 arrays, preserving user/assistant roles, aligned session dates and question
@@ -31,7 +34,9 @@ it is not sent to the provider and does not guarantee deterministic generation.
 
 Download evidence before leaving: it contains model replies, actual call
 attempts, memory records and retrieval/supply flags, source and configuration
-hashes and versions. Hypothesis downloads use the upstream `question_id` and
+hashes, dataset provenance, adapter implementation fingerprint and declared
+compatibility limitations. The configuration fingerprint changes when dataset
+version, licence or citation changes. Hypothesis downloads use the upstream `question_id` and
 `hypothesis` JSONL layout. Run these with the upstream evaluator against the
 matching authorised dataset, then independently review a frozen sample.
 The reference annotations can change without changing model inputs; this is
@@ -84,7 +89,8 @@ pending; an overall pilot percentage appears only with complete coverage.
 Per-category summaries and disagreements with lexical matching are available.
 
 The report fingerprints the complete saved evidence and imported rows, in
-addition to recording source/configuration fingerprints and the declared
+addition to recording source/configuration fingerprints, dataset version,
+licence/citation and adapter implementation fingerprint and the declared
 evaluator model/revision. This is a binding/integrity check, not authentication
 of the uploaded file's author, actual model execution, code revision or label
 accuracy. Independently review automatic labels. Even full coverage of a small

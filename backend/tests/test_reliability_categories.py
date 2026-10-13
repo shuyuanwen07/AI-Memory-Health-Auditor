@@ -30,6 +30,8 @@ def test_human_labelled_uncertain_answers_count_as_coverage_not_accuracy():
     assert report['labelled_abstention_rate']['percentage'] == 100
     assert report['accuracy']['percentage'] is None
     assert report['evidence_status'] == 'human_references_available'
+    assert report['failure_detection_and_classification_recall']['percentage'] == 0
+    assert report['category_confusion'] == [{'human_category': 'freshness', 'automatic_category': 'abstained', 'count': 1}]
 
 
 def test_unknown_human_category_is_not_fabricated():
@@ -47,3 +49,33 @@ def test_formal_score_uses_four_dimensional_macro_average_including_zero():
     assert result.formal_overall_score == 50
     result.dimensions[0].percentage = None
     assert result.formal_overall_score is None
+
+
+def test_failure_detection_does_not_hide_abstentions_or_require_category_labels():
+    report = reliability_summary([
+        item(False, False), item(True, False), item(None, False), item(False, True), item(None, True),
+    ])
+    assert report['failure_recall']['percentage'] == 50
+    assert report['failure_recall_including_abstentions']['percentage'] == 33.33
+    assert report['failure_recall_including_abstentions']['denominator'] == 3
+    assert report['reference_outcomes'] == {'human_failures': 3, 'human_passes': 2, 'uncertain_on_failure': 1, 'uncertain_on_pass': 1}
+    assert report['reference_only_count'] == 5
+    assert report['adjudicated_reference_count'] == 0
+
+
+def test_repeating_one_history_cannot_invent_between_history_uncertainty():
+    from app.services.auditor_quality import scenario_reliability
+    report = scenario_reliability({'one': [item(True, True)] * 100})
+    assert report['labelled_histories'] == 1
+    assert report['resamples'] == 0
+    assert report['metrics']['accuracy']['interval_95'] is None
+
+
+def test_scenario_bootstrap_is_deterministic_and_keeps_abstentions_in_detection():
+    from app.services.auditor_quality import scenario_reliability
+    groups = {'first': [item(False, False), item(None, False)], 'second': [item(None, False)]}
+    first = scenario_reliability(groups)
+    assert first == scenario_reliability(dict(reversed(list(groups.items()))))
+    assert first['labelled_histories'] == 2
+    assert first['metrics']['failure_recall_including_abstentions']['interval_95'] == [0, 50]
+    assert first['metrics']['failure_precision']['valid_resamples'] < 1000

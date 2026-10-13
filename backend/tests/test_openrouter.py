@@ -11,7 +11,7 @@ from app.evaluator.llm_judge import LLMBehaviourEvaluator
 from app.extraction.llm import PipelineLLMClient, PipelineRequestError, configured_pipeline_model
 from app.schemas import AuditRun, AuditStatus, Dimension, Memory, MemoryStatus, TargetConfiguration, TargetProvider
 from app.schemas import TestCase as Case
-from app.target_ai.openrouter import CHAT_COMPLETIONS_URL, request_options
+from app.target_ai.openrouter import CHAT_COMPLETIONS_URL, request_options, sampling_parameters
 from app.target_ai.providers import HttpTargetAIConnector, configured
 
 
@@ -71,10 +71,20 @@ def test_pipeline_uses_strict_schema_and_validates_json(monkeypatch):
     assert captured["url"] == CHAT_COMPLETIONS_URL
     assert captured["payload"]["response_format"]["json_schema"]["strict"] is True
     assert captured["payload"]["provider"]["require_parameters"] is True
+    client.complete_json(instructions="Return JSON.", prompt="Synthetic availability check.",
+        schema_name="availability_check", schema={"type":"object"}, max_output_tokens=64)
+    assert captured["payload"]["max_tokens"] == 64
     monkeypatch.setattr(PipelineLLMClient, "_post", staticmethod(lambda *_: {
         "choices": [{"message": {"content": "not JSON"}}]}))
     with pytest.raises(PipelineRequestError):
         client.complete_json(instructions="Return JSON.", prompt="Extract.", schema_name="memory", schema={})
+
+
+def test_reasoning_model_sampling_is_model_controlled_and_other_families_keep_fixed_temperature():
+    for model in ('openai/gpt-5.6', 'openai/gpt-5.6-pro', 'openai/gpt-6.1-sol', 'openai/gpt-6-astra'):
+        assert sampling_parameters(model, 0) == {}
+    assert sampling_parameters('anthropic/claude-opus-5.5', 0) == {'temperature': 0}
+    assert sampling_parameters('google/gemini-3.1-flash', 0) == {'temperature': 0}
 
 
 def test_judge_uses_openrouter_and_rejects_untrusted_evidence(monkeypatch):
@@ -86,17 +96,17 @@ def test_judge_uses_openrouter_and_rejects_untrusted_evidence(monkeypatch):
     def post(url, headers, payload):
         captured.update(url=url, headers=headers, payload=payload)
         return {"choices": [{"message": {"content": json.dumps({
-            "passed": True, "reason": "Matches evidence.", "evidence_memory_ids": ["M001"]})}}]}
+            "failure_type": None, "classification_reason": "No observed error.", "passed": True, "reason": "Matches evidence.", "evidence_memory_ids": ["M001"]})}}]}
     monkeypatch.setattr(LLMBehaviourEvaluator, "_post", staticmethod(post))
     memories = [Memory(memory_id="M001", conversation_id="C1", canonical_value="PostgreSQL", status=MemoryStatus.CONFIRMED)]
     judge = get_behaviour_evaluator("openrouter", "test/judge")
     result = judge.evaluate(make_case(), answer, memories)
-    assert result.evaluator == "llm-judge-openrouter-v4"
+    assert result.evaluator == "llm-judge-openrouter-v6"
     assert captured["url"] == CHAT_COMPLETIONS_URL
     assert captured["payload"]["response_format"]["json_schema"]["strict"] is True
     monkeypatch.setattr(LLMBehaviourEvaluator, "_post", staticmethod(lambda *_: {
         "choices": [{"message": {"content": json.dumps({
-            "passed": True, "reason": "Unsupported.", "evidence_memory_ids": ["UNKNOWN"]})}}]}))
+            "failure_type": None, "classification_reason": "No observed error.", "passed": True, "reason": "Unsupported.", "evidence_memory_ids": ["UNKNOWN"]})}}]}))
     assert judge.evaluate(make_case(), answer, memories).evaluator == f"fallback-{RuleBasedBehaviourEvaluator.VERSION}"
 
 
@@ -110,3 +120,42 @@ def test_config_and_provider_pinning(monkeypatch):
     assert configured_evaluator() == ("openrouter", "test/judge")
     assert request_options()["provider"] == {
         "only": ["test-provider"], "allow_fallbacks": False, "require_parameters": True}
+
+@pytest.mark.parametrize('provider,key,path',[
+    (TargetProvider.OPENROUTER,'OPENROUTER_API_KEY',('max_tokens',)),
+    (TargetProvider.OLLAMA,None,('options','num_predict')),
+    (TargetProvider.OPENAI,'OPENAI_API_KEY',('max_output_tokens',)),
+    (TargetProvider.DEEPSEEK,'DEEPSEEK_API_KEY',('max_tokens',)),
+    (TargetProvider.GEMINI,'GEMINI_API_KEY',('generationConfig','maxOutputTokens')),
+])
+def test_frozen_output_limit_reaches_provider_request_and_receipt(monkeypatch,provider,key,path):
+    from app.schemas.target_profile import TargetMemoryProfile
+    if key:
+        monkeypatch.setenv(key,'test-only-key')
+    monkeypatch.setenv('OLLAMA_NUM_PREDICT','7')
+    captured={}
+    def post(url,headers,payload):
+        captured.update(payload)
+        return {'message':{'content':'PostgreSQL'},'choices':[{'message':{'content':'PostgreSQL'}}],
+                'output_text':'PostgreSQL','candidates':[{'content':{'parts':[{'text':'PostgreSQL'}]}}]}
+    monkeypatch.setattr(HttpTargetAIConnector,'_post',staticmethod(post))
+    run=audit().model_copy(update={'provider':provider,'target_memory_profile':TargetMemoryProfile(output_token_limit=768)})
+    response=HttpTargetAIConnector().execute(make_case(),run)
+    value=captured
+    for item in path:
+        value=value[item]
+    assert value==768
+    assert response.execution_metadata.requested_output_token_limit==768
+    assert 'EVALUATOR PRIVATE ANSWER' not in repr(captured)
+
+
+def test_legacy_cloud_record_does_not_invent_an_output_limit(monkeypatch):
+    monkeypatch.setenv('OPENROUTER_API_KEY','test-only-key')
+    captured={}
+    def post(url,headers,payload):
+        captured.update(payload)
+        return {'choices':[{'message':{'content':'PostgreSQL'}}]}
+    monkeypatch.setattr(HttpTargetAIConnector,'_post',staticmethod(post))
+    response=HttpTargetAIConnector().execute(make_case(),audit())
+    assert 'max_tokens' not in captured
+    assert response.execution_metadata.requested_output_token_limit is None

@@ -6,6 +6,26 @@ from scripts.build_reliability_review_pack import build
 from scripts.assemble_reliability_pilot import assemble
 
 
+def test_added_empty_timestamp_column_preserves_review_material_binding(tmp_path):
+    source={'human_labels':0,'sources':{'C':{
+        'messages':[{'id':'MSG','role':'user','content':'I prefer Python.','timestamp':'2026-01-01T00:00:00Z'}],
+        'candidates':[{'id':'M','canonical_value':'I prefer Python','source_message_ids':['MSG']}],
+        'relationships':[]}},'runs':[]}
+    old=build(source,tmp_path/'old')
+    migrated=deepcopy(source)
+    migrated['sources']['C']['messages'][0]['original_timestamp']=None
+    current=build(migrated,tmp_path/'migrated')
+    assert current['dataset_version']==old['dataset_version']
+    original=json.loads((tmp_path/'old'/'reviewer-A.json').read_text())
+    updated=json.loads((tmp_path/'migrated'/'reviewer-A.json').read_text())
+    assert original['contexts']==updated['contexts']
+    assert original['items']==updated['items']
+    assert all(item['label'] is None for item in updated['items'])
+    migrated['sources']['C']['messages'][0]['timestamp']='2026-01-02T00:00:00Z'
+    changed=build(migrated,tmp_path/'changed')
+    assert changed['dataset_version']!=old['dataset_version']
+
+
 @pytest.fixture
 def packet(tmp_path):
     source = {

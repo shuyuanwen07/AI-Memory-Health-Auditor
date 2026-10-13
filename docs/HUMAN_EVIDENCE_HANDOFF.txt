@@ -1,0 +1,168 @@
+Human evidence handoff — English — 11 October 2026
+
+Current returned worksheets (updated 12 October 2026)
+A and C each returned all 283 fields for the same frozen material. The coordinator
+confirmed human completion; independence is still pending. Preserve the original
+AI-assistance declarations and the separate confirmation receipt. On 12 October,
+the coordinator selected C for all nine categorical disagreements after seeing
+AI-assisted source summaries. Those disputes are resolved; NAS correctness remains
+uncertain. Preserve original labels for pre-adjudication agreement statistics.
+If A/C independently judged the shared items, they may serve as the two overlap
+reviewers. If they reviewed
+AI drafts or saw automated verdicts, use those returns as assisted feedback and
+collect a new independent blind overlap batch. Do not convert agreement or a
+majority vote into source-verified gold. Reviewer letters below are workflow roles,
+not fixed identities or the similarly named experiment studies.
+
+Current isolated engineering smoke (13 October 2026)
+The synthetic source fixture `datasets/smoke/qwen-four-dimension-source-v1.json`
+was imported into temporary database
+`/private/tmp/mha-qwen-four-dimension-smoke-20261013-v8.sqlite` as conversation
+`C777B5F3C364549E990838C6C1C38AB60`. Local Ollama reported qwen3:1.7b with tag
+digest `8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7`.
+Extraction returned eight source-cited candidates, but the relationship Agent
+returned no edges and the independent memory reviewer failed validation. The
+user has been asked to review these facts and, if acceptable for this synthetic
+smoke only, add the source-supported UPDATE, CONTEXTUAL_OVERRIDE and CONFLICT
+links. That approval is pending. Do not treat this engineering review as
+independent research annotation, human gold, or held-out evidence.
+
+The software can prepare, execute and analyse experiments. It cannot certify its
+own answers as independent human evidence. A passing regression test verifies
+implementation; independent review verifies assessment validity.
+
+Reviewer A
+- Review the complete source, proposed memories, relationships and questions.
+- Create source-supported gold facts and an independent defect inventory; do not
+  copy the auditor's category or expected answer without checking the conversation.
+- Independently label every assigned pilot response using blind review. Include
+  passes and uncertain answers, not just apparent failures.
+- Save pseudonym, reasons, source evidence, reference corrections and unresolved
+  ambiguities. Do not consult Reviewer B or automated verdicts before saving.
+
+Reviewer B
+- Independently label the SAME overlap pilot items as A, following the same frozen
+  instructions. These overlapping labels enable agreement/kappa measurement.
+- Review all source/reference material before judging the complete answer, including
+  unsupported explanation details. An AI assistant must not generate human labels.
+- Return the labelled material plus ambiguity notes. B is not merely a different
+  model experiment; two independent judgements are needed on shared pilot items.
+
+Reviewer C
+- Reconcile A/B disagreements after both original submissions are preserved.
+- Confirm source provenance/permission, the final reference release, thresholds and
+  protocol BEFORE formal collection. Adjudicate uncertainty rather than force labels.
+- Check untouched history/template independence and the benchmark subset's technical
+  compatibility. Confirm actual members/authorship and report claims against exports.
+
+Experiments A/B/C are DIFFERENT from reviewer roles A/B/C
+Study A: equal actual call budgets for direct questions, fixed-template questions
+seeded once by the deterministic rule generator and then reviewed/edited/confirmed
+by a researcher, and auditor contextual/indirect tests. Compare distinct
+human-confirmed defects, question validity and error precision/recall. Report this
+as a rule-seeded, researcher-reviewed baseline, not a from-scratch human-authored
+baseline; preserve the actual review/edit record and final release.
+Study B: same model, source histories, suite and reader settings; compare the frozen
+Weak first-hit and Strong rule-based policies, optionally with no-memory/full-context
+controls. Formal plans require one target model, a frozen analysis plan and development
+split, and at least three repetitions for every condition, including the deterministic
+rule-based baseline. Smaller or unplanned matrices use the separate exploratory route
+and are not Experiment B. Record actual repetitions, seed support and costs where observed.
+Study C: same policies on a permitted technically compatible LongMemEval subset;
+semantic references and relative rankings; report ties and disagreement. A lexical
+local-format pilot is insufficient for a full upstream benchmark claim.
+Repair value: freeze a general diagnosis-directed policy on development cases,
+then compare original, generic instruction and directed repair on new histories.
+Do not insert expected answers or change model weights. Report regressions too.
+
+Exact product steps
+1. New audit: import authorised synthetic JSON -> check source memories/relationships
+   -> confirm -> configure -> review questions -> run -> save reproduction package.
+2. Default Audit methods compares three approaches. New model/rule and model/hybrid
+   runs reuse the same target reply; check the controlled-answer receipt in differences.
+3. Auditor reliability -> Start blind review -> Download blank review materials.
+   Download hides system verdicts/identities and contains every answer and full source.
+   The generated reference remains a proposal. Save operational labels on that page;
+   the blank export is reading material, not an import-ready annotation dataset.
+4. Experiments -> Research tools: validate the annotation dataset and download its
+   review receipt. After reviewing that exact release, record the receipt
+   dataset_fingerprint_sha256 in the pilot package. Changed content requires a
+   newly reviewed binding. Import annotation/pilot packages, assess readiness,
+   inspect blockers and freeze the matching synthetic formal matrix only when ready.
+5. Completed audit -> Inspect confirmed method findings / Prepare repair comparison.
+   Select independently reviewed new history to test the frozen general repair.
+6. Export results/reproduction material; analyse by source scenario, keeping repeated
+   answers and shared reviewer copies correlated. Add measured uncertainty and limits.
+
+Experiment A handoff (engineering workflow added 13 October 2026)
+1. Open a completed authorised source audit and prepare an audit-method comparison.
+2. Download the source inventory and rule-generated template draft JSON. Two people independently review the
+   confirmed facts and source messages, record each known distinct failure with its
+   dimension, supporting memory IDs, source message IDs and explanation, then preserve
+   their separate worksheets and adjudication. Do not derive the inventory from the
+   automated report alone.
+3. A researcher reviews every rule-generated prompt and expected behaviour, edits or
+   replaces weak items, and adds questions where the draft is short. The final release
+   must have exactly the frozen question budget, with at least five templates per
+   dimension at a 20-question budget. Keep the actual review/edit record, reviewer
+   pseudonym and release version with the study files.
+4. Enter the two source-reviewer pseudonyms, template reviewer/editor pseudonym(s),
+   release IDs and current source fingerprint in the JSON. Explicitly confirm the
+   template review in the interface. The application checks the initial rule-draft
+   fingerprint, source binding, confirmed IDs, linked user-message evidence, budget
+   and dimension minimums, then fingerprints and freezes the package. Pseudonyms and
+   the review checkbox are declarations; the app cannot authenticate identity or
+   independent work.
+5. Review and accept/reject all three generated suites before execution. Run all arms,
+   then label every saved answer independently and blind to condition. Preserve both
+   originals and adjudications. Inspect the saved Experiment A report and JSON export;
+   distinguish equal planned caps from equal realised calls. Unknown attempts and
+   incomplete labels remain unmeasured.
+
+Before reporting formal findings
+- Genuine independent labels, guideline and dataset fingerprints.
+- All four dimensions, source/template diversity, predeclared overlap and sample size.
+- Frozen target, extraction/generation/judge versions, prompts, policies and budgets.
+- At least three repetitions per formal condition, including local Ollama and the
+  deterministic rule-based baseline. Disclose provider seed support.
+- Actual target calls counted once; copied answers excluded from target usage totals.
+- Costs unknown when provider usage/price evidence is absent; no estimated zero cost.
+- Complete human contributions and required final report. A/C human completion was confirmed
+  by the coordinator on 11 October 2026; original AI-assisted declarations remain
+  preserved, and blind independence is not yet confirmed.
+
+Candidate new source pack: datasets/assessment-candidates-v1/
+It is AI-authored synthetic material, not an independently validated held-out release.
+Separate pilot and candidate-test pools are supplied. Humans must reject semantic or
+template overlap with development histories BEFORE freezing. No gold labels are filled.
+
+Implementation note — 13 October 2026
+No reviewer worksheet, adjudication, participant source, pilot label, or benchmark
+release was imported or altered during the implementation pass. Preserve the prior
+coordinator confirmation and AI-assistance declarations above; blind independence
+and source-verified correctness remain unconfirmed. Today's synthetic Ollama output
+and automated test results are engineering evidence only and must not be converted
+into human labels or held-out research evidence.
+
+The user-approved Meadow/Cedar engineering smoke is saved as run
+`RUN33F698DCBA6E4DABB8E4BAFB37002D44`. Migration 0035 marks its conversation
+as synthetic in current-schema exports; any export made before that migration
+must be read with this source-origin correction. Keep this run and its confirmed
+facts out of human research labels and held-out analyses.
+
+Repository synthetic double-annotation package reviewed — 13 October 2026
+The repository contains `datasets/annotation/synthetic-pilot-v2/double-annotation/human_double_annotation.json`.
+It declares `human_double_annotation`, pseudonyms `yc` and `sd`, 25 paired labels
+across five tasks, and 25 adjudications for the synthetic Pilot v2 release. The
+request-scoped analyser reports 100% agreement; Cohen's kappa is 1.0 for relationship
+type and failure dimension, and is not applicable for evaluator verdict, memory
+inclusion, and test validity because each task has constant labels. This small synthetic
+package is not participant evidence or a held-out result.
+
+The package currently has no `dataset_fingerprint_sha256`. Its pseudonymous item IDs
+(`MEM-01`, `REL-01`, etc.) also have no source-item mapping in this repository snapshot
+to the dataset's memory, relationship, test, and response IDs. The analyser therefore
+now blocks formal readiness when the exact validated dataset fingerprint is absent;
+the package currently reports not ready. Do not add a fingerprint or item mapping until
+the team verifies the package against the exact reviewed release. The package's human
+authorship and reviewer independence remain declared, not authenticated by the app.

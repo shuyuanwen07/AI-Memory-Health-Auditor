@@ -11,6 +11,7 @@ from app.main import app
 from app.schemas.benchmark import LiveBenchmarkRequest
 from app.schemas.semantic_review import SemanticReviewRequest
 from app.target_ai.providers import HttpTargetAIConnector
+from test_live_benchmark import PROVENANCE
 
 
 @pytest.fixture
@@ -20,8 +21,8 @@ def package(monkeypatch):
         answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
         dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
         answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
-    evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True)).model_dump(mode='json')
-    return dict(source=source, evidence=evidence, strategy='weak_first_hit', evaluator_revision='0'*40,
+    evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+    return dict(source=source, source_authorised=True, evidence=evidence, strategy='weak_first_hit', evaluator_revision='0'*40,
         rows=[dict(question_id='fixture_abs', hypothesis='The information is incomplete.',
             autoeval_label=dict(model='contract-fixture-no-model-call', label=True))])
 
@@ -37,6 +38,8 @@ def test_partial_assessment_keeps_missing_unknown_and_binds_all_provenance(packa
     assert report.cases[0].semantic_correct is True
     assert report.cases[1].semantic_correct is None
     assert len(report.evidence_fingerprint_sha256) == len(report.evaluation_fingerprint_sha256) == 64
+    assert report.dataset_provenance.dataset_version==PROVENANCE['dataset_version']
+    assert len(report.adapter_fingerprint_sha256)==64 and report.compatibility_limitations
     assert 'not independently verified' in report.notice
     categories = {c.category:c for c in report.categories}
     assert categories['single-session-user'].percentage == 100
@@ -89,3 +92,11 @@ def test_import_endpoint_has_no_database_or_provider_dependencies(package,monkey
         assert response.json()['pending'] == 1
         package['rows'][0]['hypothesis']='wrong condition'
         assert client.post('/api/v1/research/benchmarks/longmemeval/semantic-review',json=package).status_code == 422
+
+
+def test_semantic_review_requires_authorisation_before_source_adapter(monkeypatch, package):
+    package['source_authorised'] = False
+    monkeypatch.setattr('app.benchmarks.semantic_review.LongMemEvalAdapter.adapt',
+        lambda *args: pytest.fail('source adapter ran before consent'))
+    with pytest.raises(ValueError, match='source_authorised=true'):
+        analyse(package)

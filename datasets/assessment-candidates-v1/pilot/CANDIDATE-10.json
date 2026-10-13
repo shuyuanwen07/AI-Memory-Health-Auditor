@@ -1,0 +1,22 @@
+{
+  "messages": [
+    {
+      "message_id": "CANDIDATE-10-MSG-1",
+      "role": "user",
+      "content": "I prefer permissive licences for personal tools.",
+      "timestamp": "2026-10-11T01:00:00+00:00"
+    },
+    {
+      "message_id": "CANDIDATE-10-MSG-2",
+      "role": "user",
+      "content": "This client contract requires a proprietary distribution.",
+      "timestamp": "2026-10-11T02:00:00+00:00"
+    },
+    {
+      "message_id": "CANDIDATE-10-MSG-3",
+      "role": "user",
+      "content": "The contract restriction applies to the client deliverable only.",
+      "timestamp": "2026-10-11T03:00:00+00:00"
+    }
+  ]
+}

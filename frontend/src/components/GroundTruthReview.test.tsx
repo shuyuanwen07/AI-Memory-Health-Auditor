@@ -1,5 +1,5 @@
 import { selectUIOption } from './ui/testHelpers';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { GroundTruthReview } from './GroundTruthReview';
 import type { Memory } from '../types/domain';
@@ -11,9 +11,25 @@ function renderReview(memories: Memory[] = [candidate]) {
   return { props, ...render(<GroundTruthReview {...props} />) };
 }
 
+test('explains ground truth and Agent in plain language while preserving their technical labels', () => {
+  renderReview();
+  expect(screen.getByRole('heading', { name: 'Review Extracted Memories' })).toBeInTheDocument();
+  expect(screen.getByText(/“ground truth” means the conversation-supported facts you accept or correct/)).toBeInTheDocument();
+  expect(screen.getByText(/An Agent is an AI task worker for one audit step/)).toBeInTheDocument();
+});
+
 test('keeps confirmation unavailable until a memory is accepted or edited', () => {
   renderReview();
   expect((screen.getByRole('button', { name: 'Confirm Ground Truth & Continue' }) as HTMLButtonElement).disabled).toBe(true);
+});
+
+test('retains late qualifications in complete source text instead of silently truncating evidence', async () => {
+  const user = userEvent.setup();
+  const content = 'The meeting must use Zoom only. ' + 'Background details for this example. '.repeat(5) + 'Correction: the Zoom requirement is withdrawn; use Teams instead.';
+  render(<GroundTruthReview memories={[candidate]} sourceMessages={[{message_id:'MSG002',role:'user',content,timestamp:'2026-01-01T00:00:00Z'}]} busy={false} onChange={vi.fn()} onConfirm={vi.fn()} onAddMemory={vi.fn()} />);
+  await user.click(screen.getByRole('button', {name: 'Read the complete original conversation · 1 message'}));
+  await waitFor(() => expect(screen.getByText(content)).toBeVisible());
+  expect(screen.queryByText('MSG002')).toBeNull();
 });
 
 test('adds a missing memory through an accessible inline form', async () => {
@@ -83,4 +99,18 @@ test('keeps a missing-memory draft available after a rejected save', async () =>
   expect((await screen.findByRole('alert')).textContent).toContain('Memory text is too long');
   expect((screen.getByLabelText('Missing memory') as HTMLInputElement).value).toBe('A draft to retain');
   expect((screen.getByRole('button', { name: 'Add Memory' }) as HTMLButtonElement).disabled).toBe(false);
+});
+
+test('shows a lost source restriction directly on the candidate card without deciding it for the reviewer',async()=>{
+  const onChange=vi.fn();const user=userEvent.setup();
+  const memory:Memory={...candidate,canonical_value:'Rowan meeting must use Zoom.'};
+  render(<GroundTruthReview memories={[memory]} sourceMessages={[{message_id:'MSG002',role:'user',content:'For the Rowan meeting, only Zoom is allowed.',timestamp:'2026-01-01T00:00:00Z'}]} busy={false} onChange={onChange} onConfirm={vi.fn()} onAddMemory={vi.fn()}/>);
+  expect(screen.getByRole('note')).toHaveTextContent('Check the “only” restriction');
+  expect(screen.getByRole('note')).toHaveTextContent('For the Rowan meeting, only Zoom is allowed.');
+  expect(onChange).not.toHaveBeenCalled();
+  await user.click(screen.getByRole('button',{name:'Edit'}));
+  await user.clear(screen.getByRole('textbox',{name:'Canonical memory'}));
+  await user.type(screen.getByRole('textbox',{name:'Canonical memory'}),'Rowan meeting must use Zoom only.');
+  await user.click(screen.getByRole('button',{name:'Save edit'}));
+  expect(onChange).toHaveBeenCalledWith(memory,expect.objectContaining({canonical_value:'Rowan meeting must use Zoom only.',status:'edited'}));
 });

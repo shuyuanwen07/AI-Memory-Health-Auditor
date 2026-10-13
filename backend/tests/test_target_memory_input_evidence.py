@@ -48,7 +48,7 @@ def test_qwen_receipt_tracks_final_context_not_retrieved_candidates(monkeypatch,
     adapter = ControlledTargetSystemAdapter.__new__(ControlledTargetSystemAdapter)
     adapter.audit = audit
     adapter._conversation = object()
-    adapter.store = SimpleNamespace(retrieve=lambda *args: retrieval)
+    adapter.store = SimpleNamespace(retrieve=lambda *args, **kwargs: retrieval)
     captured = {}
 
     def post(url, headers, payload):

@@ -18,6 +18,44 @@ def _require_isolated_postgres():
 
 
 @pytest.mark.postgres
+def test_postgresql_comparison_plan_export_and_confirmed_erasure():
+    _require_isolated_postgres()
+    from uuid import uuid4
+    from app.main import app
+    with TestClient(app) as client:
+        cid=client.post('/api/v1/conversations',json={'authorised':True,'messages':[{'role':'user','content':'I prefer Rust.'}]}).json()['conversation_id']
+        try:
+            memories=client.post(f'/api/v1/conversations/{cid}/extract',json={'provider':'rule_based'}).json()
+            client.post(f'/api/v1/conversations/{cid}/confirm-ground-truth',json={'confirmed_memory_ids':[m['memory_id'] for m in memories]})
+            source=client.post('/api/v1/audits',json={'conversation_id':cid,'provider':'rule_based','pipeline_provider':'rule_based',
+                'evaluator_provider':'rule_based','target_configuration':'strong','target_memory_writer':'rule_based'}).json()['run_id']
+            path=f'/api/v1/audits/{source}'
+            client.post(path+'/generate-tests');client.post(path+'/execute');client.post(path+'/evaluate')
+            a=client.post('/api/v1/assessor-comparisons',json={'creation_request_key':uuid4().hex,'source_run_id':source,
+                'assessors':[{'evaluator_provider':'rule_based'},{'evaluator_provider':'openrouter','evaluator_model':'fixed-model'}]})
+            g=client.post('/api/v1/generator-comparisons',json={'creation_request_key':uuid4().hex,'source_run_id':source,
+                'generators':[{'provider':'rule_based'},{'provider':'openrouter','model':'fixed-model'}]})
+            assert a.status_code==201,a.text
+            assert g.status_code==201,g.text
+            extraction=client.post('/api/v1/extraction-comparisons',json={'creation_request_key':uuid4().hex,'source_run_id':source,
+                'extractors':[{'provider':'rule_based'},{'provider':'openrouter','model':'fixed-model'}]})
+            assert extraction.status_code==201,extraction.text
+            extraction_id=extraction.json()['comparison_id']
+            extracted=client.post(f'/api/v1/extraction-comparisons/{extraction_id}/entries/0/extract')
+            assert extracted.status_code==200,extracted.text
+            assert extracted.json()['entries'][0]['checks']['fact_coverage_percent']==100
+            exported=client.get(f'/api/v1/conversations/{cid}/export').json()
+            assert exported['extraction_comparisons'][0]['id']==extraction_id
+            assert len(exported['assessor_comparisons'])==len(exported['generator_comparisons'])==1
+            deleted=client.request('DELETE',f'/api/v1/conversations/{cid}',json={'confirmation':cid})
+            assert deleted.status_code==200,deleted.text
+            assert client.get(f"/api/v1/assessor-comparisons/{a.json()['comparison_id']}").status_code==404
+            assert client.get(f"/api/v1/generator-comparisons/{g.json()['comparison_id']}").status_code==404
+        finally:
+            client.request('DELETE',f'/api/v1/conversations/{cid}',json={'confirmation':cid})
+
+
+@pytest.mark.postgres
 def test_postgresql_migrated_api_path():
     _require_isolated_postgres()
 
@@ -174,3 +212,86 @@ def test_postgresql_concurrent_creation_reuses_exact_identity(monkeypatch):
         if cid:
             with TestClient(app) as cleanup:
                 assert cleanup.request('DELETE', f'/api/v1/conversations/{cid}', json={'confirmation': cid}).status_code == 200
+
+
+@pytest.mark.postgres
+def test_postgresql_conversation_retry_and_extraction_row_lock(monkeypatch):
+    _require_isolated_postgres()
+    from uuid import uuid4
+    from sqlalchemy import select
+    from app.main import app
+    from app.api import routes
+    from app.models import ConversationModel
+    from app.database.session import SessionLocal
+    class EmptyExtractor:
+        VERSION = 'postgres-recovery-check'
+        calls = 0
+        def extract(self, conversation):
+            self.calls += 1
+            return []
+    extractor = EmptyExtractor()
+    monkeypatch.setattr(routes, 'get_memory_extractor', lambda *_: extractor)
+    cid = None
+    with TestClient(app) as client:
+        try:
+            body = {'authorised': True, 'pasted_text': '[User] Disposable recovery transaction check.', 'creation_request_key': uuid4().hex}
+            original = client.post('/api/v1/conversations', json=body)
+            assert original.status_code == 201
+            cid = original.json()['conversation_id']
+            assert client.post('/api/v1/conversations', json=body).json()['conversation_id'] == cid
+            assert client.post('/api/v1/conversations', json={**body, 'pasted_text': 'Changed'}).status_code == 409
+            # Independent DB session simulates a peer worker holding the extraction row.
+            with SessionLocal() as peer:
+                peer.scalar(select(ConversationModel).where(ConversationModel.id == cid).with_for_update())
+                busy = client.post(f'/api/v1/conversations/{cid}/extract', json={'provider': 'rule_based'})
+                assert busy.status_code == 409 and 'Memory extraction is still running' in busy.json()['detail']
+                assert extractor.calls == 0
+                peer.rollback()
+            assert client.post(f'/api/v1/conversations/{cid}/extract', json={'provider': 'rule_based'}).json() == []
+            assert client.post(f'/api/v1/conversations/{cid}/extract', json={'provider': 'rule_based'}).json() == []
+            assert extractor.calls == 1
+        finally:
+            if cid:
+                assert client.request('DELETE', f'/api/v1/conversations/{cid}', json={'confirmation': cid}).status_code == 200
+
+@pytest.mark.postgres
+def test_postgresql_stage_lock_survives_commits_and_blocks_another_process():
+    _require_isolated_postgres()
+    import subprocess
+    import sys
+    from uuid import uuid4
+    from sqlalchemy.orm import Session
+    from app.database.session import engine
+    from app.services.stage_lock import database_stage_lock, database_stage_busy
+
+    scope = 'integration-stage:' + uuid4().hex
+    # A fresh interpreter has no shared Python lock dictionary with this worker.
+    worker = '''
+import sys
+from fastapi import HTTPException
+from sqlalchemy.orm import Session
+from app.database.session import engine
+from app.services.stage_lock import database_stage_lock
+with Session(engine) as db:
+    try:
+        with database_stage_lock(db, sys.argv[1], 'Please wait for the running stage.'):
+            print('acquired')
+    except HTTPException as exc:
+        assert exc.status_code == 409
+        print('busy')
+'''
+    def other_worker():
+        result = subprocess.run([sys.executable, '-c', worker, scope], capture_output=True, text=True, timeout=20, check=True)
+        return result.stdout.strip()
+
+    with Session(engine) as db, Session(engine) as observer:
+        with pytest.raises(RuntimeError, match='interrupted stage'):
+            with database_stage_lock(db, scope, 'Stage is running.'):
+                db.commit()  # Persisting an answer must not let a duplicate in.
+                assert database_stage_busy(observer, scope)
+                assert other_worker() == 'busy'
+                with database_stage_lock(observer, scope + ':different', 'Stage is running.'):
+                    pass
+                raise RuntimeError('interrupted stage')
+        assert not database_stage_busy(observer, scope)
+        assert other_worker() == 'acquired'

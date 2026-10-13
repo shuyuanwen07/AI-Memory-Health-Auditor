@@ -4,6 +4,7 @@ from pathlib import Path
 
 from fastapi.testclient import TestClient
 
+from app.benchmarks.longmemeval import LongMemEvalAdapter
 from app.main import app
 
 
@@ -17,9 +18,21 @@ def test_annotation_and_longmemeval_research_endpoints_are_available():
         validated = client.post("/api/v1/research/annotations/validate", json={"dataset": ANNOTATIONS})
         assert validated.status_code == 200
         assert validated.json()["fingerprint_sha256"]
-        benchmark = client.post("/api/v1/research/benchmarks/longmemeval/validate", json={"payload": LONGMEMEVAL})
+        benchmark = client.post("/api/v1/research/benchmarks/longmemeval/validate", json={
+            "payload": LONGMEMEVAL, "source_authorised": True,
+        })
         assert benchmark.status_code == 200
         assert benchmark.json()["report"]["cases_imported"] == 2
+
+
+def test_longmemeval_validation_requires_consent_before_adapter_processing(monkeypatch):
+    def unexpected_adaptation(self, payload):
+        raise AssertionError("The source adapter must not inspect data before consent.")
+
+    monkeypatch.setattr(LongMemEvalAdapter, "adapt", unexpected_adaptation)
+    with TestClient(app) as client:
+        denied = client.post("/api/v1/research/benchmarks/longmemeval/validate", json={"payload": LONGMEMEVAL})
+    assert denied.status_code == 422
 
 
 def test_validity_endpoint_reports_extraction_test_and_evaluator_metrics():
@@ -42,6 +55,8 @@ def test_validity_endpoint_reports_extraction_test_and_evaluator_metrics():
     assert body["test_assessment_coverage"]["missing"] == 4
     assert body["evaluator"]["labelled_cases"] == 1
     assert body["evaluator_coverage"]["missing"] == 4
+    assert body["failure_detection"]["missing"] == 2
+    assert body["failure_detection"]["recall_all_reference_failures"] is None
 
 
 def test_evaluator_calibration_endpoint_is_request_scoped_and_reports_agreement():
