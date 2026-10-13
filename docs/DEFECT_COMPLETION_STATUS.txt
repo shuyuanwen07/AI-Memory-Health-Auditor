@@ -1,0 +1,48 @@
+Rubric audit: engineering remediation and evidence status — 11 October 2026
+
+1. Confounded rule/hybrid reviewer comparison: implemented same immutable answer
+   and canonical question suite, paired receipts, configuration/source guards,
+   persistent reuse intent for execute/retry, idempotency and no second target call.
+   New batches controlled; old separate executions stay labelled exploratory.
+2. Blind-review selection/source limitations: complete ordered source with speaker
+   role, all response outcomes and blank downloadable packet; no verdict-based
+   sampling. Original AI/reference labels do not become independent human evidence.
+3. Proposal A/B/C missing evidence: Research Workspace now gives concrete A/B/C
+   paths and controls. Frozen annotation/pilot/formal gates already validate inputs.
+   Empirical A/B/C findings still require genuine source/answer labels, recorded
+   human review of the rule-seeded A template draft, benchmark semantic references
+   and real collection. Not completed.
+4. General repair value: existing original/generic/directed and new-history paths
+   are documented with equal-model/budget controls and oracle limits. New source-only
+   candidate pools and A/B/C reviewer materials supplied. Semantic independence and
+   genuine generalisation results are pending; AI cannot certify them independently.
+5. Freeze/statistical/cost omissions: protocol defines scenario units, repetitions,
+   abstention-inclusive recall, provenance and usage limits; copied target calls
+   disclosed in configuration/comparison. Costs unknown without billing evidence.
+   Actual human release and protocol freeze precede formal collection and remain pending.
+6. Engineering/report/delivery gaps: requirement-to-code/test map, ten-section honest
+   report draft, contribution confirmation record, human task instructions, updated
+   calibration documentation and clean hash-manifest source pack implemented.
+   Actual members, final result tables/PDF and assessed submission are pending.
+7. Chart interpretation: target health, original automated outcome and reviewed
+   reference evidence remain separate. Same-answer receipt pairs repeated trials;
+   reused memory trace links original evidence and shared diagnosis/export preserves it.
+   Shared result cards resolve the original retrieval indicators and show the source
+   entry even when rule/hybrid verdicts are identical.
+8. GUI-discovered generated subject error: user-location fact was attributed to AI.
+   Quality v9 rejects explicit subject mismatch/ambiguous AI-location prompt; generator
+   v3 asks for preserved subjects/temporal scope and avoids answer-choice leakage.
+   These are bounded checks; full semantic question validity needs independent review.
+9. GUI-discovered regeneration trap: rejected wrong-type/evidence questions can now
+   obtain another grounded same-dimension probe before execution. LLM receives a
+   focused one-question replacement request and existing question wording to avoid.
+   All peers synchronise, replacement stays pending, frozen/executed suites stay locked.
+11. Browser download resilience: blank review packets use the shared delayed-release
+    save helper and have a read-only JSON preview/copy fallback. Preview verified
+    in the real GUI; the in-app browser did not expose a completed download event.
+10. Export regression found in test: source-trace resolution also applies to experiment
+    evidence export; shared source provenance recorded, normal export path verified.
+
+Do not substitute engineering checks for human evaluation accuracy. No human labels,
+actual contribution claims, formal novelty conclusions or market superiority were
+fabricated. The source is a local working-tree snapshot; no new remote CI is claimed.

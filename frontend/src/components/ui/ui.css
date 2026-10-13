@@ -1,0 +1,52 @@
+/* Layout only; colours, typography and control states come from Ant Design. */
+.ui-button.ant-btn { margin: .75rem .5rem 0 0; height: auto; min-height: 40px; white-space: normal; }
+.ui-button.ant-btn > span { overflow-wrap: anywhere; }
+.actions .ui-button.ant-btn, .review-decision-actions .ui-button.ant-btn { min-height: 34px; }
+.ui-input.ant-input, .ui-textarea.ant-input, .ui-number.ant-input-number, .ui-select.ant-select { width: 100%; margin-top: .4rem; }
+.ui-select.ant-select { min-width: 0; }
+.ui-select .ant-select-content { min-width: 0; }
+.ui-select .ant-select-placeholder, .ui-select .ant-select-content-value { overflow: hidden; text-overflow: ellipsis; }
+.ui-textarea.ant-input { line-height: 1.6; }
+.ui-checkbox.ant-checkbox-wrapper { margin: 0; flex: 0 0 auto; }
+.check, .target { gap: .6rem; }
+.check .ui-checkbox { align-self: flex-start; padding-top: .2rem; }
+.target .ui-checkbox { margin-right: .5rem; }
+.target .ant-checkbox-inner { display: inline-block; margin: 0; }
+.ui-upload { display: block; margin-top: .5rem; }
+.ui-upload .ant-btn { min-height: 40px; margin: 0; }
+.ui-panel.ant-collapse { min-width: 0; margin-top: .65rem; padding: 0; border-radius: 10px; }
+.ui-panel.ant-collapse .ant-collapse-header { align-items: center; }
+.ui-panel .ant-collapse-title { min-width: 0; overflow-wrap: anywhere; }
+.ui-panel .ant-collapse-title small { display: block; margin-top: .25rem; }
+.ui-panel .ant-collapse-title > span { margin-left: .35rem; }
+.ui-panel .ant-collapse-body { overflow-wrap: anywhere; }
+.ui-panel.audit-technical-details { grid-column: 1 / -1; }
+.ui-progress { width: 100%; }
+.ui-progress .ant-progress { margin: 0; }
+.ui-table { overflow-x: auto; }
+.ui-table .ant-table { min-width: 550px; }
+.ui-table .ant-table-cell { vertical-align: top; }
+.ui-button.ant-btn[aria-pressed="true"] { outline: 2px solid #087f8c; outline-offset: 2px; }
+.comparison-outcomes .ui-button.ant-btn { margin: 0; width: 100%; text-align: left; }
+.comparison-outcomes .ui-button.ant-btn > span { width: 100%; }
+.comparison-chart-controls .ui-button.ant-btn { margin: 0; }
+.relationship-editor > div { display: grid; grid-template-columns: 1fr 2fr auto; gap: .5rem; align-items: center; }
+.relationship-editor .ui-button.ant-btn { margin-top: .4rem; }
+.app-header .ant-menu { border-bottom: 0; flex: 1; justify-content: flex-end; min-width: 0; background: transparent; }
+.app-header .ant-menu-item { border-radius: 8px; }
+.workflow > .ant-steps { margin-bottom: 2rem; }
+@media (max-width: 760px) {
+ .relationship-editor > div { grid-template-columns: 1fr; }
+ .app-header .ant-menu { width: 100%; justify-content: flex-start; }
+ .form-grid { grid-template-columns: 1fr; }
+}
+.ui-card.ant-card { padding: 1rem; }
+.ui-card.ant-card .ant-card-body::before, .ui-card.ant-card .ant-card-body::after { display: none; }
+.ui-alert.ant-alert { margin: .75rem 0; }
+.ui-alert .ant-alert-title { font-weight: 500; line-height: 1.6; }
+.target.ui-checkbox.ant-checkbox-wrapper { display: flex; align-items: flex-start; padding: 1rem; }
+.target.ui-checkbox > span:last-child { min-width: 0; padding-left: .6rem; }
+.target.ui-checkbox .ant-checkbox { margin-top: .2rem; }
+.app-header nav { flex: 1; min-width: 0; justify-content: flex-end; }
+.app-header .ant-menu { width: 100%; max-width: 760px; }
+@media (max-width: 760px) { .app-header nav { width: 100%; flex: auto; } }

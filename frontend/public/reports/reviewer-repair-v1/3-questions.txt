@@ -1,0 +1,57 @@
+Browser tab: 12, Title: "localhost:5173/new-audit", URL: "http://localhost:5173/new-audit".
+1 AXWebArea localhost:5173/new-audit
+	2 container root
+		3 container
+			4 link Description: Memory Auditor, Value: localhost:5173/
+			5 container Primary navigation
+				6 link Description: Dashboard, Value: localhost:5173/
+				7 link Description: New audit, Value: localhost:5173/new-audit
+				8 link Description: History, Value: localhost:5173/history
+				9 link Description: Before & after, Value: localhost:5173/compare
+				10 link Description: Experiments, Value: localhost:5173/experiments
+				11 link Description: About, Value: localhost:5173/about
+		12 container
+			13 content list Audit progress
+				14 container
+					15 text 1 Conversation
+				16 container
+					17 text 2 Ground Truth
+				18 container
+					19 text 3 Configuration
+				20 container
+					21 text 4 Audit
+				22 container
+					23 text 5 Results
+			24 heading Prepare Memory Audit, Value: 1
+				25 text Prepare Memory Audit
+			26 content list
+				27 container
+					28 text Preparing confirmed ground truth Complete
+				29 container
+					30 text Generating shared behavioural tests Complete
+				31 container
+					32 text Test-suite quality checks Complete
+				33 container
+					34 text Initialising target AI Ready
+				35 container
+					36 text Executing memory tests Waiting
+				37 container
+					38 text Evaluating responses Waiting
+			39 container Generated test suite review
+				40 heading Review Generated Test Suite, Value: 2
+					41 text Review Generated Test Suite
+				42 text Automatic checks can accept questions; this does not constitute independent human review. Inspect the frozen questions before any target model is executed. A decision or replacement is synchronised to every model and strategy condition in this experiment.
+				43 text Accepted  1 Needs review  0 Rejected  0
+				44 text Quality decisions complete
+				45 text 1  /  1  decided
+				46 progress indicator Description: Question review progress, Value: 1
+				47 container
+					48 text Test  1 Indirect ✓ Accepted · This question is ready for testing. conflict resolution Question
+					49 text Two remembered constraints about the user's deployment secret storage conflict. Identify both recorded constraints, then explain how the conflict should be handled before answering? Expected behaviour
+					50 text Identify both conflicting recorded constraints, acknowledge the conflict and request clarification before relying on either record. Grounding:  grounded  ·  Review decision: accepted. No reviewer note provided.
+					51 button (disabled) ✓ Accepted
+					52 button Reject
+					53 button Regenerate
+			54 button Run Audit & View Results
+
+The focused UI element is 1 AXWebArea localhost:5173/new-audit

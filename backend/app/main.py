@@ -1,11 +1,17 @@
 import os
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.exceptions import RequestValidationError
+from fastapi.exception_handlers import request_validation_exception_handler
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.trustedhost import TrustedHostMiddleware
 from starlette.responses import JSONResponse
 from app.api.routes import router
 from app.api.research_routes import research_router
+from app.api.quality_routes import quality_router
+from app.api.access_routes import access_router
+from app.security.access import AccessSettings, OperatorAccessMiddleware
 from app.database.session import Base, engine
 import app.models  # register models
 
@@ -65,6 +71,7 @@ class ContentSizeLimitMiddleware:
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):
+    AccessSettings.read()  # Refuse an invalid protected configuration at startup.
     # Tests and an explicitly opted-in local mode can create an empty schema.
     # Docker development runs the versioned Alembic migration chain instead.
     if os.getenv("AUTO_CREATE_SCHEMA", "false").lower() == "true":
@@ -72,8 +79,23 @@ async def lifespan(_: FastAPI):
     yield
 
 
-app = FastAPI(title="AI Memory Health Auditor", version="0.1.0", lifespan=lifespan)
+app = FastAPI(title="AI Memory Health Auditor", version="0.1.0", lifespan=lifespan, docs_url="/api/v1/docs", redoc_url=None, openapi_url="/api/v1/openapi.json")
 app.add_middleware(ContentSizeLimitMiddleware, max_bytes=int(os.getenv("MAX_REQUEST_BYTES", "5000000")))
-app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173"], allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+app.add_middleware(OperatorAccessMiddleware)
+app.add_middleware(CORSMiddleware, allow_origins=list(AccessSettings.read().origins), allow_credentials=True, allow_methods=["*"], allow_headers=["*"])
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=[host.strip() for host in os.getenv('AUDITOR_ALLOWED_HOSTS','localhost,127.0.0.1,backend,testserver').split(',') if host.strip()])
 app.include_router(router)
 app.include_router(research_router)
+
+app.include_router(quality_router)
+
+app.include_router(access_router)
+
+
+@app.exception_handler(RequestValidationError)
+async def protected_validation_error(request: Request, error: RequestValidationError):
+    if request.url.path == "/api/v1/access/sign-in":
+        # Pydantic's normal error representation may echo the invalid input.
+        # Never reflect a password into response details or client logs.
+        return JSONResponse({"detail": "Enter a password of 1–1024 characters."}, status_code=422)
+    return await request_validation_exception_handler(request, error)

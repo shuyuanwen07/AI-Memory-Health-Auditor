@@ -1,0 +1,188 @@
+Browser tab: 6, Title: "localhost:5173/audits/RUNC3168B73E4E440279FE409736B15A954", URL: "http://localhost:5173/audits/RUNC3168B73E4E440279FE409736B15A954".
+1 AXWebArea localhost:5173/audits/RUNC3168B73E4E440279FE409736B15A954
+	2 container root
+		3 container
+			4 link Description: Memory Auditor, Value: localhost:5173/
+			5 container Primary navigation
+				6 link Description: Dashboard, Value: localhost:5173/
+				7 link Description: New audit, Value: localhost:5173/new-audit
+				8 link Description: History, Value: localhost:5173/history
+				9 link Description: Before & after, Value: localhost:5173/compare
+				10 link Description: Experiments, Value: localhost:5173/experiments
+				11 link Description: About, Value: localhost:5173/about
+		12 container
+			40 text SAVED AUDIT REPORT
+			13 heading Memory Health Report, Value: 1
+				41 text Memory Health Report
+			14 link Description: Compare before & after →, Value: localhost:5173/compare?before=RUNC3168B73E4E440279FE409736B15A954
+			15 container Memory Health report details
+				42 text OVERALL MEMORY HEALTH
+				16 heading 50%, Value: 2
+					43 text 50%
+				44 text 1 of 2 tests passed
+				17 heading Results at a glance, Value: 2
+					45 text Results at a glance
+				46 text Memory behaviour was needs attention across 1 tested dimension.
+				18 button Download CSV
+				47 container
+					48 text Score coverage:  1  of  4  Memory Health dimensions were tested. Untested dimensions are excluded from the macro-average.
+				19 container
+					20 heading Accuracy, Value: 3
+						49 text Accuracy
+					50 text 50% 1 of 2 tests passed
+				21 container
+					22 heading Freshness, Value: 3
+						51 text Freshness
+					52 text Not tested No completed tests in this dimension
+				23 container
+					24 heading Conflict Resolution, Value: 3
+						53 text Conflict Resolution
+					54 text Not tested No completed tests in this dimension
+				25 container
+					26 heading Appropriate Use, Value: 3
+						55 text Appropriate Use
+					56 text Not tested No completed tests in this dimension
+				27 container Memory Health profile
+					28 heading Memory Health Profile, Value: 2
+						57 text Memory Health Profile
+					58 container Memory Health profile. Accuracy: 50%; Freshness: Not tested; Conflict Resolution: Not tested; Appropriate Use: Not tested
+						59 container Radar chart: Accuracy: 50%; Freshness: Not tested; Conflict Resolution: Not tested; Appropriate Use: Not tested
+						60 text Accuracy: 50%; Freshness: Not tested; Conflict Resolution: Not tested; Appropriate Use: Not tested
+				30 container Retrieval evidence quality
+					31 heading Retrieval Evidence Quality, Value: 2
+						61 text Retrieval Evidence Quality
+					62 container
+						63 text Evidence recall @ k 50% Required source evidence retrieved
+					64 container
+						65 text Evidence precision @ k 100% Retrieved source evidence that was relevant
+					66 container
+						67 text Update evidence recall Not tested Freshness-test evidence retrieved
+					68 container
+						69 text Conflict evidence coverage Not tested Conflict-test evidence retrieved
+					70 container
+						71 text Unnecessary retrieval 0% Lower is better
+				32 heading Detected Memory Failures, Value: 2
+					72 text Detected Memory Failures
+				73 text 1  detected
+				157 container
+					158 button (expanded) Secondary Actions: Collapse, Accuracy Failure: Failed accuracy: expected behaviour was 'I am based in Oslo.'. The response did not demonstrate: oslo. Supporting memories were checked.
+						159 text Accuracy
+						160 text Failure: 
+						161 text Failed accuracy: expected behaviour was 'I am based in Oslo.'. The response did not demonstrate: oslo. Supporting memories were checked.
+					162 text Why this failed
+					163 text Failed accuracy: expected behaviour was 'I am based in Oslo.'. The response did not demonstrate: oslo. Supporting memories were checked. Behavioural test
+					164 text What is the user's recorded location? State the relevant fact only. Expected behaviour
+					165 text State the recorded fact: I am based in Oslo. Target AI response
+					166 text I do not have enough remembered information about the user's recorded location. Ground-truth evidence
+					167 content list
+						168 container
+							169 AXListMarker • 
+							170 text Supporting memory  1 I am based in Oslo
+					171 text Evaluator:  Rule-based assessment
+				34 container Evaluator calibration review
+					35 heading Evaluator Calibration Review, Value: 2
+						77 text Evaluator Calibration Review
+					78 text Independent mode is blind: review the question and response without seeing the automated verdict or other reviewers. Your label is calibration evidence and never overwrites the original audit result.
+					172 container
+						173 text Reviewer pseudonym
+						174 text field (settable) Description: Reviewer pseudonym, Value: researcher-1
+					175 container
+						176 text Review role
+						177 pop up button (collapsed, settable) Description: Evaluation review role, Value: Independent reviewer, Secondary Actions: Expand
+							178 menu
+								179 (selected) Independent reviewer
+								180 Reference label
+								181 Adjudication
+						182 text Independent labels are blind and remain separate until adjudication.
+					183 container
+						184 text Accuracy Blind independent label What programming language does the user generally prefer? State the language only. Response:  I generally prefer Rust. Failure dimension
+						185 pop up button (collapsed, settable) Description: Failure dimension 1, Value: Accuracy, Secondary Actions: Expand
+							186 menu
+								187 (selected) Accuracy
+								188 Freshness
+								189 Conflict Resolution
+								190 Appropriate Use
+						191 text Used only if you choose Fail. Calibration note
+						192 text field (settable) Calibration note 1
+						193 button Human: Pass
+						194 button Human: Fail
+					195 container
+						196 text Accuracy Blind independent label What is the user's recorded location? State the relevant fact only. Response:  I do not have enough remembered information about the user's recorded location. Failure dimension
+						197 pop up button (collapsed, settable) Description: Failure dimension 2, Value: Accuracy, Secondary Actions: Expand
+							198 menu
+								199 (selected) Accuracy
+								200 Freshness
+								201 Conflict Resolution
+								202 Appropriate Use
+						203 text Used only if you choose Fail. Calibration note
+						204 text field (settable) Calibration note 2
+						205 button Human: Pass
+						206 button Human: Fail
+			37 container Target agent memory trace
+				38 heading Memory retrieval and model input, Value: 2
+					79 text Memory retrieval and model input
+				80 container
+					81 text Strategy:  weak first hit  · Memory updates:  update aware consolidation  · Up to  50  records were retained.
+				82 heading Stored memories, Value: 3
+					83 text Stored memories
+				84 container
+					85 text Memory record  1 Active I am based in Oslo Scope:  profile  · recorded from  1  conversation message
+				86 container
+					87 text Memory record  2 Active I generally prefer Rust Scope:  preference  · recorded from  1  conversation message
+				88 heading Memory activity, Value: 3
+					89 text Memory activity
+				90 content list
+					91 container
+						92 AXListMarker • 
+						93 text ingested  ·  10/8/2026, 3:14:24 AM
+					94 container
+						95 AXListMarker • 
+						96 text written  ·  10/8/2026, 3:14:24 AM
+					97 container
+						98 AXListMarker • 
+						99 text written  ·  10/8/2026, 3:14:24 AM
+					100 container
+						101 AXListMarker • 
+						102 text retrieved  ·  10/8/2026, 3:14:24 AM
+					103 container
+						104 AXListMarker • 
+						105 text retrieved  ·  10/8/2026, 3:14:30 AM
+				106 heading What was retrieved and sent, Value: 3
+					107 text What was retrieved and sent
+				108 text Retrieved records can be filtered before sending. Sending a record does not prove that the model relied on it.
+				123 container
+					124 button (expanded) Retrieval 1 · 0 records retrieved · 0 supplied to target, Secondary Actions: Collapse
+						125 text Retrieval 
+						126 text 1
+						127 text  · 
+						128 text 0
+						129 text  records retrieved · 
+						130 text 0 supplied to target
+					131 text Question  1  ·  Linked to saved response No memory was supplied for this answer. A correct answer here does not demonstrate memory retrieval or memory use.
+					132 content list
+						133 container
+							134 AXListMarker • 
+							135 text Memory record 1  —  not retrieved ;  not supplied to target ;  Checked how closely this memory matches the question I am based in Oslo
+						136 container
+							137 AXListMarker • 
+							138 text Memory record 2  —  not retrieved ;  not supplied to target ;  Checked how closely this memory matches the question I generally prefer Rust
+					139 text The final model input was recorded for verification.
+				140 container
+					141 button (expanded) Retrieval 2 · 1 records retrieved · 1 supplied to target, Secondary Actions: Collapse
+						142 text Retrieval 
+						143 text 2
+						144 text  · 
+						145 text 1
+						146 text  records retrieved · 
+						147 text 1 supplied to target
+					148 text Question  2  ·  Linked to saved response
+					149 content list
+						150 container
+							151 AXListMarker • 
+							152 text Memory record 1  —  not retrieved ;  not supplied to target ;  Checked how closely this memory matches the question I am based in Oslo
+						153 container
+							154 AXListMarker • 
+							155 text Memory record 2  —  retrieved ;  supplied to target ;  Checked how closely this memory matches the question I generally prefer Rust
+					156 text The final model input was recorded for verification.
+
+The focused UI element is 1 AXWebArea localhost:5173/audits/RUNC3168B73E4E440279FE409736B15A954

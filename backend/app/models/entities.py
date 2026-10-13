@@ -8,11 +8,75 @@ def utc_now() -> datetime:
     """Timezone-aware replacement for the deprecated datetime.utcnow()."""
     return datetime.now(timezone.utc)
 
+class ModelAvailabilityModel(Base):
+    __tablename__ = 'model_availability'
+    id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    model: Mapped[str] = mapped_column(String(200), index=True)
+    credential_scope: Mapped[str] = mapped_column(String(64), index=True)
+    status: Mapped[str] = mapped_column(String(20))
+    operations: Mapped[list] = mapped_column(JSON)
+    checked_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+
+
+class ExtractionComparisonModel(Base):
+    __tablename__ = 'extraction_comparisons'
+    id: Mapped[str] = mapped_column(String(40), primary_key=True)
+    creation_request_key: Mapped[str] = mapped_column(String(100), unique=True)
+    fingerprint: Mapped[str] = mapped_column(String(64))
+    source_run_id: Mapped[str] = mapped_column(ForeignKey('audit_runs.id', ondelete='RESTRICT'))
+    input_fingerprint: Mapped[str] = mapped_column(String(64))
+    reference_snapshot: Mapped[list] = mapped_column(JSON)
+    runtime_signature: Mapped[dict] = mapped_column(JSON)
+    entries: Mapped[list] = mapped_column(JSON)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
+
+
+class GeneratorComparisonModel(Base):
+    __tablename__ = 'generator_comparisons'
+    id: Mapped[str] = mapped_column(String(40), primary_key=True)
+    creation_request_key: Mapped[str] = mapped_column(String(100), unique=True)
+    fingerprint: Mapped[str] = mapped_column(String(64))
+    source_run_id: Mapped[str] = mapped_column(ForeignKey('audit_runs.id', ondelete='RESTRICT'))
+    input_fingerprint: Mapped[str] = mapped_column(String(64))
+    runtime_signature: Mapped[dict] = mapped_column(JSON)
+    entries: Mapped[list] = mapped_column(JSON)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
+
+
+class AssessorComparisonModel(Base):
+    """Durable assessor plans; source audit evidence remains immutable."""
+
+    __tablename__ = 'assessor_comparisons'
+    id: Mapped[str] = mapped_column(String(40), primary_key=True)
+    creation_request_key: Mapped[str] = mapped_column(String(100), unique=True)
+    fingerprint: Mapped[str] = mapped_column(String(64))
+    input_fingerprint: Mapped[str | None] = mapped_column(String(64), nullable=True)
+    source_run_id: Mapped[str] = mapped_column(ForeignKey('audit_runs.id', ondelete='RESTRICT'))
+    runtime_signature: Mapped[dict] = mapped_column(JSON)
+    entries: Mapped[list] = mapped_column(JSON)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
+
+
 class ConversationModel(Base):
     __tablename__ = "conversations"
     id: Mapped[str] = mapped_column(String(40), primary_key=True)
     authorised: Mapped[bool] = mapped_column(Boolean, nullable=False)
+    # Existing records are marked unknown by the migration; never infer their
+    # source type from conversation text or from an operator's later actions.
+    source_origin: Mapped[str] = mapped_column(String(24), nullable=False, default="unknown", server_default="unknown")
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
+    extraction_provenance: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    creation_request_key: Mapped[str | None] = mapped_column(String(100), unique=True, nullable=True)
+    creation_request_fingerprint: Mapped[str | None] = mapped_column(String(64), nullable=True)
+
+
+class StageLockModel(Base):
+    """Cross-process lease for long-running stages on non-PostgreSQL stores."""
+
+    __tablename__ = "stage_locks"
+    scope: Mapped[str] = mapped_column(String(255), primary_key=True)
+    owner_token: Mapped[str] = mapped_column(String(40), nullable=False, index=True)
+    lease_expires_at: Mapped[datetime] = mapped_column(DateTime, nullable=False, index=True)
 
 class MessageModel(Base):
     __tablename__ = "messages"
@@ -32,6 +96,25 @@ class MessageModel(Base):
     role: Mapped[str] = mapped_column(String(20))
     content: Mapped[str] = mapped_column(Text)
     timestamp: Mapped[datetime] = mapped_column(DateTime)
+    original_timestamp: Mapped[str | None] = mapped_column(String(80), nullable=True)
+
+    @staticmethod
+    def timestamp_for_storage(value: datetime) -> datetime:
+        return value.astimezone(timezone.utc).replace(tzinfo=None) if value.utcoffset() is not None else value
+
+    @property
+    def observation_timestamp(self) -> datetime:
+        # Older rows have no offset provenance. Never invent a timezone for
+        # their already persisted clock values.
+        if self.original_timestamp:
+            try:
+                original = datetime.fromisoformat(self.original_timestamp)
+                if original.utcoffset() is not None:
+                    return (self.timestamp.astimezone(timezone.utc) if self.timestamp.utcoffset() is not None
+                            else self.timestamp.replace(tzinfo=timezone.utc))
+            except ValueError:
+                pass
+        return self.timestamp
 
 class MemoryModel(Base):
     __tablename__ = "memories"
@@ -41,6 +124,8 @@ class MemoryModel(Base):
     status: Mapped[str] = mapped_column(String(20), default="candidate")
     source_message_ids: Mapped[list] = mapped_column(JSON, default=list)
     timestamp: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    # Model-estimated confidence is advisory metadata, never ground truth.
+    confidence: Mapped[float | None] = mapped_column(Float, nullable=True)
 
 class MemoryRelationshipModel(Base):
     __tablename__ = "memory_relationships"
@@ -49,6 +134,39 @@ class MemoryRelationshipModel(Base):
     memory_id: Mapped[str] = mapped_column(ForeignKey("memories.id", ondelete="CASCADE"))
     relationship_type: Mapped[str] = mapped_column(String(30))
     target_memory_id: Mapped[str] = mapped_column(ForeignKey("memories.id", ondelete="CASCADE"))
+    evidence_message_ids: Mapped[list | None] = mapped_column(JSON, nullable=True)
+    confidence: Mapped[float | None] = mapped_column(Float, nullable=True)
+
+
+class AgentExecutionModel(Base):
+    """Auditable semantic-agent stage without duplicating sensitive source text."""
+
+    __tablename__ = "agent_executions"
+    id: Mapped[str] = mapped_column(String(40), primary_key=True)
+    role: Mapped[str] = mapped_column(String(80), index=True)
+    conversation_id: Mapped[str | None] = mapped_column(
+        ForeignKey("conversations.id", ondelete="CASCADE"), nullable=True, index=True
+    )
+    run_id: Mapped[str | None] = mapped_column(
+        ForeignKey("audit_runs.id", ondelete="CASCADE"), nullable=True, index=True
+    )
+    provider: Mapped[str] = mapped_column(String(30))
+    model: Mapped[str] = mapped_column(String(200))
+    reported_model: Mapped[str | None] = mapped_column(String(200), nullable=True)
+    prompt_template_version: Mapped[str] = mapped_column(String(100))
+    prompt_fingerprint: Mapped[str] = mapped_column(String(64))
+    input_fingerprint: Mapped[str] = mapped_column(String(64))
+    input_refs: Mapped[dict] = mapped_column(JSON, default=dict)
+    output_data: Mapped[dict | list | None] = mapped_column(JSON, nullable=True)
+    status: Mapped[str] = mapped_column(String(20))
+    attempt_count: Mapped[int] = mapped_column(Integer, default=0)
+    elapsed_ms: Mapped[float | None] = mapped_column(Float, nullable=True)
+    error_code: Mapped[str | None] = mapped_column(String(80), nullable=True)
+    error_summary: Mapped[str | None] = mapped_column(String(500), nullable=True)
+    error_diagnostics: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    handoff_from: Mapped[str | None] = mapped_column(String(40), nullable=True)
+    handoff_to: Mapped[str | None] = mapped_column(String(40), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
 
 
 class ExperimentModel(Base):
@@ -61,6 +179,8 @@ class ExperimentModel(Base):
     """
 
     __tablename__ = "experiments"
+    creation_request_key: Mapped[str | None] = mapped_column(String(100), nullable=True, unique=True)
+    creation_request_fingerprint: Mapped[str | None] = mapped_column(String(64), nullable=True)
     id: Mapped[str] = mapped_column(String(40), primary_key=True)
     conversation_id: Mapped[str] = mapped_column(
         ForeignKey("conversations.id", ondelete="CASCADE"), index=True
@@ -85,6 +205,8 @@ class ExperimentModel(Base):
 
 class AuditRunModel(Base):
     __tablename__ = "audit_runs"
+    creation_request_key: Mapped[str | None] = mapped_column(String(100), nullable=True, unique=True)
+    creation_request_fingerprint: Mapped[str | None] = mapped_column(String(64), nullable=True)
     id: Mapped[str] = mapped_column(String(40), primary_key=True)
     conversation_id: Mapped[str] = mapped_column(ForeignKey("conversations.id"), index=True)
     experiment_id: Mapped[str | None] = mapped_column(
@@ -100,6 +222,11 @@ class AuditRunModel(Base):
     prompt_template_version: Mapped[str] = mapped_column(String(40))
     pipeline_provider: Mapped[str] = mapped_column(String(30), default="rule_based")
     pipeline_model: Mapped[str] = mapped_column(String(100), default="rule-based-v2")
+    semantic_review_provider: Mapped[str | None] = mapped_column(String(30), nullable=True)
+    semantic_review_model: Mapped[str | None] = mapped_column(String(200), nullable=True)
+    retrieval_mode: Mapped[str] = mapped_column(String(20), default="fixed", server_default="fixed")
+    retrieval_provider: Mapped[str | None] = mapped_column(String(30), nullable=True)
+    retrieval_model: Mapped[str | None] = mapped_column(String(200), nullable=True)
     evaluator_provider: Mapped[str] = mapped_column(String(30), default="rule_based")
     evaluator_model: Mapped[str] = mapped_column(String(100), default="rule-based-v4")
     memory_strategy: Mapped[str] = mapped_column(String(40), default="strong_rule_based")
@@ -152,6 +279,15 @@ class TestCaseModel(Base):
     quality_status: Mapped[str] = mapped_column(String(20), default="pending")
     grounding_status: Mapped[str] = mapped_column(String(20), default="pending")
     validation_notes: Mapped[str | None] = mapped_column(Text, nullable=True)
+    # Experiment A keeps automated question-quality results separate from
+    # the researcher's explicit validity decision.
+    human_validity_status: Mapped[str] = mapped_column(String(20), default="pending", server_default="pending")
+    human_validity_reviewer: Mapped[str | None] = mapped_column(String(120), nullable=True)
+    human_validity_note: Mapped[str | None] = mapped_column(Text, nullable=True)
+    human_validity_reviewed_at: Mapped[datetime | None] = mapped_column(DateTime, nullable=True)
+    comparison_test_id: Mapped[str | None] = mapped_column(String(40), nullable=True)
+    probe_group_id: Mapped[str | None] = mapped_column(String(40), nullable=True)
+    probe_variant: Mapped[str | None] = mapped_column(String(40), nullable=True)
     target_memory_context: Mapped[list] = mapped_column(JSON, default=list)
 
 class TargetResponseModel(Base):
@@ -255,11 +391,13 @@ class EvaluationResultModel(Base):
     id: Mapped[str] = mapped_column(String(40), primary_key=True)
     test_id: Mapped[str] = mapped_column(ForeignKey("test_cases.id", ondelete="CASCADE"), index=True)
     response_id: Mapped[str] = mapped_column(ForeignKey("target_responses.id", ondelete="CASCADE"))
-    passed: Mapped[bool] = mapped_column(Boolean)
+    passed: Mapped[bool | None] = mapped_column(Boolean, nullable=True)
     failure_type: Mapped[str | None] = mapped_column(String(40), nullable=True)
     reason: Mapped[str] = mapped_column(Text)
     evidence_memory_ids: Mapped[list] = mapped_column(JSON, default=list)
     evaluator: Mapped[str] = mapped_column(String(40))
+    judge_execution: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    failure_classification: Mapped[dict | None] = mapped_column(JSON, nullable=True)
 
 
 class EvaluationHumanReviewModel(Base):
@@ -295,3 +433,12 @@ class EvaluationHumanReviewModel(Base):
     note: Mapped[str | None] = mapped_column(Text, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
     updated_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now, onupdate=utc_now)
+
+
+class OperatorSessionModel(Base):
+    """Only high-entropy token hashes persist; logout revokes them immediately."""
+    __tablename__ = 'operator_sessions'
+    token_digest: Mapped[str] = mapped_column(String(64), primary_key=True)
+    credential_fingerprint: Mapped[str] = mapped_column(String(64), nullable=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, index=True)

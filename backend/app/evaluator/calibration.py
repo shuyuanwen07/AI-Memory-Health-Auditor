@@ -11,8 +11,9 @@ from __future__ import annotations
 import hashlib
 import json
 from collections import Counter
+from typing import Literal
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field, StrictBool, model_validator
 
 from app.schemas.domain import Dimension
 
@@ -27,8 +28,8 @@ class EvaluatorHumanReviewCase(BaseModel):
 
     case_id: str = Field(min_length=1)
     dimension: Dimension
-    evaluator_passed: bool
-    human_passed: bool
+    evaluator_passed: StrictBool | None
+    human_passed: StrictBool
     evaluator_failure_type: Dimension | None = None
     human_failure_type: Dimension | None = None
 
@@ -36,6 +37,8 @@ class EvaluatorHumanReviewCase(BaseModel):
     def failure_types_match_verdicts(self) -> "EvaluatorHumanReviewCase":
         if self.evaluator_passed and self.evaluator_failure_type is not None:
             raise ValueError("A passing evaluator verdict cannot have an evaluator_failure_type.")
+        if self.evaluator_passed is None and self.evaluator_failure_type is not None:
+            raise ValueError("An uncertain evaluator verdict cannot have an evaluator_failure_type.")
         if self.human_passed and self.human_failure_type is not None:
             raise ValueError("A passing human verdict cannot have a human_failure_type.")
         return self
@@ -48,6 +51,8 @@ class EvaluatorCalibrationRequest(BaseModel):
     dataset_version: str = Field(min_length=1)
     review_set_id: str = Field(min_length=1)
     cases: list[EvaluatorHumanReviewCase] = Field(min_length=1)
+    label_provenance: Literal["unspecified", "ai_assisted", "independent_human"] = "unspecified"
+    human_source_verified: StrictBool = False
 
     @model_validator(mode="after")
     def case_ids_are_unique(self) -> "EvaluatorCalibrationRequest":
@@ -117,19 +122,32 @@ class EvaluatorCalibrationReport(BaseModel):
     overall_failure_detection: FailureDetectionMetrics
     overall_failure_type_agreement: FailureTypeAgreementMetrics
     by_dimension: list[DimensionCalibrationMetrics]
+    labelled_cases_total: int
+    decided_cases: int
+    abstained_cases: int
+    decision_coverage_percent: float
+    label_provenance: str
+    validation_status: str
+    notice: str = "Accuracy and failure-detection metrics condition on decided cases. Report abstention coverage alongside them. Human provenance is a supplied attestation, not automatically verified independence."
 
 
 class EvaluatorCalibrationService:
     """Calculate reproducible evaluator-versus-human calibration statistics."""
 
     def analyse(self, request: EvaluatorCalibrationRequest) -> EvaluatorCalibrationReport:
+        decided = [case for case in request.cases if case.evaluator_passed is not None]
         return EvaluatorCalibrationReport(
             dataset_id=request.dataset_id,
             dataset_version=request.dataset_version,
             review_set_id=request.review_set_id,
             fingerprint_sha256=calibration_fingerprint(request),
-            overall_failure_detection=self._failure_detection(request.cases),
-            overall_failure_type_agreement=self._failure_type_agreement(request.cases),
+            overall_failure_detection=self._failure_detection(decided),
+            overall_failure_type_agreement=self._failure_type_agreement(decided),
+            labelled_cases_total=len(request.cases), decided_cases=len(decided),
+            abstained_cases=len(request.cases) - len(decided),
+            decision_coverage_percent=self._percent(len(decided), len(request.cases)),
+            label_provenance=request.label_provenance,
+            validation_status="human_attestation_declared" if request.label_provenance == "independent_human" and request.human_source_verified else "not_independently_validated",
             by_dimension=[
                 DimensionCalibrationMetrics(
                     dimension=dimension,
@@ -137,7 +155,7 @@ class EvaluatorCalibrationService:
                     failure_type_agreement=self._failure_type_agreement(cases),
                 )
                 for dimension in Dimension
-                if (cases := [case for case in request.cases if case.dimension == dimension])
+                if (cases := [case for case in decided if case.dimension == dimension])
             ],
         )
 
@@ -213,11 +231,9 @@ class EvaluatorCalibrationService:
 
     @classmethod
     def _f1(cls, true_positives: int, false_positives: int, false_negatives: int) -> float | None:
-        precision = cls._percent(true_positives, true_positives + false_positives)
-        recall = cls._percent(true_positives, true_positives + false_negatives)
-        if precision is None or recall is None or precision + recall == 0:
-            return None
-        return round(2 * precision * recall / (precision + recall), 1)
+        # No true positives with actual errors is a defined zero F1, not an
+        # undefined statistic. Only the all-empty denominator is undefined.
+        return cls._percent(2 * true_positives, 2 * true_positives + false_positives + false_negatives)
 
     @staticmethod
     def _kappa(tp: int, fp: int, tn: int, fn: int) -> float | None:

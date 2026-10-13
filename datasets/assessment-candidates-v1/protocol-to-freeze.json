@@ -1,0 +1,32 @@
+{
+  "format": "human-protocol-freeze-checklist-v1",
+  "status": "draft_not_frozen",
+  "protocol_id": null,
+  "independent_reference_dataset_sha256": null,
+  "pilot_package_sha256": null,
+  "runtime_source_sha256": null,
+  "source_permission_verified": false,
+  "untouched_scenarios_verified": false,
+  "manually_authored_baseline_verified": false,
+  "target_provider": null,
+  "target_model": null,
+  "pipeline_model": null,
+  "judge_model": null,
+  "policy_versions": null,
+  "actual_call_budget_per_condition": null,
+  "repetitions_per_cloud_condition": 3,
+  "independent_scenario_count": null,
+  "sampling_rule": null,
+  "thresholds_predeclared": null,
+  "primary_outcome": "distinct human-confirmed failure families per source history and failure-positive precision/recall",
+  "uncertainty_unit": "source history, not copied/repeated answers",
+  "repair_controls": [
+    "original",
+    "generic_instruction",
+    "diagnosis_directed_policy"
+  ],
+  "conditions_and_benchmark_subset": null,
+  "approved_by_human": null,
+  "freeze_timestamp": null,
+  "notice": "A checklist, not a formal matrix API contract. Missing fields are deliberately empty. Review thresholds and sampling BEFORE formal collection. A manifest hash alone is not a complete protocol freeze."
+}

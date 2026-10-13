@@ -1,0 +1,130 @@
+Browser tab: 12, Title: "localhost:5173/new-audit", URL: "http://localhost:5173/new-audit".
+1 AXWebArea localhost:5173/new-audit
+	2 container root
+		3 container
+			4 link Description: Memory Auditor, Value: localhost:5173/
+			5 container Primary navigation
+				6 link Description: Dashboard, Value: localhost:5173/
+				7 link Description: New audit, Value: localhost:5173/new-audit
+				8 link Description: History, Value: localhost:5173/history
+				9 link Description: Before & after, Value: localhost:5173/compare
+				10 link Description: Experiments, Value: localhost:5173/experiments
+				11 link Description: About, Value: localhost:5173/about
+		12 container
+			13 content list Audit progress
+				14 container
+					15 text 1 Conversation
+				16 container
+					17 text 2 Ground Truth
+				18 container
+					19 text 3 Configuration
+				20 container
+					21 text 4 Audit
+				22 container
+					23 text 5 Results
+			24 heading Memory Health Report, Value: 1
+				25 text Memory Health Report
+			26 container
+				27 button (expanded) Local Qwen 3 1.7B (Ollama) · Weak First-Hit detailed report, Secondary Actions: Collapse
+					28 text Local Qwen 3 1.7B (Ollama) · Weak First-Hit
+					29 text  detailed report
+				30 container Memory Health report details
+					31 text OVERALL MEMORY HEALTH
+					32 heading 0%, Value: 2
+						33 text 0%
+					34 text 0 of 1 tests passed
+					35 heading Results at a glance, Value: 2
+						36 text Results at a glance
+					37 text Memory behaviour needs attention across 1 tested dimension.
+					38 button Download CSV
+					39 container
+						40 text Score coverage:  1  of  4  Memory Health dimensions were tested. Untested dimensions are excluded from the macro-average.
+					41 container
+						42 heading Accuracy, Value: 3
+							43 text Accuracy
+						44 text Not tested No completed tests in this dimension
+					45 container
+						46 heading Freshness, Value: 3
+							47 text Freshness
+						48 text Not tested No completed tests in this dimension
+					49 container
+						50 heading Conflict Resolution, Value: 3
+							51 text Conflict Resolution
+						52 text 0% 0 of 1 tests passed
+					53 container
+						54 heading Appropriate Use, Value: 3
+							55 text Appropriate Use
+						56 text Not tested No completed tests in this dimension
+					57 container Memory Health profile
+						58 heading Memory Health Profile, Value: 2
+							59 text Memory Health Profile
+						60 container Memory Health profile. Accuracy: Not tested; Freshness: Not tested; Conflict Resolution: 0%; Appropriate Use: Not tested
+							61 container Radar chart: Accuracy: Not tested; Freshness: Not tested; Conflict Resolution: 0%; Appropriate Use: Not tested
+							62 text Accuracy: Not tested; Freshness: Not tested; Conflict Resolution: 0%; Appropriate Use: Not tested
+					63 container Retrieval evidence quality
+						64 heading Retrieval Evidence Quality, Value: 2
+							65 text Retrieval Evidence Quality
+						66 container
+							67 text Evidence recall @ k 50% Required source evidence retrieved
+						68 container
+							69 text Evidence precision @ k 100% Retrieved source evidence that was relevant
+						70 container
+							71 text Update evidence recall Not tested Freshness-test evidence retrieved
+						72 container
+							73 text Conflict evidence coverage 50% Conflict-test evidence retrieved
+						74 container
+							75 text Unnecessary retrieval 0% Lower is better
+					76 heading Detected Memory Failures, Value: 2
+						77 text Detected Memory Failures
+					78 text 1  detected
+					79 button (collapsed) Secondary Actions: Expand, Conflict Resolution Failure: Failed: the answer contradicts or omits a required part of the expected behaviour. Failed conflict_resolution: expected behaviour was 'Identify both conflicting recorded constraints, acknowledge the conflict and request clarification before relying on either record.'. The response did not demonstrate: clarification. Supporting memories were checked. Conflict answer omits the source-policy option: configuration file.
+						80 text Conflict Resolution
+						81 text Failure: 
+						82 text Failed: the answer contradicts or omits a required part of the expected behaviour. Failed conflict_resolution: expected behaviour was 'Identify both conflicting recorded constraints, acknowledge the conflict and request clarification before relying on either record.'. The response did not demonstrate: clarification. Supporting memories were checked. Conflict answer omits the source-policy option: configuration file.
+					83 container Evaluator calibration review
+						84 heading Evaluator Calibration Review, Value: 2
+							85 text Evaluator Calibration Review
+						86 text Independent mode is blind: review the question and response without seeing the automated verdict or other reviewers. Your label is calibration evidence and never overwrites the original audit result.
+						87 button Review Evaluations
+				88 container Target agent memory trace
+					89 heading Memory retrieval and model input, Value: 2
+						90 text Memory retrieval and model input
+					93 container
+						94 text Strategy:  weak first hit  · Memory updates:  update aware consolidation  · Up to  50  records were retained.
+					95 heading Stored memories, Value: 3
+						96 text Stored memories
+					97 container
+						98 text Memory record  1 Conflicted I require deployment secrets to be stored in environment variables Scope:  episodic  · recorded from  1  conversation message
+					99 container
+						100 text Memory record  2 Conflicted I require deployment secrets to be stored in a configuration file Scope:  episodic  · recorded from  1  conversation message Related memory changes:  conflict
+					101 heading Memory activity, Value: 3
+						102 text Memory activity
+					103 content list
+						104 container
+							105 AXListMarker • 
+							106 text ingested  ·  10/8/2026, 4:31:31 AM
+						107 container
+							108 AXListMarker • 
+							109 text written  ·  10/8/2026, 4:31:31 AM
+						110 container
+							111 AXListMarker • 
+							112 text written  ·  10/8/2026, 4:31:31 AM
+						113 container
+							114 AXListMarker • 
+							115 text conflict recorded  ·  10/8/2026, 4:31:31 AM
+						116 container
+							117 AXListMarker • 
+							118 text retrieved  ·  10/8/2026, 4:31:31 AM
+					119 heading What was retrieved and sent, Value: 3
+						120 text What was retrieved and sent
+					121 text Retrieved records can be filtered before sending. Sending a record does not prove that the model relied on it.
+					122 button (collapsed) Retrieval 1 · 1 records retrieved · 1 supplied to target, Secondary Actions: Expand
+						123 text Retrieval 
+						124 text 1
+						125 text  · 
+						126 text 1
+						127 text  records retrieved · 
+						128 text 1 supplied to target
+			92 button Start New Audit
+
+The focused UI element is 1 AXWebArea localhost:5173/new-audit

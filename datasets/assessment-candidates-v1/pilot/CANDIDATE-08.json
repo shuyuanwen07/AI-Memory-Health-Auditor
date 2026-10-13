@@ -1,0 +1,28 @@
+{
+  "messages": [
+    {
+      "message_id": "CANDIDATE-08-MSG-1",
+      "role": "user",
+      "content": "My support ticket is about the printer.",
+      "timestamp": "2026-10-11T01:00:00+00:00"
+    },
+    {
+      "message_id": "CANDIDATE-08-MSG-2",
+      "role": "user",
+      "content": "The replacement part is a feed roller.",
+      "timestamp": "2026-10-11T02:00:00+00:00"
+    },
+    {
+      "message_id": "CANDIDATE-08-MSG-3",
+      "role": "user",
+      "content": "The monitor issue is in a separate ticket.",
+      "timestamp": "2026-10-11T03:00:00+00:00"
+    },
+    {
+      "message_id": "CANDIDATE-08-MSG-4",
+      "role": "assistant",
+      "content": "I might assume an additional detail, but please verify it against your original notes.",
+      "timestamp": "2026-10-11T04:00:00+00:00"
+    }
+  ]
+}

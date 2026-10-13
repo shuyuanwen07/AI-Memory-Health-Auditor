@@ -50,7 +50,8 @@ class AuditorValidityService:
         automated: dict[str, bool] = {}
         for evaluation in evaluations:
             if evaluation.test_id not in automated:
-                automated[evaluation.test_id] = evaluation.passed
+                if evaluation.passed is not None:
+                    automated[evaluation.test_id] = evaluation.passed
 
         tp = fp = tn = fn = 0
         for test_id, human_passed in human_passed_by_test_id.items():

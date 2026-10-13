@@ -1,0 +1,237 @@
+A2 requirement-to-evidence map — 12 October 2026
+Scope: proposal Track B; controlled memory-policy audit, no model training.
+This map distinguishes implemented capability from missing empirical evidence.
+Paths are relative to repository root. Tests establish contract behaviour only.
+
+The complete row-by-row proposal and user-brief matrix, including current gaps,
+planned work, reproducible checks and human/external evidence requirements, is
+`docs/REQUIREMENT_TRACEABILITY_MATRIX.md`. The notes below provide additional
+implementation, UX and release context; they do not supersede the matrix status.
+
+Product implementation (4 marks)
+Original proposal functional requirement IDs (Tables1–2), preserved exactly:
+FR1 authorised conversation upload: ConversationStep.tsx; api/routes.py;
+  test_input_and_relationship_guards.py. Implemented; UI consent gate.
+FR2 candidate memories and UPDATE/CONFLICT extraction: app/extraction;
+  test_llm_pipeline.py and relationship/topic guard tests. Implemented;
+  independent memory/relationship accuracy still unmeasured.
+FR3 Accept/Edit/Reject, add missing facts and confirmed ground truth:
+  GroundTruthReview.tsx; MemoryCard.tsx; review routes and frontend tests.
+  Implemented; confirmed source evidence retained.
+FR4 four-dimension behavioural test generation: app/test_generator;
+  TestSuiteReview.tsx; test_test_quality_and_baselines.py. Implemented;
+  generated expectations are not independently verified gold labels.
+FR5 controlled target initialisation from authorised history:
+  app/target_systems/controlled.py; app/memory_agent; isolation/input tests.
+  Implemented; no model training or proprietary memory access.
+FR6 execution, prompts/replies/configuration receipts: api/routes.py;
+  target_ai/providers.py; execution metadata and retry tests. Implemented.
+FR7 evidence-backed response evaluation and failure classification:
+  app/evaluator; evidence_correspondence.py; evaluator/reliability tests.
+  Implemented; uncertainty and unresolved failure causes remain explicit.
+FR8 overall/dimension results with supporting evidence: ResultDashboard.tsx;
+  TargetMemoryTrace.tsx and corresponding tests. Implemented.
+FR9 confirmed ground truth and source persistence: models/entities.py;
+  audit source-history route and test_audit_source_history.py. Implemented.
+FR10 select target and audit settings before execution: NewAudit.tsx;
+  TargetProfileEditor.tsx; ModelPicker.tsx and workflow tests. Implemented.
+FR11 dimension scoring and overall macro-average: evaluator/results service;
+  ResultDashboard.tsx and score-coverage tests. Implemented; partial coverage
+  is labelled a tested-ability average, not a complete four-dimension score.
+FR12 inspect each failure's ground truth, prompt, expectation and reply:
+  ResultDashboard.tsx; EvaluationReview.tsx; BlindReview.tsx and tests.
+  Implemented; original reply and input evidence preserved.
+
+Additional proposal evaluation and engineering controls (not extra FR numbers):
+AC1 independently labelled extraction/relationship validation: research validity
+  and pilot workflows exist; genuine independent labels remain incomplete.
+AC2 grounded executable tests: reviewed source evidence, test quality gates,
+  rejection/regeneration and replay tests. Independent test validity pending.
+AC3 held-out failure detection/classification: calibration, double annotation,
+  formal_freeze and research gates exist. Formal frozen thresholds and actual
+  independent held-out results remain unestablished.
+AC4 evidence-rich reporting: four-ability/outcome charts and full evidence;
+  uncertainty and supplied-memory scope remain explicit.
+AC5 same frozen inputs and recorded metadata: canonical suite cloning, immutable
+  answer receipts, runtime/configuration snapshots, idempotency/retry contracts.
+Same-answer rule/hybrid reviewer ablation: shared_answers.py and matching tests;
+  copied target replies are not independent repeated model calls.
+Independent-history original/generic/directed repair: ValidationWorkbench.tsx;
+  DIAGNOSIS_VALIDATION.md; exact source overlap rejected. Semantic independence
+  still requires human judgement; oracle supplementation is diagnostic only.
+Proposal studies A/B/C: formal matrix/benchmark workflows and protocol exist.
+  A/B formal completed results are missing. C has real-target local-compatible
+  LongMemEval execution and bound imported semantic assessments; a connected
+  ranking service and chart validate original saved audits against
+  fully bound semantic files, compatible settings and complete decided coverage.
+  Actual evaluated response receipts bind model, temperature and output budget;
+  benchmark settings use the shared memory profile editor.
+  Independent empirical verification remains missing. LoCoMo/BEAM full execution
+  is optional.
+Assessed-source packaging: package_assessment_source.py; excludes secrets/data.
+  Final human contributions, report and submission remain human deliverables;
+  user requested system development, not report writing.
+
+GenAI architecture (4 marks)
+Structured source extraction; structured test generation; hybrid semantic judge;
+separate target, pipeline and judge provider/model provenance; safe invalid-output
+abstention and immutable answer receipts. docs/ARCHITECTURE.md, API.md, DATA_SCHEMA.md.
+Same-answer reviewer ablation supplements proposal studies; extraction is a
+separate stage and must be assessed with independent memory labels.
+
+Evaluation (4 marks)
+Independent double annotation; extraction and relationship Precision/Recall/F1;
+test validity; failure-positive confusion, precision/recall/F1/FPR and kappa;
+classification coverage; abstention-inclusive recall; scenario-level uncertainty;
+new-history repair controls; A/B/C ranking agreement. Software supports these;
+formal independent evidence is incomplete. No empirical mark/accuracy is promised.
+
+Novelty (3 marks)
+Candidate contribution: auditable contextual memory testing linked to delivery
+receipts, source-grounded failure diagnosis, same-answer judge ablation, and general
+policy repair verification. Validate with independent defects and established
+baselines. Mature storage tools are different in scope; universal superiority
+and first-of-kind claims are unsupported.
+
+Track alignment (2 marks)
+Track B — source history -> reviewed memories -> contextual tests -> target response
+-> classified evidence -> Memory Health report. A/B/C and useful-failure validation
+remain the research evidence plan. External Agent adapters are optional, excluded
+from required development and from any claim of proposal completion.
+
+Product quality and user/system workflow (2 marks)
+Guided intake, fact/question review, evidence-backed outcomes, comparison and
+recovery support the intended user workflow. All-screen usability and concise
+visual acceptance still require completion.
+Supporting engineering controls: frozen versions/fingerprints; Alembic; disposable PostgreSQL integration tests;
+frontend build/interaction tests; actual browser pilot; CI workflow; release hashes.
+Working-tree tests do not certify an older GitHub revision. Confirm actual human
+module ownership in MODULE_OWNERSHIP.md; AI work cannot be attributed to members.
+
+Documentation/delivery (1 mark)
+Setup, architecture, contracts, protocol, evidence traceability, responsible use,
+limitations, references, AI assistance and actual contributions. Source ZIP excludes
+credentials, local DBs, Git history and development output. One final report is a
+separate required deliverable; report draft cannot invent formal findings.
+
+Non-functional requirements — proposal Table 2 IDs preserved exactly
+NFR1 Privacy: explicit authorisation before processing conversation history;
+  ConversationStep.tsx, input guards and consent workflow tests.
+NFR2 Security: protected conversation/ground truth/test/result access and
+  server-side credentials; ACCESS_CONTROL.md, owner gate and access tests.
+  This is not institutional multi-user authentication.
+NFR3 Explainability: original source, confirmed memory, question, expectation,
+  observed answer and applicable failure category are inspectable through
+  ResultDashboard, EvaluationReview and diagnosis. Sending != causal use.
+NFR4 Usability: validated guided upload, memory review, target setup, execution
+  and result interpretation, with clear recovery for incomplete/invalid input;
+  NewAudit workflow tests and actual browser acceptance records.
+NFR5 Reproducibility: saved model and memory settings, prompt version,
+  temperature, supported seed control, budget, frozen canonical questions and
+  immutable response receipts. Cloud seed is not a portable determinism claim.
+Additional engineering controls: retry/cancel and partial evidence retention,
+  invalid test blocking, migration checks, Docker setup and source manifests.
+  These support the requirements without inventing extra proposal NFR IDs.
+Neither operational checks nor a small synthetic pilot prove universal reliability.
+Additional user requirements (separate from proposal Table 2):
+UX1 user-friendly presentation (required across all user-facing screens):
+Use consistent English names and React controls, descriptive labels instead of
+internal IDs, and clear loading, empty, pending, success and recovery states.
+Charts must explain their dimensions, denominators, missing results and comparison
+limits. Distinguish target improvement from a change in assessment standards.
+Keep technical settings secondary; preserve original evidence and technical export
+identifiers for verification. Check every screen through actual user operations;
+this requirement is not complete until the full presentation audit passes.
+Acceptance: a user can identify what was tested, understand the result and its
+limits, inspect the supporting evidence, and find the next action without knowing
+internal system terminology. Apply to every page, dialog, chart and feedback state.
+
+Research validity display: ResearchValidityChart.tsx combines Precision/Recall/F1
+across extraction, relationships, test validity and evaluator stages; explicit
+missing values, stage counts, accessible values and expandable confusion counts.
+F1 is calculated from raw counts and preserves real zero vs undefined denominator.
+Backend research metric tests and frontend workflow/chart tests cover these cases.
+Synthetic UI checks do not establish independent research validity.
+
+UX2 concise visual results (mandatory presentation requirement):
+Prefer charts for research outcomes, group dimensions and comparable conditions
+into shared comparison views, and remove redundant prose/cards. Retain only a
+short conclusion, essential chart labels/denominators/uncertainty/comparison limits,
+and actionable next steps. Keep source answers, evidence and detailed methods
+available on demand; visual simplification must not turn pending or untested
+results into zero, obscure assessment changes, or imply unmatched comparisons.
+Workflow counts are not model-health evidence and must remain labelled accordingly.
+
+Visual acceptance checks:
+- Comparable models, memory policies and audit methods share grouped charts.
+- Before/after results show both values and their difference in the same view.
+- Primary results avoid duplicate cards, charts and paragraphs for the same metric.
+- Text remains for units, sample counts, pending states, limitations and actions;
+  detailed methodology and original evidence are expandable.
+- Desktop and narrow layouts keep labels and legends readable.
+
+Reliability overview presentation: AuditorQuality.tsx consolidates six measures
+into one vertical chart, retains separate eligible-review denominators, distinguishes
+zero from unavailable, and expands definitions/intervals on demand. Five page tests
+and actual desktop/narrow CUA checks verified this display. Current backend checks:
+742 contract/unit tests plus six disposable PostgreSQL integration tests, compilation,
+Ruff, migration upgrade and drift check passed. These are engineering checks and
+do not replace independent empirical auditor validation.
+
+Review-session integrity: EvaluationReview.tsx records exposure to automated
+evidence in the current session and prevents returning to independent mode;
+report routes additionally declare prior exposure and blind routes fix the role.
+Pending label submission locks reviewer, category and note controls. Isolated
+component checks cover these transitions; actual report-role menu checked via CUA
+without submitting human labels. This cannot verify reviewer independence across
+other sessions or prior knowledge; independent human evidence remains required.
+
+Saved-answer comparison integrity: front-end and service use reply/assessment
+source provenance to identify reused answers. Takeaway, filter labels, SVG title
+and footer distinguish assessment changes from memory improvement. Different
+assessment standards remain excluded from paired changes. Chart download exposes
+an optional exact SVG recovery source without claiming that the browser saved it.
+Actual saved-answer comparison checked through CUA, recovered SVG parsed as XML,
+16 front-end and six backend focused tests plus build/Ruff passed. IAB-completed
+SVG download was not confirmed; recovery contents were verified.
+
+Audit-method grouping: use verified condition identities rather than display
+labels; unknown provenance stays separate, verified repeated conditions still
+aggregate. Human chart labels refresh on return/visibility and via a manual action;
+stale loads cannot replace newer evidence. Nine focused tests and build passed;
+actual saved comparison refreshed through CUA without label writes. These checks
+establish chart/workflow behaviour, not empirical auditor reliability.
+
+Single-setting result presentation: experiments show all four dimensions in the
+primary chart even when only one setting has a result. Such charts are explicitly
+labelled single-setting results, not controlled comparisons. Settings/counts stay
+available in a details panel; narrow charts retain zero/untested distinctions and
+provide a focusable horizontal scroll region. StaticPages and ResultVisualizations
+tests cover this presentation; it adds no empirical reliability claim.
+
+Experiment chart grouping: only matching saved condition identities pool repeats.
+Missing condition provenance gives each run a separate chart group, even when
+display names match. User-facing labels derive from model/memory/method settings;
+saved technical condition labels and IDs do not become legend text. Verified
+repeat pooling and unverified separation are covered in StaticPages.test.tsx.
+
+Formal matrix reviewed-release gate: pilot.dataset_fingerprint_sha256 must match
+the canonical imported annotation content before persistence. Name/version matches
+are insufficient. Legacy packages remain analysable for agreement but cannot
+create formal runs without binding. Request and API tests reject missing/wrong
+bindings and source/reference drift; matching positive workflows remain covered.
+The UI validates and exports a review receipt, includes a read-only copy fallback,
+and does not automatically attach old labels to newly uploaded data. Declared
+binding still does not verify reviewer identity, independence or semantic validity.
+
+Presentation acceptance standard (user requirement):
+- Present outcomes primarily as charts, grouping comparable dimensions and conditions.
+- Keep primary English UI concise and friendly; reveal detailed text only where needed.
+- Retain denominators, pending/missing distinctions and comparability caveats; never display absent evidence as zero.
+
+Real-model benchmark visual comparison: BenchmarkStrategyChart.tsx places memory
+strategies on one vertical percentage scale with distinct colours and answer
+counts, retaining unmeasured states and lexical-proxy limitations. LiveBenchmark
+keeps answer evidence and receipts accessible on demand. Actual two-case local
+Qwen UI execution verified 1/2 versus 2/2 lexical matches and underlying replies;
+this is a synthetic workflow check, not independent empirical reliability.

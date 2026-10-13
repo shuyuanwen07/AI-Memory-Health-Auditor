@@ -1,0 +1,22 @@
+{
+  "messages": [
+    {
+      "message_id": "CANDIDATE-03-MSG-1",
+      "role": "user",
+      "content": "The shipping note says use locker Amber.",
+      "timestamp": "2026-10-11T01:00:00+00:00"
+    },
+    {
+      "message_id": "CANDIDATE-03-MSG-2",
+      "role": "user",
+      "content": "The invoice says use locker Birch.",
+      "timestamp": "2026-10-11T02:00:00+00:00"
+    },
+    {
+      "message_id": "CANDIDATE-03-MSG-3",
+      "role": "user",
+      "content": "I have not confirmed which document is authoritative.",
+      "timestamp": "2026-10-11T03:00:00+00:00"
+    }
+  ]
+}

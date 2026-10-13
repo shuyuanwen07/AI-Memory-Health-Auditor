@@ -1,0 +1,67 @@
+Browser tab: 12, Title: "localhost:5173/new-audit", URL: "http://localhost:5173/new-audit".
+1 AXWebArea localhost:5173/new-audit
+	2 container root
+		3 container
+			4 link Description: Memory Auditor, Value: localhost:5173/
+			5 container Primary navigation
+				6 link Description: Dashboard, Value: localhost:5173/
+				7 link Description: New audit, Value: localhost:5173/new-audit
+				8 link Description: History, Value: localhost:5173/history
+				9 link Description: Before & after, Value: localhost:5173/compare
+				10 link Description: Experiments, Value: localhost:5173/experiments
+				11 link Description: About, Value: localhost:5173/about
+		12 container
+			13 content list Audit progress
+				14 container
+					15 text 1 Conversation
+				16 container
+					17 text 2 Ground Truth
+				18 container
+					19 text 3 Configuration
+				20 container
+					21 text 4 Audit
+				22 container
+					23 text 5 Results
+			24 container Review Extracted Memories
+				25 heading Review Extracted Memories, Value: 1, ID: ground-truth-title
+					26 text Review Extracted Memories
+				27 container Memory review summary
+					28 text Extracted  2 To review  2 Accepted  0 Edited  0 Rejected  0
+				32 text 2 memories still need review
+				33 text 0  /  2  reviewed
+				34 progress indicator Description: Memory review progress, Value: 0
+				35 container
+					36 text 0  accepted for reference evidence ·  0  excluded
+				37 container
+					38 text Show memories
+					39 pop up button (collapsed, settable) Show memories, Value: All statuses (2), ID: memory-status-filter, Secondary Actions: Expand
+						40 menu
+							41 (selected) All statuses (2)
+							42 To review (2)
+							43 Accepted (0)
+							44 Edited (0)
+							45 Rejected (0)
+				46 container
+					47 text Showing  2  of  2  memories.
+				48 container Memory 1
+					49 container
+						50 text Memory  1
+					51 text Needs review
+					52 text Deployment secrets must be stored in environment variables.
+					53 text Source evidence:  Added during review  ·  No source timestamp
+					54 button Accept
+					55 button Edit
+					56 button Reject
+				57 container Memory 2
+					58 container
+						59 text Memory  2
+					60 text Needs review
+					61 text Deployment secrets must be stored in a configuration file.
+					62 text Source evidence:  Added during review  ·  No source timestamp
+					63 button Accept
+					64 button Edit
+					65 button Reject
+				66 button Add Missing Memory
+				31 button (disabled) Confirm Ground Truth & Continue
+
+The focused UI element is 1 AXWebArea localhost:5173/new-audit

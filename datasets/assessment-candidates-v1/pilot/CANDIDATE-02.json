@@ -1,0 +1,22 @@
+{
+  "messages": [
+    {
+      "message_id": "CANDIDATE-02-MSG-1",
+      "role": "user",
+      "content": "I usually add peanuts to sauces.",
+      "timestamp": "2026-10-11T01:00:00+00:00"
+    },
+    {
+      "message_id": "CANDIDATE-02-MSG-2",
+      "role": "user",
+      "content": "For the school event, every dish must be nut-free.",
+      "timestamp": "2026-10-11T02:00:00+00:00"
+    },
+    {
+      "message_id": "CANDIDATE-02-MSG-3",
+      "role": "user",
+      "content": "This event restriction applies only to the school menu.",
+      "timestamp": "2026-10-11T03:00:00+00:00"
+    }
+  ]
+}

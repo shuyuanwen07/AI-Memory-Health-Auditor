@@ -1,0 +1,22 @@
+{
+  "messages": [
+    {
+      "message_id": "CANDIDATE-05-MSG-1",
+      "role": "user",
+      "content": "The archive was hosted on server Cedar.",
+      "timestamp": "2026-10-11T01:00:00+00:00"
+    },
+    {
+      "message_id": "CANDIDATE-05-MSG-2",
+      "role": "user",
+      "content": "We migrated the archive to server Juniper last week.",
+      "timestamp": "2026-10-11T02:00:00+00:00"
+    },
+    {
+      "message_id": "CANDIDATE-05-MSG-3",
+      "role": "user",
+      "content": "Cedar still hosts a different service, the issue tracker.",
+      "timestamp": "2026-10-11T03:00:00+00:00"
+    }
+  ]
+}

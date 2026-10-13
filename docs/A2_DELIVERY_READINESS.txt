@@ -1,0 +1,80 @@
+ELEC5623 A2 delivery readiness — development record, not a formal results report
+Updated: 12 October 2026
+
+Implemented strengthening
+- Default three-method comparison and saved grouped charts.
+- Same-answer reviewer ablation with immutable receipts and no duplicate target calls.
+- Full-source blind review and complete blank material export, without verdict sampling.
+- Proposal A/B/C and repair-value guidance in the Research Workspace.
+- Requirements traceability, honest report draft, member confirmation form and human handoff.
+- Twenty source-only synthetic candidates with blank independent reviewer materials.
+- Credential/database/output-excluding source packaging with file/archive hashes.
+- Separate test dimension from source-supported observed failure classification.
+- Preserve historical labels without presenting them as newly validated diagnoses.
+- Persist the actual shared extraction provider/model/version separately from generation.
+- Strict semantic category contract and safe abstention on invalid outputs/disagreement.
+- Calibration reports decided coverage, abstentions and label provenance.
+- Joint failure detection/classification recall retains human-labelled abstentions.
+- Architecture diagram and explicit experiment controls in engineering documentation.
+
+What is NOT established by these changes
+No independent human gold release has been completed. The coordinator confirmed
+human completion of the A/C returns on 11 October 2026. Their original AI-assisted
+declarations are preserved; independent blind judgement remains unconfirmed.
+On 12 October the coordinator selected C for all nine disputed categorical fields.
+Original labels are preserved for agreement; NAS correctness stays uncertain.
+B is pending. This adjudication is not an independent blind third review.
+Automated regression tests verify
+software behaviour, not empirical judgment accuracy. No genuine formal result,
+member contribution, protocol freeze or product superiority is invented.
+
+Assessment deliverables
+1. A runnable assessed source revision with dependency files, configuration
+   placeholders and concise setup instructions. Exclude real credentials,
+   local databases, raw participant/private conversations and Git history.
+2. One evidence-rich final report, recommended 8–12 pages excluding references
+   and appendices. The following ten sections are the report completion map.
+
+Report section / current supporting material / remaining evidence
+1. Summary: README + actual release evidence. Add team names and the most
+   important measured result only after independent evaluation.
+2. Problem/users/scope/requirements: approved proposal; map each FR/NFR to
+   concrete implementation and verification, including omitted features.
+3. Related work/novelty: MATURE_PRODUCT_COMPARISON.txt. Cite the original
+   sources and distinguish our audit workflow from memory-storage systems;
+   empirical superiority remains unproved.
+4. Design: ARCHITECTURE.md with component/data-flow diagram; record model,
+   provider, versions, storage, external services and failure paths.
+5. GenAI engineering: structured extraction/generation and semantic rubric;
+   default method ablation measures testing/review, not extraction quality.
+6. Application: include actual intake, source review, question review,
+   execution, three-method results and failure-evidence screenshots.
+7. Evaluation: freeze FORMAL_EXPERIMENT_PROTOCOL.md; complete proposal A/B/C,
+   independent labels, validity/calibration metrics, coverage, repetitions,
+   uncertainty, cost/latency, failures and independent repair controls.
+8. Reflection: report source ambiguity, lexical limitations, semantic bias,
+   abstention selection, separately sampled answers and benchmark limitations.
+9. Responsible use: consent/de-identification, backend credentials, source
+   retention and deletion, explicit human oversight. AI assistance is not
+   independent evaluation.
+10. Contributions/references: replace proposed assignments with verified
+    substantive member contributions; maintain consistent citations.
+
+Release verification
+Run backend checks and migrations in docker-compose.ci.yml, frontend build
+and tests, script tests and a genuine browser workflow. Preserve the exact
+release revision with results. An older successful GitHub CI run does not
+validate uncommitted local changes. The source currently remains local until
+an authorised release/push operation is completed.
+
+Human completion items
+- A/B/C source verification and adjudication on the frozen material.
+- New held-out labels and protocol/model/threshold freeze BEFORE collection.
+- Consent/data provenance and permission for any non-synthetic material.
+- Actual team identity/contributions and report conclusions supported by data.
+
+Assessment dates from supplied ELEC5623_A2.pdf
+Project development submission: 3 November 2026, 23:59.
+Presentation/Q&A: 4 November 2026, scheduled Week 13 lab.
+Development AI assistance is permitted; live assessed presentation/Q&A AI
+use is prohibited. Check Canvas for the separately released presentation brief.

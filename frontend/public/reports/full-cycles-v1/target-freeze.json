@@ -1,0 +1,8 @@
+{
+  "backend/app/target_ai/providers.py": "97fb4cd73228ac39864305e85fb0e83797a90eb9ccee4848194f76278945ac54",
+  "backend/app/target_ai/rule_based.py": "9c9a470621b6efb796ffe918700951d9f4005a93cbd568f33c69a14388a97a1b",
+  "backend/app/memory_agent/store.py": "d26a4bc9def0bba17adad8b9b2a8e93316d71b2da2cc2126cdd16ae75fc9d507",
+  "backend/app/memory_agent/writers.py": "14cba32bdb3b50f470f6a52fe2747d99358a5150bb60f0134cab01ae175ed4ce",
+  "backend/app/extraction/rule_based.py": "3a180fa2d89d9938d075948c1d03a3f5c19b77bda75929f15f904cda8a2794a9",
+  "backend/app/target_systems/controlled.py": "b268832d0d15cc97bdbc75a8c4daeab911a004820ea4ebb5523c282704c89f25"
+}

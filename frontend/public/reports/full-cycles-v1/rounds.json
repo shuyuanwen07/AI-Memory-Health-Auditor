@@ -1,0 +1,114 @@
+[
+  {
+    "round": 1,
+    "run_id": "RUN79DBECA597BC4F07BD1DB1B2C2FBABED",
+    "completed": true,
+    "scenario": "Oslo／Rust／数据库事实",
+    "passed": 2,
+    "tests": 3
+  },
+  {
+    "round": 2,
+    "run_id": "RUN990EE7E14DC64F63A366F9744F068F0B",
+    "completed": true,
+    "scenario": "Bergen／Kotlin",
+    "passed": 0,
+    "tests": 2
+  },
+  {
+    "round": 3,
+    "run_id": "RUN8AC3936FAC024C02A9E693F9A85CAB17",
+    "completed": true,
+    "scenario": "MySQL → PostgreSQL 更新",
+    "passed": 0,
+    "tests": 2
+  },
+  {
+    "round": 4,
+    "run_id": "RUNC218ACD1C64A47ABAF5042707F8D23B1",
+    "completed": true,
+    "scenario": "Python 偏好／Java 要求",
+    "passed": 1,
+    "tests": 2
+  },
+  {
+    "round": 5,
+    "run_id": "RUN19922B97D13749FE89C34D40FDB4EA16",
+    "completed": true,
+    "scenario": "部署秘密存储冲突",
+    "passed": 0,
+    "tests": 2
+  },
+  {
+    "round": 6,
+    "run_id": "RUN36D4175DB1534F448114F52C7C2D9441",
+    "completed": true,
+    "scenario": "Lisbon／TypeScript",
+    "passed": 1,
+    "tests": 2
+  },
+  {
+    "round": 7,
+    "run_id": "RUN3AD3C42F6A314D8F86C4016EF4533D73",
+    "completed": true,
+    "scenario": "MongoDB → SQLite＋拒绝重生成",
+    "passed": 0,
+    "tests": 2
+  },
+  {
+    "round": 8,
+    "run_id": "RUN59DBD1A4330C4452A503FF7719F304CA",
+    "completed": true,
+    "scenario": "Rust 偏好／Python 要求",
+    "passed": 1,
+    "tests": 2
+  },
+  {
+    "round": 9,
+    "run_id": "RUN0BEA83451E824E29B5FF92D2544587F4",
+    "completed": true,
+    "scenario": "Tallinn／JavaScript＋取消编辑",
+    "passed": 1,
+    "tests": 2
+  },
+  {
+    "round": 10,
+    "run_id": "RUN576B9F6B11DB4234B54B116957C12173",
+    "completed": true,
+    "scenario": "Helsinki／Go",
+    "passed": 0,
+    "tests": 2
+  },
+  {
+    "round": 11,
+    "run_id": "RUN9FA05E570A2449E2B766DAB874876C6E",
+    "completed": true,
+    "scenario": "Reykjavik／Kotlin＋摘要复查",
+    "passed": 0,
+    "tests": 2
+  },
+  {
+    "round": 12,
+    "run_id": "RUN804EB9C6341F464DB5FE8CD6FE5277B6",
+    "completed": true,
+    "scenario": "数据库更新＋评分说明复查",
+    "passed": 0,
+    "tests": 2
+  },
+  {
+    "round": 13,
+    "run_id": "RUN693F94C82315481A95C22974464AF9DC",
+    "completed": true,
+    "scenario": "部署存储冲突＋题组回归",
+    "passed": 0,
+    "tests": 2
+  },
+  {
+    "round": 14,
+    "run_id": "RUN136CCCAB39C04605A1591627E9AF6AE4",
+    "completed": true,
+    "scenario": "Bruges／Rust＋审核标签复查",
+    "passed": 1,
+    "tests": 2
+  }
+]

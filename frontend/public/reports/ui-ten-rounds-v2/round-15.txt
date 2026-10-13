@@ -1,0 +1,341 @@
+Browser tab: 6, Title: "localhost:5173/experiments", URL: "http://localhost:5173/experiments".
+1 AXWebArea localhost:5173/experiments
+	2 container root
+		3 container
+			4 link Description: Memory Auditor, Value: localhost:5173/
+			5 container Primary navigation
+				6 link Description: Dashboard, Value: localhost:5173/
+				7 link Description: New audit, Value: localhost:5173/new-audit
+				8 link Description: History, Value: localhost:5173/history
+				9 link Description: Before & after, Value: localhost:5173/compare
+				10 link Description: Experiments, Value: localhost:5173/experiments
+				11 link Description: About, Value: localhost:5173/about
+		12 container
+			13 heading Experiments, Value: 1
+				14 text Experiments
+			99 heading AI-reviewed pilot · Validation · CYCLE-12-1 · qwen3:1.7b, Value: 2
+				100 text AI-reviewed pilot · Validation · CYCLE-12-1 · qwen3:1.7b
+			101 container
+				102 button Download group CSV
+				103 button Download reproducibility bundle
+				104 button Download frozen artifact
+			105 text Shared tests
+			106 text 4
+			107 text Conditions complete
+			108 container
+				109 text 6  /  6
+			110 container
+				111 text Created  10/8/2026, 2:26:54 AM  · Suite: seed  42  ·  4  test budget
+			276 container Visual comparison charts
+				277 heading Visual Comparison, Value: 2
+					278 text Visual Comparison
+				279 container
+					280 heading Overall Memory Health by Condition, Value: 2
+						281 text Overall Memory Health by Condition
+					282 container Overall Memory Health comparison. Ollama · qwen3:1.7b · Strong Rule Based: 100% (± 0%); Ollama · qwen3:1.7b · Strong Score Based: 100% (± 0%); Ollama · qwen3:1.7b · Scope Aware: 100% (± 0%)
+						283 container Horizontal bar chart. Ollama · qwen3:1.7b · Strong Rule Based: 100% (± 0%); Ollama · qwen3:1.7b · Strong Score Based: 100% (± 0%); Ollama · qwen3:1.7b · Scope Aware: 100% (± 0%)
+						284 text Conditions are grouped by the same model and memory strategy. Untested scores are excluded.
+				285 container
+					286 heading Dimension Comparison, Value: 2
+						287 text Dimension Comparison
+					288 container Dimension comparison. Accuracy: Ollama · qwen3:1.7b · Strong Rule Based 100%, Ollama · qwen3:1.7b · Strong Score Based 100%, Ollama · qwen3:1.7b · Scope Aware 100%; Freshness: Ollama · qwen3:1.7b · Strong Rule Based 100%, Ollama · qwen3:1.7b · Strong Score Based 100%, Ollama · qwen3:1.7b · Scope Aware 100%; Conflict Resolution: Ollama · qwen3:1.7b · Strong Rule Based 100%, Ollama · qwen3:1.7b · Strong Score Based 100%, Ollama · qwen3:1.7b · Scope Aware 100%; Appropriate Use: Ollama · qwen3:1.7b · Strong Rule Based 100%, Ollama · qwen3:1.7b · Strong Score Based 100%, Ollama · qwen3:1.7b · Scope Aware 100%
+						289 container Grouped bar chart. Accuracy: Ollama · qwen3:1.7b · Strong Rule Based 100%, Ollama · qwen3:1.7b · Strong Score Based 100%, Ollama · qwen3:1.7b · Scope Aware 100%; Freshness: Ollama · qwen3:1.7b · Strong Rule Based 100%, Ollama · qwen3:1.7b · Strong Score Based 100%, Ollama · qwen3:1.7b · Scope Aware 100%; Conflict Resolution: Ollama · qwen3:1.7b · Strong Rule Based 100%, Ollama · qwen3:1.7b · Strong Score Based 100%, Ollama · qwen3:1.7b · Scope Aware 100%; Appropriate Use: Ollama · qwen3:1.7b · Strong Rule Based 100%, Ollama · qwen3:1.7b · Strong Score Based 100%, Ollama · qwen3:1.7b · Scope Aware 100%
+						290 text Scores are percentages. A missing bar means that dimension was not tested for that condition.
+				291 container
+					292 heading Detected Failure Distribution, Value: 2
+						293 text Detected Failure Distribution
+					294 container Detected failure distribution. Accuracy: Ollama · qwen3:1.7b · Strong Rule Based 0, Ollama · qwen3:1.7b · Strong Score Based 0, Ollama · qwen3:1.7b · Scope Aware 0; Freshness: Ollama · qwen3:1.7b · Strong Rule Based 0, Ollama · qwen3:1.7b · Strong Score Based 0, Ollama · qwen3:1.7b · Scope Aware 0; Conflict Resolution: Ollama · qwen3:1.7b · Strong Rule Based 0, Ollama · qwen3:1.7b · Strong Score Based 0, Ollama · qwen3:1.7b · Scope Aware 0; Appropriate Use: Ollama · qwen3:1.7b · Strong Rule Based 0, Ollama · qwen3:1.7b · Strong Score Based 0, Ollama · qwen3:1.7b · Scope Aware 0
+						295 container Grouped failure bar chart. Accuracy: Ollama · qwen3:1.7b · Strong Rule Based 0, Ollama · qwen3:1.7b · Strong Score Based 0, Ollama · qwen3:1.7b · Scope Aware 0; Freshness: Ollama · qwen3:1.7b · Strong Rule Based 0, Ollama · qwen3:1.7b · Strong Score Based 0, Ollama · qwen3:1.7b · Scope Aware 0; Conflict Resolution: Ollama · qwen3:1.7b · Strong Rule Based 0, Ollama · qwen3:1.7b · Strong Score Based 0, Ollama · qwen3:1.7b · Scope Aware 0; Appropriate Use: Ollama · qwen3:1.7b · Strong Rule Based 0, Ollama · qwen3:1.7b · Strong Score Based 0, Ollama · qwen3:1.7b · Scope Aware 0
+						296 text Failure counts aggregate all completed runs in each condition; more repeated runs can increase the count.
+			113 table
+				114 row
+					115 cell
+						116 text Condition
+					117 cell
+						118 text Completed
+					119 cell
+						120 text Overall mean
+					121 cell
+						122 text Variation
+					123 cell
+						124 text Tests passed
+					125 cell
+						126 text Failures
+					127 cell
+						128 text Runtime
+				129 row
+					130 cell
+						131 text Ollama · qwen3:1.7b · Scope Aware
+					132 cell
+						133 text 2  /  2
+					134 cell
+						135 text 100%
+					136 cell
+						137 text 0%
+					138 cell
+						139 text 8  /  8
+					140 cell
+						141 text 0
+					142 cell
+						143 text 749 ms avg  ·  1,982 tokens
+				144 row
+					145 cell
+						146 text Ollama · qwen3:1.7b · Strong Rule Based
+					147 cell
+						148 text 2  /  2
+					149 cell
+						150 text 100%
+					151 cell
+						152 text 0%
+					153 cell
+						154 text 8  /  8
+					155 cell
+						156 text 0
+					157 cell
+						158 text 939 ms avg  ·  2,652 tokens
+				159 row
+					160 cell
+						161 text Ollama · qwen3:1.7b · Strong Score Based
+					162 cell
+						163 text 2  /  2
+					164 cell
+						165 text 100%
+					166 cell
+						167 text 0%
+					168 cell
+						169 text 8  /  8
+					170 cell
+						171 text 0
+					172 cell
+						173 text 996 ms avg  ·  2,704 tokens
+			174 button (collapsed) Condition reports and detected failures, Secondary Actions: Expand
+				175 text Condition reports and detected failures
+			176 button (collapsed) Paired comparison signals, Secondary Actions: Expand
+				177 text Paired comparison signals
+			178 heading AI-reviewed pilot · Validation · CYCLE-11-4 · qwen3:1.7b, Value: 2
+				179 text AI-reviewed pilot · Validation · CYCLE-11-4 · qwen3:1.7b
+			180 container
+				181 button Download group CSV
+				182 button Download reproducibility bundle
+				183 button Download frozen artifact
+			184 text Shared tests
+			185 text 4
+			186 text Conditions complete
+			187 container
+				188 text 3  /  3
+			189 container
+				190 text Created  10/8/2026, 2:25:24 AM  · Suite: seed  42  ·  4  test budget
+			297 container Visual comparison charts
+				298 heading Visual Comparison, Value: 2
+					299 text Visual Comparison
+				300 container
+					301 heading Overall Memory Health by Condition, Value: 2
+						302 text Overall Memory Health by Condition
+					303 container Overall Memory Health comparison. Ollama · qwen3:1.7b · Scope Aware: 75% (± 0%)
+						304 container Horizontal bar chart. Ollama · qwen3:1.7b · Scope Aware: 75% (± 0%)
+						305 text Conditions are grouped by the same model and memory strategy. Untested scores are excluded.
+				306 container
+					307 heading Dimension Comparison, Value: 2
+						308 text Dimension Comparison
+					309 container Dimension comparison. Accuracy: Ollama · qwen3:1.7b · Scope Aware 100%; Freshness: Ollama · qwen3:1.7b · Scope Aware 0%; Conflict Resolution: Ollama · qwen3:1.7b · Scope Aware 100%; Appropriate Use: Ollama · qwen3:1.7b · Scope Aware 100%
+						310 container Grouped bar chart. Accuracy: Ollama · qwen3:1.7b · Scope Aware 100%; Freshness: Ollama · qwen3:1.7b · Scope Aware 0%; Conflict Resolution: Ollama · qwen3:1.7b · Scope Aware 100%; Appropriate Use: Ollama · qwen3:1.7b · Scope Aware 100%
+						311 text Scores are percentages. A missing bar means that dimension was not tested for that condition.
+				312 container
+					313 heading Detected Failure Distribution, Value: 2
+						314 text Detected Failure Distribution
+					315 container Detected failure distribution. Accuracy: Ollama · qwen3:1.7b · Scope Aware 0; Freshness: Ollama · qwen3:1.7b · Scope Aware 3; Conflict Resolution: Ollama · qwen3:1.7b · Scope Aware 0; Appropriate Use: Ollama · qwen3:1.7b · Scope Aware 0
+						316 container Grouped failure bar chart. Accuracy: Ollama · qwen3:1.7b · Scope Aware 0; Freshness: Ollama · qwen3:1.7b · Scope Aware 3; Conflict Resolution: Ollama · qwen3:1.7b · Scope Aware 0; Appropriate Use: Ollama · qwen3:1.7b · Scope Aware 0
+						317 text Failure counts aggregate all completed runs in each condition; more repeated runs can increase the count.
+			192 table
+				193 row
+					194 cell
+						195 text Condition
+					196 cell
+						197 text Completed
+					198 cell
+						199 text Overall mean
+					200 cell
+						201 text Variation
+					202 cell
+						203 text Tests passed
+					204 cell
+						205 text Failures
+					206 cell
+						207 text Runtime
+				208 row
+					209 cell
+						210 text Ollama · qwen3:1.7b · Scope Aware
+					211 cell
+						212 text 3  /  3
+					213 cell
+						214 text 75%
+					215 cell
+						216 text 0%
+					217 cell
+						218 text 9  /  12
+					219 cell
+						220 text 3
+					221 cell
+						222 text 672 ms avg  ·  2,824 tokens
+			223 button (collapsed) Condition reports and detected failures, Secondary Actions: Expand
+				224 text Condition reports and detected failures
+			225 button (collapsed) Paired comparison signals, Secondary Actions: Expand
+				226 text Paired comparison signals
+			227 heading AI-reviewed pilot · Validation · CYCLE-11-3 · qwen3:1.7b, Value: 2
+				228 text AI-reviewed pilot · Validation · CYCLE-11-3 · qwen3:1.7b
+			229 container
+				230 button Download group CSV
+				231 button Download reproducibility bundle
+				232 button Download frozen artifact
+			233 text Shared tests
+			234 text 4
+			235 text Conditions complete
+			236 container
+				237 text 3  /  3
+			238 container
+				239 text Created  10/8/2026, 2:25:24 AM  · Suite: seed  42  ·  4  test budget
+			318 container Visual comparison charts
+				319 heading Visual Comparison, Value: 2
+					320 text Visual Comparison
+				321 container
+					322 heading Overall Memory Health by Condition, Value: 2
+						323 text Overall Memory Health by Condition
+					324 container Overall Memory Health comparison. Ollama · qwen3:1.7b · Scope Aware: 75% (± 0%)
+						325 container Horizontal bar chart. Ollama · qwen3:1.7b · Scope Aware: 75% (± 0%)
+						326 text Conditions are grouped by the same model and memory strategy. Untested scores are excluded.
+				327 container
+					328 heading Dimension Comparison, Value: 2
+						329 text Dimension Comparison
+					330 container Dimension comparison. Accuracy: Ollama · qwen3:1.7b · Scope Aware 100%; Freshness: Ollama · qwen3:1.7b · Scope Aware 0%; Conflict Resolution: Ollama · qwen3:1.7b · Scope Aware 100%; Appropriate Use: Ollama · qwen3:1.7b · Scope Aware 100%
+						331 container Grouped bar chart. Accuracy: Ollama · qwen3:1.7b · Scope Aware 100%; Freshness: Ollama · qwen3:1.7b · Scope Aware 0%; Conflict Resolution: Ollama · qwen3:1.7b · Scope Aware 100%; Appropriate Use: Ollama · qwen3:1.7b · Scope Aware 100%
+						332 text Scores are percentages. A missing bar means that dimension was not tested for that condition.
+				333 container
+					334 heading Detected Failure Distribution, Value: 2
+						335 text Detected Failure Distribution
+					336 container Detected failure distribution. Accuracy: Ollama · qwen3:1.7b · Scope Aware 0; Freshness: Ollama · qwen3:1.7b · Scope Aware 3; Conflict Resolution: Ollama · qwen3:1.7b · Scope Aware 0; Appropriate Use: Ollama · qwen3:1.7b · Scope Aware 0
+						337 container Grouped failure bar chart. Accuracy: Ollama · qwen3:1.7b · Scope Aware 0; Freshness: Ollama · qwen3:1.7b · Scope Aware 3; Conflict Resolution: Ollama · qwen3:1.7b · Scope Aware 0; Appropriate Use: Ollama · qwen3:1.7b · Scope Aware 0
+						338 text Failure counts aggregate all completed runs in each condition; more repeated runs can increase the count.
+			241 table
+				242 row
+					243 cell
+						244 text Condition
+					245 cell
+						246 text Completed
+					247 cell
+						248 text Overall mean
+					249 cell
+						250 text Variation
+					251 cell
+						252 text Tests passed
+					253 cell
+						254 text Failures
+					255 cell
+						256 text Runtime
+				257 row
+					258 cell
+						259 text Ollama · qwen3:1.7b · Scope Aware
+					260 cell
+						261 text 3  /  3
+					262 cell
+						263 text 75%
+					264 cell
+						265 text 0%
+					266 cell
+						267 text 9  /  12
+					268 cell
+						269 text 3
+					270 cell
+						271 text 589 ms avg  ·  2,811 tokens
+			272 button (collapsed) Condition reports and detected failures, Secondary Actions: Expand
+				273 text Condition reports and detected failures
+			274 button (collapsed) Paired comparison signals, Secondary Actions: Expand
+				275 text Paired comparison signals
+			16 container Experiment pages
+				17 button Previous experiments
+				18 text Page  2  of  17  ·  49  experiment groups
+				19 button Next experiments
+			20 container Research Workspace
+				21 heading Research Workspace, Value: 2, ID: research-validation-title
+					22 text Research Workspace
+				23 text Run permitted local benchmark files, check double-annotation readiness and validate Auditor outputs. Research uploads are request-scoped, except an explicitly authorised synthetic formal matrix that you choose to materialise as audit records.
+				24 container Local Benchmark Workspace
+					25 heading Local Benchmark Workspace, Value: 3, ID: benchmark-workspace-title
+						26 text Local Benchmark Workspace
+					27 text Use this deterministic policy baseline to compare memory strategies on a local, permitted source. It is not an official score for any external benchmark.
+					28 container
+						29 text Benchmark family
+						30 pop up button (collapsed, settable) Description: Benchmark family, Value: LongMemEval, Secondary Actions: Expand
+							31 menu
+								32 (selected) LongMemEval
+								33 LoCoMo
+								34 BEAM
+						35 text Long-horizon memory questions, including information updates and multi-session reasoning.
+						36 text Local benchmark JSON
+						37 button Local benchmark JSON
+						38 text local_sample.json
+						39 text Memory strategy
+						40 pop up button (collapsed, settable) Description: Benchmark memory strategy, Value: Strong rule-based, Secondary Actions: Expand
+							41 menu
+								42 No memory
+								43 Full context
+								44 Weak first-hit
+								45 (selected) Strong rule-based
+								46 Strong score-based
+								47 Scope-aware retrieval
+								48 Temporal & importance
+						49 text Runs use seed 42 and isolated in-memory records.
+						50 checkbox (settable, integer) Description: Benchmark source authorisation, Value: 1
+						51 text  I confirm that I am authorised to process this local source and comply with its licence, citation and privacy terms.
+						52 button Validate Benchmark Input
+						53 button Run Local Baseline
+					339 container
+						340 heading LongMemEval-compatible input validated, Value: 3
+							341 text LongMemEval -compatible input validated
+						342 text 2  cases ·  records Validated only; this service does not download, execute, or redistribute LongMemEval. Dimension hints:  appropriate_use, freshness
+				54 container Double-Annotation Pilot
+					55 heading Double-Annotation Pilot, Value: 3, ID: pilot-workspace-title
+						56 text Double-Annotation Pilot
+					57 text Upload one de-identified package containing two independent label sets and adjudications. The analysis shows coverage, disagreement resolution, Cohen’s κ and formal-study readiness.
+					58 container
+						59 text Pilot package JSON
+						60 button Pilot package JSON
+						61 text No file selected
+						62 button (disabled) Analyse Pilot Package
+				63 container Auditor Validity Checks
+					64 heading Auditor Validity Checks, Value: 3, ID: validity-workspace-title
+						65 text Auditor Validity Checks
+					66 text Validate a frozen human-label dataset, then optionally compare it against prediction data. These metrics evaluate the Auditor, not a benchmark target.
+					67 container
+						68 text Annotation dataset JSON
+						69 button Annotation dataset JSON
+						70 text No file selected
+						71 text Prediction set JSON
+						72 button Prediction set JSON
+						73 text No file selected
+						74 button (disabled) Validate Research Files
+				75 container Formal Synthetic Pilot Matrix
+					76 heading Formal Synthetic Pilot Matrix, Value: 3, ID: formal-matrix-title
+						77 text Formal Synthetic Pilot Matrix
+					78 text Create one frozen comparison group per synthetic scenario. Every selected strategy receives the same human-labelled test suite.
+					79 container
+						80 text Target runtime
+						81 pop up button (collapsed, settable) Description: Formal matrix target runtime, Value: OpenRouter, Secondary Actions: Expand
+							82 menu
+								83 (selected) OpenRouter
+								84 Deterministic rule-based baseline
+						85 text Target model
+						86 text field (settable) Description: Formal matrix target model, Value: google/gemini-2.5-flash-lite
+						87 container Memory strategies
+							88 text Memory strategies
+							89 checkbox (settable, integer) Description: no memory, Value: 1
+							90 checkbox (settable, integer) Description: full context, Value: 1
+							91 checkbox (settable, integer) Description: weak first hit, Value: 1
+							92 checkbox (settable, integer) Description: strong rule based, Value: 1
+							93 checkbox (settable, integer) Description: strong score based, Value: 1
+							94 checkbox (settable, integer) Description: scope aware, Value: 1
+							95 checkbox (settable, integer) Description: temporal importance, Value: 1
+						96 checkbox (settable, integer) Description: Synthetic data confirmation, Value: 0
+						97 text  I confirm that this is authorised synthetic data and may be materialised as operational audit records.
+						98 button (disabled) Create Formal Matrix
+
+The focused UI element is 1 AXWebArea localhost:5173/experiments

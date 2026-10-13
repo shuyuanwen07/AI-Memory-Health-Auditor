@@ -36,5 +36,5 @@ class TargetMemoryStore(ABC):
     @abstractmethod
     def retrieve(
         self, run_id: str, conversation: Conversation, test: TestCase,
-        strategy: MemoryStrategy,
+        strategy: MemoryStrategy, *, retrieval_mode: str = "fixed",
     ) -> TargetMemoryRetrievalResult: ...

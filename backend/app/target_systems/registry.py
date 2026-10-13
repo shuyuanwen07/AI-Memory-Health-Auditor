@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 from app.schemas import AuditRun, TargetSystemAdapterKind
 from app.target_systems.controlled import ControlledTargetSystemAdapter
 from app.target_systems.interfaces import TargetSystemAdapter
+from app.target_systems.external_http import ExternalHttpTargetSystemAdapter
 
 
 def get_target_system_adapter(db: Session, audit: AuditRun) -> TargetSystemAdapter:
@@ -16,6 +17,8 @@ def get_target_system_adapter(db: Session, audit: AuditRun) -> TargetSystemAdapt
     adapter = TargetSystemAdapterKind(audit.target_system_adapter)
     if adapter == TargetSystemAdapterKind.CONTROLLED_MEMORY:
         return ControlledTargetSystemAdapter(db, audit)
+    if adapter == TargetSystemAdapterKind.EXTERNAL_HTTP:
+        return ExternalHttpTargetSystemAdapter(db, audit)
     # Keeping the guard makes an accidentally persisted unsupported adapter a
     # safe configuration error instead of silently changing the target.
     raise ValueError(f"No target system adapter is registered for {adapter.value}.")

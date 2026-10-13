@@ -3,9 +3,10 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
-from app.schemas.domain import Dimension, MemoryStrategy
+from app.schemas.domain import Dimension, MemoryStrategy, TargetProvider, ExecutionMetadata
+from app.schemas.target_profile import TargetMemoryProfile
 
 
 class BenchmarkMessage(BaseModel):
@@ -13,6 +14,8 @@ class BenchmarkMessage(BaseModel):
     role: str
     content: str = Field(min_length=1)
     timestamp: datetime
+    source_session_id: str | None = None
+    timestamp_basis: str = "message_or_deterministic_fallback"
 
 
 class LongMemEvalCase(BaseModel):
@@ -23,12 +26,18 @@ class LongMemEvalCase(BaseModel):
     category: str
     dimension_hint: str | None = None
     source_metadata: dict = Field(default_factory=dict)
+    question_timestamp: datetime | None = None
 
 
 class LongMemEvalImportRequest(BaseModel):
-    """Raw JSON from a locally obtained, licence-compliant source file."""
+    """Raw JSON from a locally obtained, licence-compliant source file.
+
+    Even validation parses conversation data, so callers must explicitly
+    authorise that processing before the adapter examines the payload.
+    """
 
     payload: dict | list
+    source_authorised: bool = False
 
 
 class LongMemEvalImportReport(BaseModel):
@@ -44,6 +53,16 @@ class LongMemEvalValidationResponse(BaseModel):
     report: LongMemEvalImportReport
     # Small metadata previews, not full source conversations.
     cases: list[LongMemEvalCase]
+
+
+class BenchmarkDatasetProvenance(BaseModel):
+    """Caller-declared source metadata for an authorised local benchmark subset."""
+
+    model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
+
+    dataset_version: str = Field(min_length=1, max_length=120)
+    license: str = Field(min_length=1, max_length=1000)
+    citation: str = Field(min_length=1, max_length=2000)
 
 
 class LongMemEvalRunRequest(BaseModel):
@@ -148,8 +167,12 @@ class LongMemEvalRunResponse(BaseModel):
 # deliberately small local compatibility boundary; they do not claim complete
 # parser coverage or reproduce an upstream scorer.
 class LocalCompatibleImportRequest(BaseModel):
-    """Caller-supplied JSON for a permitted local LoCoMo/BEAM-style source."""
+    """Caller-supplied JSON for a permitted local LoCoMo/BEAM-style source.
+
+    Validation is data processing and requires an explicit source declaration.
+    """
     payload: dict | list
+    source_authorised: bool = False
 
 
 class LocalCompatibleRunRequest(LocalCompatibleImportRequest):
@@ -201,3 +224,74 @@ class LocalCompatibleRunResponse(BaseModel):
     overall_percentage: float | None = None
     mean_token_f1: float | None = None
     mean_latency_ms: float | None = None
+
+
+class LiveBenchmarkRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+    payload: dict | list
+    source_authorised: bool = False
+    source_label: str | None = Field(default=None, max_length=160)
+    dataset_provenance: BenchmarkDatasetProvenance
+    random_seed: int = 42
+    provider: TargetProvider = TargetProvider.OLLAMA
+    model: str = Field(default="qwen3:1.7b", min_length=1, max_length=100)
+    strategies: list[MemoryStrategy] = Field(default_factory=lambda: [MemoryStrategy.WEAK_FIRST_HIT, MemoryStrategy.STRONG_RULE_BASED], min_length=1, max_length=4)
+    temperature: float = Field(default=0, ge=0, le=2)
+    target_memory_capacity: int = Field(default=50, ge=1, le=500)
+    target_memory_profile: TargetMemoryProfile = Field(default_factory=TargetMemoryProfile)
+    max_cases: int = Field(default=8, ge=1, le=20)
+    include_mem0: bool = False
+    native_repair_comparison: bool = False
+
+
+class LiveBenchmarkCaseResult(BaseModel):
+    case_id: str
+    category: str
+    question: str
+    expected_answer: str
+    response_text: str
+    lexical_match: bool
+    token_f1: float
+    execution_metadata: ExecutionMetadata
+    retrieved_memory_ids: list[str]
+    supplied_memory_ids: list[str]
+    stored_memory_count: int
+    retained_memory_count: int
+    message_count: int
+    assistant_message_count: int
+    memory_evidence: list[dict] = Field(default_factory=list)
+    ranking_evidence: list[dict] = Field(default_factory=list)
+    memory_preparation: dict = Field(default_factory=dict)
+    intervention: dict = Field(default_factory=dict)
+
+
+class LiveBenchmarkCondition(BaseModel):
+    strategy: str
+    cases: list[LiveBenchmarkCaseResult]
+    lexical_matches: int
+    total: int
+    percentage: float
+
+
+class LiveBenchmarkResponse(BaseModel):
+    run_id: str
+    source_fingerprint_sha256: str
+    configuration_fingerprint_sha256: str
+    dataset_provenance: BenchmarkDatasetProvenance | None = None
+    runner_version: str
+    adapter_version: str
+    adapter_fingerprint_sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
+    compatibility_limitations: list[str] = Field(default_factory=list)
+    target_adapter_version: str
+    writer_version: str
+    reader_configuration: str = "strong"
+    provider: TargetProvider
+    model: str
+    temperature: float
+    random_seed: int | None = None
+    audit_runtime_signature: dict[str, str] | None = None
+    seed_control: str
+    target_memory_capacity: int
+    target_memory_profile: TargetMemoryProfile
+    conditions: list[LiveBenchmarkCondition]
+    notice: str

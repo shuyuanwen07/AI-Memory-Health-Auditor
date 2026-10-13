@@ -1,0 +1,158 @@
+Browser tab: 10, Title: "localhost:5173/new-audit", URL: "http://localhost:5173/new-audit".
+0 AXWebArea localhost:5173/new-audit
+	1 container root
+		2 container
+			3 link Description: Memory Auditor, Value: localhost:5173/
+			4 container Primary navigation
+				5 link Description: Dashboard, Value: localhost:5173/
+				6 link Description: New audit, Value: localhost:5173/new-audit
+				7 link Description: History, Value: localhost:5173/history
+				8 link Description: Before & after, Value: localhost:5173/compare
+				9 link Description: Experiments, Value: localhost:5173/experiments
+				10 link Description: About, Value: localhost:5173/about
+		11 container
+			12 content list Audit progress
+				13 container
+					14 text 1 Conversation
+				15 container
+					16 text 2 Ground Truth
+				17 container
+					18 text 3 Configuration
+				19 container
+					20 text 4 Audit
+				21 container
+					22 text 5 Results
+			23 heading Memory Health Report, Value: 1
+				24 text Memory Health Report
+			25 container
+				26 button (expanded) Local Qwen 3 1.7B (Ollama) · Weak First-Hit detailed report, Secondary Actions: Collapse
+					27 text Local Qwen 3 1.7B (Ollama) · Weak First-Hit
+					28 text  detailed report
+				29 container Memory Health report details
+					30 text OVERALL MEMORY HEALTH
+					31 heading 0%, Value: 2
+						32 text 0%
+					33 text 0 of 2 tests passed
+					34 heading Results at a glance, Value: 2
+						35 text Results at a glance
+					36 text Memory behaviour needs attention across 2 tested dimensions.
+					37 button Download CSV
+					38 container
+						39 text Score coverage:  2  of  4  Memory Health dimensions were tested. Untested dimensions are excluded from the macro-average.
+					40 container
+						41 heading Accuracy, Value: 3
+							42 text Accuracy
+						43 text Not tested No completed tests in this dimension
+					44 container
+						45 heading Freshness, Value: 3
+							46 text Freshness
+						47 text 0% 0 of 1 tests passed
+					48 container
+						49 heading Conflict Resolution, Value: 3
+							50 text Conflict Resolution
+						51 text 0% 0 of 1 tests passed
+					52 container
+						53 heading Appropriate Use, Value: 3
+							54 text Appropriate Use
+						55 text Not tested No completed tests in this dimension
+					56 container Memory Health profile
+						57 heading Memory Health Profile, Value: 2
+							58 text Memory Health Profile
+						59 container Memory Health profile. Accuracy: Not tested; Freshness: 0%; Conflict Resolution: 0%; Appropriate Use: Not tested
+							60 container Radar chart: Accuracy: Not tested; Freshness: 0%; Conflict Resolution: 0%; Appropriate Use: Not tested
+							61 text Accuracy: Not tested; Freshness: 0%; Conflict Resolution: 0%; Appropriate Use: Not tested
+					62 container Retrieval evidence quality
+						63 heading Retrieval Evidence Quality, Value: 2
+							64 text Retrieval Evidence Quality
+						65 container
+							66 text Evidence recall @ k 50% Required source evidence retrieved
+						67 container
+							68 text Evidence precision @ k 100% Retrieved source evidence that was relevant
+						69 container
+							70 text Update evidence recall 50% Freshness-test evidence retrieved
+						71 container
+							72 text Conflict evidence coverage 50% Conflict-test evidence retrieved
+						73 container
+							74 text Unnecessary retrieval 0% Lower is better
+					75 heading Detected Memory Failures, Value: 2
+						76 text Detected Memory Failures
+					77 text 2  detected
+					78 button (collapsed) Secondary Actions: Expand, Freshness Failure: Failed freshness: expected behaviour was 'The backend now uses PostgreSQL.'. The response did not demonstrate: postgresql. Supporting memories were checked.
+						79 text Freshness
+						80 text Failure: 
+						81 text Failed freshness: expected behaviour was 'The backend now uses PostgreSQL.'. The response did not demonstrate: postgresql. Supporting memories were checked.
+					96 container
+						97 button (expanded) Secondary Actions: Collapse, Conflict Resolution Failure: Failed: the answer asserts a competing requirement or starts with a contradictory answer. Failed conflict_resolution: expected behaviour was 'The backend now uses PostgreSQL.'. The response did not demonstrate: postgresql. Supporting memories were checked. A correct value was accompanied by an invented conflict between unrelated topics.
+							98 text Conflict Resolution
+							99 text Failure: 
+							100 text Failed: the answer asserts a competing requirement or starts with a contradictory answer. Failed conflict_resolution: expected behaviour was 'The backend now uses PostgreSQL.'. The response did not demonstrate: postgresql. Supporting memories were checked. A correct value was accompanied by an invented conflict between unrelated topics.
+						101 text Why this failed
+						102 text Failed: the answer asserts a competing requirement or starts with a contradictory answer. Failed conflict_resolution: expected behaviour was 'The backend now uses PostgreSQL.'. The response did not demonstrate: postgresql. Supporting memories were checked. A correct value was accompanied by an invented conflict between unrelated topics. Behavioural test
+						103 text The user's earlier and later memories about database technology conflict. Which concrete value should be used now? State it first, then explain in one sentence how the later update resolves the conflict. Expected behaviour
+						104 text Explain that the later record takes precedence: The backend now uses PostgreSQL. Target AI response
+						105 text The concrete value to use is **MySQL 8.0**. MySQL 8.0 is the later version mentioned in the memory policy, which takes precedence over any earlier records. The later update resolves the conflict by ensuring that the most recent and accurate information is used, aligning with the memory policy requirement to use only the single retrieved record from the later update. Ground-truth evidence
+						106 content list
+							107 container
+								108 AXListMarker • 
+								109 text Supporting memory  1 I used MySQL before
+							110 container
+								111 AXListMarker • 
+								112 text Supporting memory  2 The backend now uses PostgreSQL
+						113 text Evaluator:  Rule-based assessment
+					86 container Evaluator calibration review
+						87 heading Evaluator Calibration Review, Value: 2
+							88 text Evaluator Calibration Review
+						89 text Independent mode is blind: review the question and response without seeing the automated verdict or other reviewers. Your label is calibration evidence and never overwrites the original audit result.
+						90 button Review Evaluations
+				91 container Target agent memory trace
+					92 heading Memory retrieval and model input, Value: 2
+						93 text Memory retrieval and model input
+					114 container
+						115 text Strategy:  weak first hit  · Memory updates:  update aware consolidation  · Up to  50  records were retained.
+					116 heading Stored memories, Value: 3
+						117 text Stored memories
+					118 container
+						119 text Memory record  1 Superseded I used MySQL before Scope:  episodic  · recorded from  1  conversation message
+					120 container
+						121 text Memory record  2 Active The backend now uses PostgreSQL Scope:  profile  · recorded from  1  conversation message Related memory changes:  update
+					122 heading Memory activity, Value: 3
+						123 text Memory activity
+					124 content list
+						125 container
+							126 AXListMarker • 
+							127 text ingested  ·  10/8/2026, 4:06:51 AM
+						128 container
+							129 AXListMarker • 
+							130 text written  ·  10/8/2026, 4:06:51 AM
+						131 container
+							132 AXListMarker • 
+							133 text written  ·  10/8/2026, 4:06:51 AM
+						134 container
+							135 AXListMarker • 
+							136 text updated  ·  10/8/2026, 4:06:51 AM
+						137 container
+							138 AXListMarker • 
+							139 text retrieved  ·  10/8/2026, 4:06:51 AM
+						140 container
+							141 AXListMarker • 
+							142 text retrieved  ·  10/8/2026, 4:06:53 AM
+					143 heading What was retrieved and sent, Value: 3
+						144 text What was retrieved and sent
+					145 text Retrieved records can be filtered before sending. Sending a record does not prove that the model relied on it.
+					146 button (collapsed) Retrieval 1 · 1 records retrieved · 1 supplied to target, Secondary Actions: Expand
+						147 text Retrieval 
+						148 text 1
+						149 text  · 
+						150 text 1
+						151 text  records retrieved · 
+						152 text 1 supplied to target
+					153 button (collapsed) Retrieval 2 · 1 records retrieved · 1 supplied to target, Secondary Actions: Expand
+						154 text Retrieval 
+						155 text 2
+						156 text  · 
+						157 text 1
+						158 text  records retrieved · 
+						159 text 1 supplied to target
+			95 button Start New Audit
+
+The focused UI element is 0 AXWebArea localhost:5173/new-audit

@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session
 
 from app.models import MemoryModel, TargetAgentMemoryModel, TargetAgentRetrievalModel, TestCaseModel
 from app.schemas import Dimension, RetrievalQualityScores
+from app.services.evidence_correspondence import evidence_units as _evidence_units
 
 
 def _average(values: list[float]) -> float | None:
@@ -16,19 +17,19 @@ class RetrievalQualityService:
     """Measure retrieved source evidence against each test's supporting memory.
 
     Ground-truth and target-store records intentionally use different IDs.  We
-    therefore compare the source-message evidence attached to both sides.  It
-    is a transparent evidence proxy, not a claim of semantic retrieval recall.
+    therefore compare source-message IDs paired with normalised memory text.
+    This measures exact recorded evidence, not semantic paraphrase recall.
     """
 
     def calculate(self, run_id: str, db: Session) -> RetrievalQualityScores:
         tests = db.scalars(select(TestCaseModel).where(TestCaseModel.run_id == run_id)).all()
         memory_ids = {memory_id for test in tests for memory_id in (test.supporting_memory_ids or [])}
         ground_truth = {
-            row.id: set(row.source_message_ids or [])
+            row.id: _evidence_units(row)
             for row in db.scalars(select(MemoryModel).where(MemoryModel.id.in_(memory_ids))).all()
         }
         target_records = {
-            row.id: set(row.source_message_ids or [])
+            row.id: _evidence_units(row)
             for row in db.scalars(select(TargetAgentMemoryModel).where(TargetAgentMemoryModel.run_id == run_id)).all()
         }
         retrievals_by_test: dict[str, list[TargetAgentRetrievalModel]] = defaultdict(list)
@@ -39,17 +40,15 @@ class RetrievalQualityService:
         precisions: list[float] = []
         freshness_recalls: list[float] = []
         conflict_recalls: list[float] = []
+        unlinked_attempts = 0
         for test in tests:
             rows = retrievals_by_test.get(test.id, [])
             # A failed cloud call can create a trace before a response exists.
             # Only the trace linked to the durable final response is eligible
-            # for scoring. Pre-0016 rows retain a deterministic fallback so
-            # historical audits remain readable.
-            final_rows = [row for row in rows if row.final_response_id]
-            if final_rows:
-                rows = final_rows
-            elif rows:
-                rows = [max(rows, key=lambda row: (row.created_at, row.id))]
+            # for scoring. Unlinked historical traces remain inspectable,
+            # but absence of attribution cannot establish a completed call.
+            unlinked_attempts += sum(not row.final_response_id for row in rows)
+            rows = [row for row in rows if row.final_response_id]
             if not rows:
                 continue
             expected = set().union(*(ground_truth.get(item, set()) for item in (test.supporting_memory_ids or [])))
@@ -70,6 +69,7 @@ class RetrievalQualityService:
                 conflict_recalls.append(recall)
         return RetrievalQualityScores(
             tests_measured=len(recalls),
+            unlinked_attempts_excluded=unlinked_attempts,
             evidence_recall_at_k=_average(recalls),
             evidence_precision_at_k=_average(precisions),
             update_evidence_recall=_average(freshness_recalls),

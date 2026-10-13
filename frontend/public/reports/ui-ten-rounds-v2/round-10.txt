@@ -1,0 +1,315 @@
+Browser tab: 6, Title: "localhost:5173/history", URL: "http://localhost:5173/history".
+1 AXWebArea localhost:5173/history
+	2 container root
+		3 container
+			4 link Description: Memory Auditor, Value: localhost:5173/
+			5 container Primary navigation
+				6 link Description: Dashboard, Value: localhost:5173/
+				7 link Description: New audit, Value: localhost:5173/new-audit
+				8 link Description: History, Value: localhost:5173/history
+				9 link Description: Before & after, Value: localhost:5173/compare
+				10 link Description: Experiments, Value: localhost:5173/experiments
+				11 link Description: About, Value: localhost:5173/about
+		12 container
+			13 heading Audit History, Value: 1
+				14 text Audit History
+			15 container Audit history filters
+				16 container
+					17 text Find an audit
+					18 text field (settable) Search audit history
+				19 container
+					20 text Result
+					21 pop up button (collapsed, settable) Description: Filter by status, Value: All results, Secondary Actions: Expand
+						22 menu
+							23 (selected) All results
+							24 Completed
+							25 Tests generated
+				26 container
+					27 text Model provider
+					28 pop up button (collapsed, settable) Description: Filter by target provider, Value: All providers, Secondary Actions: Expand
+						29 menu
+							30 (selected) All providers
+							31 Local Ollama
+							32 OpenRouter
+							33 Rule-based baseline
+				34 container
+					35 text Memory approach
+					36 pop up button (collapsed, settable) Description: Filter by memory strategy, Value: All approaches, Secondary Actions: Expand
+						37 menu
+							38 (selected) All approaches
+							39 weak first hit
+							40 scope aware
+							41 strong score based
+							42 strong rule based
+							43 full context
+							44 no memory
+			45 text Showing  363  of  363  audit run s .
+			46 container Audit history
+				47 container
+					48 text Local Ollama • Completed Oct 8, 2026, 3:14 AM
+					49 heading Audit 363 · Weak First Hit, Value: 2
+						50 text Audit 363  ·  Weak First Hit
+					51 text qwen3:1.7b  · Test budget: up to  4  questions
+					52 button (collapsed) Weak Memory · weak first hit, Secondary Actions: Expand
+						53 text Weak Memory
+						54 text  · 
+						55 text weak first hit
+					56 text Completed
+					57 link Description: View report, Value: localhost:5173/audits/RUNC3168B73E4E440279FE409736B15A954
+					58 button (collapsed) Dates and saved data, Secondary Actions: Expand
+						59 text Dates and saved data
+				60 container
+					61 text Local Ollama • Started Oct 8, 2026, 3:10 AM
+					62 heading Audit 362 · Weak First Hit, Value: 2
+						63 text Audit 362  ·  Weak First Hit
+					64 text qwen3:1.7b  · Test budget: up to  4  questions
+					65 button (collapsed) Weak Memory · weak first hit, Secondary Actions: Expand
+						66 text Weak Memory
+						67 text  · 
+						68 text weak first hit
+					69 text Tests generated
+					70 button View recovery plan
+					71 text Results are available after completion.
+					72 button (collapsed) Dates and saved data, Secondary Actions: Expand
+						73 text Dates and saved data
+				74 container
+					75 text Local Ollama • Completed Oct 8, 2026, 2:40 AM
+					76 heading Audit 361 · Weak First Hit, Value: 2
+						77 text Audit 361  ·  Weak First Hit
+					78 text qwen3:1.7b  · Test budget: up to  4  questions
+					79 button (collapsed) Weak Memory · weak first hit, Secondary Actions: Expand
+						80 text Weak Memory
+						81 text  · 
+						82 text weak first hit
+					83 text Completed
+					84 link Description: View report, Value: localhost:5173/audits/RUN1E6393C984C0485E83D7A14B98E72130
+					85 button (collapsed) Dates and saved data, Secondary Actions: Expand
+						86 text Dates and saved data
+				87 container
+					88 text Local Ollama • Completed Oct 8, 2026, 2:27 AM
+					89 heading Audit 360 · Scope Aware, Value: 2
+						90 text Audit 360  ·  Scope Aware
+					91 text qwen3:1.7b  · Test budget: up to  4  questions
+					92 button (collapsed) Strong Memory · scope aware, Secondary Actions: Expand
+						93 text Strong Memory
+						94 text  · 
+						95 text scope aware
+					96 text Completed
+					97 link Description: View report, Value: localhost:5173/audits/RUN54665C2F8271CE2668621F89B21888
+					98 button (collapsed) Dates and saved data, Secondary Actions: Expand
+						99 text Dates and saved data
+				100 container
+					101 text Local Ollama • Completed Oct 8, 2026, 2:27 AM
+					102 heading Audit 359 · Scope Aware, Value: 2
+						103 text Audit 359  ·  Scope Aware
+					104 text qwen3:1.7b  · Test budget: up to  4  questions
+					105 button (collapsed) Strong Memory · scope aware, Secondary Actions: Expand
+						106 text Strong Memory
+						107 text  · 
+						108 text scope aware
+					109 text Completed
+					110 link Description: View report, Value: localhost:5173/audits/RUN44C0AD9D89ACEA3F83925D1C5078D3
+					111 button (collapsed) Dates and saved data, Secondary Actions: Expand
+						112 text Dates and saved data
+				113 container
+					114 text Local Ollama • Completed Oct 8, 2026, 2:27 AM
+					115 heading Audit 358 · Strong Score Based, Value: 2
+						116 text Audit 358  ·  Strong Score Based
+					117 text qwen3:1.7b  · Test budget: up to  4  questions
+					118 button (collapsed) Strong Memory · strong score based, Secondary Actions: Expand
+						119 text Strong Memory
+						120 text  · 
+						121 text strong score based
+					122 text Completed
+					123 link Description: View report, Value: localhost:5173/audits/RUN61E93C077D5E0D99C594A632B53459
+					124 button (collapsed) Dates and saved data, Secondary Actions: Expand
+						125 text Dates and saved data
+				126 container
+					127 text Local Ollama • Completed Oct 8, 2026, 2:27 AM
+					128 heading Audit 357 · Strong Score Based, Value: 2
+						129 text Audit 357  ·  Strong Score Based
+					130 text qwen3:1.7b  · Test budget: up to  4  questions
+					131 button (collapsed) Strong Memory · strong score based, Secondary Actions: Expand
+						132 text Strong Memory
+						133 text  · 
+						134 text strong score based
+					135 text Completed
+					136 link Description: View report, Value: localhost:5173/audits/RUN5DC4627FD24AE32AD3B2C58D70B989
+					137 button (collapsed) Dates and saved data, Secondary Actions: Expand
+						138 text Dates and saved data
+				139 container
+					140 text Local Ollama • Completed Oct 8, 2026, 2:27 AM
+					141 heading Audit 356 · Strong Rule Based, Value: 2
+						142 text Audit 356  ·  Strong Rule Based
+					143 text qwen3:1.7b  · Test budget: up to  4  questions
+					144 button (collapsed) Strong Memory · strong rule based, Secondary Actions: Expand
+						145 text Strong Memory
+						146 text  · 
+						147 text strong rule based
+					148 text Completed
+					149 link Description: View report, Value: localhost:5173/audits/RUN8B41B223221E72081F47A12EBCABE7
+					150 button (collapsed) Dates and saved data, Secondary Actions: Expand
+						151 text Dates and saved data
+				152 container
+					153 text Local Ollama • Completed Oct 8, 2026, 2:27 AM
+					154 heading Audit 355 · Strong Rule Based, Value: 2
+						155 text Audit 355  ·  Strong Rule Based
+					156 text qwen3:1.7b  · Test budget: up to  4  questions
+					157 button (collapsed) Strong Memory · strong rule based, Secondary Actions: Expand
+						158 text Strong Memory
+						159 text  · 
+						160 text strong rule based
+					161 text Completed
+					162 link Description: View report, Value: localhost:5173/audits/RUN89F286125D1DB154A52126BCC00DD1
+					163 button (collapsed) Dates and saved data, Secondary Actions: Expand
+						164 text Dates and saved data
+				165 container
+					166 text Local Ollama • Completed Oct 8, 2026, 2:25 AM
+					167 heading Audit 354 · Scope Aware, Value: 2
+						168 text Audit 354  ·  Scope Aware
+					169 text qwen3:1.7b  · Test budget: up to  4  questions
+					170 button (collapsed) Strong Memory · scope aware, Secondary Actions: Expand
+						171 text Strong Memory
+						172 text  · 
+						173 text scope aware
+					174 text Completed
+					175 link Description: View report, Value: localhost:5173/audits/RUN955255CA325756B1580D3049D57701
+					176 button (collapsed) Dates and saved data, Secondary Actions: Expand
+						177 text Dates and saved data
+				178 container
+					179 text Local Ollama • Completed Oct 8, 2026, 2:25 AM
+					180 heading Audit 353 · Scope Aware, Value: 2
+						181 text Audit 353  ·  Scope Aware
+					182 text qwen3:1.7b  · Test budget: up to  4  questions
+					183 button (collapsed) Strong Memory · scope aware, Secondary Actions: Expand
+						184 text Strong Memory
+						185 text  · 
+						186 text scope aware
+					187 text Completed
+					188 link Description: View report, Value: localhost:5173/audits/RUN590DBA5A64F48E8FFF7435B1B47EDD
+					189 button (collapsed) Dates and saved data, Secondary Actions: Expand
+						190 text Dates and saved data
+				191 container
+					192 text Local Ollama • Completed Oct 8, 2026, 2:25 AM
+					193 heading Audit 352 · Scope Aware, Value: 2
+						194 text Audit 352  ·  Scope Aware
+					195 text qwen3:1.7b  · Test budget: up to  4  questions
+					196 button (collapsed) Strong Memory · scope aware, Secondary Actions: Expand
+						197 text Strong Memory
+						198 text  · 
+						199 text scope aware
+					200 text Completed
+					201 link Description: View report, Value: localhost:5173/audits/RUN5319EB2C2A5C4D5F27FDE110CC6528
+					202 button (collapsed) Dates and saved data, Secondary Actions: Expand
+						203 text Dates and saved data
+				204 container
+					205 text Local Ollama • Completed Oct 8, 2026, 2:25 AM
+					206 heading Audit 351 · Scope Aware, Value: 2
+						207 text Audit 351  ·  Scope Aware
+					208 text qwen3:1.7b  · Test budget: up to  4  questions
+					209 button (collapsed) Strong Memory · scope aware, Secondary Actions: Expand
+						210 text Strong Memory
+						211 text  · 
+						212 text scope aware
+					213 text Completed
+					214 link Description: View report, Value: localhost:5173/audits/RUN22484208F63919EEDE76B65FC094DD
+					215 button (collapsed) Dates and saved data, Secondary Actions: Expand
+						216 text Dates and saved data
+				217 container
+					218 text Local Ollama • Completed Oct 8, 2026, 2:25 AM
+					219 heading Audit 350 · Scope Aware, Value: 2
+						220 text Audit 350  ·  Scope Aware
+					221 text qwen3:1.7b  · Test budget: up to  4  questions
+					222 button (collapsed) Strong Memory · scope aware, Secondary Actions: Expand
+						223 text Strong Memory
+						224 text  · 
+						225 text scope aware
+					226 text Completed
+					227 link Description: View report, Value: localhost:5173/audits/RUN8F1D2229A8291CF82A0158AE5A185C
+					228 button (collapsed) Dates and saved data, Secondary Actions: Expand
+						229 text Dates and saved data
+				230 container
+					231 text Local Ollama • Completed Oct 8, 2026, 2:25 AM
+					232 heading Audit 349 · Scope Aware, Value: 2
+						233 text Audit 349  ·  Scope Aware
+					234 text qwen3:1.7b  · Test budget: up to  4  questions
+					235 button (collapsed) Strong Memory · scope aware, Secondary Actions: Expand
+						236 text Strong Memory
+						237 text  · 
+						238 text scope aware
+					239 text Completed
+					240 link Description: View report, Value: localhost:5173/audits/RUN0E3D808BE7FE2BC91680B184D4F8FA
+					241 button (collapsed) Dates and saved data, Secondary Actions: Expand
+						242 text Dates and saved data
+				243 container
+					244 text Local Ollama • Completed Oct 8, 2026, 2:25 AM
+					245 heading Audit 348 · Scope Aware, Value: 2
+						246 text Audit 348  ·  Scope Aware
+					247 text qwen3:1.7b  · Test budget: up to  4  questions
+					248 button (collapsed) Strong Memory · scope aware, Secondary Actions: Expand
+						249 text Strong Memory
+						250 text  · 
+						251 text scope aware
+					252 text Completed
+					253 link Description: View report, Value: localhost:5173/audits/RUNE318D505C8380EEB02B13BC2CB911B
+					254 button (collapsed) Dates and saved data, Secondary Actions: Expand
+						255 text Dates and saved data
+				256 container
+					257 text Local Ollama • Completed Oct 8, 2026, 2:25 AM
+					258 heading Audit 347 · Scope Aware, Value: 2
+						259 text Audit 347  ·  Scope Aware
+					260 text qwen3:1.7b  · Test budget: up to  4  questions
+					261 button (collapsed) Strong Memory · scope aware, Secondary Actions: Expand
+						262 text Strong Memory
+						263 text  · 
+						264 text scope aware
+					265 text Completed
+					266 link Description: View report, Value: localhost:5173/audits/RUN3871A6E9A0305AC7443F642817FED5
+					267 button (collapsed) Dates and saved data, Secondary Actions: Expand
+						268 text Dates and saved data
+				269 container
+					270 text Local Ollama • Completed Oct 8, 2026, 2:25 AM
+					271 heading Audit 346 · Scope Aware, Value: 2
+						272 text Audit 346  ·  Scope Aware
+					273 text qwen3:1.7b  · Test budget: up to  4  questions
+					274 button (collapsed) Strong Memory · scope aware, Secondary Actions: Expand
+						275 text Strong Memory
+						276 text  · 
+						277 text scope aware
+					278 text Completed
+					279 link Description: View report, Value: localhost:5173/audits/RUN4879C999183EA953DB854FDEF80B35
+					280 button (collapsed) Dates and saved data, Secondary Actions: Expand
+						281 text Dates and saved data
+				282 container
+					283 text Local Ollama • Completed Oct 8, 2026, 2:25 AM
+					284 heading Audit 345 · Scope Aware, Value: 2
+						285 text Audit 345  ·  Scope Aware
+					286 text qwen3:1.7b  · Test budget: up to  4  questions
+					287 button (collapsed) Strong Memory · scope aware, Secondary Actions: Expand
+						288 text Strong Memory
+						289 text  · 
+						290 text scope aware
+					291 text Completed
+					292 link Description: View report, Value: localhost:5173/audits/RUN851796703FF8C1DFC65B4065BF1D72
+					293 button (collapsed) Dates and saved data, Secondary Actions: Expand
+						294 text Dates and saved data
+				295 container
+					296 text Local Ollama • Completed Oct 8, 2026, 2:25 AM
+					297 heading Audit 344 · Scope Aware, Value: 2
+						298 text Audit 344  ·  Scope Aware
+					299 text qwen3:1.7b  · Test budget: up to  4  questions
+					300 button (collapsed) Strong Memory · scope aware, Secondary Actions: Expand
+						301 text Strong Memory
+						302 text  · 
+						303 text scope aware
+					304 text Completed
+					305 link Description: View report, Value: localhost:5173/audits/RUNC0E47AA26FADE231DF94BC6439E998
+					306 button (collapsed) Dates and saved data, Secondary Actions: Expand
+						307 text Dates and saved data
+			308 container Audit history pages
+				309 button (disabled) Previous page
+				310 container
+					311 text Page  1  of  19  ·  1 – 20  of  363  matching audits
+				312 button Next page
+
+The focused UI element is 8 link Description: History, URL: localhost:5173/history

@@ -8,7 +8,7 @@ from datetime import datetime
 from pydantic import BaseModel, Field, model_validator
 
 from app.schemas.annotation import AnnotationDataset, TestQualityLabel
-from app.schemas.domain import RelationshipType
+from app.schemas.domain import Dimension, RelationshipType
 
 
 class AnnotationImportRequest(BaseModel):
@@ -32,6 +32,7 @@ class AnnotationImportReport(BaseModel):
     gold_evaluations: int
     created_at: datetime
     validation_status: str = "valid"
+    data_origin: str | None = None
 
 
 class MemoryPrediction(BaseModel):
@@ -60,7 +61,14 @@ class EvaluatorPrediction(BaseModel):
     conversation_id: str
     response_id: str
     test_id: str
-    passed: bool
+    passed: bool | None
+    failure_type: Dimension | None = None
+
+    @model_validator(mode="after")
+    def category_requires_failure(self) -> "EvaluatorPrediction":
+        if self.failure_type is not None and self.passed is not False:
+            raise ValueError("A failure category requires an explicit failure verdict.")
+        return self
 
 
 class ResearchPredictionSet(BaseModel):
@@ -120,7 +128,48 @@ class BinaryClassificationMetrics(BaseModel):
     cohens_kappa: float | None
 
 
+class PredictionCoverage(BaseModel):
+    expected: int
+    submitted: int
+    decided: int
+    missing: int
+    abstained: int
+
+
+class FailureClassificationMetrics(BaseModel):
+    """Each reference failure belongs to exactly one outcome bucket.
+
+    Missing predictions prevent an all-reference accuracy; submitted abstentions
+    and missed failures remain unsuccessful classifications in that measure.
+    """
+
+    reference_failures: int
+    correct: int
+    wrong_category: int
+    unclassified: int
+    missed: int
+    uncertain: int
+    missing: int
+    accuracy_all_reference_failures: float | None
+    accuracy_detected_failures: float | None
+
+
+class ReferenceFailureDetectionMetrics(BaseModel):
+    """Full reference failure inventory; uncertainty cannot inflate recall."""
+
+    reference_failures: int
+    detected: int
+    missed: int
+    uncertain: int
+    missing: int
+    recall_all_reference_failures: float | None
+
+
 class ResearchValidityReport(BaseModel):
+    metric_version: str
+    annotation_fingerprint_sha256: str
+    prediction_fingerprint_sha256: str
+    notice: str
     dataset_id: str
     dataset_version: str
     conversations: int
@@ -128,11 +177,20 @@ class ResearchValidityReport(BaseModel):
     relationship: BinaryClassificationMetrics
     test_validity: BinaryClassificationMetrics
     evaluator: BinaryClassificationMetrics
+    test_assessment_coverage: PredictionCoverage
+    evaluator_coverage: PredictionCoverage
+    failure_classification: FailureClassificationMetrics
+    failure_detection: ReferenceFailureDetectionMetrics
 
 
 def annotation_fingerprint(dataset: AnnotationDataset) -> str:
     """Stable content fingerprint for recording the exact frozen label release."""
     canonical = json.dumps(dataset.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+
+def prediction_fingerprint(predictions: ResearchPredictionSet) -> str:
+    canonical = json.dumps(predictions.model_dump(mode="json"), sort_keys=True, separators=(",", ":"))
     return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
 
@@ -147,4 +205,5 @@ def annotation_import_report(dataset: AnnotationDataset) -> AnnotationImportRepo
         gold_tests=sum(len(item.gold_tests) for item in dataset.conversations),
         gold_evaluations=sum(len(item.gold_evaluations) for item in dataset.conversations),
         created_at=dataset.created_at,
+        data_origin=dataset.data_origin,
     )

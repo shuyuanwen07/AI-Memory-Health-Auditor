@@ -1,0 +1,63 @@
+Browser tab: 6, Title: "localhost:5173", URL: "http://localhost:5173/".
+0 AXWebArea localhost:5173/
+	1 container root
+		2 container
+			3 link Description: Memory Auditor, Value: localhost:5173/
+			4 container Primary navigation
+				5 link Description: Dashboard, Value: localhost:5173/
+				6 link Description: New audit, Value: localhost:5173/new-audit
+				7 link Description: History, Value: localhost:5173/history
+				8 link Description: Before & after, Value: localhost:5173/compare
+				9 link Description: Experiments, Value: localhost:5173/experiments
+				10 link Description: About, Value: localhost:5173/about
+		11 container
+			12 heading Audit History, Value: 1
+				13 text Audit History
+			14 container Audit history filters
+				15 container
+					16 text Find an audit
+					17 text field (settable) Description: Search audit history, Value: Audit 361
+				18 container
+					19 text Result
+					20 pop up button (collapsed, settable) Description: Filter by status, Value: All results, Secondary Actions: Expand
+						21 menu
+							22 (selected) All results
+							23 Completed
+							24 Tests generated
+				25 container
+					26 text Model provider
+					27 pop up button (collapsed, settable) Description: Filter by target provider, Value: All providers, Secondary Actions: Expand
+						28 menu
+							29 (selected) All providers
+							30 Local Ollama
+							31 OpenRouter
+							32 Rule-based baseline
+				33 container
+					34 text Memory approach
+					35 pop up button (collapsed, settable) Description: Filter by memory strategy, Value: All approaches, Secondary Actions: Expand
+						36 menu
+							37 (selected) All approaches
+							38 weak first hit
+							39 scope aware
+							40 strong score based
+							41 strong rule based
+							42 full context
+							43 no memory
+				44 button Clear filters
+			45 text Showing  1  of  361  audit run s .
+			46 container Audit history
+				47 container
+					48 text Local Ollama • Completed Oct 8, 2026, 2:40 AM
+					49 heading Audit 361 · Weak First Hit, Value: 2
+						50 text Audit 361  ·  Weak First Hit
+					51 text qwen3:1.7b  ·  4  behavioural tests
+					52 button (collapsed) Weak Memory · weak first hit, Secondary Actions: Expand
+						53 text Weak Memory
+						54 text  · 
+						55 text weak first hit
+					56 text Completed
+					57 link Description: View report, Value: localhost:5173/audits/RUN1E6393C984C0485E83D7A14B98E72130
+					58 button (collapsed) Dates and saved data, Secondary Actions: Expand
+						59 text Dates and saved data
+
+The focused UI element is 0 AXWebArea localhost:5173/

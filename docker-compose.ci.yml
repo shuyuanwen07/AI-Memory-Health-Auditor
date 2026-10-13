@@ -1,0 +1,30 @@
+# Disposable integration environment; no application volumes, env file or ports.
+services:
+  postgres-ci:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: memory_auditor_ci
+      POSTGRES_USER: ci_auditor
+      POSTGRES_PASSWORD: disposable-ci-only
+    tmpfs: [/var/lib/postgresql/data]
+    healthcheck:
+      test: [CMD-SHELL, 'pg_isready -U ci_auditor -d memory_auditor_ci']
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  integration:
+    build: ./backend
+    environment:
+      DATABASE_URL: postgresql+psycopg://ci_auditor:disposable-ci-only@postgres-ci:5432/memory_auditor_ci
+      PIPELINE_PROVIDER: rule_based
+      EVALUATOR_PROVIDER: rule_based
+      AUDITOR_ACCESS_MODE: local
+      PYTHONPATH: /app:/
+    volumes:
+      - ./backend:/app:ro
+      - ./backend:/backend:ro
+      - ./datasets:/datasets:ro
+      - ./scripts:/scripts:ro
+    depends_on:
+      postgres-ci: {condition: service_healthy}
+    command: sh -c 'alembic upgrade head && pytest -q -o cache_dir=/tmp/pytest-cache tests/test_postgresql_api_smoke.py'

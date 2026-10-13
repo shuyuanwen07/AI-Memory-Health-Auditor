@@ -1,0 +1,144 @@
+Browser tab: 10, Title: "localhost:5173/new-audit", URL: "http://localhost:5173/new-audit".
+0 AXWebArea localhost:5173/new-audit
+	1 container root
+		2 container
+			3 link Description: Memory Auditor, Value: localhost:5173/
+			4 container Primary navigation
+				5 link Description: Dashboard, Value: localhost:5173/
+				6 link Description: New audit, Value: localhost:5173/new-audit
+				7 link Description: History, Value: localhost:5173/history
+				8 link Description: Before & after, Value: localhost:5173/compare
+				9 link Description: Experiments, Value: localhost:5173/experiments
+				10 link Description: About, Value: localhost:5173/about
+		11 container
+			12 content list Audit progress
+				13 container
+					14 text 1 Conversation
+				15 container
+					16 text 2 Ground Truth
+				17 container
+					18 text 3 Configuration
+				19 container
+					20 text 4 Audit
+				21 container
+					22 text 5 Results
+			23 heading Memory Health Report, Value: 1
+				24 text Memory Health Report
+			25 container
+				26 button (expanded) Local Qwen 3 1.7B (Ollama) · Weak First-Hit detailed report, Secondary Actions: Collapse
+					27 text Local Qwen 3 1.7B (Ollama) · Weak First-Hit
+					28 text  detailed report
+				29 container Memory Health report details
+					30 text OVERALL MEMORY HEALTH
+					31 heading 0%, Value: 2
+						32 text 0%
+					33 text 0 of 2 tests passed
+					34 heading Results at a glance, Value: 2
+						35 text Results at a glance
+					36 text Memory behaviour needs attention across 2 tested dimensions.
+					37 button Download CSV
+					38 container
+						39 text Score coverage:  2  of  4  Memory Health dimensions were tested. Untested dimensions are excluded from the macro-average.
+					40 container
+						41 heading Accuracy, Value: 3
+							42 text Accuracy
+						43 text Not tested No completed tests in this dimension
+					44 container
+						45 heading Freshness, Value: 3
+							46 text Freshness
+						47 text 0% 0 of 1 tests passed
+					48 container
+						49 heading Conflict Resolution, Value: 3
+							50 text Conflict Resolution
+						51 text 0% 0 of 1 tests passed
+					52 container
+						53 heading Appropriate Use, Value: 3
+							54 text Appropriate Use
+						55 text Not tested No completed tests in this dimension
+					56 container Memory Health profile
+						57 heading Memory Health Profile, Value: 2
+							58 text Memory Health Profile
+						59 container Memory Health profile. Accuracy: Not tested; Freshness: 0%; Conflict Resolution: 0%; Appropriate Use: Not tested
+							60 container Radar chart: Accuracy: Not tested; Freshness: 0%; Conflict Resolution: 0%; Appropriate Use: Not tested
+							61 text Accuracy: Not tested; Freshness: 0%; Conflict Resolution: 0%; Appropriate Use: Not tested
+					62 container Retrieval evidence quality
+						63 heading Retrieval Evidence Quality, Value: 2
+							64 text Retrieval Evidence Quality
+						65 container
+							66 text Evidence recall @ k 50% Required source evidence retrieved
+						67 container
+							68 text Evidence precision @ k 100% Retrieved source evidence that was relevant
+						69 container
+							70 text Update evidence recall 50% Freshness-test evidence retrieved
+						71 container
+							72 text Conflict evidence coverage 50% Conflict-test evidence retrieved
+						73 container
+							74 text Unnecessary retrieval 0% Lower is better
+					75 heading Detected Memory Failures, Value: 2
+						76 text Detected Memory Failures
+					77 text 2  detected
+					78 button (collapsed) Secondary Actions: Expand, Freshness Failure: Failed freshness: expected behaviour was 'The backend now uses SQLite.'. The response did not demonstrate: sqlite. Supporting memories were checked.
+						79 text Freshness
+						80 text Failure: 
+						81 text Failed freshness: expected behaviour was 'The backend now uses SQLite.'. The response did not demonstrate: sqlite. Supporting memories were checked.
+					82 button (collapsed) Secondary Actions: Expand, Conflict Resolution Failure: Failed conflict_resolution: expected behaviour was 'The backend now uses SQLite.'. The response did not demonstrate: sqlite. Supporting memories were checked.
+						83 text Conflict Resolution
+						84 text Failure: 
+						85 text Failed conflict_resolution: expected behaviour was 'The backend now uses SQLite.'. The response did not demonstrate: sqlite. Supporting memories were checked.
+					86 container Evaluator calibration review
+						87 heading Evaluator Calibration Review, Value: 2
+							88 text Evaluator Calibration Review
+						89 text Independent mode is blind: review the question and response without seeing the automated verdict or other reviewers. Your label is calibration evidence and never overwrites the original audit result.
+						90 button Review Evaluations
+				91 container Target agent memory trace
+					92 heading Memory retrieval and model input, Value: 2
+						93 text Memory retrieval and model input
+					96 container
+						97 text Strategy:  weak first hit  · Memory updates:  update aware consolidation  · Up to  50  records were retained.
+					98 heading Stored memories, Value: 3
+						99 text Stored memories
+					100 container
+						101 text Memory record  1 Superseded I used MongoDB before Scope:  episodic  · recorded from  1  conversation message
+					102 container
+						103 text Memory record  2 Active The backend now uses SQLite Scope:  profile  · recorded from  1  conversation message Related memory changes:  update
+					104 heading Memory activity, Value: 3
+						105 text Memory activity
+					106 content list
+						107 container
+							108 AXListMarker • 
+							109 text ingested  ·  10/8/2026, 4:12:39 AM
+						110 container
+							111 AXListMarker • 
+							112 text written  ·  10/8/2026, 4:12:39 AM
+						113 container
+							114 AXListMarker • 
+							115 text written  ·  10/8/2026, 4:12:39 AM
+						116 container
+							117 AXListMarker • 
+							118 text updated  ·  10/8/2026, 4:12:39 AM
+						119 container
+							120 AXListMarker • 
+							121 text retrieved  ·  10/8/2026, 4:12:39 AM
+						122 container
+							123 AXListMarker • 
+							124 text retrieved  ·  10/8/2026, 4:12:42 AM
+					125 heading What was retrieved and sent, Value: 3
+						126 text What was retrieved and sent
+					127 text Retrieved records can be filtered before sending. Sending a record does not prove that the model relied on it.
+					128 button (collapsed) Retrieval 1 · 1 records retrieved · 1 supplied to target, Secondary Actions: Expand
+						129 text Retrieval 
+						130 text 1
+						131 text  · 
+						132 text 1
+						133 text  records retrieved · 
+						134 text 1 supplied to target
+					135 button (collapsed) Retrieval 2 · 1 records retrieved · 1 supplied to target, Secondary Actions: Expand
+						136 text Retrieval 
+						137 text 2
+						138 text  · 
+						139 text 1
+						140 text  records retrieved · 
+						141 text 1 supplied to target
+			95 button Start New Audit
+
+The focused UI element is 0 AXWebArea localhost:5173/new-audit

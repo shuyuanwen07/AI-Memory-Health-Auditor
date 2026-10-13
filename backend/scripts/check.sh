@@ -4,4 +4,4 @@ set -eu
 
 python -m compileall -q app
 ruff check app tests
-PYTHONPATH=. pytest -q
+PYTHONPATH=.:.. pytest -q

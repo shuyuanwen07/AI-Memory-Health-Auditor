@@ -54,6 +54,8 @@ def test_export_then_explicit_delete_removes_all_conversation_derived_records(tm
             assert exported.headers["content-type"].startswith("application/json")
             data = json.loads(exported.text)
             assert data["conversation"]["conversation_id"] == conversation_id
+            assert data["conversation"]["source_origin"] == "unknown"
+            assert "Source origin was not recorded" in data["source_origin_notice"]
             assert len(data["audits"]) == 1
             assert data["audits"][0]["tests"]
             assert "API keys" in data["notice"]

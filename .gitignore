@@ -13,6 +13,11 @@ experiments/
 artifacts/local/
 *.sqlite3
 
+# Keep local audit logs, databases and screenshots out of source control.
+output/*
+!output/proposal-human-handoff-v2/
+.ruff_cache/
+
 # Owner A source archives and held-out answers stay with the local custodian.
 /datasets/annotation/owner-a-pilot-v1/
 /datasets/annotation/owner-a-pilot-v2-ai-reviewed/

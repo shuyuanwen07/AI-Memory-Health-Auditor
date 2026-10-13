@@ -6,6 +6,7 @@ performing it in a metric would make the reported precision/recall misleading.
 """
 from __future__ import annotations
 
+from collections.abc import Hashable
 from dataclasses import dataclass
 
 from app.schemas.annotation import AnnotationDataset, TestQualityLabel
@@ -13,11 +14,16 @@ from app.schemas.research import (
     BinaryClassificationMetrics,
     ResearchPredictionSet,
     ResearchValidityReport,
+    PredictionCoverage,
+    FailureClassificationMetrics,
+    ReferenceFailureDetectionMetrics,
+    annotation_fingerprint,
+    prediction_fingerprint,
 )
 
 
-def _case(conversation_id: str, local_id: str) -> str:
-    return f"{conversation_id}::{local_id}"
+def _case(conversation_id: str, local_id: str) -> tuple[str, str]:
+    return conversation_id, local_id
 
 
 @dataclass(frozen=True)
@@ -28,7 +34,7 @@ class _Counts:
     false_negatives: int
 
 
-def _binary_metrics(predicted_positive: set[str], actual_positive: set[str], universe: set[str]) -> BinaryClassificationMetrics:
+def _binary_metrics(predicted_positive: set[Hashable], actual_positive: set[Hashable], universe: set[Hashable]) -> BinaryClassificationMetrics:
     """Create a complete binary report, retaining undefined denominators as null."""
     tp = len(predicted_positive & actual_positive)
     fp = len(predicted_positive - actual_positive)
@@ -38,7 +44,7 @@ def _binary_metrics(predicted_positive: set[str], actual_positive: set[str], uni
     total = tp + fp + tn + fn
     precision = _ratio(tp, tp + fp)
     recall = _ratio(tp, tp + fn)
-    f1 = round(2 * precision * recall / (precision + recall), 1) if precision is not None and recall is not None and precision + recall else None
+    f1 = _ratio(2 * tp, 2 * tp + fp + fn)
     return BinaryClassificationMetrics(
         labelled_cases=total,
         true_positives=counts.true_positives,
@@ -77,6 +83,8 @@ class ResearchValidityService:
     detected failure for evaluator validity.
     """
 
+    VERSION = "research-count-metrics-v3"
+
     def calculate(self, dataset: AnnotationDataset, predictions: ResearchPredictionSet) -> ResearchValidityReport:
         if predictions.dataset_id != dataset.dataset_id or predictions.dataset_version != dataset.dataset_version:
             raise ValueError("Prediction set dataset_id and dataset_version must match the annotation dataset.")
@@ -84,14 +92,16 @@ class ResearchValidityService:
         self._validate_references(dataset, predictions)
 
         gold_memory_keys = {
-            _case(conversation.conversation_id, memory.memory_id)
+            ("gold", conversation.conversation_id, memory.memory_id)
             for conversation in dataset.conversations
             for memory in conversation.gold_memories
         }
         # Candidates without an independently confirmed gold match are false
         # positives; they use their own stable candidate identifier.
         predicted_memory_keys = {
-            _case(prediction.conversation_id, prediction.matched_gold_memory_id or f"candidate:{prediction.candidate_id}")
+            ("gold", prediction.conversation_id, prediction.matched_gold_memory_id)
+            if prediction.matched_gold_memory_id is not None
+            else ("candidate", prediction.conversation_id, prediction.candidate_id)
             for prediction in predictions.memory_predictions
         }
         extraction_universe = gold_memory_keys | predicted_memory_keys
@@ -115,10 +125,11 @@ class ResearchValidityService:
             for test in conversation.gold_tests
         }
         predicted_tests = {_case(item.conversation_id, item.test_id): item.grounded and item.quality_label == TestQualityLabel.ACCEPT for item in predictions.test_assessments}
-        test_universe = set(gold_tests) | set(predicted_tests)
+        # An absent assessment is not a negative decision.
+        test_universe = set(predicted_tests)
         test_validity = _binary_metrics(
             {key for key, value in predicted_tests.items() if value},
-            {key for key, value in gold_tests.items() if value},
+            {key for key, value in gold_tests.items() if value and key in test_universe},
             test_universe,
         )
 
@@ -127,15 +138,22 @@ class ResearchValidityService:
             for conversation in dataset.conversations
             for evaluation in conversation.gold_evaluations
         }
-        predicted_evaluations = {_case(item.conversation_id, item.response_id): not item.passed for item in predictions.evaluator_predictions}
-        evaluator_universe = set(gold_evaluations) | set(predicted_evaluations)
+        submitted_evaluations = {_case(item.conversation_id, item.response_id): item.passed for item in predictions.evaluator_predictions}
+        predicted_evaluations = {key: not passed for key, passed in submitted_evaluations.items() if passed is not None}
+        evaluator_universe = set(predicted_evaluations)
         evaluator = _binary_metrics(
             {key for key, value in predicted_evaluations.items() if value},
-            {key for key, value in gold_evaluations.items() if value},
+            {key for key, value in gold_evaluations.items() if value and key in evaluator_universe},
             evaluator_universe,
         )
 
+        classification = self._failure_classification(dataset, predictions)
+        detected = classification.correct + classification.wrong_category + classification.unclassified
         return ResearchValidityReport(
+            metric_version=self.VERSION,
+            annotation_fingerprint_sha256=annotation_fingerprint(dataset),
+            prediction_fingerprint_sha256=prediction_fingerprint(predictions),
+            notice="Canonical input fingerprints identify the supplied label and prediction contents, not their authorship or independent verification. Assessment metrics use decided predictions; missing and uncertain coverage must be reported. Extraction and relationship recall assume complete candidate inventories. These calculations alone do not establish auditor reliability.",
             dataset_id=dataset.dataset_id,
             dataset_version=dataset.dataset_version,
             conversations=len(dataset.conversations),
@@ -143,6 +161,47 @@ class ResearchValidityService:
             relationship=relationship,
             test_validity=test_validity,
             evaluator=evaluator,
+            test_assessment_coverage=PredictionCoverage(expected=len(gold_tests), submitted=len(predicted_tests), decided=len(predicted_tests), missing=len(gold_tests)-len(predicted_tests), abstained=0),
+            evaluator_coverage=PredictionCoverage(expected=len(gold_evaluations), submitted=len(submitted_evaluations), decided=len(predicted_evaluations), missing=len(gold_evaluations)-len(submitted_evaluations), abstained=len(submitted_evaluations)-len(predicted_evaluations)),
+            failure_classification=classification,
+            failure_detection=ReferenceFailureDetectionMetrics(
+                reference_failures=classification.reference_failures,
+                detected=detected, missed=classification.missed,
+                uncertain=classification.uncertain, missing=classification.missing,
+                recall_all_reference_failures=(
+                    _ratio(detected, classification.reference_failures) if not classification.missing else None
+                ),
+            ),
+        )
+
+    @staticmethod
+    def _failure_classification(dataset: AnnotationDataset, predictions: ResearchPredictionSet) -> FailureClassificationMetrics:
+        supplied = {_case(item.conversation_id, item.response_id): item for item in predictions.evaluator_predictions}
+        counts = dict(correct=0, wrong_category=0, unclassified=0, missed=0, uncertain=0, missing=0)
+        for conversation in dataset.conversations:
+            for reference in conversation.gold_evaluations:
+                if reference.passed:
+                    continue
+                predicted = supplied.get(_case(conversation.conversation_id, reference.response_id))
+                if predicted is None:
+                    outcome = 'missing'
+                elif predicted.passed is None:
+                    outcome = 'uncertain'
+                elif predicted.passed:
+                    outcome = 'missed'
+                elif predicted.failure_type is None:
+                    outcome = 'unclassified'
+                elif predicted.failure_type != reference.failure_type:
+                    outcome = 'wrong_category'
+                else:
+                    outcome = 'correct'
+                counts[outcome] += 1
+        total = sum(counts.values())
+        detected = counts['correct'] + counts['wrong_category'] + counts['unclassified']
+        return FailureClassificationMetrics(
+            reference_failures=total, **counts,
+            accuracy_all_reference_failures=_ratio(counts['correct'], total) if not counts['missing'] else None,
+            accuracy_detected_failures=_ratio(counts['correct'], detected),
         )
 
     @staticmethod
@@ -166,10 +225,13 @@ class ResearchValidityService:
             if item.test_id not in valid_tests.get(item.conversation_id, set()):
                 raise ValueError("Test predictions must reference a gold test in the same conversation.")
         valid_responses = {item.conversation_id: {evaluation.response_id for evaluation in item.gold_evaluations} for item in dataset.conversations}
+        response_tests = {item.conversation_id: {evaluation.response_id: evaluation.test_id for evaluation in item.gold_evaluations} for item in dataset.conversations}
         for item in predictions.evaluator_predictions:
             if item.response_id not in valid_responses.get(item.conversation_id, set()):
                 raise ValueError("Evaluator predictions must reference a gold response in the same conversation.")
+            if response_tests[item.conversation_id][item.response_id] != item.test_id:
+                raise ValueError("Evaluator response and test must match the same gold evidence pair.")
 
 
-def _relationship_key(conversation_id: str, source_id: str, relation_type: str, target_id: str) -> str:
-    return f"{conversation_id}::{source_id}::{relation_type}::{target_id}"
+def _relationship_key(conversation_id: str, source_id: str, relation_type: str, target_id: str) -> tuple[str, str, str, str]:
+    return conversation_id, source_id, relation_type, target_id

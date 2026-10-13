@@ -1,0 +1,22 @@
+{
+  "messages": [
+    {
+      "message_id": "CANDIDATE-07-MSG-1",
+      "role": "user",
+      "content": "The handwritten recipe calls for 12 grams of yeast.",
+      "timestamp": "2026-10-11T01:00:00+00:00"
+    },
+    {
+      "message_id": "CANDIDATE-07-MSG-2",
+      "role": "user",
+      "content": "The typed copy calls for 8 grams of yeast.",
+      "timestamp": "2026-10-11T02:00:00+00:00"
+    },
+    {
+      "message_id": "CANDIDATE-07-MSG-3",
+      "role": "user",
+      "content": "Neither copy has been approved as the final recipe.",
+      "timestamp": "2026-10-11T03:00:00+00:00"
+    }
+  ]
+}

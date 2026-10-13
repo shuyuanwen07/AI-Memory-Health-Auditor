@@ -1,45 +1,66 @@
-# Evaluator Calibration
+# Evaluator calibration
 
-The Memory Health score measures a **controlled target agent**.  Evaluator
-calibration measures a different question: whether the Auditor's automated
-PASS/FAIL verdicts agree with independent human review.
+Target Memory Health measures answers under a controlled memory policy.
+Calibration measures whether the auditor detects and classifies independently
+human-confirmed errors. Higher target pass rate does not imply a better auditor.
 
-## Input contract
+## Available workflows
 
-`app.evaluator.calibration.EvaluatorCalibrationRequest` accepts a de-identified
-and versioned review set. Each case has a stable `case_id`, the test dimension,
-an automated evaluator verdict, and a human verdict. Failure types may be
-recorded only for FAIL cases. The service validates duplicate identifiers and
-internally inconsistent verdict/type combinations before calculating metrics.
+- **Auditor reliability** lists saved human-reference evidence and blind-review batches.
+- `/blind-review/:runId` withholds model identity, automated decisions, judge reasons
+  and other reviewers' labels on the server. It includes the complete source history.
+- The visible audit report collects reference/adjudication labels only because it
+  has already exposed automated results. Its link to the separate blind-review page
+  is for a different reviewer who has not seen those results. The application cannot
+  verify what a person previously saw or that a pseudonym represents a distinct human.
+- Blind-review progress is explicitly session-local; refresh clears the counter,
+  not persisted labels. Category guidance does not expose the proposed test dimension.
+- Download blank review materials: all saved answers, proposed references, full source,
+  empty labels and a stable content hash. No pass/fail sampling and no automatic labels.
+  This material is for reading; final operational labels are submitted through the
+  blind-review page. It is not an import-ready gold annotation release.
+- Research Workspace validates annotation releases and double-annotation readiness.
+- `POST /api/v1/research/evaluator-calibration/analyse` calculates a request-scoped
+  calibration report without persisting raw submitted research labels.
 
-The module deliberately does not write these labels to operational audit
-tables. Research labels should be retained only in the team's approved,
-access-controlled research storage. The returned SHA-256 fingerprint identifies
-the exact request used in a reported result.
+Two reviewers work independently before adjudication. Labels require real human
+source verification; AI-assisted labels must retain that provenance. Independently
+review complete predeclared batches or freeze a stratified sample before reviewing.
+Include system passes, failures and abstentions. A disagreement-only sample cannot
+estimate population accuracy or failure recall.
 
-## Reported measures
+## Metrics and denominators
 
-Failure is the positive class. The report provides, overall and for each test
-dimension:
+Failure is the positive class. Decided human-labelled responses provide binary
+confusion counts, accuracy/agreement, failure precision/recall/F1, specificity,
+false-positive rate and Cohen's kappa, overall and by exercised dimension.
+Decided coverage, abstention counts and labelled abstention rate remain visible.
+A null metric is unmeasured, never zero.
 
-- true/false positives and negatives;
-- agreement, accuracy, failure precision, recall and F1;
-- specificity, false-positive rate and Cohen's kappa.
+Conditional failure-category agreement uses jointly detected typed failures.
+Joint detection-and-classification recall uses human typed failures, including
+misses and abstentions. Test dimension is not an observed failure classification.
+Separate label provenance from metric arithmetic: numbers computed using unverified
+labels do not establish independent reliability.
 
-When both the human and automated evaluator identify a failure and both assign
-a type, the report additionally provides a human-row/evaluator-column confusion
-table, exact failure-type agreement, and label coverage. Failure-type agreement
-is intentionally conditional on both systems detecting a failure; missed and
-spurious failures remain visible in the binary confusion metrics.
+The versioned request carries dataset/review-set identifiers and its SHA-256
+fingerprint. Duplicate IDs and inconsistent verdict/category pairs are rejected.
+Related questions/repeats are correlated: use histories as uncertainty/resampling
+units for formal claims, not individual replies as independent samples.
 
-## Integration point
+## Controlled reviewer comparison
 
-An API endpoint or a notebook may call:
+New default comparisons execute the model-generated suite once per target/policy/
+repetition and reuse its saved replies for rule and hybrid review. Persisted source
+run/response receipts identify the pairing. A copied answer is no second target
+request and no independent sample. Reuse checks suite content, accepted quality and
+frozen target settings; ordinary execute/retry follows the saved reuse intent.
+Historical runs without receipts remain separate-execution exploratory comparisons.
 
-```python
-report = EvaluatorCalibrationService().analyse(request)
-```
+## Pending empirical evidence
 
-The service is pure and request-scoped. A future route should require only
-authorised, de-identified research labels and return `EvaluatorCalibrationReport`;
-it should not persist raw reviewer submissions by default.
+Freeze untouched source scenarios, independent defect inventory, reference release,
+thresholds, model and policy versions before collection. Then report representative
+coverage, disagreements, adjudication, precision/recall, classification and uncertainty.
+A passing software test suite establishes behaviour of tested paths, not accuracy
+of all future auditor decisions.

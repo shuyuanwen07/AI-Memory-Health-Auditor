@@ -1,0 +1,22 @@
+{
+  "messages": [
+    {
+      "message_id": "CANDIDATE-13-MSG-1",
+      "role": "user",
+      "content": "The account notification address was inbox Alpha.",
+      "timestamp": "2026-10-11T01:00:00+00:00"
+    },
+    {
+      "message_id": "CANDIDATE-13-MSG-2",
+      "role": "user",
+      "content": "The administrator changed it to inbox Beta.",
+      "timestamp": "2026-10-11T02:00:00+00:00"
+    },
+    {
+      "message_id": "CANDIDATE-13-MSG-3",
+      "role": "user",
+      "content": "Alpha is retained only as an archive with notifications disabled.",
+      "timestamp": "2026-10-11T03:00:00+00:00"
+    }
+  ]
+}

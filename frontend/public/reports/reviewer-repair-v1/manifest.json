@@ -1,0 +1,13 @@
+{
+  "complete_ui_runs": 3,
+  "negative_ui_checks": 1,
+  "offline_regressions_passed": 46,
+  "target_model_and_memory_unchanged": true,
+  "model_training": false,
+  "live_business_tests": "UI only",
+  "historical_results_rewritten": false,
+  "independent_human_calibration_complete": false,
+  "generator_version": "rule-based-v7",
+  "evaluator_version": "rule-based-v19",
+  "quality_version": "rule-based-quality-v4"
+}

@@ -1,0 +1,84 @@
+"""Build a readable report from preserved ten-cycle and common-judge evidence."""
+from __future__ import annotations
+
+import hashlib
+import json
+import random
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+OUT = ROOT / 'output/ten-cycle-summary'
+
+
+def main():
+    summary = json.loads((OUT / 'final-paired-analysis.json').read_text())
+    ledger = json.loads((OUT / 'iteration-ledger.json').read_text())
+    labels = {'before_scope_aware': '修复前目标记忆机制（归档版本）', 'after_strong_rule_based': '修复后规则对照',
+              'after_strong_score_based': '修复后通用排序对照', 'after_scope_aware': '修复后目标记忆策略'}
+    table = ''.join(f"<tr><td>{labels[c['condition']]}</td><td>{c['passed']}/{c['total']}</td><td>{c['percentage']:.2f}%</td><td>{c['average_supplied_records']:.2f}</td></tr>" for c in summary['conditions'])
+    descriptions = ['澄清转述漏判', '数据库误作秘密政策', '先选方案再澄清', '澄清表达与非承诺描述', '否定表达防护：失败保留', '修正第五轮覆盖错误', '核对实际冲突两端', '检索隔离其他项目', '写入隔离与完整项目名称', '通用查询与不抢先选策略']
+    cycle_rows = ''.join(f"<tr><td>{r['cycle']}</td><td>{descriptions[r['cycle']-1]}</td><td>{'目标记忆/上下文' if r['kind']=='target' else '审计判分'}</td><td>{r['model_calls']}</td><td>{'失败保留，第六轮修复' if r['cycle']==5 else '已完成并验证'}</td></tr>" for r in ledger['iterations'])
+    dimensions = {'accuracy': '事实准确性', 'freshness': '更新信息', 'conflict_resolution': '冲突处理', 'appropriate_use': '情境适用性'}
+    chosen = [summary['conditions'][0], summary['conditions'][2], summary['conditions'][3]]
+    charts = ''
+    for dimension, label in dimensions.items():
+        bars = ''
+        for condition, color in zip(chosen, ['#8896aa', '#3879d0', '#16806a']):
+            score = condition['dimensions'][dimension]
+            percentage = score['passed'] * 100 / score['total']
+            short = '修复前' if condition['condition'].startswith('before') else '通用对照' if 'score' in condition['condition'] else '针对性修复'
+            bars += f'<div class="bar"><span>{short}</span><div><i style="width:{percentage}%;background:{color}"></i></div><b>{percentage:.0f}%</b></div>'
+        charts += f'<div><h3>{label}</h3>{bars}</div>'
+    document = f'''<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Qwen 十轮迭代结果</title><style>
+body{{margin:0;background:#f4f7fb;color:#19324a;font:15px/1.6 system-ui,sans-serif}}main{{max-width:1120px;margin:auto;padding:30px 24px}}h1{{margin:4px 0 12px}}h2{{font-size:21px}}h3{{font-size:15px}}.eyebrow{{color:#16806a;font-weight:700}}.notice{{padding:18px;background:#e7f5ec;border:1px solid #a9d5ba;border-radius:12px}}.stats{{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:20px 0}}section,.stats>div{{padding:18px;background:white;border:1px solid #dbe5ee;border-radius:12px}}section{{margin:20px 0}}.stats b{{display:block;font-size:28px}}.small,.stats span{{font-size:13px;color:#596e83}}table{{width:100%;border-collapse:collapse}}td,th{{padding:10px 8px;border-bottom:1px solid #e1e8f0;text-align:left}}.charts{{display:grid;grid-template-columns:1fr 1fr;gap:24px}}.bar{{display:flex;align-items:center;gap:10px;margin:9px 0;font-size:12px}}.bar span{{width:78px}}.bar>div{{flex:1;background:#edf1f7;height:18px;border-radius:4px;overflow:hidden}}.bar i{{display:block;height:100%}}.bar b{{width:42px;text-align:right}}a{{color:#176b87}}@media(max-width:700px){{.stats{{grid-template-columns:1fr 1fr}}.charts{{grid-template-columns:1fr}}table{{font-size:12px}}main{{padding:20px 12px}}}}</style></head><body><main>
+<div class="eyebrow">Memory Auditor · Qwen 接口实测 · AI 预审，待人工复核</div><h1>十轮迭代与修复价值验证</h1>
+<div class="notice"><b>在这批新合成来源中，跨项目错误得到修复。</b><br>同一 Qwen、同一新来源与题目、同一最终评分器：修复前 36/48，修复后 48/48；修复 12 次错误，未观察到退步。模型权重未变。</div>
+<div class="stats"><div><b>10</b><span>迭代循环，含失败记录</span></div><div><b>456</b><span>真实 Qwen API 调用</span></div><div><b>+25 pp</b><span>修复前后通过率差</span></div><div><b>0</b><span>训练、微调或权重修改</span></div></div>
+<section><h2>最终可比结果</h2><p class="small">四段新来源、16 个题目实例，每条件重复三次。下表使用同一最终评分器重评分；原始版本分数完整保留。</p><table><thead><tr><th>条件</th><th>通过 / 总数</th><th>通过率</th><th>平均传入记忆条数</th></tr></thead><tbody>{table}</tbody></table><p class="small">针对性策略相对通用对照只多通过 2 次，差 4.17 个百分点；四段来源聚类的描述性区间包含零，不能声称稳定优于通用策略。</p></section>
+<section><h2>前后差距出现在哪里</h2><div class="charts">{charts}</div><p class="small">主要改善是更新信息：其他项目的较晚迁移不再覆盖当前项目。传入上下文减少不作为正确率提升的替代证明。</p></section>
+<section><h2>如何证明发现有用</h2><ol><li>诊断：其他项目的更新会错误覆盖当前项目，检索又把错误项目记录传给 Qwen。</li><li>修复：按完整项目名称隔离更新关系与检索；未找到指定项目时不借用其他项目的记录。</li><li>复测：恢复归档的修复前写入、检索、提示，在相同新来源上真实调用同一 Qwen；当前项目数据库从 0/12 变为 12/12。</li><li>审计校准：旧评分器与 AI 明确预审结论有 24 次分歧；新评分器在同一开发校准集中为 0 次。14 次含糊回答仍待人工裁定，这不是独立人工准确率。</li></ol></section>
+<section><h2>十轮过程</h2><p class="small">每轮 24 次调用，均冻结数据和实现快照。不同轮次的题目与评分器有变化，不能把轮次分数画成模型能力增长曲线。</p><table><thead><tr><th>轮次</th><th>发现与处理</th><th>改进对象</th><th>调用数</th><th>结果</th></tr></thead><tbody>{cycle_rows}</tbody></table><p class="small">另有最终验证 144 次、归档修复前对照 48 次，以及发现跨主题幻觉后的追加校准回归 24 次。</p></section>
+<section><h2>还需要人工确认</h2><p>四段最终来源、参考关系和 16 道题；关键跨项目更新与虚构冲突回答；旧校准集中 14 次含糊的政策选择回答。</p><p class="small">场景由 AI 编写，沿用已知任务类型与部分句式。最终校准还使用了人工待复核的 AI 语义判断。未证明大模型表现、商业产品优越性或所有未知场景均有效；有限样本的 100% 不是普遍保证。</p></section><p><a href="/experiments">项目实验记录</a> · <a href="/compare">逐题对比</a></p></main></body></html>'''
+    (OUT / 'report.html').write_text(document)
+    public = ROOT / 'frontend/public/reports'
+    public.mkdir(parents=True, exist_ok=True)
+    (public / 'ten-cycle-study.html').write_text(document)
+    before = json.loads((OUT / 'final-before-common-evaluator.json').read_text())['rows']
+    after = json.loads((OUT / 'final-after-common-evaluator.json').read_text())['rows']
+    for prefix, rows in [('before', before), ('after', after)]:
+        for row in rows:
+            row['condition'] = prefix + '_' + row['strategy']
+    grouped = {}
+    for row in before + after:
+        key = json.dumps([row['condition'], row['prompt'], row['expected'], row['response'], row['actual_supplied_memory']], sort_keys=True)
+        if key not in grouped:
+            grouped[key] = {**row, 'instances': [], 'AI_semantic_review': 'pending', 'human_review': 'pending'}
+        grouped[key]['instances'].append({'run_id': row['run_id'], 'test_id': row['test_id']})
+    groups = list(grouped.values())
+    (OUT / 'final-review-groups.json').write_text(json.dumps(groups, ensure_ascii=False, indent=2) + '\n')
+    random.Random(42).shuffle(groups)
+    review_lines = ['# 最终结果盲审表', '', '本表不显示策略和自动判分。先核对最终四段来源与16题，再独立判断答案是否正确、是否包含错误归属或虚构冲突。不能把只含正确关键词的回答直接判为通过。', '']
+    index = []
+    for i, group in enumerate(groups, 1):
+        review_lines += [f'## 回答 {i}', '', f'问题：{group["prompt"]}', f'预期行为：{group["expected"]}', '', '实际传入记忆：']
+        review_lines += [f'- {value}' for value in group['actual_supplied_memory']]
+        review_lines += ['', '模型回答：', '', group['response'], '', '独立判断：通过 / 失败 / 无法确定；理由：____', '']
+        index.append({'review_number': i, 'instances': group['instances'], 'content_sha256': hashlib.sha256(group['response'].encode()).hexdigest()})
+    (OUT / 'HUMAN_BLIND_REVIEW.md').write_text('\n'.join(review_lines))
+    (OUT / 'blind-review-index.json').write_text(json.dumps(index, indent=2) + '\n')
+    lines = ['# Qwen 十轮迭代结果', '', '**十轮迭代、最终新来源验证、归档修复前对照及追加校准已完成；共456次真实 Qwen API 调用，没有训练或修改权重。**', '',
+             '| 最终条件 | 同一评分器通过率 |', '|---|---:|']
+    lines += [f'| {labels[c["condition"]]} | {c["passed"]}/{c["total"]} ({c["percentage"]:.2f}%) |' for c in summary['conditions']]
+    lines += ['', '归档修复前后的目标写入器、检索与提示不同，但模型、最终来源、问题、预期行为和最终评分器相同。其他项目更新导致的12次数据库错误被修复，未观察到退步。这支持该已诊断机制在这批新来源中的修复价值；不是普遍有效的保证。', '',
+        '针对性修复相对通用排序多通过2次（+4.17 pp），来源聚类描述性区间[0,12.5] pp，样本不足以证明稳定优势。修复前后 +25 pp 的经验 bootstrap 区间退化为[25,25]，只是四段来源观察差相同，不表示没有总体不确定性；四来源双侧符号检验 p=0.125。', '',
+        '旧评分器与AI明确预审结论的24次分歧，在同一已见开发校准集上降至0；排除14次含糊回答。不能写成人工验证准确率或未见数据上的零误差。评分器重评分产物单独保存，原始分数没有替换。', '',
+        '第五轮否定表达修复未通过回归测试，已保留失败记录；第六轮修正并复测。跨轮分数不是模型能力提升曲线。', '',
+        '## 人工复核', '', '1. 四段最终来源、参考关系与16题（datasets/studies/ten-cycle-11/study.json）。', '2. 使用 HUMAN_BLIND_REVIEW.md 独立复核最终回答，优先跨项目更新、错误来源归属及虚构冲突。', '3. 旧独立实验中的14次含糊政策选择回答；参见 output/independent-repair-v1/HUMAN_BLIND_REVIEW.md。', '',
+        '## 限制', '', '同一个小型本地 Qwen；AI合成来源、熟悉任务类别和部分共享句式；没有人类独立标注、大小模型实验或真实商业产品比较。三次重复不等于三份独立来源。模型调用顺序未随机化，延迟不能作为公平性能优越性证据。', '',
+        '参考证据：iteration-ledger.json、final-paired-analysis.json、evaluator-calibration.json、final-before-common-evaluator.json、final-after-common-evaluator.json，以及每轮implementation快照与study-results.json。']
+    (OUT / 'RESULTS.md').write_text('\n'.join(lines) + '\n')
+    print(f'Built report and {len(groups)} blinded final review groups.')
+
+
+if __name__ == '__main__':
+    main()

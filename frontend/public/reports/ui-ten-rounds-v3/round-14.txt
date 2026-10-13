@@ -1,0 +1,115 @@
+Browser tab: 7, Title: "localhost:5173/compare?before=RUNC6B8DF744E744D83BDA447B26C8D43F8&after=RUNCB51964989A46F4F74686EFE87843B", URL: "http://localhost:5173/compare?before=RUNC6B8DF744E744D83BDA447B26C8D43F8&after=RUNCB51964989A46F4F74686EFE87843B".
+1 AXWebArea localhost:5173/compare?before=RUNC6B8DF744E744D83BDA447B26C8D43F8&after=RUNCB51964989A46F4F74686EFE87843B
+	2 container root
+		3 container
+			4 link Description: Memory Auditor, Value: localhost:5173/
+			5 container Primary navigation
+				6 link Description: Dashboard, Value: localhost:5173/
+				7 link Description: New audit, Value: localhost:5173/new-audit
+				8 link Description: History, Value: localhost:5173/history
+				9 link Description: Before & after, Value: localhost:5173/compare
+				10 link Description: Experiments, Value: localhost:5173/experiments
+				11 link Description: About, Value: localhost:5173/about
+		12 container
+			13 text BEFORE & AFTER
+			14 heading Memory improvement results, Value: 1
+				15 text Memory improvement results
+			16 checkbox Presentation view, Value: 0
+			17 text Compare saved tests before and after a change. Check the repaired failures and any regressions alongside the score. Find saved audits
+			18 text field (settable) Description: Find saved audits, Value: Audit 185
+			430 button Clear search
+			19 button Swap before & after
+			20 text 1  matching audits. Your selected audits stay available. Before improvement
+			21 pop up button (collapsed, settable) Before improvement, Value: Audit 365 · qwen3:1.7b · weak first hit · 10/8/2026, 3:46:56 AM, Secondary Actions: Expand
+				22 menu
+					23 Choose a completed audit
+					24 (selected) Audit 365 · qwen3:1.7b · weak first hit · 10/8/2026, 3:46:56 AM
+					202 Audit 185 · qwen3:1.7b · strong rule based · 10/8/2026, 1:16:03 AM
+			247 text After improvement
+			248 pop up button (collapsed, settable) After improvement, Value: Audit 185 · qwen3:1.7b · strong rule based · 10/8/2026, 1:16:03 AM, Secondary Actions: Expand
+				249 menu
+					250 Choose a completed audit
+					251 Audit 365 · qwen3:1.7b · weak first hit · 10/8/2026, 3:46:56 AM
+					429 (selected) Audit 185 · qwen3:1.7b · strong rule based · 10/8/2026, 1:16:03 AM
+			431 container Comparison takeaway
+				432 text ON THE SAME QUESTIONS
+				433 heading A direct improvement comparison is not available, Value: 2
+					434 text A direct improvement comparison is not available
+				511 text No identical frozen questions. Scores describe separate test suites.
+				436 container
+					437 text Same model: qwen3:1.7b  · Memory approach:  weak first hit  →  strong rule based
+				438 text Results are automatically assessed. A change in memory approach does not mean the model was trained.
+			439 text Check before interpreting improvement
+			440 content list
+				441 container
+					442 AXListMarker • 
+					443 text Other settings differ. Score changes cannot be attributed to retrieval strategy alone.
+				444 container
+					445 AXListMarker • 
+					446 text These runs do not share a frozen experiment group.
+				447 container
+					448 AXListMarker • 
+					449 text This synthetic pilot was pre-reviewed by AI. Independent human validation is still pending.
+				450 container
+					451 AXListMarker • 
+					452 text No identical frozen questions can be paired. Overall scores are descriptive only.
+				453 container
+					454 AXListMarker • 
+					455 text Only the shared, unchanged questions contribute to the paired comparison.
+			456 text Before improvement
+			457 text 0.0%
+			458 container
+				459 text 0  /  2  tests passed
+			460 container
+				461 text qwen3:1.7b  ·  weak first hit
+			462 link Description: Open full report →, Value: localhost:5173/audits/RUNC6B8DF744E744D83BDA447B26C8D43F8
+			463 text After improvement
+			464 text 75.0%
+			465 container
+				466 text 3  /  4  tests passed
+			467 container
+				468 text qwen3:1.7b  ·  strong rule based
+			469 link Description: Open full report →, Value: localhost:5173/audits/RUNCB51964989A46F4F74686EFE87843B
+			470 text Change on shared questions
+			471 text Unmeasured
+			472 container
+				473 text 0  identical frozen questions
+			474 text Percentage points in paired pass rate. Each score is an automated assessment.
+			475 container Memory improvement charts
+				476 text MEMORY ABILITIES
+				477 heading Before and after, side by side, Value: 2
+					478 text Before and after, side by side
+				479 text Compare each ability on the same 0–100% scale.
+				480 container Chart question scope
+					481 checkbox Shared questions, Value: 1
+					482 checkbox Full test suites, Value: 0
+				483 text No shared questions to chart. Choose full test suites to view each audit separately.
+				484 container Shared question outcomes
+					485 text 0
+					486 text fixed ·
+					487 text 0
+					488 text regressed ·
+					489 text 0
+					490 text unchanged
+					491 text on shared questions
+			492 button (collapsed) View exact dimension scores, Secondary Actions: Expand
+				493 text View exact dimension scores
+			494 heading What changed on the same questions?, Value: 2
+				495 text What changed on the same questions?
+			496 checkbox Description: 0 Fixed, Value: 0
+				497 text 0
+				498 text Fixed
+			499 checkbox Description: 0 Regressed, Value: 0
+				500 text 0
+				501 text Regressed
+			502 checkbox Description: 0 Still failing, Value: 0
+				503 text 0
+				504 text Still failing
+			505 checkbox Description: 0 Still passing, Value: 0
+				506 text 0
+				507 text Still passing
+			508 text There are no shared frozen questions. Run both configurations within the same experiment to enable question-level comparison.
+			509 button (collapsed) Comparison settings, Secondary Actions: Expand
+				510 text Comparison settings
+
+The focused UI element is 1 AXWebArea localhost:5173/compare?before=RUNC6B8DF744E744D83BDA447B26C8D43F8&after=RUNCB51964989A46F4F74686EFE87843B

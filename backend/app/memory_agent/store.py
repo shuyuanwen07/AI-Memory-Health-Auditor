@@ -8,7 +8,12 @@ stable replacement seam for a future agent memory backend.
 """
 from __future__ import annotations
 
+import json
 import re
+from app.services.location_facts import location_value
+from app.services.memory_entities import named_projects
+from app.services.memory_topics import is_language_topic
+from app.services.meeting_facts import is_meeting_platform_topic
 from datetime import datetime, timezone
 from uuid import uuid4
 
@@ -24,7 +29,6 @@ from app.models import (
 )
 from app.schemas import (
     Conversation,
-    Dimension,
     MemoryRelationship,
     MemoryStrategy,
     RelationshipType,
@@ -40,6 +44,8 @@ from app.schemas import (
     TestCase,
 )
 from app.services.interfaces import MemoryExtractor, TargetMemoryStore
+from app.schemas.target_profile import TargetMemoryProfile
+from app.memory_agent.retrieval_agent import AgentMemoryRetriever
 
 
 _WORDS = re.compile(r"[a-zA-Z][a-zA-Z0-9_+-]*")
@@ -52,6 +58,18 @@ _NEGATION_OR_CHANGE_CUES = frozenset({
     "not", "never", "without", "instead", "except", "former", "previous",
     "formerly", "before", "after", "until", "no", "different",
 })
+_UPDATE_HISTORY_QUESTION_CUES = re.compile(
+    r"\b(?:before|previously|earlier|formerly|prior|original(?:ly)?|initial(?:ly)?|"
+    r"histor(?:y|ical)|older|oldest|newer|final(?:\s+value)?|"
+    r"conflict\w*|contradict\w*|differ\w*|compar(?:e|ed|ing|ison)|time[- ]ordered|"
+    r"what\s+changed|change(?:d)?\s+from|how\s+(?:has|did)\b[^?!.]{0,80}\bchange(?:d)?)\b",
+    re.IGNORECASE,
+)
+
+
+def _question_requests_update_history(question: str) -> bool:
+    """Recognise explicit target-visible requests for earlier/update history."""
+    return bool(_UPDATE_HISTORY_QUESTION_CUES.search(question))
 
 
 def _ident(prefix: str) -> str:
@@ -69,9 +87,9 @@ def infer_target_memory_scope(canonical_value: str) -> TargetMemoryScope:
     value = canonical_value.lower()
     if re.search(r"\b(?:assignment|project|task|requirement|requires|required|must|mandatory|for\s+this)\b", value):
         return TargetMemoryScope.PROJECT_REQUIREMENT
-    if re.search(r"\b(?:prefer(?:s|red|ence)?|favour(?:s|ed|ite)?|favorite|favourite|rather\s+than)\b", value):
+    if re.search(r"\b(?:prefer(?:s|red|ence)?|favour(?:s|ed|ite)?|favorite|favourite|(?:would|\'d)\s+rather)\b", value):
         return TargetMemoryScope.PREFERENCE
-    if re.search(r"\b(?:i\s+am|my\s+name|based\s+in|live\s+in|located\s+in|work\s+as|(?:my|the)\s+backend|i\s+(?:now\s+)?use)\b", value):
+    if location_value(value) or re.search(r"\b(?:i\s+am|my\s+name|based\s+in|live\s+in|located\s+in|(?:moved|relocated)\s+to|work\s+as|(?:my|the)\s+backend|i\s+(?:now\s+)?use)\b", value):
         return TargetMemoryScope.PROFILE
     return TargetMemoryScope.EPISODIC
 
@@ -93,6 +111,8 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         capacity: int | None = 50,
         *,
         max_active_records: int | None = None,
+        profile: TargetMemoryProfile | None = None,
+        retrieval_agent: AgentMemoryRetriever | None = None,
     ):
         """Create a deterministic private memory store.
 
@@ -108,11 +128,15 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         resolved_capacity = max_active_records if max_active_records is not None else capacity
         if resolved_capacity is not None and resolved_capacity < 1:
             raise ValueError("capacity must be a positive integer or None.")
+        self.profile = profile or TargetMemoryProfile()
         self.db = db
         self.extractor = extractor or RuleBasedMemoryExtractor()
         self.writer_version = getattr(self.extractor, "VERSION", self.extractor.__class__.__name__)
         self.maintenance_policy = TargetMemoryMaintenancePolicy(maintenance_policy)
         self.max_active_records = resolved_capacity
+        self.retrieval_agent = retrieval_agent
+        self._last_retrieval_agent_execution_id: str | None = None
+        self._last_agent_execution_id: str | None = None
 
     def ingest(self, run_id: str, conversation: Conversation) -> TargetMemoryIngestionResult:
         if not conversation.authorised:
@@ -126,7 +150,12 @@ class SqlTargetMemoryStore(TargetMemoryStore):
                 write_evidence=[self._event_schema(item) for item in self._write_events(run_id)],
             )
 
-        extracted = self.extractor.extract(conversation)
+        try:
+            extracted = self.extractor.extract(conversation)
+        except Exception:
+            self._record_target_memory_writer_stage(run_id, conversation.conversation_id)
+            raise
+        self._record_target_memory_writer_stage(run_id, conversation.conversation_id)
         extracted_ids: dict[str, TargetAgentMemoryModel] = {}
         # Update-aware consolidation removes exact duplicate writes and a
         # deliberately narrow class of near duplicates.  It does not use a
@@ -275,7 +304,7 @@ class SqlTargetMemoryStore(TargetMemoryStore):
 
     def retrieve(
         self, run_id: str, conversation: Conversation, test: TestCase,
-        strategy: MemoryStrategy,
+        strategy: MemoryStrategy, *, retrieval_mode: str = "fixed",
     ) -> TargetMemoryRetrievalResult:
         self.ingest(run_id, conversation)
         records = self._records(run_id)
@@ -290,8 +319,12 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             for record in records
         ]
         self._annotate_relative_chronology(candidates, conversation)
+        if retrieval_mode == "agent":
+            return self._retrieve_with_agent(
+                run_id, test, strategy, candidates, relations, evicted_ids,
+            )
         self._mark_retrieval_eligibility(candidates, strategy, evicted_ids)
-        self._include_update_history_for_resolution(candidates, relations, test, strategy)
+        self._include_update_history_for_question_context(candidates, relations, test.prompt, strategy)
         preferred_scope, _ = _preferred_scope(test.prompt)
         eligible: list[dict] = []
         for item in candidates:
@@ -312,7 +345,8 @@ class SqlTargetMemoryStore(TargetMemoryStore):
                 if scope_intent_fallback and item["relevance"] == 0:
                     item["reason"] = f"{item['reason']}, scope_intent_fallback"
                 eligible.append(item)
-        selected = self._select(eligible, strategy)
+        eligible = self._filter_profile_candidates(eligible, test)
+        selected = self._apply_profile(self._select(eligible, strategy), test, strategy)
         selected_ids = {choice["record"].id for choice in selected}
         evidence_rows = [
             {
@@ -361,6 +395,350 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             ),
         )
 
+    def _retrieve_with_agent(
+        self, run_id: str, test: TestCase, strategy: MemoryStrategy,
+        candidates: list[dict], relations: list[TargetAgentMemoryRelationshipModel],
+        evicted_ids: set[str],
+    ) -> TargetMemoryRetrievalResult:
+        """Ask the configured selector; retain all selection evidence privately."""
+        if self.retrieval_agent is None:
+            from app.extraction.llm import PipelineRequestError
+            raise PipelineRequestError("The memory retrieval Agent is not configured for this audit.", 500)
+
+        relation_context: dict[str, list[str]] = {}
+        for relation in relations:
+            relation_context.setdefault(relation.memory_id, []).append(
+                f"{relation.relationship_type}:supersedes_or_links_to:{relation.target_memory_id}"
+            )
+            relation_context.setdefault(relation.target_memory_id, []).append(
+                f"{relation.relationship_type}:linked_from:{relation.memory_id}"
+            )
+
+        requested_projects = named_projects(test.prompt)
+        available: list[dict] = []
+        for item in candidates:
+            record = item["record"]
+            if (record.id in evicted_ids or record.lifecycle_state in {
+                TargetMemoryLifecycleState.EVICTED.value,
+                TargetMemoryLifecycleState.DIAGNOSTIC_ONLY.value,
+            }):
+                item["agent_exclusion"] = "not_available_in_target_memory_store"
+                continue
+            projects = named_projects(record.canonical_value)
+            if (self.profile.isolate_project_scope and requested_projects and projects
+                    and not requested_projects.intersection(projects)):
+                item["agent_exclusion"] = "excluded_by_project_isolation"
+                continue
+            item["agent_exclusion"] = None
+            item["agent_included"] = False
+            item["agent_reason"] = "Not selected by the retrieval Agent."
+            available.append(item)
+
+        # Every available target record must reach an Agent decision. If the
+        # store is too large for one request (especially with a local model's
+        # context window), ask the Agent to narrow chronological batches, then
+        # ask it to compare the retained candidates. No lexical prefilter can
+        # silently exclude a paraphrase before the Agent sees it.
+        max_batch_records = 40
+        max_batch_characters = 10_000
+        encoded_by_id: dict[str, dict[str, str | list[str]]] = {}
+        for item in available:
+            record = item["record"]
+            encoded_by_id[record.id] = {
+                "id": record.id,
+                "memory": record.canonical_value,
+                "scope": record.scope,
+                "state": record.lifecycle_state,
+                # A large relationship fan-in should not crowd out memory text.
+                "relationships": relation_context.get(record.id, [])[:12],
+            }
+            item["agent_included"] = False
+            item["agent_selected_intermediate"] = False
+            item["agent_final_input"] = False
+            item["agent_reason"] = "Not selected by the retrieval Agent."
+        available.sort(key=lambda item: item["record"].write_order)
+
+        def make_batches(items: list[dict]) -> list[list[dict]]:
+            batches: list[list[dict]] = []
+            batch: list[dict] = []
+            batch_size = 2  # JSON array brackets plus a small separator margin.
+            for candidate in items:
+                encoded = encoded_by_id[candidate["record"].id]
+                size = len(json.dumps(encoded, ensure_ascii=False, separators=(",", ":"))) + 1
+                if batch and (len(batch) >= max_batch_records or batch_size + size > max_batch_characters):
+                    batches.append(batch)
+                    batch = []
+                    batch_size = 2
+                batch.append(candidate)
+                batch_size += size
+            if batch:
+                batches.append(batch)
+            return batches or [[]]
+
+        receipts: list[dict] = []
+        sent_ids: set[str] = set()
+        hierarchy_rounds = 0
+        current = available
+        while True:
+            batches = make_batches(current)
+            if len(batches) == 1:
+                final_items = batches[0]
+                for item in final_items:
+                    item["agent_included"] = True
+                    item["agent_final_input"] = True
+                    sent_ids.add(item["record"].id)
+                if final_items:
+                    try:
+                        choices = self.retrieval_agent.select(
+                            question=test.prompt,
+                            candidates=[encoded_by_id[item["record"].id] for item in final_items],
+                            max_records=self.profile.max_retrieved_records,
+                            context_character_budget=self.profile.context_character_budget,
+                            isolate_project_scope=self.profile.isolate_project_scope,
+                            prefer_current_state=self.profile.prefer_current_state,
+                        )
+                    except Exception:
+                        self._record_retrieval_agent_stage(run_id, test.test_id)
+                        raise
+                    self._record_retrieval_agent_stage(run_id, test.test_id)
+                    if self.retrieval_agent.last_execution:
+                        receipts.append(self.retrieval_agent.last_execution)
+                else:
+                    choices = {"selected": [], "selection_summary": "No eligible target memories were available."}
+                break
+
+            hierarchy_rounds += 1
+            next_items: list[dict] = []
+            for batch in batches:
+                for item in batch:
+                    item["agent_included"] = True
+                    sent_ids.add(item["record"].id)
+                # A pass keeps up to half of each group, so every round makes
+                # progress even when memory text alone exceeds the input cap.
+                intermediate_limit = max(1, (len(batch) + 1) // 2)
+                try:
+                    result = self.retrieval_agent.select(
+                        question=test.prompt,
+                        candidates=[encoded_by_id[item["record"].id] for item in batch],
+                        max_records=intermediate_limit,
+                        context_character_budget=max_batch_characters,
+                        isolate_project_scope=self.profile.isolate_project_scope,
+                        prefer_current_state=self.profile.prefer_current_state,
+                    )
+                except Exception:
+                    self._record_retrieval_agent_stage(run_id, test.test_id)
+                    raise
+                self._record_retrieval_agent_stage(run_id, test.test_id)
+                if self.retrieval_agent.last_execution:
+                    receipts.append(self.retrieval_agent.last_execution)
+                group_by_id = {item["record"].id: item for item in batch}
+                chosen_ids = {choice["memory_id"] for choice in result["selected"]}
+                reasons = {choice["memory_id"]: choice["reason"] for choice in result["selected"]}
+                for item in batch:
+                    memory_id = item["record"].id
+                    if memory_id in chosen_ids:
+                        item["agent_selected_intermediate"] = True
+                        item["agent_reason"] = reasons[memory_id]
+                        next_items.append(group_by_id[memory_id])
+                    else:
+                        item["agent_reason"] = "Not selected by the retrieval Agent during an intermediate candidate review."
+            if len(next_items) >= len(current):
+                from app.extraction.llm import PipelineRequestError
+                raise PipelineRequestError(
+                    "The memory retrieval Agent could not reduce this store to a request-sized candidate set. "
+                    "Try a model with a larger context window or a smaller target memory store."
+                )
+            current = next_items
+
+        by_id = {item["record"].id: item for item in candidates}
+        selected: list[dict] = []
+        selected_reasons: dict[str, str] = {}
+        characters = 0
+        for choice in choices["selected"]:
+            item = by_id[choice["memory_id"]]
+            cost = len(item["record"].canonical_value) + 3
+            if len(selected) >= self.profile.max_retrieved_records:
+                item["agent_reason"] = "Selected by the Agent but excluded by the record-count limit."
+                continue
+            if characters + cost > self.profile.context_character_budget:
+                item["agent_reason"] = "Selected by the Agent but excluded by the context-size limit."
+                continue
+            selected.append(item)
+            selected_reasons[item["record"].id] = choice["reason"]
+            item["agent_reason"] = choice["reason"]
+            characters += cost
+
+        selected_ids = {item["record"].id for item in selected}
+        evidence_rows = []
+        for item in candidates:
+            record = item["record"]
+            excluded = item.get("agent_exclusion")
+            if excluded:
+                reason = excluded
+            elif record.id in selected_ids:
+                reason = selected_reasons[record.id]
+            elif item.get("agent_final_input"):
+                reason = "Not selected in the final retrieval Agent comparison."
+            elif item.get("agent_selected_intermediate"):
+                reason = "Selected in an earlier Agent review, then omitted in a later comparison."
+            elif item.get("agent_included"):
+                reason = item.get("agent_reason") or "Not selected by the retrieval Agent during candidate review."
+            else:
+                reason = "Candidate was not available to the retrieval Agent."
+            evidence_rows.append({
+                "memory_id": record.id,
+                "scope": record.scope,
+                "lifecycle_state": record.lifecycle_state,
+                "relationship_types": item["relationship_types"],
+                "candidate_sent_to_agent": bool(item.get("agent_included")),
+                "selected": record.id in selected_ids,
+                "eligible": not bool(excluded),
+                "reason": reason,
+            })
+
+        retrieval = TargetAgentRetrievalModel(
+            id=_ident("TR"), run_id=run_id, test_id=test.test_id,
+            strategy=strategy.value,
+            selected_memory_ids=[item["record"].id for item in selected],
+            ranking_evidence=evidence_rows,
+        )
+        self.db.add(retrieval)
+        def total_receipt_value(key: str) -> int | float | None:
+            values = [row.get(key) for row in receipts]
+            numeric = [value for value in values if isinstance(value, (int, float)) and not isinstance(value, bool)]
+            return sum(numeric) if numeric else None
+
+        self._event(
+            run_id, None, TargetMemoryEventType.RETRIEVED,
+            details={
+                "test_id": test.test_id,
+                "retrieval_mode": "agent",
+                "retrieval_agent_version": AgentMemoryRetriever.VERSION,
+                "retrieval_provider": self.retrieval_agent.provider,
+                "retrieval_model": self.retrieval_agent.model,
+                "selected_memory_ids": retrieval.selected_memory_ids,
+                "candidate_count": len(candidates),
+                "candidate_count_sent": len(sent_ids),
+                "candidate_input_limit": max_batch_characters,
+                "hierarchy_rounds": hierarchy_rounds,
+                "model_calls": len(receipts),
+                "selection_summary": choices["selection_summary"],
+                "request_attempts": total_receipt_value("request_attempts"),
+                "elapsed_ms": total_receipt_value("elapsed_ms"),
+                "reported_input_tokens": total_receipt_value("reported_input_tokens"),
+                "reported_output_tokens": total_receipt_value("reported_output_tokens"),
+            },
+        )
+        self.db.flush()
+        return TargetMemoryRetrievalResult(
+            context=[item["record"].canonical_value for item in selected],
+            evidence=TargetMemoryRetrievalEvidence(
+                retrieval_id=retrieval.id, run_id=run_id, test_id=test.test_id,
+                strategy=strategy, selected_memory_ids=list(retrieval.selected_memory_ids),
+                ranking_evidence=evidence_rows, final_response_id=None, created_at=retrieval.created_at,
+            ),
+        )
+
+    def _record_retrieval_agent_stage(self, run_id: str, test_id: str) -> None:
+        stage = getattr(self.retrieval_agent, "last_observation", None)
+        if not isinstance(stage, dict):
+            return
+        from app.services.agent_trace import record_agent_execution
+        refs = dict(stage.get("input_refs") or {})
+        refs["test_id"] = test_id
+        receipt = stage.get("execution") or {}
+        row = record_agent_execution(
+            self.db,
+            role="target_memory_retrieval",
+            provider=stage.get("provider") or self.retrieval_agent.provider,
+            model=stage.get("model") or self.retrieval_agent.model,
+            prompt_template_version=stage.get("prompt_template_version") or AgentMemoryRetriever.VERSION,
+            instructions=stage.get("instructions") or "",
+            prompt=stage.get("prompt") or "",
+            schema=stage.get("schema"),
+            input_payload=stage.get("input_payload") or {},
+            input_refs=refs,
+            output_data=stage.get("output_data"),
+            status=stage.get("status") or "failed",
+            execution=receipt,
+            error_code=stage.get("error_code"),
+            error_summary=stage.get("error_summary"),
+            run_id=run_id,
+            handoff_from=self._last_agent_execution_id,
+        )
+        if self._last_agent_execution_id:
+            from app.models import AgentExecutionModel
+            previous = self.db.get(AgentExecutionModel, self._last_agent_execution_id)
+            if previous:
+                previous.handoff_to = row.id
+        self._last_retrieval_agent_execution_id = row.id
+        self._last_agent_execution_id = row.id
+
+    def _record_target_memory_writer_stage(self, run_id: str, conversation_id: str) -> None:
+        stage = getattr(self.extractor, "last_observation", None)
+        if not isinstance(stage, dict):
+            return
+        from app.models import AgentExecutionModel
+        from app.services.agent_trace import record_agent_execution
+        latest = self.db.scalar(select(AgentExecutionModel).where(
+            AgentExecutionModel.run_id == run_id,
+        ).order_by(AgentExecutionModel.created_at.desc(), AgentExecutionModel.id.desc()).limit(1))
+        row = record_agent_execution(
+            self.db,
+            role="target_memory_writing",
+            provider=stage.get("provider") or getattr(self.extractor, "provider", "unknown"),
+            model=stage.get("model") or getattr(self.extractor, "model", "unknown"),
+            prompt_template_version=stage.get("prompt_template_version") or self.writer_version,
+            instructions=stage.get("instructions") or "",
+            prompt=stage.get("prompt") or "",
+            schema=stage.get("schema"),
+            input_payload=stage.get("input_payload") or {},
+            input_refs={**(stage.get("input_refs") or {}), "conversation_id": conversation_id},
+            output_data=stage.get("output_data"),
+            status=stage.get("status") or "failed",
+            execution=stage.get("execution"),
+            error_code=stage.get("error_code"),
+            error_summary=stage.get("error_summary"),
+            conversation_id=conversation_id,
+            run_id=run_id,
+            handoff_from=latest.id if latest else None,
+        )
+        if latest:
+            latest.handoff_to = row.id
+        self._last_agent_execution_id = row.id
+
+    def _filter_profile_candidates(self, candidates: list[dict], test: TestCase) -> list[dict]:
+        requested = named_projects(test.prompt)
+        retained = []
+        historical = bool(re.search(r"\b(?:previous|previously|before|formerly|historical|past|earlier|used to)\b", test.prompt, re.I))
+        for item in candidates:
+            projects = named_projects(item["record"].canonical_value)
+            if self.profile.isolate_project_scope and requested and projects and not requested.intersection(projects):
+                item["reason"] += ", profile_excluded_other_project"
+                continue
+            if self.profile.prefer_current_state and not historical and item["record"].lifecycle_state == "SUPERSEDED":
+                item["reason"] += ", profile_excluded_superseded_current_query"
+                continue
+            retained.append(item)
+        return retained
+
+    def _apply_profile(self, selected: list[dict], test: TestCase, strategy: MemoryStrategy) -> list[dict]:
+        """Apply only target-side budget, never auditor support IDs or answers."""
+        retained = selected
+        # Ranking policies order from low to high priority. Keep the strongest
+        # records without reversing the supplied chronology/order.
+        priority = retained if strategy in {MemoryStrategy.FULL_CONTEXT, MemoryStrategy.WEAK_FIRST_HIT} else list(reversed(retained))
+        chosen = set()
+        characters = 0
+        for item in priority:
+            cost = len(item["record"].canonical_value) + 3
+            if len(chosen) >= self.profile.max_retrieved_records or characters + cost > self.profile.context_character_budget:
+                item["reason"] += ", profile_context_budget_excluded"
+                continue
+            chosen.add(item["record"].id)
+            characters += cost
+        return [item for item in retained if item["record"].id in chosen]
+
     def _select(self, candidates: list[dict], strategy: MemoryStrategy) -> list[dict]:
         if not candidates:
             return []
@@ -398,6 +776,18 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         priority so all existing target connectors preserve their contract of
         treating the last strong-context record as the decision record.
         """
+        requested_projects = named_projects(candidates[0]["test_prompt"])
+        if requested_projects:
+            retained = []
+            for item in candidates:
+                record_projects = named_projects(item["record"].canonical_value)
+                if record_projects and not requested_projects.intersection(record_projects):
+                    item["reason"] += ", excluded_other_named_project"
+                else:
+                    retained.append(item)
+            candidates = retained
+            if not candidates:
+                return []
         preferred_scope, intent_reason = _preferred_scope(candidates[0]["test_prompt"])
         for item in candidates:
             record_scope = TargetMemoryScope(item["record"].scope)
@@ -508,18 +898,19 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         }
 
     @staticmethod
-    def _include_update_history_for_resolution(
+    def _include_update_history_for_question_context(
         candidates: list[dict], relations: list[TargetAgentMemoryRelationshipModel],
-        test: TestCase, strategy: MemoryStrategy,
+        question: str, strategy: MemoryStrategy,
     ) -> None:
-        """Expose both sides of an UPDATE only for a resolution test.
+        """Expose an UPDATE's prior side when the question asks for its history.
 
-        Strong retrieval normally hides superseded records.  A conflict-
-        resolution question is the deliberate exception: the target needs the
-        old and new observations to explain why the newer one wins.  The old
-        item remains visibly marked as superseded in the trace.
+        The retrieval policy sees only the target-visible question and its own
+        stored records.  It must not use the auditor's test-dimension label to
+        decide which evidence to provide.  Current-state questions continue to
+        use the normal recency/update policy; explicit requests about earlier
+        values or change history may need both endpoints of an UPDATE.
         """
-        if strategy != MemoryStrategy.SCOPE_AWARE or test.dimension != Dimension.CONFLICT_RESOLUTION:
+        if strategy != MemoryStrategy.SCOPE_AWARE or not _question_requests_update_history(question):
             return
         by_id = {item["record"].id: item for item in candidates}
         for relation in relations:
@@ -533,7 +924,7 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             prior["resolution_history"] = True
             prior["eligible"] = True
             prior["relevance"] = max(prior["relevance"], current["relevance"])
-            prior["reason"] = f"{prior['reason']}, update_history_included_for_resolution"
+            prior["reason"] = f"{prior['reason']}, update_history_included_for_question_context"
 
     @staticmethod
     def _annotate_relative_chronology(candidates: list[dict], conversation: Conversation) -> None:
@@ -610,10 +1001,11 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             record = item["record"]
             if (
                 record.id in evicted_ids
-                or record.lifecycle_state == TargetMemoryLifecycleState.EVICTED.value
+                or record.lifecycle_state in {TargetMemoryLifecycleState.EVICTED.value, TargetMemoryLifecycleState.DIAGNOSTIC_ONLY.value}
             ):
                 item["eligible"] = False
-                item["reason"] = f"{item['reason']}, capacity_evicted_excluded"
+                exclusion = "diagnostic_packet_excluded" if record.lifecycle_state == TargetMemoryLifecycleState.DIAGNOSTIC_ONLY.value else "capacity_evicted_excluded"
+                item["reason"] = f"{item['reason']}, {exclusion}"
             elif (
                 record.lifecycle_state == TargetMemoryLifecycleState.SUPERSEDED.value
                 and strategy != MemoryStrategy.WEAK_FIRST_HIT
@@ -642,6 +1034,7 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             and record.lifecycle_state not in {
                 TargetMemoryLifecycleState.SUPERSEDED.value,
                 TargetMemoryLifecycleState.EVICTED.value,
+                TargetMemoryLifecycleState.DIAGNOSTIC_ONLY.value,
             }
         ]
         protected = [
@@ -813,11 +1206,13 @@ def _is_conservative_near_duplicate(value: str) -> bool:
 def _preferred_scope(prompt: str) -> tuple[TargetMemoryScope | None, str]:
     """Infer a retrieval intent solely from the user-facing test prompt."""
     text = prompt.lower()
+    if re.search(r"\b(?:deployment|policies|policy|secrets?|credentials?)\b", text):
+        return TargetMemoryScope.PROJECT_REQUIREMENT, "intent=project_policy"
     if re.search(r"\b(?:this|current|currently|for\s+the)\s+(?:assignment|project|task)\b|\b(?:must|required|requirement|mandatory)\b", text):
         return TargetMemoryScope.PROJECT_REQUIREMENT, "intent=current_project_requirement"
     if re.search(r"\b(?:prefer|preference|favour(?:ite)?|favorite|usually\s+use)\b", text):
         return TargetMemoryScope.PREFERENCE, "intent=general_preference"
-    if re.search(r"\b(?:where|location|based|live|located|name|background|profile)\b", text):
+    if re.search(r"\b(?:location|based|live|located|name|background|profile|city)\b|\bwhere\b.*\b(?:user|you|i|we)\b", text):
         return TargetMemoryScope.PROFILE, "intent=profile_fact"
     return None, "intent=general_relevance"
 
@@ -839,9 +1234,15 @@ def _category(value: str) -> str | None:
     text = value.lower()
     if re.search(r"\b(?:mysql|postgres(?:ql)?|mongodb|sqlite|database|sql)\b", text):
         return "database"
-    if re.search(r"\b(?:python|java|rust|javascript|typescript|(?:programming|scripting)[ -]+languages?)\b", text):
+    if re.search(r"\b(?:logs?|logging|object storage|storage bucket)\b", text):
+        return "log-storage"
+    if re.search(r"\b(?:secrets?|credentials?|environment variables?|config(?:uration)? files?)\b", text):
+        return "secret-configuration"
+    if is_meeting_platform_topic(text):
+        return "meeting-platform"
+    if is_language_topic(text):
         return "programming-language"
-    if re.search(r"\b(?:sydney|melbourne|london|based in|located in|live in|relocat)\b", text):
+    if re.search(r"\b(?:sydney|melbourne|london|location|city|based (?:in|now)|located (?:in|now)|live in|(?:moved|relocated)\s+to|relocat)\b", text):
         return "location"
     if re.search(r"\b(?:remote|from home|office|hybrid)\b", text):
         return "working-arrangement"

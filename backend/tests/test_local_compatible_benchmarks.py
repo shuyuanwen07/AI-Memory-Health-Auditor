@@ -61,7 +61,11 @@ def test_compatible_routes_require_authorisation_and_expose_no_persistence_claim
     with TestClient(app) as client:
         denied = client.post("/api/v1/research/benchmarks/locomo/run", json={"payload": PAYLOAD})
         assert denied.status_code == 422
-        validated = client.post("/api/v1/research/benchmarks/beam/validate", json={"payload": PAYLOAD})
+        validation_denied = client.post("/api/v1/research/benchmarks/beam/validate", json={"payload": PAYLOAD})
+        assert validation_denied.status_code == 422
+        validated = client.post("/api/v1/research/benchmarks/beam/validate", json={
+            "payload": PAYLOAD, "source_authorised": True,
+        })
         assert validated.status_code == 200
         response = client.post("/api/v1/research/benchmarks/beam/run", json={
             "payload": PAYLOAD, "source_authorised": True, "memory_strategy": "strong_rule_based",
@@ -70,3 +74,16 @@ def test_compatible_routes_require_authorisation_and_expose_no_persistence_claim
     body = response.json()
     assert body["metadata"]["benchmark_family"] == "beam"
     assert body["cases"][0]["retrieval_evidence"]
+
+
+def test_locomo_and_beam_validation_reject_before_parsing_without_consent(monkeypatch):
+    def unexpected_adaptation(self, payload):
+        raise AssertionError("The source adapter must not inspect data before consent.")
+
+    monkeypatch.setattr(LoCoMoAdapter, "adapt", unexpected_adaptation)
+    monkeypatch.setattr(BEAMAdapter, "adapt", unexpected_adaptation)
+    with TestClient(app) as client:
+        locomo = client.post("/api/v1/research/benchmarks/locomo/validate", json={"payload": PAYLOAD})
+        beam = client.post("/api/v1/research/benchmarks/beam/validate", json={"payload": PAYLOAD})
+    assert locomo.status_code == 422
+    assert beam.status_code == 422

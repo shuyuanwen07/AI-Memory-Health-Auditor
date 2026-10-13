@@ -1,6 +1,8 @@
 """Contracts for the scope-aware controlled retrieval condition."""
 from datetime import datetime, timedelta, timezone
 
+import pytest
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
@@ -27,6 +29,54 @@ def _db():
     engine = create_engine("sqlite://")
     Base.metadata.create_all(engine)
     return sessionmaker(bind=engine, autoflush=False)()
+
+
+def test_scope_aware_does_not_supply_another_named_project_database():
+    from app.extraction.rule_based import RuleBasedMemoryExtractor
+    db = _db()
+    _run(db)
+    conversation = _conversation()
+    now = conversation.messages[0].timestamp
+    conversation.messages = [ConversationMessage(message_id=f'MSG{i}', role='user', timestamp=now + timedelta(seconds=i), content=text)
+        for i, text in enumerate(['The Orion backend previously used SQLite.',
+                                 'The Orion backend has now migrated to PostgreSQL.',
+                                 'The unrelated Vega backend now uses SQLite.'])]
+    store = SqlTargetMemoryStore(db, extractor=RuleBasedMemoryExtractor())
+    test = TestCase(test_id='T-PROJECT', run_id='RUN-SCOPE-RETRIEVAL', dimension='freshness',
+        prompt='Which database does the Orion backend use now?', expected_behavior='EVALUATOR ONLY',
+        supporting_memory_ids=[], generator_version='test')
+    result = store.retrieve(test.run_id, conversation, test, MemoryStrategy.SCOPE_AWARE)
+    assert result.context
+    assert all('Vega' not in value for value in result.context)
+    assert any('PostgreSQL' in value for value in result.context)
+    test = test.model_copy(update={'test_id': 'T-UNKNOWN', 'prompt': 'Which database does the Unknown backend use now?'})
+    assert not store.retrieve(test.run_id, conversation, test, MemoryStrategy.SCOPE_AWARE).context
+
+
+def test_real_writer_keeps_both_unresolved_policies_and_retrieves_only_secret_topic():
+    from app.extraction.rule_based import RuleBasedMemoryExtractor
+    db = _db()
+    _run(db)
+    conversation = _conversation()
+    now = conversation.messages[0].timestamp
+    statements = [
+        "I am based in Sydney.",
+        "The Atlas deployment policy requires secrets in environment variables.",
+        "A conflicting Atlas deployment policy requires secrets in a configuration file; neither policy supersedes the other.",
+        "The Atlas logs now remain in object storage.",
+    ]
+    conversation.messages = [ConversationMessage(message_id=f"MSG{i}", role="user",
+        timestamp=now + timedelta(seconds=i), content=value) for i, value in enumerate(statements)]
+    store = SqlTargetMemoryStore(db, extractor=RuleBasedMemoryExtractor())
+    test = TestCase(test_id="T-POLICIES", run_id="RUN-SCOPE-RETRIEVAL", dimension=Dimension.CONFLICT_RESOLUTION,
+        prompt="Where should Atlas deployment secrets be kept?", expected_behavior="EVALUATOR ONLY",
+        supporting_memory_ids=[], generator_version="test")
+    result = store.retrieve(test.run_id, conversation, test, MemoryStrategy.SCOPE_AWARE)
+    assert len(result.context) == 2
+    assert any("environment variables" in value for value in result.context)
+    assert any("neither policy supersedes" in value for value in result.context)
+    assert all("Sydney" not in value and "logs" not in value for value in result.context)
+    assert any(row["lifecycle_state"] == "CONFLICTED" for row in result.evidence.ranking_evidence)
 
 
 def _conversation() -> Conversation:
@@ -156,7 +206,7 @@ def test_scope_aware_keeps_topic_matched_requirement_when_multiple_project_requi
     assert result.context == ["This assignment currently requires Java."]
 
 
-def test_scope_aware_exposes_both_sides_of_an_update_for_resolution():
+def test_scope_aware_update_history_depends_on_question_not_evaluator_dimension():
     db = _db()
     _run(db)
     now = _conversation().messages[0].timestamp
@@ -168,16 +218,41 @@ def test_scope_aware_exposes_both_sides_of_an_update_for_resolution():
             ]
     store = SqlTargetMemoryStore(db, extractor=_UpdateExtractor())
     test = TestCase(
-        test_id="T-SCOPE-UPDATE", run_id="RUN-SCOPE-RETRIEVAL", dimension=Dimension.CONFLICT_RESOLUTION,
-        prompt="Two time-ordered records about database technology differ. State the final value.",
+        test_id="T-SCOPE-UPDATE", run_id="RUN-SCOPE-RETRIEVAL", dimension=Dimension.ACCURACY,
+        prompt="Two time-ordered database records for the backend differ. State the final value.",
         expected_behavior="Use PostgreSQL.", supporting_memory_ids=[], generator_version="test-v1",
     )
 
     result = store.retrieve("RUN-SCOPE-RETRIEVAL", _conversation(), test, MemoryStrategy.SCOPE_AWARE)
+    relabelled_result = store.retrieve(
+        "RUN-SCOPE-RETRIEVAL", _conversation(),
+        test.model_copy(update={"dimension": Dimension.CONFLICT_RESOLUTION}),
+        MemoryStrategy.SCOPE_AWARE,
+    )
 
     assert result.context == ["The backend used MySQL.", "The backend now uses PostgreSQL."]
+    assert relabelled_result.context == result.context
+    assert relabelled_result.evidence.selected_memory_ids == result.evidence.selected_memory_ids
     old = next(row for row in result.evidence.ranking_evidence if row["memory_id"] in result.evidence.selected_memory_ids and "MySQL" in next(record.canonical_value for record in store._records("RUN-SCOPE-RETRIEVAL") if record.id == row["memory_id"]))
-    assert "update_history_included_for_resolution" in old["reason"]
+    assert "update_history_included_for_question_context" in old["reason"]
+
+    current_question = test.model_copy(update={
+        "test_id": "T-SCOPE-CURRENT",
+        "dimension": Dimension.ACCURACY,
+        "prompt": "What is the current backend database?",
+    })
+    current_result = store.retrieve(
+        "RUN-SCOPE-RETRIEVAL", _conversation(), current_question, MemoryStrategy.SCOPE_AWARE,
+    )
+    current_relabelled_result = store.retrieve(
+        "RUN-SCOPE-RETRIEVAL", _conversation(),
+        current_question.model_copy(update={"dimension": Dimension.CONFLICT_RESOLUTION}),
+        MemoryStrategy.SCOPE_AWARE,
+    )
+
+    assert current_result.context == ["The backend now uses PostgreSQL."]
+    assert current_relabelled_result.context == current_result.context
+    assert current_relabelled_result.evidence.selected_memory_ids == current_result.evidence.selected_memory_ids
 
 
 class _DuplicateExtractor:
@@ -216,3 +291,152 @@ def test_append_only_retains_same_text_as_two_independent_observations():
     ).ingest("RUN-SCOPE-RETRIEVAL", _conversation())
 
     assert len(result.records) == 2
+
+
+def test_target_profile_filters_before_first_hit_and_enforces_memory_budget():
+    from app.extraction.rule_based import RuleBasedMemoryExtractor
+    from app.schemas import TargetMemoryProfile
+    db = _db()
+    _run(db)
+    conversation = _conversation()
+    now = conversation.messages[0].timestamp
+    conversation.messages = [ConversationMessage(message_id=f'P{i}', role='user', timestamp=now+timedelta(seconds=i), content=text)
+        for i,text in enumerate(['Orion project used MySQL before.', 'Orion project now uses PostgreSQL.',
+                                'Vega project uses SQLite.'])]
+    profile = TargetMemoryProfile(isolate_project_scope=True, prefer_current_state=True,
+        max_retrieved_records=1, context_character_budget=100)
+    store = SqlTargetMemoryStore(db, extractor=RuleBasedMemoryExtractor(), profile=profile)
+    test = TestCase(test_id='PROFILE', run_id='RUN-SCOPE-RETRIEVAL', dimension='freshness',
+        prompt='Which database for the Orion project applies now?', expected_behavior='never read this',
+        supporting_memory_ids=['never-read-this'], generator_version='test')
+    result = store.retrieve(test.run_id, conversation, test, MemoryStrategy.WEAK_FIRST_HIT)
+    assert len(result.context)==1
+    assert 'PostgreSQL' in result.context[0]
+    assert sum(len(value)+3 for value in result.context)<=profile.context_character_budget
+    assert any('profile_excluded_other_project' in item['reason'] for item in result.evidence.ranking_evidence)
+
+
+def test_real_writer_retrieves_new_city_and_ruby_go_constraint_without_reference_values():
+    from app.extraction.rule_based import RuleBasedMemoryExtractor
+    db = _db()
+    _run(db)
+    conversation = _conversation()
+    now = conversation.messages[0].timestamp
+    conversation.messages = [ConversationMessage(message_id=f'MSG{i}', role='user', timestamp=now+timedelta(seconds=i), content=text)
+        for i,text in enumerate(['I live in Ballarat.', 'I moved to Port Lincoln.', 'I prefer Ruby.', 'The Pine assignment requires Go.'])]
+    store = SqlTargetMemoryStore(db, extractor=RuleBasedMemoryExtractor())
+    for index, (prompt, dimension, required, excluded) in enumerate([
+        ('Where is the user based now?', 'freshness', 'I moved to Port Lincoln', 'I live in Ballarat'),
+        ('What programming language does the user generally prefer?', 'accuracy', 'I prefer Ruby', 'The Pine assignment requires Go'),
+        ('For the current programming-language choice, which requirement applies now?', 'appropriate_use', 'The Pine assignment requires Go', 'I prefer Ruby'),
+    ]):
+        test=TestCase(test_id=f'NEW{index}',run_id='RUN-SCOPE-RETRIEVAL',dimension=dimension,prompt=prompt,
+                      expected_behavior='REFERENCE MUST NOT BE USED',supporting_memory_ids=[],generator_version='test')
+        result=store.retrieve(test.run_id,conversation,test,MemoryStrategy.SCOPE_AWARE)
+        assert required in result.context
+        assert excluded not in result.context
+
+
+def test_state_replacement_is_not_inferred_as_a_personal_preference():
+    from app.memory_agent.store import infer_target_memory_scope
+    from app.schemas import TargetMemoryScope
+    for statement in (
+        'The Acacia backend now uses MySQL rather than PostgreSQL.',
+        'I now use MySQL rather than PostgreSQL.',
+        'The backend now uses MySQL rather than PostgreSQL.',
+    ):
+        assert infer_target_memory_scope(statement) != TargetMemoryScope.PREFERENCE
+    for statement in ('I prefer MySQL rather than PostgreSQL.', 'I would rather use Kotlin than Java.'):
+        assert infer_target_memory_scope(statement) == TargetMemoryScope.PREFERENCE
+
+
+def test_allowed_only_platforms_are_written_and_supplied_instead_of_language_requirements():
+    from app.extraction.rule_based import RuleBasedMemoryExtractor
+    db = _db()
+    _run(db)
+    conversation = _conversation()
+    now = conversation.messages[0].timestamp
+    statements = [
+        'I generally prefer Rust for personal tools.',
+        'For the Laurel project, Kotlin is required instead of Rust.',
+        'For the Laurel review meeting, only Webex is allowed.',
+        'For the Laurel review meeting, only Teams is allowed.',
+        'Neither Laurel meeting requirement has been withdrawn.',
+        'For the Aster review meeting, only Zoom is permitted.',
+    ]
+    conversation.messages = [ConversationMessage(message_id=f'MSG{i}', role='user',
+        timestamp=now + timedelta(seconds=i), content=value) for i, value in enumerate(statements)]
+    writer = RuleBasedMemoryExtractor()
+    memories = writer.extract(conversation)
+    webex = next(memory for memory in memories if 'only Webex' in memory.canonical_value)
+    teams = next(memory for memory in memories if 'only Teams' in memory.canonical_value)
+    assert webex.source_message_ids == ['MSG2'] and teams.source_message_ids == ['MSG3']
+    assert any(relation.type == RelationshipType.CONFLICT and relation.target_memory_id == webex.memory_id
+               for relation in teams.relationships)
+    store = SqlTargetMemoryStore(db, extractor=writer)
+    test = TestCase(test_id='T-ALLOWED', run_id='RUN-SCOPE-RETRIEVAL', dimension=Dimension.CONFLICT_RESOLUTION,
+        prompt="Two remembered constraints about the user's meeting platform for the Laurel project conflict. Identify both recorded constraints, then explain how the conflict should be handled before answering?",
+        expected_behavior='EVALUATOR ONLY', supporting_memory_ids=[], generator_version='test')
+    result = store.retrieve(test.run_id, conversation, test, MemoryStrategy.SCOPE_AWARE)
+    assert len(result.context) == 2
+    assert any('only Webex is allowed' in value for value in result.context)
+    assert any('only Teams is allowed' in value for value in result.context)
+    assert all('Rust' not in value and 'Kotlin' not in value and 'Aster' not in value for value in result.context)
+    assert all(row['lifecycle_state'] == 'CONFLICTED' for row in result.evidence.ranking_evidence if row.get('selected'))
+
+
+@pytest.mark.parametrize('google_requirement', [
+    'For the Snowdrop review meeting, only Google Meet is allowed.',
+    'Only Google Meet is allowed for the Snowdrop review meeting.',
+])
+def test_google_meet_conflict_is_written_generated_and_retrieved_as_platform(google_requirement):
+    from app.extraction.rule_based import RuleBasedMemoryExtractor
+    from app.test_generator.rule_based import RuleBasedTestGenerator
+    db = _db()
+    _run(db)
+    conversation = _conversation()
+    now = conversation.messages[0].timestamp
+    statements = ['I generally prefer Rust for personal tools.',
+        'For the Snowdrop project, Kotlin is required.', google_requirement,
+        'For the Snowdrop review meeting, only Teams is allowed.',
+        'For the Primrose review meeting, only Zoom is allowed.']
+    conversation.messages = [ConversationMessage(message_id=f'MSG{i}', role='user',
+        timestamp=now + timedelta(seconds=i), content=value) for i, value in enumerate(statements)]
+    writer = RuleBasedMemoryExtractor()
+    memories = writer.extract(conversation)
+    google = next(m for m in memories if 'Google Meet' in m.canonical_value)
+    teams = next(m for m in memories if 'only Teams' in m.canonical_value)
+    assert writer._category(google.canonical_value) == 'meeting-platform'
+    assert RuleBasedTestGenerator._scoped_topic(google, teams) == 'meeting platform for the Snowdrop project'
+    assert any(r.type == RelationshipType.CONFLICT and r.target_memory_id == google.memory_id for r in teams.relationships)
+    assert not any(r.type == RelationshipType.UPDATE for r in teams.relationships)
+    test = TestCase(test_id='T-GOOGLE-MEET', run_id='RUN-SCOPE-RETRIEVAL', dimension=Dimension.CONFLICT_RESOLUTION,
+        prompt='Which meeting platform should the Snowdrop project use?',
+        expected_behavior='EVALUATOR ONLY', supporting_memory_ids=[], generator_version='test')
+    result = SqlTargetMemoryStore(db, extractor=writer).retrieve(test.run_id, conversation, test, MemoryStrategy.SCOPE_AWARE)
+    assert len(result.context) == 2
+    assert any('Google Meet' in value for value in result.context)
+    assert any('only Teams' in value for value in result.context)
+    assert all('Kotlin' not in value and 'Rust' not in value and 'Primrose' not in value for value in result.context)
+    assert all(row['lifecycle_state'] == 'CONFLICTED' for row in result.evidence.ranking_evidence if row.get('selected'))
+
+
+def test_equivalent_meeting_requirements_stay_current_in_target_storage():
+    from app.extraction.rule_based import RuleBasedMemoryExtractor
+    db = _db()
+    _run(db)
+    conversation = _conversation()
+    now = conversation.messages[0].timestamp
+    statements = ['For the Clover project, Kotlin is required.',
+        'For the Clover review meeting, only Microsoft Teams is allowed.',
+        'Only Teams is permitted for the Clover review meeting.',
+        'For the Primrose review meeting, only Zoom is allowed.']
+    conversation.messages = [ConversationMessage(message_id=f'MSG{i}', role='user',
+        timestamp=now+timedelta(seconds=i), content=value) for i,value in enumerate(statements)]
+    test = TestCase(test_id='T-EQUIVALENT', run_id='RUN-SCOPE-RETRIEVAL', dimension=Dimension.ACCURACY,
+        prompt='What meeting platform is allowed for the Clover project?', expected_behavior='EVALUATOR ONLY',
+        supporting_memory_ids=[], generator_version='test')
+    result = SqlTargetMemoryStore(db, extractor=RuleBasedMemoryExtractor()).retrieve(test.run_id, conversation, test, MemoryStrategy.SCOPE_AWARE)
+    assert result.context
+    assert all('Teams' in value and 'Kotlin' not in value and 'Primrose' not in value for value in result.context)
+    assert all(row['lifecycle_state'] == 'ACTIVE' for row in result.evidence.ranking_evidence if row.get('selected'))

@@ -1,0 +1,67 @@
+Browser tab: 10, Title: "localhost:5173/new-audit", URL: "http://localhost:5173/new-audit".
+0 AXWebArea localhost:5173/new-audit
+	1 container root
+		2 container
+			3 link Description: Memory Auditor, Value: localhost:5173/
+			4 container Primary navigation
+				5 link Description: Dashboard, Value: localhost:5173/
+				6 link Description: New audit, Value: localhost:5173/new-audit
+				7 link Description: History, Value: localhost:5173/history
+				8 link Description: Before & after, Value: localhost:5173/compare
+				9 link Description: Experiments, Value: localhost:5173/experiments
+				10 link Description: About, Value: localhost:5173/about
+		11 container
+			12 content list Audit progress
+				13 container
+					14 text 1 Conversation
+				15 container
+					16 text 2 Ground Truth
+				17 container
+					18 text 3 Configuration
+				19 container
+					20 text 4 Audit
+				21 container
+					22 text 5 Results
+			81 text The generator could not produce a compatible replacement test.
+			23 heading Prepare Memory Audit, Value: 1
+				24 text Prepare Memory Audit
+			25 content list
+				26 container
+					27 text Preparing confirmed ground truth Complete
+				28 container
+					29 text Generating shared behavioural tests Complete
+				30 container
+					31 text Test-suite quality checks Action required
+				32 container
+					33 text Initialising target AI Waiting
+				34 container
+					35 text Executing memory tests Waiting
+				36 container
+					37 text Evaluating responses Waiting
+			38 container Generated test suite review
+				39 heading Review Generated Test Suite, Value: 2
+					40 text Review Generated Test Suite
+				41 text Automatic checks can accept questions; this does not constitute independent human review. Inspect the frozen questions before any target model is executed. A decision or replacement is synchronised to every model and strategy condition in this experiment.
+				61 text Two questions have the same wording. Regenerate the duplicate questions before running; different expected answers do not make an identical question valid.
+				62 text Accepted  2 Needs review  0 Rejected  0
+				63 text Quality decisions complete
+				64 text 2  /  2  decided
+				65 progress indicator Description: Question review progress, Value: 2
+				66 container
+					67 text Test  1 Direct ✓ Accepted · This question is ready for testing. accuracy Question
+					68 text What is the user's recorded current task? State the relevant fact only. Expected behaviour
+					69 text State the recorded fact: Deployment secrets must be stored in a configuration file.. Grounding:  grounded  ·  rule-based-quality-v3: Declared evidence is confirmed and the prompt is answer-independent.
+					70 button (disabled) ✓ Accepted
+					71 button Reject
+					72 button Regenerate
+				73 container
+					74 text Test  2 Direct ✓ Accepted · This question is ready for testing. accuracy Question
+					75 text What is the user's recorded current task? State the relevant fact only. Expected behaviour
+					76 text State the recorded fact: Deployment secrets must be stored in environment variables.. Grounding:  grounded  ·  rule-based-quality-v3: Declared evidence is confirmed and the prompt is answer-independent.
+					77 button (disabled) ✓ Accepted
+					78 button Reject
+					79 button Regenerate
+			60 button (disabled) Run Audit & View Results
+			80 text Accept each pending test and regenerate rejected tests before execution.
+
+The focused UI element is 0 AXWebArea localhost:5173/new-audit

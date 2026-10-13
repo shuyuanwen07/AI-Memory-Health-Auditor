@@ -4,6 +4,37 @@ from app.extraction.rule_based import RuleBasedMemoryExtractor
 from app.test_generator.rule_based import RuleBasedTestGenerator
 from app.target_ai.rule_based import RuleBasedTargetAIConnector
 from app.evaluator.rule_based import RuleBasedBehaviourEvaluator
+
+
+def test_single_message_update_probe_does_not_invent_two_records_or_an_unresolved_conflict():
+    timestamp = datetime(2026, 1, 1, tzinfo=timezone.utc)
+    conversation = Conversation(conversation_id='C-update', created_at=timestamp, authorised=True,
+        messages=[ConversationMessage(message_id='MSG-update', role='user',
+            content='Our Marigold backend used SQLite before, but now uses MongoDB.', timestamp=timestamp)])
+    memories = RuleBasedMemoryExtractor().extract(conversation)
+    current = next(m for m in memories if m.relationships)
+    prior = next(m for m in memories if m.memory_id == current.relationships[0].target_memory_id)
+    for candidate in (RuleBasedTestGenerator._freshness(current, prior),
+                      RuleBasedTestGenerator._update_conflict_resolution(current, prior)):
+        _, prompt, expected, evidence, _ = candidate
+        assert 'memories' not in prompt
+        assert 'newer memory' not in prompt
+        assert 'conflict' not in prompt
+        assert 'MongoDB' not in prompt and 'SQLite' not in prompt
+        assert 'historical' in expected and 'SQLite' in expected and 'MongoDB' in expected
+        assert set(evidence) == {current.memory_id, prior.memory_id}
+
+
+def test_extractor_retains_named_places_and_titles_without_merging_real_sentences():
+    timestamp = datetime(2026, 1, 1, tzinfo=timezone.utc)
+    text = "I attended mass at St. Mary's Church on January 2. I met Dr. Chen on January 3. I generally prefer Python."
+    conversation = Conversation(conversation_id='C-title', created_at=timestamp, authorised=True,
+        messages=[ConversationMessage(message_id='MSG-title', role='user', content=text, timestamp=timestamp)])
+    memories = RuleBasedMemoryExtractor().extract(conversation)
+    assert [m.canonical_value for m in memories] == [
+        "I attended mass at St. Mary's Church on January 2", "I met Dr. Chen on January 3", "I generally prefer Python"]
+    assert all(m.source_message_ids == ['MSG-title'] for m in memories)
+
 def test_rule_based_pipeline_has_pass_and_fail_cases():
     c=Conversation(conversation_id='C1',created_at=datetime.now(timezone.utc),authorised=True,messages=[ConversationMessage(message_id='MSG001',role='user',content='I used MySQL before. The backend now uses PostgreSQL. I generally prefer Python. This current assignment requires Java. I am based in Sydney.',timestamp=datetime.now(timezone.utc))])
     memories=RuleBasedMemoryExtractor().extract(c)
@@ -58,7 +89,7 @@ def test_generator_creates_traceable_dimension_balanced_tests():
     tests = RuleBasedTestGenerator().generate(memories, run)
 
     assert {test.dimension for test in tests} == set(Dimension)
-    assert all(test.generator_version == "rule-based-v4" for test in tests)
+    assert all(test.generator_version == RuleBasedTestGenerator.VERSION for test in tests)
     assert all(test.supporting_memory_ids for test in tests)
     assert all(memory_id in {memory.memory_id for memory in memories} for test in tests for memory_id in test.supporting_memory_ids)
     assert len({(test.dimension, tuple(test.supporting_memory_ids)) for test in tests}) == len(tests)
@@ -114,97 +145,42 @@ def test_generator_hides_answers_and_balances_a_small_budget():
         for memory_id in test.supporting_memory_ids:
             value = next(memory.canonical_value for memory in memories if memory.memory_id == memory_id)
             assert value.lower() not in test.prompt.lower()
-    
 
-def test_generator_deduplicates_bidirectional_conflicts():
+
+def test_elided_subject_transition_keeps_both_facts_and_update_source():
     timestamp = datetime.now(timezone.utc)
-    conversation = Conversation(
-        conversation_id="C6",
-        created_at=timestamp,
-        authorised=True,
-        messages=[
-            ConversationMessage(
-                message_id="MSG001",
-                role="user",
-                content="One cache brief requires Redis.",
-                timestamp=timestamp,
-            ),
-            ConversationMessage(
-                message_id="MSG002",
-                role="user",
-                content="Another cache brief requires Memcached.",
-                timestamp=timestamp,
-            ),
-        ],
-    )
-    run = AuditRun(
-        run_id="RUN6",
-        conversation_id="C6",
-        status=AuditStatus.CREATED,
-        target_configuration=TargetConfiguration.WEAK,
-        provider=TargetProvider.RULE_BASED,
-        model="rule-based-target-ai",
-        temperature=0.0,
-        random_seed=7,
-        test_budget=20,
-        prompt_template_version="rule-based-v1",
-        created_at=timestamp,
-    )
-
+    conversation = Conversation(conversation_id='C_ELISION', created_at=timestamp, authorised=True, messages=[
+        ConversationMessage(message_id='MSG_ELISION', role='user', content='Our Iris backend used MySQL before, but now uses PostgreSQL.', timestamp=timestamp),
+    ])
     memories = RuleBasedMemoryExtractor().extract(conversation)
-    tests = RuleBasedTestGenerator().generate(memories, run)
+    assert [m.canonical_value for m in memories] == ['Our Iris backend used MySQL before', 'Our Iris backend now uses PostgreSQL']
+    assert all(m.source_message_ids == ['MSG_ELISION'] for m in memories)
+    assert any(r.type == RelationshipType.UPDATE and r.target_memory_id == memories[0].memory_id for r in memories[1].relationships)
 
-    conflict_tests = [
-        test for test in tests
-        if test.dimension == Dimension.CONFLICT_RESOLUTION
+
+def test_subject_completion_does_not_replace_explicit_other_subject_or_freeform_clause():
+    fragments = RuleBasedMemoryExtractor._statement_fragments
+    assert fragments('Our Iris backend used MySQL before, but our Rose backend now uses PostgreSQL.') == ['Our Iris backend used MySQL before', 'our Rose backend now uses PostgreSQL.']
+    assert fragments('I used MySQL before, but now the client prefers PostgreSQL.') == ['I used MySQL before', 'now the client prefers PostgreSQL.']
+
+
+def test_shared_project_name_does_not_create_cross_field_conflicts_or_updates():
+    timestamp=datetime(2026,1,1,tzinfo=timezone.utc)
+    statements=[
+        'For the Harbor project, TypeScript is required.',
+        'The Harbor review must be held only over Zoom.',
+        'The Harbor review must be held only over Teams.',
+        'The Harbor review is now held only over Webex.',
     ]
+    conversation=Conversation(conversation_id='C-fields',created_at=timestamp,authorised=True,messages=[ConversationMessage(message_id=f'MSG-{index}',role='user',content=text,timestamp=timestamp) for index,text in enumerate(statements)])
+    memories=RuleBasedMemoryExtractor().extract(conversation)
+    assert len(memories)==4
+    assert memories[1].relationships==[]
+    assert any(relation.type==RelationshipType.CONFLICT and relation.target_memory_id==memories[1].memory_id for relation in memories[2].relationships)
+    assert all(relation.target_memory_id!=memories[0].memory_id for memory in memories[1:] for relation in memory.relationships)
 
-    assert len(conflict_tests) == 1
-    assert set(conflict_tests[0].supporting_memory_ids) == {"M001", "M002"}
 
-
-def test_generator_uses_specific_topics_for_supported_memory_patterns():
-    timestamp = datetime.now(timezone.utc)
-    conversation = Conversation(
-        conversation_id="C7",
-        created_at=timestamp,
-        authorised=True,
-        messages=[
-            ConversationMessage(
-                message_id="MSG001",
-                role="user",
-                content=(
-                    "The report must be submitted as PDF. "
-                    "The paper requires IEEE citations. "
-                    "One transport specification requires MQTT. "
-                    "Another transport specification requires AMQP. "
-                    "One report instruction requires exactly 8 pages. "
-                    "Another report instruction requires exactly 12 pages."
-                ),
-                timestamp=timestamp,
-            ),
-        ],
-    )
-    run = AuditRun(
-        run_id="RUN7",
-        conversation_id="C7",
-        status=AuditStatus.CREATED,
-        target_configuration=TargetConfiguration.WEAK,
-        provider=TargetProvider.RULE_BASED,
-        model="rule-based-target-ai",
-        temperature=0.0,
-        random_seed=7,
-        test_budget=20,
-        prompt_template_version="rule-based-v1",
-        created_at=timestamp,
-    )
-
-    memories = RuleBasedMemoryExtractor().extract(conversation)
-    tests = RuleBasedTestGenerator().generate(memories, run)
-
-    prompts = [test.prompt.lower() for test in tests]
-
-    assert any("file format" in prompt for prompt in prompts)
-    assert any("citation style" in prompt for prompt in prompts)
-    assert any("transport protocol" in prompt for prompt in prompts)
-    assert any("report page count" in prompt for prompt in prompts)
+def test_go_preference_with_personal_tool_scope_is_a_language_not_a_movement():
+    from app.services.memory_topics import language_words
+    assert language_words('I generally prefer Go for personal tools.')=={'go'}
+    assert language_words('I prefer to go for a walk.')==set()

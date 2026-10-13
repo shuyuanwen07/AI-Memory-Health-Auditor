@@ -8,28 +8,37 @@ only by the backend process and are never included in raised errors.
 from __future__ import annotations
 
 import json
+import hashlib
+import math
 import os
 import time
+from contextvars import ContextVar
 from collections.abc import Mapping
 from typing import Any
 
 import httpx
+
+from app.target_ai.openrouter import CHAT_COMPLETIONS_URL, default_model, request_options, sampling_parameters
 from fastapi import HTTPException
 
 
 _KEY_BY_PROVIDER = {
+    "openrouter": "OPENROUTER_API_KEY",
     "openai": "OPENAI_API_KEY",
     "deepseek": "DEEPSEEK_API_KEY",
     "gemini": "GEMINI_API_KEY",
 }
 _DEFAULT_MODEL_BY_PROVIDER = {
+    "openrouter": default_model(),
     "openai": "gpt-5.6-luna",
     "deepseek": "deepseek-flash",
     "gemini": "gemini-2.5-flash-lite",
+    "ollama": os.getenv("OLLAMA_DEFAULT_MODEL", "qwen3:1.7b").strip() or "qwen3:1.7b",
 }
 _RETRYABLE_STATUS_CODES = frozenset({408, 409, 425, 429, 500, 502, 503, 504})
 _MAX_ATTEMPTS = 3
 _REQUEST_TIMEOUT_SECONDS = 60.0
+_PIPELINE_METER = ContextVar('pipeline_http_meter',default=None)
 
 
 class PipelineRequestError(HTTPException):
@@ -42,9 +51,9 @@ class PipelineRequestError(HTTPException):
 def pipeline_provider() -> str:
     """Return the configured pipeline provider, rejecting misspellings early."""
     provider = os.getenv("PIPELINE_PROVIDER", "rule_based").strip().lower()
-    if provider not in {"rule_based", *_KEY_BY_PROVIDER}:
+    if provider not in {"rule_based", *_KEY_BY_PROVIDER, "ollama"}:
         raise PipelineRequestError(
-            "PIPELINE_PROVIDER must be one of: rule_based, openai, deepseek, gemini.",
+            "PIPELINE_PROVIDER must be one of: rule_based, openrouter, openai, deepseek, gemini, ollama.",
             status_code=500,
         )
     return provider
@@ -55,7 +64,9 @@ def configured_pipeline_model(provider: str | None = None) -> str:
     choice = provider or pipeline_provider()
     if choice == "rule_based":
         return "rule-based-v2"
-    return os.getenv("PIPELINE_MODEL", "").strip() or _DEFAULT_MODEL_BY_PROVIDER[choice]
+    configured_choice = pipeline_provider()
+    override = os.getenv("PIPELINE_MODEL", "").strip() if choice == configured_choice else ""
+    return override or _DEFAULT_MODEL_BY_PROVIDER[choice]
 
 
 class PipelineLLMClient:
@@ -65,18 +76,105 @@ class PipelineLLMClient:
         self.provider = (provider or pipeline_provider()).lower()
         if self.provider == "rule_based":
             raise ValueError("Rule-based pipeline mode does not use PipelineLLMClient.")
-        if self.provider not in _KEY_BY_PROVIDER:
+        if self.provider not in {*_KEY_BY_PROVIDER, "ollama"}:
             raise PipelineRequestError("The configured pipeline provider is not supported.", 500)
         self._model_override = (model or "").strip()
+        self.last_execution = None
 
     @property
     def model(self) -> str:
         return self._model_override or configured_pipeline_model(self.provider)
 
-    def complete_json(self, *, instructions: str, prompt: str, schema_name: str, schema: dict[str, Any]) -> Any:
+    def complete_json(self, *, instructions: str, prompt: str, schema_name: str, schema: dict[str, Any],
+                      max_output_tokens: int | None = None, agent_role: str | None = None,
+                      prompt_template_version: str | None = None) -> Any:
+        meter={'version':'pipeline-http-meter-v1','provider':self.provider,'model':self.model,
+            'request_attempts':0,'failed_http_attempts':0,'status':'started',
+            'reported_input_tokens':None,'reported_output_tokens':None,'reported_total_tokens':None,
+            'reported_cost_credits':None,'reported_model':None,'last_http_status':None,
+            'agent_role': agent_role or schema_name,
+            'prompt_template_version': prompt_template_version or 'unversioned',
+            'prompt_fingerprint': hashlib.sha256(json.dumps({
+                'version': prompt_template_version or 'unversioned', 'instructions': instructions,
+                'prompt': prompt, 'schema': schema,
+            }, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode('utf-8')).hexdigest(),
+            'input_fingerprint': hashlib.sha256(prompt.encode('utf-8')).hexdigest(),
+            'output_fingerprint':None,'error_code':None,
+            'scope':'Last successful HTTP reply only; failed-attempt usage unknown. Elapsed time includes retry waits and parsing.'}
+        self.last_execution=None
+        token=_PIPELINE_METER.set(meter);started=time.perf_counter()
+        try:
+            result=self._complete_json(instructions=instructions,prompt=prompt,schema_name=schema_name,schema=schema,
+                                       max_output_tokens=max_output_tokens)
+            meter['status']='parsed'
+            meter['output_fingerprint'] = hashlib.sha256(json.dumps(
+                result, ensure_ascii=False, sort_keys=True, separators=(',', ':'), default=str
+            ).encode('utf-8')).hexdigest()
+            return result
+        except Exception as exc:
+            meter['status']='failed'
+            meter['error_code']=type(exc).__name__
+            raise
+        finally:
+            meter['elapsed_ms']=round((time.perf_counter()-started)*1000,2)
+            self.last_execution=dict(meter)
+            _PIPELINE_METER.reset(token)
+
+    def _complete_json(self, *, instructions: str, prompt: str, schema_name: str, schema: dict[str, Any],
+                       max_output_tokens: int | None = None) -> Any:
         """Request strict JSON and parse it without accepting prose or Markdown."""
+        if self.provider == "ollama":
+            from app.target_ai.providers import ollama_base_url
+            data = self._post(f"{ollama_base_url()}/api/chat", {}, {
+                "model": self.model,
+                "stream": False,
+                "think": False,
+                "keep_alive": "5m",
+                "messages": [
+                    {"role": "system", "content": instructions},
+                    {"role": "user", "content": prompt},
+                ],
+                "format": schema,
+                "options": {
+                    "temperature": 0,
+                    "num_ctx": 8192,
+                    "num_predict": max_output_tokens or 4096,
+                },
+            })
+            meter = _PIPELINE_METER.get()
+            reported_model = data.get("model")
+            if meter is not None and isinstance(reported_model, str) and 0 < len(reported_model) <= 200:
+                meter["reported_model"] = reported_model
+            done_reason = data.get("done_reason")
+            if (meter is not None and meter.get("agent_role") == "independent_memory_review"
+                    and isinstance(done_reason, str)):
+                meter["reported_done_reason"] = done_reason if done_reason in {"stop", "length", "load", "unload", "error"} else "other"
+            message = data.get("message")
+            if (data.get("done") is not True or data.get("done_reason") == "length"
+                    or not isinstance(message, Mapping) or not isinstance(message.get("content"), str)):
+                raise PipelineRequestError("The local pipeline model did not complete a usable answer.")
+            text = message["content"]
+            try:
+                return json.loads(text)
+            except (TypeError, json.JSONDecodeError) as exc:
+                raise PipelineRequestError(
+                    "The configured pipeline model returned invalid JSON. Retry the operation or select another model."
+                ) from exc
         credential = self._credential()
-        if self.provider == "openai":
+        if self.provider == "openrouter":
+            payload = {
+                "model": self.model,
+                **sampling_parameters(self.model,0),
+                "messages": [{"role": "system", "content": instructions}, {"role": "user", "content": prompt}],
+                "response_format": {"type": "json_schema", "json_schema": {
+                    "name": schema_name, "strict": True, "schema": schema,
+                }},
+                **({"max_tokens": max_output_tokens} if max_output_tokens is not None else {}),
+                **request_options(),
+            }
+            data = self._post(CHAT_COMPLETIONS_URL, {"Authorization": f"Bearer {credential}"}, payload)
+            text = self._deepseek_text(data)
+        elif self.provider == "openai":
             payload = {
                 "model": self.model,
                 "instructions": instructions,
@@ -114,6 +212,8 @@ class PipelineLLMClient:
             ) from exc
 
     def _credential(self) -> str:
+        if self.provider == "ollama":
+            return ""
         key_name = _KEY_BY_PROVIDER[self.provider]
         credential = os.getenv(key_name, "").strip()
         if not credential:
@@ -126,30 +226,68 @@ class PipelineLLMClient:
     @staticmethod
     def _post(url: str, headers: dict[str, str], payload: dict[str, Any]) -> dict[str, Any]:
         last_transport_error: httpx.TransportError | None = None
-        for attempt in range(_MAX_ATTEMPTS):
+        meter = _PIPELINE_METER.get()
+        local_model = bool(meter and meter.get("provider") == "ollama")
+        max_attempts = 1 if local_model else _MAX_ATTEMPTS
+        # Local inference latency scales with the requested JSON budget and can
+        # exceed cloud API timeouts even when Ollama is healthy. Keep one local
+        # attempt, but allow enough time for the configured small model to finish.
+        timeout_seconds = 240.0 if local_model else _REQUEST_TIMEOUT_SECONDS
+        for attempt in range(max_attempts):
+            meter=_PIPELINE_METER.get()
+            if meter is not None:
+                temperature=payload.get('temperature',payload.get('generationConfig',{}).get('temperature',payload.get('options',{}).get('temperature')))
+                meter['sampling_control']='fixed' if temperature is not None else 'model_default'
+                meter['sent_temperature']=temperature
+            if meter is not None:meter['request_attempts']+=1
             try:
                 response = httpx.post(
                     url, headers={"Content-Type": "application/json", **headers}, json=payload,
-                    timeout=_REQUEST_TIMEOUT_SECONDS,
+                    timeout=timeout_seconds,
                 )
             except httpx.TransportError as exc:
+                if meter is not None:meter['failed_http_attempts']+=1
                 last_transport_error = exc
             else:
                 if response.is_success:
+                    if meter is not None:meter['last_http_status']=response.status_code
                     try:
                         data = response.json()
                     except ValueError as exc:
                         raise PipelineRequestError("The configured pipeline model returned an invalid API response.") from exc
                     if isinstance(data, dict):
+                        PipelineLLMClient._record_usage(data,meter)
                         return data
                     raise PipelineRequestError("The configured pipeline model returned an unexpected API response.")
+                if meter is not None:meter['failed_http_attempts']+=1
+                if meter is not None:meter['last_http_status']=response.status_code
                 if response.status_code not in _RETRYABLE_STATUS_CODES:
                     raise PipelineRequestError(PipelineLLMClient._http_error(response.status_code))
-            if attempt < _MAX_ATTEMPTS - 1:
+            if attempt < max_attempts - 1:
                 time.sleep(2**attempt)
         if last_transport_error is not None:
             raise PipelineRequestError("The configured pipeline model could not be reached. Please try again.", 503) from last_transport_error
         raise PipelineRequestError("The configured pipeline model is temporarily unavailable. Please try again.", 503)
+
+    @staticmethod
+    def _record_usage(data,meter):
+        if meter is None:return
+        usage=data.get('usage') if isinstance(data.get('usage'),dict) else {}
+        google=data.get('usageMetadata') if isinstance(data.get('usageMetadata'),dict) else {}
+        values={'reported_input_tokens':usage.get('input_tokens',usage.get('prompt_tokens',google.get('promptTokenCount'))),
+            'reported_output_tokens':usage.get('output_tokens',usage.get('completion_tokens',google.get('candidatesTokenCount'))),
+            'reported_total_tokens':usage.get('total_tokens',google.get('totalTokenCount'))}
+        for key,value in values.items():
+            if type(value) is int and value>=0:meter[key]=value
+        if meter['reported_total_tokens'] is None and meter['reported_input_tokens'] is not None and meter['reported_output_tokens'] is not None:
+            meter['reported_total_tokens']=meter['reported_input_tokens']+meter['reported_output_tokens']
+        cost=usage.get('cost')
+        if meter['provider']=='openrouter' and type(cost) in (int,float):
+            try:amount=float(cost)
+            except OverflowError:amount=float('nan')
+            if math.isfinite(amount) and amount>=0:meter['reported_cost_credits']=amount
+        reported=data.get('model',data.get('modelVersion'))
+        if isinstance(reported,str) and 0<len(reported)<=200:meter['reported_model']=reported
 
     @staticmethod
     def _http_error(status_code: int) -> str:

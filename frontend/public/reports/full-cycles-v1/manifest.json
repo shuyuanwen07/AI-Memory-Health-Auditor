@@ -1,0 +1,17 @@
+{
+  "completed_full_cycles": 14,
+  "base": 10,
+  "new_issues": 4,
+  "required": 14,
+  "distinct_saved_runs": 14,
+  "target_model": "qwen3:1.7b",
+  "memory_strategy": "weak_first_hit",
+  "target_unchanged": true,
+  "questions": 29,
+  "passed": 7,
+  "frontend_tests_passed": 59,
+  "backend_unit_tests_passed": 8,
+  "business_verification": "visible UI only",
+  "independent_human_review": false,
+  "blocked_duplicate_attempts_not_counted": 1
+}

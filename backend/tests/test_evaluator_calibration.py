@@ -89,3 +89,20 @@ def test_calibration_keeps_undefined_denominators_null():
     assert metrics.failure_f1 is None
     assert metrics.false_positive_rate == 0.0
     assert metrics.cohens_kappa is None
+
+
+def test_calibration_reports_abstentions_without_counting_them_as_failures():
+    payload = _request().model_dump(mode="json")
+    payload["cases"].append({"case_id": "abstention", "dimension": "accuracy", "evaluator_passed": None, "human_passed": False})
+    payload["label_provenance"] = "ai_assisted"
+    report = EvaluatorCalibrationService().analyse(EvaluatorCalibrationRequest.model_validate(payload))
+    assert (report.labelled_cases_total, report.decided_cases, report.abstained_cases) == (6, 5, 1)
+    assert report.decision_coverage_percent == 83.3
+    assert report.overall_failure_detection.labelled_cases == 5
+    assert report.validation_status == "not_independently_validated"
+    assert report.overall_failure_detection.false_negatives == 1
+
+
+def test_calibration_zero_true_positives_with_errors_has_zero_f1():
+    assert EvaluatorCalibrationService._f1(0, 2, 3) == 0.0
+    assert EvaluatorCalibrationService._f1(0, 0, 0) is None

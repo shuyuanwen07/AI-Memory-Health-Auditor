@@ -1,0 +1,147 @@
+AI Memory Health Auditor — ELEC5623 A2 report working draft
+11 October 2026 | Track B | Not submission-ready; formal findings pending
+Authors and actual contributions: TO BE CONFIRMED BY THE TEAM.
+This document supplies the ten-section evidence structure. It is not an 8–12 page
+finished PDF and does not invent empirical results.
+
+1. Summary
+We implement a source-grounded audit workflow for conversational memory use. The
+system extracts candidate memories, requests source review, generates contextual
+probes, executes a controlled target with configurable memory policies, and reports
+evidence-backed pass/fail/uncertain judgments in four dimensions. Real language
+models may be selected through OpenRouter or locally through Ollama. Model weights
+remain unchanged. The controllable intervention is the surrounding memory policy.
+A newly controlled evaluator comparison scores the same saved reply using rule and
+hybrid review. Independent human validation is required before claiming reliable
+failure detection or useful general repair. INSERT the principal measured result
+only after a frozen independent evaluation.
+
+2. Problem, users, scope and requirements
+A conversational assistant may retain outdated facts, choose an unsupported side
+of a conflict, lose task requirements or apply a general preference in the wrong
+context. A correct reply alone cannot establish that relevant memory was delivered
+or used. Developers need questions, source evidence and traceable diagnoses that
+help identify failure families and evaluate general fixes.
+Our intended user imports authorised histories and reviews proposed ground truth.
+The supported assessed scope is a controlled memory system with a fixed language
+model, not model training or universal access to another vendor's private memory.
+Functional/non-functional implementation and evidence limits are mapped in
+REQUIREMENTS_TRACEABILITY.txt. INSERT approved proposal citations and human-verified
+source requirements. External Agent integration is optional retained infrastructure.
+
+3. Related work and candidate contribution
+Memory storage/retrieval products address retention and personalisation; benchmark
+suites evaluate defined datasets. Our candidate contribution combines source-based
+contextual testing, separately observed failure classification, input-delivery
+receipts, reviewer-controlled comparison and general repair validation.
+The implemented native Mem0 OSS pilot demonstrates integration feasibility only.
+It used a local configuration and small synthetic cases; it cannot support market
+superiority. See MATURE_PRODUCT_COMPARISON.txt for the exact configuration, original
+references, pilot boundaries and observed evidence. LongMemEval comparison requires
+technically compatible semantic evaluation. Verify and cite current original papers/
+repositories in the final report; do not claim first-of-kind novelty without review.
+
+4. Architecture and data flow
+React/TypeScript with Ant Design provides intake, review, audit, comparison and
+research screens. FastAPI/Pydantic validates stage contracts. PostgreSQL/SQLAlchemy
+stores ordered source histories, reviewed facts, frozen run configuration, canonical
+questions, target answers, evaluations and separate human labels. Alembic manages
+schema changes. Providers, prompts, policy versions and configuration fingerprints
+are recorded. ARCHITECTURE.md contains the component/data-flow diagram.
+Reviewer ground truth is distinct from target-private stored memories. The target
+writer ingests authorised history and retrieval selects context under frozen policy.
+Input receipts distinguish stored, retrieved and supplied evidence. Sending a memory
+does not establish causal reliance. Source-linked evidence remains inspectable after
+shared-answer review without inventing a new retrieval event or model request.
+Failure paths include invalid structured model replies, unavailable providers,
+rejected questions, interruption, cancellation, configuration drift and absent traces.
+
+5. GenAI engineering
+Extraction and generation use structured contracts and source IDs. Human review is
+required to confirm proposed facts/relationships and question validity. Rule review
+checks executable constraints; a configured LLM judge supplies semantic assessment.
+Invalid semantic outputs and incompatible rule/semantic conclusions abstain safely.
+The exercised test dimension is distinct from an observed source-supported failure
+category. Target, extraction, test-generation and judge provenance are recorded
+separately; the three-method comparison does not isolate extraction quality.
+Rule-only and hybrid comparisons now reuse identical model-generated questions and
+saved target replies per target/policy/repetition. Source receipts make this control
+verifiable. Older separately executed results remain exploratory. Reused replies
+are not independent samples and incur no second target call; semantic judge calls
+still have their own usage and latency. Failure examples must include the complete
+reply, expected behaviour and exact source support, not isolated keywords.
+
+6. Implemented application and demonstration
+Demonstration sequence: authorised JSON/text -> memory/source review -> frozen
+configuration -> reviewed questions -> execution -> four-dimension grouped chart ->
+automated verdict distribution/differing cases -> blind independent review ->
+reliability evidence -> diagnosis and original/generic/directed repair preparation.
+Charts separate target-answer outcomes from evaluator calibration. Human references
+update a clearly identified reviewed overlay while original automated verdicts remain
+immutable. Pending coverage is visible rather than drawn as confirmed success.
+INSERT selected screenshots and captions from the verified release workflow. Show
+one complete failure with retrieval/input receipt and one negative control. Do not
+use an old chart as evidence for newly changed code or a larger formal population.
+
+7. Evaluation design and results
+Freeze FORMAL_EXPERIMENT_PROTOCOL.md before formal collection. Genuine independent
+reviewers label source facts/relationships, question validity, complete replies and
+failure categories. Retain individual labels and adjudication. A representative
+predeclared sample must include passes, failures and abstentions; a disagreement-only
+sample estimates neither overall accuracy nor missed-defect recall. Independent
+source-supported defect inventories establish the denominator for finding usefulness.
+Study A compares equal-budget direct, rule-seeded researcher-reviewed fixed-template and contextual
+probes. Study B compares Weak/Strong memory policies with the same model and suite,
+plus no-memory/full-context controls. Study C compares relative policy rankings on
+technically compatible LongMemEval semantic reference material. The added three-method
+reviewer ablation supplements these studies.
+Repair validation freezes a general diagnosis-directed rule before untouched scenes;
+compare original, generic instruction and directed policy. A capacity increase changes
+budget and must be disclosed. Oracle source supplementation is diagnostic only.
+Report extraction/relationship Precision/Recall/F1, accepted-test validity, failure-
+positive confusion and Precision/Recall/F1/FPR, kappa, classification agreement and
+coverage, abstention-inclusive joint recall, domain coverage, cost/latency where
+observed, repetitions, regressions and scenario-level uncertainty. Do not count copied
+answers or repeated questions as independent histories. Provider seed is recorded
+when portable deterministic control is unavailable.
+RESULT TABLES PENDING: number of independent histories, labelled items per task,
+reviewer agreement/adjudication, per-dimension confusion, A/B/C effects and ranking,
+repair gains/regressions and uncertainty, actual target/stage calls and costs.
+Regression-test counts belong in engineering validation, not these empirical tables.
+
+8. Reflection and limitations
+Rule judgments remain bounded by lexical/structural detection. Semantic judges can
+share target biases and generate unsupported reasoning. Source-ground-truth mistakes
+propagate into tests and expected behaviour. Abstention selection changes decided
+coverage. Blind review reduces displayed system-label anchoring but cannot guarantee
+reviewers never saw an earlier report; record reviewer independence truthfully.
+Exact source-overlap rejection does not prove semantic/template independence. Local
+small-model results do not establish all OpenRouter model performance. Synthetic
+small pilots and compatible-layout samples do not establish general benchmark or
+market superiority. Formal validity needs independent human evidence and diversity.
+
+9. Responsible development and use
+Authorised intake, de-identification and backend-only credentials protect the local
+workflow. Conversation retention/deletion must follow the team's agreed protocol.
+The owner gate is not production multi-user institutional authentication. Exclude
+raw participant conversations, live keys, databases and private reviewer mappings
+from assessed source archives. Reviewers retain pseudonyms and original decisions.
+AI assistance in development is documented in AI_ASSISTANCE_RECORD.txt. AI-generated
+labels are developmental evidence, never independent human gold. The assessment's
+live presentation/Q&A restrictions must be respected separately.
+
+10. Contributions and references
+Replace proposed ownership with actual verified substantive work: team member,
+module, evidence/commit or artefact, testing and report contribution, confirmation.
+ABC reviewer roles are not proof of the original proposal's four authorship claims.
+Reference the approved proposal, ELEC5623_A2.pdf, original LongMemEval work and exact
+Mem0 OSS sources/version, provider/library documentation and any actual related work.
+Use consistent reference style. Do not cite unverified market summaries as evidence.
+
+Delivery completion
+Required assessed source and final report are separate deliverables. Source packaging
+provides hashes and exclusions; it does not certify that final report tables or human
+contributions are complete. Attach release-specific tests/browser evidence, final
+source revision and actual CI run. A previous GitHub CI success does not validate
+uncommitted improvements. The supplied rubric lists development due 3 November 2026
+23:59 and presentation 4 November; confirm any later Canvas amendments with the team.

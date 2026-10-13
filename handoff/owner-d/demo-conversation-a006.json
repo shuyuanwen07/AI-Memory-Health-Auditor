@@ -1,0 +1,22 @@
+{
+  "messages": [
+    {
+      "message_id": "A006-M01",
+      "role": "user",
+      "content": "The Beacon backend currently uses MySQL.",
+      "timestamp": "2026-09-07T00:00:00Z"
+    },
+    {
+      "message_id": "A006-M02",
+      "role": "user",
+      "content": "The Beacon backend has now migrated to PostgreSQL; this replaces MySQL.",
+      "timestamp": "2026-09-07T00:01:00Z"
+    },
+    {
+      "message_id": "A006-M03",
+      "role": "user",
+      "content": "The Beacon logs remain in object storage.",
+      "timestamp": "2026-09-07T00:02:00Z"
+    }
+  ]
+}

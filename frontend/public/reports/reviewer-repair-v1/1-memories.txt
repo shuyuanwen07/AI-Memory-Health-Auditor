@@ -1,0 +1,67 @@
+Browser tab: 12, Title: "localhost:5173/new-audit", URL: "http://localhost:5173/new-audit".
+0 AXWebArea localhost:5173/new-audit
+	1 container root
+		2 container
+			3 link Description: Memory Auditor, Value: localhost:5173/
+			4 container Primary navigation
+				5 link Description: Dashboard, Value: localhost:5173/
+				6 link Description: New audit, Value: localhost:5173/new-audit
+				7 link Description: History, Value: localhost:5173/history
+				8 link Description: Before & after, Value: localhost:5173/compare
+				9 link Description: Experiments, Value: localhost:5173/experiments
+				10 link Description: About, Value: localhost:5173/about
+		11 container
+			12 content list Audit progress
+				13 container
+					14 text 1 Conversation
+				15 container
+					16 text 2 Ground Truth
+				17 container
+					18 text 3 Configuration
+				19 container
+					20 text 4 Audit
+				21 container
+					22 text 5 Results
+			23 container Review Extracted Memories
+				24 heading Review Extracted Memories, Value: 1, ID: ground-truth-title
+					25 text Review Extracted Memories
+				26 container Memory review summary
+					27 text Extracted  2 To review  2 Accepted  0 Edited  0 Rejected  0
+				28 text 2 memories still need review
+				29 text 0  /  2  reviewed
+				30 progress indicator Description: Memory review progress, Value: 0
+				31 container
+					32 text 0  accepted for reference evidence ·  0  excluded
+				33 container
+					34 text Show memories
+					35 pop up button (collapsed, settable) Show memories, Value: All statuses (2), ID: memory-status-filter, Secondary Actions: Expand
+						36 menu
+							37 (selected) All statuses (2)
+							38 To review (2)
+							39 Accepted (0)
+							40 Edited (0)
+							41 Rejected (0)
+				42 container
+					43 text Showing  2  of  2  memories.
+				44 container Memory 1
+					45 container
+						46 text Memory  1
+					47 text Needs review
+					48 text I am based in New York
+					49 text Source evidence:  Message 1 · User: I am based in New York.  ·  10/8/2026, 4:27:32 AM
+					50 button Accept
+					51 button Edit
+					52 button Reject
+				53 container Memory 2
+					54 container
+						55 text Memory  2
+					56 text Needs review
+					57 text I generally prefer Go
+					58 text Source evidence:  Message 2 · User: I generally prefer Go.  ·  10/8/2026, 4:27:32 AM
+					59 button Accept
+					60 button Edit
+					61 button Reject
+				62 button Add Missing Memory
+				63 button (disabled) Confirm Ground Truth & Continue
+
+The focused UI element is 0 AXWebArea localhost:5173/new-audit

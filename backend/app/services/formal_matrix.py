@@ -2,7 +2,8 @@
 from __future__ import annotations
 
 import hashlib
-from datetime import timezone
+import json
+from datetime import datetime, timezone
 
 from fastapi import HTTPException
 from sqlalchemy.orm import Session
@@ -17,9 +18,13 @@ from app.schemas.domain import (
     TestSuiteConfiguration, TestSuiteMetadata, TestSuiteMode,
 )
 from app.schemas.formal_experiment import (
-    FormalMatrixCreateRequest, FormalMatrixCreateResponse, FormalMatrixScenario,
+    SyntheticMatrixCreateRequest, FormalMatrixCreateResponse, FormalMatrixScenario,
+    FormalAcceptanceProtocol,
 )
 from app.schemas.research import annotation_fingerprint
+from app.evaluator.rule_based import RuleBasedBehaviourEvaluator
+from app.extraction.rule_based import RuleBasedMemoryExtractor
+from app.services.formal_freeze import formal_runtime_signature, formal_input_signature, assert_formal_inputs_frozen
 
 
 def _stable_id(prefix: str, *parts: str) -> str:
@@ -37,12 +42,24 @@ class FormalSyntheticMatrixService:
     answered, and comparisons remain paired.
     """
 
-    VERSION = "synthetic-formal-matrix-v1"
+    VERSION = "synthetic-formal-matrix-v7"
 
-    def create(self, db: Session, request: FormalMatrixCreateRequest) -> FormalMatrixCreateResponse:
+    def create(self, db: Session, request: SyntheticMatrixCreateRequest, *, study_mode: str) -> FormalMatrixCreateResponse:
+        from app.api.routes import reproducibility_snapshot
         dataset = request.dataset
         dataset_hash = annotation_fingerprint(dataset)
+        runtime = formal_runtime_signature()
+        protocol = FormalAcceptanceProtocol(
+            study_mode=study_mode,
+            frozen_at=datetime.now(timezone.utc), criteria=request.success_criteria,
+            dataset_fingerprint_sha256=dataset_hash,
+            runtime_source_sha256=runtime['source_sha256'],
+            development_dataset_fingerprint_sha256=annotation_fingerprint(request.development_dataset) if request.development_dataset else None,
+            distinct_history_check='no_normalized_history_overlap' if request.development_dataset else 'not_checked',
+            study_design=request.study_design,
+        )
         scenarios: list[FormalMatrixScenario] = []
+        all_runs: list[AuditRunModel] = []
 
         for source in dataset.conversations:
             conversation_id = _stable_id("SYN", dataset.dataset_id, dataset.dataset_version, source.conversation_id)
@@ -54,7 +71,7 @@ class FormalSyntheticMatrixService:
                 )
 
             conversation = ConversationModel(
-                id=conversation_id, authorised=True,
+                id=conversation_id, authorised=True, source_origin="synthetic",
                 created_at=source.messages[0].timestamp.astimezone(timezone.utc),
             )
             db.add(conversation)
@@ -63,7 +80,8 @@ class FormalSyntheticMatrixService:
                     id=_stable_id("MSG", conversation_id, message.message_id),
                     conversation_id=conversation_id, source_message_id=message.message_id,
                     sequence=sequence, role=message.role, content=message.content,
-                    timestamp=message.timestamp,
+                    timestamp=MessageModel.timestamp_for_storage(message.timestamp),
+                    original_timestamp=message.timestamp.isoformat(),
                 ))
 
             memory_ids = {
@@ -89,7 +107,7 @@ class FormalSyntheticMatrixService:
                 test_budget=len(source.gold_tests), random_seed=request.random_seed,
                 prompt_template_version=self.VERSION, pipeline_provider="rule_based",
                 pipeline_model="frozen-human-suite", evaluator_provider="rule_based",
-                evaluator_model="rule-based-v4", dimensions=dimensions,
+                evaluator_model=RuleBasedBehaviourEvaluator.VERSION, dimensions=dimensions,
                 suite_mode=TestSuiteMode.FIXED_TEMPLATE,
             )
             experiment = ExperimentModel(
@@ -104,34 +122,49 @@ class FormalSyntheticMatrixService:
             db.flush()
 
             runs: list[AuditRunModel] = []
-            for condition in request.conditions:
-                run = AuditRunModel(
-                    id=_stable_id("RUN", experiment.id, condition.memory_strategy.value),
-                    conversation_id=conversation_id, experiment_id=experiment.id,
-                    status="CREATED", target_configuration=condition.target_configuration.value,
-                    provider=condition.provider.value, model=condition.model,
-                    temperature=condition.temperature, random_seed=request.random_seed,
-                    test_budget=len(source.gold_tests), prompt_template_version=self.VERSION,
-                    pipeline_provider="rule_based", pipeline_model="frozen-human-suite",
-                    evaluator_provider="rule_based", evaluator_model="rule-based-v4",
-                    memory_strategy=condition.memory_strategy.value,
-                    memory_maintenance_policy=TargetMemoryMaintenancePolicy.UPDATE_AWARE_CONSOLIDATION.value,
-                    target_memory_capacity=50, target_memory_writer=TargetMemoryWriterKind.RULE_BASED.value,
-                    target_memory_writer_version="rule-based-memory-extractor-v1",
-                    target_system_adapter=TargetSystemAdapterKind.CONTROLLED_MEMORY.value,
-                    target_system_adapter_version="controlled-memory-v1",
-                    reproducibility_metadata={
-                        "schema_version": "reproducibility-v1", "formal_matrix_version": self.VERSION,
-                        "dataset_id": dataset.dataset_id, "dataset_version": dataset.dataset_version,
-                        "dataset_fingerprint_sha256": dataset_hash, "pilot_id": request.pilot.pilot_id,
-                        "suite_kind": "frozen_human_labelled_synthetic", "condition_label": condition.label,
-                        "target_retry_policy": {"max_attempts": 3, "timeout_seconds": 60.0,
-                                                  "retryable_status_codes": [408, 409, 425, 429, 500, 502, 503, 504]},
-                        "execution_budget": {"max_target_calls": len(source.gold_tests), "max_execution_seconds": 300},
-                    },
-                )
-                db.add(run)
-                runs.append(run)
+            for repetition in range(request.repetitions):
+                for condition in request.conditions:
+                    run = AuditRunModel(
+                        id=_stable_id("RUN", experiment.id, json.dumps((condition.identity, repetition), separators=(",", ":"))),
+                        conversation_id=conversation_id, experiment_id=experiment.id,
+                        status="CREATED", target_configuration=condition.target_configuration.value,
+                        provider=condition.provider.value, model=condition.model,
+                        temperature=condition.temperature, random_seed=request.random_seed,
+                        test_budget=len(source.gold_tests), prompt_template_version=self.VERSION,
+                        pipeline_provider="rule_based", pipeline_model="frozen-human-suite",
+                        evaluator_provider="rule_based", evaluator_model=RuleBasedBehaviourEvaluator.VERSION,
+                        memory_strategy=condition.memory_strategy.value,
+                        memory_maintenance_policy=TargetMemoryMaintenancePolicy.UPDATE_AWARE_CONSOLIDATION.value,
+                        target_memory_capacity=50, target_memory_writer=TargetMemoryWriterKind.RULE_BASED.value,
+                        target_memory_writer_version=RuleBasedMemoryExtractor.VERSION,
+                        target_system_adapter=TargetSystemAdapterKind.CONTROLLED_MEMORY.value,
+                        target_system_adapter_version=runtime['adapter'],
+                        reproducibility_metadata={
+                            **reproducibility_snapshot(provider=condition.provider.value, model=condition.model,
+                            temperature=condition.temperature, random_seed=request.random_seed,
+                            test_budget=len(source.gold_tests), prompt_template_version=self.VERSION,
+                            pipeline_provider='rule_based', pipeline_model='frozen-human-suite',
+                            evaluator_provider='rule_based', evaluator_model=RuleBasedBehaviourEvaluator.VERSION,
+                            memory_strategy=condition.memory_strategy.value,
+                            memory_maintenance_policy=TargetMemoryMaintenancePolicy.UPDATE_AWARE_CONSOLIDATION.value,
+                            target_memory_writer=TargetMemoryWriterKind.RULE_BASED,
+                            target_memory_capacity=50, target_system_adapter=TargetSystemAdapterKind.CONTROLLED_MEMORY),
+                            "formal_matrix_version": self.VERSION,
+                            "formal_repetition_index": repetition + 1,
+                            "formal_repetition_count": request.repetitions,
+                            "formal_runtime_signature": runtime,
+                            "formal_acceptance_protocol": protocol.model_dump(mode='json'),
+                            "dataset_id": dataset.dataset_id, "dataset_version": dataset.dataset_version,
+                            "dataset_fingerprint_sha256": dataset_hash, "pilot_id": request.pilot.pilot_id,
+                            "suite_kind": "frozen_human_labelled_synthetic", "condition_label": condition.label,
+                            "target_retry_policy": {"max_attempts": 3, "timeout_seconds": 60.0,
+                                                      "retryable_status_codes": [408, 409, 425, 429, 500, 502, 503, 504]},
+                            "execution_budget": {"max_target_calls": len(source.gold_tests), "max_execution_seconds": 300},
+                        },
+                    )
+                    db.add(run)
+                    runs.append(run)
+                    all_runs.append(run)
             db.flush()
 
             source_run = runs[0]
@@ -170,19 +203,67 @@ class FormalSyntheticMatrixService:
                 test_count=len(source_tests), dimensions=dimensions, generator_version=self.VERSION,
                 generated_at=source.messages[-1].timestamp,
             ).model_dump(mode="json")
+            db.flush()
             scenarios.append(FormalMatrixScenario(
                 source_conversation_id=source.conversation_id, experiment_id=experiment.id,
                 run_ids=[run.id for run in runs], test_count=len(source_tests),
             ))
 
-        db.commit()
-        return FormalMatrixCreateResponse(
+        plan = FormalMatrixCreateResponse(
+            acceptance_protocol=protocol,
             dataset_id=dataset.dataset_id, dataset_version=dataset.dataset_version,
             dataset_fingerprint_sha256=dataset_hash, pilot_id=request.pilot.pilot_id,
-            condition_count=len(request.conditions), scenario_count=len(scenarios),
+            condition_count=len(request.conditions), repetition_count=request.repetitions, scenario_count=len(scenarios),
             total_audit_runs=sum(len(item.run_ids) for item in scenarios),
             total_target_calls=sum(item.test_count * len(item.run_ids) for item in scenarios),
             scenarios=scenarios,
             notice=("Synthetic scenarios were materialised with a frozen human-labelled test suite. "
                     "Runs are pending; execute them explicitly to record target responses and evaluations."),
         )
+
+        # Save one complete manifest in every condition before signing its inputs.
+        # Recovery must not infer a complete matrix from whichever rows survive.
+        manifest = plan.model_dump(mode='json')
+        for run in all_runs:
+            run.reproducibility_metadata = {**run.reproducibility_metadata, 'formal_matrix_manifest': manifest}
+        db.flush()
+        for run in all_runs:
+            run.reproducibility_metadata = {**run.reproducibility_metadata, 'formal_input_sha256': formal_input_signature(db, run)}
+        db.commit()
+        return plan
+
+    def restore(self, db: Session, run_id: str) -> FormalMatrixCreateResponse:
+        from pydantic import ValidationError
+        from sqlalchemy import select
+        selected = db.get(AuditRunModel, run_id)
+        if not selected:
+            raise HTTPException(404, 'The saved experiment could not be found.')
+        metadata = selected.reproducibility_metadata or {}
+        try:
+            plan = FormalMatrixCreateResponse.model_validate(metadata.get('formal_matrix_manifest'))
+        except ValidationError as error:
+            raise HTTPException(409, 'This older experiment has no complete saved execution plan. Its results remain available; create a newly reviewed experiment to collect more results.') from error
+        if (plan.acceptance_protocol.study_mode == 'formal_experiment_b'
+                and plan.repetition_count < 3):
+            raise HTTPException(409, 'Formal Experiment B requires at least three repetitions per condition. This saved plan cannot be analysed as a formal B study.')
+        ids = [item for scenario in plan.scenarios for item in scenario.run_ids]
+        if run_id not in ids or len(ids) != len(set(ids)) or len(ids) != plan.total_audit_runs or len(plan.scenarios) != plan.scenario_count:
+            raise HTTPException(409, 'The saved execution plan is inconsistent. Existing results are preserved.')
+        rows = {run.id: run for run in db.scalars(select(AuditRunModel).where(AuditRunModel.id.in_(ids)))}
+        if len(rows) != len(ids):
+            raise HTTPException(409, 'Some conditions in the saved plan are missing. This experiment cannot be resumed as a complete matrix.')
+        # Compare peers against the original signed JSON, not a current-schema
+        # dump that injects new optional defaults into older saved manifests.
+        manifest = metadata['formal_matrix_manifest']
+        for scenario in plan.scenarios:
+            if len(scenario.run_ids) != plan.condition_count * plan.repetition_count:
+                raise HTTPException(409, 'The saved condition count no longer matches its plan.')
+            for item in scenario.run_ids:
+                run = rows[item]
+                saved = run.reproducibility_metadata or {}
+                if run.experiment_id != scenario.experiment_id or saved.get('formal_matrix_manifest') != manifest or saved.get('formal_acceptance_protocol') != manifest['acceptance_protocol']:
+                    raise HTTPException(409, 'The saved conditions no longer belong to the same frozen plan.')
+                assert_formal_inputs_frozen(db, run)
+        if plan.total_target_calls != sum(scenario.test_count * len(scenario.run_ids) for scenario in plan.scenarios):
+            raise HTTPException(409, 'The saved call budget no longer matches its plan.')
+        return plan

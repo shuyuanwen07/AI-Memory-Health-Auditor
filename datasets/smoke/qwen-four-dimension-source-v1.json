@@ -1,0 +1,57 @@
+{
+  "dataset_id": "mha-qwen-four-dimension-engineering-smoke",
+  "dataset_version": "1.0.0",
+  "data_origin": "Synthetic scenario authored for an engineering smoke only; not participant data or independent research evidence.",
+  "authorised": true,
+  "source_origin": "synthetic",
+  "messages": [
+    {
+      "message_id": "SYN101",
+      "role": "user",
+      "content": "I live in Adelaide.",
+      "timestamp": "2026-10-01T00:00:00Z"
+    },
+    {
+      "message_id": "SYN102",
+      "role": "user",
+      "content": "The Maple capstone backend used MySQL previously.",
+      "timestamp": "2026-10-01T00:01:00Z"
+    },
+    {
+      "message_id": "SYN103",
+      "role": "user",
+      "content": "We migrated the Maple capstone backend to PostgreSQL; MySQL is no longer used there.",
+      "timestamp": "2026-10-01T00:02:00Z"
+    },
+    {
+      "message_id": "SYN104",
+      "role": "user",
+      "content": "In general, I prefer Python for backend projects.",
+      "timestamp": "2026-10-01T00:03:00Z"
+    },
+    {
+      "message_id": "SYN105",
+      "role": "user",
+      "content": "For Maple capstone backend work, the course requires Java only; that requirement applies to this capstone project.",
+      "timestamp": "2026-10-01T00:04:00Z"
+    },
+    {
+      "message_id": "SYN106",
+      "role": "user",
+      "content": "The current deployment plan for the Maple capstone says the production region is North.",
+      "timestamp": "2026-10-01T00:05:00Z"
+    },
+    {
+      "message_id": "SYN107",
+      "role": "user",
+      "content": "The signed client brief for the same Maple capstone deployment says the production region is South.",
+      "timestamp": "2026-10-01T00:06:00Z"
+    },
+    {
+      "message_id": "SYN108",
+      "role": "user",
+      "content": "Both deployment documents are still active; I have not established which instruction controls.",
+      "timestamp": "2026-10-01T00:07:00Z"
+    }
+  ]
+}

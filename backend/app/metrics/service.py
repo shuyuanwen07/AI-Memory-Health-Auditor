@@ -6,6 +6,7 @@ be read as evidence of zero freshness performance.
 """
 
 from app.schemas import Dimension, DimensionScores, EvaluationResult
+from collections import Counter
 
 
 class MetricsService:
@@ -21,12 +22,11 @@ class MetricsService:
         evaluations: list[EvaluationResult],
         tests: dict[str, Dimension],
     ) -> tuple[float | None, list[DimensionScores]]:
-        # Evaluation records should be unique per test. If an integration sends
-        # a duplicate, retaining the first persisted evaluation prevents it
-        # from inflating either the numerator or denominator.
+        # Conflicting or repeated assessments cannot be resolved by row order.
+        counts = Counter(evaluation.test_id for evaluation in evaluations)
         valid_by_test: dict[str, EvaluationResult] = {}
         for evaluation in evaluations:
-            if evaluation.test_id in tests and evaluation.test_id not in valid_by_test:
+            if evaluation.test_id in tests and counts[evaluation.test_id] == 1:
                 valid_by_test[evaluation.test_id] = evaluation
 
         scores: list[DimensionScores] = []
@@ -36,13 +36,18 @@ class MetricsService:
                 for test_id, evaluation in valid_by_test.items()
                 if tests[test_id] == dimension
             ]
-            total = len(scoped)
-            passed = sum(evaluation.passed for evaluation in scoped)
+            definitive = [evaluation for evaluation in scoped if evaluation.passed is not None]
+            expected = sum(value == dimension for value in tests.values())
+            total = len(definitive)
+            passed = sum(evaluation.passed for evaluation in definitive)
             scores.append(DimensionScores(
                 dimension=dimension,
                 percentage=round((passed / total) * 100, 1) if total else None,
                 passed=passed,
                 total=total,
+                uncertain_count=len(scoped) - total,
+                expected_tests=expected,
+                excluded_evidence_count=expected - len(scoped),
             ))
 
         # Macro-average only across dimensions with one or more valid tests.

@@ -1,0 +1,118 @@
+Browser tab: 7, Title: "localhost:5173/compare?before=RUNCB51964989A46F4F74686EFE87843B&after=RUN584254EE85253C329E0E5B1E24F5CC", URL: "http://localhost:5173/compare?before=RUNCB51964989A46F4F74686EFE87843B&after=RUN584254EE85253C329E0E5B1E24F5CC".
+0 AXWebArea localhost:5173/compare?before=RUNCB51964989A46F4F74686EFE87843B&after=RUN584254EE85253C329E0E5B1E24F5CC
+	1 container root
+		2 container
+			3 link Description: Memory Auditor, Value: localhost:5173/
+			4 container Primary navigation
+				5 link Description: Dashboard, Value: localhost:5173/
+				6 link Description: New audit, Value: localhost:5173/new-audit
+				7 link Description: History, Value: localhost:5173/history
+				8 link Description: Before & after, Value: localhost:5173/compare
+				9 link Description: Experiments, Value: localhost:5173/experiments
+				10 link Description: About, Value: localhost:5173/about
+		11 container
+			12 text BEFORE & AFTER
+			13 heading Did the memory improvement work?, Value: 1
+				14 text Did the memory improvement work?
+			15 text Compare saved tests before and after a change. Check the repaired failures and any regressions alongside the score. Find saved audits
+			16 text field (settable) Description: Find saved audits, Value: Audit 363
+			552 button Clear search
+			17 button Swap before & after
+			18 text 1  matching audits. Your selected audits stay available. Before improvement
+			19 pop up button (collapsed, settable) Before improvement, Value: Audit 185 · qwen3:1.7b · strong rule based · 10/8/2026, 1:16:03 AM, Secondary Actions: Expand
+				20 menu
+					21 Choose a completed audit
+					22 Audit 363 · qwen3:1.7b · weak first hit · 10/8/2026, 3:14:09 AM
+					198 Audit 186 · qwen3:1.7b · scope aware · 10/8/2026, 1:16:03 AM
+					199 (selected) Audit 185 · qwen3:1.7b · strong rule based · 10/8/2026, 1:16:03 AM
+			244 text After improvement
+			245 pop up button (collapsed, settable) After improvement, Value: Audit 186 · qwen3:1.7b · scope aware · 10/8/2026, 1:16:03 AM, Secondary Actions: Expand
+				246 menu
+					247 Choose a completed audit
+					248 Audit 363 · qwen3:1.7b · weak first hit · 10/8/2026, 3:14:09 AM
+					424 (selected) Audit 186 · qwen3:1.7b · scope aware · 10/8/2026, 1:16:03 AM
+					425 Audit 185 · qwen3:1.7b · strong rule based · 10/8/2026, 1:16:03 AM
+			470 text Check before interpreting improvement
+			471 content list
+				472 container
+					473 AXListMarker • 
+					474 text This synthetic pilot was pre-reviewed by AI. Independent human validation is still pending.
+			475 text Before improvement
+			476 text 75.0%
+			477 container
+				478 text 3  /  4  tests passed
+			479 container
+				480 text qwen3:1.7b  ·  strong rule based
+			481 link Description: Open full report →, Value: localhost:5173/audits/RUNCB51964989A46F4F74686EFE87843B
+			482 text After improvement
+			483 text 100.0%
+			484 container
+				485 text 4  /  4  tests passed
+			486 container
+				487 text qwen3:1.7b  ·  scope aware
+			488 link Description: Open full report →, Value: localhost:5173/audits/RUN584254EE85253C329E0E5B1E24F5CC
+			489 text Change on shared questions
+			490 text +25.0 pp
+			491 container
+				492 text 4  identical frozen questions
+			493 text Percentage points in paired pass rate. Each score is an automated assessment.
+			494 container Memory improvement charts
+				495 text MEMORY ABILITIES
+				496 heading Before and after, side by side, Value: 2
+					497 text Before and after, side by side
+				498 text Compare each ability on the same 0–100% scale.
+				499 container Chart question scope
+					500 checkbox Shared questions, Value: 1
+					501 checkbox Full test suites, Value: 0
+				502 container
+					503 container Memory ability pass rates before and after improvement Accuracy: before 0% (0/1), after 100% (1/1), change +100 pp. Freshness: before 100% (1/1), after 100% (1/1), change 0 pp. Conflict resolution: before 100% (1/1), after 100% (1/1), change 0 pp. Appropriate use: before 100% (1/1), after 100% (1/1), change 0 pp., Help: Accuracy: before 0% (0/1), after 100% (1/1), change +100 pp. Freshness: before 100% (1/1), after 100% (1/1), change 0 pp. Conflict resolution: before 100% (1/1), after 100% (1/1), change 0 pp. Appropriate use: before 100% (1/1), after 100% (1/1), change 0 pp.
+					504 text 4 identical questions  · Counts below the bars show passed / tested. An untested ability has no bar.
+					505 button Save chart (SVG)
+				506 container Shared question outcomes
+					507 text 1
+					508 text fixed ·
+					509 text 0
+					510 text regressed ·
+					511 text 3
+					512 text unchanged
+					513 text on shared questions
+			514 button (collapsed) View exact dimension scores, Secondary Actions: Expand
+				515 text View exact dimension scores
+			516 heading What changed on the same questions?, Value: 2
+				517 text What changed on the same questions?
+			518 checkbox Description: 1 Fixed, Value: 0
+				519 text 1
+				520 text Fixed
+			521 checkbox Description: 0 Regressed, Value: 0
+				522 text 0
+				523 text Regressed
+			524 checkbox Description: 0 Still failing, Value: 0
+				525 text 0
+				526 text Still failing
+			527 checkbox Description: 3 Still passing, Value: 0
+				528 text 3
+				529 text Still passing
+			530 button (collapsed) Secondary Actions: Expand, Still passing Where should Juniper deployment secrets be kept, and how should the assistant proceed? conflict resolution
+				531 AXListMarker ▸ 
+				532 text Still passing
+				533 text Where should Juniper deployment secrets be kept, and how should the assistant proceed?
+				534 text conflict resolution
+			535 button (collapsed) Still passing Which database does the Juniper backend use now? freshness, Secondary Actions: Expand
+				536 AXListMarker ▸ 
+				537 text Still passing
+				538 text Which database does the Juniper backend use now?
+				539 text freshness
+			540 button (collapsed) Still passing Which programming language must be used for this assignment? appropriate use, Secondary Actions: Expand
+				541 AXListMarker ▸ 
+				542 text Still passing
+				543 text Which programming language must be used for this assignment?
+				544 text appropriate use
+			545 button (collapsed) Fixed What city is recorded as the user's location? accuracy, Secondary Actions: Expand
+				546 AXListMarker ▸ 
+				547 text Fixed
+				548 text What city is recorded as the user's location?
+				549 text accuracy
+			550 button (collapsed) Comparison settings, Secondary Actions: Expand
+				551 text Comparison settings
+
+The focused UI element is 16 text field (settable) Description: Find saved audits, Value: Audit 363

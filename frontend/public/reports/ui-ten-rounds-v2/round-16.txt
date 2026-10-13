@@ -1,0 +1,18 @@
+Browser tab: 6, Title: "localhost:5173/about", URL: "http://localhost:5173/about".
+1 AXWebArea localhost:5173/about
+	2 container root
+		3 container
+			4 link Description: Memory Auditor, Value: localhost:5173/
+			5 container Primary navigation
+				6 link Description: Dashboard, Value: localhost:5173/
+				7 link Description: New audit, Value: localhost:5173/new-audit
+				8 link Description: History, Value: localhost:5173/history
+				9 link Description: Before & after, Value: localhost:5173/compare
+				10 link Description: Experiments, Value: localhost:5173/experiments
+				11 link Description: About, Value: localhost:5173/about
+		12 container
+			13 heading About AI Memory Health Auditor, Value: 1
+				14 text About AI Memory Health Auditor
+			15 text AI Memory Health Auditor evaluates how reliably a controlled conversational AI remembers and uses information over time. It separates the underlying language model from the memory policy being tested, then measures Accuracy, Freshness, Conflict Resolution and Appropriate Use with traceable evidence. Controlled experiment groups freeze one test suite before comparing models or strategies. Rule-based components provide a reproducible local baseline; optional provider connectors can be configured on the backend.
+
+The focused UI element is 11 link Description: About, URL: localhost:5173/about

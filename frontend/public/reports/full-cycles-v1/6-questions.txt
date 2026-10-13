@@ -1,0 +1,64 @@
+Browser tab: 10, Title: "localhost:5173/new-audit", URL: "http://localhost:5173/new-audit".
+0 AXWebArea localhost:5173/new-audit
+	1 container root
+		2 container
+			3 link Description: Memory Auditor, Value: localhost:5173/
+			4 container Primary navigation
+				5 link Description: Dashboard, Value: localhost:5173/
+				6 link Description: New audit, Value: localhost:5173/new-audit
+				7 link Description: History, Value: localhost:5173/history
+				8 link Description: Before & after, Value: localhost:5173/compare
+				9 link Description: Experiments, Value: localhost:5173/experiments
+				10 link Description: About, Value: localhost:5173/about
+		11 container
+			12 content list Audit progress
+				13 container
+					14 text 1 Conversation
+				15 container
+					16 text 2 Ground Truth
+				17 container
+					18 text 3 Configuration
+				19 container
+					20 text 4 Audit
+				21 container
+					22 text 5 Results
+			23 heading Prepare Memory Audit, Value: 1
+				24 text Prepare Memory Audit
+			25 content list
+				26 container
+					27 text Preparing confirmed ground truth Complete
+				28 container
+					29 text Generating shared behavioural tests Complete
+				30 container
+					31 text Test-suite quality checks Complete
+				32 container
+					33 text Initialising target AI Ready
+				34 container
+					35 text Executing memory tests Waiting
+				36 container
+					37 text Evaluating responses Waiting
+			38 container Generated test suite review
+				39 heading Review Generated Test Suite, Value: 2
+					40 text Review Generated Test Suite
+				41 text Automatic checks can accept questions; this does not constitute independent human review. Inspect the frozen questions before any target model is executed. A decision or replacement is synchronised to every model and strategy condition in this experiment.
+				42 text Accepted  2 Needs review  0 Rejected  0
+				43 text Quality decisions complete
+				44 text 2  /  2  decided
+				45 progress indicator Description: Question review progress, Value: 2
+				46 container
+					47 text Test  1 Direct ✓ Accepted · This question is ready for testing. accuracy Question
+					48 text What is the user's recorded location? State the relevant fact only. Expected behaviour
+					49 text State the recorded fact: I am based in Lisbon. Grounding:  grounded  ·  rule-based-quality-v3: Declared evidence is confirmed and the prompt is answer-independent.
+					50 button (disabled) ✓ Accepted
+					51 button Reject
+					52 button Regenerate
+				53 container
+					54 text Test  2 Direct ✓ Accepted · This question is ready for testing. accuracy Question
+					55 text What programming language does the user generally prefer? State the language only. Expected behaviour
+					56 text State the recorded fact: I generally prefer TypeScript. Grounding:  grounded  ·  rule-based-quality-v3: Declared evidence is confirmed and the prompt is answer-independent.
+					57 button (disabled) ✓ Accepted
+					58 button Reject
+					59 button Regenerate
+			60 button Run Audit & View Results
+
+The focused UI element is 0 AXWebArea localhost:5173/new-audit
