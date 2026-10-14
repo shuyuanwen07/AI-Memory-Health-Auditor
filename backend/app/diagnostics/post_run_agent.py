@@ -59,7 +59,7 @@ _SCHEMA: dict[str, Any] = {
 class PostRunDiagnosticAgent:
     """Review saved diagnosis evidence without changing the run or its verdicts."""
 
-    VERSION = "post-run-diagnostic-agent-v1"
+    VERSION = "post-run-diagnostic-agent-v2"
 
     def __init__(self, client):
         self.client = client
@@ -103,7 +103,7 @@ class PostRunDiagnosticAgent:
         try:
             payload = self.client.complete_json(
                 instructions=instructions, prompt=prompt, schema_name="post_run_diagnostic",
-                schema=_SCHEMA, max_output_tokens=min(2400, max(1200, len(cases) * 180)),
+                schema=_SCHEMA, max_output_tokens=min(12000, max(4096, len(cases) * 700 + 1024)),
                 agent_role="post_run_diagnostic", prompt_template_version=self.VERSION,
             )
             report = _DiagnosticReport.model_validate(payload)

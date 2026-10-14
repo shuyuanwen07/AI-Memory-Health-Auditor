@@ -12,6 +12,7 @@ from __future__ import annotations
 import json
 import hashlib
 import math
+import re
 import os
 import time
 from collections.abc import Mapping
@@ -20,7 +21,7 @@ from typing import Any
 
 import httpx
 
-from app.target_ai.openrouter import CHAT_COMPLETIONS_URL, default_model, request_options, sampling_parameters
+from app.target_ai.openrouter import CHAT_COMPLETIONS_URL, default_model, request_options, sampling_parameters, completion_error
 
 from app.evaluator.rule_based import RuleBasedBehaviourEvaluator
 from app.schemas import Dimension, FailureClassification, JudgeExecutionEvidence, EvaluationResult, Memory, MemoryStatus, TargetResponse, TestCase
@@ -88,6 +89,7 @@ class LLMBehaviourEvaluator(BehaviourEvaluator):
         try:
             result = self._evaluate_judgment(test, response, memories)
             evidence = JudgeExecutionEvidence(
+                version="judge-http-meter-v3",
                 provider=self.provider, model=self.model,
                 reported_model=meter.get("reported_model"),
                 agent_role="blind_evaluation",
@@ -354,6 +356,11 @@ class LLMBehaviourEvaluator(BehaviourEvaluator):
                         raise LLMJudgeRequestError("LLM judge returned invalid JSON.") from exc
                     if isinstance(data, dict):
                         LLMBehaviourEvaluator._record_usage(data, meter, provider=meter.get('provider') if meter else None)
+                        error = completion_error(data)
+                        if error:
+                            if meter is not None:
+                                meter.update(error)
+                            raise LLMJudgeRequestError("The assessment service reported a failed completion. No judgment was accepted.")
                         return data
                     raise LLMJudgeRequestError("LLM judge returned an unexpected response.")
                 if meter is not None:
@@ -370,6 +377,11 @@ class LLMBehaviourEvaluator(BehaviourEvaluator):
     def _record_usage(data: dict, meter: dict | None, *, provider: str | None = None) -> None:
         if meter is None:
             return
+        reported = data.get("model", data.get("modelVersion"))
+        if isinstance(reported, str):
+            clean_model = reported.strip()
+            if re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._:/+_-]{0,119}", clean_model):
+                meter["reported_model"] = clean_model
         usage = data.get("usage") if isinstance(data.get("usage"), dict) else {}
         cost = usage.get('cost')
         if provider == 'openrouter' and type(cost) in (int, float):

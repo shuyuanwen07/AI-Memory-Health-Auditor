@@ -442,3 +442,13 @@ class OperatorSessionModel(Base):
     credential_fingerprint: Mapped[str] = mapped_column(String(64), nullable=False)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
     expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False, index=True)
+
+
+class BenchmarkPlanModel(Base):
+    """Only frozen metadata and execution fingerprints; no benchmark corpus."""
+    __tablename__ = 'benchmark_plans'
+    id: Mapped[str] = mapped_column(String(40), primary_key=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now)
+    fingerprint_sha256: Mapped[str] = mapped_column(String(64))
+    protocol: Mapped[dict] = mapped_column(JSON)
+    executions: Mapped[dict] = mapped_column(JSON, default=dict)

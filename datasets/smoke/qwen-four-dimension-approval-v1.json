@@ -1,0 +1,11 @@
+{
+  "source_sha256": "e84fb0e564c7439ce3edf0fc6ebf7b25a681c9bb9dd209b1b97eb5d5d8a7d406",
+  "approval_scope": "synthetic_engineering_smoke_only",
+  "approval_basis": "The user confirmed all eight Maple synthetic facts and these three edges in this task on 13 October 2026. This is not independent annotation, human gold or research evidence.",
+  "confirmed_source_message_ids": ["SYN101", "SYN102", "SYN103", "SYN104", "SYN105", "SYN106", "SYN107", "SYN108"],
+  "relationships": [
+    {"source_message_id": "SYN103", "type": "UPDATE", "target_message_id": "SYN102"},
+    {"source_message_id": "SYN105", "type": "CONTEXTUAL_OVERRIDE", "target_message_id": "SYN104"},
+    {"source_message_id": "SYN106", "type": "CONFLICT", "target_message_id": "SYN107"}
+  ]
+}

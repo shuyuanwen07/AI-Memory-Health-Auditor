@@ -1,11 +1,11 @@
 import { selectUIOption } from './ui/testHelpers';
-import { render, screen, waitFor, cleanup, act } from '@testing-library/react';
+import { render, screen, waitFor, cleanup, act, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ResearchValidation } from './ResearchValidation';
 
 const apiMocks = vi.hoisted(() => ({
   restoreFormalPlan:vi.fn(), savedFormalRuns:vi.fn(), audits: vi.fn(), validateAnnotationDataset: vi.fn(), researchValidity: vi.fn(), validateBenchmark: vi.fn(),
-  runBenchmark: vi.fn(), analysePilot: vi.fn(), createFormalSyntheticMatrix: vi.fn(), createExploratorySyntheticMatrix: vi.fn(), execute: vi.fn(), evaluate: vi.fn(), getAudit: vi.fn(), retry: vi.fn(),
+  runBenchmark: vi.fn(), analysePilot: vi.fn(), createFormalResearchMatrix: vi.fn(), createFormalSyntheticMatrix: vi.fn(), createExploratorySyntheticMatrix: vi.fn(), execute: vi.fn(), evaluate: vi.fn(), getAudit: vi.fn(), retry: vi.fn(),
 }));
 vi.mock('../services/api', () => ({ api: apiMocks }));
 const downloadMocks = vi.hoisted(() => ({saveBlob: vi.fn()}));
@@ -39,6 +39,7 @@ beforeEach(() => {
 
 test('runs an authorised selected local benchmark and shows its results', async () => {
   const user = userEvent.setup(); render(<ResearchValidation />);
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
   await selectUIOption(user, 'Benchmark family', 'LoCoMo');
   await user.upload(screen.getByLabelText('Local benchmark JSON'), new File([JSON.stringify([{ id: 'B1' }])], 'benchmark.json', { type: 'application/json' }));
   expect(apiMocks.validateBenchmark).not.toHaveBeenCalled();
@@ -58,9 +59,10 @@ test('runs an authorised selected local benchmark and shows its results', async 
 
 test('analyses a pilot package and displays readiness, coverage and agreement', async () => {
   const user = userEvent.setup(); render(<ResearchValidation />);
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
   await user.upload(screen.getByLabelText('Pilot package JSON'), new File([JSON.stringify(pilot)], 'pilot.json', { type: 'application/json' }));
   await user.click(screen.getByRole('button', { name: 'Analyse Pilot Package' }));
-  await waitFor(() => expect(apiMocks.analysePilot).toHaveBeenCalledWith(pilot));
+  await waitFor(() => expect(apiMocks.analysePilot).toHaveBeenCalledWith(pilot,true));
   expect(screen.getByText('Pilot annotation checks passed')).not.toBeNull();
   expect(screen.getByRole('img', { name: /Review completion by task/ })).toBeInTheDocument();
   await user.click(screen.getByRole('button', { name: 'Exact review counts & agreement' }));
@@ -75,6 +77,7 @@ test.each([
   const result=await apiMocks.validateAnnotationDataset();
   apiMocks.validateAnnotationDataset.mockResolvedValue({...result,data_origin:source});
   const user=userEvent.setup();render(<ResearchValidation/>);
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
   await user.upload(screen.getByLabelText('Annotation dataset JSON'),new File([JSON.stringify(dataset)],'labels.json',{type:'application/json'}));
   await user.click(screen.getByRole('button',{name:'Validate Research Files'}));
   expect(screen.getByText(`Declared source: ${expected}`)).toBeInTheDocument();
@@ -83,6 +86,7 @@ test.each([
 
 test('creates an explicitly exploratory matrix without a frozen Experiment B plan', async () => {
   const user = userEvent.setup(); render(<ResearchValidation />);
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
   await user.upload(screen.getByLabelText('Annotation dataset JSON'), new File([JSON.stringify(dataset)], 'labels.json', { type: 'application/json' }));
   await user.click(screen.getByRole('button',{name:'Validate Research Files'}));
   await user.upload(screen.getByLabelText('Pilot package JSON'), new File([JSON.stringify(pilot)], 'pilot.json', { type: 'application/json' }));
@@ -105,6 +109,7 @@ test('a rounded agreement score cannot hide a below-threshold formal gate', asyn
     overall: {...report.overall, cohens_kappa: 0.5996908809891808},
     ready_for_formal_evaluation: false, blocking_reasons: [reason]});
   const user = userEvent.setup(); render(<ResearchValidation />);
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
   await user.upload(screen.getByLabelText('Annotation dataset JSON'), new File([JSON.stringify(dataset)], 'labels.json', {type:'application/json'}));
   await user.click(screen.getByRole('button',{name:'Validate Research Files'}));
   await user.upload(screen.getByLabelText('Pilot package JSON'), new File([JSON.stringify(pilot)], 'pilot.json', {type:'application/json'}));
@@ -121,11 +126,12 @@ test('a rounded agreement score cannot hide a below-threshold formal gate', asyn
 
 test('validates imported research labels and displays a consolidated chart for all four stages', async () => {
   const user = userEvent.setup(); render(<ResearchValidation />);
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
   await user.upload(screen.getByLabelText('Annotation dataset JSON'), new File([JSON.stringify(dataset)], 'labels.json', { type: 'application/json' }));
   await user.click(screen.getByRole('button',{name:'Validate Research Files'}));
   await user.upload(screen.getByLabelText('Prediction set JSON'), new File([JSON.stringify(predictions)], 'predictions.json', { type: 'application/json' }));
   await user.click(screen.getByRole('button', { name: 'Validate Research Files' }));
-  await waitFor(() => expect(apiMocks.researchValidity).toHaveBeenCalledWith(dataset, predictions));
+  await waitFor(() => expect(apiMocks.researchValidity).toHaveBeenCalledWith(dataset, predictions,true));
   expect(screen.getByText('Annotation dataset validated')).not.toBeNull();
   expect(screen.getByRole('button', {name: 'Download metrics & provenance'})).toBeDisabled();
   expect(screen.getByRole('img', {name:/Auditor validity by stage.*Memory Extraction/})).not.toBeNull();
@@ -136,6 +142,7 @@ test('validates imported research labels and displays a consolidated chart for a
 
 test('requires a local source and consent before a benchmark can run', async () => {
   const user = userEvent.setup(); render(<ResearchValidation />);
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
   expect((screen.getByRole('button', { name: 'Run Local Baseline' }) as HTMLButtonElement).disabled).toBe(true);
   await user.upload(screen.getByLabelText('Local benchmark JSON'), new File(['not json'], 'broken.json', { type: 'application/json' }));
   expect(apiMocks.validateBenchmark).not.toHaveBeenCalled();
@@ -152,6 +159,7 @@ test('shows actual blank review coverage without exposing dataset hashes', async
   const empty = {task:null,declared_items:174,annotator_a_labelled:0,annotator_b_labelled:0,paired_items:0,adjudicated_items:0,agreement_count:0,disagreement_count:0,percent_agreement:null,cohens_kappa:null,kappa_applicable:false,disagreements_adjudicated:0,unresolved_disagreements:0};
   apiMocks.analysePilot.mockResolvedValue({dataset_version:hash,overall:empty,by_task:[],ready_for_formal_evaluation:false,blocking_reasons:['Both reviewers must label all items.']});
   render(<ResearchValidation />);
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
   await user.upload(screen.getByLabelText('Pilot package JSON'),new File([JSON.stringify(pilot)],'blank.json',{type:'application/json'}));
   await user.click(screen.getByRole('button',{name:'Analyse Pilot Package'}));
   expect(await screen.findByText('Evidence-bound dataset release · 0 of 174 items labelled by both reviewers')).toBeTruthy();
@@ -165,6 +173,7 @@ test('shows missing and uncertain prediction coverage instead of implying comple
   const metric = {labelled_cases:0,precision:null,recall:null,f1:null,accuracy:null,false_positive_rate:null,cohens_kappa:null};
   apiMocks.researchValidity.mockResolvedValue({dataset_id:'labels-v1',dataset_version:'1.0.0',conversations:1,extraction:metric,relationship:metric,test_validity:metric,evaluator:metric,test_assessment_coverage:{expected:5,submitted:0,decided:0,missing:5,abstained:0},evaluator_coverage:{expected:5,submitted:1,decided:0,missing:4,abstained:1}});
   render(<ResearchValidation />);
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
   await user.upload(screen.getByLabelText('Annotation dataset JSON'), new File([JSON.stringify(dataset)],'labels.json',{type:'application/json'}));
   await user.click(screen.getByRole('button',{name:'Validate Research Files'}));
   await user.upload(screen.getByLabelText('Prediction set JSON'), new File([JSON.stringify(predictions)],'empty.json',{type:'application/json'}));
@@ -176,6 +185,7 @@ test('shows missing and uncertain prediction coverage instead of implying comple
 
 test('creates two models under one selected memory strategy with identical frozen settings', async () => {
   const user = userEvent.setup(); render(<ResearchValidation />);
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
   await user.upload(screen.getByLabelText('Annotation dataset JSON'), new File([JSON.stringify(dataset)], 'labels.json', { type:'application/json' }));
   await user.click(screen.getByRole('button',{name:'Validate Research Files'}));
   await user.upload(screen.getByLabelText('Pilot package JSON'), new File([JSON.stringify(pilot)], 'pilot.json', { type:'application/json' }));
@@ -199,6 +209,7 @@ test('creates two models under one selected memory strategy with identical froze
 
 async function prepareFormalMatrixUi() {
   const user = userEvent.setup(); render(<ResearchValidation />);
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
   await user.upload(screen.getByLabelText('Annotation dataset JSON'), new File([JSON.stringify(dataset)], 'labels.json', {type:'application/json'}));
   await user.click(screen.getByRole('button',{name:'Validate Research Files'}));
   await user.upload(screen.getByLabelText('Pilot package JSON'), new File([JSON.stringify(pilot)], 'pilot.json', {type:'application/json'}));
@@ -209,14 +220,18 @@ async function prepareFormalMatrixUi() {
   return user;
 }
 
-async function prepareFormalStudyForm(targetRuntime:'Local Ollama'|'Deterministic rule-based baseline') {
+async function prepareFormalStudyForm(targetRuntime:'Local Ollama'|'Deterministic rule-based baseline', researchSource=false) {
   const user=userEvent.setup();render(<ResearchValidation/>);
-  await user.upload(screen.getByLabelText('Annotation dataset JSON'),new File([JSON.stringify(dataset)],'labels.json',{type:'application/json'}));
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
+  await user.upload(screen.getByLabelText('Annotation dataset JSON'),new File([JSON.stringify(researchSource?{...dataset,data_origin:'deidentified_research'}:dataset)],'labels.json',{type:'application/json'}));
   await user.click(screen.getByRole('button',{name:'Validate Research Files'}));
   await user.upload(screen.getByLabelText('Pilot package JSON'),new File([JSON.stringify(pilot)],'pilot.json',{type:'application/json'}));
   await user.click(screen.getByRole('button',{name:'Analyse Pilot Package'}));
   await fillSuccessCriteria(user);
-  await user.click(screen.getByLabelText('Synthetic data confirmation'));
+  if(researchSource){
+    await user.upload(screen.getByLabelText('Source permission receipt JSON'),new File([JSON.stringify({release_id:'fixture-only',dataset_fingerprint_sha256:'a'.repeat(64),cloud_processing_authorised:false})],'permission.json',{type:'application/json'}));
+    await user.click(screen.getByLabelText('Research data confirmation'));
+  }else await user.click(screen.getByLabelText('Synthetic data confirmation'));
   await selectUIOption(user,'Formal matrix target runtime',targetRuntime);
   await user.click(screen.getByRole('checkbox',{name:'Run as formal Experiment B with a frozen analysis plan'}));
   for(const label of ['Supply no memories','Replay all retained memories','Rank memories by relevance','Match the task and project','Consider time and importance']) await user.click(screen.getByRole('checkbox',{name:label}));
@@ -259,7 +274,7 @@ test('resumes a formal matrix without executing completed or already answered co
   await waitFor(()=>expect(apiMocks.evaluate).toHaveBeenCalledWith('RUN2'));
   expect(apiMocks.execute).not.toHaveBeenCalled();
   expect(apiMocks.evaluate).toHaveBeenCalledTimes(1);
-  expect(screen.getByText(/Completed 2 controlled synthetic audit runs/)).toBeTruthy();
+  expect(screen.getByText(/Completed 2 controlled audit runs/)).toBeTruthy();
 });
 
 
@@ -272,7 +287,7 @@ test('recovers a lost execution reply without another target execution', async (
   await user.click(screen.getByRole('button',{name:'Run 2 Experiments'}));
   await screen.findByText('Connection interrupted after answers saved.');
   await user.click(screen.getByRole('button',{name:'Run 2 Experiments'}));
-  await screen.findByText(/Completed 2 controlled synthetic audit runs/);
+  await screen.findByText(/Completed 2 controlled audit runs/);
   expect(apiMocks.execute).toHaveBeenCalledTimes(1);
   expect(apiMocks.evaluate).toHaveBeenCalledTimes(1);
 });
@@ -285,7 +300,7 @@ test('keeps cancelled formal conditions terminal and does not announce a complet
   expect(apiMocks.execute).not.toHaveBeenCalled();
   expect(apiMocks.evaluate).not.toHaveBeenCalled();
   expect(apiMocks.retry).not.toHaveBeenCalled();
-  expect(screen.queryByText(/Completed 2 controlled synthetic audit runs/)).toBeNull();
+  expect(screen.queryByText(/Completed 2 controlled audit runs/)).toBeNull();
 });
 
 test('restores only a safe matrix plan after remount and verifies saved completion', async () => {
@@ -295,9 +310,10 @@ test('restores only a safe matrix plan after remount and verifies saved completi
   expect(saved).not.toContain('annotators');
   expect(saved).not.toContain('gold_memories');
   cleanup();render(<ResearchValidation />);
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
   apiMocks.getAudit.mockResolvedValue({status:'COMPLETED'});
   await user.click(screen.getByRole('button',{name:'Run 2 Experiments'}));
-  await screen.findByText(/Completed 2 controlled synthetic audit runs/);
+  await screen.findByText(/Completed 2 controlled audit runs/);
   expect(apiMocks.execute).not.toHaveBeenCalled();
   expect(apiMocks.evaluate).not.toHaveBeenCalled();
 });
@@ -309,7 +325,7 @@ test('verifies the durable stage planner result after a failed condition is reco
   apiMocks.getAudit.mockImplementation(async(id:string)=>({run_id:id,status:states[id]}));
   apiMocks.retry.mockImplementation(async(id:string)=>{states[id]='COMPLETED';});
   await user.click(screen.getByRole('button',{name:'Run 2 Experiments'}));
-  await screen.findByText(/Completed 2 controlled synthetic audit runs/);
+  await screen.findByText(/Completed 2 controlled audit runs/);
   expect(apiMocks.retry).toHaveBeenCalledWith('RUN2');
   expect(apiMocks.execute).not.toHaveBeenCalled();
   expect(apiMocks.evaluate).not.toHaveBeenCalled();
@@ -322,6 +338,7 @@ test('exports bound metrics intact and removes the export when inputs change', a
   apiMocks.researchValidity.mockResolvedValue(report);
   apiMocks.researchValidity.mockClear();
   render(<ResearchValidation />);
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
   await user.upload(screen.getByLabelText('Annotation dataset JSON'), new File([JSON.stringify(dataset)], 'labels.json', {type:'application/json'}));
   await user.click(screen.getByRole('button',{name:'Validate Research Files'}));
   await user.upload(screen.getByLabelText('Prediction set JSON'), new File([JSON.stringify(predictions)], 'predictions.json', {type:'application/json'}));
@@ -338,6 +355,7 @@ test('exports bound metrics intact and removes the export when inputs change', a
 
 test('formal creation remains blocked when a ready pilot belongs to different dataset content', async () => {
   const user = userEvent.setup(); render(<ResearchValidation />);
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
   await user.upload(screen.getByLabelText('Annotation dataset JSON'),new File([JSON.stringify(dataset)],'labels.json',{type:'application/json'}));
   await user.click(screen.getByRole('button',{name:'Validate Research Files'}));
   await user.upload(screen.getByLabelText('Pilot package JSON'),new File([JSON.stringify({...pilot,dataset_fingerprint_sha256:'b'.repeat(64)})],'stale-pilot.json',{type:'application/json'}));
@@ -353,6 +371,7 @@ test('formal creation remains blocked when a ready pilot belongs to different da
 
 test('review receipt remains available when browser download does not produce a file', async () => {
   const user = userEvent.setup(); render(<ResearchValidation />);
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
   await user.upload(screen.getByLabelText('Annotation dataset JSON'),new File([JSON.stringify(dataset)],'labels.json',{type:'application/json'}));
   await user.click(screen.getByRole('button',{name:'Validate Research Files'}));
   await user.click(await screen.findByRole('button',{name:'Download dataset review receipt'}));
@@ -369,6 +388,7 @@ test('a late dataset validation cannot restore evidence after the source file ch
   let resolveOld!: (value: unknown) => void;
   apiMocks.validateAnnotationDataset.mockImplementationOnce(() => new Promise(resolve => {resolveOld=resolve;}));
   const user = userEvent.setup(); render(<ResearchValidation />);
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
   await user.upload(screen.getByLabelText('Annotation dataset JSON'),new File([JSON.stringify(dataset)],'original.json',{type:'application/json'}));
   await user.click(screen.getByRole('button',{name:'Validate Research Files'}));
   await user.upload(screen.getByLabelText('Annotation dataset JSON'),new File([JSON.stringify({...dataset,dataset_version:'2.0.0'})],'replacement.json',{type:'application/json'}));
@@ -381,6 +401,7 @@ test('a late dataset validation cannot restore evidence after the source file ch
 
 test('an invalid replacement file clears previously validated evidence', async () => {
   const user = userEvent.setup(); render(<ResearchValidation />);
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
   await user.upload(screen.getByLabelText('Annotation dataset JSON'), new File([JSON.stringify(dataset)], 'valid.json', {type:'application/json'}));
   await user.click(screen.getByRole('button',{name:'Validate Research Files'}));
   expect(await screen.findByRole('button',{name:'Download dataset review receipt'})).not.toBeNull();
@@ -395,6 +416,7 @@ test('late pilot analysis cannot restore readiness after its package changes', a
   let resolveOld!: (value: unknown) => void;
   apiMocks.analysePilot.mockImplementationOnce(() => new Promise(resolve => {resolveOld=resolve;}));
   const user = userEvent.setup(); render(<ResearchValidation />);
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
   await user.upload(screen.getByLabelText('Pilot package JSON'), new File([JSON.stringify(pilot)], 'original.json', {type:'application/json'}));
   await user.click(screen.getByRole('button',{name:'Analyse Pilot Package'}));
   await user.upload(screen.getByLabelText('Pilot package JSON'), new File([JSON.stringify({...pilot,pilot_id:'replacement'})], 'replacement.json', {type:'application/json'}));
@@ -409,6 +431,7 @@ test('changing benchmark family ignores a pending validation from the old family
   let resolveOld!: (value: unknown) => void;
   apiMocks.validateBenchmark.mockImplementationOnce(() => new Promise(resolve => {resolveOld=resolve;}));
   const user=userEvent.setup();render(<ResearchValidation/>);
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
   await user.upload(screen.getByLabelText('Local benchmark JSON'),new File(['[{"id":"B1"}]'],'source.json',{type:'application/json'}));
   await user.click(screen.getByLabelText('Benchmark source authorisation'));
   await waitFor(()=>expect(screen.getByRole('button',{name:'Validate Benchmark Input'})).toBeEnabled());
@@ -421,6 +444,7 @@ test('changing benchmark family ignores a pending validation from the old family
 
 test('invalid benchmark replacement revokes the old source and authorisation', async () => {
   const user=userEvent.setup();render(<ResearchValidation/>);
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
   await user.upload(screen.getByLabelText('Local benchmark JSON'),new File(['[{"id":"B1"}]'],'source.json',{type:'application/json'}));
   await user.click(screen.getByLabelText('Benchmark source authorisation'));
   await user.upload(screen.getByLabelText('Local benchmark JSON'),new File(['false'],'invalid.json',{type:'application/json'}));
@@ -433,6 +457,7 @@ test('changing benchmark strategy cannot restore a pending run for the old setti
   const report=await apiMocks.runBenchmark();let resolveOld!: (value:unknown)=>void;
   apiMocks.runBenchmark.mockImplementationOnce(()=>new Promise(resolve=>{resolveOld=resolve;}));
   const user=userEvent.setup();render(<ResearchValidation/>);
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
   await user.upload(screen.getByLabelText('Local benchmark JSON'),new File(['[{"id":"B1"}]'],'source.json',{type:'application/json'}));
   await user.click(screen.getByLabelText('Benchmark source authorisation'));
   await waitFor(()=>expect(screen.getByRole('button',{name:'Run Local Baseline'})).toBeEnabled());
@@ -446,6 +471,7 @@ test('changing benchmark strategy cannot restore a pending run for the old setti
 
 test('formal creation requires explicit criteria and preserves the frozen receipt',async()=>{
   const user=userEvent.setup();render(<ResearchValidation/>);
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
   await user.upload(screen.getByLabelText('Annotation dataset JSON'),new File([JSON.stringify(dataset)],'labels.json',{type:'application/json'}));
   await user.click(screen.getByRole('button',{name:'Validate Research Files'}));
   await user.upload(screen.getByLabelText('Pilot package JSON'),new File([JSON.stringify(pilot)],'pilot.json',{type:'application/json'}));
@@ -483,6 +509,7 @@ test('restores a server execution plan without files and locks running while rec
   let resolve!:(value:unknown)=>void;apiMocks.restoreFormalPlan.mockReturnValue(new Promise(r=>resolve=r));
   apiMocks.getAudit.mockResolvedValue({status:'COMPLETED'});
   const user=userEvent.setup();render(<ResearchValidation />);
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
   await waitFor(()=>expect(screen.getByRole('button',{name:'Restore execution plan'})).toBeEnabled());
   await user.click(screen.getByRole('button',{name:'Restore execution plan'}));
   expect(screen.getByRole('button',{name:'Run 2 Experiments'})).toBeDisabled();
@@ -491,7 +518,7 @@ test('restores a server execution plan without files and locks running while rec
   await waitFor(()=>expect(screen.getByRole('button',{name:'Run 2 Experiments'})).toBeEnabled());
   expect(screen.getByText(/Saved execution plan restored/)).toBeInTheDocument();
   await user.click(screen.getByRole('button',{name:'Run 2 Experiments'}));
-  await waitFor(()=>expect(screen.getByText(/Completed 2 controlled synthetic audit runs/)).toBeInTheDocument());
+  await waitFor(()=>expect(screen.getByText(/Completed 2 controlled audit runs/)).toBeInTheDocument());
   expect(apiMocks.execute).not.toHaveBeenCalled();expect(apiMocks.evaluate).not.toHaveBeenCalled();
 });
 
@@ -500,7 +527,7 @@ test('exploratory matrices retain bounded repeat counts and reject fractional or
   const user=await prepareFormalMatrixUi();apiMocks.createExploratorySyntheticMatrix.mockClear();
   const repeats=screen.getByLabelText('Runs per condition');
   for(const value of ['0','6','2.5','3x']){
-    await user.clear(repeats);await user.type(repeats,value);
+    await user.clear(repeats);await user.paste(value);
     expect(screen.getByRole('button',{name:'Create Exploratory Matrix'})).toBeDisabled();
   }
   await user.clear(repeats);await user.type(repeats,'3');
@@ -542,4 +569,61 @@ test('analysis plan is blocked without a sampling rule and submitted before exec
   await waitFor(()=>expect(apiMocks.createFormalSyntheticMatrix).toHaveBeenCalled());
   expect(apiMocks.createFormalSyntheticMatrix.mock.calls.at(-1)?.[0].study_design).toEqual({sampling_rule:rule,primary_outcome:'overall_memory_health',analysis_unit:'source_history',incomplete_results:'report_without_imputing_scores'});
   expect(apiMocks.execute).not.toHaveBeenCalled();
+});
+
+
+test('research release requires storage confirmation and uses the dedicated formal route',async()=>{
+  apiMocks.createFormalResearchMatrix.mockResolvedValue(await apiMocks.createFormalSyntheticMatrix());
+  apiMocks.createFormalResearchMatrix.mockClear();
+  const user=await prepareFormalStudyForm('Local Ollama',true);
+  expect(screen.queryByLabelText('Synthetic data confirmation')).not.toBeInTheDocument();
+  await user.click(screen.getByLabelText('Research data confirmation'));
+  expect(screen.getByRole('button',{name:'Create Formal Experiment B'})).toBeDisabled();
+  await user.click(screen.getByLabelText('Research data confirmation'));
+  await user.click(screen.getByRole('button',{name:'Create Formal Experiment B'}));
+  await waitFor(()=>expect(apiMocks.createFormalResearchMatrix).toHaveBeenCalledTimes(1));
+  expect(apiMocks.createFormalResearchMatrix).toHaveBeenCalledWith(expect.objectContaining({
+    synthetic_data_confirmation:false,label_prefix:'Reviewed research release',
+    source_release:expect.objectContaining({release_id:'fixture-only',cloud_processing_authorised:false}),
+    dataset:expect.objectContaining({data_origin:'deidentified_research'}),repetitions:3,
+  }));
+});
+
+
+test('research source files stay unread before permission and clear on revocation', async () => {
+  const user=userEvent.setup();
+  render(<ResearchValidation/>);
+  const read=vi.spyOn(FileReader.prototype,'readAsText');
+  const input=screen.getByLabelText('Annotation dataset JSON');
+  expect(input).toBeDisabled();
+  expect(screen.getByLabelText('Pilot package JSON')).toBeDisabled();
+  expect(screen.getByLabelText('Prediction set JSON')).toBeDisabled();
+  const file=new File([JSON.stringify(dataset)],'source-labels.json',{type:'application/json'});
+  fireEvent.change(input,{target:{files:[file]}});
+  expect(read).not.toHaveBeenCalled();
+  expect(apiMocks.validateAnnotationDataset).not.toHaveBeenCalled();
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
+  await user.upload(screen.getByLabelText('Annotation dataset JSON'),file);
+  await screen.findByText('source-labels.json');
+  await waitFor(()=>expect(screen.getByRole('button',{name:'Validate Research Files'})).toBeEnabled());
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
+  expect(screen.getByLabelText('Annotation dataset JSON')).toBeDisabled();
+  expect(screen.queryByText('source-labels.json')).not.toBeInTheDocument();
+  expect(screen.getByRole('button',{name:'Validate Research Files'})).toBeDisabled();
+  read.mockRestore();
+});
+
+test('permission revocation excludes a pending research validation response', async () => {
+  const user=userEvent.setup();render(<ResearchValidation/>);
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
+  await user.upload(screen.getByLabelText('Annotation dataset JSON'),new File([JSON.stringify(dataset)],'labels.json',{type:'application/json'}));
+  let resolve:((value:unknown)=>void)|undefined;
+  apiMocks.validateAnnotationDataset.mockImplementationOnce(()=>new Promise(done=>{resolve=done;}));
+  await user.click(screen.getByRole('button',{name:'Validate Research Files'}));
+  await waitFor(()=>expect(resolve).toBeDefined());
+  await user.click(screen.getByRole('checkbox',{name:'Research file source authorisation'}));
+  await act(async()=>{resolve?.({dataset_id:'labels-v1',valid:true,scenario_count:1});});
+  expect(screen.queryByText('Annotation dataset validated. Add predictions to calculate Auditor validity metrics.')).not.toBeInTheDocument();
+  expect(apiMocks.researchValidity).not.toHaveBeenCalled();
+  expect(screen.getByRole('button',{name:'Validate Research Files'})).toBeDisabled();
 });

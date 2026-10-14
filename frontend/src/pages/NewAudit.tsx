@@ -675,6 +675,14 @@ export function NewAudit() {
       <p>This is a saved submission from this browser tab. Opening this page does not start a new extraction. Continue it below, or start a new conversation.</p>
       <UIPanel><UISummary>View the saved conversation</UISummary><p style={{whiteSpace:'pre-wrap'}}>{savedIntake.text}</p></UIPanel>
       <p><b>Extraction service:</b> {providers.find(item=>item.provider===savedIntake.provider)?.label ?? 'Previously selected service'} · <b>Extraction model:</b> {savedIntake.model ? modelDisplayName(savedIntake.model) : 'Rule-based extraction'}</p>
+      {providers.filter(item => item.provider === 'openrouter' && item.configured
+        && (savedIntake.provider !== 'openrouter' || savedIntake.model !== (item.default_pipeline_model ?? item.default_model))).map(item =>
+        <UIButton key={item.provider} className="secondary" disabled={busy || providerStatus!=='ready'} onClick={() => {
+          const nextModel=item.default_pipeline_model ?? item.default_model;
+          saveIntake({...savedIntake,provider:'openrouter',model:nextModel});
+          setPipelineProvider('openrouter');setPipelineModel(nextModel);setError('');
+          setRecoveryNotice('The next extraction will use '+modelDisplayName(nextModel)+'. Continue below to resume the saved conversation.');
+        }}>Use {modelDisplayName(item.default_pipeline_model ?? item.default_model)} for the next extraction</UIButton>)}
       <UIButton disabled={busy || providerStatus!=='ready'} onClick={submitConversation}>{busy ? 'Checking your submission…' : 'Continue saved submission'}</UIButton>
       <UIButton className="secondary" disabled={busy} onClick={startFresh}>Start a new conversation</UIButton>
       <p>Continuing may retry the selected extraction model. Starting new keeps previously saved server data. Neither action requests target answers at this step.</p>

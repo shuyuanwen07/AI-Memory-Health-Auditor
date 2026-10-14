@@ -16,6 +16,8 @@ from test_live_benchmark import PROVENANCE
 
 @pytest.fixture
 def package(monkeypatch):
+    # Only simulated transport is used; no real credential or model call.
+    monkeypatch.setenv('OPENROUTER_API_KEY', 'synthetic-test-key')
     monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
     source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
         answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
@@ -85,6 +87,8 @@ def test_labels_are_strict_booleans(package,label):
 def test_import_endpoint_has_no_database_or_provider_dependencies(package,monkeypatch):
     # This fixture's simulated replies are already frozen; importing must not
     # start another inference or touch the operational audit store.
+    # Only simulated transport is used; no real credential or model call.
+    monkeypatch.setenv('OPENROUTER_API_KEY', 'synthetic-test-key')
     monkeypatch.setattr(HttpTargetAIConnector,'_execute_provider',lambda *a:pytest.fail('unexpected model call'))
     with TestClient(app) as client:
         response=client.post('/api/v1/research/benchmarks/longmemeval/semantic-review',json=package)

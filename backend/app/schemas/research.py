@@ -5,7 +5,7 @@ import hashlib
 import json
 from datetime import datetime
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field, StrictBool, model_validator
 
 from app.schemas.annotation import AnnotationDataset, TestQualityLabel
 from app.schemas.domain import Dimension, RelationshipType
@@ -19,6 +19,7 @@ class AnnotationImportRequest(BaseModel):
     """
 
     dataset: AnnotationDataset
+    source_authorised: StrictBool = False
 
 
 class AnnotationImportReport(BaseModel):
@@ -110,6 +111,7 @@ class ResearchPredictionSet(BaseModel):
 class ResearchValidityRequest(BaseModel):
     dataset: AnnotationDataset
     predictions: ResearchPredictionSet
+    source_authorised: StrictBool = False
 
 
 class BinaryClassificationMetrics(BaseModel):

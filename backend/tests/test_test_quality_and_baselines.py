@@ -279,6 +279,38 @@ def test_unresolved_secret_conflict_does_not_generate_an_ambiguous_fact_question
     assert 'clarification' in tests[0].expected_behavior
 
 
+@pytest.mark.parametrize("fact,prompt", [
+    ("The deployment plan says production region North.", "Which policy should govern the North production region?"),
+    ("The signed client brief says the production region is South.", "Should the deployment region be South?"),
+    ("The production region is US East.", "Which policy applies to US East?"),
+])
+def test_questions_cannot_reveal_source_derived_deployment_region_values(fact, prompt):
+    assert RuleBasedTestQualityValidator._answer_leaked(fact, prompt)
+    assert not RuleBasedTestQualityValidator._answer_leaked(fact, "Which production region is recorded in the plan?")
+
+
+def test_deployment_conflict_template_hides_region_answers_and_keeps_both_in_reference():
+    first = Memory(memory_id="M001", conversation_id="SYN", status="confirmed",
+                   canonical_value="The deployment plan says production region North.")
+    second = Memory(memory_id="M002", conversation_id="SYN", status="confirmed",
+                    canonical_value="The signed client brief says the production region is South.",
+                    relationships=[MemoryRelationship(type="CONFLICT", target_memory_id="M001")])
+    tests = RuleBasedTestGenerator().generate([first, second], _audit())
+    assert len(tests) == 1
+    assert "deployment region" in tests[0].prompt
+    assert "North" not in tests[0].prompt and "South" not in tests[0].prompt
+    assert "North" in tests[0].expected_behavior and "South" in tests[0].expected_behavior
+    assert RuleBasedTestQualityValidator().validate(tests[0], [first, second]).quality_status == TestQualityStatus.ACCEPTED
+
+
+@pytest.mark.parametrize("fact", ["Location: Adelaide.", "The user's location is Adelaide."])
+def test_personal_location_is_not_presented_as_a_deployment_region(fact):
+    memory = Memory(memory_id="M001", conversation_id="SYN", canonical_value=fact, status="confirmed")
+    test = RuleBasedTestGenerator().generate([memory], _audit())[0]
+    assert "location" in test.prompt
+    assert "deployment" not in test.prompt
+
+
 def test_go_preference_is_a_programming_language_question():
     memory = Memory(memory_id='M1', conversation_id='C', status='confirmed', canonical_value='I generally prefer Go')
     tests = RuleBasedTestGenerator().generate([memory], _audit())
@@ -415,3 +447,13 @@ def test_hidden_audit_memory_ids_cannot_be_target_answer_obligations(field):
     legitimate=test.model_copy(update={'prompt':'What is the user asset code?',
         'expected_behavior':'The user asset code is M001.'})
     assert RuleBasedTestQualityValidator().validate(legitimate,[actual]).quality_status==TestQualityStatus.ACCEPTED
+
+
+def test_unresolved_conflict_accepts_passive_user_clarification_without_priority_inference():
+    from app.schemas import Memory, MemoryRelationship, TestCase
+    memories=[Memory(memory_id='M001',conversation_id='SYN',canonical_value='The current deployment plan says production region North.',status='confirmed',relationships=[MemoryRelationship(type='CONFLICT',target_memory_id='M002')]),Memory(memory_id='M002',conversation_id='SYN',canonical_value='The signed client brief says production region South.',status='confirmed')]
+    test=TestCase(test_id='T001',run_id='SYN',dimension='conflict_resolution',test_type='indirect',prompt='What should be clarified before acting on conflicting deployment region settings?',expected_behavior='The assistant must resolve the conflict between the signed client brief (South) and the current deployment plan (North). The user should be asked which constraint takes precedence.',supporting_memory_ids=['M001','M002'],generator_version='fixture')
+    validator=RuleBasedTestQualityValidator()
+    assert validator.validate(test,memories).quality_status.value=='accepted'
+    for expected in ('The user should not be asked which constraint controls.', 'Use the newer North plan. The user should be asked to confirm.'):
+        assert validator.validate(test.model_copy(update={'expected_behavior':expected}),memories).quality_status.value=='rejected'

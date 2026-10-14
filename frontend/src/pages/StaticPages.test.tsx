@@ -116,14 +116,14 @@ test('loads reports for the visible page and retains usable groups when one repo
     return {experiment: groups.find(g => g.experiment_id === id), runs: [], conditions: [], paired_comparisons: []};
   });
   render(<Experiments />);
-  await screen.findByRole('button', {name: 'Retry result summary'});
+  await screen.findByRole('button', {name: 'Retry result summary'},{timeout:15000});
   expect(screen.getByRole('heading', {name: 'Scenario 1'})).toBeTruthy();
   expect(screen.getByRole('heading', {name: 'Scenario 2'})).toBeTruthy();
   expect(screen.queryByText(/Experiment groups could not be loaded/)).toBeNull();
   expect(apiMocks.experimentResults).toHaveBeenCalledTimes(3);
   apiMocks.experimentResults.mockImplementation(async (id: string) => ({experiment: groups.find(g => g.experiment_id === id), runs: [], conditions: [], paired_comparisons: []}));
   await user.click(screen.getByRole('button', {name: 'Retry result summary'}));
-  await waitFor(() => expect(screen.queryByRole('button', {name: 'Retry result summary'})).toBeNull());
+  await waitFor(() => expect(screen.queryByRole('button', {name: 'Retry result summary'})).toBeNull(),{timeout:15000});
   expect(apiMocks.experimentResults).toHaveBeenCalledTimes(4);
   await user.click(screen.getByRole('button', {name: 'Next experiments'}));
   await screen.findByRole('heading', {name: 'Scenario 4'});

@@ -194,7 +194,7 @@ function OverallBarChart({ runs, captionId }: { runs: ExperimentStatisticsRun[];
     }));
   const groups = allGroups.filter((group): group is typeof group & {overall: number} => group.overall !== null);
   const sampleSummary = (group: (typeof allGroups)[number]) => `n=${group.scoredRuns} scored run${group.scoredRuns === 1 ? '' : 's'}; ${group.decided} decided answer${group.decided === 1 ? '' : 's'}${group.pending ? `; ${group.pending} awaiting review` : ''}${group.unassessed ? `; ${group.unassessed} unassessed` : ''}${group.excluded ? `; ${group.excluded} evidence unavailable` : ''}`;
-  const summary = allGroups.map((group) => `${group.fullCondition}: ${group.overall === null ? 'Not measured' : `${percentage(group.overall)} tested-ability average`} · ${sampleSummary(group)}${group.runs > 1 && group.standardDeviation === null ? ` · variation not measured (${group.scoredRuns} scored ${group.scoredRuns === 1 ? 'run' : 'runs'})` : group.standardDeviation !== null ? ` (± ${number(group.standardDeviation)}%)` : ''}`).join('; ');
+  const summary = allGroups.map((group) => `${group.fullCondition}: ${group.overall === null ? 'Not measured' : `${percentage(group.overall)} tested-ability average`} · ${sampleSummary(group)}${group.runs > 1 && group.standardDeviation === null ? ` · variation not measured (${group.scoredRuns} scored ${group.scoredRuns === 1 ? 'run' : 'runs'})` : group.standardDeviation !== null ? ` (± ${number(group.standardDeviation)} pp population SD)` : ''}`).join('; ');
   const rowHeight = Math.max(58, ...groups.map(group => conditionLabelLines(group.condition).length * 14 + 20));
 
   return <UICard className="visual-report-card">
@@ -208,7 +208,7 @@ function OverallBarChart({ runs, captionId }: { runs: ExperimentStatisticsRun[];
             <YAxis type="category" dataKey="condition" width={210} interval={0} tick={<ConditionAxisLabel/>} />
             <Tooltip formatter={(value, _name, item) => {
               const deviation = item.payload?.standardDeviation;
-              const variation = item.payload?.runs > 1 ? typeof deviation === 'number' ? ` (± ${number(deviation)}%)` : ` · variation not measured (${item.payload?.scoredRuns} scored ${item.payload?.scoredRuns === 1 ? 'run' : 'runs'})` : '';
+              const variation = item.payload?.runs > 1 ? typeof deviation === 'number' ? ` (± ${number(deviation)} pp population SD)` : ` · variation not measured (${item.payload?.scoredRuns} scored ${item.payload?.scoredRuns === 1 ? 'run' : 'runs'})` : '';
               const sample = ` · ${sampleSummary(item.payload)}`;
               return [`${percentage(Number(value))}${sample}${variation}`, 'Tested ability average'];
             }} />
@@ -221,7 +221,7 @@ function OverallBarChart({ runs, captionId }: { runs: ExperimentStatisticsRun[];
         </ResponsiveContainer>
       </div>
       <ul className="chart-review-coverage">{allGroups.map(group=><li key={group.fullCondition}>{group.fullCondition}: {group.overall === null ? 'Overall not measured · ' : ''}{sampleSummary(group)}{group.runs > 1 && group.standardDeviation === null ? ` · variation not measured (${group.scoredRuns} scored ${group.scoredRuns === 1 ? 'run' : 'runs'})` : ''}</li>)}</ul>
-      <figcaption id={captionId}>Each bar is the mean tested-ability average across scored runs (0–100%). The chart lists the scored-run sample size and decided, pending, unassessed, or evidence-unavailable answer counts for each condition. Untested abilities and uncertain judgments are excluded; different coverage can change averages. An overall Memory Health score requires all four abilities.</figcaption>
+      <figcaption id={captionId}>Each bar is the mean tested-ability average across scored runs (0–100%). Error bars show population standard deviation across available run scores, in percentage points (pp), not a confidence interval. The chart lists the scored-run sample size and decided, pending, unassessed, or evidence-unavailable answer counts for each condition. Untested abilities and uncertain judgments are excluded; different coverage can change averages. An overall Memory Health score requires all four abilities.</figcaption>
     </figure>
   </UICard>;
 }

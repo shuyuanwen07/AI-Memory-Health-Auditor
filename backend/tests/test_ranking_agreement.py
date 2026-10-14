@@ -15,12 +15,14 @@ from test_live_benchmark import PROVENANCE
 
 @pytest.fixture
 def package(monkeypatch):
+    # Only simulated transport is used; no real credential or model call.
+    monkeypatch.setenv('OPENROUTER_API_KEY', 'synthetic-test-key')
     monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
     source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
         answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
         dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
         answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
-    evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+    evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(target_memory_profile={'output_token_limit':256},payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
     return dict(source=source, source_authorised=True, evidence=evidence, strategy='weak_first_hit', evaluator_revision='0'*40,
         rows=[dict(question_id='fixture_abs', hypothesis='The information is incomplete.',
             autoeval_label=dict(model='contract-fixture-no-model-call', label=True))])
@@ -45,12 +47,14 @@ def ranking(package, monkeypatch):
             SimpleNamespace(id='after', memory_strategy='strong_rule_based', **deepcopy(shared))]
     db = Mock()
     db.get.side_effect = lambda model, identity: next((run for run in runs if run.id == identity), None)
-    db.scalar.return_value = 2
+    db.scalar.return_value = 4
     db.scalars.return_value.all.return_value = [SimpleNamespace(model=evidence['model'], temperature=evidence['temperature'],
-        execution_metadata=deepcopy(case['execution_metadata'])) for case in evidence['conditions'][0]['cases']]
+        execution_metadata=deepcopy(case['execution_metadata'])) for case in evidence['conditions'][0]['cases'] * 2]
     comparison = {'setting_differences':[], 'paired_tests':[
-        {'before':{'passed':False}, 'after':{'passed':True}},
-        {'before':{'passed':True}, 'after':{'passed':True}}]}
+        {'dimension':'accuracy', 'before':{'passed':False}, 'after':{'passed':True}},
+        {'dimension':'freshness', 'before':{'passed':True}, 'after':{'passed':True}},
+        {'dimension':'conflict_resolution', 'before':{'passed':False}, 'after':{'passed':False}},
+        {'dimension':'appropriate_use', 'before':{'passed':False}, 'after':{'passed':False}}]}
     monkeypatch.setattr(ranking_agreement, 'compare_audit_evidence', lambda *a: comparison)
     body = dict(reference_run_id='before', candidate_run_id='after', reference_benchmark=package, candidate_benchmark=right)
     return db, runs, comparison, body
@@ -64,7 +68,9 @@ def analyse(ranking):
 def test_relative_ordering_binds_exact_semantic_files_and_creates_no_records(ranking):
     report = analyse(ranking)
     assert report.agreement == 'consistent'
-    assert [(s.reference_correct,s.candidate_correct,s.total) for s in report.suites] == [(1,2,2),(1,2,2)]
+    assert [(s.reference_correct,s.candidate_correct,s.total) for s in report.suites] == [(1,2,4),(1,2,2)]
+    assert report.suites[0].score_basis == 'dimension_macro_average'
+    assert report.suites[0].reference_percentage == 25
     assert len(report.benchmark_evidence_fingerprint_sha256) == 64
     assert report.dataset_provenance.dataset_version=='synthetic-fixture-v1'
     assert len(report.source_fingerprint_sha256)==64
@@ -90,8 +96,10 @@ def test_optional_scope_aware_ablation_cannot_be_reported_as_experiment_c(rankin
 
 @pytest.mark.parametrize('audit,benchmark,expected',[(2,1,'consistent'),(0,1,'reversed'),(1,1,'inconclusive_tie'),(1,0,'both_tied')])
 def test_ordering_and_ties_are_distinct(ranking,audit,benchmark,expected):
-    ranking[2]['paired_tests']=[{'before':{'passed':True},'after':{'passed':audit>0}},
-                              {'before':{'passed':False},'after':{'passed':audit>1}}]
+    ranking[2]['paired_tests']=[{'dimension':'accuracy','before':{'passed':True},'after':{'passed':audit>0}},
+                              {'dimension':'freshness','before':{'passed':False},'after':{'passed':audit>1}},
+                              {'dimension':'conflict_resolution','before':{'passed':False},'after':{'passed':False}},
+                              {'dimension':'appropriate_use','before':{'passed':False},'after':{'passed':False}}]
     ranking[3]['candidate_benchmark']['rows'][1]['autoeval_label']['label']=bool(benchmark)
     assert analyse(ranking).agreement == expected
 
@@ -134,6 +142,28 @@ def test_absolute_scores_remain_separate_for_unequal_suites():
     assert benchmark.candidate_percentage == 70
 
 
+def test_auditor_ordering_uses_dimension_macro_average_when_question_counts_are_unequal():
+    from app.research.ranking_agreement import audit_suite_result
+    pairs = [{'dimension':'accuracy','before':{'passed':True},'after':{'passed':False}} for _ in range(9)]
+    pairs += [{'dimension':dimension,'before':{'passed':False},'after':{'passed':True}}
+              for dimension in ('freshness','conflict_resolution','appropriate_use')]
+    result = audit_suite_result(pairs)
+    assert (result.reference_correct, result.candidate_correct) == (9, 3)
+    assert (result.reference_percentage, result.candidate_percentage) == (25, 75)
+    assert result.ordering == 'candidate_higher'
+    assert result.score_basis == 'dimension_macro_average'
+
+
+def test_missing_auditor_dimension_is_unmeasured_and_cannot_establish_agreement(ranking):
+    ranking[2]['paired_tests'][-1]['dimension'] = 'accuracy'
+    report = analyse(ranking)
+    assert report.agreement == 'inconclusive_missing_dimensions'
+    assert report.suites[0].ordering == 'unmeasured'
+    assert report.suites[0].reference_percentage is None
+    missing = next(row for row in report.suites[0].dimensions if row.dimension.value == 'appropriate_use')
+    assert missing.total == 0 and missing.reference_percentage is None
+
+
 @pytest.mark.parametrize('field,value,match',[
     ('dataset_provenance',None,'dataset version, licence and citation'),
     ('adapter_fingerprint_sha256',None,'adapter version and implementation fingerprint'),
@@ -151,6 +181,8 @@ def test_route_is_read_only_and_does_not_call_target(ranking,monkeypatch):
     from app.database.session import get_db
     from app.main import app
     from app.target_ai.providers import HttpTargetAIConnector
+    # Only simulated transport is used; no real credential or model call.
+    monkeypatch.setenv('OPENROUTER_API_KEY', 'synthetic-test-key')
     monkeypatch.setattr(HttpTargetAIConnector,'_execute_provider',lambda *a:pytest.fail('unexpected target call'))
     def supplied_db():
         yield ranking[0]

@@ -17,10 +17,11 @@ class RuleBasedBehaviourEvaluator(BehaviourEvaluator):
     It has the same interface that a future rule-and-LLM evaluator will use.
     """
 
-    VERSION = "rule-based-v56"
+    VERSION = "rule-based-v61"
     _GENERIC_REFERENCE_TERMS = frozenset({
         "language", "system", "information", "value", "fact", "record", "requirement",
         "preference", "answer", "response", "behavior", "behaviour", "details", "detail", "data", "context", "managed",
+        "previously", "formerly", "historically", "earlier", "check", "checks", "required",
     })
     _STOP_WORDS = frozenset({
         "about", "after", "before", "current", "fact", "from", "later", "record",
@@ -61,7 +62,8 @@ class RuleBasedBehaviourEvaluator(BehaviourEvaluator):
         ]
         if required_terms == ["conflict", "clarification"]:
             text = response.response_text.lower()
-            if re.search(r"\b(?:conflict\w*|incompatible|contradict\w*|disagree\w*)\b", text):
+            if (re.search(r"\b(?:conflict\w*|incompatible|contradict\w*|disagree\w*)\b", text)
+                or self._deployment_alternatives_acknowledged(test, response.response_text, memories)):
                 if "conflict" not in matched_terms:
                     matched_terms.append("conflict")
             if (re.search(r"\b(?:request(?:s|ing)?|ask(?:s|ing)?|seek(?:s|ing)?|requires?|needs?)\b[^.!?\n]{0,50}\bclarification\b|\b(?:please\s+)?clarify\s+(?:which|whether|what)\b|\b(?:ask(?:s|ing)?|inquire)\s+which\s+policy\b", text)
@@ -81,6 +83,9 @@ class RuleBasedBehaviourEvaluator(BehaviourEvaluator):
         if self._contradictory_platform_answer(test, response.response_text, required_terms, memories):
             contradictory = True
             rejection_notes.append("The answer selects a different meeting platform; mentioning the current platform elsewhere does not repair that instruction.")
+        if self._required_database_replacement_missing(test, response.response_text):
+            contradictory = True
+            rejection_notes.append("The question requires the database replacement, but the response omits or reverses its current and earlier values.")
         if self._unsupported_database_history(test, response.response_text, memories):
             contradictory = True
             rejection_notes.append("The answer attributes an unsupported database value to the earlier source record.")
@@ -110,6 +115,10 @@ class RuleBasedBehaviourEvaluator(BehaviourEvaluator):
                     contradictory = True
                     rejection_notes.append("The response recommends one unresolved policy instead of reporting it as a source statement.")
             support = [m.canonical_value.lower() for m in memories if m.memory_id in test.supporting_memory_ids]
+            deployment_issues = self._unresolved_deployment_conflict_issues(response.response_text, support)
+            if deployment_issues:
+                contradictory = True
+                rejection_notes.extend(deployment_issues)
             platform_issues = self._unresolved_platform_conflict_issues(expected, response.response_text, support)
             if platform_issues:
                 contradictory = True
@@ -143,6 +152,10 @@ class RuleBasedBehaviourEvaluator(BehaviourEvaluator):
                 not re.search(r"\b(?:not|never|avoid)\b[^.!?\n]{0,20}$", response.response_text.lower()[max(0, choice.start()-30):choice.start()])
                 for choice in recency_choices
             )
+        scoped_languages = self._scoped_language_values(expected)
+        if scoped_languages and self._scoped_language_scope_missing(response.response_text, scoped_languages):
+            contradictory = True
+            rejection_notes.append("The response does not preserve the task requirement and general preference in their separate scopes.")
         if contradictory:
             passed = False
 
@@ -487,7 +500,7 @@ class RuleBasedBehaviourEvaluator(BehaviourEvaluator):
         """
         # Check mandatory conflict actions before removing explanatory prose;
         # an explanation can precede a later clarification requirement.
-        if re.search(r"request clarification|ask.*clarif", expected.lower()) or (re.search(r"\bconflict", expected, re.I) and re.search(r"\bclarification\s+(?:is\s+)?(?:needed|required)\b", expected, re.I)):
+        if re.search(r"request clarification|ask.*clarif|ask(?:\s+the)?\s+user\s+which\s+(?:constraint|requirement|policy)\s+(?:controls?|takes?\s+precedence|applies?)", expected.lower()) or (re.search(r"\bconflict", expected, re.I) and re.search(r"\bclarification\s+(?:is\s+)?(?:needed|required)\b", expected, re.I)):
             return ["conflict", "clarification"]
         dates = set(re.findall(r"\b\d{4}-\d{2}-\d{2}\b", expected))
         if len(dates) == 1:
@@ -498,6 +511,24 @@ class RuleBasedBehaviourEvaluator(BehaviourEvaluator):
         # Resolved replacement references can end in the old value. Select
         # the explicitly replacing database, never the historical sentence tail.
         database = r"(?:mysql|postgresql|postgres|sqlite|mongodb|redis|mariadb|cassandra|dynamodb)"
+        current_database = re.search(rf"\b(?P<current>{database})\s+is\s+(?:the\s+)?current\b", expected, re.I)
+        current_database = current_database or re.search(
+            rf"\bcurrent\s+(?:database(?:\s+system)?|system|engine|datastore)\s+is\s+(?P<current>{database})\b",
+            expected, re.I,
+        )
+        # A source-reference summary may put the active value before "is
+        # used" and end with a historical sentence. Require an explicit current
+        # record plus an affirmative present-tense assertion; do not select the
+        # historical tail or a negated/previously-used value.
+        current_database = current_database or re.search(
+            rf"\bcurrent\s+record\s+(?:says|states|indicates|confirms)\s+(?P<current>{database})\s+is\s+(?:currently\s+)?used\b(?!\s+(?:previously|formerly|historically|earlier)\b)",
+            expected, re.I,
+        )
+        if current_database:
+            return [current_database.group('current').lower()]
+        scoped_languages = cls._scoped_language_values(expected)
+        if scoped_languages:
+            return list(scoped_languages)
         replaced = re.search(rf"\b(?P<current>{database})\s*,?\s+(?:which\s+)?replaced\s+{database}\b", expected, re.I)
         updated = re.search(rf"\b(?:use|uses|using)(?:\s+of)?\s+(?P<current>{database})\b[^.!?]{{0,60}}\bupdate\s+to\b[^.!?]{{0,60}}\b{database}\b", expected, re.I)
         if replaced or updated:
@@ -626,13 +657,79 @@ class RuleBasedBehaviourEvaluator(BehaviourEvaluator):
         return False
 
     @staticmethod
+    def _unresolved_deployment_conflict_issues(response: str, support: list[str]) -> list[str]:
+        from app.services.deployment_facts import deployment_region_value
+        values = {value.lower() for source in support if (value := deployment_region_value(source))}
+        if len(values) < 2:
+            return []
+        option = '|'.join(re.escape(value) for value in sorted(values, key=len, reverse=True))
+        text = response.lower()
+        for choice in re.finditer(rf"\b(?:use|choose|select|deploy\s+(?:in|to))\s+(?:the\s+)?(?:{option})\b|\b(?:{option})\s+is\s+(?:the\s+)?(?:chosen|recommended|correct)\s+(?:production\s+)?region\b", text):
+            prefix = re.split(r'[.!?;\n]', text[:choice.start()])[-1]
+            if re.search(r"\b(?:if|unless|not|never|avoid|whether)\b[^.!?\n]*$",prefix):
+                continue
+            if re.search(r"\b(?:plan|brief|source|record)\b[^.!?\n]{0,60}\b(?:says?|states?|requires?)\b[^.!?\n]*$",prefix):
+                continue
+            return ["The response chooses a deployment region while its source constraints remain unresolved."]
+        return []
+
+    @staticmethod
+    def _deployment_alternatives_acknowledged(test: TestCase, response: str, memories: list[Memory]) -> bool:
+        from app.services.deployment_facts import deployment_region_value
+        values = {value.lower() for memory in memories if memory.memory_id in test.supporting_memory_ids
+                  if (value := deployment_region_value(memory.canonical_value))}
+        text = response.lower()
+        return (len(values) >= 2
+                and all(re.search(rf"(?<![\w-]){re.escape(value)}(?![\w-])", text) for value in values)
+                and bool(re.search(r"\b(?:whether|while|versus|or)\b", text))
+                and bool(re.search(r"\bclarify\s+(?:which|whether|what)\b|\bwhich\b[^.!?\n]{0,60}\b(?:controls?|takes?\s+precedence)\b", text)))
+
+    @staticmethod
+    def _required_database_replacement_missing(test: TestCase, response: str) -> bool:
+        if test.dimension != Dimension.FRESHNESS or not re.search(r"\b(?:replac\w*|earlier|previous|historical)\b", test.prompt, re.I):
+            return False
+        database = r"(?:mysql|postgresql|postgres|sqlite|mongodb|redis|mariadb|cassandra|dynamodb)"
+        prior = re.search(rf"\breplaced\s+({database})\b", test.expected_behavior, re.I)
+        if prior is None:
+            return False
+        # Mere mention of the old value does not demonstrate replacement.
+        return not bool(re.search(rf"\b(?:replaced|replaces|replacing|instead\s+of)\s+{re.escape(prior[1])}\b|\b{re.escape(prior[1])}\s+(?:was|is)\s+(?:the\s+)?(?:previous|earlier|old|former)\b", response, re.I))
+
+    @staticmethod
+    def _scoped_language_values(expected: str) -> tuple[str, str] | None:
+        """Read explicit dual-scope language requirements, never arbitrary prose tails."""
+        language = '|'.join(re.escape(value) for value in sorted(LANGUAGE_WORDS | {'go'}, key=len, reverse=True))
+        task = re.search(rf"\b(?:recommend|use)\s+({language})\b", expected, re.I)
+        general = re.search(rf"\b(?:general\s+)?preference\s+for\s+({language})\b", expected, re.I)
+        if task and general and task[1].lower() != general[1].lower() and re.search(r"\b(?:other|outside|general)\b", expected, re.I):
+            return task[1].lower(), general[1].lower()
+        return None
+
+    @staticmethod
+    def _scoped_language_scope_missing(response: str, values: tuple[str, str]) -> bool:
+        task, general = values
+        text = response.lower()
+        # The stable preference must remain explicitly general/outside the task.
+        general_scope = any(
+            re.search(rf"\b{re.escape(general)}\b", clause)
+            and re.search(r"\b(?:general|other|outside)\b", clause)
+            and re.search(r"\b(?:prefer\w*|recommend\w*|use)\b", clause)
+            and not RuleBasedBehaviourEvaluator._term_is_negated(general, clause)
+            for clause in re.split(r'[.;!\n]', text)
+        )
+        task_choice = bool(re.search(rf"\b(?:use|recommend|requires?)\s+{re.escape(task)}\b|\b{re.escape(task)}\s+(?:is\s+)?(?:required|mandatory)\b", text))
+        first = re.split(r'[.;!\n]', text, maxsplit=1)[0]
+        wrong_task_choice = bool(re.search(rf"\b(?:use|recommend)\s+{re.escape(general)}\b", first))
+        return not general_scope or not task_choice or wrong_task_choice
+
+    @staticmethod
     def _contradictory_database_answer(test: TestCase, response: str, required: list[str]) -> bool:
         """Check an explicit answer assertion, without rejecting historical comparisons."""
         from app.services.memory_entities import named_projects
         databases = {"mysql", "postgresql", "sqlite", "mongodb"}
         if not databases.intersection(required):
             return False
-        first = re.split(r"[.!?\n]", response.strip(), maxsplit=1)[0].lower()
+        first = re.split(r"[.!?;\n]", response.strip(), maxsplit=1)[0].lower()
         answer_projects = named_projects(response.strip().split(".", 1)[0])
         question_projects = named_projects(test.prompt)
         if answer_projects and question_projects and answer_projects.isdisjoint(question_projects):
@@ -646,7 +743,7 @@ class RuleBasedBehaviourEvaluator(BehaviourEvaluator):
                 continue
             if first.strip(" *`#:") == value or re.search(
                 rf"\b(?:should\s+(?:now\s+)?use|must\s+use|now\s+uses?|currently\s+uses?|uses?|(?:answer|database)(?:\s+technology)?\s+is)\s+{value}\b", first
-            ) or re.search(rf"\b{value}\s+is\s+(?:the\s+)?(?:current|correct|required|recommended|chosen)\b", first):
+            ) or re.search(rf"\b{value}\s+(?:is\s+(?:the\s+)?(?:current|correct|required|recommended|chosen)|is\s+(?:currently\s+)?used\s+(?:now|currently)|applies\s+now)\b", first):
                 return True
         return False
 

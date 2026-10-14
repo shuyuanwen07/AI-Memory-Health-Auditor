@@ -27,7 +27,7 @@ test('requires validated source and consent before actual model calls',async()=>
   await user.click(screen.getByLabelText('Live benchmark model-run authorisation'));
   await user.click(screen.getByRole('button',{name:'Run Real-Model Comparison'}));
   await screen.findByText('Real-model comparison completed');
-  expect(calls.runLiveBenchmark).toHaveBeenCalledWith(expect.objectContaining({provider:'ollama',model:'qwen3:1.7b',source_authorised:true,strategies:['weak_first_hit','strong_rule_based'],dataset_provenance:{dataset_version:'fixture-v1',license:'synthetic fixture',citation:'Synthetic unit-test fixture'}}),expect.any(AbortSignal));
+  expect(calls.runLiveBenchmark).toHaveBeenCalledWith(expect.objectContaining({provider:'openrouter',model:'openai/gpt-6-luna',source_authorised:true,strategies:['weak_first_hit','strong_rule_based'],dataset_provenance:{dataset_version:'fixture-v1',license:'synthetic fixture',citation:'Synthetic unit-test fixture'}}),expect.any(AbortSignal));
   expect(screen.getByText('Strong rule-based · 1/1 lexical matches')).toBeInTheDocument();
   expect(screen.getByRole('img', {name: /Weak first-hit 0\/1 lexical matches, 0%; Strong rule-based 1\/1 lexical matches, 100%/})).toBeInTheDocument();
   expect(screen.getByText(/Word matches are an initial check/)).toBeInTheDocument();
@@ -86,6 +86,8 @@ test('includes native condition only when selected and keeps controlled preparat
     supplied_memory_ids:['r'],execution_metadata:{request_attempts:1,latency_ms:1},memory_preparation:{}};
   calls.runLiveBenchmark.mockResolvedValue({...result,conditions:[{...result.conditions[1],cases:[baseCase]}]});
   render(<LiveBenchmark/>);await upload(user);
+  await user.click(screen.getByLabelText('Live benchmark provider'));
+  await user.click(await screen.findByText('Local Qwen (Ollama)'));
   await user.click(screen.getByLabelText('Include native Mem0 comparison'));
   expect(screen.getByText('3 model answers requested; provider retries may add calls.')).toBeInTheDocument();
   await user.click(screen.getByLabelText('Live benchmark model-run authorisation'));
@@ -99,6 +101,8 @@ test('includes native condition only when selected and keeps controlled preparat
 
 test('requires one controlled reference for three native repair conditions',async()=>{
   const user=userEvent.setup();render(<LiveBenchmark/>);await upload(user);
+  await user.click(screen.getByLabelText('Live benchmark provider'));
+  await user.click(await screen.findByText('Local Qwen (Ollama)'));
   await user.click(screen.getByLabelText('Include native Mem0 comparison'));
   expect(screen.getByLabelText('Compare native generic and directed repairs')).toBeDisabled();
 });

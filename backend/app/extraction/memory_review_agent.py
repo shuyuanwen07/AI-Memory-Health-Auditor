@@ -23,12 +23,12 @@ class _Finding(BaseModel):
 
 class _ReviewResult(BaseModel):
     model_config = ConfigDict(extra="forbid")
-    findings: list[_Finding] = Field(default_factory=list)
+    findings: list[_Finding] = Field(default_factory=list, max_length=12)
 
 
 MEMORY_REVIEW_SCHEMA: dict[str, Any] = {
     "type": "object", "additionalProperties": False, "required": ["findings"],
-    "properties": {"findings": {"type": "array", "items": {
+    "properties": {"findings": {"type": "array", "maxItems": 12, "items": {
         "type": "object", "additionalProperties": False,
         "required": ["kind", "memory_ids", "evidence_message_ids", "suggested_memory", "reason", "confidence"],
         "properties": {
@@ -50,6 +50,8 @@ MEMORY_REVIEW_INSTRUCTIONS = (
     "For every finding cite at least one source message ID. Never add facts that are not explicit in a cited message. "
     "An omission suggestion is only a draft for a person to review; never treat it as confirmed memory. "
     "Do not modify candidates, relationships, or user decisions. When unsure, use kind=uncertain and say what is unclear. "
+    "Report only concrete, actionable concerns; do not restate supported facts. Keep findings concise and return at most 12, "
+    "prioritising unsupported facts, missed durable facts, and consequential ambiguity. "
     "Return only the requested structured JSON."
 )
 
@@ -125,7 +127,7 @@ def _failure_diagnostics(exc: Exception, execution: dict | None, phase: str) -> 
 
 
 class IndependentMemoryReviewAgent:
-    VERSION = "independent-memory-review-agent-v1"
+    VERSION = "independent-memory-review-agent-v2"
 
     def __init__(self, client: PipelineLLMClient):
         self.client = client
@@ -149,7 +151,7 @@ class IndependentMemoryReviewAgent:
                 prompt=prompt,
                 schema_name="independent_memory_review",
                 schema=MEMORY_REVIEW_SCHEMA,
-                max_output_tokens=min(2048, max(512, len(messages) * 48)),
+                max_output_tokens=_review_output_token_budget(len(messages), len(memories)),
                 agent_role="independent_memory_review",
                 prompt_template_version=self.VERSION,
             )
@@ -202,3 +204,9 @@ class IndependentMemoryReviewAgent:
             if isinstance(exc, ValidationError):
                 raise PipelineRequestError("The independent memory-review Agent returned data outside the required contract.") from exc
             raise
+
+
+def _review_output_token_budget(message_count: int, memory_count: int) -> int:
+    """Bound review output while leaving room for several cited findings."""
+    estimate = max(0, message_count) * 64 + max(0, memory_count) * 96
+    return min(4096, max(2048, estimate))

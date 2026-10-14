@@ -9,6 +9,8 @@
 
 .comparison-visuals { margin: 1.8rem 0 1rem; padding: 1.5rem; background: #fff; border: 1px solid #d8e2ec; border-radius: 16px; }
 .comparison-chart-heading { display: flex; justify-content: space-between; align-items: center; gap: 1.2rem; flex-wrap: wrap; }
+.comparison-selectors label { min-width: 0; max-width: 100%; }
+.comparison-selectors .ui-select { width: 100%; min-width: 0; max-width: 100%; }
 .comparison-chart-heading .eyebrow { margin: 0 0 .5rem; font-size: .72rem; letter-spacing: .12em; }
 .audit-comparison .comparison-chart-heading h2 { margin: 0; font-size: 1.35rem; }
 .comparison-chart-heading p { margin: .5rem 0; color: #63758a; }
@@ -53,3 +55,13 @@ button:not(.ant-btn).review-accepted-button:not(.ant-btn):disabled{background:#d
 .test-review-card{border:1px solid #d8e2ec;border-radius:10px;padding:1rem}
 .review-decision-actions{display:flex;gap:.5rem;flex-wrap:wrap}
 .review-decision-actions button:not(.ant-btn){margin-right:0}
+
+.model-availability {
+  display: grid;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+  line-height: 1.5;
+}
+.model-availability > .text-button {
+  justify-self: start;
+}

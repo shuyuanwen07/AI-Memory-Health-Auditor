@@ -124,3 +124,21 @@ def test_older_signed_plan_without_new_optional_fields_can_still_be_restored(stu
     assert response.json()['acceptance_protocol']['study_design'] is None
     with factory() as db:
         assert all(field not in db.get(AuditRunModel, run).reproducibility_metadata['formal_matrix_manifest']['acceptance_protocol'] for field in omitted)
+
+
+def test_saved_formal_reader_control_is_required_without_erasing_history(study):
+    client,factory,run,_=study
+    with factory() as db:
+        original=db.get(AuditRunModel,run)
+        metadata=dict(original.reproducibility_metadata)
+        protocol=dict(metadata['formal_acceptance_protocol'])
+        protocol.pop('reader_control',None)
+        metadata['formal_acceptance_protocol']=protocol
+        original.reproducibility_metadata=metadata
+        db.commit()
+    rows=client.get('/api/v1/research/formal/saved-runs?limit=50').json()['items']
+    historical=next(item for item in rows if item['run_id']==run)
+    assert historical['study_mode']=='formal_experiment_b'
+    assert historical['has_frozen_criteria'] is False
+    with factory() as db:
+        assert db.get(AuditRunModel,run).status=='COMPLETED'

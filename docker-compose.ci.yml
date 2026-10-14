@@ -27,4 +27,4 @@ services:
       - ./scripts:/scripts:ro
     depends_on:
       postgres-ci: {condition: service_healthy}
-    command: sh -c 'alembic upgrade head && pytest -q -o cache_dir=/tmp/pytest-cache tests/test_postgresql_api_smoke.py'
+    command: sh -c 'alembic upgrade head && alembic check && pytest -q -o cache_dir=/tmp/pytest-cache tests/test_postgresql_api_smoke.py tests/test_benchmark_plan.py'

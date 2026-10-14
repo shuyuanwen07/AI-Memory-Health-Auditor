@@ -14,6 +14,7 @@ from fastapi import HTTPException
 from app.evaluator.rule_based import RuleBasedBehaviourEvaluator
 from app.extraction.rule_based import RuleBasedMemoryExtractor
 from app.target_systems.controlled import ControlledTargetSystemAdapter
+from app.schemas.domain import TargetConfiguration
 
 
 def formal_runtime_signature() -> dict[str, str]:
@@ -29,11 +30,13 @@ def formal_runtime_signature() -> dict[str, str]:
         digest.update(relative)
         digest.update(len(content).to_bytes(8, 'big'))
         digest.update(content)
+    from app.extraction.llm import pipeline_output_token_cap
     return {
         'source_sha256': digest.hexdigest(),
         'evaluator': RuleBasedBehaviourEvaluator.VERSION,
         'writer': RuleBasedMemoryExtractor.VERSION,
         'adapter': ControlledTargetSystemAdapter.version,
+        'pipeline_output_token_cap': str(pipeline_output_token_cap()),
     }
 
 
@@ -105,9 +108,20 @@ def formal_input_signature(db: Session, audit) -> str:
 
 
 def assert_formal_inputs_frozen(db: Session, audit) -> None:
+    from app.services.benchmark_plan import assert_benchmark_plan_inputs_frozen
+    assert_benchmark_plan_inputs_frozen(db, audit)
     metadata = audit.reproducibility_metadata or {}
     if not metadata.get('formal_matrix_version'):
         return
+    protocol = metadata.get('formal_acceptance_protocol') or {}
+    if protocol.get('study_mode') == 'formal_experiment_b' and (
+        protocol.get('reader_control') != 'fixed_strong_reader'
+        or audit.target_configuration != TargetConfiguration.STRONG.value
+    ):
+        raise HTTPException(409,
+            'Formal Experiment B requires one frozen Strong reader for every memory strategy. '
+            'This plan does not satisfy that control. Create a newly reviewed study; '
+            'historical answers and results are preserved.')
     saved = metadata.get('formal_input_sha256')
     if not saved or saved != formal_input_signature(db, audit):
         raise HTTPException(409,

@@ -17,3 +17,6 @@ artifacts/local/
 output/*
 !output/proposal-human-handoff-v2/
 .ruff_cache/
+
+# Disposable, approved-synthetic engineering evidence is copied to docs/evidence.
+backend/.engineering-smoke/

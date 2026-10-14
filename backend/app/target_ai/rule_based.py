@@ -46,12 +46,10 @@ def private_context_instruction(test: TestCase, configuration: TargetConfigurati
         )
     else:
         policy = "Use only the single retrieved record below. Do not reconcile records that were not retrieved."
-    if configuration == TargetConfiguration.STRONG and len(context) > 1 and any(
-        "neither" in record.lower() and "supersedes" in record.lower() for record in context
-    ):
+    if configuration == TargetConfiguration.STRONG:
         policy += (
-            " The supplied policies explicitly say neither supersedes the other. This is an unresolved "
-            "conflict, not a later update. Your answer must identify the two incompatible options and "
+            " If supplied policies explicitly say neither supersedes the other, treat them as an unresolved "
+            "conflict, not a later update. For such a conflict, identify the two incompatible options and "
             "ask which policy to follow. Do not suggest selecting by recency or invent a priority."
             " Describe each policy as a source statement, not as your recommendation. "
             "Do not begin or end with a chosen storage option and then add a clarification request. "

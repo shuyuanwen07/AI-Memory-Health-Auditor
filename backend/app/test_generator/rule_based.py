@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import re
 from app.services.location_facts import location_value
+from app.services.deployment_facts import deployment_region_value
 from app.services.meeting_facts import is_meeting_platform_topic, equivalent_exclusive_platform_rules
 
 from app.schemas import AuditRun, Dimension, Memory, RelationshipType, TestCase, TestType
@@ -21,7 +22,7 @@ class RuleBasedTestGenerator(TestGenerator):
 
     # Changed prompt wording is a protocol change; retain a distinct version
     # so pre-change and post-change runs are never compared as one template.
-    VERSION = "rule-based-v24"
+    VERSION = "rule-based-v26"
 
     def generate(self, memories: list[Memory], audit: AuditRun) -> list[TestCase]:
         by_id = {memory.memory_id: memory for memory in memories}
@@ -100,14 +101,19 @@ class RuleBasedTestGenerator(TestGenerator):
     @classmethod
     def _explicit_conflict_resolution(cls, current: Memory, prior: Memory) -> tuple[Dimension, str, str, list[str], TestType]:
         return (Dimension.CONFLICT_RESOLUTION,
-                f"Two remembered constraints about the user's {cls._scoped_topic(current, prior)} conflict. Identify both recorded constraints, then explain how the conflict should be handled before answering?",
-                "Identify both conflicting recorded constraints, acknowledge the conflict and request clarification before relying on either record.", [prior.memory_id, current.memory_id], TestType.INDIRECT)
+                f"Two recorded constraints about the user's {cls._scoped_topic(current, prior)} conflict. What should be clarified before acting?",
+                (f"Keep both records visible: {prior.canonical_value.rstrip('.!?')}; {current.canonical_value.rstrip('.!?')}. "
+                 "The conflict relation does not establish which one controls, so ask the user for clarification before acting."),
+                [prior.memory_id, current.memory_id], TestType.INDIRECT)
 
     @classmethod
     def _appropriate_use(cls, contextual: Memory, preference: Memory) -> tuple[Dimension, str, str, list[str], TestType]:
         return (Dimension.APPROPRIATE_USE,
-                f"For the current {cls._scoped_topic(contextual, preference)}, a general preference conflicts with a current requirement. State the requirement that applies now first, then briefly explain why it overrides the preference.",
-                f"Follow the contextual requirement: {contextual.canonical_value.rstrip('.!?')}.", [preference.memory_id, contextual.memory_id], TestType.PARAPHRASED)
+                f"For {cls._scoped_topic(contextual, preference)}, how should its task-specific requirement relate to the user's general preference?",
+                (f"Within this scope, follow the task-specific requirement ({contextual.canonical_value.rstrip('.!?')}); "
+                 f"elsewhere, retain the general preference ({preference.canonical_value.rstrip('.!?')}). "
+                 "Do not treat the scoped override as replacing the general preference."),
+                [preference.memory_id, contextual.memory_id], TestType.PARAPHRASED)
 
     @staticmethod
     def _deduplicate(candidates: list[tuple[Dimension, str, str, list[str], TestType]], memories: dict[str, Memory] | None = None) -> list[tuple[Dimension, str, str, list[str], TestType]]:
@@ -155,7 +161,9 @@ class RuleBasedTestGenerator(TestGenerator):
     @staticmethod
     def _topic(*memories: Memory) -> str:
         text = " ".join(memory.canonical_value.lower() for memory in memories)
-        if re.search(r"\b(?:secrets?|deployment|credential|credentials)\b", text): return "deployment secret storage"
+        if re.search(r"\b(?:secrets?|credential|credentials|api keys?)\b", text): return "deployment secret storage"
+        if deployment_region_value(" ".join(memory.canonical_value for memory in memories)): return "deployment region"
+        if re.search(r"\bdeployment\b", text): return "deployment configuration"
         if re.search(r"\b(?:mysql|postgres(?:ql)?|mongodb|sqlite|redis|mariadb|cassandra|dynamodb|database|sql)\b", text): return "database technology"
         if is_language_topic(text): return "programming-language choice"
         if location_value(text) or re.search(r"\b(?:sydney|melbourne|london)\b", text): return "location"

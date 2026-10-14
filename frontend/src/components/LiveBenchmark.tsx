@@ -23,7 +23,7 @@ const label=(value:string)=>({mem0_native:'Mem0 original',mem0_generic:'Mem0 + g
 export function LiveBenchmark(){
   const [payload,setPayload]=useState<object|object[]|null>(null),[filename,setFilename]=useState('No file selected'),[pendingFile,setPendingFile]=useState<File|null>(null);
   const [preview,setPreview]=useState<Array<{question:string;expected_answer:string;messages?:unknown[]}>|null>(null);
-  const [provider,setProvider]=useState('ollama'),[model,setModel]=useState('qwen3:1.7b');
+  const [provider,setProvider]=useState('openrouter'),[model,setModel]=useState('openai/gpt-6-luna');
   const [strategies,setStrategies]=useState(['weak_first_hit','strong_rule_based']);
   const [profile,setProfile]=useState<TargetMemoryProfile>({...defaultTargetProfile});
   const [capacity,setCapacity]=useState(50),[temperature,setTemperature]=useState(0),[seed,setSeed]=useState(42);
@@ -63,7 +63,7 @@ export function LiveBenchmark(){
       <label>Licence or permission basis<Input aria-label="Dataset licence" value={datasetLicense} disabled={busy} maxLength={1000} placeholder="Licence name or documented permission basis" onChange={e=>updateProvenance(setDatasetLicense,e.target.value)}/></label>
       <label>Dataset citation<Input.TextArea aria-label="Dataset citation" value={datasetCitation} disabled={busy} maxLength={2000} rows={2} placeholder="Publication citation, DOI, and/or source record" onChange={e=>updateProvenance(setDatasetCitation,e.target.value)}/></label>
       <label>Live benchmark JSON<UIInput aria-label="Live benchmark JSON" type="file" accept=".json,application/json" disabled={busy} onChange={e=>{const f=e.target.files?.[0];if(f)selectFile(f);}}/><small>{filename}</small></label>
-      <label>Model provider<Select aria-label="Live benchmark provider" value={provider} disabled={busy} options={[{value:'ollama',label:'Local Qwen (Ollama)'},{value:'openrouter',label:'OpenRouter'}]} onChange={v=>{setIncludeMem0(false);setNativeRepair(false);setRunAuthorised(false);setProvider(v);setModel(v==='ollama'?'qwen3:1.7b':'');setResult(null);}}/></label>
+      <label>Model provider<Select aria-label="Live benchmark provider" value={provider} disabled={busy} options={[{value:'ollama',label:'Local Qwen (Ollama)'},{value:'openrouter',label:'OpenRouter'}]} onChange={v=>{setIncludeMem0(false);setNativeRepair(false);setRunAuthorised(false);setProvider(v);setModel(v==='ollama'?'qwen3:1.7b':'openai/gpt-6-luna');setResult(null);}}/></label>
       <label>Deployed model<Input aria-label="Live benchmark model" value={model} disabled={busy} onChange={e=>{setModel(e.target.value);setRunAuthorised(false);if(e.target.value!=='qwen3:1.7b'){setIncludeMem0(false);setNativeRepair(false);}setResult(null);}}/></label>
       <label>Memory strategies<Select aria-label="Live benchmark strategies" mode="multiple" maxCount={nativeRepair?1:includeMem0?3:4} value={strategies} disabled={busy} options={strategyOptions} onChange={v=>{setStrategies(v);setResult(null);}}/><small>Experiment C defaults to Weak first-hit and Strong rule-based, matching the frozen policy pair used in the Auditor comparison.</small></label>
     </div>

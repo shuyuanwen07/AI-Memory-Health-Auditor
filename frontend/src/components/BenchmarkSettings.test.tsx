@@ -32,7 +32,7 @@ test('sends the audit default answer budget and removes stale scores when the bu
 test('changing provider requires source authorisation again',async()=>{
   const user=userEvent.setup();render(<UIProvider><LiveBenchmark/></UIProvider>);await prepare(user);
   await user.click(screen.getByRole('combobox',{name:'Live benchmark provider'}));
-  await user.click(await screen.findByText('OpenRouter'));
+  await user.click(await screen.findByText('Local Qwen (Ollama)'));
   await waitFor(()=>expect(screen.getByLabelText('Live benchmark model-run authorisation')).not.toBeChecked());
   expect(screen.getByRole('button',{name:'Run Real-Model Comparison'})).toBeDisabled();
   expect(calls.runLiveBenchmark).not.toHaveBeenCalled();

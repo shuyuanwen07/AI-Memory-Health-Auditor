@@ -159,3 +159,10 @@ def test_legacy_cloud_record_does_not_invent_an_output_limit(monkeypatch):
     response=HttpTargetAIConnector().execute(make_case(),audit())
     assert 'max_tokens' not in captured
     assert response.execution_metadata.requested_output_token_limit is None
+
+
+def test_new_openrouter_default_is_gpt6_luna(monkeypatch):
+    from app.target_ai.openrouter import default_model
+    monkeypatch.delenv("OPENROUTER_DEFAULT_MODEL", raising=False)
+    assert default_model() == "openai/gpt-6-luna"
+    assert sampling_parameters(default_model(), 0) == {}

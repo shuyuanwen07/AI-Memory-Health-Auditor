@@ -135,3 +135,51 @@ def test_transport_failures_are_retried_then_sanitised(monkeypatch):
         HttpTargetAIConnector._post("https://example.invalid", {}, {})
     assert len(attempts) == 3
     assert exc_info.value.status_code == 503
+
+
+
+def test_strong_reader_policy_is_constant_across_retrieved_evidence():
+    from app.schemas import TargetConfiguration,Dimension
+    from app.schemas import TestCase as Case
+    from app.target_ai.rule_based import private_context_instruction
+    contexts=[['The production region is North.'],['First secret-storage policy.','The policies state neither supersedes the other.'],[]]
+    instructions=[private_context_instruction(Case(test_id='T001',run_id='RUN1',dimension=Dimension.ACCURACY,prompt='Synthetic fixture?',expected_behavior='PRIVATE EXPECTATION',supporting_memory_ids=[],generator_version='fixture',target_memory_context=context),TargetConfiguration.STRONG) for context in contexts]
+    assert len({value.split('MEMORY POLICY\n',1)[1] for value in instructions})==1
+    assert len(set(instructions))==3
+    assert all('PRIVATE EXPECTATION' not in value for value in instructions)
+
+
+def test_peak_capacity_failure_exposes_only_safe_target_receipt(monkeypatch):
+    monkeypatch.setenv("OPENROUTER_API_KEY","synthetic-secret")
+    calls=[]
+    def post(*args,**kwargs):
+        calls.append(kwargs['json'])
+        return httpx.Response(200,json={'error':{'code':502,'message':'High demand: maximum usage size allowed during peak load. synthetic-secret','metadata':{'raw':'synthetic-secret'}}})
+    monkeypatch.setattr('app.target_ai.providers.httpx.post',post)
+    audit=run(TargetProvider.OPENROUTER,'openai/gpt-6-luna')
+    audit.target_memory_profile.output_token_limit=512
+    test=DomainTestCase(test_id='T001',run_id='RUN1',dimension=Dimension.ACCURACY,prompt='What is the current database?',expected_behavior='Evaluator private.',supporting_memory_ids=['M001'],generator_version='rule-based-v1')
+    with pytest.raises(HTTPException) as error:
+        HttpTargetAIConnector().execute(test,audit)
+    receipt=error.value.target_execution
+    assert 'peak load' in error.value.detail
+    assert receipt['last_http_status']==200
+    assert receipt['provider_error_status']==502
+    assert receipt['provider_error_category']=='capacity_limit'
+    assert receipt['request_attempts']==1
+    assert receipt['requested_output_token_limit']==512
+    assert len(receipt['input_fingerprint'])==64
+    assert 'synthetic-secret' not in json.dumps(receipt)
+    assert 'Evaluator private' not in json.dumps(calls)
+    assert len(calls)==1
+
+
+def test_nonretryable_target_error_keeps_original_http_status(monkeypatch):
+    monkeypatch.setenv("OPENROUTER_API_KEY","synthetic-secret")
+    monkeypatch.setattr('app.target_ai.providers.httpx.post',lambda *a,**k:httpx.Response(404,json={'message':'synthetic-secret'}))
+    test=DomainTestCase(test_id='T001',run_id='RUN1',dimension=Dimension.ACCURACY,prompt='Answer the test.',expected_behavior='State the fact.',supporting_memory_ids=['M001'],generator_version='rule-based-v1')
+    with pytest.raises(HTTPException) as error:
+        HttpTargetAIConnector().execute(test,run(TargetProvider.OPENROUTER,'openai/gpt-6-luna'))
+    assert error.value.target_execution['last_http_status']==404
+    assert error.value.target_execution['request_attempts']==1
+    assert 'synthetic-secret' not in json.dumps(error.value.target_execution)

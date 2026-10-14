@@ -18,6 +18,47 @@ def _require_isolated_postgres():
 
 
 @pytest.mark.postgres
+def test_postgresql_migrated_benchmark_plan_metadata_survives_session_restart():
+    """Exercise migration 0038's real JSON columns, without benchmark sources."""
+    _require_isolated_postgres()
+    from uuid import uuid4
+    from sqlalchemy.orm import Session
+    from app.database.session import engine
+    from app.models.entities import BenchmarkPlanModel
+
+    plan_id = 'BPLAN' + uuid4().hex
+    protocol = {'schema_version': 'synthetic-storage-probe',
+                'source_sha256': 'a' * 64, 'trials': [{'trial_id': 'repeat-1'}]}
+    executions = {'repeat-1': {'status': 'FAILED', 'evidence_sha256': None}}
+    try:
+        with Session(engine) as writer:
+            writer.add(BenchmarkPlanModel(id=plan_id, fingerprint_sha256='b' * 64,
+                                          protocol=protocol, executions=executions))
+            writer.commit()
+        with Session(engine) as reader:
+            saved = reader.get(BenchmarkPlanModel, plan_id)
+            assert saved is not None
+            assert saved.protocol == protocol
+            assert saved.executions == executions
+            assert saved.fingerprint_sha256 == 'b' * 64
+            assert saved.created_at is not None
+            # Full replacement is how the service persists execution receipts.
+            saved.executions = {**saved.executions,
+                                'repeat-2': {'status': 'COMPLETED', 'evidence_sha256': 'c' * 64}}
+            reader.commit()
+        with Session(engine) as observer:
+            saved = observer.get(BenchmarkPlanModel, plan_id)
+            assert saved.executions['repeat-1']['status'] == 'FAILED'
+            assert saved.executions['repeat-2']['evidence_sha256'] == 'c' * 64
+    finally:
+        with Session(engine) as cleanup:
+            saved = cleanup.get(BenchmarkPlanModel, plan_id)
+            if saved is not None:
+                cleanup.delete(saved)
+                cleanup.commit()
+
+
+@pytest.mark.postgres
 def test_postgresql_comparison_plan_export_and_confirmed_erasure():
     _require_isolated_postgres()
     from uuid import uuid4

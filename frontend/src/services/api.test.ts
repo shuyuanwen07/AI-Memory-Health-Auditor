@@ -110,3 +110,20 @@ test('explains an unavailable proxy service without blaming input or repeating a
   try{await expect(api.createConversation(true,'[User] I prefer Rust.')).rejects.toThrow('Check saved progress before retrying');expect(transport).toHaveBeenCalledTimes(1);}
   finally{vi.unstubAllGlobals();}
 });
+
+
+test('research file requests default to no permission and forward only explicit authorisation',async()=>{
+  const transport=vi.fn().mockImplementation(()=>new Response('{}',{status:200}));
+  vi.stubGlobal('fetch',transport);
+  try {
+    await api.validateAnnotationDataset({dataset_id:'synthetic-fixture'});
+    await api.researchValidity({},{});
+    await api.analysePilot({});
+    await api.validateAnnotationDataset({},true);
+    await api.researchValidity({},{},true);
+    await api.analysePilot({},true);
+    expect(transport.mock.calls.slice(0,3).map(call=>JSON.parse(call[1].body).source_authorised)).toEqual([false,false,false]);
+    expect(transport.mock.calls.slice(3).map(call=>JSON.parse(call[1].body).source_authorised)).toEqual([true,true,true]);
+    expect(apiErrorMessage([{loc:['body','source_authorised'],msg:'Input should be a valid boolean'}])).toContain('Source processing permission');
+  } finally {vi.unstubAllGlobals();}
+});

@@ -195,3 +195,13 @@ test('radar and grouped comparisons distinguish unavailable evidence from untest
  render(<UIProvider><ComparisonVisualizations compact runs={[{label:'Test setting',result:unavailable}]}/></UIProvider>);
  expect(screen.getByRole('img',{name:/Grouped bar chart.*Accuracy:.*Evidence unavailable/})).toBeInTheDocument();
 });
+
+
+test('repeat error bars state population standard deviation in percentage points',()=>{
+  render(<ComparisonVisualizations runs={[
+    {label:'First',groupKey:'same',groupLabel:'Repeated setting',result:result('ONE',25,0)},
+    {label:'Second',groupKey:'same',groupLabel:'Repeated setting',result:result('TWO',75,100)},
+  ]}/>);
+  expect(screen.getByRole('img',{name:/Horizontal bar chart.*± 25 pp population SD/})).toBeInTheDocument();
+  expect(screen.getByText(/Error bars show population standard deviation.*not a confidence interval/)).toBeInTheDocument();
+});

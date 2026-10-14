@@ -32,6 +32,7 @@ from app.services.runtime_freeze import (
     refresh_failed_preexecution_generation, inherit_preexecution_runtime_refresh,
 )
 from app.services.stage_lock import database_stage_lock, database_stage_busy
+from app.services.generation_coverage import assert_generation_coverage, saved_suite_observation
 from app.services.reviewer_identity import reviewer_identity, distinct_reviewers, unique_independent_reviews
 from app.models import AgentExecutionModel, AssessorComparisonModel, AuditRunModel, ConversationModel, EvaluationHumanReviewModel, EvaluationResultModel, ExperimentModel, MemoryModel, MemoryRelationshipModel, MessageModel, TargetAgentMemoryEventModel, TargetAgentMemoryModel, TargetAgentMemoryRelationshipModel, TargetAgentRetrievalModel, TargetResponseModel, TestCaseModel
 from app.schemas.assessor_comparison import AssessorComparisonRequest
@@ -1304,8 +1305,7 @@ def test_review_suite(run_id: str, db: Session = Depends(get_db)):
     source_run_id = experiment.test_suite_source_run_id if experiment and experiment.test_suite_source_run_id else run_id
     source_run = db.get(AuditRunModel, source_run_id) or audit
     source_tests = db.scalars(select(TestCaseModel).where(TestCaseModel.run_id == source_run_id).order_by(TestCaseModel.id)).all()
-    generation_history = (source_run.reproducibility_metadata or {}).get("generation_observations") or []
-    generation_observation = generation_history[-1] if generation_history else {}
+    generation_observation = saved_suite_observation(source_run.reproducibility_metadata)
     suite_configuration = (TestSuiteConfiguration.model_validate(experiment.test_suite_configuration)
                            if experiment else TestSuiteConfiguration(test_budget=source_run.test_budget))
     members = db.scalars(select(AuditRunModel).where(
@@ -1421,7 +1421,7 @@ def _continue_test_generation(run_id: str, db: Session) -> TestReviewSuite:
         TestCaseModel.run_id == source_run.id,
     ).order_by(TestCaseModel.id)).all()
     if len(source_tests) >= source_run.test_budget:
-        observation = ((source_run.reproducibility_metadata or {}).get("generation_observations") or [{}])[-1]
+        observation = saved_suite_observation(source_run.reproducibility_metadata)
         return TestReviewSuite(
             run_id=run_id, canonical_run_id=source_run.id,
             tests=[public_test_schema(test) for test in source_tests],
@@ -1561,8 +1561,7 @@ def _continue_test_generation(run_id: str, db: Session) -> TestReviewSuite:
             source_run.reproducibility_metadata = metadata
     db.commit()
 
-    history = (source_run.reproducibility_metadata or {}).get("generation_observations") or []
-    observation = history[-1] if history else {}
+    observation = saved_suite_observation(source_run.reproducibility_metadata)
     return TestReviewSuite(
         run_id=run_id, canonical_run_id=source_run.id,
         tests=[public_test_schema(test) for test in source_tests],
@@ -1770,7 +1769,7 @@ def _execute(run_id: str, db: Session):
         if any(test.human_validity_status != HumanValidityStatus.ACCEPTED.value for test in method_tests):
             raise HTTPException(409, "A researcher must explicitly confirm every Experiment A question as valid before target execution.")
     shared_source = (a.reproducibility_metadata or {}).get("shared_answer_source_run_id")
-    if shared_source:
+    if shared_source and a.status in {AuditStatus.TESTS_EXECUTED.value, AuditStatus.COMPLETED.value}:
         from app.services.shared_answers import reuse_target_answers
         with audit_run_lock(shared_source, db=db):
             return [response_schema(row) for row in reuse_target_answers(db, run_id, shared_source)]
@@ -1779,33 +1778,7 @@ def _execute(run_id: str, db: Session):
     assert_test_evidence_available(db, a.conversation_id, review_rows)
     coverage_source_id = experiment.test_suite_source_run_id if experiment and experiment.test_suite_source_run_id else a.id
     coverage_source = db.get(AuditRunModel, coverage_source_id) or a
-    generation_history = (coverage_source.reproducibility_metadata or {}).get("generation_observations") or []
-    generation_observation = generation_history[-1] if generation_history else {}
-    if str(generation_observation.get("agent_version", "")).startswith("agent-coverage-semantic-v5"):
-        requirements = {
-            item.get("dimension"): int(item.get("required_question_count") or 1)
-            for item in generation_observation.get("dimension_coverage", [])
-            if item.get("evidence_supported") is True
-        }
-        accepted_counts = {
-            dimension: sum(
-                1 for test in review_rows
-                if test.dimension == dimension and test.quality_status == TestQualityStatus.ACCEPTED.value
-            )
-            for dimension in requirements
-        }
-        shortages = sorted(
-            (dimension, required, accepted_counts.get(dimension, 0))
-            for dimension, required in requirements.items()
-            if accepted_counts.get(dimension, 0) < required
-        )
-        if shortages:
-            raise HTTPException(
-                409,
-                "The suite does not meet its minimum accepted questions per evidence-supported ability: "
-                + "; ".join(f"{dimension} needs {required}, has {count}" for dimension, required, count in shortages)
-                + ". Regenerate or accept questions before execution.",
-            )
+    assert_generation_coverage(saved_suite_observation(coverage_source.reproducibility_metadata), review_rows, coverage_source.test_budget)
     suite_problem = RuleBasedTestQualityValidator.validate_suite([test_schema(row) for row in review_rows])
     if suite_problem:
         raise HTTPException(409, suite_problem)
@@ -1813,6 +1786,10 @@ def _execute(run_id: str, db: Session):
         raise HTTPException(409, "Resolve rejected tests by regenerating or accepting them before execution.")
     if any(test.quality_status == TestQualityStatus.PENDING.value for test in review_rows):
         raise HTTPException(409, "Review each regenerated test before execution.")
+    if shared_source:
+        from app.services.shared_answers import reuse_target_answers
+        with audit_run_lock(shared_source, db=db):
+            return [response_schema(row) for row in reuse_target_answers(db, run_id, shared_source)]
     if a.experiment_id:
         # Do not revive a comparison group if a concurrent request has
         # cancelled it between this audit's initial state check and execution.
@@ -1873,7 +1850,19 @@ def _execute(run_id: str, db: Session):
         transition_audit_status(
             db, a, AuditStatus.TESTS_GENERATED, AuditStatus.TESTS_EXECUTED,
         )
-    except HTTPException:
+    except HTTPException as exc:
+        receipt = getattr(exc, "target_execution", None)
+        if isinstance(receipt, dict):
+            from app.services.agent_trace import record_agent_execution
+            record_agent_execution(
+                db, role="target_answer", provider=a.provider, model=a.model,
+                prompt_template_version=a.prompt_template_version,
+                instructions="", prompt="", schema=None,
+                input_payload={"test_id": receipt.get("test_id"), "run_id": run_id},
+                input_refs={"test_id": receipt.get("test_id")}, output_data=None,
+                status="failed", execution=receipt,
+                error_code="ProviderRequestError", error_summary=receipt.get("error_summary"), run_id=run_id,
+            )
         db.refresh(a)
         if a.status != AuditStatus.CANCELLED.value:
             a.status="FAILED"

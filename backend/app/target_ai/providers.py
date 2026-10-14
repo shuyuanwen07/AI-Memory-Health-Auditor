@@ -7,6 +7,7 @@ API responses.
 from __future__ import annotations
 
 import json
+import hashlib
 import os
 import re
 import time
@@ -17,7 +18,7 @@ from typing import Any
 
 import httpx
 
-from app.target_ai.openrouter import CHAT_COMPLETIONS_URL, default_model, request_options, sampling_parameters
+from app.target_ai.openrouter import CHAT_COMPLETIONS_URL, default_model, request_options, sampling_parameters, completion_error
 from fastapi import HTTPException
 
 from app.schemas import AuditRun, TargetProvider, TargetResponse, TestCase
@@ -119,16 +120,29 @@ class HttpTargetAIConnector(TargetAIConnector):
         requested_output_limit = target_output_limit(audit)
         try:
             response_text = self._execute_provider(audit, test, instructions, credential)
+            if not response_text.strip():
+                raise ProviderRequestError(f"{PROVIDERS[audit.provider][0]} returned an empty target response.")
         except ProviderRequestError as exc:
-            raise HTTPException(exc.status_code, str(exc)) from exc
+            failure = HTTPException(exc.status_code, str(exc))
+            failure.target_execution = {
+                "version": "target-request-failure-v1", "provider": audit.provider.value, "model": audit.model,
+                "request_attempts": _ATTEMPTS.get(),
+                "elapsed_ms": round((time.perf_counter() - started) * 1000, 2),
+                "requested_output_token_limit": requested_output_limit,
+                "error_code": "ProviderRequestError", "error_summary": str(exc),
+                "test_id": test.test_id,
+                "prompt_fingerprint": hashlib.sha256(instructions.encode()).hexdigest(),
+                "input_fingerprint": hashlib.sha256(json.dumps({"instructions": instructions, "question": target_question_input(test.prompt)}, sort_keys=True).encode()).hexdigest(),
+                **{key: value for key, value in _USAGE.get().items() if key in {
+                    "last_http_status", "provider_error_scope", "provider_error_status", "provider_error_category",
+                }},
+            }
+            raise failure from exc
         finally:
             attempts = _ATTEMPTS.get()
             usage = _USAGE.get()
             _ATTEMPTS.reset(attempts_token)
             _USAGE.reset(usage_token)
-
-        if not response_text.strip():
-            raise HTTPException(502, f"{PROVIDERS[audit.provider][0]} returned an empty target response.")
 
         return TargetResponse(
             response_id=f"R{test.test_id[1:]}", test_id=test.test_id, run_id=audit.run_id,
@@ -230,6 +244,7 @@ class HttpTargetAIConnector(TargetAIConnector):
             except httpx.TransportError as exc:
                 last_transport_error = exc
             else:
+                _USAGE.set({**_USAGE.get(), "last_http_status": response.status_code})
                 if response.is_success:
                     try:
                         data = response.json()
@@ -237,6 +252,14 @@ class HttpTargetAIConnector(TargetAIConnector):
                         raise ProviderRequestError(f"{provider_name} returned an invalid JSON response.") from exc
                     if not isinstance(data, dict):
                         raise ProviderRequestError(f"{provider_name} returned an unexpected response format.")
+                    error = completion_error(data)
+                    if error:
+                        _USAGE.set({**_USAGE.get(), **error})
+                        detail = HttpTargetAIConnector._http_error_message(error['provider_error_status'])
+                        if error.get('provider_error_category') == 'capacity_limit':
+                            detail = ('The target model service rejected this request during peak load because its requested budget is too large. '
+                                      'Try later or use a smaller target output budget in a new audit configuration. No answer was accepted.')
+                        raise ProviderRequestError(detail, error['provider_error_status'])
                     return data
                 if response.status_code not in _RETRYABLE_STATUS_CODES:
                     raise ProviderRequestError(HttpTargetAIConnector._http_error_message(response.status_code))

@@ -30,6 +30,17 @@ Work proceeds in this order:
 5. Experiment C: compare Weak/Strong relative rankings under the Auditor and
    technically compatible LongMemEval evaluation with verified semantic
    outcomes. Lexical overlap is not official accuracy or ranking evidence.
+   Auditor ranking uses the unrounded, equal-weight macro-average of all four
+   measured dimensions. Missing dimensions make that ranking unmeasured.
+   Under Experiments -> Research tools -> Does the benchmark agree?, repeated
+   comparison packages can declare at least three planned trials. The analysis
+   retains missing/invalid trials and exposes mean scores, sample variability,
+   directional agreement and ties. Complete evidence is required for aggregate
+   metrics. The uploaded plan is declared at analysis time; it is not a server
+   pre-registration receipt. See `HUMAN_EVIDENCE_HANDOFF.txt` for the input format
+   and the separate server-frozen plan API/UI and formal evidence
+   requirements. Migration 0038 saves only frozen metadata and execution hashes;
+   it does not retain benchmark source or full model responses.
 6. Complete regression and manual GUI checks, then prepare simple comparative
    charts and source-backed failure demonstrations for the final report.
 
@@ -187,7 +198,7 @@ File selection runs the existing local parsing callback and prevents automatic U
 
 ## Disposable PostgreSQL integration checks
 
-The fast backend suite uses isolated SQLite fixtures and skips the four dedicated
+The fast backend suite uses isolated SQLite fixtures and skips the dedicated
 PostgreSQL checks. Run those against a fresh, migrated PostgreSQL 16 database:
 
 ```sh
@@ -199,7 +210,7 @@ docker compose -p mha-isolated-ci -f docker-compose.ci.yml down
 This separate Compose project exposes no ports, mounts no application database
 volume, reads no `.env`, and uses memory-backed disposable database storage.
 The integration service first applies the entire Alembic migration chain and
-then checks the API workflow, paired repair identity, timezone-aware revocable
+checks model/migration drift, then checks benchmark-plan contracts and PostgreSQL metadata persistence, the API workflow, paired repair identity, timezone-aware revocable
 operator sessions, and concurrent idempotent audit/experiment creation. Its
 provider is the deterministic rule baseline; it makes no external model calls
 and proves no semantic accuracy. Always run the cleanup command after success
@@ -256,3 +267,58 @@ provider attempts. Attempts without a saved response are outside this receipt
 summary, so the display does not certify equal realised budgets. Distinct
 finding counts still require resolved human labels and recall needs an
 independently established failure inventory.
+
+
+### Experiment B deidentified research releases
+
+`POST /api/v1/research/formal/research-matrix` accepts the same frozen formal
+B request plus `source_release`, and requires `synthetic_data_confirmation=false`
+and dataset `data_origin=deidentified_research`. See
+`datasets/templates/research-source-permission-template.json` (intentionally
+invalid until reviewed). The receipt binds the exact dataset fingerprint and
+records permission scope, team reviewer, time, deidentification, research use,
+operational storage and cloud processing. Without cloud permission only local
+Ollama or rule conditions are accepted. Demo-only personal histories are rejected.
+
+The research page shows a separate source permission upload and storage consent
+for that origin. It requires formal B mode; it never silently labels a research
+release as synthetic. Source histories are persisted as `deidentified`, and the
+permission receipt is saved in the acceptance protocol/manifest and input
+fingerprint. Restoring a plan retains this receipt; changing it invalidates
+execution. The service does not independently authenticate consent or human
+reviewer claims. Existing synthetic endpoints keep their original source gate.
+
+
+### Experiment C execution plan UI
+
+The research page now exposes BenchmarkExecutionPlan before repeated analysis.
+The plan file is unread until source processing consent; persistence also needs
+metadata permission. Freeze/read/find use the plan APIs, and each repeat invokes
+the explicit planned execution endpoint. Original evidence stays in memory for
+per-trial downloads (multiple completed repeats do not overwrite one another).
+Permission revocation invalidates late reads/results. The server only stores
+fingerprints/status, so users must save full evidence before navigating away.
+The Find action retrieves up to 50 saved metadata plans without model calls.
+A plan ID dispatches repeated analysis to its frozen-plan endpoint and the
+report labels that provenance separately from caller-declared analysis.
+
+### Research-file processing permission
+
+In Research Workspace, confirm research-file processing before selecting annotation, prediction, pilot, development or permission files. Unchecking clears loaded material and invalidates pending file reads/previews. The annotation validation, validity report and pilot-analysis API wrappers now require an explicit strict boolean source_authorised:true; omission/false is rejected before analysis and truthy strings/numbers do not count. The front-end API helpers default to false and the workspace forwards the checked permission. This is separate from permission to save histories, dispatch models, or claim independent human provenance. Existing research source files do not need editing: the flag belongs to the outer request, so dataset/package fingerprints remain intact.
+
+
+### OpenRouter peak-load capacity limits
+
+A completion may fail with a capacity error even when HTTP status is200. The application now recognises the provider's peak-load maximum-usage rejection and preserves it as a failure, without blaming source data. `PIPELINE_MAX_OUTPUT_TOKENS` optionally caps OpenRouter extraction, relationship, memory-review, planning, question-writing and question-review output requests. Set an integer256–12000; empty preserves each role's existing budget. The effective limit is the smaller of the role budget and configured cap; roles without a budget use the cap. Ollama and other providers are unaffected. The example1800 is a tested diagnostic value, not a guaranteed service capacity limit.
+
+Every receipt preserves the role's declared limit, configured cap and effective requested limit. The cap participates in the formal runtime signature: changing it invalidates an existing frozen formal experiment. Complete source evidence, test coverage, validation and bounded repair rules remain enforced. No automatic model/provider switch or capacity-envelope retry is introduced. An undersized cap may yield incomplete JSON and will not turn a failed stage into success. The live project's environment was not rewritten by the diagnostic trial; its1800override was scoped to the disposable smoke process only.
+
+
+Target provider failures now retain safe request facts in a failed target_answerAgent execution. HTTP200completion errors remain errors; capacity messages advise retrying later or choosing a smaller target output budget in a new audit. Existing target configuration remains frozen. Do not alter saved settings to evade software/input guards: recovering an older partial audit requires its original software or a new audit. Failed calls carry no fabricated response. Already completed responses are retained.
+
+
+### Validated current engineering configuration
+
+On13October2026, the local backend.env pipeline output cap was set to1800after a0-stage-lock check. Only the backend was recreated; operational counts/schema matched before/after. This setting completed the exact approved8fact/4dimension v16fixture with2repetitions per policy, including all diagnosticcalls. It is not a guaranteed limit for larger conversations, longer diagnostics or future providercapacity. Keep truncated/invalid output failed; do not lower coverage or accept a partial response.
+
+Model smoke outputs must be written to a mounted persistent path (for example/app/.engineering-smoke) and copied to docs/evidence, with SQLite/source archives, before any backend recreation. v15/tmpartifacts were lost at recreation; v16replaces them with durable strict-verification evidence. Never infer archival completeness from terminalpassalone.

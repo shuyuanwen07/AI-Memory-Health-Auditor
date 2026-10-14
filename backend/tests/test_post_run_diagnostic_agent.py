@@ -46,7 +46,7 @@ def test_post_run_diagnostic_is_structured_and_keeps_its_limits_explicit():
     agent = PostRunDiagnosticAgent(FakeClient())
     result = agent.analyse([_case()], {"T001": [{"memory_id": "M001", "canonical_value": "Use PostgreSQL."}]})
 
-    assert result["version"] == "post-run-diagnostic-agent-v1"
+    assert result["version"] == PostRunDiagnosticAgent.VERSION
     assert result["findings"][0]["evidence_memory_ids"] == ["M001"]
     assert "does not establish causality" in result["notice"]
     assert agent.last_observation["status"] == "completed"
@@ -62,3 +62,13 @@ def test_post_run_diagnostic_rejects_memory_citations_outside_the_case():
 
     assert agent.last_observation["status"] == "failed"
     assert agent.last_observation["error_code"] == "PipelineRequestError"
+
+
+@pytest.mark.parametrize('count,limit',[(1,4096),(3,4096),(20,12000),(100,12000)])
+def test_diagnostic_output_budget_is_bounded_with_space_for_reasoning(count,limit):
+    class BudgetClient(FakeClient):
+        def complete_json(self,**request):
+            assert request['max_output_tokens']==limit
+            return {'summary':'Inspect the cited records before selecting changes.','findings':[{'test_id':f'T{i:03d}','focus':'insufficient_evidence','evidence_memory_ids':[],'summary':'The record does not establish a cause.','next_check':'Inspect the recorded source and input delivery.','model_confidence':0.2} for i in range(count)]}
+    cases=[{**_case(),'test_id':f'T{i:03d}'} for i in range(count)]
+    assert len(PostRunDiagnosticAgent(BudgetClient()).analyse(cases,{})['findings'])==count

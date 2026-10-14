@@ -660,3 +660,82 @@ def test_reference_explanation_does_not_become_the_required_database_answer(expl
 
 def test_reference_explanation_cannot_strip_required_conflict_clarification():
     assert RuleBasedBehaviourEvaluator._required_terms('Describe the conflict, reflecting incompatible requirements, and request clarification.') == ['conflict','clarification']
+
+@pytest.mark.parametrize('dimension,prompt,reference,answer,passed', [
+    (Dimension.FRESHNESS,'Which database applies now, and what did it replace?',
+     'PostgreSQL is the current database; it replaced MySQL, which was used previously.',
+     'PostgreSQL applies now; it replaced MySQL.',True),
+    (Dimension.FRESHNESS,'Which database applies now?',
+     'PostgreSQL is the current database; it replaced MySQL, which was used previously.',
+     'MySQL applies now; PostgreSQL was earlier.',False),
+    (Dimension.CONFLICT_RESOLUTION,'What should you clarify before deployment?',
+     'The deployment plan says North, while the signed brief says South. Ask the user which constraint controls; do not choose a winner or infer priority from recency or document status.',
+     'Clarify whether the deployment plan’s North region or the signed brief’s South region controls; both documents are active, and the conflict is unresolved.',True),
+    (Dimension.CONFLICT_RESOLUTION,'What should you clarify before deployment?',
+     'The deployment plan says North, while the signed brief says South. Ask the user which constraint controls; do not choose a winner or infer priority from recency or document status.',
+     'The records conflict, but no clarification is needed.',False),
+    (Dimension.APPROPRIATE_USE,'What should you recommend for Maple capstone and my other backend projects?',
+     "Recommend Java for Maple capstone because the course requires it; this requirement applies within the capstone project. For the user's other backend projects, retain their general preference for Python.",
+     'Use Java for Maple capstone; Python remains your general preference for other backend projects. The course requires Java for this capstone.',True),
+    (Dimension.APPROPRIATE_USE,'What should you recommend for Maple capstone and my other backend projects?',
+     "Recommend Java for Maple capstone because the course requires it; this requirement applies within the capstone project. For the user's other backend projects, retain their general preference for Python.",
+     'Use Python for Maple capstone and Java for other backend projects.',False),
+    (Dimension.APPROPRIATE_USE,'What should you recommend for Maple capstone and my other backend projects?',
+     "Recommend Java for Maple capstone because the course requires it; this requirement applies within the capstone project. For the user's other backend projects, retain their general preference for Python.",
+     'Java and Python.',False),
+])
+def test_answer_facts_and_scopes_are_checked_instead_of_reference_tail(dimension,prompt,reference,answer,passed):
+    case=_test_case().model_copy(update={'dimension':dimension,'prompt':prompt,'expected_behavior':reference})
+    response=TargetResponse(response_id='R',test_id=case.test_id,run_id=case.run_id,response_text=answer,model='fixture',temperature=0,created_at=datetime.now(timezone.utc))
+    assert RuleBasedBehaviourEvaluator().evaluate(case,response,[]).passed is passed
+
+@pytest.mark.parametrize('answer,passed', [
+    ('Clarify whether the production region should be North or South before proceeding. The deployment plan says North, while the signed brief says South, and neither has been established as controlling.',True),
+    ('Please clarify whether the region should be North.',False),
+    ('North or South are region names.',False),
+    ('North or South? There is no need to clarify.',False),
+    ('Clarify whether North or South controls. Use North meanwhile.',False),
+    ('Clarify whether North or South controls. South is the recommended production region.',False),
+])
+def test_source_derived_deployment_alternatives_need_no_literal_conflict_word(answer,passed):
+    case=_test_case().model_copy(update={'dimension':Dimension.CONFLICT_RESOLUTION,'expected_behavior':'The deployment plan says North, while the signed brief says South. Ask the user which constraint controls; do not choose a winner.','prompt':'What should be clarified before deployment?'})
+    memories=[Memory(memory_id='M001',conversation_id='C',status='confirmed',canonical_value='The production region is North.'),Memory(memory_id='M002',conversation_id='C',status='confirmed',canonical_value='The production region is South.')]
+    response=TargetResponse(response_id='R',test_id=case.test_id,run_id=case.run_id,response_text=answer,model='fixture',temperature=0,created_at=datetime.now(timezone.utc))
+    assert RuleBasedBehaviourEvaluator().evaluate(case,response,memories).passed is passed
+
+
+@pytest.mark.parametrize('category',['database','system','engine','datastore'])
+@pytest.mark.parametrize('order',['value_first','category_first'])
+@pytest.mark.parametrize('answer,verdict',[('PostgreSQL applies now; it replaced MySQL.',True),('MySQL applies now; PostgreSQL was earlier.',False)])
+def test_current_database_value_does_not_depend_on_reference_category_word(category,order,answer,verdict):
+    reference = (f'PostgreSQL is the current {category}' if order == 'value_first'
+                 else f'The current {category} is PostgreSQL')
+    case=_test_case().model_copy(update={'expected_behavior':f'{reference}; it replaced MySQL, which was used previously and is no longer used for that backend.','prompt':'Which database applies now, and what earlier system did it replace?'})
+    response=TargetResponse(response_id='R',test_id=case.test_id,run_id=case.run_id,response_text=answer,model='fixture',temperature=0,created_at=datetime.now(timezone.utc))
+    assert RuleBasedBehaviourEvaluator().evaluate(case,response,[]).passed is verdict
+
+
+@pytest.mark.parametrize('reference',[
+    'The current record says PostgreSQL is used for the Maple capstone backend and MySQL is no longer used there; the historical record says MySQL was used previously.',
+    'The historical record says MySQL was used previously. The current record states PostgreSQL is currently used for the Maple backend.',
+])
+@pytest.mark.parametrize('answer,verdict',[
+    ('The Maple backend uses PostgreSQL now; it replaced MySQL.',True),
+    ('The Maple backend previously used MySQL. I do not know the current database.',False),
+    ('MySQL is used now; PostgreSQL was earlier.',False),
+    ('Previously.',False),
+])
+def test_current_record_database_reference_does_not_select_historical_adverb(reference,answer,verdict):
+    case=_test_case().model_copy(update={'dimension':Dimension.FRESHNESS,'expected_behavior':reference,'prompt':'For the Maple backend, which database applies now and what did it replace?'})
+    response=TargetResponse(response_id='R',test_id=case.test_id,run_id=case.run_id,response_text=answer,model='fixture',temperature=0,created_at=datetime.now(timezone.utc))
+    assert RuleBasedBehaviourEvaluator._required_terms(reference,reject_generic_tail=True)==['postgresql']
+    assert RuleBasedBehaviourEvaluator().evaluate(case,response,[]).passed is verdict
+
+
+@pytest.mark.parametrize('reference',[
+    'The historical record says MySQL was used previously.',
+    'The current record says PostgreSQL is not used; further checks are required.',
+    'The current record says MySQL is used previously.',
+])
+def test_historical_adverb_is_never_a_generic_reference_answer(reference):
+    assert RuleBasedBehaviourEvaluator._required_terms(reference,reject_generic_tail=True) == []

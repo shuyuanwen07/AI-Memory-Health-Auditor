@@ -48,6 +48,8 @@ def test_live_calls_use_controlled_policy_without_reference_leakage(monkeypatch)
         assert audit.target_configuration.value=='strong'
         seen.append((audit.memory_strategy.value,test.expected_behavior,test.supporting_memory_ids,instructions,test.prompt))
         return 'PostgreSQL'
+    # Only simulated transport is used; no real credential or model call.
+    monkeypatch.setenv('OPENROUTER_API_KEY', 'synthetic-test-key')
     monkeypatch.setattr(HttpTargetAIConnector,'_execute_provider',provider)
     first=LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source(),source_authorised=True,dataset_provenance=PROVENANCE))
     changed=deepcopy(source());changed[0]['answer']='DIFFERENT_GOLD';changed[0]['answer_session_ids']=['OTHER_SECRET']
@@ -60,7 +62,7 @@ def test_live_calls_use_controlled_policy_without_reference_leakage(monkeypatch)
     assert all('GOLD' not in instructions and 'SECRET' not in instructions for _,_,_,instructions,_ in seen)
     assert 'MySQL' in seen[0][3] and 'PostgreSQL' in seen[1][3]
     assert first.conditions[0].cases[0].response_text=='PostgreSQL'
-    assert first.conditions[0].cases[0].execution_metadata.response_source=='ollama'
+    assert first.conditions[0].cases[0].execution_metadata.response_source=='openrouter'
     assert first.conditions[0].cases[0].assistant_message_count==1
     assert first.conditions[0].cases[0].stored_memory_count==2
     assert first.conditions[0].cases[0].supplied_memory_ids
@@ -91,6 +93,8 @@ def test_rejects_no_consent_duplicates_or_oversize_before_model_calls(monkeypatc
 
 
 def test_live_route_uses_real_connector_and_does_not_persist_operational_rows(monkeypatch):
+    # Only simulated transport is used; no real credential or model call.
+    monkeypatch.setenv('OPENROUTER_API_KEY', 'synthetic-test-key')
     monkeypatch.setattr(HttpTargetAIConnector,'_execute_provider',lambda *args:'PostgreSQL')
     with TestClient(app) as client:
         no_consent=client.post('/api/v1/research/benchmarks/longmemeval/live',json={'payload':source(),'dataset_provenance':PROVENANCE})
@@ -110,6 +114,8 @@ def test_live_route_uses_real_connector_and_does_not_persist_operational_rows(mo
 def test_cancellation_stops_before_next_provider_call(monkeypatch):
     cancelled=Event();calls=[]
     def provider(*args):calls.append(1);cancelled.set();return 'PostgreSQL'
+    # Only simulated transport is used; no real credential or model call.
+    monkeypatch.setenv('OPENROUTER_API_KEY', 'synthetic-test-key')
     monkeypatch.setattr(HttpTargetAIConnector,'_execute_provider',provider)
     with pytest.raises(ValueError,match='cancelled'):
         LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source(),source_authorised=True,dataset_provenance=PROVENANCE),cancelled)

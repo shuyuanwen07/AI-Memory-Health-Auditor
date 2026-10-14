@@ -803,3 +803,20 @@ test('opening an unfinished submission never calls extraction and starting new r
  expect(apiMocks.extract).toHaveBeenCalledTimes(1);
  expect(apiMocks.execute).not.toHaveBeenCalled();
 });
+
+test.each(['openrouter','ollama'])('unfinished %s submission can explicitly switch to Luna while preserving its saved source and identity',async(provider)=>{
+ const user=userEvent.setup();
+ const checkpoint={requestKey:'1234567890123456',conversationId:'C001',text:'Preserved source',messages:null,sourceOrigin:'synthetic',provider,model:'old/model'};
+ sessionStorage.setItem('mha-new-audit-intake-v1',JSON.stringify(checkpoint));
+ apiMocks.targetProviders.mockResolvedValue([{provider:'openrouter',configured:true,default_model:'openai/gpt-6-luna',label:'OpenRouter'}]);
+ apiMocks.getConversation.mockResolvedValue({conversation_id:'C001',messages:[],extraction_provenance:{status:'failed'}});
+ render(<NewAudit/>);
+ await user.click(await screen.findByRole('button',{name:'Use GPT 6 Luna for the next extraction'}));
+ expect(apiMocks.extract).not.toHaveBeenCalled();
+ expect(JSON.parse(sessionStorage.getItem('mha-new-audit-intake-v1')!)).toEqual({...checkpoint,provider:'openrouter',model:'openai/gpt-6-luna'});
+ await user.click(screen.getByRole('button',{name:'Continue saved submission'}));
+ await screen.findByRole('heading',{name:'Review Extracted Memories'});
+ expect(apiMocks.extract).toHaveBeenCalledWith('C001','openrouter','openai/gpt-6-luna');
+ expect(apiMocks.createConversation).not.toHaveBeenCalled();
+ expect(apiMocks.execute).not.toHaveBeenCalled();
+});
