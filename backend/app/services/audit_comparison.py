@@ -8,12 +8,20 @@ from app.models import TestCaseModel, EvaluationResultModel, TargetResponseModel
 def profile_description(profile):
     if not profile:
         return "Original defaults"
+    validation = ""
+    if "answer_validation" in profile:
+        validation = f"answer source check {profile['answer_validation']} · "
+        if profile['answer_validation'] == 'source_grounding':
+            validation += (f"answer check limit {profile.get('answer_validation_output_token_limit', 8192)} tokens · "
+                           f"answer check reasoning {profile.get('answer_validation_reasoning_effort') or 'provider default (not requested)'} · ")
     return (f"{profile.get('label', 'Memory configuration')} · version {profile.get('version', 1)} · "
         f"up to {profile.get('max_retrieved_records', 50)} records / {profile.get('context_character_budget', 16000)} characters · "
         f"project separation {'on' if profile.get('isolate_project_scope') else 'off'} · "
         f"current-fact preference {'on' if profile.get('prefer_current_state') else 'off'} · "
         f"answer limit {profile.get('output_token_limit') or 'not recorded'} tokens · "
-        f"instructions: {profile.get('additional_instructions') or 'default'}")
+        f"identity evidence {profile.get('identity_analysis', 'off')} · "
+        f"identity analysis limit {profile.get('identity_analysis_output_token_limit', 4096)} tokens · "
+        f"{validation}instructions: {profile.get('additional_instructions') or 'default'}")
 
 def assessment_signature(run, evaluation):
     """Use saved evidence, never the currently installed evaluator version."""

@@ -3,7 +3,7 @@ import { memoryStrategyLabel, modelDisplayName, friendlyText } from '../services
 import { parseAuditDraftSettings, type AuditDraftSettings } from '../services/auditDraftSettings';
 import { ReviewedMethodComparison } from '../components/ReviewedMethodComparison';
 import { ModelPicker } from '../components/ModelPicker';
-import { TargetProfileEditor, defaultTargetProfile } from "../components/TargetProfileEditor";
+import { TargetProfileEditor, defaultTargetProfile, supportsAnswerValidation, type TargetMemoryProfile } from "../components/TargetProfileEditor";
 import { UIAlert } from '../components/ui';
 import { UISelect, UIOption, UIInput, UIButton, UIPanel, UISummary, UICheckbox } from '../components/ui';
 import type { ConversationMessage } from '../types/domain';
@@ -18,10 +18,15 @@ import { ModelComparison } from '../components/ModelComparison';
 import { ExperimentStatistics } from '../components/ExperimentStatistics';
 import { TestSuiteReview, hasDuplicateQuestions } from '../components/TestSuiteReview';
 import { TargetMemoryTrace } from '../components/TargetMemoryTrace';
+import presentationDemo from '../data/presentationDemo.json';
+import presentationDemoUrl from '../data/presentationDemo.json?url';
+import presentationDemoRaw from '../data/presentationDemo.json?raw';
+import presentationSettings from '../data/presentationSettings.json';
+import { saveBlob } from '../services/download';
 
 const ComparisonVisualizations = lazy(() => import('../components/ResultVisualizations').then((module) => ({ default: module.ComparisonVisualizations })));
 
-const sample = `[User] I used MySQL before, but the backend now uses PostgreSQL.\n[User] I generally prefer Python.\n[User] For the current ELEC5623 assignment, Java is required.\n[User] I am based in Sydney.\n[User] The assignment must use PostgreSQL rather than SQLite.`;
+const sample = presentationDemo.messages.map(message => `[${message.role}] ${message.content}`).join('\n');
 const DRAFT_KEY = 'mha-new-audit-draft-v1';
 const REVIEW_KEY = 'mha-new-audit-review-v1';
 type SavedReview = { conversationId: string; settings?: AuditDraftSettings | null };
@@ -65,9 +70,9 @@ export function NewAudit() {
   const [step, setStep] = useState(0);
   const [text, setText] = useState(restoredDraft.text ?? sample);
   const [sourceMessages, setSourceMessages] = useState<ConversationMessage[]>([]);
-  const [importedMessages, setImportedMessages] = useState<ConversationInputMessage[] | null>(restoredDraft.importedMessages || null);
+  const [importedMessages, setImportedMessages] = useState<ConversationInputMessage[] | null>(restoredDraft.importedMessages || (restoredDraft.text !== undefined ? null : presentationDemo.messages));
   const [consent, setConsent] = useState(Boolean(restoredDraft.consent));
-  const [sourceOrigin, setSourceOrigin] = useState<ConversationSourceOrigin>(restoredDraft.sourceOrigin ?? 'unknown');
+  const [sourceOrigin, setSourceOrigin] = useState<ConversationSourceOrigin>(restoredDraft.sourceOrigin ?? (restoredDraft.text !== undefined ? 'unknown' : 'synthetic'));
   const [conversationId, setConversationId] = useState('');
   const [memories, setMemories] = useState<Memory[]>([]);
   const [memoryReview, setMemoryReview] = useState<MemoryReviewReport | null>(null);
@@ -306,6 +311,10 @@ export function NewAudit() {
     )],
   }));
   const strategyCount = retrievalMode === 'agent' ? 1 : selectedStrategies.length;
+  const answerValidationAvailable = selectedModels.length > 0 && selectedModels.every(({provider,models}) =>
+    models.length > 0 && models.every(model=>supportsAnswerValidation(provider.provider,model,targetSystem)));
+  const answerValidationError = targetProfile.answer_validation === 'source_grounding' && !answerValidationAvailable
+    ? 'Answer fact checking requires controlled GPT-6 Luna through OpenRouter for every selected target. Turn it off or change the targets.' : '';
   const conditionCount = selectedModels.reduce((total, item) => total + item.models.length, 0) * strategyCount * repetitions * (compareAuditors ? 3 : 1);
   const modelSelectionError = selectedModels.some((item) => item.models.length === 0)
     ? `Select at least one model for ${selectedModels.filter((item) => item.models.length === 0).map((item) => item.provider.label).join(', ')}, or deselect that service above.`
@@ -398,7 +407,7 @@ export function NewAudit() {
 
   const start = () => act(async () => {
     if (providerStatus!=='ready' && !creationBatch.current) throw new Error('Load the available model services before starting an audit.');
-    if (!creationBatch.current && (modelSelectionError || auditModelError)) throw new Error(modelSelectionError || auditModelError);
+    if (!creationBatch.current && (modelSelectionError || auditModelError || answerValidationError)) throw new Error(modelSelectionError || auditModelError || answerValidationError);
     const generationService = selectedPipeline?.configured && selectedPipeline.provider !== 'rule_based' ? selectedPipeline : undefined;
     const strategiesForRun: MemoryStrategy[] = retrievalMode === 'agent'
       ? ['strong_rule_based']
@@ -675,12 +684,20 @@ export function NewAudit() {
       <p>This is a saved submission from this browser tab. Opening this page does not start a new extraction. Continue it below, or start a new conversation.</p>
       <UIPanel><UISummary>View the saved conversation</UISummary><p style={{whiteSpace:'pre-wrap'}}>{savedIntake.text}</p></UIPanel>
       <p><b>Extraction service:</b> {providers.find(item=>item.provider===savedIntake.provider)?.label ?? 'Previously selected service'} · <b>Extraction model:</b> {savedIntake.model ? modelDisplayName(savedIntake.model) : 'Rule-based extraction'}</p>
+      {providers.filter(item => item.provider === 'openrouter' && item.configured
+        && (savedIntake.provider !== 'openrouter' || savedIntake.model !== (item.default_pipeline_model ?? item.default_model))).map(item =>
+        <UIButton key={item.provider} className="secondary" disabled={busy || providerStatus!=='ready'} onClick={() => {
+          const nextModel=item.default_pipeline_model ?? item.default_model;
+          saveIntake({...savedIntake,provider:'openrouter',model:nextModel});
+          setPipelineProvider('openrouter');setPipelineModel(nextModel);setError('');
+          setRecoveryNotice('The next extraction will use '+modelDisplayName(nextModel)+'. Continue below to resume the saved conversation.');
+        }}>Use {modelDisplayName(item.default_pipeline_model ?? item.default_model)} for the next extraction</UIButton>)}
       <UIButton disabled={busy || providerStatus!=='ready'} onClick={submitConversation}>{busy ? 'Checking your submission…' : 'Continue saved submission'}</UIButton>
       <UIButton className="secondary" disabled={busy} onClick={startFresh}>Start a new conversation</UIButton>
       <p>Continuing may retry the selected extraction model. Starting new keeps previously saved server data. Neither action requests target answers at this step.</p>
       <a href="/history">Open Audit History</a>
     </section>}
-    {step === 0 && !savedReview && !savedIntake && <>{providerStatus==='ready' && <><label>Shared Agent service<UISelect aria-label="Shared Agent service" value={pipelineProvider} disabled={busy} onChange={(event) => selectSharedAgentProvider(event.target.value as TargetProvider)}>{pipelineProviders.map((item) => <UIOption key={item.provider} value={item.provider} disabled={!item.configured}>{item.label}{item.configured ? '' : ' — unavailable'}</UIOption>)}</UISelect></label>{pipelineProvider !== 'rule_based' && <label>Shared Agent model<ModelPicker label="Shared Agent model" provider={pipelineProvider} defaultModel={selectedPipeline?.default_pipeline_model ?? selectedPipeline?.default_model} value={pipelineModel ?? selectedPipeline?.default_pipeline_model ?? selectedPipeline?.default_model ?? ''} onChange={setPipelineModel} disabled={busy} /></label>}<p className="input-help">{pipelineProvider === 'rule_based' ? 'An Agent is an AI task worker for one audit step, such as extracting memories or drafting questions. Rule-based mode uses deterministic processing; choose a local or cloud model service to let Agents call an LLM.' : 'An Agent is an AI task worker for one audit step, such as extracting memories or drafting questions. The shared model powers internal steps including memory extraction, question generation, duplicate review, memory retrieval and automatic assessment. The target model is selected separately.'}</p></>}<ConversationStep continueDisabled={providerStatus!=='ready'} text={text} consent={consent} sourceOrigin={sourceOrigin} busy={busy} onTextChange={(next) => { setText(next); setImportedMessages(null); }} onConsentChange={setConsent} onSourceOriginChange={setSourceOrigin} onImport={(messages, previewText) => { setImportedMessages(messages); setText(previewText); }} onImportError={setError} onClearDraft={clearDraft} onContinue={submitConversation} /></>}
+    {step === 0 && !savedReview && !savedIntake && <>{providerStatus==='ready' && <><label>Shared Agent service<UISelect aria-label="Shared Agent service" value={pipelineProvider} disabled={busy} onChange={(event) => selectSharedAgentProvider(event.target.value as TargetProvider)}>{pipelineProviders.map((item) => <UIOption key={item.provider} value={item.provider} disabled={!item.configured}>{item.label}{item.configured ? '' : ' — unavailable'}</UIOption>)}</UISelect></label>{pipelineProvider !== 'rule_based' && <label>Shared Agent model<ModelPicker label="Shared Agent model" provider={pipelineProvider} defaultModel={selectedPipeline?.default_pipeline_model ?? selectedPipeline?.default_model} value={pipelineModel ?? selectedPipeline?.default_pipeline_model ?? selectedPipeline?.default_model ?? ''} onChange={setPipelineModel} disabled={busy} /></label>}<p className="input-help">{pipelineProvider === 'rule_based' ? 'An Agent is an AI task worker for one audit step, such as extracting memories or drafting questions. Rule-based mode uses deterministic processing; choose a local or cloud model service to let Agents call an LLM.' : 'An Agent is an AI task worker for one audit step, such as extracting memories or drafting questions. The shared model powers internal steps including memory extraction, question generation, duplicate review, memory retrieval and automatic assessment. The target model is selected separately.'}</p></>}<aside className="input-help" aria-label="Presentation example"><b>Presentation example · {presentationDemo.messages.length} messages</b><p>A synthetic project history with changing requirements, conflicting documents and unrelated details. Review the extracted memories before running. No model is called by loading this example.</p><UIButton type="button" className="secondary" disabled={busy} onClick={() => { setText(sample); setImportedMessages(presentationDemo.messages); setSourceOrigin('synthetic'); setError(''); }}>Load presentation example</UIButton>{' '}<a href={presentationDemoUrl} download="presentation-conversation.json" onClick={event => { event.preventDefault(); saveBlob(new Blob([presentationDemoRaw], {type:"application/json"}), "presentation-conversation.json"); }}>Download example JSON</a></aside><ConversationStep continueDisabled={providerStatus!=='ready'} text={text} consent={consent} sourceOrigin={sourceOrigin} busy={busy} onTextChange={(next) => { setText(next); setImportedMessages(null); }} onConsentChange={setConsent} onSourceOriginChange={setSourceOrigin} onImport={(messages, previewText) => { setImportedMessages(messages); setText(previewText); }} onImportError={setError} onClearDraft={clearDraft} onContinue={submitConversation} /></>}
     {step === 1 && <GroundTruthReview sourceMessages={sourceMessages} memories={memories} memoryReview={memoryReview} agentExecutions={agentExecutions} busy={busy} onChange={updateMemory} onAddMemory={addMemory} onConfirm={confirm} />}
     {step === 2 && creationPending && <section>
       <h1>Continue Preparing Your Audit</h1>
@@ -693,6 +710,18 @@ export function NewAudit() {
     {step === 2 && !creationPending && providerStatus!=='ready' && <section><h1>Configure Memory Audit</h1><p>Your saved choices are preserved. Load the available model services to review them before starting.</p></section>}
     {step === 2 && !creationPending && providerStatus==='ready' && <section>
       <h1>Configure Memory Audit</h1>
+      <aside className="input-help" aria-label="Presentation settings">
+        <UIButton type="button" className="secondary" disabled={busy || !providers.some(item=>item.provider==='openrouter' && item.configured)} onClick={() => {
+          setCompareAuditors(false); setSelectedStrategies(['weak_first_hit','strong_rule_based']);
+          setTargetProviders(['openrouter']); setTargetModels(current=>({...current,openrouter:presentationSettings.model}));
+          setPipelineProvider('openrouter'); setPipelineModel(presentationSettings.pipeline_model);
+          setRetrievalMode('fixed'); setBudget(presentationSettings.test_budget); setRepetitions(presentationSettings.repetitions);
+          setMaintenancePolicy('update_aware_consolidation'); setTargetMemoryCapacity(presentationSettings.target_memory_capacity);
+          setTargetMemoryWriter('rule_based'); setTargetSystem('controlled-memory'); setSuiteMode('behavioural');
+          setTargetProfile({...defaultTargetProfile,...presentationSettings.target_memory_profile} as TargetMemoryProfile);
+        }}>Use presentation settings · Weak/Strong × 3</UIButton>
+        <p>GPT-6 Luna · 8 shared questions · 3 runs per strategy · 48 answers in total. Applies settings only; model calls start when you run the audit. Freshly generated questions may differ from the saved presentation experiment.</p>
+      </aside>
       <UIButton type="button" className="secondary" disabled={busy} onClick={() => setStep(1)}>Back to Ground Truth Review</UIButton>
       <p className="input-help">Ground truth is the set of conversation-supported facts you confirmed in the previous step. The audit uses it as the reference when checking answers.</p>
       <UICheckbox checked={compareAuditors} disabled={busy || !pipelineProviders.some(item => item.configured && item.provider !== 'rule_based')} onChange={() => { if(!compareAuditors && pipelineProvider==='rule_based') {
@@ -726,10 +755,10 @@ export function NewAudit() {
         </>}
       </UIAlert>}
       {selectedTargets.length > 0 && <div className="form-grid model-overrides">{selectedTargets.map((provider) => <label key={provider.provider}>Target model for {provider.label}<ModelPicker label={`Target model for ${provider.label}`} provider={provider.provider} defaultModel={provider.default_model} multiple disabled={provider.provider === 'rule_based'} value={provider.provider === 'rule_based' ? provider.default_model : targetModels[provider.provider] ?? provider.default_model} onChange={(value) => setTargetModels((current) => ({ ...current, [provider.provider]: value }))} /><small>{provider.provider === 'rule_based' ? 'This deterministic baseline has one fixed identity.' : 'Search and select up to eight models to compare.'}</small></label>)}</div>}
-      {(modelSelectionError || auditModelError) && <UIAlert role="alert">{modelSelectionError || auditModelError}</UIAlert>}
+      {(modelSelectionError || auditModelError || answerValidationError) && <UIAlert role="alert">{modelSelectionError || auditModelError || answerValidationError}</UIAlert>}
       <label>System under test<UISelect aria-label="System under test" value={targetSystem} onChange={event=>setTargetSystem(event.target.value)}>{systems.length ? systems.map(system=><UIOption key={system.value} value={system.value} disabled={!system.configured || (retrievalMode === 'agent' && system.value === 'external-http')}>{system.label}{system.configured?'':' — backend setup required'}{retrievalMode === 'agent' && system.value === 'external-http' ? ' — uses its own retrieval' : ''}</UIOption>) : <UIOption value="controlled-memory">Configurable memory system</UIOption>}</UISelect></label>
       {targetSystem==='external-http'&&<p>The external service owns memory writing, updates and capacity. Store controls are disabled; its retrieval policy and target profile are sent through the service contract.</p>}
-      <TargetProfileEditor value={targetProfile} onChange={setTargetProfile} disabled={busy} storeSettings={{
+      <TargetProfileEditor value={targetProfile} onChange={setTargetProfile} disabled={busy} answerValidationAvailable={answerValidationAvailable} storeSettings={{
         maintenancePolicy, onMaintenancePolicyChange: setMaintenancePolicy,
         capacity: targetMemoryCapacity, onCapacityChange: setTargetMemoryCapacity,
         writer: targetMemoryWriter, onWriterChange: setTargetMemoryWriter,
@@ -749,7 +778,7 @@ export function NewAudit() {
         </>}
       </>}/>
       <h3>Audit Dimensions</h3><p className="dimensions">Accuracy · Freshness · Conflict Resolution · Appropriate Use</p>
-      <UIButton disabled={busy || providerStatus!=='ready' || (compareAuditors && pipelineProvider==='rule_based') || coverageBlocked || Boolean(modelSelectionError || auditModelError) || !targetProfile.label.trim() || (!compareAuditors && suiteMode === "paired_contextual" && budget < 2) || selectedTargets.length === 0 || (retrievalMode === 'fixed' && selectedStrategies.length === 0) || !selectedPipeline?.configured || !selectedEvaluator?.configured} onClick={start}>Start {conditionCount > 1 ? `${conditionCount}-Run Comparison` : 'Memory Audit'}</UIButton>
+      <UIButton disabled={busy || providerStatus!=='ready' || (compareAuditors && pipelineProvider==='rule_based') || coverageBlocked || Boolean(modelSelectionError || auditModelError || answerValidationError) || !targetProfile.label.trim() || (!compareAuditors && suiteMode === "paired_contextual" && budget < 2) || selectedTargets.length === 0 || (retrievalMode === 'fixed' && selectedStrategies.length === 0) || !selectedPipeline?.configured || !selectedEvaluator?.configured} onClick={start}>Start {conditionCount > 1 ? `${conditionCount}-Run Comparison` : 'Memory Audit'}</UIButton>
     </section>}
     {step === 3 && <section className="running">
       <h1>Prepare Memory Audit</h1>

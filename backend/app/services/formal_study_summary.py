@@ -116,7 +116,7 @@ def study_summary(db, run_id):
             }
             for position in range(index, len(scene.run_ids), plan.condition_count):
                 run = runs[scene.run_ids[position]]
-                settings = ('provider', 'model', 'memory_strategy', 'temperature', 'random_seed', 'pipeline_provider', 'pipeline_model', 'semantic_review_provider', 'semantic_review_model', 'evaluator_provider', 'evaluator_model', 'retrieval_mode', 'retrieval_provider', 'retrieval_model', 'memory_maintenance_policy', 'target_memory_writer', 'target_memory_capacity', 'prompt_template_version', 'target_system_adapter')
+                settings = ('target_configuration', 'provider', 'model', 'memory_strategy', 'temperature', 'random_seed', 'pipeline_provider', 'pipeline_model', 'semantic_review_provider', 'semantic_review_model', 'evaluator_provider', 'evaluator_model', 'retrieval_mode', 'retrieval_provider', 'retrieval_model', 'memory_maintenance_policy', 'target_memory_writer', 'target_memory_capacity', 'prompt_template_version', 'target_system_adapter')
                 if tuple(getattr(run, field) for field in settings) != tuple(getattr(exemplar, field) for field in settings):
                     raise HTTPException(409, 'Conditions do not retain the same model and settings across the saved scenes.')
                 if run.status != 'COMPLETED':

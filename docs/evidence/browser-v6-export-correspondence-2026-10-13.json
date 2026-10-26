@@ -1,0 +1,12 @@
+{
+  "scope": "actual_browser_download_correspondence",
+  "research_evidence": false,
+  "passed": true,
+  "run_id": "RUN258BC6255DDF4572AAEF2907ABCA25A2",
+  "answer_count": 4,
+  "pending_count": 1,
+  "source_report_sha256": "a999237ae6ceb3258747aef5d8aa517783893762df6835da3d132e70eb59ee6b",
+  "json_sha256": "8842e50101d28b0237eeb976717482b7c2fe073e778e4791af48ca879c362a3c",
+  "csv_sha256": "90b2c96a8a6f24147a8ff4a95e4f67016a2c344db0b49e2b0559beb52575c72c",
+  "limit": "Current runtime-version warning may differ; original questions, responses, verdicts, scores and denominators were checked unchanged."
+}

@@ -1,0 +1,49 @@
+{
+  "scope": "synthetic_saved_answer_judge_identity_probe",
+  "research_evidence": false,
+  "source_sha256": "e84fb0e564c7439ce3edf0fc6ebf7b25a681c9bb9dd209b1b97eb5d5d8a7d406",
+  "source_report_sha256": "af18378f8858b56a69af37780b655ed0595c881223972502fe8d4a61ceb6d4b2",
+  "production_database_writes": 0,
+  "target_requests": 0,
+  "result": {
+    "evaluation_id": "E245D0C3A271D4CF3B2144CE3D967671E",
+    "test_id": "T245D0C3A271D4CF3B2144CE3D967671E",
+    "response_id": "R245D0C3A271D4CF3B2144CE3D967671E",
+    "passed": true,
+    "failure_type": null,
+    "reason": "AI semantic pre-review; uncalibrated and not independent human validation. The response correctly states that the user lives in Adelaide.",
+    "evidence_memory_ids": [
+      "MF6A7C891FAC14A9B940863FA443432E5"
+    ],
+    "evaluator": "llm-judge-openrouter-v6",
+    "judge_execution": {
+      "version": "judge-http-meter-v3",
+      "provider": "openrouter",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "agent_role": "blind_evaluation",
+      "prompt_template_version": "llm-judge-structured-v2",
+      "prompt_fingerprint": "b7073570b31e8253fa756efbd72460e4ef96ab97c31cdb23f56acb62f2ef4efa",
+      "input_fingerprint": "93bc2e54ffd6ff71916719040fa5fd74af35dde48bc04f06ad3d02f10d5c50d2",
+      "request_attempts": 1,
+      "failed_http_attempts": 0,
+      "elapsed_ms": 4111.56,
+      "reported_input_tokens": 723,
+      "reported_output_tokens": 109,
+      "reported_total_tokens": 832,
+      "reported_cost_credits": 0.0001268,
+      "sampling_control": "model_default",
+      "sent_temperature": null,
+      "usage_scope": "last successful provider reply only; failed-attempt usage unknown",
+      "verdict_status": "valid",
+      "provider_verdict": true,
+      "rule_cross_check_verdict": true,
+      "cross_check_version": "rule-based-v58"
+    },
+    "failure_classification": {
+      "status": "unclassified",
+      "method": "semantic-rubric-v6",
+      "reason": "No failure category applies."
+    }
+  }
+}

@@ -7,6 +7,24 @@ vi.mock('../services/api',()=>({api:mocks}));
 const run = (id:string,status:string,date:string,extra:Partial<AuditRun> = {}) => ({run_id:id,status,created_at:date,model:'qwen3:1.7b',memory_strategy:'scope_aware',...extra} as AuditRun);
 beforeEach(()=>mocks.audits.mockReset());
 
+test('saved model names and source dates are distinct from benchmark study results',async()=>{
+  mocks.audits.mockResolvedValue([
+    run('old-qwen','CREATED','2026-10-12T14:07:15.561000'),
+    run('new-luna','COMPLETED','2026-10-23T09:00:00Z',{model:'openai/gpt-6-luna'}),
+  ]);
+  render(<Dashboard/>);
+  expect(await screen.findByText(/Model names below belong to saved audits/)).toHaveTextContent('Saving a setup does not run its model');
+  expect(screen.getByRole('link',{name:'Experiments'})).toHaveAttribute('href','/experiments');
+  const oldHeading=screen.getByRole('heading',{name:/qwen3:1.7b/});
+  const oldCard=oldHeading.closest('li')!;
+  expect(within(oldCard).getByText('2026-10-12')).toHaveAttribute('datetime','2026-10-12T14:07:15.561000');
+  expect(oldCard).toHaveTextContent('Setup saved');
+  expect(oldCard).not.toHaveTextContent('GPT 6 Luna');
+  const newCard=screen.getByRole('heading',{name:/GPT 6 Luna/}).closest('li')!;
+  expect(within(newCard).getByText('2026-10-23')).toHaveAttribute('datetime','2026-10-23T09:00:00Z');
+  expect(newCard).toHaveTextContent('Report ready');
+});
+
 test('workflow counts separate errors, unfinished stages and cancelled runs from model accuracy',async()=>{
   mocks.audits.mockResolvedValue([
     run('private-complete','COMPLETED','2026-01-01'),run('private-new','TESTS_EXECUTED','2026-01-05'),

@@ -9,6 +9,7 @@ from __future__ import annotations
 import re
 import unicodedata
 from app.services.location_facts import location_value
+from app.services.deployment_facts import deployment_region_value
 
 from app.schemas import (
     GroundingStatus,
@@ -27,7 +28,7 @@ from app.extraction.rule_based import RuleBasedMemoryExtractor
 class RuleBasedTestQualityValidator(TestQualityValidator):
     """Validate evidence provenance and basic answer-independence deterministically."""
 
-    VERSION = "rule-based-quality-v20"
+    VERSION = "rule-based-quality-v23"
     _STOP_WORDS = {"a", "an", "the", "is", "are", "was", "were", "to", "of", "in", "on", "for", "that"}
 
     @staticmethod
@@ -141,7 +142,11 @@ class RuleBasedTestQualityValidator(TestQualityValidator):
                 if any(prior is None or prior.memory_id not in test.supporting_memory_ids for _, prior in conflicts):
                     return self._result(False, False, "An unresolved conflict probe must cite both conflicting records.")
                 expected = test.expected_behavior.lower()
-                asks_clarification = re.search(r"\b(?:clarif\w*|ask\w*\s+(?:the\s+)?user|seek\w*\s+guidance)\b", expected)
+                asks_clarification = re.search(
+                    r"\b(?:clarif\w*|ask\w*\s+(?:the\s+)?user|seek\w*\s+guidance)\b"
+                    r"|\buser\s+(?:(?:must|should|will|can|needs to)\s+)?(?:be|is)\s+(?:asked|consulted)\b",
+                    expected,
+                )
                 recency_wins = re.search(r"\b(?:more recent|most recent|newer|latest|higher priority)\b", expected)
                 negates_selection = re.search(r"\b(?:not|never|without|rather than|do not)\b[^.!?]{0,70}\b(?:select|choos|prioriti|rely|pick|use)\w*\b", expected)
                 if not asks_clarification or (recency_wins and not negates_selection):
@@ -189,6 +194,9 @@ class RuleBasedTestQualityValidator(TestQualityValidator):
             location_terms = terms(location)
             if location_terms and location_terms.issubset(prompt_terms):
                 return True
+        region = deployment_region_value(canonical_value)
+        if region and terms(region).issubset(prompt_terms):
+            return True
         concrete_values = {"mysql", "postgresql", "postgres", "mongodb", "sqlite", "python", "java", "rust", "javascript", "typescript", "kotlin", "swift", "golang", "redis", "mariadb", "cassandra", "dynamodb", "sydney", "melbourne", "london"}
         if answer_terms & prompt_terms & concrete_values:
             return True

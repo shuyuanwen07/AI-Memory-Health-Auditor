@@ -1,0 +1,18 @@
+{
+  "scope": "synthetic_engineering_retry_only",
+  "research_evidence": false,
+  "model": "openai/gpt-6-luna",
+  "core_status": "completed",
+  "original_status": "partial_diagnostic_failure",
+  "answers": 8,
+  "assessments": 8,
+  "exports_reconciled": true,
+  "diagnostic_retry_status": "completed",
+  "retry_note": "Separate reanalysis of saved synthetic cases; original failed attempt and assessments retained.",
+  "operational_output_cap_before": 1800,
+  "operational_output_cap_after": 4096,
+  "pre_restart_stage_locks": 0,
+  "pre_restart_advisory_locks": 0,
+  "conversation_count_before_and_after": 13,
+  "audit_run_count_before_and_after": 18
+}

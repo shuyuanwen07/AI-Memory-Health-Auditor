@@ -15,7 +15,7 @@ LONGMEMEVAL = json.loads((ROOT / "datasets" / "benchmarks" / "longmemeval-compat
 
 def test_annotation_and_longmemeval_research_endpoints_are_available():
     with TestClient(app) as client:
-        validated = client.post("/api/v1/research/annotations/validate", json={"dataset": ANNOTATIONS})
+        validated = client.post("/api/v1/research/annotations/validate", json={"dataset": ANNOTATIONS,"source_authorised":True})
         assert validated.status_code == 200
         assert validated.json()["fingerprint_sha256"]
         benchmark = client.post("/api/v1/research/benchmarks/longmemeval/validate", json={
@@ -38,6 +38,7 @@ def test_longmemeval_validation_requires_consent_before_adapter_processing(monke
 def test_validity_endpoint_reports_extraction_test_and_evaluator_metrics():
     request = {
         "dataset": ANNOTATIONS,
+        "source_authorised":True,
         "predictions": {
             "dataset_id": "memory-health-seed", "dataset_version": "1.0.0",
             "memory_predictions": [{"conversation_id": "ANN-C001", "candidate_id": "candidate-1", "matched_gold_memory_id": "ANN-GM001"}],
@@ -76,3 +77,29 @@ def test_evaluator_calibration_endpoint_is_request_scoped_and_reports_agreement(
     assert body["overall_failure_detection"]["true_positives"] == 1
     assert body["overall_failure_detection"]["false_positives"] == 1
     assert body["fingerprint_sha256"]
+
+
+def test_research_file_routes_require_permission_before_analysis(monkeypatch):
+    from app.api import research_routes
+    from test_pilot_annotation import _package
+
+    def forbidden(*args, **kwargs):
+        raise AssertionError('Unauthorised files must not reach analysis.')
+
+    monkeypatch.setattr(research_routes, 'annotation_import_report', forbidden)
+    monkeypatch.setattr(research_routes.ResearchValidityService, 'calculate', forbidden)
+    monkeypatch.setattr(research_routes.PilotAnnotationService, 'analyse', forbidden)
+    requests = [
+        ('annotations/validate', {'dataset': ANNOTATIONS}),
+        ('validity/report', {'dataset': ANNOTATIONS, 'predictions': {
+            'dataset_id': ANNOTATIONS['dataset_id'], 'dataset_version': ANNOTATIONS['dataset_version']}}),
+        ('pilot/analyse', {'package': _package()}),
+    ]
+    with TestClient(app) as client:
+        for path, body in requests:
+            for permission in (None, False, 'true', 1):
+                payload = body if permission is None else {**body, 'source_authorised': permission}
+                response = client.post('/api/v1/research/' + path, json=payload)
+                assert response.status_code == 422, (path, permission, response.text)
+                if permission is None or permission is False:
+                    assert 'authorised to process these research files' in response.json()['detail']

@@ -156,7 +156,7 @@ class RelationshipAnalysisAgent:
             seen: set[tuple[str, str, str]] = set()
             attached: list[dict] = []
             pending_links: list[tuple[Memory, MemoryRelationship]] = []
-            for relation in parsed.relationships:
+            for relation_index, relation in enumerate(parsed.relationships):
                 current = by_id.get(relation.current_memory_id)
                 prior = by_id.get(relation.prior_memory_id)
                 if current is None or prior is None or current.memory_id == prior.memory_id:
@@ -183,9 +183,21 @@ class RelationshipAnalysisAgent:
                 if (not cited.issubset(known_messages)
                         or not cited_current.issubset(current_evidence)
                         or not cited_prior.issubset(prior_evidence)):
+                    errors = []
+                    for field, values, allowed in (
+                        ('current_evidence_message_ids', cited_current, current_evidence),
+                        ('prior_evidence_message_ids', cited_prior, prior_evidence),
+                    ):
+                        if not values.issubset(allowed) or not values.issubset(known_messages):
+                            errors.append({
+                                'field': f'relationships.{relation_index}.{field}',
+                                'type': 'endpoint_evidence_mismatch',
+                                'invalid_reference_count': len(values - (allowed & set(known_messages))),
+                            })
                     raise _RelationshipStageError(
                         "endpoint_evidence_mismatch",
-                        "The relationship Agent must cite source evidence separately from both linked candidates."
+                        "The relationship Agent must cite source evidence separately from both linked candidates.",
+                        diagnostics={'validation_errors': errors, 'error_count': len(errors)},
                     )
                 key = (current.memory_id, relation.type.value, prior.memory_id)
                 if key in seen:
@@ -232,6 +244,7 @@ class RelationshipAnalysisAgent:
                 "output_data": None, "status": "failed", "execution": self.client.last_execution,
                 "error_code": error_code,
                 "error_summary": error_summary,
+                "error_diagnostics": getattr(exc, 'diagnostics', None),
             }
             if isinstance(exc, ValidationError):
                 raise PipelineRequestError("The relationship Agent returned data outside the required contract.") from exc
@@ -239,8 +252,9 @@ class RelationshipAnalysisAgent:
 
 
 class _RelationshipStageError(PipelineRequestError):
-    def __init__(self, failure_code: str, detail: str) -> None:
+    def __init__(self, failure_code: str, detail: str, *, diagnostics: dict | None = None) -> None:
         self.failure_code = failure_code
+        self.diagnostics = diagnostics
         super().__init__(detail)
 
 

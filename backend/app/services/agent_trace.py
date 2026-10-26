@@ -4,10 +4,19 @@ from __future__ import annotations
 from datetime import datetime, timezone
 import hashlib
 import json
+import re
 from typing import Any
 from uuid import uuid4
 
 from app.models import AgentExecutionModel
+
+
+_SAFE_REPORTED_MODEL = re.compile(r"[A-Za-z0-9][A-Za-z0-9._:/+_-]{0,119}\Z")
+_SAFE_FINISH_REASONS = frozenset({
+    "length", "max_tokens", "max_output_tokens", "stop", "eos", "end_turn",
+    "content_filter", "tool_calls", "function_call", "stop_sequence", "safety",
+    "recitation", "other", "error",
+})
 
 
 def _canonical(value: Any) -> bytes:
@@ -43,6 +52,52 @@ def record_agent_execution(
 ) -> AgentExecutionModel:
     """Save exact role/output metadata and hashes, while source data stays in its parent records."""
     receipt = execution or {}
+    diagnostics = dict(error_diagnostics or {})
+    # Transport contracts contain safe parameters and fingerprints only, never
+    # request text or credentials. Preserve exact failed and successful attempts.
+    from app.schemas.request_contracts import wire_metadata
+    diagnostics.update(wire_metadata(receipt))
+    if receipt.get("response_format_fallback"):
+        diagnostics["response_format_fallback"] = receipt["response_format_fallback"]
+    rejected_status = receipt.get("schema_rejection_http_status")
+    if type(rejected_status) is int:
+        diagnostics["schema_rejection_http_status"] = rejected_status
+    failed_attempts = receipt.get("failed_http_attempts")
+    upstream_status = receipt.get("last_http_status")
+    if type(upstream_status) is int and 100 <= upstream_status <= 599 and (
+            (type(failed_attempts) is int and failed_attempts > 0) or status == "failed"):
+        diagnostics["last_http_status"] = upstream_status
+    error_scope = receipt.get("provider_error_scope")
+    if isinstance(error_scope, str) and error_scope in {"top_level", "choice", "finish_reason"}:
+        diagnostics["provider_error_scope"] = error_scope
+        error_status = receipt.get("provider_error_status")
+        if type(error_status) is int and 400 <= error_status <= 599:
+            diagnostics["provider_error_status"] = error_status
+    if receipt.get("provider_error_category") == "capacity_limit":
+        diagnostics["provider_error_category"] = "capacity_limit"
+    for field in ("input_tokens", "output_tokens", "total_tokens", "reasoning_tokens"):
+        value = receipt.get(field, receipt.get("reported_" + field))
+        if type(value) is int and 0 <= value <= 10_000_000:
+            diagnostics[field] = value
+    completion_status = receipt.get("completion_status")
+    if isinstance(completion_status, str) and completion_status in {"complete", "truncated"}:
+        diagnostics["completion_status"] = completion_status
+    choice_count = receipt.get("response_choice_count")
+    if type(choice_count) is int and 0 <= choice_count <= 10000:
+        diagnostics["response_choice_count"] = choice_count
+    output_limit = receipt.get("requested_output_token_limit")
+    if type(output_limit) is int and 0 < output_limit <= 1000000:
+        diagnostics["requested_output_token_limit"] = output_limit
+    for field in ("declared_output_token_limit", "configured_output_token_cap"):
+        value = receipt.get(field)
+        if type(value) is int and 0 < value <= 1000000:
+            diagnostics[field] = value
+    finish_reason = receipt.get("reported_finish_reason", receipt.get("finish_reason"))
+    if isinstance(finish_reason, str) and finish_reason in _SAFE_FINISH_REASONS:
+        diagnostics["reported_finish_reason"] = finish_reason
+    reported_model = receipt.get("reported_model")
+    if not isinstance(reported_model, str) or not _SAFE_REPORTED_MODEL.fullmatch(reported_model):
+        reported_model = None
     prompt_sha = receipt.get("prompt_fingerprint") or fingerprint({
         "version": prompt_template_version,
         "instructions": instructions,
@@ -56,7 +111,7 @@ def record_agent_execution(
         run_id=run_id,
         provider=str(receipt.get("provider") or provider),
         model=str(receipt.get("model") or model),
-        reported_model=receipt.get("reported_model"),
+        reported_model=reported_model,
         prompt_template_version=prompt_template_version,
         prompt_fingerprint=prompt_sha,
         input_fingerprint=receipt.get("input_fingerprint") or fingerprint(input_payload),
@@ -67,7 +122,7 @@ def record_agent_execution(
         elapsed_ms=receipt.get("elapsed_ms"),
         error_code=error_code or receipt.get("error_code"),
         error_summary=error_summary,
-        error_diagnostics=error_diagnostics,
+        error_diagnostics=diagnostics or None,
         handoff_from=handoff_from,
         handoff_to=handoff_to,
         created_at=datetime.now(timezone.utc).replace(tzinfo=None),

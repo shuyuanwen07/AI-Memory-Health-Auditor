@@ -9,7 +9,7 @@ from __future__ import annotations
 from datetime import datetime
 from enum import Enum
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field, StrictBool, model_validator
 
 from app.schemas.domain import Dimension, RelationshipType
 
@@ -133,6 +133,7 @@ class PilotAnnotationPackage(BaseModel):
 
 class PilotAnalysisRequest(BaseModel):
     package: PilotAnnotationPackage
+    source_authorised: StrictBool = False
 
 
 class PilotAgreementMetrics(BaseModel):

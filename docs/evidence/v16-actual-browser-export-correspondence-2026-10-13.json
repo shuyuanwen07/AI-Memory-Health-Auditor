@@ -1,0 +1,39 @@
+{
+  "scope": "actual frontend displaying original v16 before rule correction",
+  "research_evidence": false,
+  "model_requests": 0,
+  "database_writes": 0,
+  "weak_report": {
+    "overall": 33.3,
+    "passed": 1,
+    "decided": 3,
+    "pending": 1,
+    "completed_answers": 4
+  },
+  "strong_report": {
+    "overall": 66.7,
+    "passed": 2,
+    "decided": 3,
+    "pending": 1,
+    "completed_answers": 4
+  },
+  "paired": {
+    "shared": 4,
+    "comparable_decided": 3,
+    "improved": 1,
+    "regressed": 0,
+    "still_failing": 1,
+    "freshness": "not scored/no comparison"
+  },
+  "json_primary_scores_answers_dimensions_equal_saved": true,
+  "csv_all4questions_answers_evaluationIDs_and_denominators_equal_saved": true,
+  "svg_per_dimension_counts_sum_to_paired_decided_counts": true,
+  "actual_browser_downloads": [
+    "SVG",
+    "JSON",
+    "CSV"
+  ],
+  "intentional_export_difference": "Duplicated result.reproducibility.target_memory_profile is omitted; sanitized run_configuration preserves retrieval/output controls. Exact original source remains in frozen report.",
+  "original_result_preserved_with_pending": true,
+  "snapshot_sha256": "9843ee1ef7436eb998587ef1249565e9aa5983c212b8d60b9b6413a0bb7b7028"
+}

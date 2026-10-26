@@ -62,6 +62,9 @@ def test_explicit_reviewer_ablation_preserves_shared_questions_and_real_configur
                 assert receipt['memory_input'] == originals[receipt['shared_source_response_id']]['execution_metadata']['memory_input']
             repeated = client.post(f'/api/v1/audits/{destination_id}/reuse-answers', json={'source_run_id': source_id})
             assert {row['response_id'] for row in repeated.json()} == {row['response_id'] for row in copied.json()}
+            repeated_execute = client.post(f'/api/v1/audits/{destination_id}/execute')
+            assert repeated_execute.status_code == 200
+            assert {row['response_id'] for row in repeated_execute.json()} == {row['response_id'] for row in copied.json()}
             assert client.post(f'/api/v1/audits/{destination_id}/evaluate').status_code == 200
             trace = client.get(f'/api/v1/audits/{destination_id}/target-memory-trace')
             assert trace.status_code == 200, trace.text

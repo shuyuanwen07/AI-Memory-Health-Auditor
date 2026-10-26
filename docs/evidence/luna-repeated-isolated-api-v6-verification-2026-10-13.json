@@ -1,0 +1,447 @@
+{
+  "passed": true,
+  "shared_suite_verified": true,
+  "exact_approved_inventory_verified": true,
+  "same_strong_reader_policy_hash_verified": true,
+  "complete_instruction_receipt_hashes_reconstructed": true,
+  "json_csv_identity_answer_score_reconciliation_verified": true,
+  "repetitions_per_strategy": 2,
+  "condition_aggregate_and_variation_verified": true,
+  "roles": [
+    {
+      "role": "memory_extraction",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "relationship_analysis",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "independent_memory_review",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "coverage_planning",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "test_generation",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "test_generation",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "test_generation",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "test_generation",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "test_review",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "blind_evaluation",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "blind_evaluation",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "blind_evaluation",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "blind_evaluation",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "post_run_diagnostic",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "blind_evaluation",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "blind_evaluation",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "blind_evaluation",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "blind_evaluation",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "post_run_diagnostic",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "blind_evaluation",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "blind_evaluation",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "blind_evaluation",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "blind_evaluation",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "post_run_diagnostic",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "blind_evaluation",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "blind_evaluation",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "blind_evaluation",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "blind_evaluation",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    },
+    {
+      "role": "post_run_diagnostic",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "attempt_count": 1,
+      "status": "completed"
+    }
+  ],
+  "runs": [
+    {
+      "run_id": "RUN9C1976976F9C461AA3ADC5CD3412034B",
+      "strategy": "weak_first_hit",
+      "overall_score": 25.0,
+      "formal_overall_score": 25.0,
+      "tests_passed": 1,
+      "tests_total": 4,
+      "uncertain_count": 0,
+      "excluded_evidence_count": 0,
+      "dimensions": [
+        {
+          "dimension": "accuracy",
+          "percentage": 100.0,
+          "passed": 1,
+          "total": 1,
+          "uncertain_count": 0,
+          "expected_tests": 1,
+          "excluded_evidence_count": 0
+        },
+        {
+          "dimension": "freshness",
+          "percentage": 0.0,
+          "passed": 0,
+          "total": 1,
+          "uncertain_count": 0,
+          "expected_tests": 1,
+          "excluded_evidence_count": 0
+        },
+        {
+          "dimension": "conflict_resolution",
+          "percentage": 0.0,
+          "passed": 0,
+          "total": 1,
+          "uncertain_count": 0,
+          "expected_tests": 1,
+          "excluded_evidence_count": 0
+        },
+        {
+          "dimension": "appropriate_use",
+          "percentage": 0.0,
+          "passed": 0,
+          "total": 1,
+          "uncertain_count": 0,
+          "expected_tests": 1,
+          "excluded_evidence_count": 0
+        }
+      ],
+      "target_actual_model_verified": true,
+      "judge_actual_model_verified": true,
+      "judge_reported_models": [
+        "openai/gpt-6-luna",
+        "openai/gpt-6-luna",
+        "openai/gpt-6-luna",
+        "openai/gpt-6-luna"
+      ],
+      "target_store_ids_disjoint_from_approved_auditor_ids": true
+    },
+    {
+      "run_id": "RUN258BC6255DDF4572AAEF2907ABCA25A2",
+      "strategy": "strong_rule_based",
+      "overall_score": 66.7,
+      "formal_overall_score": null,
+      "tests_passed": 2,
+      "tests_total": 3,
+      "uncertain_count": 1,
+      "excluded_evidence_count": 0,
+      "dimensions": [
+        {
+          "dimension": "accuracy",
+          "percentage": 100.0,
+          "passed": 1,
+          "total": 1,
+          "uncertain_count": 0,
+          "expected_tests": 1,
+          "excluded_evidence_count": 0
+        },
+        {
+          "dimension": "freshness",
+          "percentage": null,
+          "passed": 0,
+          "total": 0,
+          "uncertain_count": 1,
+          "expected_tests": 1,
+          "excluded_evidence_count": 0
+        },
+        {
+          "dimension": "conflict_resolution",
+          "percentage": 0.0,
+          "passed": 0,
+          "total": 1,
+          "uncertain_count": 0,
+          "expected_tests": 1,
+          "excluded_evidence_count": 0
+        },
+        {
+          "dimension": "appropriate_use",
+          "percentage": 100.0,
+          "passed": 1,
+          "total": 1,
+          "uncertain_count": 0,
+          "expected_tests": 1,
+          "excluded_evidence_count": 0
+        }
+      ],
+      "target_actual_model_verified": true,
+      "judge_actual_model_verified": true,
+      "judge_reported_models": [
+        "openai/gpt-6-luna",
+        "openai/gpt-6-luna",
+        "openai/gpt-6-luna",
+        "openai/gpt-6-luna"
+      ],
+      "target_store_ids_disjoint_from_approved_auditor_ids": true
+    },
+    {
+      "run_id": "RUNB3836A83979F452485D1FC27D0865CC4",
+      "strategy": "weak_first_hit",
+      "overall_score": 25.0,
+      "formal_overall_score": 25.0,
+      "tests_passed": 1,
+      "tests_total": 4,
+      "uncertain_count": 0,
+      "excluded_evidence_count": 0,
+      "dimensions": [
+        {
+          "dimension": "accuracy",
+          "percentage": 100.0,
+          "passed": 1,
+          "total": 1,
+          "uncertain_count": 0,
+          "expected_tests": 1,
+          "excluded_evidence_count": 0
+        },
+        {
+          "dimension": "freshness",
+          "percentage": 0.0,
+          "passed": 0,
+          "total": 1,
+          "uncertain_count": 0,
+          "expected_tests": 1,
+          "excluded_evidence_count": 0
+        },
+        {
+          "dimension": "conflict_resolution",
+          "percentage": 0.0,
+          "passed": 0,
+          "total": 1,
+          "uncertain_count": 0,
+          "expected_tests": 1,
+          "excluded_evidence_count": 0
+        },
+        {
+          "dimension": "appropriate_use",
+          "percentage": 0.0,
+          "passed": 0,
+          "total": 1,
+          "uncertain_count": 0,
+          "expected_tests": 1,
+          "excluded_evidence_count": 0
+        }
+      ],
+      "target_actual_model_verified": true,
+      "judge_actual_model_verified": true,
+      "judge_reported_models": [
+        "openai/gpt-6-luna",
+        "openai/gpt-6-luna",
+        "openai/gpt-6-luna",
+        "openai/gpt-6-luna"
+      ],
+      "target_store_ids_disjoint_from_approved_auditor_ids": true
+    },
+    {
+      "run_id": "RUNAB1570E9152045B1964FF71603348C31",
+      "strategy": "strong_rule_based",
+      "overall_score": 75.0,
+      "formal_overall_score": 75.0,
+      "tests_passed": 3,
+      "tests_total": 4,
+      "uncertain_count": 0,
+      "excluded_evidence_count": 0,
+      "dimensions": [
+        {
+          "dimension": "accuracy",
+          "percentage": 100.0,
+          "passed": 1,
+          "total": 1,
+          "uncertain_count": 0,
+          "expected_tests": 1,
+          "excluded_evidence_count": 0
+        },
+        {
+          "dimension": "freshness",
+          "percentage": 100.0,
+          "passed": 1,
+          "total": 1,
+          "uncertain_count": 0,
+          "expected_tests": 1,
+          "excluded_evidence_count": 0
+        },
+        {
+          "dimension": "conflict_resolution",
+          "percentage": 0.0,
+          "passed": 0,
+          "total": 1,
+          "uncertain_count": 0,
+          "expected_tests": 1,
+          "excluded_evidence_count": 0
+        },
+        {
+          "dimension": "appropriate_use",
+          "percentage": 100.0,
+          "passed": 1,
+          "total": 1,
+          "uncertain_count": 0,
+          "expected_tests": 1,
+          "excluded_evidence_count": 0
+        }
+      ],
+      "target_actual_model_verified": true,
+      "judge_actual_model_verified": true,
+      "judge_reported_models": [
+        "openai/gpt-6-luna",
+        "openai/gpt-6-luna",
+        "openai/gpt-6-luna",
+        "openai/gpt-6-luna"
+      ],
+      "target_store_ids_disjoint_from_approved_auditor_ids": true
+    }
+  ],
+  "source_isolation_limit": "Trace proves separate record IDs and original source refs; source code inspection is also required to prove no ground-truth reads.",
+  "report_sha256": "a999237ae6ceb3258747aef5d8aa517783893762df6835da3d132e70eb59ee6b"
+}

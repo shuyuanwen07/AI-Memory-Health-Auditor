@@ -32,6 +32,7 @@ from app.services.runtime_freeze import (
     refresh_failed_preexecution_generation, inherit_preexecution_runtime_refresh,
 )
 from app.services.stage_lock import database_stage_lock, database_stage_busy
+from app.services.generation_coverage import assert_generation_coverage, saved_suite_observation
 from app.services.reviewer_identity import reviewer_identity, distinct_reviewers, unique_independent_reviews
 from app.models import AgentExecutionModel, AssessorComparisonModel, AuditRunModel, ConversationModel, EvaluationHumanReviewModel, EvaluationResultModel, ExperimentModel, MemoryModel, MemoryRelationshipModel, MessageModel, TargetAgentMemoryEventModel, TargetAgentMemoryModel, TargetAgentMemoryRelationshipModel, TargetAgentRetrievalModel, TargetResponseModel, TestCaseModel
 from app.schemas.assessor_comparison import AssessorComparisonRequest
@@ -44,6 +45,7 @@ from app.services.model_availability import options_and_checks, verified_options
 from app.schemas import *
 from app.target_ai.providers import PROVIDERS, configured
 from app.target_systems import get_target_system_adapter
+from app.target_systems.controlled import ControlledTargetSystemAdapter
 from app.test_generator.factory import get_test_generator
 from app.test_generator.baselines import get_suite_generator, HumanReviewedFixedTemplateGenerator
 from app.test_generator.quality import RuleBasedTestQualityValidator
@@ -138,8 +140,8 @@ def reproducibility_snapshot(*, provider: str, model: str, temperature: float, r
     semantic_review_model = semantic_review_model or (pipeline_model if semantic_review_provider == pipeline_provider
                                                         else configured_pipeline_model(semantic_review_provider))
     if provider != "rule_based" and profile.output_token_limit is None:
-        profile = profile.model_copy(update={"output_token_limit": 512})
-    adapter_version = "external-http-v1" if TargetSystemAdapterKind(target_system_adapter) == TargetSystemAdapterKind.EXTERNAL_HTTP else "controlled-memory-v2"
+        profile = profile.model_copy(update={"output_token_limit": 2048})
+    adapter_version = "external-http-v1" if TargetSystemAdapterKind(target_system_adapter) == TargetSystemAdapterKind.EXTERNAL_HTTP else ControlledTargetSystemAdapter.version
     writer_kind = TargetMemoryWriterKind(target_memory_writer)
     writer = get_target_memory_writer(pipeline_provider, pipeline_model, writer_kind)
     writer_version = getattr(writer, "VERSION", writer.__class__.__name__)
@@ -187,7 +189,7 @@ def reproducibility_snapshot(*, provider: str, model: str, temperature: float, r
         "target_system_adapter": TargetSystemAdapterKind(target_system_adapter).value,
         "target_system_adapter_version": adapter_version,
         "target_memory_profile": profile.model_dump(),
-        "memory_policy_version": "target-memory-policy-v9",
+        "memory_policy_version": "target-memory-policy-v42",
         # A seed is fully deterministic for the local baseline. Third-party
         # APIs do not share one portable seed contract, so retain it as a
         # configuration identifier rather than implying bit-for-bit replay.
@@ -887,6 +889,11 @@ def build_audit(payload: AuditCreate, db: Session):
     if not confirmed: raise HTTPException(409, "Confirm ground truth before creating an audit.")
     default_model=PROVIDERS[payload.provider][1]
     model=payload.model if payload.model not in ("", "rule-based-target-ai") or payload.provider == TargetProvider.RULE_BASED else default_model
+    from app.target_ai.openrouter import validate_profile_reasoning
+    try:
+        validate_profile_reasoning(payload.provider.value, model, payload.target_memory_profile)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
     suite = TestSuiteConfiguration.model_validate(experiment.test_suite_configuration) if experiment else None
     selected_pipeline_provider = suite.pipeline_provider.value if suite else (payload.pipeline_provider.value if payload.pipeline_provider else pipeline_provider())
     ensure_supported_pipeline_role(TargetProvider(selected_pipeline_provider), "memory-extraction and test-generation pipeline")
@@ -1304,8 +1311,7 @@ def test_review_suite(run_id: str, db: Session = Depends(get_db)):
     source_run_id = experiment.test_suite_source_run_id if experiment and experiment.test_suite_source_run_id else run_id
     source_run = db.get(AuditRunModel, source_run_id) or audit
     source_tests = db.scalars(select(TestCaseModel).where(TestCaseModel.run_id == source_run_id).order_by(TestCaseModel.id)).all()
-    generation_history = (source_run.reproducibility_metadata or {}).get("generation_observations") or []
-    generation_observation = generation_history[-1] if generation_history else {}
+    generation_observation = saved_suite_observation(source_run.reproducibility_metadata)
     suite_configuration = (TestSuiteConfiguration.model_validate(experiment.test_suite_configuration)
                            if experiment else TestSuiteConfiguration(test_budget=source_run.test_budget))
     members = db.scalars(select(AuditRunModel).where(
@@ -1421,7 +1427,7 @@ def _continue_test_generation(run_id: str, db: Session) -> TestReviewSuite:
         TestCaseModel.run_id == source_run.id,
     ).order_by(TestCaseModel.id)).all()
     if len(source_tests) >= source_run.test_budget:
-        observation = ((source_run.reproducibility_metadata or {}).get("generation_observations") or [{}])[-1]
+        observation = saved_suite_observation(source_run.reproducibility_metadata)
         return TestReviewSuite(
             run_id=run_id, canonical_run_id=source_run.id,
             tests=[public_test_schema(test) for test in source_tests],
@@ -1561,8 +1567,7 @@ def _continue_test_generation(run_id: str, db: Session) -> TestReviewSuite:
             source_run.reproducibility_metadata = metadata
     db.commit()
 
-    history = (source_run.reproducibility_metadata or {}).get("generation_observations") or []
-    observation = history[-1] if history else {}
+    observation = saved_suite_observation(source_run.reproducibility_metadata)
     return TestReviewSuite(
         run_id=run_id, canonical_run_id=source_run.id,
         tests=[public_test_schema(test) for test in source_tests],
@@ -1770,7 +1775,7 @@ def _execute(run_id: str, db: Session):
         if any(test.human_validity_status != HumanValidityStatus.ACCEPTED.value for test in method_tests):
             raise HTTPException(409, "A researcher must explicitly confirm every Experiment A question as valid before target execution.")
     shared_source = (a.reproducibility_metadata or {}).get("shared_answer_source_run_id")
-    if shared_source:
+    if shared_source and a.status in {AuditStatus.TESTS_EXECUTED.value, AuditStatus.COMPLETED.value}:
         from app.services.shared_answers import reuse_target_answers
         with audit_run_lock(shared_source, db=db):
             return [response_schema(row) for row in reuse_target_answers(db, run_id, shared_source)]
@@ -1779,33 +1784,7 @@ def _execute(run_id: str, db: Session):
     assert_test_evidence_available(db, a.conversation_id, review_rows)
     coverage_source_id = experiment.test_suite_source_run_id if experiment and experiment.test_suite_source_run_id else a.id
     coverage_source = db.get(AuditRunModel, coverage_source_id) or a
-    generation_history = (coverage_source.reproducibility_metadata or {}).get("generation_observations") or []
-    generation_observation = generation_history[-1] if generation_history else {}
-    if str(generation_observation.get("agent_version", "")).startswith("agent-coverage-semantic-v5"):
-        requirements = {
-            item.get("dimension"): int(item.get("required_question_count") or 1)
-            for item in generation_observation.get("dimension_coverage", [])
-            if item.get("evidence_supported") is True
-        }
-        accepted_counts = {
-            dimension: sum(
-                1 for test in review_rows
-                if test.dimension == dimension and test.quality_status == TestQualityStatus.ACCEPTED.value
-            )
-            for dimension in requirements
-        }
-        shortages = sorted(
-            (dimension, required, accepted_counts.get(dimension, 0))
-            for dimension, required in requirements.items()
-            if accepted_counts.get(dimension, 0) < required
-        )
-        if shortages:
-            raise HTTPException(
-                409,
-                "The suite does not meet its minimum accepted questions per evidence-supported ability: "
-                + "; ".join(f"{dimension} needs {required}, has {count}" for dimension, required, count in shortages)
-                + ". Regenerate or accept questions before execution.",
-            )
+    assert_generation_coverage(saved_suite_observation(coverage_source.reproducibility_metadata), review_rows, coverage_source.test_budget)
     suite_problem = RuleBasedTestQualityValidator.validate_suite([test_schema(row) for row in review_rows])
     if suite_problem:
         raise HTTPException(409, suite_problem)
@@ -1813,6 +1792,10 @@ def _execute(run_id: str, db: Session):
         raise HTTPException(409, "Resolve rejected tests by regenerating or accepting them before execution.")
     if any(test.quality_status == TestQualityStatus.PENDING.value for test in review_rows):
         raise HTTPException(409, "Review each regenerated test before execution.")
+    if shared_source:
+        from app.services.shared_answers import reuse_target_answers
+        with audit_run_lock(shared_source, db=db):
+            return [response_schema(row) for row in reuse_target_answers(db, run_id, shared_source)]
     if a.experiment_id:
         # Do not revive a comparison group if a concurrent request has
         # cancelled it between this audit's initial state check and execution.
@@ -1873,7 +1856,35 @@ def _execute(run_id: str, db: Session):
         transition_audit_status(
             db, a, AuditStatus.TESTS_GENERATED, AuditStatus.TESTS_EXECUTED,
         )
-    except HTTPException:
+    except HTTPException as exc:
+        receipt = getattr(exc, "target_execution", None)
+        if isinstance(receipt, dict):
+            from app.services.agent_trace import record_agent_execution
+            validation_failure = (receipt.get("failure_stage") == "target_answer_validation"
+                                  and receipt.get("primary_status") == "completed")
+            refs = {"test_id": receipt.get("test_id")}
+            execution = receipt
+            if validation_failure:
+                # The draft and checker already have their own durable rows.
+                # This is a chain failure, not a third provider request.
+                refs.update({"execution_origin": "chain_failure_no_additional_request",
+                             "primary_status": "completed", "failure_stage": "target_answer_validation",
+                             "draft_execution_id": receipt.get("draft_execution_id"),
+                             "validation_execution_id": (receipt.get("answer_validation") or {}).get("execution_id")})
+                execution = {key: receipt.get(key) for key in ("provider", "model", "reported_model")}
+                execution["request_attempts"] = 0
+            record_agent_execution(
+                db, role="target_answer_chain" if validation_failure else "target_answer", provider=a.provider, model=a.model,
+                prompt_template_version="target-answer-chain-v1" if validation_failure else a.prompt_template_version,
+                instructions="", prompt="", schema=None,
+                input_payload={"test_id": receipt.get("test_id"), "run_id": run_id},
+                input_refs=refs, output_data=None,
+                status="failed", execution=execution,
+                error_code="TargetAnswerValidationFailed" if validation_failure else "ProviderRequestError",
+                error_summary=receipt.get("error_summary"), run_id=run_id,
+                handoff_from="target_answer_validation" if validation_failure else None,
+                handoff_to="audit_execution_failed" if validation_failure else None,
+            )
         db.refresh(a)
         if a.status != AuditStatus.CANCELLED.value:
             a.status="FAILED"

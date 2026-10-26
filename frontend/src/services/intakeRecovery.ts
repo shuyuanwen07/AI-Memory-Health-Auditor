@@ -10,7 +10,7 @@ export function loadIntakeRecovery(): IntakeRecovery | null {
     if (!value || typeof value!=='object' || typeof value.requestKey!=='string'
       || !/^[A-Za-z0-9_-]{16,100}$/.test(value.requestKey)
       || typeof value.text!=='string' || value.text.length>1000000
-      || !['rule_based','openrouter','openai','deepseek','gemini'].includes(value.provider)
+      || !['rule_based','openrouter','openai','deepseek','gemini','ollama'].includes(value.provider)
       || (value.provider!=='rule_based' && value.model===null)
       || (value.model!==null && (typeof value.model!=='string' || !value.model.trim()))
       || (value.conversationId!==undefined && (typeof value.conversationId!=='string'||!value.conversationId.trim()))

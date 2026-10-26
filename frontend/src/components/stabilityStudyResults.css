@@ -1,0 +1,31 @@
+.stability-study-workspace > .ui-checkbox { display: block; margin: .75rem 0; line-height: 1.55; }
+.stability-privacy-note { padding: .65rem .8rem; border-left: 4px solid #b7791f; border-radius: 4px; background: #fff8e6; color: #704b10 !important; }
+.stability-import-controls { display: grid; grid-template-columns: 1fr; gap: .5rem; max-width: 48rem; margin-top: .8rem; }
+.stability-import-controls > label { font-weight: 650; }
+.stability-import-controls > input { max-width: 100%; }
+.stability-import-controls > p { margin: 0 0 .5rem; color: #536b7e; overflow-wrap: anywhere; }
+.stability-study-report { color: #203047; }
+.stability-study-report > p { overflow-wrap: anywhere; }
+.stability-hash code { display: block; overflow-wrap: anywhere; font-size: .78rem; }
+.stability-package-meta { margin-top: 1.25rem; }
+.stability-package-meta pre, .stability-run pre { max-height: 24rem; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; padding: .7rem; border: 1px solid #d8e2ec; border-radius: 7px; background: #fff; color: #203047; font: .82rem/1.45 ui-monospace, SFMono-Regular, Menlo, monospace; }
+.stability-split { margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #d8e2ec; }
+.stability-split h4 { margin-bottom: .25rem; }
+.stability-split h5 { margin: 1rem 0 .35rem; }
+.stability-split > p { color: #536b7e; }
+.stability-case, .stability-run { margin-top: .6rem; padding: .65rem .8rem; border: 1px solid #d8e2ec; border-radius: 8px; background: #fff; }
+.stability-case > summary, .stability-run > summary { cursor: pointer; font-weight: 650; }
+.stability-case > p { overflow-wrap: anywhere; }
+.stability-run { margin-left: .75rem; }
+.stability-run h6 { margin: .8rem 0 .3rem; font-size: .86rem; }
+.stability-error { padding: .7rem .85rem; border-left: 4px solid #b94848; border-radius: 4px; background: #fff0f0; color: #6f2525; }
+.stability-grade-note { margin-top: 1rem !important; padding-top: .75rem; border-top: 1px solid #d8e2ec; font-size: .88rem; }
+@media (max-width: 720px) { .stability-import-controls .research-actions { display: grid; } }
+
+.stability-acceptance-overview { margin: 1rem 0; padding: .85rem 1rem; border: 1px solid #cbd9e6; border-radius: 8px; background: #f5f9fc; }
+.stability-acceptance-overview h4 { margin: 0 0 .4rem; }
+.stability-acceptance-overview h4 span { text-transform: uppercase; }
+.stability-acceptance-overview th, .stability-acceptance-overview td { vertical-align: top; overflow-wrap: anywhere; }
+.stability-overview-note { font-size: .86rem; color: #536b7e; }
+.stability-technical-evidence { margin-top: 1.25rem; padding: .85rem 1rem; border: 1px solid #d8e2ec; border-radius: 8px; background: #f5f9fc; }
+.stability-technical-evidence > summary { cursor: pointer; font-weight: 650; }

@@ -1,9 +1,7 @@
-"""Contracts for importing a *synthetic* frozen study into operational runs.
+"""Frozen study contracts with distinct synthetic and deidentified source gates.
 
-The normal research endpoints deliberately keep human labels request-scoped.
-This contract is narrower: it permits only a dataset explicitly identified as
-synthetic to become reproducible, executable audit records.  This makes the
-boundary between a study harness and participant data explicit.
+Research-source permission is declared by the caller and fingerprint-bound;
+it does not authenticate the reviewer or replace independent research evidence.
 """
 from __future__ import annotations
 
@@ -56,6 +54,10 @@ class FormalAcceptanceProtocol(BaseModel):
     development_dataset_fingerprint_sha256: str | None = None
     distinct_history_check: str = "not_checked"
     study_design: FormalStudyDesign | None = None
+    source_release: dict | None = None
+    # None is deliberately retained for historical protocols: a new-schema
+    # default must never certify a reader control absent from the saved plan.
+    reader_control: Literal['fixed_strong_reader'] | None = None
     notice: str = "Criteria were saved before these new runs. This does not verify independent labels or that earlier results were unseen."
 
 
@@ -82,11 +84,9 @@ class FormalMatrixCondition(BaseModel):
 
     @property
     def target_configuration(self) -> TargetConfiguration:
-        return (
-            TargetConfiguration.WEAK
-            if self.memory_strategy == MemoryStrategy.WEAK_FIRST_HIT
-            else TargetConfiguration.STRONG
-        )
+        # Weak/Strong name the memory retrieval strategies. Changing the reader
+        # instruction as well would confound the Experiment B comparison.
+        return TargetConfiguration.STRONG
 
 
 class SyntheticMatrixCreateRequest(BaseModel):
@@ -105,10 +105,16 @@ class SyntheticMatrixCreateRequest(BaseModel):
 
     @model_validator(mode="after")
     def is_a_safe_synthetic_matrix(self) -> "SyntheticMatrixCreateRequest":
+        self.validate_source_permission()
+        return self.validate_shared_matrix()
+
+    def validate_source_permission(self) -> None:
         if not self.synthetic_data_confirmation:
             raise ValueError("Confirm that this is authorised synthetic data before creating operational audit records.")
         if "synthetic" not in self.dataset.data_origin.lower():
             raise ValueError("Only a dataset explicitly identified as synthetic may be imported into the formal matrix runner.")
+
+    def validate_shared_matrix(self) -> "SyntheticMatrixCreateRequest":
         if (self.pilot.dataset_id, self.pilot.dataset_version) != (self.dataset.dataset_id, self.dataset.dataset_version):
             raise ValueError("The double-annotation pilot must refer to the selected dataset and version.")
         if self.pilot.dataset_fingerprint_sha256 != annotation_fingerprint(self.dataset):
@@ -156,6 +162,46 @@ class ExploratoryMatrixCreateRequest(SyntheticMatrixCreateRequest):
     """Explicit non-formal route for small strategy/model engineering checks."""
 
     study_design: None = None
+
+
+class ResearchSourceRelease(BaseModel):
+    """Declared permission receipt; the service cannot authenticate its author."""
+
+    release_id: str = Field(min_length=1, max_length=100)
+    dataset_fingerprint_sha256: str = Field(pattern=r"^[a-f0-9]{64}$")
+    permission_reference: str = Field(min_length=10, max_length=1000)
+    licence_or_consent_scope: str = Field(min_length=10, max_length=1000)
+    reviewed_by: str = Field(min_length=1, max_length=100)
+    reviewed_at: datetime
+    deidentified: Literal[True]
+    research_use_authorised: Literal[True]
+    operational_storage_authorised: Literal[True]
+    cloud_processing_authorised: bool
+    user_history_demo_only: Literal[False]
+
+    @field_validator('release_id', 'permission_reference', 'licence_or_consent_scope', 'reviewed_by', mode='before')
+    @classmethod
+    def strip_receipt_text(cls, value):
+        return value.strip() if isinstance(value, str) else value
+
+
+class ResearchFormalMatrixCreateRequest(FormalMatrixCreateRequest):
+    """Explicitly authorised, deidentified release using the same B gates."""
+
+    synthetic_data_confirmation: Literal[False] = False
+    label_prefix: str = Field(default="Reviewed research release", min_length=1, max_length=100)
+    source_release: ResearchSourceRelease
+
+    def validate_source_permission(self) -> None:
+        if self.dataset.data_origin != 'deidentified_research':
+            raise ValueError("Research matrices require data_origin deidentified_research; personal demo histories are excluded.")
+        if self.source_release.dataset_fingerprint_sha256 != annotation_fingerprint(self.dataset):
+            raise ValueError("The source permission receipt must bind to the exact dataset fingerprint.")
+        if not self.source_release.cloud_processing_authorised and any(
+            condition.provider not in {TargetProvider.OLLAMA, TargetProvider.RULE_BASED}
+            for condition in self.conditions
+        ):
+            raise ValueError("This release does not permit cloud processing. Choose local Ollama or the deterministic baseline.")
 
 
 def history_fingerprints(dataset: AnnotationDataset) -> list[str]:

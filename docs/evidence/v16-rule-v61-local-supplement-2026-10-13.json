@@ -1,0 +1,76 @@
+{
+  "scope": "saved-answer local-rule correction supplement only",
+  "research_evidence": false,
+  "rule_version": "rule-based-v61",
+  "source_report_sha256": "5f1e290c7c5d531f44437578f26aecc9a25377fd75155c3b6403cf61c9bd4f57",
+  "original_report_unchanged": true,
+  "database_writes": 0,
+  "model_requests": 0,
+  "new_human_labels": 0,
+  "rows": [
+    {
+      "run_id": "RUN7D8C28BDE0D7471DBC738E8B70213999",
+      "strategy": "weak_first_hit",
+      "test_id": "TC68732D5AC174593ABD5EAF4E6A48E96",
+      "response_id": "RC68732D5AC174593ABD5EAF4E6A48E96",
+      "original_evaluation_id": "EC68732D5AC174593ABD5EAF4E6A48E96",
+      "original_result": null,
+      "original_rule_result": true,
+      "original_semantic_result": false,
+      "new_rule_result": false,
+      "new_rule_reason": "Failed freshness: expected behaviour was 'The current record says PostgreSQL is used for the Maple capstone backend and MySQL is no longer used there; the historical record says MySQL was used previously.'. The response did not demonstrate: postgresql. Evidence records: M5CD08C3C20A14F419414612E91387885, M8771AEC3037143FEA81730A16FC44793.",
+      "reference_terms": [
+        "postgresql"
+      ],
+      "agreement_with_saved_semantic_verdict": true
+    },
+    {
+      "run_id": "RUNB47600896AAF4AA9983DF0EB7BD19C78",
+      "strategy": "strong_rule_based",
+      "test_id": "TB3EDECDB755B45B18C5302E0F200CA99",
+      "response_id": "RB3EDECDB755B45B18C5302E0F200CA99",
+      "original_evaluation_id": "EB3EDECDB755B45B18C5302E0F200CA99",
+      "original_result": null,
+      "original_rule_result": false,
+      "original_semantic_result": true,
+      "new_rule_result": true,
+      "new_rule_reason": "Passed freshness: the response matched all required ground-truth terms (postgresql). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "reference_terms": [
+        "postgresql"
+      ],
+      "agreement_with_saved_semantic_verdict": true
+    },
+    {
+      "run_id": "RUN77B06E7C544747888B845C490229269B",
+      "strategy": "weak_first_hit",
+      "test_id": "T267232072DCD48E3B6DEF57C17DA1AA6",
+      "response_id": "R267232072DCD48E3B6DEF57C17DA1AA6",
+      "original_evaluation_id": "E267232072DCD48E3B6DEF57C17DA1AA6",
+      "original_result": null,
+      "original_rule_result": true,
+      "original_semantic_result": false,
+      "new_rule_result": false,
+      "new_rule_reason": "Failed freshness: expected behaviour was 'The current record says PostgreSQL is used for the Maple capstone backend and MySQL is no longer used there; the historical record says MySQL was used previously.'. The response did not demonstrate: postgresql. Evidence records: M5CD08C3C20A14F419414612E91387885, M8771AEC3037143FEA81730A16FC44793.",
+      "reference_terms": [
+        "postgresql"
+      ],
+      "agreement_with_saved_semantic_verdict": true
+    },
+    {
+      "run_id": "RUNE43015A00DB14A40A9432FE9DC33E467",
+      "strategy": "strong_rule_based",
+      "test_id": "T9CFDF46773AF4750A6018DF9E2A965BE",
+      "response_id": "R9CFDF46773AF4750A6018DF9E2A965BE",
+      "original_evaluation_id": "E9CFDF46773AF4750A6018DF9E2A965BE",
+      "original_result": null,
+      "original_rule_result": false,
+      "original_semantic_result": true,
+      "new_rule_result": true,
+      "new_rule_reason": "Passed freshness: the response matched all required ground-truth terms (postgresql). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "reference_terms": [
+        "postgresql"
+      ],
+      "agreement_with_saved_semantic_verdict": true
+    }
+  ]
+}

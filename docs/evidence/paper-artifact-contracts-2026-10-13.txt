@@ -1,0 +1,20 @@
+test_archive_hashes_contents_and_does_not_follow_symlinks (test_assessment_source.AssessmentSourceTests.test_archive_hashes_contents_and_does_not_follow_symlinks) ... ok
+test_missing_git_still_packages_with_unknown_provenance (test_assessment_source.AssessmentSourceTests.test_missing_git_still_packages_with_unknown_provenance) ... ok
+test_secret_database_outputs_and_caches_are_excluded (test_assessment_source.AssessmentSourceTests.test_secret_database_outputs_and_caches_are_excluded) ... ok
+test_absent_optional_rows_do_not_create_empty_charts (test_generate_paper_artifacts.PaperArtifactTests.test_absent_optional_rows_do_not_create_empty_charts) ... ok
+test_all_visuals_and_manifest_are_stable_for_complete_export (test_generate_paper_artifacts.PaperArtifactTests.test_all_visuals_and_manifest_are_stable_for_complete_export) ... ok
+test_ai_draft_keeps_provenance_and_cannot_become_human_gold (test_independent_reviews.IndependentReviewTests.test_ai_draft_keeps_provenance_and_cannot_become_human_gold) ... ok
+test_blank_decision_is_missing_and_not_a_disagreement (test_independent_reviews.IndependentReviewTests.test_blank_decision_is_missing_and_not_a_disagreement) ... ok
+test_disagreement_is_retained_without_majority_gold (test_independent_reviews.IndependentReviewTests.test_disagreement_is_retained_without_majority_gold) ... ok
+test_duplicate_reviewer_cannot_count_as_independent (test_independent_reviews.IndependentReviewTests.test_duplicate_reviewer_cannot_count_as_independent) ... ok
+test_integer_is_not_a_boolean_label (test_independent_reviews.IndependentReviewTests.test_integer_is_not_a_boolean_label) ... ok
+test_material_tampering_is_rejected_even_when_declared_hash_matches (test_independent_reviews.IndependentReviewTests.test_material_tampering_is_rejected_even_when_declared_hash_matches) ... ok
+test_missing_fields_remain_missing (test_independent_reviews.IndependentReviewTests.test_missing_fields_remain_missing) ... ok
+test_no_returns_cannot_produce_a_review_report (test_independent_reviews.IndependentReviewTests.test_no_returns_cannot_produce_a_review_report) ... ok
+test_reviewer_spacing_and_case_cannot_create_another_person (test_independent_reviews.IndependentReviewTests.test_reviewer_spacing_and_case_cannot_create_another_person) ... ok
+test_whitespace_note_is_missing_without_rewriting_original (test_independent_reviews.IndependentReviewTests.test_whitespace_note_is_missing_without_rewriting_original) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.906s
+
+OK

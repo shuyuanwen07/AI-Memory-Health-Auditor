@@ -952,16 +952,19 @@ def test_new_independent_reviewer_invalidates_partial_adjudication(client):
     assert client.get('/api/v1/auditor-quality').json()['adjudicated_reference_count'] == 1
 
 
-def test_new_model_audit_freezes_output_limit_and_repair_controls_cannot_change_it(client,monkeypatch):
+@pytest.mark.parametrize("explicit_limit,expected_limit", [(None,2048),(512,512),(2048,2048)])
+def test_new_model_audit_freezes_output_limit_and_repair_controls_cannot_change_it(client,monkeypatch,explicit_limit,expected_limit):
     source,_=run(client)
     body={'conversation_id':source['conversation_id'],'target_configuration':'strong','provider':'ollama','model':'qwen3:1.7b'}
+    if explicit_limit is not None:
+        body['target_memory_profile']={'output_token_limit':explicit_limit}
     created=client.post('/api/v1/audits',json=body)
     assert created.status_code==201,created.text
     key=created.json()['run_id']
-    assert created.json()['target_memory_profile']['output_token_limit']==512
+    assert created.json()['target_memory_profile']['output_token_limit']==expected_limit
     monkeypatch.setenv('OLLAMA_NUM_PREDICT','17')
     saved=client.get(f'/api/v1/audits/{key}').json()
-    assert saved['target_memory_profile']['output_token_limit']==512
+    assert saved['target_memory_profile']['output_token_limit']==expected_limit
     with client.sessions() as db:
         row=db.get(AuditRunModel,key);row.status='COMPLETED';db.commit()
     rejection=client.post(f'/api/v1/audits/{key}/repair-experiment',json={

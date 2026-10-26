@@ -30,6 +30,17 @@ Work proceeds in this order:
 5. Experiment C: compare Weak/Strong relative rankings under the Auditor and
    technically compatible LongMemEval evaluation with verified semantic
    outcomes. Lexical overlap is not official accuracy or ranking evidence.
+   Auditor ranking uses the unrounded, equal-weight macro-average of all four
+   measured dimensions. Missing dimensions make that ranking unmeasured.
+   Under Experiments -> Research tools -> Does the benchmark agree?, repeated
+   comparison packages can declare at least three planned trials. The analysis
+   retains missing/invalid trials and exposes mean scores, sample variability,
+   directional agreement and ties. Complete evidence is required for aggregate
+   metrics. The uploaded plan is declared at analysis time; it is not a server
+   pre-registration receipt. See `HUMAN_EVIDENCE_HANDOFF.txt` for the input format
+   and the separate server-frozen plan API/UI and formal evidence
+   requirements. Migration 0038 saves only frozen metadata and execution hashes;
+   it does not retain benchmark source or full model responses.
 6. Complete regression and manual GUI checks, then prepare simple comparative
    charts and source-backed failure demonstrations for the final report.
 
@@ -125,6 +136,20 @@ the Experiments page after a browser refresh.
 
 The repository deliberately keeps its quality toolchain lightweight: TypeScript performs the frontend static check, Ruff prevents Python undefined/unused-code regressions, Vitest exercises UI components and the complete browser workflow in JSDOM, and pytest exercises the API and database contracts. Formatting conventions are defined in the root `.editorconfig`; no additional formatter or browser-driver download is required for normal development.
 
+For an isolated offline backend test run, use this entry point from the repository root (with backend dependencies installed):
+
+```sh
+python scripts/run_offline_backend_tests.py
+# Optional focused selection; pytest arguments follow --
+python scripts/run_offline_backend_tests.py -- -q tests/test_target_identity_evidence.py
+# In the running development container:
+docker compose exec backend python /scripts/run_offline_backend_tests.py
+```
+
+Plain `pytest` inherits the process's service configuration. In a container configured for OpenRouter, a test that omits an explicit provider or mock can therefore call the real service even when its database fixture is temporary SQLite. Do not label such a run offline merely because its test data is synthetic. The isolated entry point sets rule-based pipeline/evaluator defaults before collection, removes provider credential variables, selects a fresh temporary SQLite global database, and disables automatic global schema creation. Provider-specific tests can still install their own synthetic keys and mocks.
+
+The entry point blocks external Python socket DNS/connect attempts in the pytest process, permits loopback and Unix sockets required by local tests, and saves the pytest exit status and blocked-attempt count in a unique `backend/.engineering-smoke/offline-tests/isolated-suite-*/isolation-evidence.json`. Use `--backend-root` or `--evidence-dir` when needed. This harness is not a security sandbox: child processes inherit the isolated defaults and stripped credentials but their sockets and native networking libraries are not instrumented by this plugin. Multiprocessing children do not restart the launcher. PostgreSQL-specific tests skip under this SQLite entry point; run the CI PostgreSQL check separately against a disposable database ending `_ci` or `_test`.
+
 Run the same checks used by CI:
 
 ```sh
@@ -187,7 +212,7 @@ File selection runs the existing local parsing callback and prevents automatic U
 
 ## Disposable PostgreSQL integration checks
 
-The fast backend suite uses isolated SQLite fixtures and skips the four dedicated
+The fast backend suite uses isolated SQLite fixtures and skips the dedicated
 PostgreSQL checks. Run those against a fresh, migrated PostgreSQL 16 database:
 
 ```sh
@@ -199,7 +224,7 @@ docker compose -p mha-isolated-ci -f docker-compose.ci.yml down
 This separate Compose project exposes no ports, mounts no application database
 volume, reads no `.env`, and uses memory-backed disposable database storage.
 The integration service first applies the entire Alembic migration chain and
-then checks the API workflow, paired repair identity, timezone-aware revocable
+checks model/migration drift, then checks benchmark-plan contracts and PostgreSQL metadata persistence, the API workflow, paired repair identity, timezone-aware revocable
 operator sessions, and concurrent idempotent audit/experiment creation. Its
 provider is the deterministic rule baseline; it makes no external model calls
 and proves no semantic accuracy. Always run the cleanup command after success
@@ -256,3 +281,184 @@ provider attempts. Attempts without a saved response are outside this receipt
 summary, so the display does not certify equal realised budgets. Distinct
 finding counts still require resolved human labels and recall needs an
 independently established failure inventory.
+
+
+### Experiment B deidentified research releases
+
+`POST /api/v1/research/formal/research-matrix` accepts the same frozen formal
+B request plus `source_release`, and requires `synthetic_data_confirmation=false`
+and dataset `data_origin=deidentified_research`. See
+`datasets/templates/research-source-permission-template.json` (intentionally
+invalid until reviewed). The receipt binds the exact dataset fingerprint and
+records permission scope, team reviewer, time, deidentification, research use,
+operational storage and cloud processing. Without cloud permission only local
+Ollama or rule conditions are accepted. Demo-only personal histories are rejected.
+
+The research page shows a separate source permission upload and storage consent
+for that origin. It requires formal B mode; it never silently labels a research
+release as synthetic. Source histories are persisted as `deidentified`, and the
+permission receipt is saved in the acceptance protocol/manifest and input
+fingerprint. Restoring a plan retains this receipt; changing it invalidates
+execution. The service does not independently authenticate consent or human
+reviewer claims. Existing synthetic endpoints keep their original source gate.
+
+
+### Experiment C execution plan UI
+
+The research page now exposes BenchmarkExecutionPlan before repeated analysis.
+The plan file is unread until source processing consent; persistence also needs
+metadata permission. Freeze/read/find use the plan APIs, and each repeat invokes
+the explicit planned execution endpoint. Original evidence stays in memory for
+per-trial downloads (multiple completed repeats do not overwrite one another).
+Permission revocation invalidates late reads/results. The server only stores
+fingerprints/status, so users must save full evidence before navigating away.
+The Find action retrieves up to 50 saved metadata plans without model calls.
+A plan ID dispatches repeated analysis to its frozen-plan endpoint and the
+report labels that provenance separately from caller-declared analysis.
+
+### Research-file processing permission
+
+In Research Workspace, confirm research-file processing before selecting annotation, prediction, pilot, development or permission files. Unchecking clears loaded material and invalidates pending file reads/previews. The annotation validation, validity report and pilot-analysis API wrappers now require an explicit strict boolean source_authorised:true; omission/false is rejected before analysis and truthy strings/numbers do not count. The front-end API helpers default to false and the workspace forwards the checked permission. This is separate from permission to save histories, dispatch models, or claim independent human provenance. Existing research source files do not need editing: the flag belongs to the outer request, so dataset/package fingerprints remain intact.
+
+
+### OpenRouter peak-load capacity limits
+
+A completion may fail with a capacity error even when HTTP status is200. The application now recognises the provider's peak-load maximum-usage rejection and preserves it as a failure, without blaming source data. `PIPELINE_MAX_OUTPUT_TOKENS` optionally caps OpenRouter extraction, relationship, memory-review, planning, question-writing and question-review output requests. Set an integer256–12000; empty preserves each role's existing budget. The effective limit is the smaller of the role budget and configured cap; roles without a budget use the cap. Ollama and other providers are unaffected. The example1800 is a tested diagnostic value, not a guaranteed service capacity limit.
+
+Every receipt preserves the role's declared limit, configured cap and effective requested limit. The cap participates in the formal runtime signature: changing it invalidates an existing frozen formal experiment. Complete source evidence, test coverage, validation and bounded repair rules remain enforced. No automatic model/provider switch or capacity-envelope retry is introduced. An undersized cap may yield incomplete JSON and will not turn a failed stage into success. The live project's environment was not rewritten by the diagnostic trial; its1800override was scoped to the disposable smoke process only.
+
+
+Target provider failures now retain safe request facts in a failed target_answerAgent execution. HTTP200completion errors remain errors; capacity messages advise retrying later or choosing a smaller target output budget in a new audit. Existing target configuration remains frozen. Do not alter saved settings to evade software/input guards: recovering an older partial audit requires its original software or a new audit. Failed calls carry no fabricated response. Already completed responses are retained.
+
+
+### Validated current engineering configuration
+
+On13October2026, the local backend.env pipeline output cap was set to1800after a0-stage-lock check. Only the backend was recreated; operational counts/schema matched before/after. This setting completed the exact approved8fact/4dimension v16fixture with2repetitions per policy, including all diagnosticcalls. It is not a guaranteed limit for larger conversations, longer diagnostics or future providercapacity. Keep truncated/invalid output failed; do not lower coverage or accept a partial response.
+
+Model smoke outputs must be written to a mounted persistent path (for example/app/.engineering-smoke) and copied to docs/evidence, with SQLite/source archives, before any backend recreation. v15/tmpartifacts were lost at recreation; v16replaces them with durable strict-verification evidence. Never infer archival completeness from terminalpassalone.
+
+### LongMemEval pilot grading and memory-loss diagnosis
+
+Pilot data and reports live in ignored `experiments/` and `backend/.engineering-smoke/` directories. Keep source revision, file SHA256, complete histories, sample IDs, capacity and context/output limits in a protocol before execution. The19October follow-up uses50as the preserved original control and500as an explicit larger-capacity condition; changing capacity is an experimental intervention, not a code-only improvement claim.
+
+`run_longmemeval_pilot.py` retains legacy custom grading for old frozen protocols. New protocols should set `upstream_evaluator_directory` to a local directory containing the pinned upstream `evaluate_qa.py`, MIT `LICENSE`, and `source-binding.json` with `revision` and `source_sha256`. The shared `longmemeval_grading.py` loader uses only the inspected string-template helper; the model remainsLuna and JSON output is an explicit adaptation. All category rules apply uniformly; preserve previous assessments when correcting a grader.
+
+`diagnose_longmemeval_memory.py` performs zero-model-call private-input tracing, using benchmark annotations only after target preparation. `run_longmemeval_suite.py` executes every frozen member in isolated processes with at most3workers. `summarize_longmemeval_suite.py` checks source/model/reply correspondence; `reassess_longmemeval_upstream.py` regrades all saved replies under pinned task rubrics, preserving original labels. `replay_longmemeval_inputs.py` checks exact context/instruction/question fingerprints offline after code changes. These pilot utilities do not establish independent human labels or official full-benchmark scores.
+
+### Conversation history and context repair (19 October 2026)
+
+`TargetMemoryProfile.retain_assistant_history` opt-in wraps the private target writer, retaining one attributed, untrusted assistant turn per memory. It does not change the auditor's user-fact extraction, human ground truth, or inferred user relationships. Assistant records are episodic and count toward normal capacity. System/developer messages remain excluded. Missing flags default false so earlier saved configurations remain reproducible.
+
+`retrieve_message_context` opt-in expands fixed Strong retrieval to available fragments sharing an already relevant source message, normalises English plurals for retrieval only, and ranks Strong records by policy priority then relevance divided by square-root rendered length. It does not revive unavailable memories or expand the Weak first-hit baseline. Delivery includes source observation times/IDs in chronological order; actual rendered metadata and text count toward the context budget. Agent retrieval also renders and charges this metadata, while its selection remains the Agent's own selection. These are configuration changes and require a new audit, not resuming a frozen old run under different software.
+
+Both controls are available in the target configuration editor and survive saved browser settings. Local exploratory rerun evidence is under ignored `experiments/longmemeval-context-repair-budgeted-20261019/`; earlier diagnostic stages are preserved separately. Use the same 12 cases, model and budgets when comparing results. These inspected development cases are not held-out research evidence or full LongMemEval accuracy.
+
+### Fresh LongMemEval evaluation (20 October 2026)
+
+Frozen policyv13 was evaluated on30 new questions, twice, after excluding49 previously prepared/executed IDs and any history session overlap with their source histories. Quotas:5 knowledge-update,5 multi-session,5 assistant,3 preference,5 user,7 temporal; only3 preference histories met the strict independence requirement. Same Luna model,500 capacity setting,50 retrieval records,16000 rendered characters and512 output tokens. No implementation changes during evaluation.
+
+Primary Strong results were20/30 and21/30; Weak0/30 in both passes. The first Strong pass includes one upstream empty-response failure; its conditional assessed accuracy was20/29. That technical case was retried once separately and remained automatically incorrect; original scores were retained. Among29 Strong cases graded in both passes,26 verdicts agreed (89.7%). Assistant questions were5/5 each pass; temporal questions3/7 each pass. The debugged12/12 result did not reproduce on fresh questions. Same-model automated grading has two possible preference discrepancies pending human review; no scores were changed. Small strata and shared backgrounds among some new cases limit inference.
+
+Evidence is in ignored `experiments/longmemeval-fresh-20261020/RESULTS.txt`, `study-summary.json`, `study-results.csv`, and `input-equivalence-proof.json`. Offline verification matched121 successful receipts and the failed request's instruction/combined-input hashes, with no new model/network calls; maximum actual rendered context15998characters. Source/runtime/configuration remained frozen. Do not combine repeated answers as independent questions or present these exploratory scores as formal Experiment C acceptance or full LongMemEval accuracy.
+
+### Temporal retrieval regression (20 October 2026)
+
+Policy v15 / controlled adapter v7 add bounded temporal retrieval over stored records: query-relative date windows, compound-word matching, same-source and same-session context links, and information-weighted ranking within the existing rendered-character budget. Relative phrases are resolved against their own source timestamps as reference metadata, with explicit caution that a recollection date does not establish an event date. Personal event questions can use assistant text as a topical bridge to nearby user statements; that assistant text is excluded as event evidence unless the question asks to recall assistant history. Third-person questions do not trigger this personal-event filter. Expansion stays one hop and uses no benchmark answer annotations.
+
+The same30 previously inspected questions were rerun twice at500 stored capacity /50 retrieved records /16000 rendered characters /512 output tokens, with the same Luna target and pinned automated rubric. Strong22/30 in both passes; temporal5/7 in both, versus the original fresh-study temporal3/7. Weak0/30 both. Three primary Strong attempts failed technically (music twice; one multi-session attempt); each received one separate bounded technical recovery, all unsuccessful. Original and recovery reports remain separate. The intermediate v14 trial and its regressions are preserved.
+
+All seven temporal cases' annotated source records are present in final offline inputs. Garden planting and mesh/thermostat ordering pass both new rounds. Music evidence is restored, but visible-answer generation remains unreliable at512 tokens; a separate transport diagnostic observed HTTP200, finish reason length and485 of512 completion tokens used for reasoning. At1024, the response stopped normally but still declined a complete event ordering; this ungraded budget experiment does not replace primary outcomes. The museum reference depends on treating a recollection as an approximate visit date; the model abstains. Rachel's birth year/first-birthday wording and same-day post-question thermostat source remain dataset caveats.
+
+Two original preference grading disputes were reviewed against source: the cashew-yogurt rejection contains a demonstrably invalid unsupported-claim rationale; the sweet-potato response has support but may overstate the user's burger-and-fries preference. No original automatic score was edited and these reviews are not independent human gold. Evidence is under ignored `experiments/longmemeval-temporal-repair-final-20261020/`; these are development regression results, not another held-out stability estimate or formal Experiment C acceptance.
+
+### Music chronology and reasoning budget repair (21 October 2026)
+
+Policy v17 / controlled adapter v9 / live benchmark v9 distinguish a qualified likely chronology from exact event dates. Contemporaneous recency claims may support an approximate sequence, but the response must visibly qualify any ordering link inferred from those claims. Bare mentions, recollections, conflicting dates and unresolved overlapping intervals still require uncertainty. A return from a long trip does not establish the date of every activity on that trip. The response format now preserves necessary uncertainty instead of requiring an unqualified factual answer.
+
+New model-audit configurations default to2048 output tokens in both the API and editor, because reasoning can consume the same output allowance. Explicit existing512 settings remain512 and historical run profiles are preserved. Both Weak and Strong use2048 in the new regression; this is a declared budget change, so do not present its improvement as a matched512-budget result. Truncated empty replies now retain sanitized upstream status, finish reason, reported model, token usage and reasoning usage through persisted failure diagnostics. Successful responses also retain typed reasoning-token usage. The connector does not silently increase budgets or switch models.
+
+The v16 diagnostic factorial isolates the two causes: old reader/512 had3 technical failures; old reader/2048 produced0/3 complete correct orders; revised reader/512 produced1/3 correct with2 technical failures; revised reader/2048 produced3/3 correct. A later v16 regression still gave one incomplete music sequence, and one synthetic answer omitted its approximation qualifier. Those failures are preserved and motivated v17; they are not replaced by later successes.
+
+Final v17 development verification used the frozen same Luna model,500 memory capacity,50 retrieved records,16000 rendered characters and2048 output tokens. Music passed all5 planned occurrences (3 confirmations plus2 regression runs), with qualified full orders. Six independent synthetic guards passed both runs (12/12), including bare-mention uncertainty, overlapping intervals and recollection-date separation. The seven original temporal questions scored6/7 in each round; the museum date remains ambiguous and automatically incorrect. The additional multi-session question returned usable answers but remained semantically incorrect. These are inspected development cases and same-model automated checks, not new held-out accuracy, independent human gold or formal Experiment C acceptance.
+
+Evidence: ignored `experiments/longmemeval-music-repair-20261021/` preserves the factorial and intermediate failures; `experiments/longmemeval-music-qualified-final-20261021/` contains the final source snapshot, protocols, response receipts, source review and offline input proof. Final outputs should be read with the source caveat that Brooklyn/Queen placements are plausible recency inferences, not uniquely proven event dates.
+
+
+### Multi-session event counting repair (21 October 2026)
+
+The remaining inspected wedding-count question did not lose its three main annotated event sources during writing, capacity retention or delivery. The prior v17 reader received them, but also received unresolved mentions of another cousin and a sister. The reference contains a spouse name absent from the complete source history. These conflicts must not be hidden by selecting only annotated answer sessions or by injecting the reference into memory.
+
+Current-period phrases (this/current week, month and year) now trigger temporal retrieval and carry calendar ranges anchored to the question or source timestamp. Those ranges are reference metadata, not proof of event dates. Personal-event retrieval excludes assistant advice as attendance evidence while retaining relevant user statements, including ambiguous additional mentions. Generic question words no longer attract unrelated annual health records. In the inspected case, all main and ambiguous sources remain supplied; rendered context decreased from15416 to10023 characters without raising its16000-character limit.
+
+The v18 exploratory trial is preserved under ignored `experiments/longmemeval-multisession-repair-20261021/`. Although its six independent synthetic counting cases passed twice, all five wedding answers introduced unsupported distinct-event counts or lower bounds. Different relationship labels and unidentified mentions were wrongly counted as additional events. This is a real grounding failure, separate from the reference ambiguity; a disclaimer about the exact total does not repair an unsupported lower bound. All35 target attempts and assessments completed, with exact offline input/source verification. The two eight-question rounds scored Strong7/8 and Weak0/8, including temporal7/7; the wedding question failed every occurrence. These results remain unmodified.
+
+Policy v19 / controlled adapter v11 / live benchmark v11 add explicit identity checks before counting: a role and name in the same narrative may describe one occurrence; consistent named participants and distinctive details can link descriptions across sessions despite different relationship labels. Unknown sameness does not establish distinctness. A numeric lower bound requires mutually distinct, in-period events; unresolved identity or date mentions remain outside a guaranteed count. This remains model-based interpretation, not a deterministic event identity graph.
+
+
+The subsequent v19 run also did not resolve the real case: its16 synthetic guard attempts passed their core source-grounded checks, but the five wedding attempts included two empty responses that exhausted all2048 tokens on reasoning, one visible truncated response, and two complete responses with remaining identity/date errors. An isolated4096-token three-answer diagnostic preserved exactly the same source, selected context and instruction fingerprints; more budget did not establish reliable grouping. Neither synthetic success nor absence of transport errors is sufficient to declare the wedding repair complete. Original failure receipts and automatic assessments remain under the separate ignored `longmemeval-multisession-qualified-final-20261021` and `longmemeval-multisession-budget-4096-20261021` directories.
+
+
+Policy v20 / controlled adapter v12 / live benchmark v12 address fragmentation in the reader presentation. For counting questions only, consecutive selected fragments with identical complete source IDs and observation timestamps share one nested source group. Original record indices, global order and all other payload fields are preserved; multi-source fragments are not replicated. Only the outer stored JSON is decoded, and nested content remains untrusted evidence. If this representation is longer than the prior serialized memory section, the reader retains the original layout. Weak still receives only its original first selected record. Receipt record counts and context hashes describe the same selected records; instruction fingerprints bind the actual rendered representation.
+
+The compact counting response format asks for an event list with known identity, place, period and attendance/uncertainty status before its supported subtotal. A source group is explicitly not an event: one message can contain multiple events and one event may span messages. Unknown identity or date mentions cannot increase a guaranteed lower bound. The103 related tests and Ruff passed after updating one obsolete pre-v17 response-format assertion; initial fixture/assertion failures remain recorded. The new real-case check starts with three4096-token responses, matched to the preceding budget diagnostic; selection equality is checked before calling the model. It is a presentation/prompt intervention, not a silent change to the application default2048 budget.
+
+
+The v20 source-grouped pilot preserved the exact selected-record bytes and reduced the serialized memory packet from12334 to10729 characters (27 source groups,50 excerpts). Three4096-token target replies completed, but all still asserted an unsupported five-event subtotal and failed to bind the same-narrative named participants correctly. Source-aware engineering review therefore rejected the candidate; no broad regression was run for this version. `experiments/longmemeval-multisession-source-groups-20261021/` retains all three failures and the passed zero-call presentation/input proof. A subsequent counting-policy check separates basic time grounding from the ordering-only approximate-chronology guidance; the grouped evidence representation is held fixed to isolate that instruction change.
+
+
+The v21 policy-only comparison held the nested packet byte-for-byte fixed. Two source reviews agreed that its first two replies gave a defensible non-exhaustive subtotal of two explicitly time-anchored occurrences, retaining other mentions as uncertain. Failing to assert a likely alias is conservative information use, not automatically a hallucination: the same-narrative linkage is strong but not a literal unique identity equation. The third reply included a reasonable recent-August/current-year inference but incorrectly labelled the subtotal confirmed without stating that assumption. All three original rubric verdicts remain false. This distinction prevents the reference answer from silently becoming the engineering source-grounding gate.
+
+Policy v22 / controlled adapter v14 / live benchmark v14 add one generic calibration constraint: when period membership relies on qualitative recency or an unstated-year assumption, both the item and any subtotal containing it must be labelled inferred or conditional with that assumption. Explicit source-anchored relative dates such as last month retain their calendar grounding. The selected memory and grouped rendering remain unchanged. Final development verification uses an explicitly declared4096 output-token limit for both Weak and Strong; the application default remains2048. Earlier2048 failures and4096 diagnostic failures are retained separately.
+
+
+Before any final live call, the generic-item condition was also corrected: attendance is required only for attendance questions; other counts use the question's own identity, status and period criteria. An additional independent active-projects guard checks this, while the original eight fixtures remain unchanged. The final protocol declares35 benchmark targets (three confirmations plus two eight-question Weak/Strong rounds) and18 synthetic guard targets (nine cases twice), all with4096 target output tokens. Pre-live preparation errors and the earlier eight-guard zero-call preparation are preserved separately; no live outcomes were overwritten. The final related unit suite remains106 passed with one existing Starlette deprecation warning, and static checks passed.
+
+
+Final v22 observed development results: both eight-question rounds scored Strong7/8 and Weak0/8 under the pinned adapted automatic rubric. All seven temporal questions passed each round. The wedding question remained automatically incorrect in all five planned occurrences. Source-aware Agent reviews found all five replies safe and conservative: a supported subtotal of two explicitly time-anchored weddings, with other mentions unresolved and any added recent-August/current-year count explicitly conditional. This is improved source safety and calibration, not complete entity-resolution recall or official benchmark success. No unsupported reference spouse name was inserted, and unknown identity mentions were not silently merged or counted as additional events.
+
+The nine synthetic counting cases scored17/18 automatically; the single retained failure concerned the wording of an unresolved-alias count range. Its actual reply explicitly contrasted two distinct lectures with the same lecture and avoided an unsupported lower bound. This possible grading/presentation discrepancy is documented separately, not used to replace the original score. Both active-project checks correctly counted two without imposing attendance. All cases here are inspected development regressions or synthetic engineering checks, not new held-out evidence, independent human gold or formal Experiment C acceptance. Final evidence is under ignored `experiments/longmemeval-multisession-calibrated-final-20261021/`; every earlier failed stage remains in its own directory.
+
+
+Final offline verification passed: all35 main target/assessment receipts matched reconstructed private inputs and grader fingerprints; all131 frozen app/script sources remained unchanged, with zero model or network calls during proof. The18 guard calls have their own frozen fixtures, receipts and result seal. Original scores, source ambiguity and grading/presentation disagreements remain visible rather than being replaced by source-aware review labels.
+
+
+### Cross-session identity and contextual evidence repair (21 October 2026)
+
+A further source audit distinguishes two failure locations. The roommate / Emily-and-Sarah / cousin Emily accounts already retained their names, city and rooftop details; their weak linkage was reader interpretation, not missing retrieval. A different contextual sentence describing Jen's venue as a countryside barn was genuinely omitted by the rule writer because it began with a pronoun and lacked its first-person memory signals. The two mentions of about50 guests concern different events (the roommate's past wedding and the user's future plans), so they must not be used as a matching fingerprint.
+
+The v23 reader-only intervention introduced explicit, likely, possible and distinct identity levels while separating identity from date and attendance. Its three original-case confirmations all remained automatically incorrect and did not improve the important Emily linkage, despite safe conservative subtotals in all three. Its16 independent direct-reader guard attempts passed the automatic checks. Synthetic success did not justify claiming the original-case linkage repaired. All outputs and the exact unchanged50-record input proof are preserved under ignored `experiments/longmemeval-identity-link-20261021/`.
+
+The subsequent v24 development intervention combines two changes: within-source role/name linkage before cross-source comparison, with explicitly conditional attendance inheritance; and a target-only contextual writer change. This is not a controlled estimate of either change alone. Unknown identity, year or participation cannot silently become a confirmed event count. New experiments must report changes to written, retained and retrieved records rather than claiming input equivalence to v23. Final results follow after the frozen rerun completes.
+
+
+The v24 private `RuleBasedTargetMemoryWriter` leaves the shared Auditor extractor and default low-level store extractor unchanged. It adds bounded, attributed original source quotes only for omitted adjacent descriptive sentences; it does not resolve pronouns, rewrite identities, or infer relationships from those quotes. Questions, conditional/modal/planned claims, cross-message and cross-paragraph joins are excluded. Existing extracted fact IDs and relationships are preserved, and quoted records consume normal capacity and retrieval budgets. The110 related tests and Ruff passed before freezing.
+
+The original-case zero-call preflight confirms that the omitted MSG-425 venue passes writing, active retention and actual retrieval. Written records change532→534 while retained500 and selected50 remain fixed. One selected contextual quote replaces the unrelated jewelry-organization statement from MSG-155. All original wedding identity, temporal and ambiguous-event evidence remains available. Context fingerprints change as declared; the old v23 reader rendered on the new context is separately fingerprinted rather than falsely claiming a matched-input reader-only comparison.
+
+
+The v24 three-confirmation run restored usable venue evidence (one reply explicitly names the rustic barn), but did not reliably expose the full roommate / Emily-and-Sarah / cousin Emily identity chain. All three original rubric grades remained false. Source review accepts the first two conservative answers; the third retains a safe subtotal of two but adds a conditional four based only on years, without stating that unresolved identities must also be distinct. The initial all-safe review was corrected in an explicit erratum, preserving its original text. Neither source restoration nor conditional-year wording alone establishes complete identity/count safety. The v24 exact actual-input proof passed; no broader regression was run for this candidate.
+
+
+The v24 identity guards retain an automatic15/16 result. The single false concerns incomplete pairwise relationship labels in a non-counting chain question; both replies avoided falsely confirming a transitive A–C link. That question's actual instruction/context fingerprints match v23, so its changed judgment is not evidence of the changed counting-policy input. Original scores and the separate safety interpretation remain available.
+
+Policy v25 / controlled adapter v17 / live benchmark v17 require the counting response to show role/name identity links and uncertainties before filtering by year, followed by period/participation and a supported subtotal. Conditional numeric totals must state any assumed distinctness; a year assumption alone cannot justify adding possibly overlapping accounts. No private source selection or writer change is part of this stage. All111 related tests passed after updating two obsolete format-string assertions, whose original failures are retained. Final v25 checks bind the same v24 written/retained/selected inventory, ordered context and nested packet while recording a new reader instruction fingerprint.
+
+
+The v25 forced three-section response candidate was rejected. All three rubric verdicts remained false; two replies omitted the supplied September/locket account, and no reply exposed the full intended likely identity chain. One reply also incorrectly attached meeting Alex to the wedding. The complete MSG-240 source attaches that pronoun to the preceding bachelor-party sentence, which the original writer had omitted. The selected fragment alone had lost that antecedent. This is a genuine source-context loss, not a justification to resolve pronouns from nearby wedding facts. The eight v25 guards repeated twice scored15/16 automatically, but independent review found a separate false-positive grade where an admitted attendance with unknown date was misread as no attendance evidence. All scores and source defects remain recorded; there is no blanket safety-pass claim.
+
+The final v26 candidate reverts the forced three-section format while retaining explicit conditional-distinctness constraints. Private writer v2 preserves both directions of dropped adjacency: an omitted description after a retained sentence, and an omitted preceding sentence before an already retained pronoun-led statement. Quotes stay verbatim, same-message, source/time attributed, bounded and subject to ordinary capacity/retrieval; they never resolve a pronoun or create an identity relation. Both-retained pairs are not duplicated. Shared Auditor extraction remains unchanged. The actual MSG-240 writer check recovers the bachelor-party/Alex span, without including the earlier maid-of-honor sentence or rewriting what happened where.
+
+
+Before final v26 live execution, all168 related tests and Ruff passed with no concurrent source edits. An earlier test invocation correctly rejected a benchmark execution while the writer was still being edited; that failure log is retained separately. The final frozen protocol runs three original-case confirmations, one same-eight-case Weak/Strong regression (sixteen target replies), and one eight-fixture identity guard pass. This single final regression is not stability evidence or new held-out accuracy.
+
+The v26 zero-call full-pipeline gate confirms both the MSG-425 barn and MSG-240 bachelor-party/Alex quotes are written, retained and included in actual rendered target context. Relative to v24/v25, written records increase534→535, retained remain500 and selected remain50. The new selected antecedent quote replaces an unrelated generic statement about making future plans personal and meaningful (MSG-435). All changes and actual input fingerprints are recorded rather than implying unchanged inputs across this writer intervention.
+
+
+Final v26 observed results: Strong6/8 and Weak0/8 in the single same-case regression; temporal questions6/7. The wedding question remained automatically incorrect in all four occurrences (three confirmations and one regression). Source review finds all four retain the September/locket event and do not introduce unsupported unconditional event counts. Two confirmation answers nevertheless unnecessarily downgrade Jen's source-anchored “last weekend” year and report a conservative subtotal of one instead of using both supported dated events. One answer shows a qualified partial roommate/cousin-Emily link, but none exposes the complete Emily/Sarah–roommate–cousin-Emily chain. Identity recall is therefore still unresolved. The new Alex antecedent is mechanically verified in the actual input; replies do not discuss Alex, so this does not prove the model now interprets it correctly.
+
+The other regression failure is the previously disputed museum-duration case, where the answer declines to treat an observation/recollection date as the visit date; the automatic rubric remains false rather than being replaced by source-aware commentary. The final eight identity guards score7/8, with a real calibration defect: a likely A/B link was stated without its qualifier even though A/C was not hard-merged. This prevents an all-safety-passed claim. Prior automatic false positives and failed candidate phases remain preserved.
+
+All19 main target/assessment inputs passed offline reconstruction, including both restored source quotes and all131 frozen app/script hashes; the eight guards have a separate completed-source proof and seal. There were no quality-driven reruns. This work repairs specific source-context omissions and preserves conservative uncertainty, but does not demonstrate complete cross-session identity reasoning, stable benchmark improvement, new held-out performance or formal research acceptance. Evidence is under ignored `experiments/longmemeval-identity-conservative-final-20261021/` and the preceding identity-link/context/ledger directories.
+
+
+The final museum comparison was also completed without model calls: relative to v22, all435 canonical/source/lifecycle records and the selected50 records are unchanged, and the ordered context hash is identical (`d6781bf6…`). The relevant source messages remain supplied. Its automatic true→false change must therefore remain visible as observed performance variation/interpretation limits; it is not evidence of new writer information loss. Final main evidence is sealed in `v26-main19-artifact-seal.json`, with separate guard provenance.

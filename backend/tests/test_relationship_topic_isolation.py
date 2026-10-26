@@ -267,6 +267,12 @@ def test_relationship_agent_requires_evidence_from_both_endpoints():
         agent.analyze(conversation, memories)
     assert all(memory.relationships == [] for memory in memories)
     assert agent.last_observation["error_code"] == "endpoint_evidence_mismatch"
+    assert agent.last_observation['error_diagnostics'] == {
+        'validation_errors': [{'field': 'relationships.0.prior_evidence_message_ids',
+                               'type': 'endpoint_evidence_mismatch', 'invalid_reference_count': 1}],
+        'error_count': 1,
+    }
+    assert 'PILOT002' not in str(agent.last_observation['error_diagnostics'])
 
 
 def test_relationship_agent_accepts_separate_evidence_from_both_endpoints():

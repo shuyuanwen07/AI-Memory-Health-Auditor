@@ -1,0 +1,42 @@
+
+> memory-health-auditor-frontend@0.1.0 test
+> vitest run --pool=forks --maxWorkers=2 src/pages/AuditComparison.test.tsx src/components/ComparisonVisualizations.test.tsx src/components/ResultDashboard.test.tsx
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv5.0.1 [39m[90m/app[39m
+
+ [32m✓[39m src/components/ResultDashboard.test.tsx [2m([22m[2m27 tests[22m[2m)[22m[33m 7983[2mms[22m[39m
+   [33m[2m✓[22m[39m explains untested dimensions and makes failure evidence inspectable[33m 1121[2mms[22m[39m
+   [33m[2m✓[22m[39m dimension overview links work from the keyboard and land on failure and pending evidence[33m 864[2mms[22m[39m
+   [33m[2m✓[22m[39m missing reference identifiers are not presented as checked source evidence[33m 503[2mms[22m[39m
+   [33m[2m✓[22m[39m CSV and JSON exports preserve every saved answer outcome and its source statement[33m 724[2mms[22m[39m
+   [33m[2m✓[22m[39m reports the save request accurately, handles export failure and does not carry feedback into another audit[33m 659[2mms[22m[39m
+   [33m[2m✓[22m[39m retrieval matching checks share one chart without presenting missing values as zero[33m 378[2mms[22m[39m
+   [33m[2m✓[22m[39m unusable evidence retains the saved question denominator without becoming a failure[33m 791[2mms[22m[39m
+ [32m✓[39m src/pages/AuditComparison.test.tsx [2m([22m[2m15 tests[22m[2m)[22m[33m 15344[2mms[22m[39m
+   [33m[2m✓[22m[39m distinguishes review methods for identical models and strategies and can search by method[33m 3297[2mms[22m[39m
+   [33m[2m✓[22m[39m shows before/after scores, paired delta, and repaired question evidence[33m 1338[2mms[22m[39m
+   [33m[2m✓[22m[39m warns about incomparable runs and does not invent a paired improvement[33m 318[2mms[22m[39m
+   [33m[2m✓[22m[39m explains an empty outcome filter and can show all questions again[33m 1370[2mms[22m[39m
+   [33m[2m✓[22m[39m searches saved audits without replacing the selected comparison[33m 2843[2mms[22m[39m
+   [33m[2m✓[22m[39m restores comparison selectors when navigating back in browser history[33m 927[2mms[22m[39m
+   [33m[2m✓[22m[39m opens a shareable presentation link and restores controls when exiting[33m 1320[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps pending judgments visible in presentation cards and the main takeaway[33m 428[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps changed assessment evidence visible without claiming improvement[33m 446[2mms[22m[39m
+   [33m[2m✓[22m[39m exact dimension changes use canonical paired answers, not different full-suite denominators[33m 463[2mms[22m[39m
+   [33m[2m✓[22m[39m two reassessments retain distinct before and after selection labels[33m 386[2mms[22m[39m
+   [33m[2m✓[22m[39m distinguishes unchanged questions from comparable decided assessments[33m 1032[2mms[22m[39m
+   [33m[2m✓[22m[39m reused-answer score changes never claim improved answers in the takeaway or chart[33m 612[2mms[22m[39m
+   [33m[2m✓[22m[39m different original executions rescored under one assessor are not called judgement-only changes[33m 340[2mms[22m[39m
+ [32m✓[39m src/components/ComparisonVisualizations.test.tsx [2m([22m[2m7 tests[22m[2m)[22m[33m 1324[2mms[22m[39m
+   [33m[2m✓[22m[39m charts actual paired outcomes, including regressions, rather than full-suite improvement[33m 403[2mms[22m[39m
+   [33m[2m✓[22m[39m offers the exact export source if the browser cannot save a chart[33m 369[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m3 passed[39m[22m[90m (3)[39m
+[2m      Tests [22m [1m[32m49 passed[39m[22m[90m (49)[39m
+[2m   Start at [22m 07:40:25
+[2m   Duration [22m 46.56s[2m (import 47%, tests 30%, environment 17%, setup 3%, transform 2%)[22m
+
+[2m    Isolate [22m [33m3 workers spawned[39m[2m · ~5.15s startup each (spawn + environment, per file)[22m
+[2m            [22m [2mat least ~2.58s faster with [22m[33misolate: false[39m[2m — reuses workers across files instead of one per file[22m
+

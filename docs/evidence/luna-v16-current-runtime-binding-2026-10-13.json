@@ -1,0 +1,22 @@
+{
+  "scope": "actual current-runtime engineering-only cold smoke, two repeats per policy",
+  "research_evidence": false,
+  "pipeline_output_cap": 1800,
+  "model": "openai/gpt-6-luna",
+  "runtime_source_sha256": "201e7bc9a780a7b98391631ef84c9d5ca81a6a82127d02df951ef3ba58e4137b",
+  "frozen_archive_sha256": "ff5b8e8f3aabdc4d713f1e1f2c70438c658434de8c384aa2e3b781ab5c6d297e",
+  "snapshot_sha256": "9843ee1ef7436eb998587ef1249565e9aa5983c212b8d60b9b6413a0bb7b7028",
+  "responses": 16,
+  "evaluations": 16,
+  "diagnostics_completed": 4,
+  "pending_judgments": 4,
+  "formal_overall_scores": [
+    null,
+    null,
+    null,
+    null
+  ],
+  "strict_report_identity_input_suite_export_repeat_verification": true,
+  "production_data_writes_by_smoke": 0,
+  "disposable_database_removed": true
+}

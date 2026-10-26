@@ -1,0 +1,8 @@
+{
+  "planned_trial_ids": ["repeat-1", "repeat-2", "repeat-3"],
+  "trials": [
+    {"trial_id": "repeat-1", "comparison": null, "unavailable_reason": "Awaiting permitted original audit and benchmark execution evidence."},
+    {"trial_id": "repeat-2", "comparison": null, "unavailable_reason": "Awaiting permitted original audit and benchmark execution evidence."},
+    {"trial_id": "repeat-3", "comparison": null, "unavailable_reason": "Awaiting permitted original audit and benchmark execution evidence."}
+  ]
+}

@@ -1,0 +1,113 @@
+{
+  "scope": "synthetic_isolated_api_e2e_engineering_only",
+  "research_evidence": false,
+  "source_sha256": "e84fb0e564c7439ce3edf0fc6ebf7b25a681c9bb9dd209b1b97eb5d5d8a7d406",
+  "approval_sha256": "62446d9d40b77ea713639a3a0d44d4835e6786456cdb63c49a239cbf2c83eb68",
+  "approval_basis": "The user confirmed all eight Maple synthetic facts and these three edges in this task on 13 October 2026. This is not independent annotation, human gold or research evidence.",
+  "provider": "openrouter",
+  "model": "openai/gpt-6-luna",
+  "production_database_writes": 0,
+  "database": "new disposable SQLite file before app import",
+  "planned_repetitions_per_strategy": 2,
+  "started_at": "2026-10-13T10:02:07.891391+00:00",
+  "status": "failed",
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/conversations",
+      "status_code": 201,
+      "elapsed_ms": 30.016000000000002,
+      "body": {
+        "conversation_id": "C37613521C46647C3B0637BFE907E8C0C",
+        "created_at": "2026-10-13T10:02:09.208869",
+        "authorised": true,
+        "source_origin": "synthetic",
+        "messages": [
+          {
+            "message_id": "SYN101",
+            "role": "user",
+            "content": "I live in Adelaide.",
+            "timestamp": "2026-10-01T00:00:00Z",
+            "original_timestamp": "2026-10-01T00:00:00+00:00"
+          },
+          {
+            "message_id": "SYN102",
+            "role": "user",
+            "content": "The Maple capstone backend used MySQL previously.",
+            "timestamp": "2026-10-01T00:01:00Z",
+            "original_timestamp": "2026-10-01T00:01:00+00:00"
+          },
+          {
+            "message_id": "SYN103",
+            "role": "user",
+            "content": "We migrated the Maple capstone backend to PostgreSQL; MySQL is no longer used there.",
+            "timestamp": "2026-10-01T00:02:00Z",
+            "original_timestamp": "2026-10-01T00:02:00+00:00"
+          },
+          {
+            "message_id": "SYN104",
+            "role": "user",
+            "content": "In general, I prefer Python for backend projects.",
+            "timestamp": "2026-10-01T00:03:00Z",
+            "original_timestamp": "2026-10-01T00:03:00+00:00"
+          },
+          {
+            "message_id": "SYN105",
+            "role": "user",
+            "content": "For Maple capstone backend work, the course requires Java only; that requirement applies to this capstone project.",
+            "timestamp": "2026-10-01T00:04:00Z",
+            "original_timestamp": "2026-10-01T00:04:00+00:00"
+          },
+          {
+            "message_id": "SYN106",
+            "role": "user",
+            "content": "The current deployment plan for the Maple capstone says the production region is North.",
+            "timestamp": "2026-10-01T00:05:00Z",
+            "original_timestamp": "2026-10-01T00:05:00+00:00"
+          },
+          {
+            "message_id": "SYN107",
+            "role": "user",
+            "content": "The signed client brief for the same Maple capstone deployment says the production region is South.",
+            "timestamp": "2026-10-01T00:06:00Z",
+            "original_timestamp": "2026-10-01T00:06:00+00:00"
+          },
+          {
+            "message_id": "SYN108",
+            "role": "user",
+            "content": "Both deployment documents are still active; I have not established which instruction controls.",
+            "timestamp": "2026-10-01T00:07:00Z",
+            "original_timestamp": "2026-10-01T00:07:00+00:00"
+          }
+        ],
+        "extraction_provenance": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/C37613521C46647C3B0637BFE907E8C0C/extract",
+      "status_code": 502,
+      "elapsed_ms": 338.565,
+      "body": {
+        "detail": "The configured pipeline model is not available. Check PIPELINE_MODEL."
+      }
+    }
+  ],
+  "runs": [],
+  "runtime_signature": {
+    "source_sha256": "4ffda12de0b335bfa381de5a67e92e71dc2b906187fc3b4918463788ffe5efa8",
+    "evaluator": "rule-based-v60",
+    "writer": "rule-based-memory-extractor-v23",
+    "adapter": "controlled-memory-v3",
+    "pipeline_output_token_cap": "1200",
+    "protocol": "audit-runtime-v1",
+    "generator": "rule-based-v26"
+  },
+  "conversation_id": "C37613521C46647C3B0637BFE907E8C0C",
+  "error_code": "RuntimeError",
+  "error": "API POST /conversations/C37613521C46647C3B0637BFE907E8C0C/extract: HTTP 502",
+  "synthetic_only_sqlite_snapshot": "/tmp/luna-current-isolated-api-v10-synthetic-only.db",
+  "snapshot_sha256": "1c32b0e9141b129881ea5192327de8dead15c1db862e1f14f84bea8f22c15905",
+  "finished_at": "2026-10-13T10:02:09.566558+00:00",
+  "disposable_database_removed": true
+}

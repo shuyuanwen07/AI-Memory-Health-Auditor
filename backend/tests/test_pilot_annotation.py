@@ -84,7 +84,7 @@ def test_pilot_contract_rejects_unknown_units_and_duplicate_annotators():
 
 def test_pilot_endpoint_returns_ephemeral_readiness_report():
     with TestClient(app) as client:
-        response = client.post("/api/v1/research/pilot/analyse", json={"package": _package()})
+        response = client.post("/api/v1/research/pilot/analyse", json={"package": _package(),"source_authorised":True})
     assert response.status_code == 200
     body = response.json()
     assert body["pilot_id"] == "pilot-deidentified-v1"
@@ -116,7 +116,7 @@ def test_missing_provenance_cannot_default_to_independent_human_labels():
     with pytest.raises(ValidationError, match='annotation_mode'):
         PilotAnnotationPackage.model_validate(payload)
     with TestClient(app) as client:
-        response = client.post('/api/v1/research/pilot/analyse', json={'package': payload})
+        response = client.post('/api/v1/research/pilot/analyse', json={'package': payload,'source_authorised':True})
     assert response.status_code == 422
     assert any(error['loc'][-1] == 'annotation_mode' for error in response.json()['detail'])
 

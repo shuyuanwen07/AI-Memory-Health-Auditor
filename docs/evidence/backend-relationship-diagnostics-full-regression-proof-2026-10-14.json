@@ -1,0 +1,12 @@
+{
+  "scope": "current_backend_full_regression",
+  "command": "docker compose exec -T backend python -m pytest -q",
+  "exit_code": 0,
+  "passed": 1366,
+  "skipped": 8,
+  "warnings": 1,
+  "source_files_unchanged": 224,
+  "log_sha256": "0b21e28f4d8ee6888c0ee375dcb0df9033806724739f37d40f49b90247fccc48",
+  "manifest_sha256": "94de49e580806e23e85cbd0a271525bfa2557a0fcb057b74256277901aceedcc",
+  "limits": "Dedicated PostgreSQL tests skipped here; no new formal research data or all-role live workflow claimed."
+}

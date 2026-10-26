@@ -1,0 +1,87 @@
+{
+  "scope": "approved_synthetic_provider_error_shape_probe",
+  "research_evidence": false,
+  "production_database_writes": 0,
+  "target_requests": 0,
+  "source_sha256": "e84fb0e564c7439ce3edf0fc6ebf7b25a681c9bb9dd209b1b97eb5d5d8a7d406",
+  "provider_shape": {
+    "http_status": 200,
+    "error_type": "NoneType",
+    "error_fields": [],
+    "numeric_error_code": null,
+    "recognised_categories": [],
+    "redacted_message": ""
+  },
+  "status": "completed",
+  "error_code": null,
+  "execution": {
+    "version": "pipeline-http-meter-v2",
+    "provider": "openrouter",
+    "model": "openai/gpt-6-luna",
+    "request_attempts": 1,
+    "failed_http_attempts": 0,
+    "status": "parsed",
+    "reported_input_tokens": 2243,
+    "reported_output_tokens": 399,
+    "reported_total_tokens": 2642,
+    "reported_cost_credits": 0.0004798,
+    "reported_model": "openai/gpt-6-luna",
+    "last_http_status": 200,
+    "agent_role": "relationship_analysis",
+    "requested_ollama_thinking": null,
+    "requested_output_token_limit": 1800,
+    "prompt_template_version": "relationship-analysis-agent-v5",
+    "prompt_fingerprint": "50f3b270125f2c1c655ca3a8b32f59338b4969ef9c713685ed1c61125a83a0ec",
+    "input_fingerprint": "037e6eb707f008f93c2e140daeae070c8e380ede50b9480a67d10b36c467b172",
+    "output_fingerprint": "94f86169644c14dbf0b3592d87dcc4d6b9d2e3d21ae2807fcb5d08730a7a8113",
+    "error_code": null,
+    "scope": "Last successful HTTP reply only; failed-attempt usage unknown. Elapsed time includes retry waits and parsing.",
+    "sampling_control": "model_default",
+    "sent_temperature": null,
+    "response_choice_count": 1,
+    "reported_finish_reason": "stop",
+    "elapsed_ms": 4691.42
+  },
+  "output_data": {
+    "relationships": [
+      {
+        "current_memory_id": "M003",
+        "prior_memory_id": "M002",
+        "type": "UPDATE",
+        "evidence_message_ids": [
+          "SYN102",
+          "SYN103"
+        ],
+        "confidence": 1.0,
+        "rationale": "The backend was migrated to PostgreSQL, and the message explicitly says MySQL is no longer used there, replacing the earlier MySQL fact.",
+        "source_memory_id": "M003"
+      },
+      {
+        "current_memory_id": "M005",
+        "prior_memory_id": "M004",
+        "type": "CONTEXTUAL_OVERRIDE",
+        "evidence_message_ids": [
+          "SYN104",
+          "SYN105"
+        ],
+        "confidence": 1.0,
+        "rationale": "The general preference is Python for backend projects, while the course specifically requires Java only for Maple capstone backend work, a scoped override.",
+        "source_memory_id": "M005"
+      },
+      {
+        "current_memory_id": "M007",
+        "prior_memory_id": "M006",
+        "type": "CONFLICT",
+        "evidence_message_ids": [
+          "SYN106",
+          "SYN107"
+        ],
+        "confidence": 1.0,
+        "rationale": "The active deployment documents specify incompatible production regions, South and North, for the same Maple capstone deployment; neither is established as controlling.",
+        "source_memory_id": "M007"
+      }
+    ]
+  },
+  "probe_memory_id_scope": "Sequential M001-style candidate aliases, with approved source evidence unchanged",
+  "is_original_v7_http_replay": false
+}

@@ -52,12 +52,92 @@ def test_declared_plan_is_saved_before_calls_and_restored(tmp_path):
         plan = created.json()
         design = plan['acceptance_protocol']['study_design']
         assert plan['acceptance_protocol']['study_mode'] == 'formal_experiment_b'
+        assert plan['acceptance_protocol']['format'] == 'formal-acceptance-protocol-v2'
+        assert plan['acceptance_protocol']['reader_control'] == 'fixed_strong_reader'
         assert plan['repetition_count'] == 3
         assert design == {**DESIGN, 'analysis_unit': 'source_history', 'incomplete_results': 'report_without_imputing_scores'}
         run_id = plan['scenarios'][0]['run_ids'][0]
         audit = client.get(f'/api/v1/audits/{run_id}').json()
         assert audit['status'] == 'TESTS_GENERATED'
         assert client.get(f'/api/v1/research/formal/{run_id}/plan').json() == plan
+        for scenario in plan['scenarios']:
+            for condition_run_id in scenario['run_ids']:
+                condition = client.get(f'/api/v1/audits/{condition_run_id}').json()
+                assert condition['target_configuration'] == 'strong'
+
+
+def test_strategy_conditions_keep_one_strong_reader():
+    from app.schemas.domain import MemoryStrategy, TargetConfiguration
+    from app.schemas.formal_experiment import FormalMatrixCondition
+
+    for strategy in MemoryStrategy:
+        condition = FormalMatrixCondition(label=strategy.value, memory_strategy=strategy)
+        assert condition.target_configuration == TargetConfiguration.STRONG
+
+
+def test_historical_protocol_does_not_gain_reader_control_from_new_defaults():
+    from datetime import datetime, timezone
+    from app.schemas.formal_experiment import FormalAcceptanceProtocol
+    from test_formal_synthetic_matrix import CRITERIA
+
+    historical = FormalAcceptanceProtocol(
+        study_mode='formal_experiment_b', frozen_at=datetime.now(timezone.utc),
+        criteria=CRITERIA, dataset_fingerprint_sha256='a' * 64,
+        runtime_source_sha256='b' * 64,
+    )
+    assert historical.reader_control is None
+
+
+@pytest.mark.parametrize('protocol,configuration', [
+    ({'study_mode': 'formal_experiment_b'}, 'strong'),
+    ({'study_mode': 'formal_experiment_b', 'reader_control': 'fixed_strong_reader'}, 'weak'),
+])
+def test_direct_frozen_input_guard_rejects_formal_reader_confounds(protocol, configuration):
+    from types import SimpleNamespace
+    from fastapi import HTTPException
+    from app.services.formal_freeze import assert_formal_inputs_frozen
+
+    audit = SimpleNamespace(target_configuration=configuration, reproducibility_metadata={
+        'formal_matrix_version': 'historical-or-current', 'formal_acceptance_protocol': protocol,
+    })
+    with pytest.raises(HTTPException, match='frozen Strong reader') as rejected:
+        assert_formal_inputs_frozen(SimpleNamespace(scalars=lambda statement: []), audit)
+    assert rejected.value.status_code == 409
+
+
+def test_formal_restore_rejects_legacy_reader_confounded_plan_without_changing_records(tmp_path):
+    from sqlalchemy import create_engine
+    from sqlalchemy.orm import Session
+    from app.models import AuditRunModel
+
+    development = deepcopy(DATASET)
+    for history in development['conversations']:
+        for message in history['messages']:
+            message['content'] += ' Development-only reader control history.'
+    payload = request(development)
+    payload.update(study_design=DESIGN, repetitions=3, conditions=[
+        {'label': 'Weak', 'provider': 'rule_based', 'memory_strategy': 'weak_first_hit'},
+        {'label': 'Strong', 'provider': 'rule_based', 'memory_strategy': 'strong_rule_based'},
+    ])
+    with client_for(tmp_path) as client:
+        created = client.post('/api/v1/research/formal/synthetic-matrix', json=payload)
+        assert created.status_code == 201, created.text
+        plan = created.json()
+        run_id = plan['scenarios'][0]['run_ids'][0]
+        with Session(create_engine(f"sqlite:///{tmp_path / 'guards.db'}")) as db:
+            run = db.get(AuditRunModel, run_id)
+            metadata = deepcopy(run.reproducibility_metadata)
+            metadata['formal_matrix_manifest']['acceptance_protocol'].pop('reader_control')
+            metadata['formal_acceptance_protocol'].pop('reader_control')
+            run.reproducibility_metadata = metadata
+            run.target_configuration = 'weak'
+            db.commit()
+        restored = client.get(f'/api/v1/research/formal/{run_id}/plan')
+        assert restored.status_code == 409
+        assert 'one Strong reader' in restored.text
+        preserved = client.get(f'/api/v1/audits/{run_id}').json()
+        assert preserved['target_configuration'] == 'weak'
+        assert preserved['status'] == 'TESTS_GENERATED'
 
 
 def test_formal_plan_requires_a_paired_weak_strong_same_model_comparison():

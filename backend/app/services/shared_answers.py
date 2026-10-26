@@ -37,6 +37,9 @@ def reuse_target_answers(db: Session, run_id: str, source_run_id: str):
         raise HTTPException(409, 'Prepare and review the destination questions first.')
     source_tests = db.scalars(select(TestCaseModel).where(TestCaseModel.run_id == source_run_id)).all()
     target_tests = db.scalars(select(TestCaseModel).where(TestCaseModel.run_id == run_id)).all()
+    from app.services.generation_coverage import assert_generation_coverage, saved_suite_observation
+    coverage_source = db.get(AuditRunModel, experiment.test_suite_source_run_id) if experiment.test_suite_source_run_id else source
+    assert_generation_coverage(saved_suite_observation((coverage_source or source).reproducibility_metadata), target_tests, target.test_budget)
     def canonical(test):
         return test.suite_test_id or test.id
     originals = {canonical(test): test for test in source_tests}

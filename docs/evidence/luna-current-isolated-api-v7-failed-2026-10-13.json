@@ -1,0 +1,2840 @@
+{
+  "scope": "synthetic_isolated_api_e2e_engineering_only",
+  "research_evidence": false,
+  "source_sha256": "e84fb0e564c7439ce3edf0fc6ebf7b25a681c9bb9dd209b1b97eb5d5d8a7d406",
+  "approval_sha256": "62446d9d40b77ea713639a3a0d44d4835e6786456cdb63c49a239cbf2c83eb68",
+  "approval_basis": "The user confirmed all eight Maple synthetic facts and these three edges in this task on 13 October 2026. This is not independent annotation, human gold or research evidence.",
+  "provider": "openrouter",
+  "model": "openai/gpt-6-luna",
+  "production_database_writes": 0,
+  "database": "new disposable SQLite file before app import",
+  "planned_repetitions_per_strategy": 2,
+  "started_at": "2026-10-13T09:19:30.787561+00:00",
+  "status": "failed",
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/conversations",
+      "status_code": 201,
+      "elapsed_ms": 38.832,
+      "body": {
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "created_at": "2026-10-13T09:19:33.201353",
+        "authorised": true,
+        "source_origin": "synthetic",
+        "messages": [
+          {
+            "message_id": "SYN101",
+            "role": "user",
+            "content": "I live in Adelaide.",
+            "timestamp": "2026-10-01T00:00:00Z",
+            "original_timestamp": "2026-10-01T00:00:00+00:00"
+          },
+          {
+            "message_id": "SYN102",
+            "role": "user",
+            "content": "The Maple capstone backend used MySQL previously.",
+            "timestamp": "2026-10-01T00:01:00Z",
+            "original_timestamp": "2026-10-01T00:01:00+00:00"
+          },
+          {
+            "message_id": "SYN103",
+            "role": "user",
+            "content": "We migrated the Maple capstone backend to PostgreSQL; MySQL is no longer used there.",
+            "timestamp": "2026-10-01T00:02:00Z",
+            "original_timestamp": "2026-10-01T00:02:00+00:00"
+          },
+          {
+            "message_id": "SYN104",
+            "role": "user",
+            "content": "In general, I prefer Python for backend projects.",
+            "timestamp": "2026-10-01T00:03:00Z",
+            "original_timestamp": "2026-10-01T00:03:00+00:00"
+          },
+          {
+            "message_id": "SYN105",
+            "role": "user",
+            "content": "For Maple capstone backend work, the course requires Java only; that requirement applies to this capstone project.",
+            "timestamp": "2026-10-01T00:04:00Z",
+            "original_timestamp": "2026-10-01T00:04:00+00:00"
+          },
+          {
+            "message_id": "SYN106",
+            "role": "user",
+            "content": "The current deployment plan for the Maple capstone says the production region is North.",
+            "timestamp": "2026-10-01T00:05:00Z",
+            "original_timestamp": "2026-10-01T00:05:00+00:00"
+          },
+          {
+            "message_id": "SYN107",
+            "role": "user",
+            "content": "The signed client brief for the same Maple capstone deployment says the production region is South.",
+            "timestamp": "2026-10-01T00:06:00Z",
+            "original_timestamp": "2026-10-01T00:06:00+00:00"
+          },
+          {
+            "message_id": "SYN108",
+            "role": "user",
+            "content": "Both deployment documents are still active; I have not established which instruction controls.",
+            "timestamp": "2026-10-01T00:07:00Z",
+            "original_timestamp": "2026-10-01T00:07:00+00:00"
+          }
+        ],
+        "extraction_provenance": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/CFCF98E3D710A4DE9ABCA8360AFDEF154/extract",
+      "status_code": 200,
+      "elapsed_ms": 10010.377999999999,
+      "body": [
+        {
+          "memory_id": "M672C9E9997534789AC9BD04E214DA63A",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "canonical_value": "The user lives in Adelaide.",
+          "status": "candidate",
+          "source_message_ids": [
+            "SYN101"
+          ],
+          "timestamp": "2026-10-01T00:00:00",
+          "confidence": 0.99,
+          "relationships": []
+        },
+        {
+          "memory_id": "M7024CE8922394537BB301465526F5D46",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "canonical_value": "The Maple capstone backend previously used MySQL.",
+          "status": "candidate",
+          "source_message_ids": [
+            "SYN102"
+          ],
+          "timestamp": "2026-10-01T00:01:00",
+          "confidence": 0.99,
+          "relationships": []
+        },
+        {
+          "memory_id": "M56BA36D3494F45F1B30EA4A610704278",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "canonical_value": "The Maple capstone backend has been migrated to PostgreSQL; MySQL is no longer used there.",
+          "status": "candidate",
+          "source_message_ids": [
+            "SYN103"
+          ],
+          "timestamp": "2026-10-01T00:02:00",
+          "confidence": 0.99,
+          "relationships": []
+        },
+        {
+          "memory_id": "M283AC0B139D04D98B403B5C1DF3C8BEA",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "canonical_value": "In general, the user prefers Python for backend projects.",
+          "status": "candidate",
+          "source_message_ids": [
+            "SYN104"
+          ],
+          "timestamp": "2026-10-01T00:03:00",
+          "confidence": 0.99,
+          "relationships": []
+        },
+        {
+          "memory_id": "M14554DA803554257AE00F13D0E6922A9",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "canonical_value": "For Maple capstone backend work, the course requires Java only; this requirement applies to this capstone project.",
+          "status": "candidate",
+          "source_message_ids": [
+            "SYN105"
+          ],
+          "timestamp": "2026-10-01T00:04:00",
+          "confidence": 0.99,
+          "relationships": []
+        },
+        {
+          "memory_id": "M9038F2F03E354327B42F38E7C28351F7",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "canonical_value": "The current deployment plan for the Maple capstone specifies North as the production region.",
+          "status": "candidate",
+          "source_message_ids": [
+            "SYN106"
+          ],
+          "timestamp": "2026-10-01T00:05:00",
+          "confidence": 0.99,
+          "relationships": []
+        },
+        {
+          "memory_id": "M88044F190ABF438FB986EE49C055DDA7",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "canonical_value": "The signed client brief for the Maple capstone deployment specifies South as the production region.",
+          "status": "candidate",
+          "source_message_ids": [
+            "SYN107"
+          ],
+          "timestamp": "2026-10-01T00:06:00",
+          "confidence": 0.99,
+          "relationships": []
+        },
+        {
+          "memory_id": "M4C22293C8DB144EABC56F1C0C5262FE4",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "canonical_value": "Both Maple capstone deployment documents remain active, and the user has not established which instruction controls.",
+          "status": "candidate",
+          "source_message_ids": [
+            "SYN108"
+          ],
+          "timestamp": "2026-10-01T00:07:00",
+          "confidence": 0.99,
+          "relationships": []
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/conversations/CFCF98E3D710A4DE9ABCA8360AFDEF154/agent-executions",
+      "status_code": 200,
+      "elapsed_ms": 9.311,
+      "body": [
+        {
+          "execution_id": "AGTCB1CA8FD70934E9FB821F84904EB79B4",
+          "role": "memory_extraction",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "run_id": null,
+          "provider": "openrouter",
+          "model": "openai/gpt-6-luna",
+          "reported_model": "openai/gpt-6-luna",
+          "prompt_template_version": "memory-extraction-agent-v11",
+          "prompt_fingerprint": "d5fa25d4e8f5a83e5ac9dcb4972f2f96436b5a50a6c3a4a5914d1e947a9e8957",
+          "input_fingerprint": "8471d5bbd1da56c0125e8f6eb73042dceb54e40e5d861ba8e74bd99d1542c447",
+          "input_refs": {
+            "message_ids": [
+              "SYN101",
+              "SYN102",
+              "SYN103",
+              "SYN104",
+              "SYN105",
+              "SYN106",
+              "SYN107",
+              "SYN108"
+            ],
+            "source_ref_to_message_id": {
+              "1": "SYN101",
+              "2": "SYN102",
+              "3": "SYN103",
+              "4": "SYN104",
+              "5": "SYN105",
+              "6": "SYN106",
+              "7": "SYN107",
+              "8": "SYN108"
+            }
+          },
+          "output_data": {
+            "memories": [
+              {
+                "memory_id": "M672C9E9997534789AC9BD04E214DA63A",
+                "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+                "canonical_value": "The user lives in Adelaide.",
+                "status": "candidate",
+                "source_message_ids": [
+                  "SYN101"
+                ],
+                "timestamp": "2026-10-01T00:00:00Z",
+                "confidence": 0.99,
+                "relationships": []
+              },
+              {
+                "memory_id": "M7024CE8922394537BB301465526F5D46",
+                "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+                "canonical_value": "The Maple capstone backend previously used MySQL.",
+                "status": "candidate",
+                "source_message_ids": [
+                  "SYN102"
+                ],
+                "timestamp": "2026-10-01T00:01:00Z",
+                "confidence": 0.99,
+                "relationships": []
+              },
+              {
+                "memory_id": "M56BA36D3494F45F1B30EA4A610704278",
+                "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+                "canonical_value": "The Maple capstone backend has been migrated to PostgreSQL; MySQL is no longer used there.",
+                "status": "candidate",
+                "source_message_ids": [
+                  "SYN103"
+                ],
+                "timestamp": "2026-10-01T00:02:00Z",
+                "confidence": 0.99,
+                "relationships": []
+              },
+              {
+                "memory_id": "M283AC0B139D04D98B403B5C1DF3C8BEA",
+                "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+                "canonical_value": "In general, the user prefers Python for backend projects.",
+                "status": "candidate",
+                "source_message_ids": [
+                  "SYN104"
+                ],
+                "timestamp": "2026-10-01T00:03:00Z",
+                "confidence": 0.99,
+                "relationships": []
+              },
+              {
+                "memory_id": "M14554DA803554257AE00F13D0E6922A9",
+                "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+                "canonical_value": "For Maple capstone backend work, the course requires Java only; this requirement applies to this capstone project.",
+                "status": "candidate",
+                "source_message_ids": [
+                  "SYN105"
+                ],
+                "timestamp": "2026-10-01T00:04:00Z",
+                "confidence": 0.99,
+                "relationships": []
+              },
+              {
+                "memory_id": "M9038F2F03E354327B42F38E7C28351F7",
+                "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+                "canonical_value": "The current deployment plan for the Maple capstone specifies North as the production region.",
+                "status": "candidate",
+                "source_message_ids": [
+                  "SYN106"
+                ],
+                "timestamp": "2026-10-01T00:05:00Z",
+                "confidence": 0.99,
+                "relationships": []
+              },
+              {
+                "memory_id": "M88044F190ABF438FB986EE49C055DDA7",
+                "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+                "canonical_value": "The signed client brief for the Maple capstone deployment specifies South as the production region.",
+                "status": "candidate",
+                "source_message_ids": [
+                  "SYN107"
+                ],
+                "timestamp": "2026-10-01T00:06:00Z",
+                "confidence": 0.99,
+                "relationships": []
+              },
+              {
+                "memory_id": "M4C22293C8DB144EABC56F1C0C5262FE4",
+                "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+                "canonical_value": "Both Maple capstone deployment documents remain active, and the user has not established which instruction controls.",
+                "status": "candidate",
+                "source_message_ids": [
+                  "SYN108"
+                ],
+                "timestamp": "2026-10-01T00:07:00Z",
+                "confidence": 0.99,
+                "relationships": []
+              }
+            ]
+          },
+          "status": "completed",
+          "attempt_count": 1,
+          "elapsed_ms": 8525.27,
+          "error_code": null,
+          "error_summary": null,
+          "error_diagnostics": {
+            "requested_output_token_limit": 1800,
+            "reported_finish_reason": "stop"
+          },
+          "handoff_from": null,
+          "handoff_to": "AGTAF36897320E34D90AD3EA65419465EFF",
+          "created_at": "2026-10-13T09:19:43.178234"
+        },
+        {
+          "execution_id": "AGTAF36897320E34D90AD3EA65419465EFF",
+          "role": "relationship_analysis",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "run_id": null,
+          "provider": "openrouter",
+          "model": "openai/gpt-6-luna",
+          "reported_model": null,
+          "prompt_template_version": "relationship-analysis-agent-v5",
+          "prompt_fingerprint": "ae45cf6786e58357edb216edbadbfe3940359e3ac8b862cbc7dd58683042df9c",
+          "input_fingerprint": "9ca6ed0161412b79828e1672972074004e05026779e97d62e92818caeb9741d3",
+          "input_refs": {
+            "message_ids": [
+              "SYN101",
+              "SYN102",
+              "SYN103",
+              "SYN104",
+              "SYN105",
+              "SYN106",
+              "SYN107",
+              "SYN108"
+            ],
+            "memory_ids": [
+              "M672C9E9997534789AC9BD04E214DA63A",
+              "M7024CE8922394537BB301465526F5D46",
+              "M56BA36D3494F45F1B30EA4A610704278",
+              "M283AC0B139D04D98B403B5C1DF3C8BEA",
+              "M14554DA803554257AE00F13D0E6922A9",
+              "M9038F2F03E354327B42F38E7C28351F7",
+              "M88044F190ABF438FB986EE49C055DDA7",
+              "M4C22293C8DB144EABC56F1C0C5262FE4"
+            ]
+          },
+          "output_data": null,
+          "status": "failed",
+          "attempt_count": 1,
+          "elapsed_ms": 772.49,
+          "error_code": "missing_json_content",
+          "error_summary": "The local model response did not contain structured JSON content.",
+          "error_diagnostics": {
+            "requested_output_token_limit": 4096
+          },
+          "handoff_from": "AGTCB1CA8FD70934E9FB821F84904EB79B4",
+          "handoff_to": "AGT30D7B2F12E4E4FF6BA8DCDFFB612544D",
+          "created_at": "2026-10-13T09:19:43.200013"
+        },
+        {
+          "execution_id": "AGT30D7B2F12E4E4FF6BA8DCDFFB612544D",
+          "role": "independent_memory_review",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "run_id": null,
+          "provider": "openrouter",
+          "model": "openai/gpt-6-luna",
+          "reported_model": null,
+          "prompt_template_version": "independent-memory-review-agent-v2",
+          "prompt_fingerprint": "58239742d669d0d7147afd20cfc58a774b371b623e0ed4102ff1791eb3a4905a",
+          "input_fingerprint": "733ddf4e689fc9a33502a97fcc14501d849890dfc84c4e007e488312f32ebce6",
+          "input_refs": {
+            "message_ids": [
+              "SYN101",
+              "SYN102",
+              "SYN103",
+              "SYN104",
+              "SYN105",
+              "SYN106",
+              "SYN107",
+              "SYN108"
+            ],
+            "memory_ids": [
+              "M672C9E9997534789AC9BD04E214DA63A",
+              "M7024CE8922394537BB301465526F5D46",
+              "M56BA36D3494F45F1B30EA4A610704278",
+              "M283AC0B139D04D98B403B5C1DF3C8BEA",
+              "M14554DA803554257AE00F13D0E6922A9",
+              "M9038F2F03E354327B42F38E7C28351F7",
+              "M88044F190ABF438FB986EE49C055DDA7",
+              "M4C22293C8DB144EABC56F1C0C5262FE4"
+            ]
+          },
+          "output_data": null,
+          "status": "failed",
+          "attempt_count": 1,
+          "elapsed_ms": 625.2,
+          "error_code": "PipelineRequestError",
+          "error_summary": "The independent memory review could not be validated. Continue with a careful manual source review.",
+          "error_diagnostics": {
+            "phase": "provider_completion",
+            "category": "missing_json_content",
+            "requested_output_token_limit": 2048
+          },
+          "handoff_from": "AGTAF36897320E34D90AD3EA65419465EFF",
+          "handoff_to": null,
+          "created_at": "2026-10-13T09:19:43.201223"
+        }
+      ]
+    },
+    {
+      "method": "DELETE",
+      "path": "/memories/M672C9E9997534789AC9BD04E214DA63A",
+      "status_code": 204,
+      "elapsed_ms": 7.901999999999999,
+      "body": ""
+    },
+    {
+      "method": "DELETE",
+      "path": "/memories/M7024CE8922394537BB301465526F5D46",
+      "status_code": 204,
+      "elapsed_ms": 3.3310000000000004,
+      "body": ""
+    },
+    {
+      "method": "DELETE",
+      "path": "/memories/M56BA36D3494F45F1B30EA4A610704278",
+      "status_code": 204,
+      "elapsed_ms": 2.599,
+      "body": ""
+    },
+    {
+      "method": "DELETE",
+      "path": "/memories/M283AC0B139D04D98B403B5C1DF3C8BEA",
+      "status_code": 204,
+      "elapsed_ms": 2.6519999999999997,
+      "body": ""
+    },
+    {
+      "method": "DELETE",
+      "path": "/memories/M14554DA803554257AE00F13D0E6922A9",
+      "status_code": 204,
+      "elapsed_ms": 2.781,
+      "body": ""
+    },
+    {
+      "method": "DELETE",
+      "path": "/memories/M9038F2F03E354327B42F38E7C28351F7",
+      "status_code": 204,
+      "elapsed_ms": 2.8449999999999998,
+      "body": ""
+    },
+    {
+      "method": "DELETE",
+      "path": "/memories/M88044F190ABF438FB986EE49C055DDA7",
+      "status_code": 204,
+      "elapsed_ms": 2.665,
+      "body": ""
+    },
+    {
+      "method": "DELETE",
+      "path": "/memories/M4C22293C8DB144EABC56F1C0C5262FE4",
+      "status_code": 204,
+      "elapsed_ms": 2.673,
+      "body": ""
+    },
+    {
+      "method": "POST",
+      "path": "/memories",
+      "status_code": 201,
+      "elapsed_ms": 12.966999999999999,
+      "body": {
+        "memory_id": "M475F2B6AD6484707A41446866F06C4CA",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "canonical_value": "I live in Adelaide.",
+        "status": "candidate",
+        "source_message_ids": [
+          "SYN101"
+        ],
+        "timestamp": "2026-10-01T00:00:00",
+        "confidence": null,
+        "relationships": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/memories",
+      "status_code": 201,
+      "elapsed_ms": 3.4450000000000003,
+      "body": {
+        "memory_id": "MBEC0ED33DFE542C4B535451DA6E1FDC1",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "canonical_value": "The Maple capstone backend used MySQL previously.",
+        "status": "candidate",
+        "source_message_ids": [
+          "SYN102"
+        ],
+        "timestamp": "2026-10-01T00:01:00",
+        "confidence": null,
+        "relationships": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/memories",
+      "status_code": 201,
+      "elapsed_ms": 3.226,
+      "body": {
+        "memory_id": "M6466EE49B58B4847B382477E974513F0",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "canonical_value": "We migrated the Maple capstone backend to PostgreSQL; MySQL is no longer used there.",
+        "status": "candidate",
+        "source_message_ids": [
+          "SYN103"
+        ],
+        "timestamp": "2026-10-01T00:02:00",
+        "confidence": null,
+        "relationships": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/memories",
+      "status_code": 201,
+      "elapsed_ms": 3.3040000000000003,
+      "body": {
+        "memory_id": "M6518994E4DA74DD9A411AABC6D5527FB",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "canonical_value": "In general, I prefer Python for backend projects.",
+        "status": "candidate",
+        "source_message_ids": [
+          "SYN104"
+        ],
+        "timestamp": "2026-10-01T00:03:00",
+        "confidence": null,
+        "relationships": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/memories",
+      "status_code": 201,
+      "elapsed_ms": 3.269,
+      "body": {
+        "memory_id": "MC7DBEB713F5E42A5818E36748A2156F2",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "canonical_value": "For Maple capstone backend work, the course requires Java only; that requirement applies to this capstone project.",
+        "status": "candidate",
+        "source_message_ids": [
+          "SYN105"
+        ],
+        "timestamp": "2026-10-01T00:04:00",
+        "confidence": null,
+        "relationships": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/memories",
+      "status_code": 201,
+      "elapsed_ms": 2.943,
+      "body": {
+        "memory_id": "M52B7B0301EBE40929370CC6BCB43ABC3",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "canonical_value": "The current deployment plan for the Maple capstone says the production region is North.",
+        "status": "candidate",
+        "source_message_ids": [
+          "SYN106"
+        ],
+        "timestamp": "2026-10-01T00:05:00",
+        "confidence": null,
+        "relationships": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/memories",
+      "status_code": 201,
+      "elapsed_ms": 3.836,
+      "body": {
+        "memory_id": "M15D6337E5FCE45FC812A6836FC4289A0",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "canonical_value": "The signed client brief for the same Maple capstone deployment says the production region is South.",
+        "status": "candidate",
+        "source_message_ids": [
+          "SYN107"
+        ],
+        "timestamp": "2026-10-01T00:06:00",
+        "confidence": null,
+        "relationships": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/memories",
+      "status_code": 201,
+      "elapsed_ms": 3.22,
+      "body": {
+        "memory_id": "M92922A17C3594EC594DB7A286A3A7900",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "canonical_value": "Both deployment documents are still active; I have not established which instruction controls.",
+        "status": "candidate",
+        "source_message_ids": [
+          "SYN108"
+        ],
+        "timestamp": "2026-10-01T00:07:00",
+        "confidence": null,
+        "relationships": []
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/memories/M6466EE49B58B4847B382477E974513F0",
+      "status_code": 200,
+      "elapsed_ms": 7.001,
+      "body": {
+        "memory_id": "M6466EE49B58B4847B382477E974513F0",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "canonical_value": "We migrated the Maple capstone backend to PostgreSQL; MySQL is no longer used there.",
+        "status": "candidate",
+        "source_message_ids": [
+          "SYN103"
+        ],
+        "timestamp": "2026-10-01T00:02:00",
+        "confidence": null,
+        "relationships": [
+          {
+            "relationship_id": "MRD83AC3C55E8341C094AC9355C865DB43",
+            "type": "UPDATE",
+            "target_memory_id": "MBEC0ED33DFE542C4B535451DA6E1FDC1",
+            "evidence_message_ids": [
+              "SYN103",
+              "SYN102"
+            ],
+            "confidence": null
+          }
+        ]
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/memories/MC7DBEB713F5E42A5818E36748A2156F2",
+      "status_code": 200,
+      "elapsed_ms": 3.735,
+      "body": {
+        "memory_id": "MC7DBEB713F5E42A5818E36748A2156F2",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "canonical_value": "For Maple capstone backend work, the course requires Java only; that requirement applies to this capstone project.",
+        "status": "candidate",
+        "source_message_ids": [
+          "SYN105"
+        ],
+        "timestamp": "2026-10-01T00:04:00",
+        "confidence": null,
+        "relationships": [
+          {
+            "relationship_id": "MRFBF6D67143E94400845B127596D969B4",
+            "type": "CONTEXTUAL_OVERRIDE",
+            "target_memory_id": "M6518994E4DA74DD9A411AABC6D5527FB",
+            "evidence_message_ids": [
+              "SYN105",
+              "SYN104"
+            ],
+            "confidence": null
+          }
+        ]
+      }
+    },
+    {
+      "method": "PATCH",
+      "path": "/memories/M52B7B0301EBE40929370CC6BCB43ABC3",
+      "status_code": 200,
+      "elapsed_ms": 3.311,
+      "body": {
+        "memory_id": "M52B7B0301EBE40929370CC6BCB43ABC3",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "canonical_value": "The current deployment plan for the Maple capstone says the production region is North.",
+        "status": "candidate",
+        "source_message_ids": [
+          "SYN106"
+        ],
+        "timestamp": "2026-10-01T00:05:00",
+        "confidence": null,
+        "relationships": [
+          {
+            "relationship_id": "MRF34455C53A354B99AD212603E37CFF8E",
+            "type": "CONFLICT",
+            "target_memory_id": "M15D6337E5FCE45FC812A6836FC4289A0",
+            "evidence_message_ids": [
+              "SYN106",
+              "SYN107"
+            ],
+            "confidence": null
+          }
+        ]
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/CFCF98E3D710A4DE9ABCA8360AFDEF154/confirm-ground-truth",
+      "status_code": 200,
+      "elapsed_ms": 7.306,
+      "body": [
+        {
+          "memory_id": "M672C9E9997534789AC9BD04E214DA63A",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "canonical_value": "The user lives in Adelaide.",
+          "status": "rejected",
+          "source_message_ids": [
+            "SYN101"
+          ],
+          "timestamp": "2026-10-01T00:00:00",
+          "confidence": 0.99,
+          "relationships": []
+        },
+        {
+          "memory_id": "M7024CE8922394537BB301465526F5D46",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "canonical_value": "The Maple capstone backend previously used MySQL.",
+          "status": "rejected",
+          "source_message_ids": [
+            "SYN102"
+          ],
+          "timestamp": "2026-10-01T00:01:00",
+          "confidence": 0.99,
+          "relationships": []
+        },
+        {
+          "memory_id": "M56BA36D3494F45F1B30EA4A610704278",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "canonical_value": "The Maple capstone backend has been migrated to PostgreSQL; MySQL is no longer used there.",
+          "status": "rejected",
+          "source_message_ids": [
+            "SYN103"
+          ],
+          "timestamp": "2026-10-01T00:02:00",
+          "confidence": 0.99,
+          "relationships": []
+        },
+        {
+          "memory_id": "M283AC0B139D04D98B403B5C1DF3C8BEA",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "canonical_value": "In general, the user prefers Python for backend projects.",
+          "status": "rejected",
+          "source_message_ids": [
+            "SYN104"
+          ],
+          "timestamp": "2026-10-01T00:03:00",
+          "confidence": 0.99,
+          "relationships": []
+        },
+        {
+          "memory_id": "M14554DA803554257AE00F13D0E6922A9",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "canonical_value": "For Maple capstone backend work, the course requires Java only; this requirement applies to this capstone project.",
+          "status": "rejected",
+          "source_message_ids": [
+            "SYN105"
+          ],
+          "timestamp": "2026-10-01T00:04:00",
+          "confidence": 0.99,
+          "relationships": []
+        },
+        {
+          "memory_id": "M9038F2F03E354327B42F38E7C28351F7",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "canonical_value": "The current deployment plan for the Maple capstone specifies North as the production region.",
+          "status": "rejected",
+          "source_message_ids": [
+            "SYN106"
+          ],
+          "timestamp": "2026-10-01T00:05:00",
+          "confidence": 0.99,
+          "relationships": []
+        },
+        {
+          "memory_id": "M88044F190ABF438FB986EE49C055DDA7",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "canonical_value": "The signed client brief for the Maple capstone deployment specifies South as the production region.",
+          "status": "rejected",
+          "source_message_ids": [
+            "SYN107"
+          ],
+          "timestamp": "2026-10-01T00:06:00",
+          "confidence": 0.99,
+          "relationships": []
+        },
+        {
+          "memory_id": "M4C22293C8DB144EABC56F1C0C5262FE4",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "canonical_value": "Both Maple capstone deployment documents remain active, and the user has not established which instruction controls.",
+          "status": "rejected",
+          "source_message_ids": [
+            "SYN108"
+          ],
+          "timestamp": "2026-10-01T00:07:00",
+          "confidence": 0.99,
+          "relationships": []
+        },
+        {
+          "memory_id": "M475F2B6AD6484707A41446866F06C4CA",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "canonical_value": "I live in Adelaide.",
+          "status": "confirmed",
+          "source_message_ids": [
+            "SYN101"
+          ],
+          "timestamp": "2026-10-01T00:00:00",
+          "confidence": null,
+          "relationships": []
+        },
+        {
+          "memory_id": "MBEC0ED33DFE542C4B535451DA6E1FDC1",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "canonical_value": "The Maple capstone backend used MySQL previously.",
+          "status": "confirmed",
+          "source_message_ids": [
+            "SYN102"
+          ],
+          "timestamp": "2026-10-01T00:01:00",
+          "confidence": null,
+          "relationships": []
+        },
+        {
+          "memory_id": "M6466EE49B58B4847B382477E974513F0",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "canonical_value": "We migrated the Maple capstone backend to PostgreSQL; MySQL is no longer used there.",
+          "status": "confirmed",
+          "source_message_ids": [
+            "SYN103"
+          ],
+          "timestamp": "2026-10-01T00:02:00",
+          "confidence": null,
+          "relationships": [
+            {
+              "relationship_id": "MRD83AC3C55E8341C094AC9355C865DB43",
+              "type": "UPDATE",
+              "target_memory_id": "MBEC0ED33DFE542C4B535451DA6E1FDC1",
+              "evidence_message_ids": [
+                "SYN103",
+                "SYN102"
+              ],
+              "confidence": null
+            }
+          ]
+        },
+        {
+          "memory_id": "M6518994E4DA74DD9A411AABC6D5527FB",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "canonical_value": "In general, I prefer Python for backend projects.",
+          "status": "confirmed",
+          "source_message_ids": [
+            "SYN104"
+          ],
+          "timestamp": "2026-10-01T00:03:00",
+          "confidence": null,
+          "relationships": []
+        },
+        {
+          "memory_id": "MC7DBEB713F5E42A5818E36748A2156F2",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "canonical_value": "For Maple capstone backend work, the course requires Java only; that requirement applies to this capstone project.",
+          "status": "confirmed",
+          "source_message_ids": [
+            "SYN105"
+          ],
+          "timestamp": "2026-10-01T00:04:00",
+          "confidence": null,
+          "relationships": [
+            {
+              "relationship_id": "MRFBF6D67143E94400845B127596D969B4",
+              "type": "CONTEXTUAL_OVERRIDE",
+              "target_memory_id": "M6518994E4DA74DD9A411AABC6D5527FB",
+              "evidence_message_ids": [
+                "SYN105",
+                "SYN104"
+              ],
+              "confidence": null
+            }
+          ]
+        },
+        {
+          "memory_id": "M52B7B0301EBE40929370CC6BCB43ABC3",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "canonical_value": "The current deployment plan for the Maple capstone says the production region is North.",
+          "status": "confirmed",
+          "source_message_ids": [
+            "SYN106"
+          ],
+          "timestamp": "2026-10-01T00:05:00",
+          "confidence": null,
+          "relationships": [
+            {
+              "relationship_id": "MRF34455C53A354B99AD212603E37CFF8E",
+              "type": "CONFLICT",
+              "target_memory_id": "M15D6337E5FCE45FC812A6836FC4289A0",
+              "evidence_message_ids": [
+                "SYN106",
+                "SYN107"
+              ],
+              "confidence": null
+            }
+          ]
+        },
+        {
+          "memory_id": "M15D6337E5FCE45FC812A6836FC4289A0",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "canonical_value": "The signed client brief for the same Maple capstone deployment says the production region is South.",
+          "status": "confirmed",
+          "source_message_ids": [
+            "SYN107"
+          ],
+          "timestamp": "2026-10-01T00:06:00",
+          "confidence": null,
+          "relationships": []
+        },
+        {
+          "memory_id": "M92922A17C3594EC594DB7A286A3A7900",
+          "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+          "canonical_value": "Both deployment documents are still active; I have not established which instruction controls.",
+          "status": "confirmed",
+          "source_message_ids": [
+            "SYN108"
+          ],
+          "timestamp": "2026-10-01T00:07:00",
+          "confidence": null,
+          "relationships": []
+        }
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/experiments",
+      "status_code": 201,
+      "elapsed_ms": 8.876,
+      "body": {
+        "experiment_id": "EXP00F5B0F46F9F4D85873EE185E3B47D4A",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "label": "Isolated Luna engineering smoke only",
+        "status": "CREATED",
+        "test_suite_configuration": {
+          "test_budget": 4,
+          "random_seed": 42,
+          "prompt_template_version": "rule-based-v4",
+          "pipeline_provider": "openrouter",
+          "pipeline_model": "openai/gpt-6-luna",
+          "semantic_review_provider": "openrouter",
+          "semantic_review_model": "openai/gpt-6-luna",
+          "evaluator_provider": "openrouter",
+          "evaluator_model": "openai/gpt-6-luna",
+          "compare_evaluators": false,
+          "auditor_comparison_id": null,
+          "dimensions": [
+            "accuracy",
+            "freshness",
+            "conflict_resolution",
+            "appropriate_use"
+          ],
+          "suite_mode": "behavioural"
+        },
+        "test_suite_metadata": {
+          "test_count": 0,
+          "dimensions": [],
+          "generator_version": null,
+          "generated_at": null,
+          "study_role": null,
+          "diagnostic_source_run_id": null,
+          "method_comparison_id": null,
+          "failure_inventory_fingerprint_sha256": null,
+          "failure_inventory_release_id": null,
+          "failure_inventory_defect_count": null
+        },
+        "test_suite_source_run_id": null,
+        "created_at": "2026-10-13T09:19:43.343869",
+        "completed_at": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/audits",
+      "status_code": 201,
+      "elapsed_ms": 57.89,
+      "body": {
+        "run_id": "RUN3ACE3BE36B8B46C1A1E2541807F8C9A6",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "experiment_id": "EXP00F5B0F46F9F4D85873EE185E3B47D4A",
+        "status": "CREATED",
+        "target_configuration": "strong",
+        "provider": "openrouter",
+        "model": "openai/gpt-6-luna",
+        "temperature": 0.0,
+        "random_seed": 42,
+        "test_budget": 4,
+        "prompt_template_version": "rule-based-v4",
+        "pipeline_provider": "openrouter",
+        "pipeline_model": "openai/gpt-6-luna",
+        "semantic_review_provider": "openrouter",
+        "semantic_review_model": "openai/gpt-6-luna",
+        "evaluator_provider": "openrouter",
+        "evaluator_model": "openai/gpt-6-luna",
+        "retrieval_mode": "fixed",
+        "retrieval_provider": null,
+        "retrieval_model": null,
+        "memory_strategy": "weak_first_hit",
+        "memory_maintenance_policy": "append_only",
+        "target_memory_capacity": 50,
+        "target_memory_writer": "rule_based",
+        "target_memory_writer_version": "rule-based-memory-extractor-v23",
+        "target_system_adapter": "controlled-memory",
+        "target_system_adapter_version": "controlled-memory-v2",
+        "reproducibility": {
+          "schema_version": "reproducibility-v1",
+          "extraction_provenance": {
+            "status": "completed",
+            "provider": "openrouter",
+            "model": "openai/gpt-6-luna",
+            "version": "memory-extraction-agent-v11",
+            "extracted_at": "2026-10-13T09:19:43.208045+00:00",
+            "candidate_count": 8,
+            "agent_execution_ids": [
+              "AGTCB1CA8FD70934E9FB821F84904EB79B4",
+              "AGTAF36897320E34D90AD3EA65419465EFF",
+              "AGT30D7B2F12E4E4FF6BA8DCDFFB612544D"
+            ],
+            "memory_review": {
+              "version": "independent-memory-review-agent-v2",
+              "status": "failed",
+              "finding_count": 0,
+              "findings": [],
+              "notice": "The independent memory review is unavailable. Review the complete source conversation manually.",
+              "error_diagnostics": {
+                "phase": "provider_completion",
+                "category": "missing_json_content"
+              }
+            },
+            "http_execution": {
+              "version": "pipeline-http-meter-v1",
+              "provider": "openrouter",
+              "model": "openai/gpt-6-luna",
+              "request_attempts": 1,
+              "failed_http_attempts": 0,
+              "status": "parsed",
+              "reported_input_tokens": 757,
+              "reported_output_tokens": 816,
+              "reported_total_tokens": 1573,
+              "reported_cost_credits": 0.0004837,
+              "reported_model": "openai/gpt-6-luna",
+              "last_http_status": 200,
+              "agent_role": "memory_extraction",
+              "requested_ollama_thinking": null,
+              "requested_output_token_limit": 1800,
+              "prompt_template_version": "memory-extraction-agent-v11",
+              "prompt_fingerprint": "d5fa25d4e8f5a83e5ac9dcb4972f2f96436b5a50a6c3a4a5914d1e947a9e8957",
+              "input_fingerprint": "8471d5bbd1da56c0125e8f6eb73042dceb54e40e5d861ba8e74bd99d1542c447",
+              "output_fingerprint": "54a4ecd869dccdc91f484054bfcaec704c6ef54400bdc91dec7ced97145f7007",
+              "error_code": null,
+              "scope": "Last successful HTTP reply only; failed-attempt usage unknown. Elapsed time includes retry waits and parsing.",
+              "sampling_control": "model_default",
+              "sent_temperature": null,
+              "reported_finish_reason": "stop",
+              "elapsed_ms": 8525.27
+            }
+          },
+          "auditor_method": "hybrid",
+          "auditor_comparison_id": null,
+          "audit_runtime_signature": {
+            "source_sha256": "514ee990fbe8de6a87a9f5c7c4d77f61118d3188fa8bd521812508dee9563b70",
+            "evaluator": "rule-based-v60",
+            "writer": "rule-based-memory-extractor-v23",
+            "adapter": "controlled-memory-v3",
+            "protocol": "audit-runtime-v1",
+            "generator": "rule-based-v26"
+          },
+          "configuration_fingerprint": "5074b378eb72266dcbde8370c850b5f5c67274afb5751e4c41409a09923303d8",
+          "prompt_template_fingerprint": "b64809925f0f86c223493c44e057e71c2b83ec335e892f6c7eab1273e8cd4e37",
+          "target_memory_writer_version": "rule-based-memory-extractor-v23",
+          "target_memory_writer": "rule_based",
+          "target_system_adapter": "controlled-memory",
+          "target_system_adapter_version": "controlled-memory-v2",
+          "intervention": null,
+          "diagnostic_source_run_id": null,
+          "diagnosis_note": null,
+          "study_role": null,
+          "validation_split": null,
+          "human_validation": null,
+          "memory_policy_version": "target-memory-policy-v9",
+          "target_memory_profile": {
+            "label": "Original configuration",
+            "version": 1,
+            "max_retrieved_records": 50,
+            "context_character_budget": 16000,
+            "isolate_project_scope": false,
+            "prefer_current_state": false,
+            "additional_instructions": "",
+            "output_token_limit": 512
+          },
+          "seed_control": {
+            "target": "recorded_only",
+            "pipeline": "recorded_only",
+            "semantic_review": "recorded_only",
+            "evaluator": "recorded_only",
+            "retrieval_agent": "deterministic_local"
+          },
+          "target_retry_policy": {
+            "max_attempts": 3,
+            "timeout_seconds": 60.0,
+            "retryable_status_codes": [
+              408,
+              409,
+              425,
+              429,
+              500,
+              502,
+              503,
+              504
+            ]
+          },
+          "assessment_source_run_id": null,
+          "assessment_input_signature": null,
+          "assessment_copy_signature": null,
+          "comparison_source_run_id": null,
+          "comparison_input_signature": null,
+          "generator_comparison_id": null,
+          "generation_observations": [],
+          "shared_answer_source_run_id": null,
+          "execution_budget": {
+            "max_target_calls": 100,
+            "max_execution_seconds": 300
+          }
+        },
+        "target_memory_profile": {
+          "label": "Original configuration",
+          "version": 1,
+          "max_retrieved_records": 50,
+          "context_character_budget": 16000,
+          "isolate_project_scope": false,
+          "prefer_current_state": false,
+          "additional_instructions": "",
+          "output_token_limit": 512
+        },
+        "created_at": "2026-10-13T09:19:43.400181",
+        "completed_at": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/audits",
+      "status_code": 201,
+      "elapsed_ms": 75.752,
+      "body": {
+        "run_id": "RUN554A3B93F6F746CA8CE42C179BDD34D8",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "experiment_id": "EXP00F5B0F46F9F4D85873EE185E3B47D4A",
+        "status": "CREATED",
+        "target_configuration": "strong",
+        "provider": "openrouter",
+        "model": "openai/gpt-6-luna",
+        "temperature": 0.0,
+        "random_seed": 42,
+        "test_budget": 4,
+        "prompt_template_version": "rule-based-v4",
+        "pipeline_provider": "openrouter",
+        "pipeline_model": "openai/gpt-6-luna",
+        "semantic_review_provider": "openrouter",
+        "semantic_review_model": "openai/gpt-6-luna",
+        "evaluator_provider": "openrouter",
+        "evaluator_model": "openai/gpt-6-luna",
+        "retrieval_mode": "fixed",
+        "retrieval_provider": null,
+        "retrieval_model": null,
+        "memory_strategy": "strong_rule_based",
+        "memory_maintenance_policy": "append_only",
+        "target_memory_capacity": 50,
+        "target_memory_writer": "rule_based",
+        "target_memory_writer_version": "rule-based-memory-extractor-v23",
+        "target_system_adapter": "controlled-memory",
+        "target_system_adapter_version": "controlled-memory-v2",
+        "reproducibility": {
+          "schema_version": "reproducibility-v1",
+          "extraction_provenance": {
+            "status": "completed",
+            "provider": "openrouter",
+            "model": "openai/gpt-6-luna",
+            "version": "memory-extraction-agent-v11",
+            "extracted_at": "2026-10-13T09:19:43.208045+00:00",
+            "candidate_count": 8,
+            "agent_execution_ids": [
+              "AGTCB1CA8FD70934E9FB821F84904EB79B4",
+              "AGTAF36897320E34D90AD3EA65419465EFF",
+              "AGT30D7B2F12E4E4FF6BA8DCDFFB612544D"
+            ],
+            "memory_review": {
+              "version": "independent-memory-review-agent-v2",
+              "status": "failed",
+              "finding_count": 0,
+              "findings": [],
+              "notice": "The independent memory review is unavailable. Review the complete source conversation manually.",
+              "error_diagnostics": {
+                "phase": "provider_completion",
+                "category": "missing_json_content"
+              }
+            },
+            "http_execution": {
+              "version": "pipeline-http-meter-v1",
+              "provider": "openrouter",
+              "model": "openai/gpt-6-luna",
+              "request_attempts": 1,
+              "failed_http_attempts": 0,
+              "status": "parsed",
+              "reported_input_tokens": 757,
+              "reported_output_tokens": 816,
+              "reported_total_tokens": 1573,
+              "reported_cost_credits": 0.0004837,
+              "reported_model": "openai/gpt-6-luna",
+              "last_http_status": 200,
+              "agent_role": "memory_extraction",
+              "requested_ollama_thinking": null,
+              "requested_output_token_limit": 1800,
+              "prompt_template_version": "memory-extraction-agent-v11",
+              "prompt_fingerprint": "d5fa25d4e8f5a83e5ac9dcb4972f2f96436b5a50a6c3a4a5914d1e947a9e8957",
+              "input_fingerprint": "8471d5bbd1da56c0125e8f6eb73042dceb54e40e5d861ba8e74bd99d1542c447",
+              "output_fingerprint": "54a4ecd869dccdc91f484054bfcaec704c6ef54400bdc91dec7ced97145f7007",
+              "error_code": null,
+              "scope": "Last successful HTTP reply only; failed-attempt usage unknown. Elapsed time includes retry waits and parsing.",
+              "sampling_control": "model_default",
+              "sent_temperature": null,
+              "reported_finish_reason": "stop",
+              "elapsed_ms": 8525.27
+            }
+          },
+          "auditor_method": "hybrid",
+          "auditor_comparison_id": null,
+          "audit_runtime_signature": {
+            "source_sha256": "514ee990fbe8de6a87a9f5c7c4d77f61118d3188fa8bd521812508dee9563b70",
+            "evaluator": "rule-based-v60",
+            "writer": "rule-based-memory-extractor-v23",
+            "adapter": "controlled-memory-v3",
+            "protocol": "audit-runtime-v1",
+            "generator": "rule-based-v26"
+          },
+          "configuration_fingerprint": "228e1342dd0d17158195480af7760a0ee6b07677bb1bb9ecb41bea3f88b3e743",
+          "prompt_template_fingerprint": "b64809925f0f86c223493c44e057e71c2b83ec335e892f6c7eab1273e8cd4e37",
+          "target_memory_writer_version": "rule-based-memory-extractor-v23",
+          "target_memory_writer": "rule_based",
+          "target_system_adapter": "controlled-memory",
+          "target_system_adapter_version": "controlled-memory-v2",
+          "intervention": null,
+          "diagnostic_source_run_id": null,
+          "diagnosis_note": null,
+          "study_role": null,
+          "validation_split": null,
+          "human_validation": null,
+          "memory_policy_version": "target-memory-policy-v9",
+          "target_memory_profile": {
+            "label": "Original configuration",
+            "version": 1,
+            "max_retrieved_records": 50,
+            "context_character_budget": 16000,
+            "isolate_project_scope": false,
+            "prefer_current_state": false,
+            "additional_instructions": "",
+            "output_token_limit": 512
+          },
+          "seed_control": {
+            "target": "recorded_only",
+            "pipeline": "recorded_only",
+            "semantic_review": "recorded_only",
+            "evaluator": "recorded_only",
+            "retrieval_agent": "deterministic_local"
+          },
+          "target_retry_policy": {
+            "max_attempts": 3,
+            "timeout_seconds": 60.0,
+            "retryable_status_codes": [
+              408,
+              409,
+              425,
+              429,
+              500,
+              502,
+              503,
+              504
+            ]
+          },
+          "assessment_source_run_id": null,
+          "assessment_input_signature": null,
+          "assessment_copy_signature": null,
+          "comparison_source_run_id": null,
+          "comparison_input_signature": null,
+          "generator_comparison_id": null,
+          "generation_observations": [],
+          "shared_answer_source_run_id": null,
+          "execution_budget": {
+            "max_target_calls": 100,
+            "max_execution_seconds": 300
+          }
+        },
+        "target_memory_profile": {
+          "label": "Original configuration",
+          "version": 1,
+          "max_retrieved_records": 50,
+          "context_character_budget": 16000,
+          "isolate_project_scope": false,
+          "prefer_current_state": false,
+          "additional_instructions": "",
+          "output_token_limit": 512
+        },
+        "created_at": "2026-10-13T09:19:43.479011",
+        "completed_at": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/audits",
+      "status_code": 201,
+      "elapsed_ms": 59.391,
+      "body": {
+        "run_id": "RUN08883F6A2E574438A4B5075A86CA0C6D",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "experiment_id": "EXP00F5B0F46F9F4D85873EE185E3B47D4A",
+        "status": "CREATED",
+        "target_configuration": "strong",
+        "provider": "openrouter",
+        "model": "openai/gpt-6-luna",
+        "temperature": 0.0,
+        "random_seed": 42,
+        "test_budget": 4,
+        "prompt_template_version": "rule-based-v4",
+        "pipeline_provider": "openrouter",
+        "pipeline_model": "openai/gpt-6-luna",
+        "semantic_review_provider": "openrouter",
+        "semantic_review_model": "openai/gpt-6-luna",
+        "evaluator_provider": "openrouter",
+        "evaluator_model": "openai/gpt-6-luna",
+        "retrieval_mode": "fixed",
+        "retrieval_provider": null,
+        "retrieval_model": null,
+        "memory_strategy": "weak_first_hit",
+        "memory_maintenance_policy": "append_only",
+        "target_memory_capacity": 50,
+        "target_memory_writer": "rule_based",
+        "target_memory_writer_version": "rule-based-memory-extractor-v23",
+        "target_system_adapter": "controlled-memory",
+        "target_system_adapter_version": "controlled-memory-v2",
+        "reproducibility": {
+          "schema_version": "reproducibility-v1",
+          "extraction_provenance": {
+            "status": "completed",
+            "provider": "openrouter",
+            "model": "openai/gpt-6-luna",
+            "version": "memory-extraction-agent-v11",
+            "extracted_at": "2026-10-13T09:19:43.208045+00:00",
+            "candidate_count": 8,
+            "agent_execution_ids": [
+              "AGTCB1CA8FD70934E9FB821F84904EB79B4",
+              "AGTAF36897320E34D90AD3EA65419465EFF",
+              "AGT30D7B2F12E4E4FF6BA8DCDFFB612544D"
+            ],
+            "memory_review": {
+              "version": "independent-memory-review-agent-v2",
+              "status": "failed",
+              "finding_count": 0,
+              "findings": [],
+              "notice": "The independent memory review is unavailable. Review the complete source conversation manually.",
+              "error_diagnostics": {
+                "phase": "provider_completion",
+                "category": "missing_json_content"
+              }
+            },
+            "http_execution": {
+              "version": "pipeline-http-meter-v1",
+              "provider": "openrouter",
+              "model": "openai/gpt-6-luna",
+              "request_attempts": 1,
+              "failed_http_attempts": 0,
+              "status": "parsed",
+              "reported_input_tokens": 757,
+              "reported_output_tokens": 816,
+              "reported_total_tokens": 1573,
+              "reported_cost_credits": 0.0004837,
+              "reported_model": "openai/gpt-6-luna",
+              "last_http_status": 200,
+              "agent_role": "memory_extraction",
+              "requested_ollama_thinking": null,
+              "requested_output_token_limit": 1800,
+              "prompt_template_version": "memory-extraction-agent-v11",
+              "prompt_fingerprint": "d5fa25d4e8f5a83e5ac9dcb4972f2f96436b5a50a6c3a4a5914d1e947a9e8957",
+              "input_fingerprint": "8471d5bbd1da56c0125e8f6eb73042dceb54e40e5d861ba8e74bd99d1542c447",
+              "output_fingerprint": "54a4ecd869dccdc91f484054bfcaec704c6ef54400bdc91dec7ced97145f7007",
+              "error_code": null,
+              "scope": "Last successful HTTP reply only; failed-attempt usage unknown. Elapsed time includes retry waits and parsing.",
+              "sampling_control": "model_default",
+              "sent_temperature": null,
+              "reported_finish_reason": "stop",
+              "elapsed_ms": 8525.27
+            }
+          },
+          "auditor_method": "hybrid",
+          "auditor_comparison_id": null,
+          "audit_runtime_signature": {
+            "source_sha256": "514ee990fbe8de6a87a9f5c7c4d77f61118d3188fa8bd521812508dee9563b70",
+            "evaluator": "rule-based-v60",
+            "writer": "rule-based-memory-extractor-v23",
+            "adapter": "controlled-memory-v3",
+            "protocol": "audit-runtime-v1",
+            "generator": "rule-based-v26"
+          },
+          "configuration_fingerprint": "5074b378eb72266dcbde8370c850b5f5c67274afb5751e4c41409a09923303d8",
+          "prompt_template_fingerprint": "b64809925f0f86c223493c44e057e71c2b83ec335e892f6c7eab1273e8cd4e37",
+          "target_memory_writer_version": "rule-based-memory-extractor-v23",
+          "target_memory_writer": "rule_based",
+          "target_system_adapter": "controlled-memory",
+          "target_system_adapter_version": "controlled-memory-v2",
+          "intervention": null,
+          "diagnostic_source_run_id": null,
+          "diagnosis_note": null,
+          "study_role": null,
+          "validation_split": null,
+          "human_validation": null,
+          "memory_policy_version": "target-memory-policy-v9",
+          "target_memory_profile": {
+            "label": "Original configuration",
+            "version": 1,
+            "max_retrieved_records": 50,
+            "context_character_budget": 16000,
+            "isolate_project_scope": false,
+            "prefer_current_state": false,
+            "additional_instructions": "",
+            "output_token_limit": 512
+          },
+          "seed_control": {
+            "target": "recorded_only",
+            "pipeline": "recorded_only",
+            "semantic_review": "recorded_only",
+            "evaluator": "recorded_only",
+            "retrieval_agent": "deterministic_local"
+          },
+          "target_retry_policy": {
+            "max_attempts": 3,
+            "timeout_seconds": 60.0,
+            "retryable_status_codes": [
+              408,
+              409,
+              425,
+              429,
+              500,
+              502,
+              503,
+              504
+            ]
+          },
+          "assessment_source_run_id": null,
+          "assessment_input_signature": null,
+          "assessment_copy_signature": null,
+          "comparison_source_run_id": null,
+          "comparison_input_signature": null,
+          "generator_comparison_id": null,
+          "generation_observations": [],
+          "shared_answer_source_run_id": null,
+          "execution_budget": {
+            "max_target_calls": 100,
+            "max_execution_seconds": 300
+          }
+        },
+        "target_memory_profile": {
+          "label": "Original configuration",
+          "version": 1,
+          "max_retrieved_records": 50,
+          "context_character_budget": 16000,
+          "isolate_project_scope": false,
+          "prefer_current_state": false,
+          "additional_instructions": "",
+          "output_token_limit": 512
+        },
+        "created_at": "2026-10-13T09:19:43.541402",
+        "completed_at": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/audits",
+      "status_code": 201,
+      "elapsed_ms": 34.74,
+      "body": {
+        "run_id": "RUN5EC20A508D89435DBDDD435C2E648FAB",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "experiment_id": "EXP00F5B0F46F9F4D85873EE185E3B47D4A",
+        "status": "CREATED",
+        "target_configuration": "strong",
+        "provider": "openrouter",
+        "model": "openai/gpt-6-luna",
+        "temperature": 0.0,
+        "random_seed": 42,
+        "test_budget": 4,
+        "prompt_template_version": "rule-based-v4",
+        "pipeline_provider": "openrouter",
+        "pipeline_model": "openai/gpt-6-luna",
+        "semantic_review_provider": "openrouter",
+        "semantic_review_model": "openai/gpt-6-luna",
+        "evaluator_provider": "openrouter",
+        "evaluator_model": "openai/gpt-6-luna",
+        "retrieval_mode": "fixed",
+        "retrieval_provider": null,
+        "retrieval_model": null,
+        "memory_strategy": "strong_rule_based",
+        "memory_maintenance_policy": "append_only",
+        "target_memory_capacity": 50,
+        "target_memory_writer": "rule_based",
+        "target_memory_writer_version": "rule-based-memory-extractor-v23",
+        "target_system_adapter": "controlled-memory",
+        "target_system_adapter_version": "controlled-memory-v2",
+        "reproducibility": {
+          "schema_version": "reproducibility-v1",
+          "extraction_provenance": {
+            "status": "completed",
+            "provider": "openrouter",
+            "model": "openai/gpt-6-luna",
+            "version": "memory-extraction-agent-v11",
+            "extracted_at": "2026-10-13T09:19:43.208045+00:00",
+            "candidate_count": 8,
+            "agent_execution_ids": [
+              "AGTCB1CA8FD70934E9FB821F84904EB79B4",
+              "AGTAF36897320E34D90AD3EA65419465EFF",
+              "AGT30D7B2F12E4E4FF6BA8DCDFFB612544D"
+            ],
+            "memory_review": {
+              "version": "independent-memory-review-agent-v2",
+              "status": "failed",
+              "finding_count": 0,
+              "findings": [],
+              "notice": "The independent memory review is unavailable. Review the complete source conversation manually.",
+              "error_diagnostics": {
+                "phase": "provider_completion",
+                "category": "missing_json_content"
+              }
+            },
+            "http_execution": {
+              "version": "pipeline-http-meter-v1",
+              "provider": "openrouter",
+              "model": "openai/gpt-6-luna",
+              "request_attempts": 1,
+              "failed_http_attempts": 0,
+              "status": "parsed",
+              "reported_input_tokens": 757,
+              "reported_output_tokens": 816,
+              "reported_total_tokens": 1573,
+              "reported_cost_credits": 0.0004837,
+              "reported_model": "openai/gpt-6-luna",
+              "last_http_status": 200,
+              "agent_role": "memory_extraction",
+              "requested_ollama_thinking": null,
+              "requested_output_token_limit": 1800,
+              "prompt_template_version": "memory-extraction-agent-v11",
+              "prompt_fingerprint": "d5fa25d4e8f5a83e5ac9dcb4972f2f96436b5a50a6c3a4a5914d1e947a9e8957",
+              "input_fingerprint": "8471d5bbd1da56c0125e8f6eb73042dceb54e40e5d861ba8e74bd99d1542c447",
+              "output_fingerprint": "54a4ecd869dccdc91f484054bfcaec704c6ef54400bdc91dec7ced97145f7007",
+              "error_code": null,
+              "scope": "Last successful HTTP reply only; failed-attempt usage unknown. Elapsed time includes retry waits and parsing.",
+              "sampling_control": "model_default",
+              "sent_temperature": null,
+              "reported_finish_reason": "stop",
+              "elapsed_ms": 8525.27
+            }
+          },
+          "auditor_method": "hybrid",
+          "auditor_comparison_id": null,
+          "audit_runtime_signature": {
+            "source_sha256": "514ee990fbe8de6a87a9f5c7c4d77f61118d3188fa8bd521812508dee9563b70",
+            "evaluator": "rule-based-v60",
+            "writer": "rule-based-memory-extractor-v23",
+            "adapter": "controlled-memory-v3",
+            "protocol": "audit-runtime-v1",
+            "generator": "rule-based-v26"
+          },
+          "configuration_fingerprint": "228e1342dd0d17158195480af7760a0ee6b07677bb1bb9ecb41bea3f88b3e743",
+          "prompt_template_fingerprint": "b64809925f0f86c223493c44e057e71c2b83ec335e892f6c7eab1273e8cd4e37",
+          "target_memory_writer_version": "rule-based-memory-extractor-v23",
+          "target_memory_writer": "rule_based",
+          "target_system_adapter": "controlled-memory",
+          "target_system_adapter_version": "controlled-memory-v2",
+          "intervention": null,
+          "diagnostic_source_run_id": null,
+          "diagnosis_note": null,
+          "study_role": null,
+          "validation_split": null,
+          "human_validation": null,
+          "memory_policy_version": "target-memory-policy-v9",
+          "target_memory_profile": {
+            "label": "Original configuration",
+            "version": 1,
+            "max_retrieved_records": 50,
+            "context_character_budget": 16000,
+            "isolate_project_scope": false,
+            "prefer_current_state": false,
+            "additional_instructions": "",
+            "output_token_limit": 512
+          },
+          "seed_control": {
+            "target": "recorded_only",
+            "pipeline": "recorded_only",
+            "semantic_review": "recorded_only",
+            "evaluator": "recorded_only",
+            "retrieval_agent": "deterministic_local"
+          },
+          "target_retry_policy": {
+            "max_attempts": 3,
+            "timeout_seconds": 60.0,
+            "retryable_status_codes": [
+              408,
+              409,
+              425,
+              429,
+              500,
+              502,
+              503,
+              504
+            ]
+          },
+          "assessment_source_run_id": null,
+          "assessment_input_signature": null,
+          "assessment_copy_signature": null,
+          "comparison_source_run_id": null,
+          "comparison_input_signature": null,
+          "generator_comparison_id": null,
+          "generation_observations": [],
+          "shared_answer_source_run_id": null,
+          "execution_budget": {
+            "max_target_calls": 100,
+            "max_execution_seconds": 300
+          }
+        },
+        "target_memory_profile": {
+          "label": "Original configuration",
+          "version": 1,
+          "max_retrieved_records": 50,
+          "context_character_budget": 16000,
+          "isolate_project_scope": false,
+          "prefer_current_state": false,
+          "additional_instructions": "",
+          "output_token_limit": 512
+        },
+        "created_at": "2026-10-13T09:19:43.577971",
+        "completed_at": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/audits/RUN3ACE3BE36B8B46C1A1E2541807F8C9A6/generate-tests",
+      "status_code": 502,
+      "elapsed_ms": 7675.719,
+      "body": {
+        "detail": "The configured pipeline model returned no usable JSON content."
+      }
+    }
+  ],
+  "runs": [
+    {
+      "strategy": "weak_first_hit",
+      "repetition": 1,
+      "run_id": "RUN3ACE3BE36B8B46C1A1E2541807F8C9A6",
+      "configuration": {
+        "run_id": "RUN3ACE3BE36B8B46C1A1E2541807F8C9A6",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "experiment_id": "EXP00F5B0F46F9F4D85873EE185E3B47D4A",
+        "status": "CREATED",
+        "target_configuration": "strong",
+        "provider": "openrouter",
+        "model": "openai/gpt-6-luna",
+        "temperature": 0.0,
+        "random_seed": 42,
+        "test_budget": 4,
+        "prompt_template_version": "rule-based-v4",
+        "pipeline_provider": "openrouter",
+        "pipeline_model": "openai/gpt-6-luna",
+        "semantic_review_provider": "openrouter",
+        "semantic_review_model": "openai/gpt-6-luna",
+        "evaluator_provider": "openrouter",
+        "evaluator_model": "openai/gpt-6-luna",
+        "retrieval_mode": "fixed",
+        "retrieval_provider": null,
+        "retrieval_model": null,
+        "memory_strategy": "weak_first_hit",
+        "memory_maintenance_policy": "append_only",
+        "target_memory_capacity": 50,
+        "target_memory_writer": "rule_based",
+        "target_memory_writer_version": "rule-based-memory-extractor-v23",
+        "target_system_adapter": "controlled-memory",
+        "target_system_adapter_version": "controlled-memory-v2",
+        "reproducibility": {
+          "schema_version": "reproducibility-v1",
+          "extraction_provenance": {
+            "status": "completed",
+            "provider": "openrouter",
+            "model": "openai/gpt-6-luna",
+            "version": "memory-extraction-agent-v11",
+            "extracted_at": "2026-10-13T09:19:43.208045+00:00",
+            "candidate_count": 8,
+            "agent_execution_ids": [
+              "AGTCB1CA8FD70934E9FB821F84904EB79B4",
+              "AGTAF36897320E34D90AD3EA65419465EFF",
+              "AGT30D7B2F12E4E4FF6BA8DCDFFB612544D"
+            ],
+            "memory_review": {
+              "version": "independent-memory-review-agent-v2",
+              "status": "failed",
+              "finding_count": 0,
+              "findings": [],
+              "notice": "The independent memory review is unavailable. Review the complete source conversation manually.",
+              "error_diagnostics": {
+                "phase": "provider_completion",
+                "category": "missing_json_content"
+              }
+            },
+            "http_execution": {
+              "version": "pipeline-http-meter-v1",
+              "provider": "openrouter",
+              "model": "openai/gpt-6-luna",
+              "request_attempts": 1,
+              "failed_http_attempts": 0,
+              "status": "parsed",
+              "reported_input_tokens": 757,
+              "reported_output_tokens": 816,
+              "reported_total_tokens": 1573,
+              "reported_cost_credits": 0.0004837,
+              "reported_model": "openai/gpt-6-luna",
+              "last_http_status": 200,
+              "agent_role": "memory_extraction",
+              "requested_ollama_thinking": null,
+              "requested_output_token_limit": 1800,
+              "prompt_template_version": "memory-extraction-agent-v11",
+              "prompt_fingerprint": "d5fa25d4e8f5a83e5ac9dcb4972f2f96436b5a50a6c3a4a5914d1e947a9e8957",
+              "input_fingerprint": "8471d5bbd1da56c0125e8f6eb73042dceb54e40e5d861ba8e74bd99d1542c447",
+              "output_fingerprint": "54a4ecd869dccdc91f484054bfcaec704c6ef54400bdc91dec7ced97145f7007",
+              "error_code": null,
+              "scope": "Last successful HTTP reply only; failed-attempt usage unknown. Elapsed time includes retry waits and parsing.",
+              "sampling_control": "model_default",
+              "sent_temperature": null,
+              "reported_finish_reason": "stop",
+              "elapsed_ms": 8525.27
+            }
+          },
+          "auditor_method": "hybrid",
+          "auditor_comparison_id": null,
+          "audit_runtime_signature": {
+            "source_sha256": "514ee990fbe8de6a87a9f5c7c4d77f61118d3188fa8bd521812508dee9563b70",
+            "evaluator": "rule-based-v60",
+            "writer": "rule-based-memory-extractor-v23",
+            "adapter": "controlled-memory-v3",
+            "protocol": "audit-runtime-v1",
+            "generator": "rule-based-v26"
+          },
+          "configuration_fingerprint": "5074b378eb72266dcbde8370c850b5f5c67274afb5751e4c41409a09923303d8",
+          "prompt_template_fingerprint": "b64809925f0f86c223493c44e057e71c2b83ec335e892f6c7eab1273e8cd4e37",
+          "target_memory_writer_version": "rule-based-memory-extractor-v23",
+          "target_memory_writer": "rule_based",
+          "target_system_adapter": "controlled-memory",
+          "target_system_adapter_version": "controlled-memory-v2",
+          "intervention": null,
+          "diagnostic_source_run_id": null,
+          "diagnosis_note": null,
+          "study_role": null,
+          "validation_split": null,
+          "human_validation": null,
+          "memory_policy_version": "target-memory-policy-v9",
+          "target_memory_profile": {
+            "label": "Original configuration",
+            "version": 1,
+            "max_retrieved_records": 50,
+            "context_character_budget": 16000,
+            "isolate_project_scope": false,
+            "prefer_current_state": false,
+            "additional_instructions": "",
+            "output_token_limit": 512
+          },
+          "seed_control": {
+            "target": "recorded_only",
+            "pipeline": "recorded_only",
+            "semantic_review": "recorded_only",
+            "evaluator": "recorded_only",
+            "retrieval_agent": "deterministic_local"
+          },
+          "target_retry_policy": {
+            "max_attempts": 3,
+            "timeout_seconds": 60.0,
+            "retryable_status_codes": [
+              408,
+              409,
+              425,
+              429,
+              500,
+              502,
+              503,
+              504
+            ]
+          },
+          "assessment_source_run_id": null,
+          "assessment_input_signature": null,
+          "assessment_copy_signature": null,
+          "comparison_source_run_id": null,
+          "comparison_input_signature": null,
+          "generator_comparison_id": null,
+          "generation_observations": [],
+          "shared_answer_source_run_id": null,
+          "execution_budget": {
+            "max_target_calls": 100,
+            "max_execution_seconds": 300
+          }
+        },
+        "target_memory_profile": {
+          "label": "Original configuration",
+          "version": 1,
+          "max_retrieved_records": 50,
+          "context_character_budget": 16000,
+          "isolate_project_scope": false,
+          "prefer_current_state": false,
+          "additional_instructions": "",
+          "output_token_limit": 512
+        },
+        "created_at": "2026-10-13T09:19:43.400181",
+        "completed_at": null
+      }
+    },
+    {
+      "strategy": "strong_rule_based",
+      "repetition": 1,
+      "run_id": "RUN554A3B93F6F746CA8CE42C179BDD34D8",
+      "configuration": {
+        "run_id": "RUN554A3B93F6F746CA8CE42C179BDD34D8",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "experiment_id": "EXP00F5B0F46F9F4D85873EE185E3B47D4A",
+        "status": "CREATED",
+        "target_configuration": "strong",
+        "provider": "openrouter",
+        "model": "openai/gpt-6-luna",
+        "temperature": 0.0,
+        "random_seed": 42,
+        "test_budget": 4,
+        "prompt_template_version": "rule-based-v4",
+        "pipeline_provider": "openrouter",
+        "pipeline_model": "openai/gpt-6-luna",
+        "semantic_review_provider": "openrouter",
+        "semantic_review_model": "openai/gpt-6-luna",
+        "evaluator_provider": "openrouter",
+        "evaluator_model": "openai/gpt-6-luna",
+        "retrieval_mode": "fixed",
+        "retrieval_provider": null,
+        "retrieval_model": null,
+        "memory_strategy": "strong_rule_based",
+        "memory_maintenance_policy": "append_only",
+        "target_memory_capacity": 50,
+        "target_memory_writer": "rule_based",
+        "target_memory_writer_version": "rule-based-memory-extractor-v23",
+        "target_system_adapter": "controlled-memory",
+        "target_system_adapter_version": "controlled-memory-v2",
+        "reproducibility": {
+          "schema_version": "reproducibility-v1",
+          "extraction_provenance": {
+            "status": "completed",
+            "provider": "openrouter",
+            "model": "openai/gpt-6-luna",
+            "version": "memory-extraction-agent-v11",
+            "extracted_at": "2026-10-13T09:19:43.208045+00:00",
+            "candidate_count": 8,
+            "agent_execution_ids": [
+              "AGTCB1CA8FD70934E9FB821F84904EB79B4",
+              "AGTAF36897320E34D90AD3EA65419465EFF",
+              "AGT30D7B2F12E4E4FF6BA8DCDFFB612544D"
+            ],
+            "memory_review": {
+              "version": "independent-memory-review-agent-v2",
+              "status": "failed",
+              "finding_count": 0,
+              "findings": [],
+              "notice": "The independent memory review is unavailable. Review the complete source conversation manually.",
+              "error_diagnostics": {
+                "phase": "provider_completion",
+                "category": "missing_json_content"
+              }
+            },
+            "http_execution": {
+              "version": "pipeline-http-meter-v1",
+              "provider": "openrouter",
+              "model": "openai/gpt-6-luna",
+              "request_attempts": 1,
+              "failed_http_attempts": 0,
+              "status": "parsed",
+              "reported_input_tokens": 757,
+              "reported_output_tokens": 816,
+              "reported_total_tokens": 1573,
+              "reported_cost_credits": 0.0004837,
+              "reported_model": "openai/gpt-6-luna",
+              "last_http_status": 200,
+              "agent_role": "memory_extraction",
+              "requested_ollama_thinking": null,
+              "requested_output_token_limit": 1800,
+              "prompt_template_version": "memory-extraction-agent-v11",
+              "prompt_fingerprint": "d5fa25d4e8f5a83e5ac9dcb4972f2f96436b5a50a6c3a4a5914d1e947a9e8957",
+              "input_fingerprint": "8471d5bbd1da56c0125e8f6eb73042dceb54e40e5d861ba8e74bd99d1542c447",
+              "output_fingerprint": "54a4ecd869dccdc91f484054bfcaec704c6ef54400bdc91dec7ced97145f7007",
+              "error_code": null,
+              "scope": "Last successful HTTP reply only; failed-attempt usage unknown. Elapsed time includes retry waits and parsing.",
+              "sampling_control": "model_default",
+              "sent_temperature": null,
+              "reported_finish_reason": "stop",
+              "elapsed_ms": 8525.27
+            }
+          },
+          "auditor_method": "hybrid",
+          "auditor_comparison_id": null,
+          "audit_runtime_signature": {
+            "source_sha256": "514ee990fbe8de6a87a9f5c7c4d77f61118d3188fa8bd521812508dee9563b70",
+            "evaluator": "rule-based-v60",
+            "writer": "rule-based-memory-extractor-v23",
+            "adapter": "controlled-memory-v3",
+            "protocol": "audit-runtime-v1",
+            "generator": "rule-based-v26"
+          },
+          "configuration_fingerprint": "228e1342dd0d17158195480af7760a0ee6b07677bb1bb9ecb41bea3f88b3e743",
+          "prompt_template_fingerprint": "b64809925f0f86c223493c44e057e71c2b83ec335e892f6c7eab1273e8cd4e37",
+          "target_memory_writer_version": "rule-based-memory-extractor-v23",
+          "target_memory_writer": "rule_based",
+          "target_system_adapter": "controlled-memory",
+          "target_system_adapter_version": "controlled-memory-v2",
+          "intervention": null,
+          "diagnostic_source_run_id": null,
+          "diagnosis_note": null,
+          "study_role": null,
+          "validation_split": null,
+          "human_validation": null,
+          "memory_policy_version": "target-memory-policy-v9",
+          "target_memory_profile": {
+            "label": "Original configuration",
+            "version": 1,
+            "max_retrieved_records": 50,
+            "context_character_budget": 16000,
+            "isolate_project_scope": false,
+            "prefer_current_state": false,
+            "additional_instructions": "",
+            "output_token_limit": 512
+          },
+          "seed_control": {
+            "target": "recorded_only",
+            "pipeline": "recorded_only",
+            "semantic_review": "recorded_only",
+            "evaluator": "recorded_only",
+            "retrieval_agent": "deterministic_local"
+          },
+          "target_retry_policy": {
+            "max_attempts": 3,
+            "timeout_seconds": 60.0,
+            "retryable_status_codes": [
+              408,
+              409,
+              425,
+              429,
+              500,
+              502,
+              503,
+              504
+            ]
+          },
+          "assessment_source_run_id": null,
+          "assessment_input_signature": null,
+          "assessment_copy_signature": null,
+          "comparison_source_run_id": null,
+          "comparison_input_signature": null,
+          "generator_comparison_id": null,
+          "generation_observations": [],
+          "shared_answer_source_run_id": null,
+          "execution_budget": {
+            "max_target_calls": 100,
+            "max_execution_seconds": 300
+          }
+        },
+        "target_memory_profile": {
+          "label": "Original configuration",
+          "version": 1,
+          "max_retrieved_records": 50,
+          "context_character_budget": 16000,
+          "isolate_project_scope": false,
+          "prefer_current_state": false,
+          "additional_instructions": "",
+          "output_token_limit": 512
+        },
+        "created_at": "2026-10-13T09:19:43.479011",
+        "completed_at": null
+      }
+    },
+    {
+      "strategy": "weak_first_hit",
+      "repetition": 2,
+      "run_id": "RUN08883F6A2E574438A4B5075A86CA0C6D",
+      "configuration": {
+        "run_id": "RUN08883F6A2E574438A4B5075A86CA0C6D",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "experiment_id": "EXP00F5B0F46F9F4D85873EE185E3B47D4A",
+        "status": "CREATED",
+        "target_configuration": "strong",
+        "provider": "openrouter",
+        "model": "openai/gpt-6-luna",
+        "temperature": 0.0,
+        "random_seed": 42,
+        "test_budget": 4,
+        "prompt_template_version": "rule-based-v4",
+        "pipeline_provider": "openrouter",
+        "pipeline_model": "openai/gpt-6-luna",
+        "semantic_review_provider": "openrouter",
+        "semantic_review_model": "openai/gpt-6-luna",
+        "evaluator_provider": "openrouter",
+        "evaluator_model": "openai/gpt-6-luna",
+        "retrieval_mode": "fixed",
+        "retrieval_provider": null,
+        "retrieval_model": null,
+        "memory_strategy": "weak_first_hit",
+        "memory_maintenance_policy": "append_only",
+        "target_memory_capacity": 50,
+        "target_memory_writer": "rule_based",
+        "target_memory_writer_version": "rule-based-memory-extractor-v23",
+        "target_system_adapter": "controlled-memory",
+        "target_system_adapter_version": "controlled-memory-v2",
+        "reproducibility": {
+          "schema_version": "reproducibility-v1",
+          "extraction_provenance": {
+            "status": "completed",
+            "provider": "openrouter",
+            "model": "openai/gpt-6-luna",
+            "version": "memory-extraction-agent-v11",
+            "extracted_at": "2026-10-13T09:19:43.208045+00:00",
+            "candidate_count": 8,
+            "agent_execution_ids": [
+              "AGTCB1CA8FD70934E9FB821F84904EB79B4",
+              "AGTAF36897320E34D90AD3EA65419465EFF",
+              "AGT30D7B2F12E4E4FF6BA8DCDFFB612544D"
+            ],
+            "memory_review": {
+              "version": "independent-memory-review-agent-v2",
+              "status": "failed",
+              "finding_count": 0,
+              "findings": [],
+              "notice": "The independent memory review is unavailable. Review the complete source conversation manually.",
+              "error_diagnostics": {
+                "phase": "provider_completion",
+                "category": "missing_json_content"
+              }
+            },
+            "http_execution": {
+              "version": "pipeline-http-meter-v1",
+              "provider": "openrouter",
+              "model": "openai/gpt-6-luna",
+              "request_attempts": 1,
+              "failed_http_attempts": 0,
+              "status": "parsed",
+              "reported_input_tokens": 757,
+              "reported_output_tokens": 816,
+              "reported_total_tokens": 1573,
+              "reported_cost_credits": 0.0004837,
+              "reported_model": "openai/gpt-6-luna",
+              "last_http_status": 200,
+              "agent_role": "memory_extraction",
+              "requested_ollama_thinking": null,
+              "requested_output_token_limit": 1800,
+              "prompt_template_version": "memory-extraction-agent-v11",
+              "prompt_fingerprint": "d5fa25d4e8f5a83e5ac9dcb4972f2f96436b5a50a6c3a4a5914d1e947a9e8957",
+              "input_fingerprint": "8471d5bbd1da56c0125e8f6eb73042dceb54e40e5d861ba8e74bd99d1542c447",
+              "output_fingerprint": "54a4ecd869dccdc91f484054bfcaec704c6ef54400bdc91dec7ced97145f7007",
+              "error_code": null,
+              "scope": "Last successful HTTP reply only; failed-attempt usage unknown. Elapsed time includes retry waits and parsing.",
+              "sampling_control": "model_default",
+              "sent_temperature": null,
+              "reported_finish_reason": "stop",
+              "elapsed_ms": 8525.27
+            }
+          },
+          "auditor_method": "hybrid",
+          "auditor_comparison_id": null,
+          "audit_runtime_signature": {
+            "source_sha256": "514ee990fbe8de6a87a9f5c7c4d77f61118d3188fa8bd521812508dee9563b70",
+            "evaluator": "rule-based-v60",
+            "writer": "rule-based-memory-extractor-v23",
+            "adapter": "controlled-memory-v3",
+            "protocol": "audit-runtime-v1",
+            "generator": "rule-based-v26"
+          },
+          "configuration_fingerprint": "5074b378eb72266dcbde8370c850b5f5c67274afb5751e4c41409a09923303d8",
+          "prompt_template_fingerprint": "b64809925f0f86c223493c44e057e71c2b83ec335e892f6c7eab1273e8cd4e37",
+          "target_memory_writer_version": "rule-based-memory-extractor-v23",
+          "target_memory_writer": "rule_based",
+          "target_system_adapter": "controlled-memory",
+          "target_system_adapter_version": "controlled-memory-v2",
+          "intervention": null,
+          "diagnostic_source_run_id": null,
+          "diagnosis_note": null,
+          "study_role": null,
+          "validation_split": null,
+          "human_validation": null,
+          "memory_policy_version": "target-memory-policy-v9",
+          "target_memory_profile": {
+            "label": "Original configuration",
+            "version": 1,
+            "max_retrieved_records": 50,
+            "context_character_budget": 16000,
+            "isolate_project_scope": false,
+            "prefer_current_state": false,
+            "additional_instructions": "",
+            "output_token_limit": 512
+          },
+          "seed_control": {
+            "target": "recorded_only",
+            "pipeline": "recorded_only",
+            "semantic_review": "recorded_only",
+            "evaluator": "recorded_only",
+            "retrieval_agent": "deterministic_local"
+          },
+          "target_retry_policy": {
+            "max_attempts": 3,
+            "timeout_seconds": 60.0,
+            "retryable_status_codes": [
+              408,
+              409,
+              425,
+              429,
+              500,
+              502,
+              503,
+              504
+            ]
+          },
+          "assessment_source_run_id": null,
+          "assessment_input_signature": null,
+          "assessment_copy_signature": null,
+          "comparison_source_run_id": null,
+          "comparison_input_signature": null,
+          "generator_comparison_id": null,
+          "generation_observations": [],
+          "shared_answer_source_run_id": null,
+          "execution_budget": {
+            "max_target_calls": 100,
+            "max_execution_seconds": 300
+          }
+        },
+        "target_memory_profile": {
+          "label": "Original configuration",
+          "version": 1,
+          "max_retrieved_records": 50,
+          "context_character_budget": 16000,
+          "isolate_project_scope": false,
+          "prefer_current_state": false,
+          "additional_instructions": "",
+          "output_token_limit": 512
+        },
+        "created_at": "2026-10-13T09:19:43.541402",
+        "completed_at": null
+      }
+    },
+    {
+      "strategy": "strong_rule_based",
+      "repetition": 2,
+      "run_id": "RUN5EC20A508D89435DBDDD435C2E648FAB",
+      "configuration": {
+        "run_id": "RUN5EC20A508D89435DBDDD435C2E648FAB",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "experiment_id": "EXP00F5B0F46F9F4D85873EE185E3B47D4A",
+        "status": "CREATED",
+        "target_configuration": "strong",
+        "provider": "openrouter",
+        "model": "openai/gpt-6-luna",
+        "temperature": 0.0,
+        "random_seed": 42,
+        "test_budget": 4,
+        "prompt_template_version": "rule-based-v4",
+        "pipeline_provider": "openrouter",
+        "pipeline_model": "openai/gpt-6-luna",
+        "semantic_review_provider": "openrouter",
+        "semantic_review_model": "openai/gpt-6-luna",
+        "evaluator_provider": "openrouter",
+        "evaluator_model": "openai/gpt-6-luna",
+        "retrieval_mode": "fixed",
+        "retrieval_provider": null,
+        "retrieval_model": null,
+        "memory_strategy": "strong_rule_based",
+        "memory_maintenance_policy": "append_only",
+        "target_memory_capacity": 50,
+        "target_memory_writer": "rule_based",
+        "target_memory_writer_version": "rule-based-memory-extractor-v23",
+        "target_system_adapter": "controlled-memory",
+        "target_system_adapter_version": "controlled-memory-v2",
+        "reproducibility": {
+          "schema_version": "reproducibility-v1",
+          "extraction_provenance": {
+            "status": "completed",
+            "provider": "openrouter",
+            "model": "openai/gpt-6-luna",
+            "version": "memory-extraction-agent-v11",
+            "extracted_at": "2026-10-13T09:19:43.208045+00:00",
+            "candidate_count": 8,
+            "agent_execution_ids": [
+              "AGTCB1CA8FD70934E9FB821F84904EB79B4",
+              "AGTAF36897320E34D90AD3EA65419465EFF",
+              "AGT30D7B2F12E4E4FF6BA8DCDFFB612544D"
+            ],
+            "memory_review": {
+              "version": "independent-memory-review-agent-v2",
+              "status": "failed",
+              "finding_count": 0,
+              "findings": [],
+              "notice": "The independent memory review is unavailable. Review the complete source conversation manually.",
+              "error_diagnostics": {
+                "phase": "provider_completion",
+                "category": "missing_json_content"
+              }
+            },
+            "http_execution": {
+              "version": "pipeline-http-meter-v1",
+              "provider": "openrouter",
+              "model": "openai/gpt-6-luna",
+              "request_attempts": 1,
+              "failed_http_attempts": 0,
+              "status": "parsed",
+              "reported_input_tokens": 757,
+              "reported_output_tokens": 816,
+              "reported_total_tokens": 1573,
+              "reported_cost_credits": 0.0004837,
+              "reported_model": "openai/gpt-6-luna",
+              "last_http_status": 200,
+              "agent_role": "memory_extraction",
+              "requested_ollama_thinking": null,
+              "requested_output_token_limit": 1800,
+              "prompt_template_version": "memory-extraction-agent-v11",
+              "prompt_fingerprint": "d5fa25d4e8f5a83e5ac9dcb4972f2f96436b5a50a6c3a4a5914d1e947a9e8957",
+              "input_fingerprint": "8471d5bbd1da56c0125e8f6eb73042dceb54e40e5d861ba8e74bd99d1542c447",
+              "output_fingerprint": "54a4ecd869dccdc91f484054bfcaec704c6ef54400bdc91dec7ced97145f7007",
+              "error_code": null,
+              "scope": "Last successful HTTP reply only; failed-attempt usage unknown. Elapsed time includes retry waits and parsing.",
+              "sampling_control": "model_default",
+              "sent_temperature": null,
+              "reported_finish_reason": "stop",
+              "elapsed_ms": 8525.27
+            }
+          },
+          "auditor_method": "hybrid",
+          "auditor_comparison_id": null,
+          "audit_runtime_signature": {
+            "source_sha256": "514ee990fbe8de6a87a9f5c7c4d77f61118d3188fa8bd521812508dee9563b70",
+            "evaluator": "rule-based-v60",
+            "writer": "rule-based-memory-extractor-v23",
+            "adapter": "controlled-memory-v3",
+            "protocol": "audit-runtime-v1",
+            "generator": "rule-based-v26"
+          },
+          "configuration_fingerprint": "228e1342dd0d17158195480af7760a0ee6b07677bb1bb9ecb41bea3f88b3e743",
+          "prompt_template_fingerprint": "b64809925f0f86c223493c44e057e71c2b83ec335e892f6c7eab1273e8cd4e37",
+          "target_memory_writer_version": "rule-based-memory-extractor-v23",
+          "target_memory_writer": "rule_based",
+          "target_system_adapter": "controlled-memory",
+          "target_system_adapter_version": "controlled-memory-v2",
+          "intervention": null,
+          "diagnostic_source_run_id": null,
+          "diagnosis_note": null,
+          "study_role": null,
+          "validation_split": null,
+          "human_validation": null,
+          "memory_policy_version": "target-memory-policy-v9",
+          "target_memory_profile": {
+            "label": "Original configuration",
+            "version": 1,
+            "max_retrieved_records": 50,
+            "context_character_budget": 16000,
+            "isolate_project_scope": false,
+            "prefer_current_state": false,
+            "additional_instructions": "",
+            "output_token_limit": 512
+          },
+          "seed_control": {
+            "target": "recorded_only",
+            "pipeline": "recorded_only",
+            "semantic_review": "recorded_only",
+            "evaluator": "recorded_only",
+            "retrieval_agent": "deterministic_local"
+          },
+          "target_retry_policy": {
+            "max_attempts": 3,
+            "timeout_seconds": 60.0,
+            "retryable_status_codes": [
+              408,
+              409,
+              425,
+              429,
+              500,
+              502,
+              503,
+              504
+            ]
+          },
+          "assessment_source_run_id": null,
+          "assessment_input_signature": null,
+          "assessment_copy_signature": null,
+          "comparison_source_run_id": null,
+          "comparison_input_signature": null,
+          "generator_comparison_id": null,
+          "generation_observations": [],
+          "shared_answer_source_run_id": null,
+          "execution_budget": {
+            "max_target_calls": 100,
+            "max_execution_seconds": 300
+          }
+        },
+        "target_memory_profile": {
+          "label": "Original configuration",
+          "version": 1,
+          "max_retrieved_records": 50,
+          "context_character_budget": 16000,
+          "isolate_project_scope": false,
+          "prefer_current_state": false,
+          "additional_instructions": "",
+          "output_token_limit": 512
+        },
+        "created_at": "2026-10-13T09:19:43.577971",
+        "completed_at": null
+      }
+    }
+  ],
+  "runtime_signature": {
+    "source_sha256": "514ee990fbe8de6a87a9f5c7c4d77f61118d3188fa8bd521812508dee9563b70",
+    "evaluator": "rule-based-v60",
+    "writer": "rule-based-memory-extractor-v23",
+    "adapter": "controlled-memory-v3",
+    "protocol": "audit-runtime-v1",
+    "generator": "rule-based-v26"
+  },
+  "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+  "extracted_candidates": [
+    {
+      "memory_id": "M672C9E9997534789AC9BD04E214DA63A",
+      "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+      "canonical_value": "The user lives in Adelaide.",
+      "status": "candidate",
+      "source_message_ids": [
+        "SYN101"
+      ],
+      "timestamp": "2026-10-01T00:00:00",
+      "confidence": 0.99,
+      "relationships": []
+    },
+    {
+      "memory_id": "M7024CE8922394537BB301465526F5D46",
+      "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+      "canonical_value": "The Maple capstone backend previously used MySQL.",
+      "status": "candidate",
+      "source_message_ids": [
+        "SYN102"
+      ],
+      "timestamp": "2026-10-01T00:01:00",
+      "confidence": 0.99,
+      "relationships": []
+    },
+    {
+      "memory_id": "M56BA36D3494F45F1B30EA4A610704278",
+      "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+      "canonical_value": "The Maple capstone backend has been migrated to PostgreSQL; MySQL is no longer used there.",
+      "status": "candidate",
+      "source_message_ids": [
+        "SYN103"
+      ],
+      "timestamp": "2026-10-01T00:02:00",
+      "confidence": 0.99,
+      "relationships": []
+    },
+    {
+      "memory_id": "M283AC0B139D04D98B403B5C1DF3C8BEA",
+      "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+      "canonical_value": "In general, the user prefers Python for backend projects.",
+      "status": "candidate",
+      "source_message_ids": [
+        "SYN104"
+      ],
+      "timestamp": "2026-10-01T00:03:00",
+      "confidence": 0.99,
+      "relationships": []
+    },
+    {
+      "memory_id": "M14554DA803554257AE00F13D0E6922A9",
+      "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+      "canonical_value": "For Maple capstone backend work, the course requires Java only; this requirement applies to this capstone project.",
+      "status": "candidate",
+      "source_message_ids": [
+        "SYN105"
+      ],
+      "timestamp": "2026-10-01T00:04:00",
+      "confidence": 0.99,
+      "relationships": []
+    },
+    {
+      "memory_id": "M9038F2F03E354327B42F38E7C28351F7",
+      "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+      "canonical_value": "The current deployment plan for the Maple capstone specifies North as the production region.",
+      "status": "candidate",
+      "source_message_ids": [
+        "SYN106"
+      ],
+      "timestamp": "2026-10-01T00:05:00",
+      "confidence": 0.99,
+      "relationships": []
+    },
+    {
+      "memory_id": "M88044F190ABF438FB986EE49C055DDA7",
+      "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+      "canonical_value": "The signed client brief for the Maple capstone deployment specifies South as the production region.",
+      "status": "candidate",
+      "source_message_ids": [
+        "SYN107"
+      ],
+      "timestamp": "2026-10-01T00:06:00",
+      "confidence": 0.99,
+      "relationships": []
+    },
+    {
+      "memory_id": "M4C22293C8DB144EABC56F1C0C5262FE4",
+      "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+      "canonical_value": "Both Maple capstone deployment documents remain active, and the user has not established which instruction controls.",
+      "status": "candidate",
+      "source_message_ids": [
+        "SYN108"
+      ],
+      "timestamp": "2026-10-01T00:07:00",
+      "confidence": 0.99,
+      "relationships": []
+    }
+  ],
+  "extraction_agents": [
+    {
+      "execution_id": "AGTCB1CA8FD70934E9FB821F84904EB79B4",
+      "role": "memory_extraction",
+      "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+      "run_id": null,
+      "provider": "openrouter",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "prompt_template_version": "memory-extraction-agent-v11",
+      "prompt_fingerprint": "d5fa25d4e8f5a83e5ac9dcb4972f2f96436b5a50a6c3a4a5914d1e947a9e8957",
+      "input_fingerprint": "8471d5bbd1da56c0125e8f6eb73042dceb54e40e5d861ba8e74bd99d1542c447",
+      "input_refs": {
+        "message_ids": [
+          "SYN101",
+          "SYN102",
+          "SYN103",
+          "SYN104",
+          "SYN105",
+          "SYN106",
+          "SYN107",
+          "SYN108"
+        ],
+        "source_ref_to_message_id": {
+          "1": "SYN101",
+          "2": "SYN102",
+          "3": "SYN103",
+          "4": "SYN104",
+          "5": "SYN105",
+          "6": "SYN106",
+          "7": "SYN107",
+          "8": "SYN108"
+        }
+      },
+      "output_data": {
+        "memories": [
+          {
+            "memory_id": "M672C9E9997534789AC9BD04E214DA63A",
+            "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+            "canonical_value": "The user lives in Adelaide.",
+            "status": "candidate",
+            "source_message_ids": [
+              "SYN101"
+            ],
+            "timestamp": "2026-10-01T00:00:00Z",
+            "confidence": 0.99,
+            "relationships": []
+          },
+          {
+            "memory_id": "M7024CE8922394537BB301465526F5D46",
+            "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+            "canonical_value": "The Maple capstone backend previously used MySQL.",
+            "status": "candidate",
+            "source_message_ids": [
+              "SYN102"
+            ],
+            "timestamp": "2026-10-01T00:01:00Z",
+            "confidence": 0.99,
+            "relationships": []
+          },
+          {
+            "memory_id": "M56BA36D3494F45F1B30EA4A610704278",
+            "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+            "canonical_value": "The Maple capstone backend has been migrated to PostgreSQL; MySQL is no longer used there.",
+            "status": "candidate",
+            "source_message_ids": [
+              "SYN103"
+            ],
+            "timestamp": "2026-10-01T00:02:00Z",
+            "confidence": 0.99,
+            "relationships": []
+          },
+          {
+            "memory_id": "M283AC0B139D04D98B403B5C1DF3C8BEA",
+            "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+            "canonical_value": "In general, the user prefers Python for backend projects.",
+            "status": "candidate",
+            "source_message_ids": [
+              "SYN104"
+            ],
+            "timestamp": "2026-10-01T00:03:00Z",
+            "confidence": 0.99,
+            "relationships": []
+          },
+          {
+            "memory_id": "M14554DA803554257AE00F13D0E6922A9",
+            "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+            "canonical_value": "For Maple capstone backend work, the course requires Java only; this requirement applies to this capstone project.",
+            "status": "candidate",
+            "source_message_ids": [
+              "SYN105"
+            ],
+            "timestamp": "2026-10-01T00:04:00Z",
+            "confidence": 0.99,
+            "relationships": []
+          },
+          {
+            "memory_id": "M9038F2F03E354327B42F38E7C28351F7",
+            "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+            "canonical_value": "The current deployment plan for the Maple capstone specifies North as the production region.",
+            "status": "candidate",
+            "source_message_ids": [
+              "SYN106"
+            ],
+            "timestamp": "2026-10-01T00:05:00Z",
+            "confidence": 0.99,
+            "relationships": []
+          },
+          {
+            "memory_id": "M88044F190ABF438FB986EE49C055DDA7",
+            "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+            "canonical_value": "The signed client brief for the Maple capstone deployment specifies South as the production region.",
+            "status": "candidate",
+            "source_message_ids": [
+              "SYN107"
+            ],
+            "timestamp": "2026-10-01T00:06:00Z",
+            "confidence": 0.99,
+            "relationships": []
+          },
+          {
+            "memory_id": "M4C22293C8DB144EABC56F1C0C5262FE4",
+            "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+            "canonical_value": "Both Maple capstone deployment documents remain active, and the user has not established which instruction controls.",
+            "status": "candidate",
+            "source_message_ids": [
+              "SYN108"
+            ],
+            "timestamp": "2026-10-01T00:07:00Z",
+            "confidence": 0.99,
+            "relationships": []
+          }
+        ]
+      },
+      "status": "completed",
+      "attempt_count": 1,
+      "elapsed_ms": 8525.27,
+      "error_code": null,
+      "error_summary": null,
+      "error_diagnostics": {
+        "requested_output_token_limit": 1800,
+        "reported_finish_reason": "stop"
+      },
+      "handoff_from": null,
+      "handoff_to": "AGTAF36897320E34D90AD3EA65419465EFF",
+      "created_at": "2026-10-13T09:19:43.178234"
+    },
+    {
+      "execution_id": "AGTAF36897320E34D90AD3EA65419465EFF",
+      "role": "relationship_analysis",
+      "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+      "run_id": null,
+      "provider": "openrouter",
+      "model": "openai/gpt-6-luna",
+      "reported_model": null,
+      "prompt_template_version": "relationship-analysis-agent-v5",
+      "prompt_fingerprint": "ae45cf6786e58357edb216edbadbfe3940359e3ac8b862cbc7dd58683042df9c",
+      "input_fingerprint": "9ca6ed0161412b79828e1672972074004e05026779e97d62e92818caeb9741d3",
+      "input_refs": {
+        "message_ids": [
+          "SYN101",
+          "SYN102",
+          "SYN103",
+          "SYN104",
+          "SYN105",
+          "SYN106",
+          "SYN107",
+          "SYN108"
+        ],
+        "memory_ids": [
+          "M672C9E9997534789AC9BD04E214DA63A",
+          "M7024CE8922394537BB301465526F5D46",
+          "M56BA36D3494F45F1B30EA4A610704278",
+          "M283AC0B139D04D98B403B5C1DF3C8BEA",
+          "M14554DA803554257AE00F13D0E6922A9",
+          "M9038F2F03E354327B42F38E7C28351F7",
+          "M88044F190ABF438FB986EE49C055DDA7",
+          "M4C22293C8DB144EABC56F1C0C5262FE4"
+        ]
+      },
+      "output_data": null,
+      "status": "failed",
+      "attempt_count": 1,
+      "elapsed_ms": 772.49,
+      "error_code": "missing_json_content",
+      "error_summary": "The local model response did not contain structured JSON content.",
+      "error_diagnostics": {
+        "requested_output_token_limit": 4096
+      },
+      "handoff_from": "AGTCB1CA8FD70934E9FB821F84904EB79B4",
+      "handoff_to": "AGT30D7B2F12E4E4FF6BA8DCDFFB612544D",
+      "created_at": "2026-10-13T09:19:43.200013"
+    },
+    {
+      "execution_id": "AGT30D7B2F12E4E4FF6BA8DCDFFB612544D",
+      "role": "independent_memory_review",
+      "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+      "run_id": null,
+      "provider": "openrouter",
+      "model": "openai/gpt-6-luna",
+      "reported_model": null,
+      "prompt_template_version": "independent-memory-review-agent-v2",
+      "prompt_fingerprint": "58239742d669d0d7147afd20cfc58a774b371b623e0ed4102ff1791eb3a4905a",
+      "input_fingerprint": "733ddf4e689fc9a33502a97fcc14501d849890dfc84c4e007e488312f32ebce6",
+      "input_refs": {
+        "message_ids": [
+          "SYN101",
+          "SYN102",
+          "SYN103",
+          "SYN104",
+          "SYN105",
+          "SYN106",
+          "SYN107",
+          "SYN108"
+        ],
+        "memory_ids": [
+          "M672C9E9997534789AC9BD04E214DA63A",
+          "M7024CE8922394537BB301465526F5D46",
+          "M56BA36D3494F45F1B30EA4A610704278",
+          "M283AC0B139D04D98B403B5C1DF3C8BEA",
+          "M14554DA803554257AE00F13D0E6922A9",
+          "M9038F2F03E354327B42F38E7C28351F7",
+          "M88044F190ABF438FB986EE49C055DDA7",
+          "M4C22293C8DB144EABC56F1C0C5262FE4"
+        ]
+      },
+      "output_data": null,
+      "status": "failed",
+      "attempt_count": 1,
+      "elapsed_ms": 625.2,
+      "error_code": "PipelineRequestError",
+      "error_summary": "The independent memory review could not be validated. Continue with a careful manual source review.",
+      "error_diagnostics": {
+        "phase": "provider_completion",
+        "category": "missing_json_content",
+        "requested_output_token_limit": 2048
+      },
+      "handoff_from": "AGTAF36897320E34D90AD3EA65419465EFF",
+      "handoff_to": null,
+      "created_at": "2026-10-13T09:19:43.201223"
+    }
+  ],
+  "confirmation": {
+    "kind": "prior exact-source approval reused via supported reject/add/patch/confirm API",
+    "new_human_research_annotation": false,
+    "inventory": [
+      {
+        "memory_id": "M475F2B6AD6484707A41446866F06C4CA",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "canonical_value": "I live in Adelaide.",
+        "status": "confirmed",
+        "source_message_ids": [
+          "SYN101"
+        ],
+        "timestamp": "2026-10-01T00:00:00",
+        "confidence": null,
+        "relationships": []
+      },
+      {
+        "memory_id": "MBEC0ED33DFE542C4B535451DA6E1FDC1",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "canonical_value": "The Maple capstone backend used MySQL previously.",
+        "status": "confirmed",
+        "source_message_ids": [
+          "SYN102"
+        ],
+        "timestamp": "2026-10-01T00:01:00",
+        "confidence": null,
+        "relationships": []
+      },
+      {
+        "memory_id": "M6466EE49B58B4847B382477E974513F0",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "canonical_value": "We migrated the Maple capstone backend to PostgreSQL; MySQL is no longer used there.",
+        "status": "confirmed",
+        "source_message_ids": [
+          "SYN103"
+        ],
+        "timestamp": "2026-10-01T00:02:00",
+        "confidence": null,
+        "relationships": [
+          {
+            "relationship_id": "MRD83AC3C55E8341C094AC9355C865DB43",
+            "type": "UPDATE",
+            "target_memory_id": "MBEC0ED33DFE542C4B535451DA6E1FDC1",
+            "evidence_message_ids": [
+              "SYN103",
+              "SYN102"
+            ],
+            "confidence": null
+          }
+        ]
+      },
+      {
+        "memory_id": "M6518994E4DA74DD9A411AABC6D5527FB",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "canonical_value": "In general, I prefer Python for backend projects.",
+        "status": "confirmed",
+        "source_message_ids": [
+          "SYN104"
+        ],
+        "timestamp": "2026-10-01T00:03:00",
+        "confidence": null,
+        "relationships": []
+      },
+      {
+        "memory_id": "MC7DBEB713F5E42A5818E36748A2156F2",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "canonical_value": "For Maple capstone backend work, the course requires Java only; that requirement applies to this capstone project.",
+        "status": "confirmed",
+        "source_message_ids": [
+          "SYN105"
+        ],
+        "timestamp": "2026-10-01T00:04:00",
+        "confidence": null,
+        "relationships": [
+          {
+            "relationship_id": "MRFBF6D67143E94400845B127596D969B4",
+            "type": "CONTEXTUAL_OVERRIDE",
+            "target_memory_id": "M6518994E4DA74DD9A411AABC6D5527FB",
+            "evidence_message_ids": [
+              "SYN105",
+              "SYN104"
+            ],
+            "confidence": null
+          }
+        ]
+      },
+      {
+        "memory_id": "M52B7B0301EBE40929370CC6BCB43ABC3",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "canonical_value": "The current deployment plan for the Maple capstone says the production region is North.",
+        "status": "confirmed",
+        "source_message_ids": [
+          "SYN106"
+        ],
+        "timestamp": "2026-10-01T00:05:00",
+        "confidence": null,
+        "relationships": [
+          {
+            "relationship_id": "MRF34455C53A354B99AD212603E37CFF8E",
+            "type": "CONFLICT",
+            "target_memory_id": "M15D6337E5FCE45FC812A6836FC4289A0",
+            "evidence_message_ids": [
+              "SYN106",
+              "SYN107"
+            ],
+            "confidence": null
+          }
+        ]
+      },
+      {
+        "memory_id": "M15D6337E5FCE45FC812A6836FC4289A0",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "canonical_value": "The signed client brief for the same Maple capstone deployment says the production region is South.",
+        "status": "confirmed",
+        "source_message_ids": [
+          "SYN107"
+        ],
+        "timestamp": "2026-10-01T00:06:00",
+        "confidence": null,
+        "relationships": []
+      },
+      {
+        "memory_id": "M92922A17C3594EC594DB7A286A3A7900",
+        "conversation_id": "CFCF98E3D710A4DE9ABCA8360AFDEF154",
+        "canonical_value": "Both deployment documents are still active; I have not established which instruction controls.",
+        "status": "confirmed",
+        "source_message_ids": [
+          "SYN108"
+        ],
+        "timestamp": "2026-10-01T00:07:00",
+        "confidence": null,
+        "relationships": []
+      }
+    ]
+  },
+  "experiment_id": "EXP00F5B0F46F9F4D85873EE185E3B47D4A",
+  "error_code": "RuntimeError",
+  "error": "API POST /audits/RUN3ACE3BE36B8B46C1A1E2541807F8C9A6/generate-tests: HTTP 502",
+  "synthetic_only_sqlite_snapshot": "/tmp/luna-current-isolated-api-v7-synthetic-only.db",
+  "snapshot_sha256": "e43cb4d3c676397273ac1457e5a86c34f7d1aa0faaafec1e379d859bafc8f14b",
+  "finished_at": "2026-10-13T09:19:51.282305+00:00",
+  "disposable_database_removed": true
+}

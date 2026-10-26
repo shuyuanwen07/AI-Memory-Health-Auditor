@@ -34,3 +34,13 @@ def test_moved_location_is_profile_and_location_prompts_match_without_city_leaka
     assert infer_target_memory_scope('I moved to Port Lincoln.') == TargetMemoryScope.PROFILE
     assert _category('Where is the user based now?') == 'location'
     assert _category('The earlier and later memories about location conflict.') == 'location'
+
+
+@pytest.mark.parametrize('phrase', ['backend language', 'server-side language', 'front end language', 'implementation language'])
+def test_software_language_categories_do_not_require_answer_values(phrase):
+    assert is_language_topic('Which '+phrase+' should this project use?')
+
+
+@pytest.mark.parametrize('phrase', ['Which language does the user speak?', 'Go to the office.', 'Which language is spoken in Adelaide?'])
+def test_spoken_language_and_navigation_are_not_software_language(phrase):
+    assert not is_language_topic(phrase)

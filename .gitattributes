@@ -1,3 +1,6 @@
 
 # Preserve raw UI evidence transcripts exactly as captured.
 frontend/public/reports/** -whitespace
+
+# Evidence hashes bind the original bytes, including CSV line endings.
+docs/evidence/** -text

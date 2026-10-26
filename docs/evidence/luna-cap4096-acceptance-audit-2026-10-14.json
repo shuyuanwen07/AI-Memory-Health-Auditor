@@ -1,0 +1,17 @@
+{
+  "scope": "synthetic_engineering_only",
+  "research_evidence": false,
+  "original_script_status": "completed",
+  "acceptance_status": "partial_extraction_failure",
+  "strict_verification_passed": false,
+  "failure": "relationship_analysis endpoint_evidence_mismatch; verifier rejected noncompleted extraction role",
+  "answers": 16,
+  "assessments": 16,
+  "diagnostics_completed": 4,
+  "pending_judgments": 1,
+  "exports_reconciled": true,
+  "production_database_writes": 0,
+  "snapshot_sha256": "587fc57fe134297816b564a5644a23dc693e7c21cfa35849b4a10243e3284e93",
+  "zip_sha256": "b658dbae81e3fc50263e1f0082510b0af4c480c2100c7517ea20a156a735ae14",
+  "note": "Original report retained unchanged; no research gold or successful full-role acceptance claimed."
+}

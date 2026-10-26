@@ -1,0 +1,10 @@
+{
+  "scope": "synthetic_relationship_probe_only",
+  "research_evidence": false,
+  "database_writes": 0,
+  "planned_trials": 2,
+  "completed_trials": 2,
+  "source_sha256": "e84fb0e564c7439ce3edf0fc6ebf7b25a681c9bb9dd209b1b97eb5d5d8a7d406",
+  "report_sha256": "e66d5f4697913814dbfc3c7ab0634066b6633d0d8968dd28f0a8e012afe8af68",
+  "limits": "Separate new calls; original endpoint citation failure remains unchanged and exact faulty fields cannot be recovered. No full-workflow pass or independent labels inferred."
+}

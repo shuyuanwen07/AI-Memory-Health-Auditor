@@ -1,0 +1,54 @@
+{
+  "version": "repeated-bound-policy-ranking-v1",
+  "status": "partial",
+  "planned_trial_ids": [
+    "repeat-1",
+    "repeat-2",
+    "repeat-3"
+  ],
+  "plan_fingerprint_sha256": "4ec26dc7dc8e57b57587522221ecb8ce42f11987c6b83af53728b2b7bcc2eb5c",
+  "plan_provenance": "caller_declared_analysis_plan",
+  "provider": null,
+  "model": null,
+  "reference_strategy": null,
+  "candidate_strategy": null,
+  "trials": [
+    {
+      "trial_id": "repeat-1",
+      "status": "missing",
+      "reason": "Awaiting permitted original audit and benchmark execution evidence.",
+      "reference_run_id": null,
+      "candidate_run_id": null,
+      "report": null
+    },
+    {
+      "trial_id": "repeat-2",
+      "status": "missing",
+      "reason": "Awaiting permitted original audit and benchmark execution evidence.",
+      "reference_run_id": null,
+      "candidate_run_id": null,
+      "report": null
+    },
+    {
+      "trial_id": "repeat-3",
+      "status": "missing",
+      "reason": "Awaiting permitted original audit and benchmark execution evidence.",
+      "reference_run_id": null,
+      "candidate_run_id": null,
+      "report": null
+    }
+  ],
+  "planned_trials": 3,
+  "measured_trials": 0,
+  "invalid_trials": 0,
+  "missing_trials": 3,
+  "unmeasured_trials": 0,
+  "directional_trials": 0,
+  "consistent_trials": 0,
+  "reversed_trials": 0,
+  "both_tied_trials": 0,
+  "inconclusive_tie_trials": 0,
+  "ranking_agreement_percentage": null,
+  "suites": [],
+  "notice": "Descriptive repeated analysis of saved original executions. Each planned repeat has equal weight; Auditor scores are four-dimension macro-averages and benchmark scores are response accuracy. Ties are reported separately from directional agreement. Missing, invalid or unmeasured planned trials prevent aggregate scores and agreement rates. The plan is caller-declared at analysis time, not a verified pre-registration or server freeze. Independent labels, a genuinely predeclared study plan and an authorised representative LongMemEval subset remain required. This analysis creates no model calls, database records or human labels."
+}

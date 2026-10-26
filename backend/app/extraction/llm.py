@@ -18,7 +18,9 @@ from typing import Any
 
 import httpx
 
-from app.target_ai.openrouter import CHAT_COMPLETIONS_URL, default_model, request_options, sampling_parameters
+from app.target_ai.openrouter import CHAT_COMPLETIONS_URL, default_model, request_options, completion_error
+from app.target_ai.openrouter import build_openrouter_json_payload, validate_reasoning_effort
+from app.target_ai.request_contracts import send_with_request_contract, request_contract_metadata
 from fastapi import HTTPException
 
 
@@ -69,6 +71,29 @@ def configured_pipeline_model(provider: str | None = None) -> str:
     return override or _DEFAULT_MODEL_BY_PROVIDER[choice]
 
 
+def pipeline_output_token_cap() -> int | None:
+    """Optional cloud pipeline budget; never truncate evidence or relax gates."""
+    raw = os.getenv("PIPELINE_MAX_OUTPUT_TOKENS", "").strip()
+    if not raw:
+        return None
+    if not raw.isascii() or not raw.isdigit() or not 256 <= int(raw) <= 12000:
+        raise PipelineRequestError("PIPELINE_MAX_OUTPUT_TOKENS must be an integer from 256 to 12000.", 500)
+    return int(raw)
+
+
+def resolve_pipeline_output_budget(declared_output_token_limit, configured_output_token_cap):
+    """Pure budget resolution shared with offline preflight/reconstruction."""
+    for value in (declared_output_token_limit, configured_output_token_cap):
+        if value is not None and (type(value) is not int or value < 1):
+            raise ValueError('Invalid pipeline output budget.')
+    effective = declared_output_token_limit
+    if configured_output_token_cap is not None:
+        effective = min(effective, configured_output_token_cap) if effective is not None else configured_output_token_cap
+    return {'declared_output_token_limit': declared_output_token_limit,
+            'configured_output_token_cap': configured_output_token_cap,
+            'requested_output_token_limit': effective}
+
+
 class PipelineLLMClient:
     """Minimal HTTP client shared by LLM extraction and LLM test generation."""
 
@@ -87,25 +112,46 @@ class PipelineLLMClient:
 
     def complete_json(self, *, instructions: str, prompt: str, schema_name: str, schema: dict[str, Any],
                       max_output_tokens: int | None = None, agent_role: str | None = None,
-                      prompt_template_version: str | None = None) -> Any:
-        meter={'version':'pipeline-http-meter-v1','provider':self.provider,'model':self.model,
+                      prompt_template_version: str | None = None, thinking: bool = False,
+                      reasoning_effort: str | None = None) -> Any:
+        self.last_execution = None
+        try:
+            validate_reasoning_effort(self.provider, self.model, reasoning_effort)
+        except ValueError as exc:
+            raise PipelineRequestError(str(exc), 422) from exc
+        if type(thinking) is not bool or (thinking and self.provider != 'ollama'):
+            raise PipelineRequestError('Explicit thinking mode is supported only for the local pipeline.', 422)
+        declared_output_limit = max_output_tokens
+        configured_cap = pipeline_output_token_cap() if self.provider == 'openrouter' else None
+        try:
+            budget = resolve_pipeline_output_budget(max_output_tokens, configured_cap)
+        except ValueError as exc:
+            raise PipelineRequestError(str(exc), 422) from exc
+        max_output_tokens = budget['requested_output_token_limit']
+        meter={'version':'pipeline-http-meter-v2','provider':self.provider,'model':self.model,
             'request_attempts':0,'failed_http_attempts':0,'status':'started',
             'reported_input_tokens':None,'reported_output_tokens':None,'reported_total_tokens':None,
             'reported_cost_credits':None,'reported_model':None,'last_http_status':None,
             'agent_role': agent_role or schema_name,
+            'requested_ollama_thinking': thinking if self.provider == 'ollama' else None,
+            'requested_output_token_limit': max_output_tokens,
+            'declared_output_token_limit': declared_output_limit,
+            'configured_output_token_cap': configured_cap,
             'prompt_template_version': prompt_template_version or 'unversioned',
             'prompt_fingerprint': hashlib.sha256(json.dumps({
                 'version': prompt_template_version or 'unversioned', 'instructions': instructions,
-                'prompt': prompt, 'schema': schema,
+                'prompt': prompt, 'schema': schema, 'ollama_thinking': thinking if self.provider == 'ollama' else None,
             }, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode('utf-8')).hexdigest(),
             'input_fingerprint': hashlib.sha256(prompt.encode('utf-8')).hexdigest(),
             'output_fingerprint':None,'error_code':None,
+            **({'requested_reasoning_effort': reasoning_effort} if reasoning_effort is not None else {}),
             'scope':'Last successful HTTP reply only; failed-attempt usage unknown. Elapsed time includes retry waits and parsing.'}
         self.last_execution=None
         token=_PIPELINE_METER.set(meter);started=time.perf_counter()
         try:
             result=self._complete_json(instructions=instructions,prompt=prompt,schema_name=schema_name,schema=schema,
-                                       max_output_tokens=max_output_tokens)
+                                       max_output_tokens=max_output_tokens,
+                                       **({'reasoning_effort': reasoning_effort} if reasoning_effort is not None else {}))
             meter['status']='parsed'
             meter['output_fingerprint'] = hashlib.sha256(json.dumps(
                 result, ensure_ascii=False, sort_keys=True, separators=(',', ':'), default=str
@@ -121,14 +167,16 @@ class PipelineLLMClient:
             _PIPELINE_METER.reset(token)
 
     def _complete_json(self, *, instructions: str, prompt: str, schema_name: str, schema: dict[str, Any],
-                       max_output_tokens: int | None = None) -> Any:
+                       max_output_tokens: int | None = None, reasoning_effort: str | None = None) -> Any:
         """Request strict JSON and parse it without accepting prose or Markdown."""
         if self.provider == "ollama":
             from app.target_ai.providers import ollama_base_url
+            meter = _PIPELINE_METER.get()
+            requested_thinking = bool(meter and meter.get("requested_ollama_thinking"))
             data = self._post(f"{ollama_base_url()}/api/chat", {}, {
                 "model": self.model,
                 "stream": False,
-                "think": False,
+                "think": requested_thinking,
                 "keep_alive": "5m",
                 "messages": [
                     {"role": "system", "content": instructions},
@@ -150,6 +198,8 @@ class PipelineLLMClient:
                     and isinstance(done_reason, str)):
                 meter["reported_done_reason"] = done_reason if done_reason in {"stop", "length", "load", "unload", "error"} else "other"
             message = data.get("message")
+            if meter is not None:
+                meter["reported_ollama_thinking_present"] = bool(isinstance(message, Mapping) and message.get("thinking"))
             if (data.get("done") is not True or data.get("done_reason") == "length"
                     or not isinstance(message, Mapping) or not isinstance(message.get("content"), str)):
                 raise PipelineRequestError("The local pipeline model did not complete a usable answer.")
@@ -162,17 +212,25 @@ class PipelineLLMClient:
                 ) from exc
         credential = self._credential()
         if self.provider == "openrouter":
-            payload = {
-                "model": self.model,
-                **sampling_parameters(self.model,0),
-                "messages": [{"role": "system", "content": instructions}, {"role": "user", "content": prompt}],
-                "response_format": {"type": "json_schema", "json_schema": {
-                    "name": schema_name, "strict": True, "schema": schema,
-                }},
-                **({"max_tokens": max_output_tokens} if max_output_tokens is not None else {}),
-                **request_options(),
-            }
-            data = self._post(CHAT_COMPLETIONS_URL, {"Authorization": f"Bearer {credential}"}, payload)
+            payload = build_openrouter_json_payload(model=self.model, instructions=instructions,
+                prompt=prompt, schema_name=schema_name, schema=schema, max_output_tokens=max_output_tokens,
+                reasoning_effort=reasoning_effort, provider_options=request_options()['provider'])
+            try:
+                data = self._post(CHAT_COMPLETIONS_URL, {"Authorization": f"Bearer {credential}"}, payload)
+            except PipelineRequestError:
+                # Some OpenRouter routes accept JSON Schema for a small
+                # availability probe but reject a full extraction schema.
+                # Retry only that non-retryable schema request as JSON mode;
+                # the extraction Agent still validates the result against its
+                # strict local Pydantic contract before saving any candidates.
+                meter = _PIPELINE_METER.get()
+                if (meter is None or meter.get("agent_role") != "memory_extraction"
+                        or meter.get("last_http_status") != 400):
+                    raise
+                meter["response_format_fallback"] = "json_object_after_schema_http_400"
+                meter["schema_rejection_http_status"] = 400
+                payload["response_format"] = {"type": "json_object"}
+                data = self._post(CHAT_COMPLETIONS_URL, {"Authorization": f"Bearer {credential}"}, payload)
             text = self._deepseek_text(data)
         elif self.provider == "openai":
             payload = {
@@ -239,12 +297,20 @@ class PipelineLLMClient:
                 temperature=payload.get('temperature',payload.get('generationConfig',{}).get('temperature',payload.get('options',{}).get('temperature')))
                 meter['sampling_control']='fixed' if temperature is not None else 'model_default'
                 meter['sent_temperature']=temperature
-            if meter is not None:meter['request_attempts']+=1
+            def dispatch():
+                if meter is not None:
+                    meter['request_attempts'] += 1
+                return httpx.post(url, headers={"Content-Type": "application/json", **headers}, json=payload,
+                                  timeout=timeout_seconds)
             try:
-                response = httpx.post(
-                    url, headers={"Content-Type": "application/json", **headers}, json=payload,
-                    timeout=timeout_seconds,
-                )
+                attempts = meter.setdefault('request_contract_attempts', []) if meter is not None else []
+                try:
+                    response = send_with_request_contract(url=url, payload=payload,
+                        role=meter.get('agent_role') if meter else 'unattributed_pipeline',
+                        attempt_index=meter['request_attempts'] + 1 if meter else attempt + 1, collector=attempts, send=dispatch)
+                finally:
+                    if meter is not None:
+                        meter.update(request_contract_metadata(attempts))
             except httpx.TransportError as exc:
                 if meter is not None:meter['failed_http_attempts']+=1
                 last_transport_error = exc
@@ -257,6 +323,18 @@ class PipelineLLMClient:
                         raise PipelineRequestError("The configured pipeline model returned an invalid API response.") from exc
                     if isinstance(data, dict):
                         PipelineLLMClient._record_usage(data,meter)
+                        if meter is not None:
+                            choices = data.get('choices')
+                            meter['response_choice_count'] = len(choices) if isinstance(choices, list) else None
+                        error = completion_error(data)
+                        if error:
+                            if meter is not None:
+                                meter.update(error)
+                            detail = PipelineLLMClient._http_error(error['provider_error_status'])
+                            if error.get('provider_error_category') == 'capacity_limit':
+                                detail = ('The model service rejected this request during peak load because its requested budget is too large. '
+                                          'Try later or configure PIPELINE_MAX_OUTPUT_TOKENS to a smaller output budget. No result was accepted.')
+                            raise PipelineRequestError(detail, error['provider_error_status'])
                         return data
                     raise PipelineRequestError("The configured pipeline model returned an unexpected API response.")
                 if meter is not None:meter['failed_http_attempts']+=1
@@ -276,7 +354,9 @@ class PipelineLLMClient:
         google=data.get('usageMetadata') if isinstance(data.get('usageMetadata'),dict) else {}
         values={'reported_input_tokens':usage.get('input_tokens',usage.get('prompt_tokens',google.get('promptTokenCount'))),
             'reported_output_tokens':usage.get('output_tokens',usage.get('completion_tokens',google.get('candidatesTokenCount'))),
-            'reported_total_tokens':usage.get('total_tokens',google.get('totalTokenCount'))}
+            'reported_total_tokens':usage.get('total_tokens',google.get('totalTokenCount')),
+            'reported_reasoning_tokens':(usage.get('completion_tokens_details') or usage.get('output_tokens_details') or {}).get('reasoning_tokens')
+                if isinstance(usage.get('completion_tokens_details') or usage.get('output_tokens_details') or {},dict) else None}
         for key,value in values.items():
             if type(value) is int and value>=0:meter[key]=value
         if meter['reported_total_tokens'] is None and meter['reported_input_tokens'] is not None and meter['reported_output_tokens'] is not None:
@@ -293,6 +373,10 @@ class PipelineLLMClient:
     def _http_error(status_code: int) -> str:
         if status_code in {401, 403}:
             return "The configured pipeline credential was rejected. Check the backend configuration."
+        if status_code == 402:
+            return "The model service could not fund this request. Check its account credits and request budget."
+        if status_code == 429:
+            return "The model service is rate limited. Try again later."
         if status_code == 404:
             return "The configured pipeline model is not available. Check PIPELINE_MODEL."
         if 400 <= status_code < 500:
@@ -320,7 +404,14 @@ class PipelineLLMClient:
     @staticmethod
     def _deepseek_text(data: Mapping[str, Any]) -> str:
         try:
-            content = data["choices"][0]["message"].get("content")
+            choice = data["choices"][0]
+            meter = _PIPELINE_METER.get()
+            finish = choice.get("finish_reason")
+            if meter is not None and isinstance(finish, str):
+                meter["reported_finish_reason"] = finish if finish in {"stop", "length", "content_filter", "tool_calls", "error"} else "other"
+            if finish == "length":
+                raise PipelineRequestError("The configured pipeline model reached its output limit before completing the required result.")
+            content = choice["message"].get("content")
         except (KeyError, IndexError, TypeError) as exc:
             raise PipelineRequestError("The configured pipeline model returned no usable JSON content.") from exc
         if isinstance(content, str):

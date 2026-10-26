@@ -1,0 +1,71 @@
+All checks passed!
+........................................................................ [ 22%]
+........................................................................ [ 45%]
+........................................................................ [ 68%]
+FF...................................................................... [ 91%]
+...........................                                              [100%]
+=================================== FAILURES ===================================
+_ test_current_record_database_reference_does_not_select_historical_adverb[MySQL is used now; PostgreSQL was earlier.-False-The current record says PostgreSQL is used for the Maple capstone backend and MySQL is no longer used there; the historical record says MySQL was used previously.] _
+
+reference = 'The current record says PostgreSQL is used for the Maple capstone backend and MySQL is no longer used there; the historical record says MySQL was used previously.'
+answer = 'MySQL is used now; PostgreSQL was earlier.', verdict = False
+
+    @pytest.mark.parametrize('reference',[
+        'The current record says PostgreSQL is used for the Maple capstone backend and MySQL is no longer used there; the historical record says MySQL was used previously.',
+        'The historical record says MySQL was used previously. The current record states PostgreSQL is currently used for the Maple backend.',
+    ])
+    @pytest.mark.parametrize('answer,verdict',[
+        ('The Maple backend uses PostgreSQL now; it replaced MySQL.',True),
+        ('The Maple backend previously used MySQL. I do not know the current database.',False),
+        ('MySQL is used now; PostgreSQL was earlier.',False),
+        ('Previously.',False),
+    ])
+    def test_current_record_database_reference_does_not_select_historical_adverb(reference,answer,verdict):
+        case=_test_case().model_copy(update={'dimension':Dimension.FRESHNESS,'expected_behavior':reference,'prompt':'For the Maple backend, which database applies now and what did it replace?'})
+        response=TargetResponse(response_id='R',test_id=case.test_id,run_id=case.run_id,response_text=answer,model='fixture',temperature=0,created_at=datetime.now(timezone.utc))
+        assert RuleBasedBehaviourEvaluator._required_terms(reference,reject_generic_tail=True)==['postgresql']
+>       assert RuleBasedBehaviourEvaluator().evaluate(case,response,[]).passed is verdict
+E       AssertionError: assert True is False
+E        +  where True = EvaluationResult(evaluation_id='E007', test_id='T007', response_id='R', passed=True, failure_type=None, reason='Passed...ion(status='unclassified', method='not_classified', reason='The test dimension is not an observed failure diagnosis.')).passed
+E        +    where EvaluationResult(evaluation_id='E007', test_id='T007', response_id='R', passed=True, failure_type=None, reason='Passed...ion(status='unclassified', method='not_classified', reason='The test dimension is not an observed failure diagnosis.')) = evaluate(TestCase(test_id='T007', run_id='RUN1', dimension=<Dimension.FRESHNESS: 'freshness'>, prompt='For the Maple backend, w...validity_note=None, human_validity_reviewed_at=None, probe_group_id=None, probe_variant=None, target_memory_context=[]), TargetResponse(response_id='R', test_id='T007', run_id='RUN1', response_text='MySQL is used now; PostgreSQL was earlie...None, memory_input=None), created_at=datetime.datetime(2026, 10, 13, 12, 15, 17, 607446, tzinfo=datetime.timezone.utc)), [])
+E        +      where evaluate = <app.evaluator.rule_based.RuleBasedBehaviourEvaluator object at 0xffffa02e1880>.evaluate
+E        +        where <app.evaluator.rule_based.RuleBasedBehaviourEvaluator object at 0xffffa02e1880> = RuleBasedBehaviourEvaluator()
+
+tests/test_rule_based_evaluator.py:732: AssertionError
+_ test_current_record_database_reference_does_not_select_historical_adverb[MySQL is used now; PostgreSQL was earlier.-False-The historical record says MySQL was used previously. The current record states PostgreSQL is currently used for the Maple backend.] _
+
+reference = 'The historical record says MySQL was used previously. The current record states PostgreSQL is currently used for the Maple backend.'
+answer = 'MySQL is used now; PostgreSQL was earlier.', verdict = False
+
+    @pytest.mark.parametrize('reference',[
+        'The current record says PostgreSQL is used for the Maple capstone backend and MySQL is no longer used there; the historical record says MySQL was used previously.',
+        'The historical record says MySQL was used previously. The current record states PostgreSQL is currently used for the Maple backend.',
+    ])
+    @pytest.mark.parametrize('answer,verdict',[
+        ('The Maple backend uses PostgreSQL now; it replaced MySQL.',True),
+        ('The Maple backend previously used MySQL. I do not know the current database.',False),
+        ('MySQL is used now; PostgreSQL was earlier.',False),
+        ('Previously.',False),
+    ])
+    def test_current_record_database_reference_does_not_select_historical_adverb(reference,answer,verdict):
+        case=_test_case().model_copy(update={'dimension':Dimension.FRESHNESS,'expected_behavior':reference,'prompt':'For the Maple backend, which database applies now and what did it replace?'})
+        response=TargetResponse(response_id='R',test_id=case.test_id,run_id=case.run_id,response_text=answer,model='fixture',temperature=0,created_at=datetime.now(timezone.utc))
+        assert RuleBasedBehaviourEvaluator._required_terms(reference,reject_generic_tail=True)==['postgresql']
+>       assert RuleBasedBehaviourEvaluator().evaluate(case,response,[]).passed is verdict
+E       AssertionError: assert True is False
+E        +  where True = EvaluationResult(evaluation_id='E007', test_id='T007', response_id='R', passed=True, failure_type=None, reason='Passed...ion(status='unclassified', method='not_classified', reason='The test dimension is not an observed failure diagnosis.')).passed
+E        +    where EvaluationResult(evaluation_id='E007', test_id='T007', response_id='R', passed=True, failure_type=None, reason='Passed...ion(status='unclassified', method='not_classified', reason='The test dimension is not an observed failure diagnosis.')) = evaluate(TestCase(test_id='T007', run_id='RUN1', dimension=<Dimension.FRESHNESS: 'freshness'>, prompt='For the Maple backend, w...validity_note=None, human_validity_reviewed_at=None, probe_group_id=None, probe_variant=None, target_memory_context=[]), TargetResponse(response_id='R', test_id='T007', run_id='RUN1', response_text='MySQL is used now; PostgreSQL was earlie...None, memory_input=None), created_at=datetime.datetime(2026, 10, 13, 12, 15, 17, 668997, tzinfo=datetime.timezone.utc)), [])
+E        +      where evaluate = <app.evaluator.rule_based.RuleBasedBehaviourEvaluator object at 0xffffa02e2720>.evaluate
+E        +        where <app.evaluator.rule_based.RuleBasedBehaviourEvaluator object at 0xffffa02e2720> = RuleBasedBehaviourEvaluator()
+
+tests/test_rule_based_evaluator.py:732: AssertionError
+=============================== warnings summary ===============================
+../usr/local/lib/python3.12/site-packages/starlette/testclient.py:40
+  /usr/local/lib/python3.12/site-packages/starlette/testclient.py:40: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = typing.Callable[[], typing.ContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_rule_based_evaluator.py::test_current_record_database_reference_does_not_select_historical_adverb[MySQL is used now; PostgreSQL was earlier.-False-The current record says PostgreSQL is used for the Maple capstone backend and MySQL is no longer used there; the historical record says MySQL was used previously.]
+FAILED tests/test_rule_based_evaluator.py::test_current_record_database_reference_does_not_select_historical_adverb[MySQL is used now; PostgreSQL was earlier.-False-The historical record says MySQL was used previously. The current record states PostgreSQL is currently used for the Maple backend.]
+2 failed, 313 passed, 1 warning in 6.90s

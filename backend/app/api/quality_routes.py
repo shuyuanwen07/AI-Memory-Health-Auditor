@@ -476,12 +476,12 @@ def create_interventions(run_id: str, db: Session = Depends(get_db)):
         raise HTTPException(422, "Internal-memory interventions require the configurable target system. Black-box diagnosis remains observational.")
     base = audit_schema(source).target_memory_profile
     profiles = [base.model_copy(update={"label": label}) for label in ("Repeated original", "Remove supplied memory", "Supplement source evidence")]
-    package = fork_conditions(source, db, profiles, role="diagnostic_intervention", note="Exploratory intervention: repeated original, removed memory, and oracle source evidence. Excluded from generalisation claims.", commit=False)
+    package = fork_conditions(source, db, profiles, role="diagnostic_intervention", note="Exploratory intervention: repeated original, removed memory, and target-owned user-history replay. Excluded from generalisation claims.", commit=False)
     for item, intervention in zip(package["runs"], (None, "remove_memory", "supplement_source_evidence"), strict=True):
         row = db.get(AuditRunModel, item["run_id"])
         row.reproducibility_metadata = {**row.reproducibility_metadata, "intervention": intervention}
     db.commit()
-    return {**package, "notice": "Exploratory causal probes only. Supplemental evidence comes from authorised source messages identified by the audit; this oracle intervention is not a production repair or a held-out performance score."}
+    return {**package, "notice": "Exploratory causal probes only. Supplemental evidence replays the original authorised user messages as one source packet. This changes supplied context and is not a production repair, proof of failure cause, or a held-out performance score."}
 
 
 @quality_router.post("/audits/{run_id}/method-comparison", status_code=201)

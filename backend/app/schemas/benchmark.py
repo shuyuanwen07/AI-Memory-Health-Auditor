@@ -233,8 +233,8 @@ class LiveBenchmarkRequest(BaseModel):
     source_label: str | None = Field(default=None, max_length=160)
     dataset_provenance: BenchmarkDatasetProvenance
     random_seed: int = 42
-    provider: TargetProvider = TargetProvider.OLLAMA
-    model: str = Field(default="qwen3:1.7b", min_length=1, max_length=100)
+    provider: TargetProvider = TargetProvider.OPENROUTER
+    model: str = Field(default="openai/gpt-6-luna", min_length=1, max_length=100)
     strategies: list[MemoryStrategy] = Field(default_factory=lambda: [MemoryStrategy.WEAK_FIRST_HIT, MemoryStrategy.STRONG_RULE_BASED], min_length=1, max_length=4)
     temperature: float = Field(default=0, ge=0, le=2)
     target_memory_capacity: int = Field(default=50, ge=1, le=500)

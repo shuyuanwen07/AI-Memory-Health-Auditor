@@ -1,0 +1,93 @@
+{
+  "scope": "saved_normal_target_instruction_renderer_equivalence_only",
+  "research_evidence": false,
+  "passed": true,
+  "case_count": 16,
+  "current_adapter_version": "controlled-memory-v3",
+  "source_report_sha256": "a999237ae6ceb3258747aef5d8aa517783893762df6835da3d132e70eb59ee6b",
+  "target_requests": 0,
+  "database_writes": 0,
+  "checks": [
+    {
+      "run_id": "RUN9C1976976F9C461AA3ADC5CD3412034B",
+      "test_id": "TE4852B1C9AEF41D1903CC80D53016927",
+      "instruction_sha256": "2572e7c7e9054ae7cd769d6dd5ea6ae200982f5bf98f364a64ac0c1e568c5080"
+    },
+    {
+      "run_id": "RUN9C1976976F9C461AA3ADC5CD3412034B",
+      "test_id": "T462832CF11AF4EC2B455AAA4C76A54B5",
+      "instruction_sha256": "1ad48152e65664889c2ea3f36d0d8b62e3c1ac970b5611dfe29783bf115873d2"
+    },
+    {
+      "run_id": "RUN9C1976976F9C461AA3ADC5CD3412034B",
+      "test_id": "TE622C1EFCE714265985D0E14AEB541B5",
+      "instruction_sha256": "1ad48152e65664889c2ea3f36d0d8b62e3c1ac970b5611dfe29783bf115873d2"
+    },
+    {
+      "run_id": "RUN9C1976976F9C461AA3ADC5CD3412034B",
+      "test_id": "T2E0E8554C21A41CF90B65668D280D7BE",
+      "instruction_sha256": "1ad48152e65664889c2ea3f36d0d8b62e3c1ac970b5611dfe29783bf115873d2"
+    },
+    {
+      "run_id": "RUN258BC6255DDF4572AAEF2907ABCA25A2",
+      "test_id": "T88E272C90B9C42619996F8080095DC20",
+      "instruction_sha256": "706ee057e4da9ffbd2ed17f06ef4f1f07e95daeadf6ae41fe09105fb590519cc"
+    },
+    {
+      "run_id": "RUN258BC6255DDF4572AAEF2907ABCA25A2",
+      "test_id": "T756D8B905A854A3F81238B6D3AD774CC",
+      "instruction_sha256": "91c94ee4de7921698cee80ed5a6d5ce32b13c52b8045955c26f9e83bd79d384e"
+    },
+    {
+      "run_id": "RUN258BC6255DDF4572AAEF2907ABCA25A2",
+      "test_id": "T53C03B5B47284C1A9FC9BA3E62241CB8",
+      "instruction_sha256": "95883ca749949bc70333a5ebc4490d066c1f6f7e20c43166bcc72b11ad4c5802"
+    },
+    {
+      "run_id": "RUN258BC6255DDF4572AAEF2907ABCA25A2",
+      "test_id": "T69D038CF1EEF4743BA491FB39864BBDA",
+      "instruction_sha256": "f8a8af6a4d26d857eaf4a6463c6606c74799ef26b9a19bf5aed3b1d8240f3514"
+    },
+    {
+      "run_id": "RUNB3836A83979F452485D1FC27D0865CC4",
+      "test_id": "T5475C23920FB4430A5CA83C948D6B0FB",
+      "instruction_sha256": "2572e7c7e9054ae7cd769d6dd5ea6ae200982f5bf98f364a64ac0c1e568c5080"
+    },
+    {
+      "run_id": "RUNB3836A83979F452485D1FC27D0865CC4",
+      "test_id": "T0CFC069838BB49C9B6FF994C3AA37078",
+      "instruction_sha256": "1ad48152e65664889c2ea3f36d0d8b62e3c1ac970b5611dfe29783bf115873d2"
+    },
+    {
+      "run_id": "RUNB3836A83979F452485D1FC27D0865CC4",
+      "test_id": "T2D7D045D962646EB8E9B5B0FBBC568D0",
+      "instruction_sha256": "1ad48152e65664889c2ea3f36d0d8b62e3c1ac970b5611dfe29783bf115873d2"
+    },
+    {
+      "run_id": "RUNB3836A83979F452485D1FC27D0865CC4",
+      "test_id": "TDE889063912C4065841FA814E2F69E2F",
+      "instruction_sha256": "1ad48152e65664889c2ea3f36d0d8b62e3c1ac970b5611dfe29783bf115873d2"
+    },
+    {
+      "run_id": "RUNAB1570E9152045B1964FF71603348C31",
+      "test_id": "TCCC4A370C8D241C189975F93C52B51F7",
+      "instruction_sha256": "706ee057e4da9ffbd2ed17f06ef4f1f07e95daeadf6ae41fe09105fb590519cc"
+    },
+    {
+      "run_id": "RUNAB1570E9152045B1964FF71603348C31",
+      "test_id": "T9DF19C3426F148649BC38DB9F36F4FEC",
+      "instruction_sha256": "91c94ee4de7921698cee80ed5a6d5ce32b13c52b8045955c26f9e83bd79d384e"
+    },
+    {
+      "run_id": "RUNAB1570E9152045B1964FF71603348C31",
+      "test_id": "TB0C0E76B930445C0AF22108EC3876668",
+      "instruction_sha256": "95883ca749949bc70333a5ebc4490d066c1f6f7e20c43166bcc72b11ad4c5802"
+    },
+    {
+      "run_id": "RUNAB1570E9152045B1964FF71603348C31",
+      "test_id": "T37F558089B034BE2A3507D3353619A05",
+      "instruction_sha256": "f8a8af6a4d26d857eaf4a6463c6606c74799ef26b9a19bf5aed3b1d8240f3514"
+    }
+  ],
+  "limits": "Uses originally observed target-owned retrieval inputs; current retrieval/execution was not rerun, and this does not recertify the historical full runtime or change scores."
+}

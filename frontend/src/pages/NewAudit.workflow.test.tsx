@@ -9,6 +9,10 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { NewAudit } from './NewAudit';
 import { defaultTargetProfile } from '../components/TargetProfileEditor';
+import presentationDemo from '../data/presentationDemo.json';
+import presentationDemoRaw from '../data/presentationDemo.json?raw';
+import {saveBlob} from '../services/download';
+vi.mock('../services/download',()=>({saveBlob:vi.fn()}));
 
 const apiMocks = vi.hoisted(() => ({
   targetProviders: vi.fn(),
@@ -154,7 +158,7 @@ test('configured OpenRouter defaults to three methods with two reviewed suites a
   const configurations = apiMocks.createExperiment.mock.calls.map(([body]) => body.test_suite_configuration);
   expect(configurations[0].auditor_comparison_id).toBe(configurations[1].auditor_comparison_id);
   expect(configurations[1].compare_evaluators).toBe(true);
-  expect(apiMocks.createAudit.mock.calls.every(([body]) => body.target_memory_profile.output_token_limit === 512)).toBe(true);
+  expect(apiMocks.createAudit.mock.calls.every(([body]) => body.target_memory_profile.output_token_limit === 2048)).toBe(true);
   expect(apiMocks.createAudit.mock.calls.map(([body]) => [body.pipeline_provider, body.evaluator_provider])).toEqual([
     ['rule_based', 'rule_based'], ['openrouter', 'rule_based'], ['openrouter', 'openrouter'],
   ]);
@@ -802,4 +806,104 @@ test('opening an unfinished submission never calls extraction and starting new r
  expect(screen.queryByRole('alert')).toBeNull();
  expect(apiMocks.extract).toHaveBeenCalledTimes(1);
  expect(apiMocks.execute).not.toHaveBeenCalled();
+});
+
+test.each(['openrouter','ollama'])('unfinished %s submission can explicitly switch to Luna while preserving its saved source and identity',async(provider)=>{
+ const user=userEvent.setup();
+ const checkpoint={requestKey:'1234567890123456',conversationId:'C001',text:'Preserved source',messages:null,sourceOrigin:'synthetic',provider,model:'old/model'};
+ sessionStorage.setItem('mha-new-audit-intake-v1',JSON.stringify(checkpoint));
+ apiMocks.targetProviders.mockResolvedValue([{provider:'openrouter',configured:true,default_model:'openai/gpt-6-luna',label:'OpenRouter'}]);
+ apiMocks.getConversation.mockResolvedValue({conversation_id:'C001',messages:[],extraction_provenance:{status:'failed'}});
+ render(<NewAudit/>);
+ await user.click(await screen.findByRole('button',{name:'Use GPT 6 Luna for the next extraction'}));
+ expect(apiMocks.extract).not.toHaveBeenCalled();
+ expect(JSON.parse(sessionStorage.getItem('mha-new-audit-intake-v1')!)).toEqual({...checkpoint,provider:'openrouter',model:'openai/gpt-6-luna'});
+ await user.click(screen.getByRole('button',{name:'Continue saved submission'}));
+ await screen.findByRole('heading',{name:'Review Extracted Memories'});
+ expect(apiMocks.extract).toHaveBeenCalledWith('C001','openrouter','openai/gpt-6-luna');
+ expect(apiMocks.createConversation).not.toHaveBeenCalled();
+ expect(apiMocks.execute).not.toHaveBeenCalled();
+});
+
+test.each(['low','medium'] as const)('preserves optional %s target settings in restored profile clones and surfaces backend unsupported-model rejection',async effort=>{
+  sessionStorage.setItem('mha-new-audit-review-v1',JSON.stringify({conversationId:'C001',settings:{
+    selectedStrategies:['weak_first_hit'],targetProviders:['rule_based'],targetModels:{rule_based:'rule-based-v1'},
+    pipelineProvider:'rule_based',evaluatorProvider:'rule_based',pipelineModel:'rules',evaluatorModel:'rules',budget:4,repetitions:1,
+    suiteMode:'behavioural',maintenancePolicy:'update_aware_consolidation',targetMemoryCapacity:50,targetMemoryWriter:'rule_based',
+    targetProfile:{...defaultTargetProfile,reasoning_effort:effort,identity_analysis_reasoning_effort:'low'},targetSystem:'controlled-memory',compareAuditors:false}}));
+  apiMocks.createAudit.mockRejectedValue(new Error('Requested reasoning is supported only for OpenRouter Luna.'));
+  const user=userEvent.setup();render(<NewAudit/>);
+  await user.click(screen.getByRole('button',{name:'Resume saved review'}));await screen.findByRole('heading',{name:'Review Extracted Memories'});
+  await user.click(screen.getByRole('button',{name:'Confirm Ground Truth & Continue'}));await screen.findByRole('heading',{name:'Configure Memory Audit'});
+  await user.click(screen.getByRole('button',{name:'Start Memory Audit'}));
+  expect(await screen.findByRole('alert')).toHaveTextContent('Requested reasoning is supported only for OpenRouter Luna.');
+  expect(apiMocks.createAudit.mock.calls[0][0].target_memory_profile).toMatchObject({reasoning_effort:effort,identity_analysis_reasoning_effort:'low',output_token_limit:2048});
+  expect(apiMocks.execute).not.toHaveBeenCalled();
+});
+
+test('loads the substantial synthetic presentation JSON without authorising or calling a model', async()=>{
+  render(<NewAudit/>);
+  const preview=presentationDemo.messages.map(message=>`[${message.role}] ${message.content}`).join('\n');
+  expect(presentationDemo.messages).toHaveLength(28);
+  expect(preview.length).toBeGreaterThan(4500);
+  expect(screen.getByLabelText('Authorised conversation text')).toHaveValue(preview);
+  expect(screen.getByRole('checkbox',{name:/authorised to use this conversation/i})).not.toBeChecked();
+  expect(screen.getByRole('button',{name:'Continue to Ground Truth'})).toBeDisabled();
+  expect(screen.getByRole('link',{name:'Download example JSON'})).toHaveAttribute('download','presentation-conversation.json');
+  expect(apiMocks.createConversation).not.toHaveBeenCalled();
+  expect(apiMocks.extract).not.toHaveBeenCalled();
+});
+
+test('submits exact presentation message IDs, speakers and timestamps after explicit consent',async()=>{
+  const user=userEvent.setup();render(<NewAudit/>);
+  await waitFor(()=>expect(selectedUILabel('Shared Agent service')).toContain('Rule-Based Baseline'));
+  await user.click(screen.getByRole('checkbox',{name:/authorised to use this conversation/i}));
+  await user.click(screen.getByRole('button',{name:'Continue to Ground Truth'}));
+  await screen.findByRole('heading',{name:'Review Extracted Memories'});
+  expect(apiMocks.createConversation).toHaveBeenCalledWith(true,expect.any(String),presentationDemo.messages,expect.any(String),'synthetic');
+});
+
+test('preserves a saved personal draft until the presentation example is explicitly loaded',async()=>{
+  sessionStorage.setItem('mha-new-audit-draft-v1',JSON.stringify({text:'[User] My existing draft.',consent:false,sourceOrigin:'unknown'}));
+  const user=userEvent.setup();render(<NewAudit/>);
+  expect(screen.getByLabelText('Authorised conversation text')).toHaveValue('[User] My existing draft.');
+  await user.click(screen.getByRole('button',{name:'Load presentation example'}));
+  expect(screen.getByLabelText('Authorised conversation text')).toHaveValue(presentationDemo.messages.map(message=>`[${message.role}] ${message.content}`).join('\n'));
+  expect(apiMocks.extract).not.toHaveBeenCalled();
+});
+
+test('presentation preset selects two memory strategies and three repeats without starting execution',async()=>{
+  apiMocks.targetProviders.mockResolvedValue([
+    {provider:'rule_based',label:'Rule-Based Baseline',default_model:'rule-based-v1',configured:true,description:'Offline.'},
+    {provider:'openrouter',label:'OpenRouter',default_model:'openai/gpt-6-luna',default_pipeline_model:'openai/gpt-6-luna',default_evaluator_model:'openai/gpt-6-luna',configured:true,description:'Cloud.'},
+  ]);
+  const user=userEvent.setup();render(<NewAudit/>);
+  await user.click(screen.getByRole('checkbox',{name:/authorised to use this conversation/i}));
+  await user.click(screen.getByRole('button',{name:'Continue to Ground Truth'}));
+  await screen.findByRole('heading',{name:'Review Extracted Memories'});
+  await user.click(screen.getByRole('button',{name:'Accept'}));
+  await user.click(screen.getByRole('button',{name:'Confirm Ground Truth & Continue'}));
+  await user.click(await screen.findByRole('button',{name:'Use presentation settings · Weak/Strong × 3'}));
+  expect(screen.getByRole('checkbox',{name:/compare all three audit methods/i})).not.toBeChecked();
+  expect(screen.getByLabelText(/Requested test count/)).toHaveValue('8');
+  expect(screen.getByLabelText(/Repeated runs per condition/)).toHaveValue('3');
+  expect(screen.getByRole('button',{name:'Start 6-Run Comparison'})).toBeInTheDocument();
+  expect(screen.getByLabelText('Configuration name')).toHaveValue('Harbour presentation demo');
+  expect(apiMocks.createAudit).not.toHaveBeenCalled();
+  expect(apiMocks.execute).not.toHaveBeenCalled();
+});
+
+
+test('downloads the exact default JSON bytes through the shared download helper',async()=>{
+  const user=userEvent.setup();render(<NewAudit/>);
+  await user.click(screen.getByRole('link',{name:'Download example JSON'}));
+  expect(saveBlob).toHaveBeenCalledTimes(1);
+  const [blob,name]=vi.mocked(saveBlob).mock.calls[0];
+  expect(name).toBe('presentation-conversation.json');
+  const contents=await new Promise<string>((resolve,reject)=>{
+    const reader=new FileReader();reader.onload=()=>resolve(String(reader.result));reader.onerror=()=>reject(reader.error);reader.readAsText(blob);
+  });
+  expect(contents).toBe(presentationDemoRaw);
+  expect(JSON.parse(contents).messages).toEqual(presentationDemo.messages);
+  expect(apiMocks.createConversation).not.toHaveBeenCalled();
 });

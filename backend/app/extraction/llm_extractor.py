@@ -5,7 +5,7 @@ from datetime import datetime
 from types import SimpleNamespace
 from typing import Annotated, Any
 
-from pydantic import BaseModel, ConfigDict, Field, ValidationError
+from pydantic import BaseModel, ConfigDict, Field, ValidationError, field_validator
 
 from app.extraction.llm import PipelineLLMClient, PipelineRequestError
 from app.extraction.memory_review_agent import IndependentMemoryReviewAgent
@@ -32,6 +32,28 @@ class _MemoryPayload(BaseModel):
     timestamp: datetime | None = None
     confidence: float = Field(ge=0, le=1)
 
+    @field_validator("timestamp", mode="before")
+    @classmethod
+    def discard_unparseable_optional_timestamp(cls, value: Any) -> Any:
+        """Treat malformed model timestamps as absent, never as source evidence.
+
+        Timestamp is optional metadata. Rejecting otherwise source-backed
+        memories because a model emitted a malformed date is unnecessary; the
+        later source-time check still drops parseable timestamps that do not
+        exactly match a cited message.
+        """
+        if value is None or isinstance(value, datetime):
+            return value
+        if not isinstance(value, str):
+            return None
+        candidate = value.strip()
+        if not candidate:
+            return None
+        try:
+            return datetime.fromisoformat(candidate.replace("Z", "+00:00"))
+        except ValueError:
+            return None
+
 
 class _ExtractionPayload(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -50,9 +72,14 @@ _EXTRACTION_SCHEMA: dict[str, Any] = {
                 "required": ["memory_id", "canonical_value", "source_message_refs", "timestamp", "confidence"],
                 "properties": {
                     "memory_id": {"type": "string", "pattern": "^M[0-9]{3}$"},
+                    # Keep provider schemas to broadly supported JSON Schema
+                    # keywords; the local Pydantic contract enforces length.
                     "canonical_value": {"type": "string"},
                     "source_message_refs": {
-                        "type": "array", "minItems": 1, "uniqueItems": True,
+                        # Duplicate references are rejected locally below.
+                        # `uniqueItems` is not accepted by every strict schema
+                        # implementation behind OpenRouter.
+                        "type": "array", "minItems": 1,
                         "items": {"type": "integer", "minimum": 1},
                     },
                     "timestamp": {"type": ["string", "null"]},
@@ -67,7 +94,7 @@ _EXTRACTION_SCHEMA: dict[str, Any] = {
 class LLMMemoryExtractor(MemoryExtractor):
     """Extract candidate memories using a configured backend-only LLM provider."""
 
-    VERSION = "memory-extraction-agent-v8"
+    VERSION = "memory-extraction-agent-v11"
 
     def __init__(self, client: PipelineLLMClient | None = None) -> None:
         self.client = client or PipelineLLMClient()
@@ -112,23 +139,59 @@ class LLMMemoryExtractor(MemoryExtractor):
                 agent_role="memory_extraction",
                 prompt_template_version=self.VERSION,
             )
-            extracted = _ExtractionPayload.model_validate(payload)
+            try:
+                extracted = _ExtractionPayload.model_validate(payload)
+            except ValidationError as first_error:
+                # One correction attempt, on the same authorised source and
+                # model. Never accept partial candidates or echo bad output
+                # (which can contain injected instructions) into the retry.
+                import json
+                diagnostics = _safe_validation_diagnostics(first_error)
+                self.last_agent_stages.append(self._stage_observation(
+                    role="memory_extraction", version=self.VERSION, instructions=instructions,
+                    prompt=prompt, input_payload=input_payload, input_refs=input_refs,
+                    output_data=None, status="failed",
+                    execution=getattr(self.client, "last_execution", None),
+                    error_code="ValidationError",
+                    error_summary=_validation_error_summary(diagnostics),
+                    error_diagnostics=diagnostics,
+                ))
+                prompt += (
+                    "\n\nFORMAT CORRECTION (one final attempt): The previous response failed local validation. "
+                    "Re-extract from the original user messages above and return the complete required object. "
+                    "Use integer source refs, unique M001-style IDs, numeric confidence from 0 to 1, "
+                    "and no extra fields. Do not invent facts or treat these diagnostic paths as facts. "
+                    "Validation paths and error types: " + json.dumps(diagnostics, ensure_ascii=True)
+                )
+                payload = self.client.complete_json(
+                    instructions=instructions, prompt=prompt, schema_name="memory_extraction",
+                    schema=_EXTRACTION_SCHEMA,
+                    max_output_tokens=min(4096, max(1800, len(messages) * 96)),
+                    agent_role="memory_extraction", prompt_template_version=self.VERSION,
+                )
+                extracted = _ExtractionPayload.model_validate(payload)
             resolved_source_message_ids = self._validate_references(extracted.memories, messages)
         except Exception as exc:
+            error_diagnostics = _safe_validation_diagnostics(exc) if isinstance(exc, ValidationError) else None
+            error_summary = (
+                _validation_error_summary(error_diagnostics)
+                if error_diagnostics else
+                "The model returned a source-message ID as memory content; no candidate memories were saved."
+                if isinstance(exc, _SourceMessageIdAsMemoryError) else
+                str(exc.detail)[:500] if isinstance(exc, PipelineRequestError) else
+                "Memory extraction could not be validated. Correct the source or retry the selected model."
+            )
             self.last_agent_stages.append(self._stage_observation(
                 role="memory_extraction", version=self.VERSION, instructions=instructions,
                 prompt=prompt, input_payload=input_payload,
                 input_refs=input_refs,
                 output_data=None, status="failed", execution=getattr(self.client, "last_execution", None),
                 error_code=type(exc).__name__,
-                error_summary=(
-                    "The model returned a source-message ID as memory content; no candidate memories were saved."
-                    if isinstance(exc, _SourceMessageIdAsMemoryError)
-                    else "Memory extraction could not be validated. Correct the source or retry the selected model."
-                ),
+                error_summary=error_summary,
+                error_diagnostics=error_diagnostics,
             ))
             if isinstance(exc, ValidationError):
-                raise PipelineRequestError("The memory extraction Agent returned data outside the required contract.") from exc
+                raise PipelineRequestError(error_summary) from exc
             raise
         memories = [
             Memory(
@@ -202,7 +265,8 @@ class LLMMemoryExtractor(MemoryExtractor):
     def _stage_observation(*, role: str, version: str, instructions: str, prompt: str,
                            input_payload: Any, input_refs: dict, output_data: Any,
                            status: str, execution: dict | None, error_code: str | None = None,
-                           error_summary: str | None = None) -> dict:
+                           error_summary: str | None = None,
+                           error_diagnostics: dict | None = None) -> dict:
         from app.services.agent_trace import fingerprint
         return {
             "role": role, "provider": (execution or {}).get("provider"),
@@ -212,6 +276,7 @@ class LLMMemoryExtractor(MemoryExtractor):
             "input_fingerprint": fingerprint(input_payload),
             "output_data": output_data, "status": status, "execution": execution,
             "error_code": error_code, "error_summary": error_summary,
+            "error_diagnostics": error_diagnostics,
         }
 
     @staticmethod
@@ -228,6 +293,9 @@ class LLMMemoryExtractor(MemoryExtractor):
             "Extract only useful long-term user memories from these chronological messages. Assign unique "
             "IDs M001, M002, etc. For each memory, put the positive integer source_ref values that support it "
             "in source_message_refs. Use timestamps only when supported by a cited source. Return "
+            "all five required fields for every memory: memory_id, canonical_value, source_message_refs, "
+            "timestamp (an ISO-8601 timestamp or null), and confidence (a number from 0 to 1). Keep each "
+            "canonical_value between 3 and 2000 characters. Do not add other fields. Return "
             "{\"memories\":[...]} exactly.\n\nUSER MESSAGES:\n"
             f"{json.dumps(model_input, ensure_ascii=False)}"
         )
@@ -271,3 +339,49 @@ class LLMMemoryExtractor(MemoryExtractor):
             )
             validate_source_time(memory_with_resolved_ids, messages)
         return resolved
+
+
+_VALIDATION_FIELDS = frozenset({
+    "memories", "memory_id", "canonical_value", "source_message_refs", "timestamp", "confidence",
+})
+
+
+def _safe_validation_diagnostics(exc: ValidationError) -> dict[str, Any]:
+    """Keep useful schema paths while excluding model output and untrusted keys."""
+    errors = []
+    for error in exc.errors(include_input=False, include_context=False, include_url=False)[:10]:
+        location = []
+        for part in error.get("loc", ())[:8]:
+            if type(part) is int and part >= 0:
+                location.append(part)
+            elif isinstance(part, str) and part in _VALIDATION_FIELDS:
+                location.append(part)
+            else:
+                location.append("<field>")
+        error_type = error.get("type")
+        if not isinstance(error_type, str) or not error_type.replace("_", "").isalnum():
+            error_type = "validation_error"
+        errors.append({"location": location, "type": error_type[:80]})
+    return {
+        "phase": "schema_validation",
+        "category": "structured_output_validation",
+        "validation_errors": errors,
+    }
+
+
+def _validation_error_summary(diagnostics: dict[str, Any]) -> str:
+    paths = []
+    for error in diagnostics.get("validation_errors", []):
+        parts = error.get("location", [])
+        path = "".join(
+            f"[{part}]" if type(part) is int else (f".{part}" if index else str(part))
+            for index, part in enumerate(parts)
+        )
+        if path and path not in paths:
+            paths.append(path)
+    if paths:
+        return (
+            "Memory extraction returned fields outside the required format "
+            f"({', '.join(paths[:4])}). No candidates were saved; retry the saved submission."
+        )
+    return "Memory extraction returned data outside the required format. No candidates were saved; retry the saved submission."

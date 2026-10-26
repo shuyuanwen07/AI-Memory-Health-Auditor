@@ -1,8 +1,8 @@
 """Ephemeral API endpoints for research artefact validation and reporting.
 
-No supplied annotation or benchmark payload is written to the operational audit
-database.  This keeps research releases versioned in team-controlled files and
-avoids mixing consent scopes with ordinary audit records.
+Analysis endpoints keep supplied annotation and benchmark payloads request-scoped.
+Explicit matrix creation endpoints persist approved source histories and frozen
+suites under separate synthetic or deidentified research permission gates.
 """
 import asyncio
 from datetime import timezone
@@ -44,20 +44,62 @@ from app.schemas.research import (
     annotation_import_report,
 )
 from app.schemas.formal_experiment import (
-    ExploratoryMatrixCreateRequest, FormalMatrixCreateRequest, FormalMatrixCreateResponse,
+    ExploratoryMatrixCreateRequest, FormalMatrixCreateRequest, FormalMatrixCreateResponse, ResearchFormalMatrixCreateRequest,
 )
 from app.schemas.scene_evidence import SceneEvidenceCheckRequest
 from app.database.session import get_db
 from app.services.formal_matrix import FormalSyntheticMatrixService
-from app.research.ranking_agreement import RankingAgreementService
-from app.schemas.ranking_agreement import RankingAgreementRequest, RankingAgreementReport
+from app.research.ranking_agreement import RankingAgreementService, RepeatedRankingService
+from app.schemas.ranking_agreement import RankingAgreementRequest, RankingAgreementReport, RepeatedRankingRequest, RepeatedRankingReport
 
 
 from app.schemas.acceptance import AcceptanceCheckRequest, AcceptanceCheckReport, ReviewedSavedAcceptanceReport, SavedFormalRunPage, SavedFormalRunOption
 from app.research.acceptance import AcceptanceCheckService
 
 
+from app.schemas.benchmark_plan import BenchmarkPlanCreate, BenchmarkPlanResponse, PlannedBenchmarkRun, PlannedRankingAnalysis
+from app.services.benchmark_plan import BenchmarkPlanService
+
 research_router = APIRouter(prefix="/api/v1/research", tags=["research-validation"])
+
+
+
+
+@research_router.post('/benchmarks/longmemeval/plans', response_model=BenchmarkPlanResponse, status_code=201)
+def create_benchmark_plan(payload: BenchmarkPlanCreate, db: Session = Depends(get_db)):
+    try:
+        return BenchmarkPlanService().create(db, payload)
+    except ValueError as error:
+        raise HTTPException(422, detail=str(error)) from error
+
+
+@research_router.get('/benchmarks/longmemeval/plans', response_model=list[BenchmarkPlanResponse])
+def list_benchmark_plans(db: Session = Depends(get_db)):
+    from sqlalchemy import select
+    from app.models import BenchmarkPlanModel
+    ids = db.scalars(select(BenchmarkPlanModel.id).order_by(BenchmarkPlanModel.created_at.desc()).limit(50)).all()
+    return [BenchmarkPlanService().view(db, identity) for identity in ids]
+
+
+@research_router.get('/benchmarks/longmemeval/plans/{plan_id}', response_model=BenchmarkPlanResponse)
+def get_benchmark_plan(plan_id: str, db: Session = Depends(get_db)):
+    return BenchmarkPlanService().view(db, plan_id)
+
+
+@research_router.post('/benchmarks/longmemeval/plans/{plan_id}/execute', response_model=LiveBenchmarkResponse)
+def execute_planned_benchmark(plan_id: str, payload: PlannedBenchmarkRun, db: Session = Depends(get_db)):
+    try:
+        return BenchmarkPlanService().run(db, plan_id, payload)
+    except ValueError as error:
+        raise HTTPException(422, detail=str(error)) from error
+
+
+@research_router.post('/benchmarks/longmemeval/plans/{plan_id}/analyse', response_model=RepeatedRankingReport)
+def analyse_planned_rankings(plan_id: str, payload: PlannedRankingAnalysis, db: Session = Depends(get_db)):
+    try:
+        return BenchmarkPlanService().analyse(db, plan_id, payload)
+    except ValueError as error:
+        raise HTTPException(422, detail=str(error)) from error
 
 
 @research_router.post("/benchmarks/longmemeval/ranking-agreement", response_model=RankingAgreementReport)
@@ -67,6 +109,18 @@ def compare_policy_rankings(payload: RankingAgreementRequest, db: Session = Depe
     _require_authorised_source(payload.candidate_benchmark.source_authorised, "longmemeval")
     try:
         return RankingAgreementService().analyse(db, payload)
+    except ValueError as error:
+        raise HTTPException(422, detail=str(error)) from error
+
+
+@research_router.post("/benchmarks/longmemeval/ranking-agreement/repeated", response_model=RepeatedRankingReport)
+def compare_repeated_policy_rankings(payload: RepeatedRankingRequest, db: Session = Depends(get_db)):
+    for trial in payload.trials:
+        if trial.comparison is not None:
+            _require_authorised_source(trial.comparison.reference_benchmark.source_authorised, "longmemeval")
+            _require_authorised_source(trial.comparison.candidate_benchmark.source_authorised, "longmemeval")
+    try:
+        return RepeatedRankingService().analyse(db, payload)
     except ValueError as error:
         raise HTTPException(422, detail=str(error)) from error
 
@@ -100,12 +154,14 @@ async def run_live_longmemeval(payload: LiveBenchmarkRequest, request: Request):
 @research_router.post("/annotations/validate", response_model=AnnotationImportReport)
 def validate_annotation_dataset(payload: AnnotationImportRequest):
     """Validate a versioned human-label release and return its reproducible hash."""
+    _require_authorised_research_source(payload.source_authorised)
     return annotation_import_report(payload.dataset)
 
 
 @research_router.post("/validity/report", response_model=ResearchValidityReport)
 def research_validity_report(payload: ResearchValidityRequest):
     """Compute explicit research metrics against supplied, frozen human labels."""
+    _require_authorised_research_source(payload.source_authorised)
     try:
         return ResearchValidityService().calculate(payload.dataset, payload.predictions)
     except ValueError as error:
@@ -131,8 +187,10 @@ def list_saved_formal_runs(offset: int = Query(0, ge=0, le=100000), limit: int =
             repetition_index = repetition_count = None
         valid = False
         try:
-            FormalAcceptanceProtocol.model_validate((row.reproducibility_metadata or {}).get('formal_acceptance_protocol'))
-            valid = True
+            parsed_protocol = FormalAcceptanceProtocol.model_validate((row.reproducibility_metadata or {}).get('formal_acceptance_protocol'))
+            valid = (parsed_protocol.study_mode != 'formal_experiment_b'
+                     or (parsed_protocol.reader_control == 'fixed_strong_reader'
+                         and row.target_configuration == 'strong'))
         except ValidationError:
             pass
         protocol = (row.reproducibility_metadata or {}).get('formal_acceptance_protocol') or {}
@@ -184,7 +242,13 @@ def analyse_annotation_pilot(payload: PilotAnalysisRequest):
     It must contain the two independent label sets and separate adjudication or
     external-reference labels, allowing disagreements to remain auditable.
     """
+    _require_authorised_research_source(payload.source_authorised)
     return PilotAnnotationService().analyse(payload)
+
+
+def _require_authorised_research_source(authorised: bool) -> None:
+    if not authorised:
+        raise HTTPException(422, 'Confirm that you are authorised to process these research files and their conversation histories. Saving histories and calling a model require separate permission.')
 
 
 @research_router.post("/formal/synthetic-matrix", response_model=FormalMatrixCreateResponse, status_code=201)
@@ -193,7 +257,7 @@ def create_formal_synthetic_matrix(
 ):
     """Create Experiment B runs from an authorised frozen *synthetic* release.
 
-    This is intentionally the sole persistence exception in the research API.
+    This is one explicit persistence exception in the research API.
     It requires a frozen analysis plan, a development split, at least three
     repetitions, paired Weak/Strong policies, and a matching ready human
     double-annotation package before operational audit rows can be created.
@@ -213,6 +277,15 @@ def create_exploratory_synthetic_matrix(
     if not pilot_report.ready_for_formal_evaluation:
         raise HTTPException(422, detail="The matching double-annotation package is not ready for this synthetic matrix.")
     return FormalSyntheticMatrixService().create(db, payload, study_mode="exploratory")
+
+
+@research_router.post("/formal/research-matrix", response_model=FormalMatrixCreateResponse, status_code=201)
+def create_formal_research_matrix(payload: ResearchFormalMatrixCreateRequest, db: Session = Depends(get_db)):
+    """Persist an authorised deidentified release after the same formal B gates."""
+    pilot_report = PilotAnnotationService().analyse(PilotAnalysisRequest(package=payload.pilot))
+    if not pilot_report.ready_for_formal_evaluation:
+        raise HTTPException(422, detail="The matching double-annotation pilot is not ready for formal evaluation.")
+    return FormalSyntheticMatrixService().create(db, payload, study_mode="formal_experiment_b")
 
 
 @research_router.post("/evaluator-calibration/analyse", response_model=EvaluatorCalibrationReport)

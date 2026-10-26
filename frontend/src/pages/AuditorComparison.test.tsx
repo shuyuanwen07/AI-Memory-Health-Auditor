@@ -58,7 +58,7 @@ test('verified repeated runs retain one condition and measured variation',async(
   });
   render(<MemoryRouter initialEntries={['/audit-methods?groups=rules,model']}><AuditorComparisonPage/></MemoryRouter>);
   const figure=await screen.findByRole('figure',{name:/Tested ability average comparison/},{timeout:15000});
-  expect(figure).toHaveAccessibleName(/± 0%/);
+  expect(figure).toHaveAccessibleName(/± 0 pp population SD/);
   expect(screen.queryByText(/Setting [23]/)).toBeNull();
   expect(screen.queryByText(/verified-model/)).toBeNull();
 });

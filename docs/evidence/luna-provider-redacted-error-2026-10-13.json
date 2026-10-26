@@ -1,0 +1,52 @@
+{
+  "scope": "approved_synthetic_provider_error_shape_probe",
+  "research_evidence": false,
+  "production_database_writes": 0,
+  "target_requests": 0,
+  "source_sha256": "e84fb0e564c7439ce3edf0fc6ebf7b25a681c9bb9dd209b1b97eb5d5d8a7d406",
+  "provider_shape": {
+    "http_status": 200,
+    "error_type": "dict",
+    "error_fields": [
+      "code",
+      "message",
+      "metadata"
+    ],
+    "numeric_error_code": 502,
+    "recognised_categories": [],
+    "redacted_message": "the system is currently experiencing high demand and cannot process your request. your request exceeds the maximum usage size allowed during peak load. for improved capacity reliability, consider switching to provisioned throughput."
+  },
+  "status": "failed",
+  "error_code": "pipeline_error",
+  "execution": {
+    "version": "pipeline-http-meter-v2",
+    "provider": "openrouter",
+    "model": "openai/gpt-6-luna",
+    "request_attempts": 1,
+    "failed_http_attempts": 0,
+    "status": "failed",
+    "reported_input_tokens": null,
+    "reported_output_tokens": null,
+    "reported_total_tokens": null,
+    "reported_cost_credits": null,
+    "reported_model": null,
+    "last_http_status": 200,
+    "agent_role": "relationship_analysis",
+    "requested_ollama_thinking": null,
+    "requested_output_token_limit": 4096,
+    "prompt_template_version": "relationship-analysis-agent-v5",
+    "prompt_fingerprint": "57ab37f66cbe95ccbe10af78cb8c52e5a306b256d8bf98ccbe12b58f8f9eafad",
+    "input_fingerprint": "c2bfb0c0ab0342d8726cf7bbcec65e6b4415d9a4428799dc3c8918820062623f",
+    "output_fingerprint": null,
+    "error_code": "PipelineRequestError",
+    "scope": "Last successful HTTP reply only; failed-attempt usage unknown. Elapsed time includes retry waits and parsing.",
+    "sampling_control": "model_default",
+    "sent_temperature": null,
+    "response_choice_count": null,
+    "provider_error_scope": "top_level",
+    "provider_error_status": 502,
+    "elapsed_ms": 888.87
+  },
+  "probe_memory_id_scope": "Saved database UUIDs",
+  "is_original_v7_http_replay": false
+}

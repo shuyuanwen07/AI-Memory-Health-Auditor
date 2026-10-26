@@ -18,6 +18,9 @@ output/*
 !output/proposal-human-handoff-v2/
 .ruff_cache/
 
+# Disposable, approved-synthetic engineering evidence is copied to docs/evidence.
+backend/.engineering-smoke/
+
 # Owner A source archives and held-out answers stay with the local custodian.
 /datasets/annotation/owner-a-pilot-v1/
 /datasets/annotation/owner-a-pilot-v2-ai-reviewed/

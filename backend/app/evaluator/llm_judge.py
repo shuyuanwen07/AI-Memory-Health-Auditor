@@ -12,6 +12,7 @@ from __future__ import annotations
 import json
 import hashlib
 import math
+import re
 import os
 import time
 from collections.abc import Mapping
@@ -20,7 +21,8 @@ from typing import Any
 
 import httpx
 
-from app.target_ai.openrouter import CHAT_COMPLETIONS_URL, default_model, request_options, sampling_parameters
+from app.target_ai.openrouter import CHAT_COMPLETIONS_URL, default_model, request_options, sampling_parameters, completion_error
+from app.extraction.llm import PipelineRequestError, pipeline_output_token_cap, resolve_pipeline_output_budget
 
 from app.evaluator.rule_based import RuleBasedBehaviourEvaluator
 from app.schemas import Dimension, FailureClassification, JudgeExecutionEvidence, EvaluationResult, Memory, MemoryStatus, TargetResponse, TestCase
@@ -82,12 +84,14 @@ class LLMBehaviourEvaluator(BehaviourEvaluator):
         incomplete = incomplete_output_evaluation(test, response, "output-completion-v1")
         if incomplete is not None:
             return incomplete
-        meter = {"request_attempts": 0, "failed_http_attempts": 0, "provider": self.provider}
+        meter = {"request_attempts": 0, "failed_http_attempts": 0, "provider": self.provider,
+                 "output_budget_status": "not_applicable" if self.provider != "openrouter" else None}
         token = _JUDGE_METER.set(meter)
         started = time.perf_counter()
         try:
             result = self._evaluate_judgment(test, response, memories)
             evidence = JudgeExecutionEvidence(
+                version="judge-http-meter-v5",
                 provider=self.provider, model=self.model,
                 reported_model=meter.get("reported_model"),
                 agent_role="blind_evaluation",
@@ -102,6 +106,13 @@ class LLMBehaviourEvaluator(BehaviourEvaluator):
                 reported_cost_credits=meter.get("reported_cost_credits"),
                 sampling_control=meter.get('sampling_control','unknown'),
                 sent_temperature=meter.get('sent_temperature'),
+                requested_output_token_limit=meter.get("requested_output_token_limit"),
+                declared_output_token_limit=meter.get("declared_output_token_limit"),
+                configured_output_token_cap=meter.get("configured_output_token_cap"),
+                output_budget_status=meter.get("output_budget_status"),
+                completion_status=meter.get("completion_status"),
+                finish_reason=meter.get("finish_reason"),
+                native_finish_reason=meter.get("native_finish_reason"),
                 verdict_status=meter.get("verdict_status") or ("uncertain_fallback" if result.evaluator.startswith("fallback-") else "abstained" if result.passed is None else "valid"),
                 provider_verdict=meter.get("provider_verdict"),
                 rule_cross_check_verdict=meter.get("rule_cross_check_verdict"),
@@ -115,13 +126,17 @@ class LLMBehaviourEvaluator(BehaviourEvaluator):
         relevant_memories = self._relevant_memories(test, memories)
         allowed_evidence_ids = {memory.memory_id for memory in relevant_memories}
         try:
+            if self.provider == "openrouter":
+                # Reject invalid configuration before reading credentials or
+                # attempting HTTP. The same resolved budget builds the payload.
+                self._openrouter_output_budget()
             credential = self._credential()
             raw_result = self._judge(test, response, relevant_memories, credential)
             passed, reason, evidence_ids = self._validated_result(raw_result, allowed_evidence_ids)
             failure_type = Dimension(raw_result["failure_type"]) if raw_result["failure_type"] is not None else None
             if passed is not None and not evidence_ids:
                 raise ValueError("A semantic verdict must cite supplied evidence.")
-        except (LLMJudgeRequestError, ValueError, KeyError, TypeError, json.JSONDecodeError, httpx.HTTPError):
+        except (LLMJudgeRequestError, PipelineRequestError, ValueError, KeyError, TypeError, json.JSONDecodeError, httpx.HTTPError):
             return self._fallback_result(test, response, memories)
 
         if passed is not None:
@@ -195,6 +210,24 @@ class LLMBehaviourEvaluator(BehaviourEvaluator):
             if memory.memory_id in supported and memory.status in _GROUND_TRUTH_STATUSES
         ]
 
+    @staticmethod
+    def _openrouter_output_budget() -> dict[str, int | None]:
+        meter = _JUDGE_METER.get()
+        if meter is not None and meter.get("output_budget_status") in {"configured", "provider_default"}:
+            return {key: meter[key] for key in (
+                "declared_output_token_limit", "configured_output_token_cap", "requested_output_token_limit"
+            )}
+        if meter is not None:
+            meter["output_budget_status"] = "invalid"
+        # No per-call judge budget has been declared. An unset environment cap
+        # therefore retains provider-default omission rather than inventing one.
+        budget = resolve_pipeline_output_budget(None, pipeline_output_token_cap())
+        if meter is not None:
+            meter.update(budget, output_budget_status=(
+                "configured" if budget["configured_output_token_cap"] is not None else "provider_default"
+            ))
+        return budget
+
     def _judge(self, test: TestCase, response: TargetResponse, memories: list[Memory], credential: str) -> dict[str, Any]:
         prompt = self._judge_prompt(test, response, memories)
         meter = _JUDGE_METER.get()
@@ -222,6 +255,7 @@ class LLMBehaviourEvaluator(BehaviourEvaluator):
                 raise LLMJudgeRequestError("Local judge did not complete a usable answer.")
             return self._parse_json(message["content"])
         if self.provider == "openrouter":
+            output_limit = self._openrouter_output_budget()["requested_output_token_limit"]
             payload = {
                 "model": self.model,
                 **sampling_parameters(self.model,0),
@@ -230,8 +264,10 @@ class LLMBehaviourEvaluator(BehaviourEvaluator):
                     key: value for key, value in schema.items() if key != "type"
                 }},
                 **request_options(),
+                **({"max_tokens": output_limit} if output_limit is not None else {}),
             }
             data = self._post(CHAT_COMPLETIONS_URL, {"Authorization": f"Bearer {credential}"}, payload)
+            self._check_openrouter_completion(data)
             return self._parse_json(self._deepseek_text(data))
         if self.provider == "openai":
             payload = {
@@ -264,6 +300,26 @@ class LLMBehaviourEvaluator(BehaviourEvaluator):
             payload,
         )
         return self._parse_json(self._gemini_text(data))
+
+    @staticmethod
+    def _check_openrouter_completion(data: Mapping[str, Any]) -> None:
+        """A parseable verdict cannot override explicit output truncation."""
+        choices = data.get("choices")
+        choice = choices[0] if isinstance(choices, list) and choices and isinstance(choices[0], Mapping) else {}
+        meter = _JUDGE_METER.get()
+        reasons = []
+        for field in ("finish_reason", "native_finish_reason"):
+            raw = choice.get(field)
+            # Keep bounded diagnostic codes only, never arbitrary upstream text.
+            if isinstance(raw, str) and re.fullmatch(r"[A-Za-z0-9_.:-]{1,40}", raw):
+                if meter is not None:
+                    meter[field] = raw
+                reasons.append(raw.lower())
+        truncated = any(reason in {"length", "max_tokens", "max_output_tokens", "max_completion_tokens"} for reason in reasons)
+        if meter is not None:
+            meter["completion_status"] = "truncated" if truncated else "complete" if choice.get("finish_reason") == "stop" else None
+        if truncated:
+            raise LLMJudgeRequestError("The assessment service returned a truncated completion. No judgment was accepted.")
 
     @staticmethod
     def _system_instruction() -> str:
@@ -354,6 +410,11 @@ class LLMBehaviourEvaluator(BehaviourEvaluator):
                         raise LLMJudgeRequestError("LLM judge returned invalid JSON.") from exc
                     if isinstance(data, dict):
                         LLMBehaviourEvaluator._record_usage(data, meter, provider=meter.get('provider') if meter else None)
+                        error = completion_error(data)
+                        if error:
+                            if meter is not None:
+                                meter.update(error)
+                            raise LLMJudgeRequestError("The assessment service reported a failed completion. No judgment was accepted.")
                         return data
                     raise LLMJudgeRequestError("LLM judge returned an unexpected response.")
                 if meter is not None:
@@ -370,6 +431,11 @@ class LLMBehaviourEvaluator(BehaviourEvaluator):
     def _record_usage(data: dict, meter: dict | None, *, provider: str | None = None) -> None:
         if meter is None:
             return
+        reported = data.get("model", data.get("modelVersion"))
+        if isinstance(reported, str):
+            clean_model = reported.strip()
+            if re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._:/+_-]{0,119}", clean_model):
+                meter["reported_model"] = clean_model
         usage = data.get("usage") if isinstance(data.get("usage"), dict) else {}
         cost = usage.get('cost')
         if provider == 'openrouter' and type(cost) in (int, float):

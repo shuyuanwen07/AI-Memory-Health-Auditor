@@ -1,0 +1,405 @@
+{
+  "format": "presentation-engineering-curated-inventory-v1",
+  "dataset_id": "presentation-memory-v1",
+  "dataset_version": "1.0.0",
+  "source_path": "conversation.json",
+  "source_sha256": "df98e917b4f91e412814886a399139d4a940dacc4947da54ec5a3094fe74082e",
+  "reference_origin": "engineering_authored_synthetic_reference",
+  "approval_scope": "engineering_author_reference_only_not_human_approved_gold",
+  "human_approved_gold": false,
+  "independent_human_annotation": false,
+  "research_evidence": false,
+  "notice": "This curated reference was authored alongside the fictional source for an engineering demonstration. Its exact source quotations and relations are reviewable; it is not independently annotated human gold or a benchmark score. The prior Maple8 approval does not apply.",
+  "inventory_scope": "18 deliberately selected source-supported memories for demonstrating four audit dimensions. Irrelevant chat, conditional outings, unadopted suggestions and casual exercises are not a complete inventory of every historical statement.",
+  "source_safety": "Timestamps are observation times, not completion dates. UPDATE edges record explicit replacement; CONFLICT edges leave active documents unresolved; CONTEXTUAL_OVERRIDE edges apply only within the named project. Assistant proposals do not become user decisions.",
+  "memories": [
+    {
+      "memory_id": "M001",
+      "canonical_value": "I live in Adelaide.",
+      "source_message_ids": [
+        "DEMO001"
+      ],
+      "timestamp": "2026-02-02T09:00:00Z",
+      "source_role": "user",
+      "source_quote": "I live in Adelaide.",
+      "source_observed_at": "2026-02-02T09:00:00Z",
+      "engineering_annotation": "stable_location",
+      "relationships": []
+    },
+    {
+      "memory_id": "M002",
+      "canonical_value": "I generally prefer Python for backend projects.",
+      "source_message_ids": [
+        "DEMO001"
+      ],
+      "timestamp": "2026-02-02T09:00:00Z",
+      "source_role": "user",
+      "source_quote": "I generally prefer Python for backend projects.",
+      "source_observed_at": "2026-02-02T09:00:00Z",
+      "engineering_annotation": "general_preference",
+      "relationships": []
+    },
+    {
+      "memory_id": "M003",
+      "canonical_value": "The Harbour capstone backend currently uses MySQL.",
+      "source_message_ids": [
+        "DEMO003"
+      ],
+      "timestamp": "2026-02-03T09:00:00Z",
+      "source_role": "user",
+      "source_quote": "The Harbour capstone backend currently uses MySQL.",
+      "source_observed_at": "2026-02-03T09:00:00Z",
+      "engineering_annotation": "historical_database",
+      "relationships": []
+    },
+    {
+      "memory_id": "M004",
+      "canonical_value": "The original deadline for the Harbour capstone is 14 March 2026.",
+      "source_message_ids": [
+        "DEMO003"
+      ],
+      "timestamp": "2026-02-03T09:00:00Z",
+      "source_role": "user",
+      "source_quote": "The original deadline for the Harbour capstone is 14 March 2026.",
+      "source_observed_at": "2026-02-03T09:00:00Z",
+      "engineering_annotation": "historical_deadline",
+      "relationships": []
+    },
+    {
+      "memory_id": "M005",
+      "canonical_value": "The Harbour web frontend uses TypeScript.",
+      "source_message_ids": [
+        "DEMO005"
+      ],
+      "timestamp": "2026-02-04T09:00:00Z",
+      "source_role": "user",
+      "source_quote": "The Harbour web frontend uses TypeScript.",
+      "source_observed_at": "2026-02-04T09:00:00Z",
+      "engineering_annotation": "project_fact",
+      "relationships": []
+    },
+    {
+      "memory_id": "M006",
+      "canonical_value": "Harbour's public forms must support keyboard-only navigation.",
+      "source_message_ids": [
+        "DEMO005"
+      ],
+      "timestamp": "2026-02-04T09:00:00Z",
+      "source_role": "user",
+      "source_quote": "Harbour's public forms must support keyboard-only navigation.",
+      "source_observed_at": "2026-02-04T09:00:00Z",
+      "engineering_annotation": "project_requirement",
+      "relationships": []
+    },
+    {
+      "memory_id": "M007",
+      "canonical_value": "I have not adopted your suggestion to move Harbour to Go.",
+      "source_message_ids": [
+        "DEMO007"
+      ],
+      "timestamp": "2026-02-05T09:00:00Z",
+      "source_role": "user",
+      "source_quote": "I have not adopted your suggestion to move Harbour to Go.",
+      "source_observed_at": "2026-02-05T09:00:00Z",
+      "engineering_annotation": "unaccepted_assistant_suggestion",
+      "relationships": []
+    },
+    {
+      "memory_id": "M008",
+      "canonical_value": "For the Harbour capstone backend, the course requires Java only.",
+      "source_message_ids": [
+        "DEMO007"
+      ],
+      "timestamp": "2026-02-05T09:00:00Z",
+      "source_role": "user",
+      "source_quote": "For the Harbour capstone backend, the course requires Java only.",
+      "source_observed_at": "2026-02-05T09:00:00Z",
+      "engineering_annotation": "project_language_requirement",
+      "relationships": [
+        {
+          "type": "CONTEXTUAL_OVERRIDE",
+          "target_memory_id": "M002",
+          "evidence_message_ids": [
+            "DEMO001",
+            "DEMO007"
+          ]
+        }
+      ]
+    },
+    {
+      "memory_id": "M009",
+      "canonical_value": "For the unrelated Orchard inventory service, the team requires Rust.",
+      "source_message_ids": [
+        "DEMO009"
+      ],
+      "timestamp": "2026-02-06T09:00:00Z",
+      "source_role": "user",
+      "source_quote": "For the unrelated Orchard inventory service, the team requires Rust.",
+      "source_observed_at": "2026-02-06T09:00:00Z",
+      "engineering_annotation": "different_project_language_requirement",
+      "relationships": [
+        {
+          "type": "CONTEXTUAL_OVERRIDE",
+          "target_memory_id": "M002",
+          "evidence_message_ids": [
+            "DEMO001",
+            "DEMO009"
+          ]
+        }
+      ]
+    },
+    {
+      "memory_id": "M010",
+      "canonical_value": "I follow a vegetarian diet.",
+      "source_message_ids": [
+        "DEMO011"
+      ],
+      "timestamp": "2026-02-07T09:00:00Z",
+      "source_role": "user",
+      "source_quote": "I follow a vegetarian diet.",
+      "source_observed_at": "2026-02-07T09:00:00Z",
+      "engineering_annotation": "unrelated_personal_preference",
+      "relationships": []
+    },
+    {
+      "memory_id": "M011",
+      "canonical_value": "We have migrated the Harbour capstone backend to PostgreSQL, and MySQL is no longer used for that backend.",
+      "source_message_ids": [
+        "DEMO013"
+      ],
+      "timestamp": "2026-02-09T09:00:00Z",
+      "source_role": "user",
+      "source_quote": "We have migrated the Harbour capstone backend to PostgreSQL, and MySQL is no longer used for that backend.",
+      "source_observed_at": "2026-02-09T09:00:00Z",
+      "engineering_annotation": "current_database",
+      "relationships": [
+        {
+          "type": "UPDATE",
+          "target_memory_id": "M003",
+          "evidence_message_ids": [
+            "DEMO003",
+            "DEMO013"
+          ]
+        }
+      ]
+    },
+    {
+      "memory_id": "M012",
+      "canonical_value": "The coordinator has moved the Harbour capstone deadline to 21 March 2026, replacing the original 14 March 2026 deadline.",
+      "source_message_ids": [
+        "DEMO015"
+      ],
+      "timestamp": "2026-02-10T09:00:00Z",
+      "source_role": "user",
+      "source_quote": "The coordinator has moved the Harbour capstone deadline to 21 March 2026, replacing the original 14 March 2026 deadline.",
+      "source_observed_at": "2026-02-10T09:00:00Z",
+      "engineering_annotation": "current_deadline",
+      "relationships": [
+        {
+          "type": "UPDATE",
+          "target_memory_id": "M004",
+          "evidence_message_ids": [
+            "DEMO003",
+            "DEMO015"
+          ]
+        }
+      ]
+    },
+    {
+      "memory_id": "M013",
+      "canonical_value": "The current Harbour deployment plan says its production region is North, and that plan is still active.",
+      "source_message_ids": [
+        "DEMO017"
+      ],
+      "timestamp": "2026-02-12T09:00:00Z",
+      "source_role": "user",
+      "source_quote": "The current Harbour deployment plan says its production region is North, and that plan is still active.",
+      "source_observed_at": "2026-02-12T09:00:00Z",
+      "engineering_annotation": "active_region_document",
+      "relationships": []
+    },
+    {
+      "memory_id": "M014",
+      "canonical_value": "The signed client brief, which is also still active, specifies the South region for that same Harbour production deployment.",
+      "source_message_ids": [
+        "DEMO019"
+      ],
+      "timestamp": "2026-02-13T09:00:00Z",
+      "source_role": "user",
+      "source_quote": "The signed client brief, which is also still active, specifies the South region for that same Harbour production deployment.",
+      "source_observed_at": "2026-02-13T09:00:00Z",
+      "engineering_annotation": "conflicting_active_region_document",
+      "relationships": [
+        {
+          "type": "CONFLICT",
+          "target_memory_id": "M013",
+          "evidence_message_ids": [
+            "DEMO017",
+            "DEMO019"
+          ]
+        }
+      ]
+    },
+    {
+      "memory_id": "M015",
+      "canonical_value": "Both region documents are still active, and I have not established which one controls Harbour's production deployment.",
+      "source_message_ids": [
+        "DEMO019"
+      ],
+      "timestamp": "2026-02-13T09:00:00Z",
+      "source_role": "user",
+      "source_quote": "Both region documents are still active, and I have not established which one controls Harbour's production deployment.",
+      "source_observed_at": "2026-02-13T09:00:00Z",
+      "engineering_annotation": "unresolved_region_authority",
+      "relationships": []
+    },
+    {
+      "memory_id": "M016",
+      "canonical_value": "The active Harbour security brief requires OAuth for client authentication.",
+      "source_message_ids": [
+        "DEMO021"
+      ],
+      "timestamp": "2026-02-16T09:00:00Z",
+      "source_role": "user",
+      "source_quote": "The active Harbour security brief requires OAuth for client authentication.",
+      "source_observed_at": "2026-02-16T09:00:00Z",
+      "engineering_annotation": "active_authentication_document",
+      "relationships": []
+    },
+    {
+      "memory_id": "M017",
+      "canonical_value": "The active Harbour integration handoff requires API keys for client authentication.",
+      "source_message_ids": [
+        "DEMO023"
+      ],
+      "timestamp": "2026-02-17T09:00:00Z",
+      "source_role": "user",
+      "source_quote": "The active Harbour integration handoff requires API keys for client authentication.",
+      "source_observed_at": "2026-02-17T09:00:00Z",
+      "engineering_annotation": "conflicting_active_authentication_document",
+      "relationships": [
+        {
+          "type": "CONFLICT",
+          "target_memory_id": "M016",
+          "evidence_message_ids": [
+            "DEMO021",
+            "DEMO023"
+          ]
+        }
+      ]
+    },
+    {
+      "memory_id": "M018",
+      "canonical_value": "Both authentication documents remain active; I have not established whether OAuth or API keys controls the Harbour client integration.",
+      "source_message_ids": [
+        "DEMO023"
+      ],
+      "timestamp": "2026-02-17T09:00:00Z",
+      "source_role": "user",
+      "source_quote": "Both authentication documents remain active; I have not established whether OAuth or API keys controls the Harbour client integration.",
+      "source_observed_at": "2026-02-17T09:00:00Z",
+      "engineering_annotation": "unresolved_authentication_authority",
+      "relationships": []
+    }
+  ],
+  "relationships": [
+    {
+      "source_memory_id": "M011",
+      "type": "UPDATE",
+      "target_memory_id": "M003",
+      "evidence_message_ids": [
+        "DEMO003",
+        "DEMO013"
+      ]
+    },
+    {
+      "source_memory_id": "M012",
+      "type": "UPDATE",
+      "target_memory_id": "M004",
+      "evidence_message_ids": [
+        "DEMO003",
+        "DEMO015"
+      ]
+    },
+    {
+      "source_memory_id": "M014",
+      "type": "CONFLICT",
+      "target_memory_id": "M013",
+      "evidence_message_ids": [
+        "DEMO017",
+        "DEMO019"
+      ]
+    },
+    {
+      "source_memory_id": "M017",
+      "type": "CONFLICT",
+      "target_memory_id": "M016",
+      "evidence_message_ids": [
+        "DEMO021",
+        "DEMO023"
+      ]
+    },
+    {
+      "source_memory_id": "M008",
+      "type": "CONTEXTUAL_OVERRIDE",
+      "target_memory_id": "M002",
+      "evidence_message_ids": [
+        "DEMO001",
+        "DEMO007"
+      ]
+    },
+    {
+      "source_memory_id": "M009",
+      "type": "CONTEXTUAL_OVERRIDE",
+      "target_memory_id": "M002",
+      "evidence_message_ids": [
+        "DEMO001",
+        "DEMO009"
+      ]
+    }
+  ],
+  "dimension_support": {
+    "accuracy": [
+      "M001",
+      "M005",
+      "M006"
+    ],
+    "freshness": [
+      [
+        "M003",
+        "M011"
+      ],
+      [
+        "M004",
+        "M012"
+      ]
+    ],
+    "conflict_resolution": [
+      [
+        "M013",
+        "M014",
+        "M015"
+      ],
+      [
+        "M016",
+        "M017",
+        "M018"
+      ]
+    ],
+    "appropriate_use": [
+      [
+        "M002",
+        "M008"
+      ],
+      [
+        "M002",
+        "M009"
+      ]
+    ]
+  },
+  "source_context_exclusions": {
+    "assistant_turns": "Suggestions and conversational responses remain in the original source with their actual role; they are not confirmed user memory facts.",
+    "DEMO025": "Unrelated exercise, tutorial mention, borrowed umbrella and unstarted plan: distractor context, not a Harbour database update.",
+    "DEMO027": "Conditional personal outing and meeting preparation, not completed travel or a resolved technical decision."
+  }
+}

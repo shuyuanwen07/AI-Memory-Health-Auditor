@@ -1,0 +1,12 @@
+{
+  "scope": "artifact preservation correction",
+  "v15_terminal_status_observed": "completed",
+  "v15_strict_verifier_terminal_output_observed": {
+    "passed": true
+  },
+  "limitation": "Full v15 report/export/snapshot and strict-verifier file remained in container tmp and were lost during backend recreation. Only earlier observed terminal summaries and host stdout log remain; do not use them as a reproducible full-receipt archive.",
+  "v14_preserved_report": "luna-current-isolated-api-v14-partial-2026-10-13.json",
+  "v14_original_csv_recovered_from_preserved_request_body_hash_verified": true,
+  "production_before_after_row_counts_and_schema_verified_unchanged": true,
+  "replacement": "Fresh v16 artifacts are written to mounted workspace before any service recreation."
+}

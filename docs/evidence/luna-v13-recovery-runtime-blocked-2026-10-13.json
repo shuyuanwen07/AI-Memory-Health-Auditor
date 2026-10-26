@@ -1,0 +1,59 @@
+{
+  "scope": "synthetic_saved_audit_recovery_engineering_only",
+  "research_evidence": false,
+  "production_database_writes": 0,
+  "origin_report_sha256": "d919b3a149cabadb1128fe930a1e3d6f39f745b1d2c2b496379cc267709dcb8c",
+  "origin_snapshot_sha256": "e02e8b2d56e9f54d268f2d1d06b9cb563da9a972e801425459b69d72aa9eed16",
+  "source_sha256": "e84fb0e564c7439ce3edf0fc6ebf7b25a681c9bb9dd209b1b97eb5d5d8a7d406",
+  "approval_sha256": "62446d9d40b77ea713639a3a0d44d4835e6786456cdb63c49a239cbf2c83eb68",
+  "planned_repetitions_per_strategy": 2,
+  "original_saved_response_ids": [
+    "RCE63282EBA324F6DB72F924F818B43B2",
+    "RFF3BB1FE125548EDA41EB263907BD8DF"
+  ],
+  "started_at": "2026-10-13T10:41:27.562612+00:00",
+  "status": "failed",
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/audits/RUN9B0427B8DF474E23A21D177D0F048697/retry-plan",
+      "status_code": 200,
+      "body": {
+        "run_id": "RUN9B0427B8DF474E23A21D177D0F048697",
+        "next_stage": "execute_tests",
+        "pending": 2,
+        "retryable": false,
+        "resume_blocked_reason": "The audit software has changed since this audit was prepared. Start a new audit with the current software or restore its original version. Existing questions, answers and results have been preserved.",
+        "busy": false,
+        "busy_reason": null,
+        "status": "FAILED",
+        "completed_at": null
+      }
+    }
+  ],
+  "runs": [
+    {
+      "run_id": "RUN9B0427B8DF474E23A21D177D0F048697",
+      "strategy": "weak_first_hit",
+      "repetition": 1
+    }
+  ],
+  "runtime_signature": {
+    "source_sha256": "201e7bc9a780a7b98391631ef84c9d5ca81a6a82127d02df951ef3ba58e4137b",
+    "evaluator": "rule-based-v60",
+    "writer": "rule-based-memory-extractor-v23",
+    "adapter": "controlled-memory-v3",
+    "pipeline_output_token_cap": "1200",
+    "protocol": "audit-runtime-v1",
+    "generator": "rule-based-v26"
+  },
+  "error_code": "RuntimeError",
+  "error": "Existing runtime/input freeze blocks recovery: The audit software has changed since this audit was prepared. Start a new audit with the current software or restore its original version. Existing questions, answers and results have been preserved.",
+  "original_saved_responses_unchanged": true,
+  "saved_response_count": 2,
+  "failed_target_receipts": [],
+  "snapshot_sha256": "255750b9838d4a935513c1a1f2cc5303651b71ba3e927b5c9ba5dfe46e8ba429",
+  "finished_at": "2026-10-13T10:41:29.121314+00:00",
+  "disposable_database_removed": true,
+  "original_snapshot_unchanged": true
+}

@@ -47,7 +47,9 @@ function AppShell({signOut,signingOut}:{signOut:(()=>Promise<void>)|null;signing
       <Route path="/generator-models" element={<main className="page"><GeneratorComparisonPage /></main>} />
       <Route path="/extraction-models" element={<main className="page"><ExtractionComparisonPage /></main>} />
       <Route path="/audits/:runId" element={<main className="page"><AuditReportPage /></main>} />
+      <Route path="/audits/:runId/results" element={<main className="page"><AuditReportPage /></main>} />
       <Route path="/experiments" element={<main className="page"><Experiments /></main>} />
+      <Route path="/experiments/:experimentId" element={<main className="page"><Experiments /></main>} />
       <Route path="/blind-review/:runId" element={<BlindReviewPage/>}/>
       <Route path="/quality" element={<AuditorQualityPage/>}/>
       <Route path="/about" element={<main className="page"><About /></main>} />

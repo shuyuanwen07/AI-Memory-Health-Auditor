@@ -1,9 +1,18 @@
 """Read-only, evidence-bound policy ranking agreement for proposal Experiment C."""
 from sqlalchemy import func, select
+from fractions import Fraction
+from collections import Counter
+import json
+from statistics import stdev
 
 from app.benchmarks.semantic_review import SemanticReviewService
 from app.models import AuditRunModel, TestCaseModel, TargetResponseModel, EvaluationResultModel
-from app.schemas.ranking_agreement import RankingAgreementReport, RankingSuiteResult
+from app.schemas.ranking_agreement import (
+    RankingAgreementReport, RankingSuiteResult, RankingDimensionResult,
+    RepeatedRankingReport, RepeatedRankingSuite, RankingTrialResult,
+)
+from app.benchmarks.runner import LongMemEvalDeterministicRunner
+from app.schemas.domain import Dimension
 from app.schemas.target_profile import TargetMemoryProfile
 from app.services.audit_comparison import compare_audit_evidence
 import re
@@ -17,8 +26,41 @@ def suite_result(label, total, reference, candidate):
         ordering="candidate_higher" if candidate > reference else "reference_higher" if reference > candidate else "tie")
 
 
+def audit_suite_result(pairs):
+    groups = {dimension: [] for dimension in Dimension}
+    for pair in pairs:
+        try:
+            groups[Dimension(pair["dimension"])].append(pair)
+        except (KeyError, ValueError):
+            raise ValueError("Every paired audit question needs its recorded memory dimension.") from None
+    dimensions = []
+    fractions = {key: [] for key in ("before", "after")}
+    for dimension, rows in groups.items():
+        counts = {key: sum(row[key]["passed"] for row in rows) for key in fractions}
+        for key in fractions:
+            if rows:
+                fractions[key].append(Fraction(counts[key], len(rows)))
+        dimensions.append(RankingDimensionResult(
+            dimension=dimension, total=len(rows), reference_correct=counts["before"], candidate_correct=counts["after"],
+            reference_percentage=round(100 * counts["before"] / len(rows), 3) if rows else None,
+            candidate_percentage=round(100 * counts["after"] / len(rows), 3) if rows else None,
+        ))
+    complete = all(rows for rows in groups.values())
+    left = sum(fractions["before"], Fraction()) / len(Dimension) if complete else None
+    right = sum(fractions["after"], Fraction()) / len(Dimension) if complete else None
+    return RankingSuiteResult(
+        label="Audit questions", total=len(pairs),
+        reference_correct=sum(row.reference_correct for row in dimensions),
+        candidate_correct=sum(row.candidate_correct for row in dimensions),
+        reference_percentage=round(float(left * 100), 3) if left is not None else None,
+        candidate_percentage=round(float(right * 100), 3) if right is not None else None,
+        score_basis="dimension_macro_average", dimensions=dimensions,
+        ordering="unmeasured" if not complete else "candidate_higher" if right > left else "reference_higher" if left > right else "tie",
+    )
+
+
 class RankingAgreementService:
-    VERSION = "bound-policy-ranking-v1"
+    VERSION = "bound-policy-ranking-v2"
 
     def analyse(self, db, request):
         if not request.reference_benchmark.source_authorised or not request.candidate_benchmark.source_authorised:
@@ -109,10 +151,11 @@ class RankingAgreementService:
             raise ValueError("Complete semantic assessment coverage for both benchmark conditions before checking ranking agreement.")
         if (left.evaluator_model, left.evaluator_revision) != (right.evaluator_model, right.evaluator_revision):
             raise ValueError("Both benchmark conditions must use the same semantic evaluator model and revision.")
-        suites = [suite_result("Audit questions", len(pairs), sum(p["before"]["passed"] for p in pairs), sum(p["after"]["passed"] for p in pairs)),
+        suites = [audit_suite_result(pairs),
                   suite_result("Benchmark questions", left.total, left.correct, right.correct)]
         first, second = (s.ordering for s in suites)
-        agreement = ("both_tied" if first == second == "tie" else "inconclusive_tie" if "tie" in {first, second}
+        agreement = ("inconclusive_missing_dimensions" if "unmeasured" in {first, second}
+                     else "both_tied" if first == second == "tie" else "inconclusive_tie" if "tie" in {first, second}
                      else "consistent" if first == second else "reversed")
         return RankingAgreementReport(version=self.VERSION, provider=before.provider, model=before.model,
             reference_strategy=before.memory_strategy, candidate_strategy=after.memory_strategy,
@@ -126,7 +169,22 @@ class RankingAgreementService:
             benchmark_evidence_fingerprint_sha256=left.evidence_fingerprint_sha256,
             reference_evaluation_fingerprint_sha256=left.evaluation_fingerprint_sha256,
             candidate_evaluation_fingerprint_sha256=right.evaluation_fingerprint_sha256,
-            notice="Descriptive relative ordering across two different question sets, not a comparison of absolute scores or proof of general reliability. Dataset version, licence, citation, source file and imported semantic labels are caller-declared; adapter compatibility limits are listed above. Independent human review, representative subsets and repeated trials are still required. No model calls, training or human labels were created by this check.")
+            experiment_id=before.experiment_id,
+            audit_suite_fingerprint_sha256=LongMemEvalDeterministicRunner._fingerprint(sorted([
+                {key: pair.get(key) for key in ('suite_test_id', 'prompt', 'dimension', 'expected_behavior')}
+                for pair in pairs], key=lambda row: json.dumps(row, sort_keys=True))),
+            audit_configuration_fingerprint_sha256=LongMemEvalDeterministicRunner._fingerprint({
+                'settings': {key: getattr(before, key, None) for key in (
+                    'conversation_id', 'provider', 'model', 'temperature', 'random_seed', 'target_configuration',
+                    'target_memory_capacity', 'target_memory_writer_version', 'target_system_adapter_version',
+                    'evaluator_provider', 'evaluator_model')},
+                'profile': TargetMemoryProfile(**(before.reproducibility_metadata or {})['target_memory_profile']).model_dump(exclude={'label', 'version'}),
+                'runtime': (before.reproducibility_metadata or {}).get('audit_runtime_signature'),
+                'assessors': sorted({str(pair['before'].get('evaluator')) for pair in pairs}),
+            }),
+            benchmark_configuration_fingerprint_sha256=left.configuration_fingerprint_sha256,
+            evaluator_model=left.evaluator_model, evaluator_revision=left.evaluator_revision,
+            notice="Descriptive relative ordering across two different question sets, not a comparison of absolute scores or proof of general reliability. Auditor ordering uses the equal-weight macro-average of all four dimensions; missing dimensions make ranking unmeasured. Benchmark percentages remain response accuracy. Dataset version, licence, citation, source file and imported semantic labels are caller-declared; adapter compatibility limits are listed above. Independent human review, representative subsets and repeated trials are still required. No model calls, training or human labels were created by this check.")
 
     @staticmethod
     def _evaluated_responses(db, run_id):
@@ -146,3 +204,101 @@ class RankingAgreementService:
         if type(limit) is not int or not 1 <= limit <= 8192:
             raise ValueError("Actual answer length limits are unknown. Rerun both suites with an explicit token budget.")
         return limit
+
+
+class RepeatedRankingService:
+    """Read-only repeated analysis; preserve invalid and missing planned trials."""
+
+    VERSION = "repeated-bound-policy-ranking-v1"
+
+    @staticmethod
+    def _compatibility(report):
+        fields = ('provider', 'model', 'reference_strategy', 'candidate_strategy', 'output_token_limit',
+                  'experiment_id', 'source_fingerprint_sha256', 'adapter_version', 'adapter_fingerprint_sha256',
+                  'audit_suite_fingerprint_sha256', 'audit_configuration_fingerprint_sha256',
+                  'benchmark_configuration_fingerprint_sha256', 'evaluator_model', 'evaluator_revision')
+        return {**{key: getattr(report, key) for key in fields},
+                'dataset_provenance': report.dataset_provenance.model_dump(mode='json'),
+                'compatibility_limitations': report.compatibility_limitations}
+
+    @staticmethod
+    def _score(suite, candidate=False):
+        key = 'candidate_correct' if candidate else 'reference_correct'
+        if suite.score_basis == 'dimension_macro_average':
+            if len(suite.dimensions) != len(Dimension) or any(row.total == 0 for row in suite.dimensions):
+                raise ValueError('Repeated Auditor ranking requires all four measured dimensions.')
+            return sum((Fraction(getattr(row, key), row.total) for row in suite.dimensions), Fraction()) / len(Dimension)
+        return Fraction(getattr(suite, key), suite.total)
+
+    def analyse(self, db, request):
+        comparisons = [trial.comparison for trial in request.trials if trial.comparison is not None]
+        if any(not item.reference_benchmark.source_authorised or not item.candidate_benchmark.source_authorised
+               for item in comparisons):
+            raise ValueError('Confirm source authorisation for every repeated benchmark assessment before processing it.')
+        if len(json.dumps(request.model_dump(mode='json')).encode()) > 10_000_000:
+            raise ValueError('Choose a repeated analysis package smaller than 10 MB.')
+        benchmark_runs = [item.reference_benchmark.evidence.run_id for item in comparisons]
+        if len(benchmark_runs) != len(set(benchmark_runs)):
+            raise ValueError('A saved benchmark execution cannot be counted as more than one repeated trial.')
+        by_id = {trial.trial_id: trial for trial in request.trials}
+        results, anchor = [], None
+        for trial_id in request.planned_trial_ids:
+            trial = by_id.get(trial_id)
+            if trial is None or trial.comparison is None:
+                results.append(RankingTrialResult(trial_id=trial_id, status='missing',
+                    reason=trial.unavailable_reason if trial and trial.unavailable_reason else 'No comparison evidence was supplied for this planned trial.'))
+                continue
+            try:
+                report = RankingAgreementService().analyse(db, trial.comparison)
+                compatible = self._compatibility(report)
+                if anchor is not None and compatible != anchor:
+                    raise ValueError('Repeated trials must use the same frozen audit suite, source subset, model, settings, adapter and evaluation standard.')
+                if anchor is None:
+                    anchor = compatible
+                status = 'unmeasured' if report.agreement == 'inconclusive_missing_dimensions' else 'measured'
+                results.append(RankingTrialResult(trial_id=trial_id, status=status, report=report,
+                    reference_run_id=trial.comparison.reference_run_id, candidate_run_id=trial.comparison.candidate_run_id,
+                    reason='The Auditor did not measure all four dimensions.' if status == 'unmeasured' else None))
+            except ValueError as error:
+                results.append(RankingTrialResult(trial_id=trial_id, status='invalid', reason=str(error),
+                    reference_run_id=trial.comparison.reference_run_id, candidate_run_id=trial.comparison.candidate_run_id))
+        measured = [row.report for row in results if row.status == 'measured']
+        complete = len(measured) == len(request.planned_trial_ids)
+        statuses = Counter(row.status for row in results)
+        agreements = Counter(report.agreement for report in measured)
+        directional = agreements['consistent'] + agreements['reversed']
+        suites = []
+        if measured:
+            for index, first in enumerate(measured[0].suites):
+                left = [self._score(report.suites[index]) for report in measured]
+                right = [self._score(report.suites[index], True) for report in measured]
+                left_mean, right_mean = sum(left) / len(left), sum(right) / len(right)
+                suites.append(RepeatedRankingSuite(
+                    label=first.label, score_basis=first.score_basis, measured_trials=len(measured),
+                    reference_mean_percentage=round(float(left_mean * 100), 3) if complete else None,
+                    candidate_mean_percentage=round(float(right_mean * 100), 3) if complete else None,
+                    reference_standard_deviation=round(stdev([float(value * 100) for value in left]), 3) if complete and len(left) > 1 else None,
+                    candidate_standard_deviation=round(stdev([float(value * 100) for value in right]), 3) if complete and len(right) > 1 else None,
+                    ordering='unmeasured' if not complete else 'candidate_higher' if right_mean > left_mean else 'reference_higher' if left_mean > right_mean else 'tie',
+                ))
+        return RepeatedRankingReport(
+            version=self.VERSION, status='complete' if complete else 'partial',
+            planned_trial_ids=request.planned_trial_ids,
+            plan_fingerprint_sha256=LongMemEvalDeterministicRunner._fingerprint([
+                {'trial_id':trial_id,
+                 'reference_run_id':by_id[trial_id].comparison.reference_run_id if trial_id in by_id and by_id[trial_id].comparison else None,
+                 'candidate_run_id':by_id[trial_id].comparison.candidate_run_id if trial_id in by_id and by_id[trial_id].comparison else None,
+                 'benchmark_run_id':by_id[trial_id].comparison.reference_benchmark.evidence.run_id if trial_id in by_id and by_id[trial_id].comparison else None,
+                 'source_fingerprint_sha256':by_id[trial_id].comparison.reference_benchmark.evidence.source_fingerprint_sha256 if trial_id in by_id and by_id[trial_id].comparison else None}
+                for trial_id in request.planned_trial_ids]),
+            provider=anchor['provider'] if anchor else None, model=anchor['model'] if anchor else None,
+            reference_strategy=anchor['reference_strategy'] if anchor else None,
+            candidate_strategy=anchor['candidate_strategy'] if anchor else None,
+            trials=results, planned_trials=len(results), measured_trials=len(measured),
+            invalid_trials=statuses['invalid'], missing_trials=statuses['missing'], unmeasured_trials=statuses['unmeasured'],
+            directional_trials=directional, consistent_trials=agreements['consistent'], reversed_trials=agreements['reversed'],
+            both_tied_trials=agreements['both_tied'], inconclusive_tie_trials=agreements['inconclusive_tie'],
+            ranking_agreement_percentage=round(100 * agreements['consistent'] / directional, 3) if complete and directional else None,
+            suites=suites,
+            notice='Descriptive repeated analysis of saved original executions. Each planned repeat has equal weight; Auditor scores are four-dimension macro-averages and benchmark scores are response accuracy. Ties are reported separately from directional agreement. Missing, invalid or unmeasured planned trials prevent aggregate scores and agreement rates. The plan is caller-declared at analysis time, not a verified pre-registration or server freeze. Independent labels, a genuinely predeclared study plan and an authorised representative LongMemEval subset remain required. This analysis creates no model calls, database records or human labels.',
+        )

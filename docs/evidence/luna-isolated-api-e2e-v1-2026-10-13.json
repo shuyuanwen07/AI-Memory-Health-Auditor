@@ -1,0 +1,836 @@
+{
+  "scope": "synthetic_isolated_api_e2e_engineering_only",
+  "research_evidence": false,
+  "source_sha256": "e84fb0e564c7439ce3edf0fc6ebf7b25a681c9bb9dd209b1b97eb5d5d8a7d406",
+  "approval_sha256": "62446d9d40b77ea713639a3a0d44d4835e6786456cdb63c49a239cbf2c83eb68",
+  "approval_basis": "The user confirmed all eight Maple synthetic facts and these three edges in this task on 13 October 2026. This is not independent annotation, human gold or research evidence.",
+  "provider": "openrouter",
+  "model": "openai/gpt-6-luna",
+  "production_database_writes": 0,
+  "database": "new disposable SQLite file before app import",
+  "started_at": "2026-10-13T05:35:19.879288+00:00",
+  "status": "failed",
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/conversations",
+      "status_code": 201,
+      "elapsed_ms": 27.756,
+      "body": {
+        "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+        "created_at": "2026-10-13T05:35:21.798277",
+        "authorised": true,
+        "source_origin": "synthetic",
+        "messages": [
+          {
+            "message_id": "SYN101",
+            "role": "user",
+            "content": "I live in Adelaide.",
+            "timestamp": "2026-10-01T00:00:00Z",
+            "original_timestamp": "2026-10-01T00:00:00+00:00"
+          },
+          {
+            "message_id": "SYN102",
+            "role": "user",
+            "content": "The Maple capstone backend used MySQL previously.",
+            "timestamp": "2026-10-01T00:01:00Z",
+            "original_timestamp": "2026-10-01T00:01:00+00:00"
+          },
+          {
+            "message_id": "SYN103",
+            "role": "user",
+            "content": "We migrated the Maple capstone backend to PostgreSQL; MySQL is no longer used there.",
+            "timestamp": "2026-10-01T00:02:00Z",
+            "original_timestamp": "2026-10-01T00:02:00+00:00"
+          },
+          {
+            "message_id": "SYN104",
+            "role": "user",
+            "content": "In general, I prefer Python for backend projects.",
+            "timestamp": "2026-10-01T00:03:00Z",
+            "original_timestamp": "2026-10-01T00:03:00+00:00"
+          },
+          {
+            "message_id": "SYN105",
+            "role": "user",
+            "content": "For Maple capstone backend work, the course requires Java only; that requirement applies to this capstone project.",
+            "timestamp": "2026-10-01T00:04:00Z",
+            "original_timestamp": "2026-10-01T00:04:00+00:00"
+          },
+          {
+            "message_id": "SYN106",
+            "role": "user",
+            "content": "The current deployment plan for the Maple capstone says the production region is North.",
+            "timestamp": "2026-10-01T00:05:00Z",
+            "original_timestamp": "2026-10-01T00:05:00+00:00"
+          },
+          {
+            "message_id": "SYN107",
+            "role": "user",
+            "content": "The signed client brief for the same Maple capstone deployment says the production region is South.",
+            "timestamp": "2026-10-01T00:06:00Z",
+            "original_timestamp": "2026-10-01T00:06:00+00:00"
+          },
+          {
+            "message_id": "SYN108",
+            "role": "user",
+            "content": "Both deployment documents are still active; I have not established which instruction controls.",
+            "timestamp": "2026-10-01T00:07:00Z",
+            "original_timestamp": "2026-10-01T00:07:00+00:00"
+          }
+        ],
+        "extraction_provenance": null
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/conversations/CD5BEA69DCB0041F9B662CDEB46A7A541/extract",
+      "status_code": 200,
+      "elapsed_ms": 20456.320000000003,
+      "body": [
+        {
+          "memory_id": "M13A07962A1EB45FAA4286A05B98870E7",
+          "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+          "canonical_value": "The user lives in Adelaide.",
+          "status": "candidate",
+          "source_message_ids": [
+            "SYN101"
+          ],
+          "timestamp": "2026-10-01T00:00:00",
+          "confidence": 0.99,
+          "relationships": []
+        },
+        {
+          "memory_id": "M11C98A5AE5BA432EB98CEC4CA1D82506",
+          "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+          "canonical_value": "The Maple capstone backend previously used MySQL; it was migrated to PostgreSQL, and MySQL is no longer used there.",
+          "status": "candidate",
+          "source_message_ids": [
+            "SYN102",
+            "SYN103"
+          ],
+          "timestamp": "2026-10-01T00:02:00",
+          "confidence": 0.99,
+          "relationships": []
+        },
+        {
+          "memory_id": "ME50A6A910D0F4873A91DC3F77C00B691",
+          "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+          "canonical_value": "The user generally prefers Python for backend projects.",
+          "status": "candidate",
+          "source_message_ids": [
+            "SYN104"
+          ],
+          "timestamp": "2026-10-01T00:03:00",
+          "confidence": 0.99,
+          "relationships": []
+        },
+        {
+          "memory_id": "M18F68970CB3A44568CB1FFCF97472E7D",
+          "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+          "canonical_value": "For Maple capstone backend work, the course requires Java only; this requirement applies to this capstone project.",
+          "status": "candidate",
+          "source_message_ids": [
+            "SYN105"
+          ],
+          "timestamp": "2026-10-01T00:04:00",
+          "confidence": 0.99,
+          "relationships": [
+            {
+              "relationship_id": "MRF3D1E6CC75964C3E97E6AB7A88567193",
+              "type": "CONTEXTUAL_OVERRIDE",
+              "target_memory_id": "ME50A6A910D0F4873A91DC3F77C00B691",
+              "evidence_message_ids": [
+                "SYN104",
+                "SYN105"
+              ],
+              "confidence": 0.99
+            }
+          ]
+        },
+        {
+          "memory_id": "M216B2084FBB446C595A39951A9259818",
+          "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+          "canonical_value": "The current deployment plan for the Maple capstone states that the production region is North.",
+          "status": "candidate",
+          "source_message_ids": [
+            "SYN106"
+          ],
+          "timestamp": "2026-10-01T00:05:00",
+          "confidence": 0.99,
+          "relationships": []
+        },
+        {
+          "memory_id": "M87E62D07BF2D43AF92E47B431809A45C",
+          "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+          "canonical_value": "The signed client brief for the Maple capstone deployment states that the production region is South.",
+          "status": "candidate",
+          "source_message_ids": [
+            "SYN107"
+          ],
+          "timestamp": "2026-10-01T00:06:00",
+          "confidence": 0.99,
+          "relationships": [
+            {
+              "relationship_id": "MR132D22562E944F6ABC18736D6B290AA0",
+              "type": "CONFLICT",
+              "target_memory_id": "M216B2084FBB446C595A39951A9259818",
+              "evidence_message_ids": [
+                "SYN106",
+                "SYN107"
+              ],
+              "confidence": 0.99
+            }
+          ]
+        },
+        {
+          "memory_id": "M1567DB7F64834B6A88D32802A5FA40C0",
+          "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+          "canonical_value": "Both Maple capstone deployment documents—the current plan and the signed client brief—are still active, and the user has not established which instruction controls.",
+          "status": "candidate",
+          "source_message_ids": [
+            "SYN108"
+          ],
+          "timestamp": "2026-10-01T00:07:00",
+          "confidence": 0.99,
+          "relationships": []
+        }
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/conversations/CD5BEA69DCB0041F9B662CDEB46A7A541/agent-executions",
+      "status_code": 200,
+      "elapsed_ms": 14.635,
+      "body": [
+        {
+          "execution_id": "AGT671E0D12274D4128B2558E0DA2E48E7B",
+          "role": "memory_extraction",
+          "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+          "run_id": null,
+          "provider": "openrouter",
+          "model": "openai/gpt-6-luna",
+          "reported_model": "openai/gpt-6-luna",
+          "prompt_template_version": "memory-extraction-agent-v11",
+          "prompt_fingerprint": "d5fa25d4e8f5a83e5ac9dcb4972f2f96436b5a50a6c3a4a5914d1e947a9e8957",
+          "input_fingerprint": "8471d5bbd1da56c0125e8f6eb73042dceb54e40e5d861ba8e74bd99d1542c447",
+          "input_refs": {
+            "message_ids": [
+              "SYN101",
+              "SYN102",
+              "SYN103",
+              "SYN104",
+              "SYN105",
+              "SYN106",
+              "SYN107",
+              "SYN108"
+            ],
+            "source_ref_to_message_id": {
+              "1": "SYN101",
+              "2": "SYN102",
+              "3": "SYN103",
+              "4": "SYN104",
+              "5": "SYN105",
+              "6": "SYN106",
+              "7": "SYN107",
+              "8": "SYN108"
+            }
+          },
+          "output_data": {
+            "memories": [
+              {
+                "memory_id": "M13A07962A1EB45FAA4286A05B98870E7",
+                "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+                "canonical_value": "The user lives in Adelaide.",
+                "status": "candidate",
+                "source_message_ids": [
+                  "SYN101"
+                ],
+                "timestamp": "2026-10-01T00:00:00Z",
+                "confidence": 0.99,
+                "relationships": []
+              },
+              {
+                "memory_id": "M11C98A5AE5BA432EB98CEC4CA1D82506",
+                "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+                "canonical_value": "The Maple capstone backend previously used MySQL; it was migrated to PostgreSQL, and MySQL is no longer used there.",
+                "status": "candidate",
+                "source_message_ids": [
+                  "SYN102",
+                  "SYN103"
+                ],
+                "timestamp": "2026-10-01T00:02:00Z",
+                "confidence": 0.99,
+                "relationships": []
+              },
+              {
+                "memory_id": "ME50A6A910D0F4873A91DC3F77C00B691",
+                "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+                "canonical_value": "The user generally prefers Python for backend projects.",
+                "status": "candidate",
+                "source_message_ids": [
+                  "SYN104"
+                ],
+                "timestamp": "2026-10-01T00:03:00Z",
+                "confidence": 0.99,
+                "relationships": []
+              },
+              {
+                "memory_id": "M18F68970CB3A44568CB1FFCF97472E7D",
+                "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+                "canonical_value": "For Maple capstone backend work, the course requires Java only; this requirement applies to this capstone project.",
+                "status": "candidate",
+                "source_message_ids": [
+                  "SYN105"
+                ],
+                "timestamp": "2026-10-01T00:04:00Z",
+                "confidence": 0.99,
+                "relationships": []
+              },
+              {
+                "memory_id": "M216B2084FBB446C595A39951A9259818",
+                "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+                "canonical_value": "The current deployment plan for the Maple capstone states that the production region is North.",
+                "status": "candidate",
+                "source_message_ids": [
+                  "SYN106"
+                ],
+                "timestamp": "2026-10-01T00:05:00Z",
+                "confidence": 0.99,
+                "relationships": []
+              },
+              {
+                "memory_id": "M87E62D07BF2D43AF92E47B431809A45C",
+                "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+                "canonical_value": "The signed client brief for the Maple capstone deployment states that the production region is South.",
+                "status": "candidate",
+                "source_message_ids": [
+                  "SYN107"
+                ],
+                "timestamp": "2026-10-01T00:06:00Z",
+                "confidence": 0.99,
+                "relationships": []
+              },
+              {
+                "memory_id": "M1567DB7F64834B6A88D32802A5FA40C0",
+                "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+                "canonical_value": "Both Maple capstone deployment documents—the current plan and the signed client brief—are still active, and the user has not established which instruction controls.",
+                "status": "candidate",
+                "source_message_ids": [
+                  "SYN108"
+                ],
+                "timestamp": "2026-10-01T00:07:00Z",
+                "confidence": 0.99,
+                "relationships": []
+              }
+            ]
+          },
+          "status": "completed",
+          "attempt_count": 1,
+          "elapsed_ms": 7651.81,
+          "error_code": null,
+          "error_summary": null,
+          "error_diagnostics": null,
+          "handoff_from": null,
+          "handoff_to": "AGT54D95470EFE848D8A325395665A158B1",
+          "created_at": "2026-10-13T05:35:42.171953"
+        },
+        {
+          "execution_id": "AGT54D95470EFE848D8A325395665A158B1",
+          "role": "relationship_analysis",
+          "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+          "run_id": null,
+          "provider": "openrouter",
+          "model": "openai/gpt-6-luna",
+          "reported_model": "openai/gpt-6-luna",
+          "prompt_template_version": "relationship-analysis-agent-v5",
+          "prompt_fingerprint": "3c17e34b14bf8f4574e1609c8561e0b906631fcc19dfc41b8c4f3f15843d40ae",
+          "input_fingerprint": "3e9d12ab9170f63d63da576cf521c7085fcd5d9989998f985003d766dc2a08c0",
+          "input_refs": {
+            "message_ids": [
+              "SYN101",
+              "SYN102",
+              "SYN103",
+              "SYN104",
+              "SYN105",
+              "SYN106",
+              "SYN107",
+              "SYN108"
+            ],
+            "memory_ids": [
+              "M13A07962A1EB45FAA4286A05B98870E7",
+              "M11C98A5AE5BA432EB98CEC4CA1D82506",
+              "ME50A6A910D0F4873A91DC3F77C00B691",
+              "M18F68970CB3A44568CB1FFCF97472E7D",
+              "M216B2084FBB446C595A39951A9259818",
+              "M87E62D07BF2D43AF92E47B431809A45C",
+              "M1567DB7F64834B6A88D32802A5FA40C0"
+            ]
+          },
+          "output_data": {
+            "relationships": [
+              {
+                "current_memory_id": "M18F68970CB3A44568CB1FFCF97472E7D",
+                "prior_memory_id": "ME50A6A910D0F4873A91DC3F77C00B691",
+                "type": "CONTEXTUAL_OVERRIDE",
+                "evidence_message_ids": [
+                  "SYN104",
+                  "SYN105"
+                ],
+                "confidence": 0.99,
+                "rationale": "The general preference for Python backend projects is overridden for Maple capstone backend work by the scoped course requirement to use Java only.",
+                "source_memory_id": "M18F68970CB3A44568CB1FFCF97472E7D"
+              },
+              {
+                "current_memory_id": "M87E62D07BF2D43AF92E47B431809A45C",
+                "prior_memory_id": "M216B2084FBB446C595A39951A9259818",
+                "type": "CONFLICT",
+                "evidence_message_ids": [
+                  "SYN106",
+                  "SYN107"
+                ],
+                "confidence": 0.99,
+                "rationale": "The active signed client brief and current deployment plan give incompatible production regions for the same Maple capstone deployment. Neither replaces the other.",
+                "source_memory_id": "M87E62D07BF2D43AF92E47B431809A45C"
+              }
+            ]
+          },
+          "status": "completed",
+          "attempt_count": 1,
+          "elapsed_ms": 8431.32,
+          "error_code": null,
+          "error_summary": null,
+          "error_diagnostics": null,
+          "handoff_from": "AGT671E0D12274D4128B2558E0DA2E48E7B",
+          "handoff_to": "AGTEAB68C2813034A55B546996B6A179D97",
+          "created_at": "2026-10-13T05:35:42.225800"
+        },
+        {
+          "execution_id": "AGTEAB68C2813034A55B546996B6A179D97",
+          "role": "independent_memory_review",
+          "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+          "run_id": null,
+          "provider": "openrouter",
+          "model": "openai/gpt-6-luna",
+          "reported_model": "openai/gpt-6-luna",
+          "prompt_template_version": "independent-memory-review-agent-v2",
+          "prompt_fingerprint": "dba010f0ae14b3267519c29f5c507b33fb2f80555b617bb0a739973216904668",
+          "input_fingerprint": "bbad9f9776d9caaebaa61b5243a5e8cdc3ce31242550b60569b10dc91fc1d406",
+          "input_refs": {
+            "message_ids": [
+              "SYN101",
+              "SYN102",
+              "SYN103",
+              "SYN104",
+              "SYN105",
+              "SYN106",
+              "SYN107",
+              "SYN108"
+            ],
+            "memory_ids": [
+              "M13A07962A1EB45FAA4286A05B98870E7",
+              "ME50A6A910D0F4873A91DC3F77C00B691",
+              "M87E62D07BF2D43AF92E47B431809A45C",
+              "M1567DB7F64834B6A88D32802A5FA40C0",
+              "M216B2084FBB446C595A39951A9259818",
+              "M11C98A5AE5BA432EB98CEC4CA1D82506",
+              "M18F68970CB3A44568CB1FFCF97472E7D"
+            ]
+          },
+          "output_data": {
+            "version": "independent-memory-review-agent-v2",
+            "status": "completed",
+            "finding_count": 0,
+            "findings": [],
+            "notice": "Advisory Agent review only. A person must verify every concern and decide whether to edit or add a memory."
+          },
+          "status": "completed",
+          "attempt_count": 1,
+          "elapsed_ms": 4195.05,
+          "error_code": null,
+          "error_summary": null,
+          "error_diagnostics": null,
+          "handoff_from": "AGT54D95470EFE848D8A325395665A158B1",
+          "handoff_to": null,
+          "created_at": "2026-10-13T05:35:42.227366"
+        }
+      ]
+    }
+  ],
+  "runs": [],
+  "runtime_signature": {
+    "source_sha256": "ec3259d2733568c8a3b516f24932d3cd47bfbc617cdd1758ca5e8bb50a955b0b",
+    "evaluator": "rule-based-v58",
+    "writer": "rule-based-memory-extractor-v23",
+    "adapter": "controlled-memory-v2",
+    "protocol": "audit-runtime-v1",
+    "generator": "rule-based-v26"
+  },
+  "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+  "extracted_candidates": [
+    {
+      "memory_id": "M13A07962A1EB45FAA4286A05B98870E7",
+      "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+      "canonical_value": "The user lives in Adelaide.",
+      "status": "candidate",
+      "source_message_ids": [
+        "SYN101"
+      ],
+      "timestamp": "2026-10-01T00:00:00",
+      "confidence": 0.99,
+      "relationships": []
+    },
+    {
+      "memory_id": "M11C98A5AE5BA432EB98CEC4CA1D82506",
+      "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+      "canonical_value": "The Maple capstone backend previously used MySQL; it was migrated to PostgreSQL, and MySQL is no longer used there.",
+      "status": "candidate",
+      "source_message_ids": [
+        "SYN102",
+        "SYN103"
+      ],
+      "timestamp": "2026-10-01T00:02:00",
+      "confidence": 0.99,
+      "relationships": []
+    },
+    {
+      "memory_id": "ME50A6A910D0F4873A91DC3F77C00B691",
+      "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+      "canonical_value": "The user generally prefers Python for backend projects.",
+      "status": "candidate",
+      "source_message_ids": [
+        "SYN104"
+      ],
+      "timestamp": "2026-10-01T00:03:00",
+      "confidence": 0.99,
+      "relationships": []
+    },
+    {
+      "memory_id": "M18F68970CB3A44568CB1FFCF97472E7D",
+      "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+      "canonical_value": "For Maple capstone backend work, the course requires Java only; this requirement applies to this capstone project.",
+      "status": "candidate",
+      "source_message_ids": [
+        "SYN105"
+      ],
+      "timestamp": "2026-10-01T00:04:00",
+      "confidence": 0.99,
+      "relationships": [
+        {
+          "relationship_id": "MRF3D1E6CC75964C3E97E6AB7A88567193",
+          "type": "CONTEXTUAL_OVERRIDE",
+          "target_memory_id": "ME50A6A910D0F4873A91DC3F77C00B691",
+          "evidence_message_ids": [
+            "SYN104",
+            "SYN105"
+          ],
+          "confidence": 0.99
+        }
+      ]
+    },
+    {
+      "memory_id": "M216B2084FBB446C595A39951A9259818",
+      "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+      "canonical_value": "The current deployment plan for the Maple capstone states that the production region is North.",
+      "status": "candidate",
+      "source_message_ids": [
+        "SYN106"
+      ],
+      "timestamp": "2026-10-01T00:05:00",
+      "confidence": 0.99,
+      "relationships": []
+    },
+    {
+      "memory_id": "M87E62D07BF2D43AF92E47B431809A45C",
+      "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+      "canonical_value": "The signed client brief for the Maple capstone deployment states that the production region is South.",
+      "status": "candidate",
+      "source_message_ids": [
+        "SYN107"
+      ],
+      "timestamp": "2026-10-01T00:06:00",
+      "confidence": 0.99,
+      "relationships": [
+        {
+          "relationship_id": "MR132D22562E944F6ABC18736D6B290AA0",
+          "type": "CONFLICT",
+          "target_memory_id": "M216B2084FBB446C595A39951A9259818",
+          "evidence_message_ids": [
+            "SYN106",
+            "SYN107"
+          ],
+          "confidence": 0.99
+        }
+      ]
+    },
+    {
+      "memory_id": "M1567DB7F64834B6A88D32802A5FA40C0",
+      "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+      "canonical_value": "Both Maple capstone deployment documents—the current plan and the signed client brief—are still active, and the user has not established which instruction controls.",
+      "status": "candidate",
+      "source_message_ids": [
+        "SYN108"
+      ],
+      "timestamp": "2026-10-01T00:07:00",
+      "confidence": 0.99,
+      "relationships": []
+    }
+  ],
+  "extraction_agents": [
+    {
+      "execution_id": "AGT671E0D12274D4128B2558E0DA2E48E7B",
+      "role": "memory_extraction",
+      "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+      "run_id": null,
+      "provider": "openrouter",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "prompt_template_version": "memory-extraction-agent-v11",
+      "prompt_fingerprint": "d5fa25d4e8f5a83e5ac9dcb4972f2f96436b5a50a6c3a4a5914d1e947a9e8957",
+      "input_fingerprint": "8471d5bbd1da56c0125e8f6eb73042dceb54e40e5d861ba8e74bd99d1542c447",
+      "input_refs": {
+        "message_ids": [
+          "SYN101",
+          "SYN102",
+          "SYN103",
+          "SYN104",
+          "SYN105",
+          "SYN106",
+          "SYN107",
+          "SYN108"
+        ],
+        "source_ref_to_message_id": {
+          "1": "SYN101",
+          "2": "SYN102",
+          "3": "SYN103",
+          "4": "SYN104",
+          "5": "SYN105",
+          "6": "SYN106",
+          "7": "SYN107",
+          "8": "SYN108"
+        }
+      },
+      "output_data": {
+        "memories": [
+          {
+            "memory_id": "M13A07962A1EB45FAA4286A05B98870E7",
+            "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+            "canonical_value": "The user lives in Adelaide.",
+            "status": "candidate",
+            "source_message_ids": [
+              "SYN101"
+            ],
+            "timestamp": "2026-10-01T00:00:00Z",
+            "confidence": 0.99,
+            "relationships": []
+          },
+          {
+            "memory_id": "M11C98A5AE5BA432EB98CEC4CA1D82506",
+            "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+            "canonical_value": "The Maple capstone backend previously used MySQL; it was migrated to PostgreSQL, and MySQL is no longer used there.",
+            "status": "candidate",
+            "source_message_ids": [
+              "SYN102",
+              "SYN103"
+            ],
+            "timestamp": "2026-10-01T00:02:00Z",
+            "confidence": 0.99,
+            "relationships": []
+          },
+          {
+            "memory_id": "ME50A6A910D0F4873A91DC3F77C00B691",
+            "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+            "canonical_value": "The user generally prefers Python for backend projects.",
+            "status": "candidate",
+            "source_message_ids": [
+              "SYN104"
+            ],
+            "timestamp": "2026-10-01T00:03:00Z",
+            "confidence": 0.99,
+            "relationships": []
+          },
+          {
+            "memory_id": "M18F68970CB3A44568CB1FFCF97472E7D",
+            "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+            "canonical_value": "For Maple capstone backend work, the course requires Java only; this requirement applies to this capstone project.",
+            "status": "candidate",
+            "source_message_ids": [
+              "SYN105"
+            ],
+            "timestamp": "2026-10-01T00:04:00Z",
+            "confidence": 0.99,
+            "relationships": []
+          },
+          {
+            "memory_id": "M216B2084FBB446C595A39951A9259818",
+            "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+            "canonical_value": "The current deployment plan for the Maple capstone states that the production region is North.",
+            "status": "candidate",
+            "source_message_ids": [
+              "SYN106"
+            ],
+            "timestamp": "2026-10-01T00:05:00Z",
+            "confidence": 0.99,
+            "relationships": []
+          },
+          {
+            "memory_id": "M87E62D07BF2D43AF92E47B431809A45C",
+            "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+            "canonical_value": "The signed client brief for the Maple capstone deployment states that the production region is South.",
+            "status": "candidate",
+            "source_message_ids": [
+              "SYN107"
+            ],
+            "timestamp": "2026-10-01T00:06:00Z",
+            "confidence": 0.99,
+            "relationships": []
+          },
+          {
+            "memory_id": "M1567DB7F64834B6A88D32802A5FA40C0",
+            "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+            "canonical_value": "Both Maple capstone deployment documents—the current plan and the signed client brief—are still active, and the user has not established which instruction controls.",
+            "status": "candidate",
+            "source_message_ids": [
+              "SYN108"
+            ],
+            "timestamp": "2026-10-01T00:07:00Z",
+            "confidence": 0.99,
+            "relationships": []
+          }
+        ]
+      },
+      "status": "completed",
+      "attempt_count": 1,
+      "elapsed_ms": 7651.81,
+      "error_code": null,
+      "error_summary": null,
+      "error_diagnostics": null,
+      "handoff_from": null,
+      "handoff_to": "AGT54D95470EFE848D8A325395665A158B1",
+      "created_at": "2026-10-13T05:35:42.171953"
+    },
+    {
+      "execution_id": "AGT54D95470EFE848D8A325395665A158B1",
+      "role": "relationship_analysis",
+      "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+      "run_id": null,
+      "provider": "openrouter",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "prompt_template_version": "relationship-analysis-agent-v5",
+      "prompt_fingerprint": "3c17e34b14bf8f4574e1609c8561e0b906631fcc19dfc41b8c4f3f15843d40ae",
+      "input_fingerprint": "3e9d12ab9170f63d63da576cf521c7085fcd5d9989998f985003d766dc2a08c0",
+      "input_refs": {
+        "message_ids": [
+          "SYN101",
+          "SYN102",
+          "SYN103",
+          "SYN104",
+          "SYN105",
+          "SYN106",
+          "SYN107",
+          "SYN108"
+        ],
+        "memory_ids": [
+          "M13A07962A1EB45FAA4286A05B98870E7",
+          "M11C98A5AE5BA432EB98CEC4CA1D82506",
+          "ME50A6A910D0F4873A91DC3F77C00B691",
+          "M18F68970CB3A44568CB1FFCF97472E7D",
+          "M216B2084FBB446C595A39951A9259818",
+          "M87E62D07BF2D43AF92E47B431809A45C",
+          "M1567DB7F64834B6A88D32802A5FA40C0"
+        ]
+      },
+      "output_data": {
+        "relationships": [
+          {
+            "current_memory_id": "M18F68970CB3A44568CB1FFCF97472E7D",
+            "prior_memory_id": "ME50A6A910D0F4873A91DC3F77C00B691",
+            "type": "CONTEXTUAL_OVERRIDE",
+            "evidence_message_ids": [
+              "SYN104",
+              "SYN105"
+            ],
+            "confidence": 0.99,
+            "rationale": "The general preference for Python backend projects is overridden for Maple capstone backend work by the scoped course requirement to use Java only.",
+            "source_memory_id": "M18F68970CB3A44568CB1FFCF97472E7D"
+          },
+          {
+            "current_memory_id": "M87E62D07BF2D43AF92E47B431809A45C",
+            "prior_memory_id": "M216B2084FBB446C595A39951A9259818",
+            "type": "CONFLICT",
+            "evidence_message_ids": [
+              "SYN106",
+              "SYN107"
+            ],
+            "confidence": 0.99,
+            "rationale": "The active signed client brief and current deployment plan give incompatible production regions for the same Maple capstone deployment. Neither replaces the other.",
+            "source_memory_id": "M87E62D07BF2D43AF92E47B431809A45C"
+          }
+        ]
+      },
+      "status": "completed",
+      "attempt_count": 1,
+      "elapsed_ms": 8431.32,
+      "error_code": null,
+      "error_summary": null,
+      "error_diagnostics": null,
+      "handoff_from": "AGT671E0D12274D4128B2558E0DA2E48E7B",
+      "handoff_to": "AGTEAB68C2813034A55B546996B6A179D97",
+      "created_at": "2026-10-13T05:35:42.225800"
+    },
+    {
+      "execution_id": "AGTEAB68C2813034A55B546996B6A179D97",
+      "role": "independent_memory_review",
+      "conversation_id": "CD5BEA69DCB0041F9B662CDEB46A7A541",
+      "run_id": null,
+      "provider": "openrouter",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "prompt_template_version": "independent-memory-review-agent-v2",
+      "prompt_fingerprint": "dba010f0ae14b3267519c29f5c507b33fb2f80555b617bb0a739973216904668",
+      "input_fingerprint": "bbad9f9776d9caaebaa61b5243a5e8cdc3ce31242550b60569b10dc91fc1d406",
+      "input_refs": {
+        "message_ids": [
+          "SYN101",
+          "SYN102",
+          "SYN103",
+          "SYN104",
+          "SYN105",
+          "SYN106",
+          "SYN107",
+          "SYN108"
+        ],
+        "memory_ids": [
+          "M13A07962A1EB45FAA4286A05B98870E7",
+          "ME50A6A910D0F4873A91DC3F77C00B691",
+          "M87E62D07BF2D43AF92E47B431809A45C",
+          "M1567DB7F64834B6A88D32802A5FA40C0",
+          "M216B2084FBB446C595A39951A9259818",
+          "M11C98A5AE5BA432EB98CEC4CA1D82506",
+          "M18F68970CB3A44568CB1FFCF97472E7D"
+        ]
+      },
+      "output_data": {
+        "version": "independent-memory-review-agent-v2",
+        "status": "completed",
+        "finding_count": 0,
+        "findings": [],
+        "notice": "Advisory Agent review only. A person must verify every concern and decide whether to edit or add a memory."
+      },
+      "status": "completed",
+      "attempt_count": 1,
+      "elapsed_ms": 4195.05,
+      "error_code": null,
+      "error_summary": null,
+      "error_diagnostics": null,
+      "handoff_from": "AGT54D95470EFE848D8A325395665A158B1",
+      "handoff_to": null,
+      "created_at": "2026-10-13T05:35:42.227366"
+    }
+  ],
+  "error_code": "JSONDecodeError",
+  "error": "Expecting value: line 1 column 1 (char 0)",
+  "finished_at": "2026-10-13T05:35:42.294744+00:00",
+  "disposable_database_removed": true
+}

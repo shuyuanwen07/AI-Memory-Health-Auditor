@@ -141,7 +141,7 @@ def test_research_endpoint_preserves_categories_and_versioned_metrics():
     machine['evaluator_predictions'][3].update(passed=False,failure_type='accuracy')
     with TestClient(app) as client:
         response=client.post('/api/v1/research/validity/report',json={
-            'dataset':dataset().model_dump(mode='json'),'predictions':machine})
+            'dataset':dataset().model_dump(mode='json'),'predictions':machine,'source_authorised':True})
     assert response.status_code == 200
     body=response.json()
     assert body['metric_version']=='research-count-metrics-v3'

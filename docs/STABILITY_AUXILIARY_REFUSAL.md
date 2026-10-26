@@ -1,0 +1,15 @@
+# Explicit rejection of identity suggestions
+
+The `continue_without_advisory` profile policy is opt-in. Existing profiles default to `fail_closed`. It changes the treatment of a failed optional identity check; it does not permit changing provider/model, retrying that check, or adding a final call.
+
+The implemented continuation supports only a verifiable OpenRouter response: one HTTP 200 response from the exact requested model and role, with the declared/effective output caps and fingerprints bound. A complete `stop` reply rejected by the local identity contract (including the advisory size bound), or a recorded `length` failure, can be rejected in full. Input validation, provider/model/role/cap mismatches, unknown response shape, network errors, and other providers remain blocking failures.
+
+The original invalid draft or original truncation execution remains in private observations. A canonical failure receipt binds the refusal to the original question, selected memories, prompt, execution and cap. The final input explicitly says identity analysis was not applied. Its evidence contains a failure-receipt hash and no advisory hash; accepted advice uses the opposite binding. Both/neither are rejected for an attempted check. No invalid draft is forwarded as advice.
+
+Offline replay uses the saved raw draft, or rethrows the saved truncation with its original execution meter. It must reproduce the local refusal, failure receipt and exact final instructions. An auxiliary HTTP reply being parsed does not mean the analyzer validated it. Older archives load their original runtime and do not require the new failure helper unless they explicitly use the new policy; the current replay harness and support file hashes are reported separately.
+
+Export reports planned eligible cells, attempted calls, validated, degraded, blocked, actually skipped, unknown and unexpected calls by stage/split/arm/round. Only an actual `skipped_not_applicable` outcome with zero auxiliary receipts is skipped. Unknown states never count as validated. Degraded means the auxiliary advice was rejected, even if the planned final answer completed and retained its original grade. Its failure diagnostics remain separately visible.
+
+For preregistered stages, each stage independently needs at least one attempted call and the declared validation coverage; at 0.9 this is exactly `10 * validated >= 9 * attempted`. Unknown states and unexpected calls fail the gate. Final acceptance requires both final and independent safety stages to pass. Development pilot displays these counts without applying this new gate; original target, grader, model, replay and safety requirements still apply. Export binds protocol bytes to each required stage's `FROZEN.protocol_sha256`; the original quantitative acceptance and selection are unchanged.
+
+Strong denotes the entire preregistered adaptive condition with accepted or explicitly rejected identity advice. Valid/degraded subgroup results are descriptive, do not establish a causal effect, and do not imply equal total call cost. All degraded final responses still require individual source review.

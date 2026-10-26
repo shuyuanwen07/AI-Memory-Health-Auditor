@@ -26,12 +26,12 @@ LONGMEMEVAL_COMPATIBILITY_LIMITATIONS = [
     "The local adapter accepts a documented subset of LongMemEval-compatible JSON layouts; parser coverage is not the complete official benchmark implementation.",
     "This pilot uses the Auditor's controlled memory writer and reader, not the official LongMemEval execution stack or scorer.",
     "Word-match and token-F1 values are exploratory proxies; imported automated semantic assessments remain caller-supplied and unauthenticated.",
-    "The controlled writer extracts user facts; assistant-only evidence may not be retained.",
+    "Assistant history and same-message context are retained only when explicitly enabled in the frozen target memory profile.",
 ]
 
 
 class LiveBenchmarkRunner:
-    VERSION = "shared-reader-live-benchmark-v4"
+    VERSION = "shared-reader-live-benchmark-v25"
 
     def run(self, request: LiveBenchmarkRequest, cancelled: Event | None = None) -> LiveBenchmarkResponse:
         if not request.source_authorised:

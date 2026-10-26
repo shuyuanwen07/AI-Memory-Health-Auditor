@@ -1,4 +1,4 @@
-"""Materialise a frozen, human-labelled synthetic suite as fair audit groups."""
+"""Materialise a frozen reviewed suite under its declared source permission."""
 from __future__ import annotations
 
 import hashlib
@@ -14,7 +14,7 @@ from app.models import (
 )
 from app.schemas.domain import (
     ExperimentStatus, GroundingStatus, MemoryStatus, TargetMemoryMaintenancePolicy,
-    TargetMemoryWriterKind, TargetSystemAdapterKind, TestQualityStatus,
+    TargetMemoryWriterKind, TargetSystemAdapterKind, TestQualityStatus, TargetConfiguration,
     TestSuiteConfiguration, TestSuiteMetadata, TestSuiteMode,
 )
 from app.schemas.formal_experiment import (
@@ -42,14 +42,19 @@ class FormalSyntheticMatrixService:
     answered, and comparisons remain paired.
     """
 
-    VERSION = "synthetic-formal-matrix-v7"
+    VERSION = "synthetic-formal-matrix-v9"
 
     def create(self, db: Session, request: SyntheticMatrixCreateRequest, *, study_mode: str) -> FormalMatrixCreateResponse:
         from app.api.routes import reproducibility_snapshot
         dataset = request.dataset
         dataset_hash = annotation_fingerprint(dataset)
+        release = getattr(request, 'source_release', None)
+        source_origin = 'deidentified' if release is not None else 'synthetic'
+        source_label = 'deidentified research' if release is not None else 'synthetic'
         runtime = formal_runtime_signature()
         protocol = FormalAcceptanceProtocol(
+            format='formal-acceptance-protocol-v2',
+            reader_control='fixed_strong_reader',
             study_mode=study_mode,
             frozen_at=datetime.now(timezone.utc), criteria=request.success_criteria,
             dataset_fingerprint_sha256=dataset_hash,
@@ -57,21 +62,22 @@ class FormalSyntheticMatrixService:
             development_dataset_fingerprint_sha256=annotation_fingerprint(request.development_dataset) if request.development_dataset else None,
             distinct_history_check='no_normalized_history_overlap' if request.development_dataset else 'not_checked',
             study_design=request.study_design,
+            source_release=release.model_dump(mode='json') if release is not None else None,
         )
         scenarios: list[FormalMatrixScenario] = []
         all_runs: list[AuditRunModel] = []
 
         for source in dataset.conversations:
-            conversation_id = _stable_id("SYN", dataset.dataset_id, dataset.dataset_version, source.conversation_id)
+            conversation_id = _stable_id("RESEARCH" if release is not None else "SYN", dataset.dataset_id, dataset.dataset_version, source.conversation_id)
             if db.get(ConversationModel, conversation_id):
                 raise HTTPException(
                     409,
-                    f"Synthetic scenario {source.conversation_id} was already materialised for this dataset version. "
+                    f"Reviewed scenario {source.conversation_id} was already materialised for this dataset version. "
                     "Use its existing experiment rather than creating a second copy.",
                 )
 
             conversation = ConversationModel(
-                id=conversation_id, authorised=True, source_origin="synthetic",
+                id=conversation_id, authorised=True, source_origin=source_origin,
                 created_at=source.messages[0].timestamp.astimezone(timezone.utc),
             )
             db.add(conversation)
@@ -156,7 +162,8 @@ class FormalSyntheticMatrixService:
                             "formal_acceptance_protocol": protocol.model_dump(mode='json'),
                             "dataset_id": dataset.dataset_id, "dataset_version": dataset.dataset_version,
                             "dataset_fingerprint_sha256": dataset_hash, "pilot_id": request.pilot.pilot_id,
-                            "suite_kind": "frozen_human_labelled_synthetic", "condition_label": condition.label,
+                            "suite_kind": f"frozen_human_labelled_{source_origin}", "condition_label": condition.label,
+                            "source_origin": source_origin,
                             "target_retry_policy": {"max_attempts": 3, "timeout_seconds": 60.0,
                                                       "retryable_status_codes": [408, 409, 425, 429, 500, 502, 503, 504]},
                             "execution_budget": {"max_target_calls": len(source.gold_tests), "max_execution_seconds": 300},
@@ -178,7 +185,7 @@ class FormalSyntheticMatrixService:
                     generator_version=self.VERSION, test_type=gold.test_type.value,
                     quality_status=TestQualityStatus.ACCEPTED.value,
                     grounding_status=GroundingStatus.GROUNDED.value,
-                    validation_notes=f"Frozen human-labelled synthetic suite: {gold.quality_note}",
+                    validation_notes=f"Frozen human-labelled {source_label} suite: {gold.quality_note}",
                     target_memory_context=[],
                 )
                 db.add(test)
@@ -217,8 +224,9 @@ class FormalSyntheticMatrixService:
             total_audit_runs=sum(len(item.run_ids) for item in scenarios),
             total_target_calls=sum(item.test_count * len(item.run_ids) for item in scenarios),
             scenarios=scenarios,
-            notice=("Synthetic scenarios were materialised with a frozen human-labelled test suite. "
-                    "Runs are pending; execute them explicitly to record target responses and evaluations."),
+            notice=(f"Reviewed {source_label} scenarios were materialised with a frozen supplied test suite. "
+                    "Runs are pending; execute them explicitly to record target responses and evaluations. "
+                    "Permission, deidentification and independent human authorship are caller declarations, not authenticated by the service."),
         )
 
         # Save one complete manifest in every condition before signing its inputs.
@@ -246,6 +254,12 @@ class FormalSyntheticMatrixService:
         if (plan.acceptance_protocol.study_mode == 'formal_experiment_b'
                 and plan.repetition_count < 3):
             raise HTTPException(409, 'Formal Experiment B requires at least three repetitions per condition. This saved plan cannot be analysed as a formal B study.')
+        if (plan.acceptance_protocol.study_mode == 'formal_experiment_b'
+                and plan.acceptance_protocol.reader_control != 'fixed_strong_reader'):
+            raise HTTPException(409,
+                'This older plan did not freeze one Strong reader across the memory strategies. '
+                'Its historical answers and results are preserved, but it cannot be resumed as a controlled Experiment B study. '
+                'Create a newly reviewed study to compare memory strategies with one fixed reader.')
         ids = [item for scenario in plan.scenarios for item in scenario.run_ids]
         if run_id not in ids or len(ids) != len(set(ids)) or len(ids) != plan.total_audit_runs or len(plan.scenarios) != plan.scenario_count:
             raise HTTPException(409, 'The saved execution plan is inconsistent. Existing results are preserved.')
@@ -263,6 +277,9 @@ class FormalSyntheticMatrixService:
                 saved = run.reproducibility_metadata or {}
                 if run.experiment_id != scenario.experiment_id or saved.get('formal_matrix_manifest') != manifest or saved.get('formal_acceptance_protocol') != manifest['acceptance_protocol']:
                     raise HTTPException(409, 'The saved conditions no longer belong to the same frozen plan.')
+                if (plan.acceptance_protocol.reader_control == 'fixed_strong_reader'
+                        and run.target_configuration != TargetConfiguration.STRONG.value):
+                    raise HTTPException(409, 'A saved condition no longer uses the frozen Strong reader. Existing results are preserved.')
                 assert_formal_inputs_frozen(db, run)
         if plan.total_target_calls != sum(scenario.test_count * len(scenario.run_ids) for scenario in plan.scenarios):
             raise HTTPException(409, 'The saved call budget no longer matches its plan.')

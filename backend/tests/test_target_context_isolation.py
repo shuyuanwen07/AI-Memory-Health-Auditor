@@ -79,7 +79,15 @@ def test_strong_and_weak_contexts_are_isolated_and_have_distinct_policies():
     assert "Prefer an explicit later update" in strong
     assert "single retrieved record" in weak
     assert "do not guess" in strong
-    assert "one unambiguous concrete factual answer" in strong
+    assert "best-supported concise answer" in strong
+    assert "retaining necessary uncertainty or approximation" in strong
+    count = private_context_instruction(
+        test.model_copy(update={"prompt": "How many database migrations have I completed?"}),
+        TargetConfiguration.STRONG,
+    )
+    assert "compact visible event ledger" in count
+    assert "show unresolved identities or periods separately" in count
+    assert "followed by at most one short sentence of reasoning" not in count
     assert "EVALUATOR_ONLY_SECRET" not in strong
     assert "EVALUATOR_ONLY_SECRET" not in weak
 

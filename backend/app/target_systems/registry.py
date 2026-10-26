@@ -1,4 +1,5 @@
 """Registry kept intentionally small until an external system is authorised."""
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from app.schemas import AuditRun, TargetSystemAdapterKind
@@ -15,6 +16,8 @@ def get_target_system_adapter(db: Session, audit: AuditRun) -> TargetSystemAdapt
     are an explicit future integration rather than a silent provider switch.
     """
     adapter = TargetSystemAdapterKind(audit.target_system_adapter)
+    if audit.target_memory_profile.answer_validation != "off" and adapter != TargetSystemAdapterKind.CONTROLLED_MEMORY:
+        raise HTTPException(422, "Target answer validation requires the controlled memory adapter.")
     if adapter == TargetSystemAdapterKind.CONTROLLED_MEMORY:
         return ControlledTargetSystemAdapter(db, audit)
     if adapter == TargetSystemAdapterKind.EXTERNAL_HTTP:

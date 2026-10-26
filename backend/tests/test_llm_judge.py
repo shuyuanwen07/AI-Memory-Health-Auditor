@@ -391,3 +391,16 @@ def test_v4_comparability_requires_saved_cross_check_provenance(provider):
     assert assessment_signature(run,evaluation) is None
     evaluation.judge_execution={'provider':provider,'model':'fixture','cross_check_version':'frozen-rule-version'}
     assert assessment_signature(run,evaluation)[-1] == 'frozen-rule-version'
+
+
+@pytest.mark.parametrize('reported',['openai/gpt-6-luna','provider/model:revision-1'])
+def test_judge_records_actual_provider_model_identifier(reported):
+    meter={}
+    LLMBehaviourEvaluator._record_usage({'model':reported,'usage':{}},meter,provider='openrouter')
+    assert meter['reported_model']==reported
+
+@pytest.mark.parametrize('reported',[None,42,'','x'*121,'private\nsource text'])
+def test_judge_does_not_infer_or_copy_invalid_provider_model_identifier(reported):
+    meter={}
+    LLMBehaviourEvaluator._record_usage({'model':reported,'usage':{}},meter,provider='openrouter')
+    assert 'reported_model' not in meter

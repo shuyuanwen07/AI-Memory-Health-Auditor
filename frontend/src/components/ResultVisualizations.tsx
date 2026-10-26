@@ -6,7 +6,6 @@ import {
   CartesianGrid,
   Cell,
   ErrorBar,
-  LabelList,
   PolarAngleAxis,
   PolarGrid,
   PolarRadiusAxis,
@@ -50,6 +49,14 @@ function number(value: number) {
  * retain the full label to avoid a misleading legend collision.
  */
 function displayConditionLabels(groups: Array<{ label: string }>) {
+  // Prefer the differing condition when model, review method and dataset are shared.
+  const partsByGroup = groups.map(group => group.label.split(' · '));
+  if (groups.length > 1 && partsByGroup.every(parts => parts.length === partsByGroup[0].length)) {
+    const differing = partsByGroup[0].map((_, index) => index)
+      .filter(index => new Set(partsByGroup.map(parts => parts[index])).size > 1);
+    const labels = partsByGroup.map(parts => differing.map(index => parts[index]).join(' · '));
+    if (labels.every(Boolean) && new Set(labels).size === groups.length) return labels;
+  }
   const shortLabels = groups.map((group) => {
     const parts = group.label.split(' · ');
     return parts[parts.length - 1]?.trim() || group.label;
@@ -194,8 +201,8 @@ function OverallBarChart({ runs, captionId }: { runs: ExperimentStatisticsRun[];
     }));
   const groups = allGroups.filter((group): group is typeof group & {overall: number} => group.overall !== null);
   const sampleSummary = (group: (typeof allGroups)[number]) => `n=${group.scoredRuns} scored run${group.scoredRuns === 1 ? '' : 's'}; ${group.decided} decided answer${group.decided === 1 ? '' : 's'}${group.pending ? `; ${group.pending} awaiting review` : ''}${group.unassessed ? `; ${group.unassessed} unassessed` : ''}${group.excluded ? `; ${group.excluded} evidence unavailable` : ''}`;
-  const summary = allGroups.map((group) => `${group.fullCondition}: ${group.overall === null ? 'Not measured' : `${percentage(group.overall)} tested-ability average`} · ${sampleSummary(group)}${group.runs > 1 && group.standardDeviation === null ? ` · variation not measured (${group.scoredRuns} scored ${group.scoredRuns === 1 ? 'run' : 'runs'})` : group.standardDeviation !== null ? ` (± ${number(group.standardDeviation)}%)` : ''}`).join('; ');
-  const rowHeight = Math.max(58, ...groups.map(group => conditionLabelLines(group.condition).length * 14 + 20));
+  const summary = allGroups.map((group) => `${group.fullCondition}: ${group.overall === null ? 'Not measured' : `${percentage(group.overall)} tested-ability average`} · ${sampleSummary(group)}${group.runs > 1 && group.standardDeviation === null ? ` · variation not measured (${group.scoredRuns} scored ${group.scoredRuns === 1 ? 'run' : 'runs'})` : group.standardDeviation !== null ? ` (± ${number(group.standardDeviation)} pp population SD)` : ''}`).join('; ');
+  const rowHeight = Math.max(90, ...groups.map(group => conditionLabelLines(group.condition).length * 14 + 32));
 
   return <UICard className="visual-report-card">
     <h2>Tested Ability Average by Condition</h2>
@@ -208,20 +215,32 @@ function OverallBarChart({ runs, captionId }: { runs: ExperimentStatisticsRun[];
             <YAxis type="category" dataKey="condition" width={210} interval={0} tick={<ConditionAxisLabel/>} />
             <Tooltip formatter={(value, _name, item) => {
               const deviation = item.payload?.standardDeviation;
-              const variation = item.payload?.runs > 1 ? typeof deviation === 'number' ? ` (± ${number(deviation)}%)` : ` · variation not measured (${item.payload?.scoredRuns} scored ${item.payload?.scoredRuns === 1 ? 'run' : 'runs'})` : '';
+              const variation = item.payload?.runs > 1 ? typeof deviation === 'number' ? ` (± ${number(deviation)} pp population SD)` : ` · variation not measured (${item.payload?.scoredRuns} scored ${item.payload?.scoredRuns === 1 ? 'run' : 'runs'})` : '';
               const sample = ` · ${sampleSummary(item.payload)}`;
               return [`${percentage(Number(value))}${sample}${variation}`, 'Tested ability average'];
             }} />
-            <Bar dataKey="overall" name="Tested ability average" radius={[0, 5, 5, 0]}>
+            <Bar dataKey="overall" name="Tested ability average" radius={[0, 5, 5, 0]} maxBarSize={36}>
               {groups.map((group) => <Cell key={group.condition} fill={group.colour} />)}
               <ErrorBar dataKey="standardDeviation" direction="x" width={5} stroke="#283b4c" />
-              <LabelList dataKey="overall" position="right" formatter={(value) => percentage(Number(value))} fill="#34495e" fontSize={12} />
             </Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>
-      <ul className="chart-review-coverage">{allGroups.map(group=><li key={group.fullCondition}>{group.fullCondition}: {group.overall === null ? 'Overall not measured · ' : ''}{sampleSummary(group)}{group.runs > 1 && group.standardDeviation === null ? ` · variation not measured (${group.scoredRuns} scored ${group.scoredRuns === 1 ? 'run' : 'runs'})` : ''}</li>)}</ul>
-      <figcaption id={captionId}>Each bar is the mean tested-ability average across scored runs (0–100%). The chart lists the scored-run sample size and decided, pending, unassessed, or evidence-unavailable answer counts for each condition. Untested abilities and uncertain judgments are excluded; different coverage can change averages. An overall Memory Health score requires all four abilities.</figcaption>
+      <div className="condition-score-details">{allGroups.map(group => <section key={group.fullCondition}>
+        <h3 title={group.fullCondition}><i aria-hidden="true" style={{backgroundColor:group.colour}} />{group.condition}</h3>
+        <strong className="condition-score-value">{group.overall === null ? 'Not measured' : percentage(group.overall)}</strong>
+        <p className="condition-score-variation">{group.standardDeviation !== null ? `± ${number(group.standardDeviation)} pp across runs` : group.runs > 1 ? `Variation not measured (${group.scoredRuns} scored ${group.scoredRuns === 1 ? 'run' : 'runs'})` : 'Single run; variation not measured'}</p>
+        <dl>
+          <div><dt>Scored runs</dt><dd>{group.scoredRuns}</dd></div>
+          <div><dt>Decided answers</dt><dd>{group.decided}</dd></div>
+          <div><dt>Awaiting review</dt><dd>{group.pending}</dd></div>
+          {group.unassessed > 0 && <div><dt>Unassessed</dt><dd>{group.unassessed}</dd></div>}
+          {group.excluded > 0 && <div><dt>Evidence unavailable</dt><dd>{group.excluded}</dd></div>}
+        </dl>
+        <details className="condition-score-provenance"><summary>Full condition</summary><p>{group.fullCondition}</p></details>
+      </section>)}</div>
+      <figcaption id={captionId}>Average scores exclude pending judgments and untested abilities. Different scoring coverage can change averages; this is not the percentage of all answers that passed.</figcaption>
+      <details className="condition-score-method"><summary>How to read the chart</summary><p>Each bar averages the tested-ability scores across scored runs. Error bars and ± values show population standard deviation in percentage points (pp), not a confidence interval. An overall Memory Health score requires all four abilities.</p></details>
     </figure>
   </UICard>;
 }
@@ -233,7 +252,7 @@ function VerticalDimensionColumns({ chartData, series, formatValue }: {
 }) {
   return <>
     <div className="chart-legend">{series.map(item => <span key={item.key} title={item.label}><i style={{backgroundColor:item.colour}} />{item.displayLabel}</span>)}</div>
-    <div className="dimension-columns" style={{minWidth: Math.max(series.length === 1 ? 360 : 520, series.length * 150)}}>
+    <div className="dimension-columns" style={{minWidth: Math.max(series.length === 1 ? 360 : 600, series.length * 280)}}>
       <div className="dimension-y-axis" aria-hidden="true">{[100,75,50,25,0].map(value => <span key={value} style={{bottom:`${value}%`}}>{value}%</span>)}</div>
       <div className="dimension-column-plot">
         <div className="dimension-grid-lines" aria-hidden="true">{[0,25,50,75,100].map(value => <span key={value} style={{bottom:`${value}%`}} />)}</div>
@@ -243,7 +262,7 @@ function VerticalDimensionColumns({ chartData, series, formatValue }: {
             const value = typeof raw === 'number' ? raw : null;
             const label = formatValue(value,row,item);
             return <div className="dimension-column-slot" key={item.key} title={`${row.dimension} · ${item.label}: ${label}`}>
-              {value === null ? <span className="dimension-column-missing">{label}</span> : <div className="dimension-column" style={{height:`${Math.max(0,Math.min(100,value))}%`,backgroundColor:item.colour}}><strong>{label}</strong></div>}
+              {value === null ? <span className="dimension-column-missing">—</span> : <div className="dimension-column" style={{height:`${Math.max(0,Math.min(100,value))}%`,backgroundColor:item.colour}}><strong>{percentage(value)}</strong></div>}
             </div>;
           })}</div>
           <b className="dimension-column-label">{row.dimension}</b>
@@ -295,7 +314,17 @@ function DimensionBarChart({ runs, captionId, singleSetting = false }: { runs: E
           <VerticalDimensionColumns chartData={chartData} series={series} formatValue={statusValue} />
         </div>
       </div>
-      <figcaption id={captionId}>Scores are percentages averaged across measured runs. Each label reports the decided answer count (n) and number of measured runs. A missing bar has no definitive score; awaiting review means judgment is pending.</figcaption>
+      <figcaption id={captionId}>Bars show average scores across measured runs, excluding pending judgments. A dash means no definitive score. Sample sizes and review status are listed below; 100% does not mean every answer passed.</figcaption>
+      <div className="dimension-score-details" aria-label="Dimension scores and sample sizes">
+        {chartData.map(row => <section key={String(row.dimension)}>
+          <h3>{row.dimension}</h3>
+          {series.map(item => <div className="dimension-score-detail" key={item.key}>
+            <span className="dimension-score-condition" title={item.label}><i aria-hidden="true" style={{backgroundColor:item.colour}} />{item.displayLabel}</span>
+            <p>{statusValue(row[item.key] as number | null, row, item)}</p>
+            {typeof row[item.key] === 'number' && Number(row[item.key + '_pending']) > 0 && <small>{Number(row[item.key + '_pending'])} awaiting review</small>}
+          </div>)}
+        </section>)}
+      </div>
     </figure>
   </UICard>;
 }

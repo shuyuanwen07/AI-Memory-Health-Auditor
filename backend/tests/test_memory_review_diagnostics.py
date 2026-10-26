@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 
 from app.database.session import Base
 from app.extraction.llm import PipelineLLMClient, PipelineRequestError
-from app.extraction.memory_review_agent import IndependentMemoryReviewAgent
+from app.extraction.memory_review_agent import IndependentMemoryReviewAgent, _review_output_token_budget
 from app.extraction.relationship_agent import RelationshipAnalysisAgent
 from app.models import AgentExecutionModel
 from app.schemas import AgentExecution, Conversation, ConversationMessage, Memory, MemoryStatus
@@ -120,6 +120,19 @@ def test_provider_length_failure_receipt_includes_done_reason():
         "category": "length_terminated",
         "provider_done_reason": "length",
     }
+
+
+def test_memory_review_output_budget_scales_with_input_and_stays_bounded():
+    conversation, memories = _source_and_memory()
+    client = _FakeClient(result={"findings": []})
+    requested = {}
+    client.complete_json = lambda **kwargs: requested.update(kwargs) or {"findings": []}
+
+    IndependentMemoryReviewAgent(client).review(conversation, memories)
+
+    assert requested["max_output_tokens"] == 2048
+    assert _review_output_token_budget(100, 100) == 4096
+    assert _review_output_token_budget(-2, -5) == 2048
 
 
 def test_ollama_done_reason_is_retained_on_incomplete_structured_reply(monkeypatch):

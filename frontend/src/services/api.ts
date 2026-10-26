@@ -7,7 +7,7 @@ import type { AuditComparison } from '../types/domain';
 export function apiErrorMessage(detail: unknown): string {
   if (typeof detail === 'string') return friendlyText(detail);
   if (Array.isArray(detail)) {
-    const fields: Record<string, string> = { canonical_value: 'Memory text', timestamp: 'Date and time', test_budget: 'Test budget', model: 'Model', content: 'Message text', label: 'Review label' };
+    const fields: Record<string, string> = { canonical_value: 'Memory text', timestamp: 'Date and time', test_budget: 'Test budget', model: 'Model', content: 'Message text', label: 'Review label', source_authorised: 'Source processing permission' };
     const reviewTasks: Record<string, string> = {memory_inclusion:'memory inclusion',relationship_type:'relationship type',test_validity:'test validity',evaluator_verdict:'answer decision',failure_dimension:'failure category'};
     const messages = detail.flatMap((issue) => {
       if (!issue || typeof issue !== 'object' || typeof issue.msg !== 'string') return [];
@@ -57,6 +57,12 @@ export const api = {
   assessorComparison:(id:string)=>request<import('../types/domain').AssessorComparisonBatch>(`/assessor-comparisons/${id}`),
   prepareAssessorComparison:(id:string)=>request<import('../types/domain').AssessorComparisonBatch>(`/assessor-comparisons/${id}/prepare`,{method:'POST'}),
   compareBenchmarkRankings:(body:object)=>request<import('../components/BenchmarkRankingAgreement').RankingAgreementResult>('/research/benchmarks/longmemeval/ranking-agreement',{method:'POST',body:JSON.stringify(body)}),
+  createBenchmarkPlan:(body:object)=>request<import('../components/BenchmarkExecutionPlan').BenchmarkPlan>('/research/benchmarks/longmemeval/plans',{method:'POST',body:JSON.stringify(body)}),
+  listBenchmarkPlans:()=>request<import('../components/BenchmarkExecutionPlan').BenchmarkPlan[]>('/research/benchmarks/longmemeval/plans'),
+  restoreBenchmarkPlan:(id:string)=>request<import('../components/BenchmarkExecutionPlan').BenchmarkPlan>(`/research/benchmarks/longmemeval/plans/${encodeURIComponent(id)}`),
+  executeBenchmarkPlan:(id:string,body:object)=>request<unknown>(`/research/benchmarks/longmemeval/plans/${encodeURIComponent(id)}/execute`,{method:'POST',body:JSON.stringify(body)}),
+  analyseBenchmarkPlan:(id:string,analysis:object)=>request<import('../components/RepeatedBenchmarkRanking').RepeatedRankingResult>(`/research/benchmarks/longmemeval/plans/${encodeURIComponent(id)}/analyse`,{method:'POST',body:JSON.stringify({analysis})}),
+  compareRepeatedBenchmarkRankings:(body:object)=>request<import('../components/RepeatedBenchmarkRanking').RepeatedRankingResult>('/research/benchmarks/longmemeval/ranking-agreement/repeated',{method:'POST',body:JSON.stringify(body)}),
   runLiveBenchmark:(body:object,signal?:AbortSignal)=>request<import('../components/LiveBenchmark').LiveBenchmarkResult>('/research/benchmarks/longmemeval/live',{method:'POST',body:JSON.stringify(body),signal}),
   importSemanticReview:(body:object)=>request<import('../components/BenchmarkSemanticReview').SemanticReviewResult>('/research/benchmarks/longmemeval/semantic-review',{method:'POST',body:JSON.stringify(body)}),
   accessStatus:(signal?:AbortSignal)=>request<AccessStatus>('/access/status',{signal}),
@@ -123,15 +129,16 @@ export const api = {
     if (!response.ok) throw new Error('The experiment export could not be created.');
     return response.blob();
   },
-  validateAnnotationDataset:(dataset:object)=>request<AnnotationImportReport>('/research/annotations/validate',{method:'POST',body:JSON.stringify({dataset})}),
-  researchValidity:(dataset:object,predictions:object)=>request<ResearchValidityReport>('/research/validity/report',{method:'POST',body:JSON.stringify({dataset,predictions})}),
-  analysePilot:(packageData:object)=>request<PilotReadinessReport>('/research/pilot/analyse',{method:'POST',body:JSON.stringify({package:packageData})}),
+  validateAnnotationDataset:(dataset:object,sourceAuthorised=false)=>request<AnnotationImportReport>('/research/annotations/validate',{method:'POST',body:JSON.stringify({dataset,source_authorised:sourceAuthorised})}),
+  researchValidity:(dataset:object,predictions:object,sourceAuthorised=false)=>request<ResearchValidityReport>('/research/validity/report',{method:'POST',body:JSON.stringify({dataset,predictions,source_authorised:sourceAuthorised})}),
+  analysePilot:(packageData:object,sourceAuthorised=false)=>request<PilotReadinessReport>('/research/pilot/analyse',{method:'POST',body:JSON.stringify({package:packageData,source_authorised:sourceAuthorised})}),
   verifySceneEvidence:(id:string,summary:object)=>request<SceneEvidenceVerification>(`/research/formal/${id}/verify-summary`,{method:'POST',body:JSON.stringify({summary})}),
   formalStudySummary:(id:string)=>request<FormalStudySummary>(`/research/formal/${id}/study-summary`),
   restoreFormalPlan:(id:string)=>request<FormalMatrixCreateResponse>(`/research/formal/${id}/plan`),
   savedFormalRuns:(offset=0)=>request<SavedFormalRunPage>(`/research/formal/saved-runs?offset=${offset}&limit=25`),
   checkReviewedSavedThresholds:(id:string)=>request<ReviewedSavedAcceptanceReport>(`/research/formal/${id}/reviewed-acceptance`),
   checkFrozenThresholds:(body:object)=>request<AcceptanceCheckReport>('/research/formal/acceptance-check',{method:'POST',body:JSON.stringify(body)}),
+  createFormalResearchMatrix:(body:object)=>request<FormalMatrixCreateResponse>('/research/formal/research-matrix',{method:'POST',body:JSON.stringify(body)}),
   createFormalSyntheticMatrix:(body:object)=>request<FormalMatrixCreateResponse>('/research/formal/synthetic-matrix',{method:'POST',body:JSON.stringify(body)}),
   createExploratorySyntheticMatrix:(body:object)=>request<FormalMatrixCreateResponse>('/research/exploratory/synthetic-matrix',{method:'POST',body:JSON.stringify(body)}),
   validateLongMemEval:(payload:object|object[],source_authorised:boolean)=>request<LongMemEvalValidationResponse>('/research/benchmarks/longmemeval/validate',{method:'POST',body:JSON.stringify({payload,source_authorised})}),

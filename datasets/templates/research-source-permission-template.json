@@ -1,0 +1,13 @@
+{
+  "release_id": "",
+  "dataset_fingerprint_sha256": "",
+  "permission_reference": "",
+  "licence_or_consent_scope": "",
+  "reviewed_by": "",
+  "reviewed_at": "",
+  "deidentified": false,
+  "research_use_authorised": false,
+  "operational_storage_authorised": false,
+  "cloud_processing_authorised": false,
+  "user_history_demo_only": true
+}

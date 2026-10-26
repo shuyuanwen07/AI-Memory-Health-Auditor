@@ -1,0 +1,14 @@
+{
+  "scope": "predeclared engineering-only same-model upstream route check",
+  "research_evidence": false,
+  "model": "openai/gpt-6-luna",
+  "openrouter_upstream_only": "openai",
+  "pipeline_output_token_cap": 1200,
+  "repetitions_per_strategy": 2,
+  "automatic_provider_fallback": false,
+  "source_sha256": "e84fb0e564c7439ce3edf0fc6ebf7b25a681c9bb9dd209b1b97eb5d5d8a7d406",
+  "approval_sha256": "62446d9d40b77ea713639a3a0d44d4835e6786456cdb63c49a239cbf2c83eb68",
+  "declared_at": "2026-10-13T10:04:57.948844+00:00",
+  "production_database_writes": 0,
+  "preceding_route_trial": "v10 used display name OpenAI and returned404; not proof of a valid-slug route failure"
+}

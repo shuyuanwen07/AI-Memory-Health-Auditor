@@ -17,4 +17,4 @@ def language_words(text: str) -> set[str]:
 
 
 def is_language_topic(text: str) -> bool:
-    return bool(language_words(text) or re.search(r'\b(?:programming|scripting)[ -]+languages?\b', text, re.I))
+    return bool(language_words(text) or re.search(r'\b(?:programming|scripting|backend|front[ -]?end|server[ -]side|implementation)[ -]+languages?\b', text, re.I))

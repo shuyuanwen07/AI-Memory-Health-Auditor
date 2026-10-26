@@ -1,0 +1,17 @@
+{
+  "scope": "actualv61current-runtime full synthetic workflow",
+  "research_evidence": false,
+  "rule_version": "rule-based-v61",
+  "source_sha256": "18bf5e73c4ea7c40b22e5743fa63bdf3a3b818f6c7d06eda20cb93d2b6f5be33",
+  "frozen_archive_sha256": "7d5cec40eaaf714b73e9a9f279e1292b4cc153d5ff6aa41ed260a0c54d16cbc1",
+  "snapshot_sha256": "14c485fa1701381e272efcab324aca73351978ca3533dc7e56237e5b9e14c347",
+  "actual_models_verified": "openai/gpt-6-luna",
+  "responses": 16,
+  "assessments": 16,
+  "diagnostics": 4,
+  "pending": 2,
+  "repetitions_per_policy": 2,
+  "production_writes_by_smoke": 0,
+  "disposable_db_removed": true,
+  "strict_verification_passed": true
+}

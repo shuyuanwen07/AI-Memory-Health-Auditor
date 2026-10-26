@@ -3,7 +3,7 @@ import { UIActionLink } from '../components/ui';
 import { useUIConfirmation } from '../components/ui';
 import { UIAlert, UICard } from '../components/ui';
 import { UIButton, UIInput, UISelect, UIOption, UIPanel, UISummary, UITable } from '../components/ui';
-import { lazy, Suspense, useCallback, useEffect, useMemo, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { api } from '../services/api';
 import { auditDisplayNames, modelDisplayName, friendlyText, memoryMaintenanceLabel, processingLabel, memoryStrategyLabel as friendlyStrategy, retrievalApproachKey, retrievalApproachLabel } from '../services/display';
@@ -182,7 +182,7 @@ function savedProcessingLabel(provider?: string) {
 function ReproducibilityDetails({ run }: { run: AuditRun }) {
   const retryPolicy = run.reproducibility?.target_retry_policy;
   const seed = run.reproducibility?.seed_control;
-  return <UIPanel className="reproducibility-details"><UISummary>Memory settings · {retrievalApproachLabel(run)}</UISummary><ul><li>Test budget: up to {run.test_budget} questions · temperature {run.temperature} · seed {run.random_seed}</li>{seed && <li>Seed control: target {seed.target?.replaceAll('_', ' ') ?? 'not declared'} · pipeline {seed.pipeline?.replaceAll('_', ' ') ?? 'not declared'} · semantic review {seed.semantic_review?.replaceAll('_', ' ') ?? 'not declared'} · evaluator {seed.evaluator?.replaceAll('_', ' ') ?? 'not declared'}</li>}<li>Test generation: {savedProcessingLabel(run.pipeline_provider)}{run.pipeline_provider && run.pipeline_provider !== 'rule_based' && ` · ${run.pipeline_model}`}</li><li>Semantic duplicate review: {savedProcessingLabel(run.semantic_review_provider ?? run.pipeline_provider)}{(run.semantic_review_provider ?? run.pipeline_provider) !== 'rule_based' && ` · ${run.semantic_review_model ?? run.pipeline_model}`}</li><li>Memory retrieval: {run.retrieval_mode === 'agent' ? `AI retrieval Agent · ${run.retrieval_provider ?? 'model service not recorded'}${run.retrieval_model ? ` · ${run.retrieval_model}` : ''}` : 'Fixed retrieval policy'}</li><li>Answer assessment: {savedProcessingLabel(run.evaluator_provider)}{run.evaluator_provider && run.evaluator_provider !== 'rule_based' && ` · ${run.evaluator_model}`}</li><li>Target system: {run.target_system_adapter === "external-http" ? "Independent target service (internal memory unobserved)" : run.target_system_adapter === "controlled-memory" ? "Model with configurable memory" : "Not recorded"}</li>{run.target_memory_profile&&<><li>Configuration: {run.target_memory_profile.label} · version {run.target_memory_profile.version}</li><li>Context budget: {run.target_memory_profile.max_retrieved_records} memories / {run.target_memory_profile.context_character_budget} characters</li><li>Project isolation: {run.target_memory_profile.isolate_project_scope?"On":"Off"} · current-state priority: {run.target_memory_profile.prefer_current_state?"On":"Off"}</li>{run.target_memory_profile.additional_instructions&&<li>Additional target instructions: {run.target_memory_profile.additional_instructions}</li>}</>}{run.reproducibility?.study_role&&<li>Experiment purpose: {run.reproducibility.study_role.replaceAll("_"," ")} · {run.reproducibility.validation_split?.replaceAll("_"," ")}</li>}<li>Memory maintenance: {memoryMaintenanceLabel(run.memory_maintenance_policy)}</li>{<li>Target memory capacity: {run.target_memory_capacity == null ? 'Not recorded' : `${run.target_memory_capacity} records`}</li>}<li>Memory preparation: {run.target_memory_writer ? processingLabel(run.target_memory_writer) : 'Not recorded'}</li>{retryPolicy && <li>Recovery: up to {retryPolicy.max_attempts} attempts · {retryPolicy.timeout_seconds}s timeout</li>}</ul></UIPanel>;
+  return <UIPanel className="reproducibility-details"><UISummary>Memory settings · {retrievalApproachLabel(run)}</UISummary><ul><li>Test budget: up to {run.test_budget} questions · temperature {run.temperature} · seed {run.random_seed}</li>{seed && <li>Seed control: target {seed.target?.replaceAll('_', ' ') ?? 'not declared'} · pipeline {seed.pipeline?.replaceAll('_', ' ') ?? 'not declared'} · semantic review {seed.semantic_review?.replaceAll('_', ' ') ?? 'not declared'} · evaluator {seed.evaluator?.replaceAll('_', ' ') ?? 'not declared'}</li>}<li>Test generation: {savedProcessingLabel(run.pipeline_provider)}{run.pipeline_provider && run.pipeline_provider !== 'rule_based' && ` · ${run.pipeline_model}`}</li><li>Semantic duplicate review: {savedProcessingLabel(run.semantic_review_provider ?? run.pipeline_provider)}{(run.semantic_review_provider ?? run.pipeline_provider) !== 'rule_based' && ` · ${run.semantic_review_model ?? run.pipeline_model}`}</li><li>Memory retrieval: {run.retrieval_mode === 'agent' ? `AI retrieval Agent · ${run.retrieval_provider ?? 'model service not recorded'}${run.retrieval_model ? ` · ${run.retrieval_model}` : ''}` : 'Fixed retrieval policy'}</li><li>Answer assessment: {savedProcessingLabel(run.evaluator_provider)}{run.evaluator_provider && run.evaluator_provider !== 'rule_based' && ` · ${run.evaluator_model}`}</li><li>Target system: {run.target_system_adapter === "external-http" ? "Independent target service (internal memory unobserved)" : run.target_system_adapter === "controlled-memory" ? "Model with configurable memory" : "Not recorded"}</li>{run.target_memory_profile&&<><li>Configuration: {run.target_memory_profile.label} · version {run.target_memory_profile.version}</li><li>Context budget: {run.target_memory_profile.max_retrieved_records} memories / {run.target_memory_profile.context_character_budget} characters</li><li>Event identity analysis: {run.target_memory_profile.identity_analysis === "evidence_links" ? `On · separate ${run.target_memory_profile.identity_analysis_output_token_limit ?? 4096}-token analysis budget` : "Off"}</li><li>Configured final reasoning request: {run.target_memory_profile.reasoning_effort ?? "Not recorded"}</li><li>Configured identity reasoning request: {run.target_memory_profile.identity_analysis_reasoning_effort ?? "Not recorded"}. Actual reasoning effort is not reported.</li><li>Project isolation: {run.target_memory_profile.isolate_project_scope?"On":"Off"} · current-state priority: {run.target_memory_profile.prefer_current_state?"On":"Off"}</li>{run.target_memory_profile.additional_instructions&&<li>Additional target instructions: {run.target_memory_profile.additional_instructions}</li>}</>}{run.reproducibility?.study_role&&<li>Experiment purpose: {run.reproducibility.study_role.replaceAll("_"," ")} · {run.reproducibility.validation_split?.replaceAll("_"," ")}</li>}<li>Memory maintenance: {memoryMaintenanceLabel(run.memory_maintenance_policy)}</li>{<li>Target memory capacity: {run.target_memory_capacity == null ? 'Not recorded' : `${run.target_memory_capacity} records`}</li>}<li>Memory preparation: {run.target_memory_writer ? processingLabel(run.target_memory_writer) : 'Not recorded'}</li>{retryPolicy && <li>Recovery: up to {retryPolicy.max_attempts} attempts · {retryPolicy.timeout_seconds}s timeout</li>}</ul></UIPanel>;
 }
 
 const recoveryStageLabels: Record<NonNullable<AuditRetryPlan['next_stage']>, string> = { generate_tests: 'generate the shared tests', execute_tests: 'execute unanswered tests', evaluate_responses: 'evaluate pending responses' };
@@ -211,6 +211,8 @@ function ConversationDataControls({ conversationId, onDeleted }: { conversationI
 }
 
 export function Experiments() {
+  const { experimentId } = useParams();
+  const loadRevision = useRef(0);
   const { confirm, dialog } = useUIConfirmation();
   const [items, setItems] = useState<Experiment[]>([]);
   const [analytics, setAnalytics] = useState<Record<string, ExperimentAnalytics>>({});
@@ -220,28 +222,31 @@ export function Experiments() {
   const [exportingId, setExportingId] = useState<string | null>(null);
   const [experimentPage, setExperimentPage] = useState(0);
   const experimentPageSize = 3;
-  const lastExperimentPage = Math.max(0, Math.ceil(items.length / experimentPageSize) - 1);
+  const scopedItems = experimentId ? items.filter(item => item.experiment_id === experimentId) : items;
+  const lastExperimentPage = Math.max(0, Math.ceil(scopedItems.length / experimentPageSize) - 1);
   const activeExperimentPage = Math.min(experimentPage, lastExperimentPage);
-  const visibleExperiments = items.slice(activeExperimentPage * experimentPageSize, (activeExperimentPage + 1) * experimentPageSize);
+  const visibleExperiments = scopedItems.slice(activeExperimentPage * experimentPageSize, (activeExperimentPage + 1) * experimentPageSize);
   const [actionMessage, setActionMessage] = useState('');
   const loadExperiments = useCallback(() => {
+    const revision = ++loadRevision.current;
     setLoadState('loading');
     api.experimentGroups()
       .then(async (groups) => {
+        if (revision !== loadRevision.current) return;
         const orderedGroups = [...groups].sort((left, right) => scenarioNumber(left.label) - scenarioNumber(right.label));
         setItems(orderedGroups);
         setAnalytics({});
         setReportErrors({});
         setLoadState('ready');
       })
-      .catch(() => { setItems([]); setAnalytics({}); setLoadState('error'); });
+      .catch(() => { if (revision !== loadRevision.current) return; setItems([]); setAnalytics({}); setLoadState('error'); });
   }, []);
 
-  useEffect(() => { loadExperiments(); }, [loadExperiments]);
+  useEffect(() => { loadExperiments(); return () => { loadRevision.current++; }; }, [loadExperiments]);
 
   useEffect(() => {
     let cancelled = false;
-    const pending = items.slice(activeExperimentPage * experimentPageSize, (activeExperimentPage + 1) * experimentPageSize)
+    const pending = (experimentId ? items.filter(item => item.experiment_id === experimentId) : items).slice(activeExperimentPage * experimentPageSize, (activeExperimentPage + 1) * experimentPageSize)
       .filter(item => !analytics[item.experiment_id]);
     if (!pending.length) return;
     setReportErrors(current => ({...current, ...Object.fromEntries(pending.map(item => [item.experiment_id, false]))}));
@@ -260,7 +265,7 @@ export function Experiments() {
     return () => { cancelled = true; };
     // Loaded reports are cached; retries and page changes request only missing summaries.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [items, activeExperimentPage, reportRetry]);
+  }, [items, experimentId, activeExperimentPage, reportRetry]);
 
   const download = async (experiment: Experiment) => {
     setExportingId(experiment.experiment_id); setActionMessage('');
@@ -305,7 +310,7 @@ export function Experiments() {
     finally { setExportingId(null); }
   };
 
-  return <section>{dialog}<h1>Compare memory strategies & models</h1><p className="experiment-page-intro">See how different settings perform on the same questions. Start with the result summary, then inspect which answers changed.</p>{actionMessage && <p className={(actionMessage.startsWith('The unfinished') || actionMessage.startsWith('The download')) ? 'success-message' : 'alert-message'} role="status">{actionMessage}</p>}{loadState === 'loading' ? <p className="empty" role="status">Loading experiment groups…</p> : loadState === 'error' ? <UIAlert className="empty" role="alert"><p>Experiment groups could not be loaded. Check that the API service is available and try again.</p><UIButton type="button" className="secondary" onClick={loadExperiments}>Try again</UIButton></UIAlert> : items.length ? visibleExperiments.map((item) => <ExperimentHistoryCard key={item.experiment_id} experiment={item} report={analytics[item.experiment_id]} reportError={reportErrors[item.experiment_id]} onRetryReport={() => setReportRetry(current => current + 1)} exporting={exportingId === item.experiment_id} onDownload={download} onDownloadBundle={downloadBundle} onDownloadArtifact={downloadArtifact} onCancel={cancelExperiment} />) : <div className="empty"><b>No experiments yet</b><p>Start a multi-model or multi-strategy audit to create a controlled comparison group.</p></div>}{items.length > experimentPageSize && <nav className="history-pagination" aria-label="Experiment pages"><UIButton type="button" className="secondary" disabled={activeExperimentPage === 0} onClick={() => setExperimentPage(activeExperimentPage - 1)}>Previous experiments</UIButton><span>Page {activeExperimentPage + 1} of {lastExperimentPage + 1} · {items.length} experiment groups</span><UIButton type="button" className="secondary" disabled={activeExperimentPage >= lastExperimentPage} onClick={() => setExperimentPage(activeExperimentPage + 1)}>Next experiments</UIButton></nav>}<UIPanel className="experiment-history-detail"><UISummary>Research tools · benchmarks and reviewer checks</UISummary><p>Use these tools to validate assessment quality and prepare research experiments.</p><ResearchValidation /></UIPanel></section>;
+  return <section>{dialog}<h1>Compare memory strategies & models</h1>{experimentId && <p><a href="/experiments">All experiment groups</a></p>}<p className="experiment-page-intro">See how different settings perform on the same questions. Start with the result summary, then inspect which answers changed.</p>{actionMessage && <p className={(actionMessage.startsWith('The unfinished') || actionMessage.startsWith('The download')) ? 'success-message' : 'alert-message'} role="status">{actionMessage}</p>}{loadState === 'loading' ? <p className="empty" role="status">Loading experiment groups…</p> : loadState === 'error' ? <UIAlert className="empty" role="alert"><p>Experiment groups could not be loaded. Check that the API service is available and try again.</p><UIButton type="button" className="secondary" onClick={loadExperiments}>Try again</UIButton></UIAlert> : scopedItems.length ? visibleExperiments.map((item) => <ExperimentHistoryCard key={item.experiment_id} experiment={item} report={analytics[item.experiment_id]} reportError={reportErrors[item.experiment_id]} onRetryReport={() => setReportRetry(current => current + 1)} exporting={exportingId === item.experiment_id} onDownload={download} onDownloadBundle={downloadBundle} onDownloadArtifact={downloadArtifact} onCancel={cancelExperiment} />) : experimentId ? <div className="empty" role="status"><b>Experiment group not found</b><p>This saved group is not available. Open all experiment groups to choose another comparison.</p></div> : <div className="empty"><b>No experiments yet</b><p>Start a multi-model or multi-strategy audit to create a controlled comparison group.</p></div>}{scopedItems.length > experimentPageSize && <nav className="history-pagination" aria-label="Experiment pages"><UIButton type="button" className="secondary" disabled={activeExperimentPage === 0} onClick={() => setExperimentPage(activeExperimentPage - 1)}>Previous experiments</UIButton><span>Page {activeExperimentPage + 1} of {lastExperimentPage + 1} · {scopedItems.length} experiment groups</span><UIButton type="button" className="secondary" disabled={activeExperimentPage >= lastExperimentPage} onClick={() => setExperimentPage(activeExperimentPage + 1)}>Next experiments</UIButton></nav>}<UIPanel className="experiment-history-detail"><UISummary>Research tools · benchmarks and reviewer checks</UISummary><p>Use these tools to validate assessment quality and prepare research experiments.</p><ResearchValidation /></UIPanel></section>;
 }
 
 function percentage(value: number | null | undefined) { return value === null || value === undefined ? 'Not tested' : `${value.toLocaleString(undefined, { maximumFractionDigits: 1 })}%`; }
