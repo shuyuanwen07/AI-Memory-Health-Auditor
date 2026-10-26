@@ -48,3 +48,47 @@ def request_options() -> dict:
     if upstream:
         provider["only"] = [upstream]
     return {"provider": provider}
+
+
+def validate_reasoning_effort(provider: str, model: str, reasoning_effort: str | None):
+    if reasoning_effort is not None and (reasoning_effort not in {'low', 'medium'} or provider != 'openrouter' or model != 'openai/gpt-6-luna'):
+        raise ValueError('Explicit low or medium reasoning effort requires OpenRouter openai/gpt-6-luna.')
+
+
+def build_openrouter_target_payload(*, model, instructions, prompt, temperature,
+                                    max_output_tokens=None, reasoning_effort=None, provider_options):
+    """Pure wire builder; routing/environment resolution belongs to its caller."""
+    import copy
+    validate_reasoning_effort('openrouter', model, reasoning_effort)
+    if max_output_tokens is not None and (type(max_output_tokens) is not int or max_output_tokens < 1):
+        raise ValueError('Invalid completion budget.')
+    if (not isinstance(provider_options, dict) or provider_options.get('require_parameters') is not True
+            or provider_options.get('allow_fallbacks') is not False
+            or set(provider_options) - {'require_parameters', 'allow_fallbacks', 'only'}
+            or ('only' in provider_options and (not isinstance(provider_options['only'], list)
+                or not provider_options['only'] or any(not isinstance(v, str) or not v.strip() for v in provider_options['only'])))):
+        raise ValueError('Invalid strict provider routing.')
+    return {'model': model, **sampling_parameters(model, temperature),
+            'messages': [{'role': 'system', 'content': instructions}, {'role': 'user', 'content': prompt}],
+            'provider': copy.deepcopy(provider_options),
+            **({'max_tokens': max_output_tokens} if max_output_tokens is not None else {}),
+            **({'reasoning': {'effort': reasoning_effort}} if reasoning_effort is not None else {})}
+
+
+def build_openrouter_json_payload(*, model, instructions, prompt, schema_name, schema,
+                                  max_output_tokens=None, reasoning_effort=None, provider_options):
+    import copy
+    payload = build_openrouter_target_payload(model=model, instructions=instructions, prompt=prompt,
+        temperature=0, max_output_tokens=max_output_tokens, reasoning_effort=reasoning_effort,
+        provider_options=provider_options)
+    payload['response_format'] = {'type': 'json_schema', 'json_schema': {
+        'name': schema_name, 'strict': True, 'schema': copy.deepcopy(schema)}}
+    return payload
+
+
+def validate_profile_reasoning(provider, model, profile):
+    validate_reasoning_effort(provider, model, profile.reasoning_effort)
+    validate_reasoning_effort(provider, model, profile.identity_analysis_reasoning_effort)
+    validate_reasoning_effort(provider, model, profile.answer_validation_reasoning_effort)
+    if profile.answer_validation != "off" and (provider != 'openrouter' or model != 'openai/gpt-6-luna'):
+        raise ValueError('Answer source validation requires the configured OpenRouter GPT 6 Luna target.')

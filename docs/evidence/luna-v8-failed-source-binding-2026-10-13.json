@@ -1,0 +1,12 @@
+{
+  "scope": "failed-v8 runtime source reconstructed and verified against original receipt",
+  "reconstruction": "Reverse only the later extraction error-summary change in archive; working tree unchanged",
+  "app_source_sha256": "5292e87df59e509c672fffd8c7a0726fb17ef4a9ddf7791269280340b16c3a03",
+  "matches_original_runtime": true,
+  "app_files": 122,
+  "archive_sha256": "4ccccf842c6927ec304c5c96fec89616db3a797c3cd57de48550a7752b5de354",
+  "snapshot_sha256": "714d5c65d9593cab71c85826b479430a7e90c6d7281c96136efc218fddbaa70c",
+  "snapshot_hash_verified": true,
+  "pipeline_output_token_cap": 1800,
+  "research_evidence": false
+}

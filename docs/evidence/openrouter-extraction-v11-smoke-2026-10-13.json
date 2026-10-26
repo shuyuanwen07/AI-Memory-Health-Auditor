@@ -1,0 +1,13 @@
+{
+  "kind": "synthetic_engineering_smoke",
+  "version": "memory-extraction-agent-v11",
+  "candidate_count": 1,
+  "valid_source_refs": true,
+  "fact_check": true,
+  "memory_review_status": "completed",
+  "stages": [
+    {"role": "memory_extraction", "status": "completed", "error_code": null, "diagnostics": null, "provider": "openrouter", "model": "openai/gpt-6-luna"},
+    {"role": "relationship_analysis", "status": "completed", "error_code": null, "diagnostics": null, "provider": "openrouter", "model": "openai/gpt-6-luna"},
+    {"role": "independent_memory_review", "status": "completed", "error_code": null, "diagnostics": null, "provider": "openrouter", "model": "openai/gpt-6-luna"}
+  ]
+}

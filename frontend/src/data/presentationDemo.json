@@ -1,0 +1,181 @@
+{
+  "dataset_id": "presentation-memory-v1",
+  "dataset_version": "1.0.0",
+  "title": "Harbour project memory demonstration",
+  "source_origin": "synthetic",
+  "authorised": true,
+  "authorization_basis": "The user requested this newly authored synthetic engineering demonstration through the project owner on 23 October 2026. This authorizes creating the demo; it is not independent human verification of its reference inventory.",
+  "data_origin": "AI-assisted fictional dialogue authored for a product presentation and reproducible engineering example; not participant data, LongMemEval or a benchmark.",
+  "research_evidence": false,
+  "human_approved_gold": false,
+  "messages": [
+    {
+      "message_id": "DEMO001",
+      "role": "user",
+      "content": "I live in Adelaide. I generally prefer Python for backend projects. This semester I am keeping notes on two separate software projects, Harbour and Orchard, alongside ordinary personal plans. Please keep the project names attached to technical details because their requirements are not interchangeable.",
+      "timestamp": "2026-02-02T09:00:00Z"
+    },
+    {
+      "message_id": "DEMO002",
+      "role": "assistant",
+      "content": "Thanks. What is Harbour starting from, and which delivery dates or interface choices are already known?",
+      "timestamp": "2026-02-02T09:01:00Z"
+    },
+    {
+      "message_id": "DEMO003",
+      "role": "user",
+      "content": "The Harbour capstone backend currently uses MySQL. The original deadline for the Harbour capstone is 14 March 2026. Those are the arrangements at the start of this week; I expect to hear from the course coordinator before the next planning meeting.",
+      "timestamp": "2026-02-03T09:00:00Z"
+    },
+    {
+      "message_id": "DEMO004",
+      "role": "assistant",
+      "content": "That gives us a starting point. If a requirement changes, please name the project and describe what changed.",
+      "timestamp": "2026-02-03T09:01:00Z"
+    },
+    {
+      "message_id": "DEMO005",
+      "role": "user",
+      "content": "The Harbour web frontend uses TypeScript. Harbour's public forms must support keyboard-only navigation. We have a small review session planned for the interface, but nobody has completed that session yet. I am arranging the sample screens rather than claiming the accessibility review is finished.",
+      "timestamp": "2026-02-04T09:00:00Z"
+    },
+    {
+      "message_id": "DEMO006",
+      "role": "assistant",
+      "content": "You could consider Go for Harbour if the course permits it. This is only a suggestion, not an adopted decision or a change I have made.",
+      "timestamp": "2026-02-04T09:01:00Z"
+    },
+    {
+      "message_id": "DEMO007",
+      "role": "user",
+      "content": "I have not adopted your suggestion to move Harbour to Go. For the Harbour capstone backend, the course requires Java only. That is a project-specific course constraint, even though my usual backend preference is different. Please do not treat the earlier suggestion as our implementation plan.",
+      "timestamp": "2026-02-05T09:00:00Z"
+    },
+    {
+      "message_id": "DEMO008",
+      "role": "assistant",
+      "content": "Understood. Is Orchard part of that course deliverable, or does it have a different team and separate requirements?",
+      "timestamp": "2026-02-05T09:01:00Z"
+    },
+    {
+      "message_id": "DEMO009",
+      "role": "user",
+      "content": "For the unrelated Orchard inventory service, the team requires Rust. Orchard is a separate volunteer project, not another name for the Harbour capstone. Its team-specific requirement takes precedence over my general language preference when I work on Orchard, without changing the Harbour course requirement.",
+      "timestamp": "2026-02-06T09:00:00Z"
+    },
+    {
+      "message_id": "DEMO010",
+      "role": "assistant",
+      "content": "Would you like a break from the project discussion? I can suggest lunch ideas or help make a meeting list.",
+      "timestamp": "2026-02-06T09:01:00Z"
+    },
+    {
+      "message_id": "DEMO011",
+      "role": "user",
+      "content": "I follow a vegetarian diet. For lunch I am just considering places near the library; I have not booked anything. Food suggestions are separate from our technical work, and there is no need to bring my diet into decisions about programming languages, databases or deployment.",
+      "timestamp": "2026-02-07T09:00:00Z"
+    },
+    {
+      "message_id": "DEMO012",
+      "role": "assistant",
+      "content": "You might consider lentil soup or a vegetable wrap. Those are suggestions, not meals you have ordered.",
+      "timestamp": "2026-02-07T09:01:00Z"
+    },
+    {
+      "message_id": "DEMO013",
+      "role": "user",
+      "content": "We have migrated the Harbour capstone backend to PostgreSQL, and MySQL is no longer used for that backend. The migration is complete. This replaces the earlier database arrangement for Harbour; it does not describe Orchard or a temporary example on somebody else's laptop.",
+      "timestamp": "2026-02-09T09:00:00Z"
+    },
+    {
+      "message_id": "DEMO014",
+      "role": "assistant",
+      "content": "Thanks for the update. Has the coordinator said anything new about timing for the remaining capstone work?",
+      "timestamp": "2026-02-09T09:01:00Z"
+    },
+    {
+      "message_id": "DEMO015",
+      "role": "user",
+      "content": "The coordinator has moved the Harbour capstone deadline to 21 March 2026, replacing the original 14 March 2026 deadline. This is a confirmed course change, not my preferred extension or a tentative request. Other project dates were not part of the announcement.",
+      "timestamp": "2026-02-10T09:00:00Z"
+    },
+    {
+      "message_id": "DEMO016",
+      "role": "assistant",
+      "content": "Which deployment documents is the team using? You could bring their exact requirements to the next meeting.",
+      "timestamp": "2026-02-10T09:01:00Z"
+    },
+    {
+      "message_id": "DEMO017",
+      "role": "user",
+      "content": "The current Harbour deployment plan says its production region is North, and that plan is still active. This note concerns the production deployment, not a local development machine or an illustration in a tutorial. I am checking it against the client paperwork.",
+      "timestamp": "2026-02-12T09:00:00Z"
+    },
+    {
+      "message_id": "DEMO018",
+      "role": "assistant",
+      "content": "You could compare it with the signed client brief. I cannot obtain a revised approval or change the deployment for you.",
+      "timestamp": "2026-02-12T09:01:00Z"
+    },
+    {
+      "message_id": "DEMO019",
+      "role": "user",
+      "content": "The signed client brief, which is also still active, specifies the South region for that same Harbour production deployment. Both region documents are still active, and I have not established which one controls Harbour's production deployment. Neither has been withdrawn or declared to supersede the other.",
+      "timestamp": "2026-02-13T09:00:00Z"
+    },
+    {
+      "message_id": "DEMO020",
+      "role": "assistant",
+      "content": "You could ask the project owner to reconcile the documents in writing. Has any other document difference come up?",
+      "timestamp": "2026-02-13T09:01:00Z"
+    },
+    {
+      "message_id": "DEMO021",
+      "role": "user",
+      "content": "The active Harbour security brief requires OAuth for client authentication. It concerns the client-facing integration rather than administrator sign-in. I copied this requirement from the brief while preparing the meeting notes, and I am still comparing the separate integration handoff.",
+      "timestamp": "2026-02-16T09:00:00Z"
+    },
+    {
+      "message_id": "DEMO022",
+      "role": "assistant",
+      "content": "Does the handoff address that same client-facing integration? A difference in scope might matter to the discussion.",
+      "timestamp": "2026-02-16T09:01:00Z"
+    },
+    {
+      "message_id": "DEMO023",
+      "role": "user",
+      "content": "The active Harbour integration handoff requires API keys for client authentication. It addresses the same client-facing integration as the security brief. Both authentication documents remain active; I have not established whether OAuth or API keys controls the Harbour client integration. There is no agreed priority or replacement decision yet.",
+      "timestamp": "2026-02-17T09:00:00Z"
+    },
+    {
+      "message_id": "DEMO024",
+      "role": "assistant",
+      "content": "You could add that difference to the agenda. I have not changed a document, chosen a method or contacted the owner.",
+      "timestamp": "2026-02-17T09:01:00Z"
+    },
+    {
+      "message_id": "DEMO025",
+      "role": "user",
+      "content": "For an unrelated weekend exercise I sketched a tiny library catalogue on paper. A friend mentioned SQLite in a tutorial, and I borrowed a blue umbrella on the way home. None of that was a database change to either project. I may try the exercise later, but I have not started building it.",
+      "timestamp": "2026-02-20T09:00:00Z"
+    },
+    {
+      "message_id": "DEMO026",
+      "role": "assistant",
+      "content": "You might keep those tutorial notes in a separate notebook, away from the capstone meeting papers.",
+      "timestamp": "2026-02-20T09:01:00Z"
+    },
+    {
+      "message_id": "DEMO027",
+      "role": "user",
+      "content": "I am preparing a short Harbour team meeting agenda and checking the original documents again. I might take a coastal walk afterwards if the weather is dry, but that outing is only a possibility. For now I want the technical notes kept distinct from lunch ideas, travel possibilities and casual examples.",
+      "timestamp": "2026-02-24T09:00:00Z"
+    },
+    {
+      "message_id": "DEMO028",
+      "role": "assistant",
+      "content": "I can help format the agenda with open questions and follow-up owners. Personal plans can stay in separate notes.",
+      "timestamp": "2026-02-24T09:01:00Z"
+    }
+  ]
+}

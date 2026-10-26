@@ -21,6 +21,11 @@ function formatPercentage(value: number | null) {
 type ExportMemoryProfile = {
   label: string; version: number; max_retrieved_records: number; context_character_budget: number;
   isolate_project_scope: boolean; prefer_current_state: boolean; output_token_limit?: number | null;
+  identity_analysis?: 'off' | 'evidence_links'; identity_analysis_output_token_limit?: number;
+  reasoning_effort?: 'low' | 'medium'; identity_analysis_reasoning_effort?: 'low';
+  identity_analysis_failure_policy?: 'fail_closed' | 'continue_without_advisory';
+  answer_validation?: 'off' | 'source_grounding'; answer_validation_output_token_limit?: number;
+  answer_validation_reasoning_effort?: 'low' | 'medium';
 };
 type AuditExportConfiguration = {
   target_provider: string | null; configured_target_model: string | null; reported_target_models: string[];
@@ -69,6 +74,14 @@ function safeMemoryProfile(profile?: ExportMemoryProfile | null): ExportMemoryPr
     isolate_project_scope: profile.isolate_project_scope,
     prefer_current_state: profile.prefer_current_state,
     output_token_limit: profile.output_token_limit,
+    identity_analysis: profile.identity_analysis,
+    identity_analysis_output_token_limit: profile.identity_analysis_output_token_limit,
+    ...(profile.reasoning_effort!==undefined?{reasoning_effort:profile.reasoning_effort}:{}),
+    ...(profile.identity_analysis_reasoning_effort!==undefined?{identity_analysis_reasoning_effort:profile.identity_analysis_reasoning_effort}:{}),
+    ...(profile.identity_analysis_failure_policy!==undefined?{identity_analysis_failure_policy:profile.identity_analysis_failure_policy}:{}),
+    ...(profile.answer_validation!==undefined?{answer_validation:profile.answer_validation}:{}),
+    ...(profile.answer_validation_output_token_limit!==undefined?{answer_validation_output_token_limit:profile.answer_validation_output_token_limit}:{}),
+    ...(profile.answer_validation_reasoning_effort!==undefined?{answer_validation_reasoning_effort:profile.answer_validation_reasoning_effort}:{}),
   };
 }
 

@@ -1,0 +1,51 @@
+{
+  "scope": "one_saved_unfinished_target_input_probe",
+  "research_evidence": false,
+  "source_report_sha256": "d919b3a149cabadb1128fe930a1e3d6f39f745b1d2c2b496379cc267709dcb8c",
+  "source_sha256": "e84fb0e564c7439ce3edf0fc6ebf7b25a681c9bb9dd209b1b97eb5d5d8a7d406",
+  "snapshot_sha256": "e02e8b2d56e9f54d268f2d1d06b9cb563da9a972e801425459b69d72aa9eed16",
+  "test_id": "TC6EE3A5D12604C7D908780B1E05B998B",
+  "run_id": "RUN9B0427B8DF474E23A21D177D0F048697",
+  "selected_target_owned_memory_ids": [
+    "TMC867CA1850"
+  ],
+  "production_database_writes": 0,
+  "snapshot_database_writes": 0,
+  "new_retrievals": 0,
+  "model": "openai/gpt-6-luna",
+  "requested_output_token_limit": 512,
+  "status": "completed",
+  "response": {
+    "response_id": "RC6EE3A5D12604C7D908780B1E05B998B",
+    "test_id": "TC6EE3A5D12604C7D908780B1E05B998B",
+    "run_id": "RUN9B0427B8DF474E23A21D177D0F048697",
+    "response_text": "I don\u2019t have enough remembered information to identify the two regions; clarify which production region is authoritative before acting.",
+    "model": "openai/gpt-6-luna",
+    "temperature": 0.0,
+    "execution_metadata": {
+      "request_attempts": 1,
+      "latency_ms": 6514.93,
+      "input_tokens": 418,
+      "output_tokens": 221,
+      "total_tokens": 639,
+      "sampling_control": "model_default",
+      "sent_temperature": null,
+      "reported_model": "openai/gpt-6-luna",
+      "shared_source_run_id": null,
+      "shared_source_response_id": null,
+      "response_source": "openrouter",
+      "completion_status": "complete",
+      "finish_reason": "stop",
+      "requested_output_token_limit": 512,
+      "memory_input": {
+        "version": "target-memory-input-v1",
+        "record_count": 1,
+        "context_sha256": "e22e93945ae74bcdeb4d1af4facec169963e38093d0806eced630053bf25f81c",
+        "instruction_sha256": "1ad48152e65664889c2ea3f36d0d8b62e3c1ac970b5611dfe29783bf115873d2",
+        "prompt_sha256": "f1e83da21fa845f0a7a282c47b12afb6e08d537cb9169f4ecfce442d28c6c476",
+        "sent_memory_ids": null
+      }
+    },
+    "created_at": "2026-10-13T10:38:11.302032Z"
+  }
+}

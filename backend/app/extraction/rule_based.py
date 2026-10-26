@@ -13,6 +13,7 @@ from dataclasses import dataclass
 from app.schemas import Conversation, Memory, MemoryRelationship, MemoryStatus, RelationshipType
 from app.services.memory_topics import is_language_topic
 from app.services.interfaces import MemoryExtractor
+from app.services.fact_identity import fact_fingerprint
 from app.services.meeting_facts import PLATFORM_PATTERN, exclusive_platform_value, is_meeting_platform_topic, equivalent_exclusive_platform_rules
 
 _SENTENCE_BOUNDARY = re.compile(r"(?<=[.!?])\s+|\n+")
@@ -43,7 +44,7 @@ class _Candidate:
 class RuleBasedMemoryExtractor(MemoryExtractor):
     """Extract durable-looking user statements and explicit relationships."""
 
-    VERSION = "rule-based-memory-extractor-v23"
+    VERSION = "rule-based-memory-extractor-v25"
 
     def extract(self, conversation: Conversation) -> list[Memory]:
         candidates = self._candidates(conversation)
@@ -77,7 +78,7 @@ class RuleBasedMemoryExtractor(MemoryExtractor):
                         sources = tuple(dict.fromkeys((*inherited_sources, message.message_id)))
                     if not self._is_memory_statement(value):
                         continue
-                    key = re.sub(r"\W+", " ", value.lower()).strip()
+                    key = fact_fingerprint(value)
                     if key in positions:
                         prior = candidates[positions[key]]
                         candidates[positions[key]] = _Candidate(prior.value, tuple(dict.fromkeys((*prior.source_message_ids, *sources))), prior.timestamp)
@@ -213,13 +214,19 @@ class RuleBasedMemoryExtractor(MemoryExtractor):
         from app.services.memory_entities import named_projects
         current_projects = named_projects(current.canonical_value)
         current_terms, category = self._topic_terms(current.canonical_value), self._category(current.canonical_value)
+        # Generic topic overlap ("I need", "I didn't know", "service") does
+        # not identify a fact field whose value changed. Unknown domains need
+        # semantic review; guessing relationships here protects unrelated
+        # records as conflicts and can evict the actual remembered facts.
+        if category is None or category == "software-system":
+            return None
         choices: list[tuple[int, Memory]] = []
         for memory in prior_memories:
             prior_projects = named_projects(memory.canonical_value)
             if current_projects and prior_projects and current_projects.isdisjoint(prior_projects):
                 continue
             prior_category = self._category(memory.canonical_value)
-            if category and prior_category and category != prior_category:
+            if prior_category != category:
                 continue
             score = self._overlap(current_terms, self._topic_terms(memory.canonical_value))
             if category and category == self._category(memory.canonical_value):
@@ -229,7 +236,10 @@ class RuleBasedMemoryExtractor(MemoryExtractor):
         return max(choices, key=lambda item: (item[0], item[1].memory_id))[1] if choices else None
 
     def _best_preference(self, current: Memory, prior_memories: list[Memory]) -> Memory | None:
-        preferences = [memory for memory in prior_memories if self._has_any(memory.canonical_value.lower(), _PREFERENCE_SIGNALS)]
+        category = self._category(current.canonical_value)
+        preferences = [memory for memory in prior_memories
+                       if self._has_any(memory.canonical_value.lower(), _PREFERENCE_SIGNALS)
+                       and self._context_compatible(current, memory)]
         if not preferences:
             return None
         category, terms = self._category(current.canonical_value), self._topic_terms(current.canonical_value)
@@ -237,6 +247,8 @@ class RuleBasedMemoryExtractor(MemoryExtractor):
 
     def _is_temporally_compatible(self, current: Memory, prior: Memory) -> bool:
         current_topic, prior_topic = self._category(current.canonical_value), self._category(prior.canonical_value)
+        if current_topic is None or current_topic == "software-system" or current_topic != prior_topic:
+            return False
         # A shared project or person name is not a shared fact field.
         if current_topic and prior_topic and current_topic != prior_topic:
             return False
@@ -247,6 +259,8 @@ class RuleBasedMemoryExtractor(MemoryExtractor):
 
     def _context_compatible(self, current: Memory, preference: Memory) -> bool:
         current_topic, prior_topic = self._category(current.canonical_value), self._category(preference.canonical_value)
+        if current_topic is None or current_topic == "software-system" or current_topic != prior_topic:
+            return False
         # A shared project or person name is not a shared fact field.
         if current_topic and prior_topic and current_topic != prior_topic:
             return False
@@ -255,6 +269,8 @@ class RuleBasedMemoryExtractor(MemoryExtractor):
 
     def _is_conflict(self, current: Memory, prior: Memory) -> bool:
         current_topic, prior_topic = self._category(current.canonical_value), self._category(prior.canonical_value)
+        if current_topic is None or current_topic == "software-system" or current_topic != prior_topic:
+            return False
         # A shared project or person name is not a shared fact field.
         if current_topic and prior_topic and current_topic != prior_topic:
             return False
@@ -293,5 +309,7 @@ class RuleBasedMemoryExtractor(MemoryExtractor):
         if is_language_topic(text): return "programming-language"
         if location_value(text) or re.search(r"\b(?:sydney|melbourne|london|relocat)\b", text): return "location"
         if re.search(r"\b(?:remote|from home|office|hybrid)\b", text): return "working-arrangement"
+        if re.search(r"\b(?:concise|detailed|verbose|brief|short|long)\s+(?:output|responses?|answers?)\b", text): return "output-style"
+        if re.search(r"\b(?:older|newer|current|previous|software|development)\s+tools?\b", text): return "tool-choice"
         if re.search(r"\b(?:backend|service|application|system)\b", text): return "software-system"
         return None

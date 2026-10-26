@@ -1,0 +1,2830 @@
+All checks passed!
+........................................................................ [  5%]
+........................................................................ [ 10%]
+........................................................................ [ 16%]
+........................................................................ [ 21%]
+........................................................................ [ 27%]
+..............................F.FF...................................... [ 32%]
+........................................................................ [ 38%]
+...................................F.F.................................. [ 43%]
+........................................................................ [ 49%]
+...........................ssssssss..................................... [ 54%]
+............................EEEEEEEEEEEEEEEEEEEEEEEEE..EEEEEEEEEEEE..... [ 60%]
+.............................................................EEEEEEEEEEE [ 65%]
+.E...................................................................... [ 70%]
+........................................................................ [ 76%]
+........................................................................ [ 81%]
+........................................................................ [ 87%]
+..........................................EEEEEEEEEEEEEEEEEEEEE......... [ 92%]
+........................................................................ [ 98%]
+.......................                                                  [100%]
+==================================== ERRORS ====================================
+_ ERROR at setup of test_relative_ordering_binds_exact_semantic_files_and_creates_no_records _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff94350b00>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff94c00890>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_ranking_agreement_requires_current_source_authorisation _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff96a5ca40>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff948af650>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_optional_scope_aware_ablation_cannot_be_reported_as_experiment_c _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff9460db50>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff95d0f650>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+____ ERROR at setup of test_ordering_and_ties_are_distinct[2-1-consistent] _____
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff94a11d30>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff94e38e00>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_____ ERROR at setup of test_ordering_and_ties_are_distinct[0-1-reversed] ______
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff95d0fe00>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff96437680>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_ordering_and_ties_are_distinct[1-1-inconclusive_tie] __
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff94b2c0b0>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff95317a10>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_____ ERROR at setup of test_ordering_and_ties_are_distinct[1-0-both_tied] _____
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff95b39790>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9da47290>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_incompatible_settings_are_rejected[model-another-model-Target model] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff94c4e360>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff956062a0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_incompatible_settings_are_rejected[temperature-1-Target model] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff96a78a40>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff95053890>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_incompatible_settings_are_rejected[random_seed-7-same recorded seed] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff95408890>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9460f680>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_incompatible_settings_are_rejected[status-EXECUTED-must be complete] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff94f95eb0>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9527b080>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_incompatible_settings_are_rejected[experiment_id-other-frozen experiment] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff95247170>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9447ef30>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_incompatible_settings_are_rejected[target_memory_writer_version-None-implementation versions] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff9578f890>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff95244350>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_incompatible_settings_are_rejected[target_system_adapter-external-http-controlled target] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff96069880>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9754f110>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_incompatible_settings_are_rejected[memory_maintenance_policy-append_only-preparation policy] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff95505ee0>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff950ffb30>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-saved audits] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff9490d700>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff94303410>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-no frozen memory settings] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff94e382f0>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff94331910>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-same saved software snapshot] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff94e39130>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9460ee40>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-original target executions] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff94398260>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff941e5df0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-Complete semantic] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff944259d0>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff94398b00>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-exact saved reply] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff946340b0>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9cb6c890>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-same semantic evaluator] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff946351f0>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff94704da0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-same complete saved comparison] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff9d579c10>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff945e69f0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-Every frozen audit question] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff942e0ad0>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9447d280>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-more than memory strategy] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff94705640>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9d4d6150>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_missing_auditor_dimension_is_unmeasured_and_cannot_establish_agreement _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff945d2840>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff948eb560>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_experiment_c_cannot_qualify_without_source_provenance[dataset_provenance-None-dataset version, licence and citation] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff9447c320>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff94949b50>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_experiment_c_cannot_qualify_without_source_provenance[adapter_fingerprint_sha256-None-adapter version and implementation fingerprint] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff94f87dd0>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff94c2a240>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_experiment_c_cannot_qualify_without_source_provenance[compatibility_limitations-value2-declared compatibility limitations] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff94c6b500>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff951f5a60>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+______ ERROR at setup of test_route_is_read_only_and_does_not_call_target ______
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff94e10da0>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff950d2c00>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_route_rejects_missing_source_authorisation_before_service _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff945d01a0>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9d4d5bb0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons[requested_output_token_limit-None-length limits are unknown] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff94bd5220>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff94252db0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons[requested_output_token_limit-512-length limits differ] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff96afda30>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9689dcd0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons[response_source-shared_saved_answer-original model-call receipts] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff95afb5c0>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9d566e40>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons[request_attempts-0-original model-call receipts] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff9cb07cb0>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff97f8d5e0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons[shared_source_response_id-earlier-original model-call receipts] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff9dd5f650>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff95b5f860>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_changed_actual_reply_model_cannot_be_hidden_by_run_settings _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff95489910>
+
+    @pytest.fixture
+    def package(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector, '_execute_provider', lambda *a: 'The information is incomplete.')
+        source = [dict(question_id='fixture_abs', question_type='single-session-user', question='What is my birth year?',
+            answer='The birth year is not present in the history.', messages=[{'role':'user','content':'I like Python.'}]),
+            dict(question_id='fixture-two', question_type='knowledge-update', question='What database now?',
+            answer='PostgreSQL', messages=[{'role':'user','content':'The backend now uses PostgreSQL.'}])]
+>       evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+
+tests/test_ranking_agreement.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff95562ed0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_complete_repeats_report_agreement_equal_weight_scores_and_variability _
+
+request = <SubRequest 'repeats' for <Function test_complete_repeats_report_agreement_equal_weight_scores_and_variability>>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff94a49100>
+
+    @pytest.fixture
+    def repeats(request, monkeypatch):
+>       db, runs, comparison, body = request.getfixturevalue('ranking')
+
+tests/test_repeated_ranking_agreement.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:532: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:617: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1047: in execute
+    fixturedef = request._get_active_fixturedef(argname)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:617: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1091: in execute
+    result = ihook.pytest_fixture_setup(fixturedef=self, request=request)
+/usr/local/lib/python3.12/site-packages/pluggy/_hooks.py:512: in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+/usr/local/lib/python3.12/site-packages/pluggy/_manager.py:120: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+/usr/local/lib/python3.12/site-packages/pluggy/_callers.py:53: in run_old_style_hookwrapper
+    return result.get_result()
+/usr/local/lib/python3.12/site-packages/pluggy/_callers.py:38: in run_old_style_hookwrapper
+    res = yield
+/usr/local/lib/python3.12/site-packages/_pytest/setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1140: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:898: in call_fixture_func
+    fixture_result = fixturefunc(**kwargs)
+tests/test_ranking_agreement.py:23: in package
+    evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9d7c43e0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_reversed_trials_and_ties_are_not_hidden_in_the_directional_denominator _
+
+request = <SubRequest 'repeats' for <Function test_reversed_trials_and_ties_are_not_hidden_in_the_directional_denominator>>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff9c025940>
+
+    @pytest.fixture
+    def repeats(request, monkeypatch):
+>       db, runs, comparison, body = request.getfixturevalue('ranking')
+
+tests/test_repeated_ranking_agreement.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:532: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:617: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1047: in execute
+    fixturedef = request._get_active_fixturedef(argname)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:617: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1091: in execute
+    result = ihook.pytest_fixture_setup(fixturedef=self, request=request)
+/usr/local/lib/python3.12/site-packages/pluggy/_hooks.py:512: in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+/usr/local/lib/python3.12/site-packages/pluggy/_manager.py:120: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+/usr/local/lib/python3.12/site-packages/pluggy/_callers.py:53: in run_old_style_hookwrapper
+    return result.get_result()
+/usr/local/lib/python3.12/site-packages/pluggy/_callers.py:38: in run_old_style_hookwrapper
+    res = yield
+/usr/local/lib/python3.12/site-packages/_pytest/setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1140: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:898: in call_fixture_func
+    fixture_result = fixturefunc(**kwargs)
+tests/test_ranking_agreement.py:23: in package
+    evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff95b0c620>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_missing_planned_trial_prevents_aggregate_claims_without_discarding_valid_reports _
+
+request = <SubRequest 'repeats' for <Function test_missing_planned_trial_prevents_aggregate_claims_without_discarding_valid_reports>>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff960cb410>
+
+    @pytest.fixture
+    def repeats(request, monkeypatch):
+>       db, runs, comparison, body = request.getfixturevalue('ranking')
+
+tests/test_repeated_ranking_agreement.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:532: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:617: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1047: in execute
+    fixturedef = request._get_active_fixturedef(argname)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:617: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1091: in execute
+    result = ihook.pytest_fixture_setup(fixturedef=self, request=request)
+/usr/local/lib/python3.12/site-packages/pluggy/_hooks.py:512: in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+/usr/local/lib/python3.12/site-packages/pluggy/_manager.py:120: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+/usr/local/lib/python3.12/site-packages/pluggy/_callers.py:53: in run_old_style_hookwrapper
+    return result.get_result()
+/usr/local/lib/python3.12/site-packages/pluggy/_callers.py:38: in run_old_style_hookwrapper
+    res = yield
+/usr/local/lib/python3.12/site-packages/_pytest/setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1140: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:898: in call_fixture_func
+    fixture_result = fixturefunc(**kwargs)
+tests/test_ranking_agreement.py:23: in package
+    evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff96531df0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_invalid_planned_trial_keeps_error_and_source_run_ids __
+
+request = <SubRequest 'repeats' for <Function test_invalid_planned_trial_keeps_error_and_source_run_ids>>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff94c6a870>
+
+    @pytest.fixture
+    def repeats(request, monkeypatch):
+>       db, runs, comparison, body = request.getfixturevalue('ranking')
+
+tests/test_repeated_ranking_agreement.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:532: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:617: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1047: in execute
+    fixturedef = request._get_active_fixturedef(argname)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:617: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1091: in execute
+    result = ihook.pytest_fixture_setup(fixturedef=self, request=request)
+/usr/local/lib/python3.12/site-packages/pluggy/_hooks.py:512: in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+/usr/local/lib/python3.12/site-packages/pluggy/_manager.py:120: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+/usr/local/lib/python3.12/site-packages/pluggy/_callers.py:53: in run_old_style_hookwrapper
+    return result.get_result()
+/usr/local/lib/python3.12/site-packages/pluggy/_callers.py:38: in run_old_style_hookwrapper
+    res = yield
+/usr/local/lib/python3.12/site-packages/_pytest/setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1140: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:898: in call_fixture_func
+    fixture_result = fixturefunc(**kwargs)
+tests/test_ranking_agreement.py:23: in package
+    evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff951b63c0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_repeats_with_different_frozen_inputs_cannot_be_combined[evaluator] _
+
+request = <SubRequest 'repeats' for <Function test_repeats_with_different_frozen_inputs_cannot_be_combined[evaluator]>>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff961867b0>
+
+    @pytest.fixture
+    def repeats(request, monkeypatch):
+>       db, runs, comparison, body = request.getfixturevalue('ranking')
+
+tests/test_repeated_ranking_agreement.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:532: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:617: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1047: in execute
+    fixturedef = request._get_active_fixturedef(argname)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:617: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1091: in execute
+    result = ihook.pytest_fixture_setup(fixturedef=self, request=request)
+/usr/local/lib/python3.12/site-packages/pluggy/_hooks.py:512: in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+/usr/local/lib/python3.12/site-packages/pluggy/_manager.py:120: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+/usr/local/lib/python3.12/site-packages/pluggy/_callers.py:53: in run_old_style_hookwrapper
+    return result.get_result()
+/usr/local/lib/python3.12/site-packages/pluggy/_callers.py:38: in run_old_style_hookwrapper
+    res = yield
+/usr/local/lib/python3.12/site-packages/_pytest/setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1140: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:898: in call_fixture_func
+    fixture_result = fixturefunc(**kwargs)
+tests/test_ranking_agreement.py:23: in package
+    evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9553a810>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_repeats_with_different_frozen_inputs_cannot_be_combined[audit_suite] _
+
+request = <SubRequest 'repeats' for <Function test_repeats_with_different_frozen_inputs_cannot_be_combined[audit_suite]>>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff95abe090>
+
+    @pytest.fixture
+    def repeats(request, monkeypatch):
+>       db, runs, comparison, body = request.getfixturevalue('ranking')
+
+tests/test_repeated_ranking_agreement.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:532: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:617: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1047: in execute
+    fixturedef = request._get_active_fixturedef(argname)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:617: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1091: in execute
+    result = ihook.pytest_fixture_setup(fixturedef=self, request=request)
+/usr/local/lib/python3.12/site-packages/pluggy/_hooks.py:512: in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+/usr/local/lib/python3.12/site-packages/pluggy/_manager.py:120: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+/usr/local/lib/python3.12/site-packages/pluggy/_callers.py:53: in run_old_style_hookwrapper
+    return result.get_result()
+/usr/local/lib/python3.12/site-packages/pluggy/_callers.py:38: in run_old_style_hookwrapper
+    res = yield
+/usr/local/lib/python3.12/site-packages/_pytest/setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1140: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:898: in call_fixture_func
+    fixture_result = fixturefunc(**kwargs)
+tests/test_ranking_agreement.py:23: in package
+    evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9d837ce0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_repeats_with_different_frozen_inputs_cannot_be_combined[benchmark_settings] _
+
+request = <SubRequest 'repeats' for <Function test_repeats_with_different_frozen_inputs_cannot_be_combined[benchmark_settings]>>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff96babe90>
+
+    @pytest.fixture
+    def repeats(request, monkeypatch):
+>       db, runs, comparison, body = request.getfixturevalue('ranking')
+
+tests/test_repeated_ranking_agreement.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:532: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:617: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1047: in execute
+    fixturedef = request._get_active_fixturedef(argname)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:617: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1091: in execute
+    result = ihook.pytest_fixture_setup(fixturedef=self, request=request)
+/usr/local/lib/python3.12/site-packages/pluggy/_hooks.py:512: in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+/usr/local/lib/python3.12/site-packages/pluggy/_manager.py:120: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+/usr/local/lib/python3.12/site-packages/pluggy/_callers.py:53: in run_old_style_hookwrapper
+    return result.get_result()
+/usr/local/lib/python3.12/site-packages/pluggy/_callers.py:38: in run_old_style_hookwrapper
+    res = yield
+/usr/local/lib/python3.12/site-packages/_pytest/setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1140: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:898: in call_fixture_func
+    fixture_result = fixturefunc(**kwargs)
+tests/test_ranking_agreement.py:23: in package
+    evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9c0b5040>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_declared_plan_fingerprint_binds_execution_ids_but_not_outcome_labels _
+
+request = <SubRequest 'repeats' for <Function test_declared_plan_fingerprint_binds_execution_ids_but_not_outcome_labels>>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff948ad550>
+
+    @pytest.fixture
+    def repeats(request, monkeypatch):
+>       db, runs, comparison, body = request.getfixturevalue('ranking')
+
+tests/test_repeated_ranking_agreement.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:532: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:617: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1047: in execute
+    fixturedef = request._get_active_fixturedef(argname)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:617: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1091: in execute
+    result = ihook.pytest_fixture_setup(fixturedef=self, request=request)
+/usr/local/lib/python3.12/site-packages/pluggy/_hooks.py:512: in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+/usr/local/lib/python3.12/site-packages/pluggy/_manager.py:120: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+/usr/local/lib/python3.12/site-packages/pluggy/_callers.py:53: in run_old_style_hookwrapper
+    return result.get_result()
+/usr/local/lib/python3.12/site-packages/pluggy/_callers.py:38: in run_old_style_hookwrapper
+    res = yield
+/usr/local/lib/python3.12/site-packages/_pytest/setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1140: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:898: in call_fixture_func
+    fixture_result = fixturefunc(**kwargs)
+tests/test_ranking_agreement.py:23: in package
+    evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff964358e0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+________ ERROR at setup of test_all_unmeasured_trials_remain_unmeasured ________
+
+request = <SubRequest 'repeats' for <Function test_all_unmeasured_trials_remain_unmeasured>>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff9558be60>
+
+    @pytest.fixture
+    def repeats(request, monkeypatch):
+>       db, runs, comparison, body = request.getfixturevalue('ranking')
+
+tests/test_repeated_ranking_agreement.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:532: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:617: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1047: in execute
+    fixturedef = request._get_active_fixturedef(argname)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:617: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1091: in execute
+    result = ihook.pytest_fixture_setup(fixturedef=self, request=request)
+/usr/local/lib/python3.12/site-packages/pluggy/_hooks.py:512: in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+/usr/local/lib/python3.12/site-packages/pluggy/_manager.py:120: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+/usr/local/lib/python3.12/site-packages/pluggy/_callers.py:53: in run_old_style_hookwrapper
+    return result.get_result()
+/usr/local/lib/python3.12/site-packages/pluggy/_callers.py:38: in run_old_style_hookwrapper
+    res = yield
+/usr/local/lib/python3.12/site-packages/_pytest/setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1140: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:898: in call_fixture_func
+    fixture_result = fixturefunc(**kwargs)
+tests/test_ranking_agreement.py:23: in package
+    evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9d498470>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_reused_audit_or_benchmark_execution_cannot_inflate_repeat_count _
+
+request = <SubRequest 'repeats' for <Function test_reused_audit_or_benchmark_execution_cannot_inflate_repeat_count>>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff94ae4710>
+
+    @pytest.fixture
+    def repeats(request, monkeypatch):
+>       db, runs, comparison, body = request.getfixturevalue('ranking')
+
+tests/test_repeated_ranking_agreement.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:532: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:617: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1047: in execute
+    fixturedef = request._get_active_fixturedef(argname)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:617: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1091: in execute
+    result = ihook.pytest_fixture_setup(fixturedef=self, request=request)
+/usr/local/lib/python3.12/site-packages/pluggy/_hooks.py:512: in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+/usr/local/lib/python3.12/site-packages/pluggy/_manager.py:120: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+/usr/local/lib/python3.12/site-packages/pluggy/_callers.py:53: in run_old_style_hookwrapper
+    return result.get_result()
+/usr/local/lib/python3.12/site-packages/pluggy/_callers.py:38: in run_old_style_hookwrapper
+    res = yield
+/usr/local/lib/python3.12/site-packages/_pytest/setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1140: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:898: in call_fixture_func
+    fixture_result = fixturefunc(**kwargs)
+tests/test_ranking_agreement.py:23: in package
+    evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff96a9bf20>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_any_revoked_source_authorisation_prevents_all_analysis _
+
+request = <SubRequest 'repeats' for <Function test_any_revoked_source_authorisation_prevents_all_analysis>>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff946948c0>
+
+    @pytest.fixture
+    def repeats(request, monkeypatch):
+>       db, runs, comparison, body = request.getfixturevalue('ranking')
+
+tests/test_repeated_ranking_agreement.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:532: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:617: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1047: in execute
+    fixturedef = request._get_active_fixturedef(argname)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:617: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1091: in execute
+    result = ihook.pytest_fixture_setup(fixturedef=self, request=request)
+/usr/local/lib/python3.12/site-packages/pluggy/_hooks.py:512: in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+/usr/local/lib/python3.12/site-packages/pluggy/_manager.py:120: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+/usr/local/lib/python3.12/site-packages/pluggy/_callers.py:53: in run_old_style_hookwrapper
+    return result.get_result()
+/usr/local/lib/python3.12/site-packages/pluggy/_callers.py:38: in run_old_style_hookwrapper
+    res = yield
+/usr/local/lib/python3.12/site-packages/_pytest/setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1140: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:898: in call_fixture_func
+    fixture_result = fixturefunc(**kwargs)
+tests/test_ranking_agreement.py:23: in package
+    evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff942b1cd0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_repeated_route_is_read_only_and_returns_missing_trials _
+
+request = <SubRequest 'repeats' for <Function test_repeated_route_is_read_only_and_returns_missing_trials>>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff94253e90>
+
+    @pytest.fixture
+    def repeats(request, monkeypatch):
+>       db, runs, comparison, body = request.getfixturevalue('ranking')
+
+tests/test_repeated_ranking_agreement.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:532: in getfixturevalue
+    fixturedef = self._get_active_fixturedef(argname)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:617: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1047: in execute
+    fixturedef = request._get_active_fixturedef(argname)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:617: in _get_active_fixturedef
+    fixturedef.execute(request=subrequest)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1091: in execute
+    result = ihook.pytest_fixture_setup(fixturedef=self, request=request)
+/usr/local/lib/python3.12/site-packages/pluggy/_hooks.py:512: in __call__
+    return self._hookexec(self.name, self._hookimpls.copy(), kwargs, firstresult)
+/usr/local/lib/python3.12/site-packages/pluggy/_manager.py:120: in _hookexec
+    return self._inner_hookexec(hook_name, methods, kwargs, firstresult)
+/usr/local/lib/python3.12/site-packages/pluggy/_callers.py:53: in run_old_style_hookwrapper
+    return result.get_result()
+/usr/local/lib/python3.12/site-packages/pluggy/_callers.py:38: in run_old_style_hookwrapper
+    res = yield
+/usr/local/lib/python3.12/site-packages/_pytest/setuponly.py:36: in pytest_fixture_setup
+    return (yield)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:1140: in pytest_fixture_setup
+    result = call_fixture_func(fixturefunc, request, kwargs)
+/usr/local/lib/python3.12/site-packages/_pytest/fixtures.py:898: in call_fixture_func
+    fixture_result = fixturefunc(**kwargs)
+tests/test_ranking_agreement.py:23: in package
+    evidence = LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source, source_authorised=True,dataset_provenance=PROVENANCE)).model_dump(mode='json')
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff961b8350>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_partial_assessment_keeps_missing_unknown_and_binds_all_provenance _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff95654170>
+
+>   ???
+
+/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/backend/tests/test_semantic_review.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff95b38c80>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_complete_assessment_counts_false_as_reviewed_not_missing _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff8bac8290>
+
+>   ???
+
+/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/backend/tests/test_semantic_review.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff954ad520>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_rejects_mixed_tampered_or_ambiguous_files[<lambda>-source file does not match] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff9554b4d0>
+
+>   ???
+
+/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/backend/tests/test_semantic_review.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff97f32750>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_rejects_mixed_tampered_or_ambiguous_files[<lambda>-Choose a condition] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff945fc140>
+
+>   ???
+
+/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/backend/tests/test_semantic_review.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9452e900>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_rejects_mixed_tampered_or_ambiguous_files[<lambda>-duplicate question] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff950d17f0>
+
+>   ???
+
+/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/backend/tests/test_semantic_review.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff94d395e0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_rejects_mixed_tampered_or_ambiguous_files[<lambda>-question absent] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff96b29880>
+
+>   ???
+
+/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/backend/tests/test_semantic_review.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff94ffeb10>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_rejects_mixed_tampered_or_ambiguous_files[<lambda>-exact saved reply] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff95afa480>
+
+>   ???
+
+/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/backend/tests/test_semantic_review.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9616a4b0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_rejects_mixed_tampered_or_ambiguous_files[<lambda>-duplicate conditions] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff9754e6f0>
+
+>   ???
+
+/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/backend/tests/test_semantic_review.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9472c3e0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_rejects_mixed_tampered_or_ambiguous_files[<lambda>-each source question0] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff9754d8e0>
+
+>   ???
+
+/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/backend/tests/test_semantic_review.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff96a43c20>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_rejects_mixed_tampered_or_ambiguous_files[<lambda>-each source question1] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff94f86420>
+
+>   ???
+
+/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/backend/tests/test_semantic_review.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff967362d0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_rejects_mixed_tampered_or_ambiguous_files[<lambda>-differ from the source0] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff9c093290>
+
+>   ???
+
+/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/backend/tests/test_semantic_review.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff96345ee0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_rejects_mixed_tampered_or_ambiguous_files[<lambda>-differ from the source1] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff97502ab0>
+
+>   ???
+
+/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/backend/tests/test_semantic_review.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff96460ce0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_rejects_mixed_tampered_or_ambiguous_files[<lambda>-lexical assessments] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff95dac410>
+
+>   ???
+
+/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/backend/tests/test_semantic_review.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff94aaa720>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_rejects_mixed_tampered_or_ambiguous_files[<lambda>-one evaluator model] _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff94cd5520>
+
+>   ???
+
+/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/backend/tests/test_semantic_review.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9c0924e0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+___________ ERROR at setup of test_labels_are_strict_booleans[false] ___________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff949bf050>
+
+>   ???
+
+/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/backend/tests/test_semantic_review.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff95245dc0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+____________ ERROR at setup of test_labels_are_strict_booleans[yes] ____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff95ae8800>
+
+>   ???
+
+/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/backend/tests/test_semantic_review.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9486c2c0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_____________ ERROR at setup of test_labels_are_strict_booleans[0] _____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff8ba801d0>
+
+>   ???
+
+/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/backend/tests/test_semantic_review.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff957e4620>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_____________ ERROR at setup of test_labels_are_strict_booleans[1] _____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff8ba4a780>
+
+>   ???
+
+/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/backend/tests/test_semantic_review.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff949f0680>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+___________ ERROR at setup of test_labels_are_strict_booleans[None] ____________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff96531670>
+
+>   ???
+
+/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/backend/tests/test_semantic_review.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff94437920>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_import_endpoint_has_no_database_or_provider_dependencies _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff960ca300>
+
+>   ???
+
+/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/backend/tests/test_semantic_review.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff94566de0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_ ERROR at setup of test_semantic_review_requires_authorisation_before_source_adapter _
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff8ba96600>
+
+>   ???
+
+/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/backend/tests/test_semantic_review.py:24: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff8bfffc20>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+=================================== FAILURES ===================================
+_______ test_live_calls_use_controlled_policy_without_reference_leakage ________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff95b5ca10>
+
+    def test_live_calls_use_controlled_policy_without_reference_leakage(monkeypatch):
+        seen=[]
+        def provider(self,audit,test,instructions,credential):
+            assert audit.target_configuration.value=='strong'
+            seen.append((audit.memory_strategy.value,test.expected_behavior,test.supporting_memory_ids,instructions,test.prompt))
+            return 'PostgreSQL'
+        monkeypatch.setattr(HttpTargetAIConnector,'_execute_provider',provider)
+>       first=LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source(),source_authorised=True,dataset_provenance=PROVENANCE))
+
+tests/test_live_benchmark.py:52: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff95c6ddf0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+__ test_live_route_uses_real_connector_and_does_not_persist_operational_rows ___
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff94f7e2a0>
+
+    def test_live_route_uses_real_connector_and_does_not_persist_operational_rows(monkeypatch):
+        monkeypatch.setattr(HttpTargetAIConnector,'_execute_provider',lambda *args:'PostgreSQL')
+        with TestClient(app) as client:
+            no_consent=client.post('/api/v1/research/benchmarks/longmemeval/live',json={'payload':source(),'dataset_provenance':PROVENANCE})
+            assert no_consent.status_code==422
+            no_provenance=client.post('/api/v1/research/benchmarks/longmemeval/live',json={'payload':source(),'source_authorised':True})
+            assert no_provenance.status_code==422
+            ignored_setting=client.post('/api/v1/research/benchmarks/longmemeval/live',json={'payload':source(),'source_authorised':True,'dataset_provenance':PROVENANCE,'memory_strategy':'no_memory'})
+            assert ignored_setting.status_code==422  # plural strategies are explicit; never silently ignore a setting
+            response=client.post('/api/v1/research/benchmarks/longmemeval/live',json={'payload':source(),'source_authorised':True,'dataset_provenance':PROVENANCE})
+>           assert response.status_code==200,response.text
+E           AssertionError: {"detail":"OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend."}
+E           assert 503 == 200
+E            +  where 503 = <Response [503 Service Unavailable]>.status_code
+
+tests/test_live_benchmark.py:103: AssertionError
+______________ test_cancellation_stops_before_next_provider_call _______________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff95b5f2c0>
+
+    def test_cancellation_stops_before_next_provider_call(monkeypatch):
+        cancelled=Event();calls=[]
+        def provider(*args):calls.append(1);cancelled.set();return 'PostgreSQL'
+        monkeypatch.setattr(HttpTargetAIConnector,'_execute_provider',provider)
+        with pytest.raises(ValueError,match='cancelled'):
+>           LiveBenchmarkRunner().run(LiveBenchmarkRequest(payload=source(),source_authorised=True,dataset_provenance=PROVENANCE),cancelled)
+
+tests/test_live_benchmark.py:115: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9d498080>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+__________________ test_native_same_reader_and_gold_isolation __________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff95ed1e50>
+
+>   ???
+
+/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/backend/tests/test_mem0_shared_reader.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.benchmarks.live.LiveBenchmarkRunner object at 0xffff95f41400>
+request = LiveBenchmarkRequest(payload=[{'question_id': 'official-layout-synthetic', 'question_type': 'knowledge-update', 'quest..., additional_instructions='', output_token_limit=None), max_cases=8, include_mem0=True, native_repair_comparison=False)
+cancelled = None
+
+    def run(self, request: LiveBenchmarkRequest, cancelled: Event | None = None) -> LiveBenchmarkResponse:
+        if not request.source_authorised:
+            raise ValueError("Confirm that you are authorised to process this benchmark source.")
+        if request.provider not in {TargetProvider.OLLAMA, TargetProvider.OPENROUTER}:
+            raise ValueError("Real-model benchmark execution supports Ollama or OpenRouter; use the separate rule baseline for simulation.")
+        if len(set(request.strategies)) != len(request.strategies):
+            raise ValueError("Choose each memory strategy only once.")
+        cases, report = LongMemEvalAdapter().adapt(request.payload)
+        if len(cases) > request.max_cases:
+            raise ValueError(f"The file has {len(cases)} cases; limit it to {request.max_cases} before live execution. No cases were silently dropped.")
+        if sum(len(m.content) for c in cases for m in c.messages) > 1_000_000:
+            raise ValueError("Live benchmark history exceeds the 1 MB source-text limit.")
+        if request.native_repair_comparison and not request.include_mem0:
+            raise ValueError("Enable native Mem0 before selecting its repair comparison.")
+        if request.native_repair_comparison:
+            from app.benchmarks.mem0 import GENERIC_INSTRUCTION
+            if len((request.target_memory_profile.additional_instructions+'\n'+GENERIC_INSTRUCTION).strip())>4000:
+                raise ValueError('Leave room for the frozen generic instruction within the 4,000 character instruction limit.')
+        if request.native_repair_comparison and len(request.strategies)>1:
+            raise ValueError("Choose one controlled reference alongside the three native repair conditions.")
+        if request.include_mem0:
+            from app.benchmarks.mem0 import endpoint
+            if not endpoint():
+                raise ValueError("Configure the local native Mem0 target before this comparison.")
+            if request.provider != TargetProvider.OLLAMA or request.model != 'qwen3:1.7b':
+>               raise ValueError("The current native Mem0 pilot requires local qwen3:1.7b for every condition.")
+E               ValueError: The current native Mem0 pilot requires local qwen3:1.7b for every condition.
+
+app/benchmarks/live.py:61: ValueError
+___ test_native_repairs_share_snapshot_and_do_not_change_extraction_or_gold ____
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff9540a150>
+
+>   ???
+
+/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/backend/tests/test_mem0_shared_reader.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/benchmarks/mem0.py:144: in run_case_comparison
+    return {name:answer_snapshot(request,case,deepcopy(snapshot),cancelled,runner_version,name)
+app/benchmarks/mem0.py:107: in answer_snapshot
+    response=HttpTargetAIConnector().execute(private,audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9540a6f0>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+=============================== warnings summary ===============================
+../usr/local/lib/python3.12/site-packages/starlette/testclient.py:40
+  /usr/local/lib/python3.12/site-packages/starlette/testclient.py:40: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = typing.Callable[[], typing.ContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_live_benchmark.py::test_live_calls_use_controlled_policy_without_reference_leakage
+FAILED tests/test_live_benchmark.py::test_live_route_uses_real_connector_and_does_not_persist_operational_rows
+FAILED tests/test_live_benchmark.py::test_cancellation_stops_before_next_provider_call
+FAILED tests/test_mem0_shared_reader.py::test_native_same_reader_and_gold_isolation
+FAILED tests/test_mem0_shared_reader.py::test_native_repairs_share_snapshot_and_do_not_change_extraction_or_gold
+ERROR tests/test_ranking_agreement.py::test_relative_ordering_binds_exact_semantic_files_and_creates_no_records
+ERROR tests/test_ranking_agreement.py::test_ranking_agreement_requires_current_source_authorisation
+ERROR tests/test_ranking_agreement.py::test_optional_scope_aware_ablation_cannot_be_reported_as_experiment_c
+ERROR tests/test_ranking_agreement.py::test_ordering_and_ties_are_distinct[2-1-consistent]
+ERROR tests/test_ranking_agreement.py::test_ordering_and_ties_are_distinct[0-1-reversed]
+ERROR tests/test_ranking_agreement.py::test_ordering_and_ties_are_distinct[1-1-inconclusive_tie]
+ERROR tests/test_ranking_agreement.py::test_ordering_and_ties_are_distinct[1-0-both_tied]
+ERROR tests/test_ranking_agreement.py::test_incompatible_settings_are_rejected[model-another-model-Target model]
+ERROR tests/test_ranking_agreement.py::test_incompatible_settings_are_rejected[temperature-1-Target model]
+ERROR tests/test_ranking_agreement.py::test_incompatible_settings_are_rejected[random_seed-7-same recorded seed]
+ERROR tests/test_ranking_agreement.py::test_incompatible_settings_are_rejected[status-EXECUTED-must be complete]
+ERROR tests/test_ranking_agreement.py::test_incompatible_settings_are_rejected[experiment_id-other-frozen experiment]
+ERROR tests/test_ranking_agreement.py::test_incompatible_settings_are_rejected[target_memory_writer_version-None-implementation versions]
+ERROR tests/test_ranking_agreement.py::test_incompatible_settings_are_rejected[target_system_adapter-external-http-controlled target]
+ERROR tests/test_ranking_agreement.py::test_incompatible_settings_are_rejected[memory_maintenance_policy-append_only-preparation policy]
+ERROR tests/test_ranking_agreement.py::test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-saved audits]
+ERROR tests/test_ranking_agreement.py::test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-no frozen memory settings]
+ERROR tests/test_ranking_agreement.py::test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-same saved software snapshot]
+ERROR tests/test_ranking_agreement.py::test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-original target executions]
+ERROR tests/test_ranking_agreement.py::test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-Complete semantic]
+ERROR tests/test_ranking_agreement.py::test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-exact saved reply]
+ERROR tests/test_ranking_agreement.py::test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-same semantic evaluator]
+ERROR tests/test_ranking_agreement.py::test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-same complete saved comparison]
+ERROR tests/test_ranking_agreement.py::test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-Every frozen audit question]
+ERROR tests/test_ranking_agreement.py::test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-more than memory strategy]
+ERROR tests/test_ranking_agreement.py::test_missing_auditor_dimension_is_unmeasured_and_cannot_establish_agreement
+ERROR tests/test_ranking_agreement.py::test_experiment_c_cannot_qualify_without_source_provenance[dataset_provenance-None-dataset version, licence and citation]
+ERROR tests/test_ranking_agreement.py::test_experiment_c_cannot_qualify_without_source_provenance[adapter_fingerprint_sha256-None-adapter version and implementation fingerprint]
+ERROR tests/test_ranking_agreement.py::test_experiment_c_cannot_qualify_without_source_provenance[compatibility_limitations-value2-declared compatibility limitations]
+ERROR tests/test_ranking_agreement.py::test_route_is_read_only_and_does_not_call_target
+ERROR tests/test_ranking_agreement.py::test_route_rejects_missing_source_authorisation_before_service
+ERROR tests/test_ranking_agreement.py::test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons[requested_output_token_limit-None-length limits are unknown]
+ERROR tests/test_ranking_agreement.py::test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons[requested_output_token_limit-512-length limits differ]
+ERROR tests/test_ranking_agreement.py::test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons[response_source-shared_saved_answer-original model-call receipts]
+ERROR tests/test_ranking_agreement.py::test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons[request_attempts-0-original model-call receipts]
+ERROR tests/test_ranking_agreement.py::test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons[shared_source_response_id-earlier-original model-call receipts]
+ERROR tests/test_ranking_agreement.py::test_changed_actual_reply_model_cannot_be_hidden_by_run_settings
+ERROR tests/test_repeated_ranking_agreement.py::test_complete_repeats_report_agreement_equal_weight_scores_and_variability
+ERROR tests/test_repeated_ranking_agreement.py::test_reversed_trials_and_ties_are_not_hidden_in_the_directional_denominator
+ERROR tests/test_repeated_ranking_agreement.py::test_missing_planned_trial_prevents_aggregate_claims_without_discarding_valid_reports
+ERROR tests/test_repeated_ranking_agreement.py::test_invalid_planned_trial_keeps_error_and_source_run_ids
+ERROR tests/test_repeated_ranking_agreement.py::test_repeats_with_different_frozen_inputs_cannot_be_combined[evaluator]
+ERROR tests/test_repeated_ranking_agreement.py::test_repeats_with_different_frozen_inputs_cannot_be_combined[audit_suite]
+ERROR tests/test_repeated_ranking_agreement.py::test_repeats_with_different_frozen_inputs_cannot_be_combined[benchmark_settings]
+ERROR tests/test_repeated_ranking_agreement.py::test_declared_plan_fingerprint_binds_execution_ids_but_not_outcome_labels
+ERROR tests/test_repeated_ranking_agreement.py::test_all_unmeasured_trials_remain_unmeasured
+ERROR tests/test_repeated_ranking_agreement.py::test_reused_audit_or_benchmark_execution_cannot_inflate_repeat_count
+ERROR tests/test_repeated_ranking_agreement.py::test_any_revoked_source_authorisation_prevents_all_analysis
+ERROR tests/test_repeated_ranking_agreement.py::test_repeated_route_is_read_only_and_returns_missing_trials
+ERROR tests/test_semantic_review.py::test_partial_assessment_keeps_missing_unknown_and_binds_all_provenance
+ERROR tests/test_semantic_review.py::test_complete_assessment_counts_false_as_reviewed_not_missing
+ERROR tests/test_semantic_review.py::test_rejects_mixed_tampered_or_ambiguous_files[<lambda>-source file does not match]
+ERROR tests/test_semantic_review.py::test_rejects_mixed_tampered_or_ambiguous_files[<lambda>-Choose a condition]
+ERROR tests/test_semantic_review.py::test_rejects_mixed_tampered_or_ambiguous_files[<lambda>-duplicate question]
+ERROR tests/test_semantic_review.py::test_rejects_mixed_tampered_or_ambiguous_files[<lambda>-question absent]
+ERROR tests/test_semantic_review.py::test_rejects_mixed_tampered_or_ambiguous_files[<lambda>-exact saved reply]
+ERROR tests/test_semantic_review.py::test_rejects_mixed_tampered_or_ambiguous_files[<lambda>-duplicate conditions]
+ERROR tests/test_semantic_review.py::test_rejects_mixed_tampered_or_ambiguous_files[<lambda>-each source question0]
+ERROR tests/test_semantic_review.py::test_rejects_mixed_tampered_or_ambiguous_files[<lambda>-each source question1]
+ERROR tests/test_semantic_review.py::test_rejects_mixed_tampered_or_ambiguous_files[<lambda>-differ from the source0]
+ERROR tests/test_semantic_review.py::test_rejects_mixed_tampered_or_ambiguous_files[<lambda>-differ from the source1]
+ERROR tests/test_semantic_review.py::test_rejects_mixed_tampered_or_ambiguous_files[<lambda>-lexical assessments]
+ERROR tests/test_semantic_review.py::test_rejects_mixed_tampered_or_ambiguous_files[<lambda>-one evaluator model]
+ERROR tests/test_semantic_review.py::test_labels_are_strict_booleans[false]
+ERROR tests/test_semantic_review.py::test_labels_are_strict_booleans[yes] - f...
+ERROR tests/test_semantic_review.py::test_labels_are_strict_booleans[0] - fas...
+ERROR tests/test_semantic_review.py::test_labels_are_strict_booleans[1] - fas...
+ERROR tests/test_semantic_review.py::test_labels_are_strict_booleans[None] - ...
+ERROR tests/test_semantic_review.py::test_import_endpoint_has_no_database_or_provider_dependencies
+ERROR tests/test_semantic_review.py::test_semantic_review_requires_authorisation_before_source_adapter
+5 failed, 1236 passed, 8 skipped, 1 warning, 70 errors in 210.66s (0:03:30)

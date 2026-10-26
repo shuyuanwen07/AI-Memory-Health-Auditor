@@ -1,0 +1,425 @@
+{
+  "scope": "synthetic_saved_answer_reassessment",
+  "research_evidence": false,
+  "source_sha256": "e84fb0e564c7439ce3edf0fc6ebf7b25a681c9bb9dd209b1b97eb5d5d8a7d406",
+  "source_report_sha256": "329fe1282e7529a29d1b7b72760a6fe2b3b7e36ffa23f155f674f97713632d75",
+  "production_database_writes": 0,
+  "target_requests": 0,
+  "evaluations": [
+    {
+      "run_id": "RUN2B86C171A0A44E678A8A7DD329A45B0D",
+      "strategy": "weak_first_hit",
+      "dimension": "accuracy",
+      "result": {
+        "evaluation_id": "EF810E39631744F36836DB18E047945C8",
+        "test_id": "TF810E39631744F36836DB18E047945C8",
+        "response_id": "RF810E39631744F36836DB18E047945C8",
+        "passed": true,
+        "failure_type": null,
+        "reason": "AI semantic pre-review; uncalibrated and not independent human validation. The confirmed memory states that the user lives in Adelaide.",
+        "evidence_memory_ids": [
+          "M9638A13E680B430CB22A5C36D7C3A146"
+        ],
+        "evaluator": "llm-judge-openrouter-v6",
+        "judge_execution": {
+          "version": "judge-http-meter-v3",
+          "provider": "openrouter",
+          "model": "openai/gpt-6-luna",
+          "reported_model": "openai/gpt-6-luna",
+          "agent_role": "blind_evaluation",
+          "prompt_template_version": "llm-judge-structured-v2",
+          "prompt_fingerprint": "f97b93cc4e49486f69504d71969576a92f2335b9c9d07bce3d5b85670412e988",
+          "input_fingerprint": "4c7098bb664e59eb581afc3817617ced4a161b0e364febbc7c1b3c52378a9834",
+          "request_attempts": 1,
+          "failed_http_attempts": 0,
+          "elapsed_ms": 4078.95,
+          "reported_input_tokens": 730,
+          "reported_output_tokens": 121,
+          "reported_total_tokens": 851,
+          "reported_cost_credits": 0.0001335,
+          "sampling_control": "model_default",
+          "sent_temperature": null,
+          "usage_scope": "last successful provider reply only; failed-attempt usage unknown",
+          "verdict_status": "valid",
+          "provider_verdict": true,
+          "rule_cross_check_verdict": true,
+          "cross_check_version": "rule-based-v59"
+        },
+        "failure_classification": {
+          "status": "unclassified",
+          "method": "semantic-rubric-v6",
+          "reason": "No failure category applies because the response matches the confirmed memory."
+        }
+      }
+    },
+    {
+      "run_id": "RUN2B86C171A0A44E678A8A7DD329A45B0D",
+      "strategy": "weak_first_hit",
+      "dimension": "freshness",
+      "result": {
+        "evaluation_id": "E24D53392BBA347C5A113D852F34924A0",
+        "test_id": "T24D53392BBA347C5A113D852F34924A0",
+        "response_id": "R24D53392BBA347C5A113D852F34924A0",
+        "passed": false,
+        "failure_type": "freshness",
+        "reason": "AI semantic pre-review; uncalibrated and not independent human validation. The response correctly identifies MySQL as the earlier system but says the current system is unknown. The memories state that the backend was migrated to PostgreSQL and MySQL is no longer used there.",
+        "evidence_memory_ids": [
+          "M2F2A5C099EC24298BB4ED4209B7F2DF6",
+          "M68EDB21AD80144E2844BDFD9B79FAFB3"
+        ],
+        "evaluator": "llm-judge-openrouter-v6",
+        "judge_execution": {
+          "version": "judge-http-meter-v3",
+          "provider": "openrouter",
+          "model": "openai/gpt-6-luna",
+          "reported_model": "openai/gpt-6-luna",
+          "agent_role": "blind_evaluation",
+          "prompt_template_version": "llm-judge-structured-v2",
+          "prompt_fingerprint": "959fbc8b1fa9e8afdf2a12aef6054f578885934a68ad2aa8684afc641694b87c",
+          "input_fingerprint": "9c6ae3b44cb51d3221275bb55c716391284a286fac5c654a466c74284d351b60",
+          "request_attempts": 1,
+          "failed_http_attempts": 0,
+          "elapsed_ms": 5825.65,
+          "reported_input_tokens": 868,
+          "reported_output_tokens": 182,
+          "reported_total_tokens": 1050,
+          "reported_cost_credits": 0.0001778,
+          "sampling_control": "model_default",
+          "sent_temperature": null,
+          "usage_scope": "last successful provider reply only; failed-attempt usage unknown",
+          "verdict_status": "valid",
+          "provider_verdict": false,
+          "rule_cross_check_verdict": false,
+          "cross_check_version": "rule-based-v59"
+        },
+        "failure_classification": {
+          "status": "classified",
+          "method": "semantic-rubric-v6",
+          "reason": "The response failed to reflect the newer confirmed update that PostgreSQL replaced MySQL."
+        }
+      }
+    },
+    {
+      "run_id": "RUN2B86C171A0A44E678A8A7DD329A45B0D",
+      "strategy": "weak_first_hit",
+      "dimension": "conflict_resolution",
+      "result": {
+        "evaluation_id": "E69C9E20B6EFE4C69AC01C4F0A04F248A",
+        "test_id": "T69C9E20B6EFE4C69AC01C4F0A04F248A",
+        "response_id": "R69C9E20B6EFE4C69AC01C4F0A04F248A",
+        "passed": false,
+        "failure_type": "conflict_resolution",
+        "reason": "AI semantic pre-review; uncalibrated and not independent human validation. The memories specify North in the current deployment plan and South in the signed client brief, so the response should ask which constraint controls. It instead says the regions are not remembered and introduces an unsupported MySQL history.",
+        "evidence_memory_ids": [
+          "M32A36A4FB3C14D86BB50A2B3CA7FE3F8",
+          "M6959CDF14EE440EA8867A91FC53F9194"
+        ],
+        "evaluator": "llm-judge-openrouter-v6",
+        "judge_execution": {
+          "version": "judge-http-meter-v3",
+          "provider": "openrouter",
+          "model": "openai/gpt-6-luna",
+          "reported_model": "openai/gpt-6-luna",
+          "agent_role": "blind_evaluation",
+          "prompt_template_version": "llm-judge-structured-v2",
+          "prompt_fingerprint": "cee83e720397046853fa943fbe11605f81defd0ec277245e94722f15e26ba40a",
+          "input_fingerprint": "4eb40cf9fd4dff0efe1ba4df44260696879098d9631c7b26927d7e8ed2ece81e",
+          "request_attempts": 1,
+          "failed_http_attempts": 0,
+          "elapsed_ms": 5405.1,
+          "reported_input_tokens": 913,
+          "reported_output_tokens": 317,
+          "reported_total_tokens": 1230,
+          "reported_cost_credits": 0.0002498,
+          "sampling_control": "model_default",
+          "sent_temperature": null,
+          "usage_scope": "last successful provider reply only; failed-attempt usage unknown",
+          "verdict_status": "valid",
+          "provider_verdict": false,
+          "rule_cross_check_verdict": false,
+          "cross_check_version": "rule-based-v59"
+        },
+        "failure_classification": {
+          "status": "classified",
+          "method": "semantic-rubric-v6",
+          "reason": "The response fails to surface the conflicting regions and ask which constraint takes precedence."
+        }
+      }
+    },
+    {
+      "run_id": "RUN2B86C171A0A44E678A8A7DD329A45B0D",
+      "strategy": "weak_first_hit",
+      "dimension": "appropriate_use",
+      "result": {
+        "evaluation_id": "E75C59E0E270947E4963F065641D21E6C",
+        "test_id": "T75C59E0E270947E4963F065641D21E6C",
+        "response_id": "R75C59E0E270947E4963F065641D21E6C",
+        "passed": false,
+        "failure_type": "appropriate_use",
+        "reason": "AI semantic pre-review; uncalibrated and not independent human validation. The response invents a prior MySQL use and says the language preference is unknown, despite the memories specifying Java for the Maple capstone and a general preference for Python elsewhere.",
+        "evidence_memory_ids": [
+          "M365BEAEB323D4E65B33F814029AB4B63",
+          "M9237A90F39C548F2BFC71A197DE9C03A"
+        ],
+        "evaluator": "llm-judge-openrouter-v6",
+        "judge_execution": {
+          "version": "judge-http-meter-v3",
+          "provider": "openrouter",
+          "model": "openai/gpt-6-luna",
+          "reported_model": "openai/gpt-6-luna",
+          "agent_role": "blind_evaluation",
+          "prompt_template_version": "llm-judge-structured-v2",
+          "prompt_fingerprint": "299d2b334b26eec195b5edb7dd663e291929acaf4ca3c273e2f8891986e974bf",
+          "input_fingerprint": "8e57765ae4e24cd13fee94d00a8a5152b2d14109bec40de7c6b7e1e81c80e327",
+          "request_attempts": 1,
+          "failed_http_attempts": 0,
+          "elapsed_ms": 11712.04,
+          "reported_input_tokens": 905,
+          "reported_output_tokens": 182,
+          "reported_total_tokens": 1087,
+          "reported_cost_credits": 0.0001815,
+          "sampling_control": "model_default",
+          "sent_temperature": null,
+          "usage_scope": "last successful provider reply only; failed-attempt usage unknown",
+          "verdict_status": "valid",
+          "provider_verdict": false,
+          "rule_cross_check_verdict": false,
+          "cross_check_version": "rule-based-v59"
+        },
+        "failure_classification": {
+          "status": "classified",
+          "method": "semantic-rubric-v6",
+          "reason": "The response fails to apply the task-specific Java requirement while preserving the user's general Python preference, and adds unsupported history."
+        }
+      }
+    },
+    {
+      "run_id": "RUN2FF9875450564107B904BB6AAA9E9A93",
+      "strategy": "strong_rule_based",
+      "dimension": "accuracy",
+      "result": {
+        "evaluation_id": "E1B526DDF1E044222AA1D3A8BAF4E0ADC",
+        "test_id": "T1B526DDF1E044222AA1D3A8BAF4E0ADC",
+        "response_id": "R1B526DDF1E044222AA1D3A8BAF4E0ADC",
+        "passed": true,
+        "failure_type": null,
+        "reason": "AI semantic pre-review; uncalibrated and not independent human validation. The supplied memory states that the user lives in Adelaide, matching the target response.",
+        "evidence_memory_ids": [
+          "M9638A13E680B430CB22A5C36D7C3A146"
+        ],
+        "evaluator": "llm-judge-openrouter-v6",
+        "judge_execution": {
+          "version": "judge-http-meter-v3",
+          "provider": "openrouter",
+          "model": "openai/gpt-6-luna",
+          "reported_model": "openai/gpt-6-luna",
+          "agent_role": "blind_evaluation",
+          "prompt_template_version": "llm-judge-structured-v2",
+          "prompt_fingerprint": "f97b93cc4e49486f69504d71969576a92f2335b9c9d07bce3d5b85670412e988",
+          "input_fingerprint": "4c7098bb664e59eb581afc3817617ced4a161b0e364febbc7c1b3c52378a9834",
+          "request_attempts": 1,
+          "failed_http_attempts": 0,
+          "elapsed_ms": 8297.37,
+          "reported_input_tokens": 730,
+          "reported_output_tokens": 130,
+          "reported_total_tokens": 860,
+          "reported_cost_credits": 0.000138,
+          "sampling_control": "model_default",
+          "sent_temperature": null,
+          "usage_scope": "last successful provider reply only; failed-attempt usage unknown",
+          "verdict_status": "valid",
+          "provider_verdict": true,
+          "rule_cross_check_verdict": true,
+          "cross_check_version": "rule-based-v59"
+        },
+        "failure_classification": {
+          "status": "unclassified",
+          "method": "semantic-rubric-v6",
+          "reason": "No failure category applies because the response matches the supplied memory."
+        }
+      }
+    },
+    {
+      "run_id": "RUN2FF9875450564107B904BB6AAA9E9A93",
+      "strategy": "strong_rule_based",
+      "dimension": "freshness",
+      "result": {
+        "evaluation_id": "E9EBE88EDD71D4AC1A864153063A8BD32",
+        "test_id": "T9EBE88EDD71D4AC1A864153063A8BD32",
+        "response_id": "R9EBE88EDD71D4AC1A864153063A8BD32",
+        "passed": true,
+        "failure_type": null,
+        "reason": "AI semantic pre-review; uncalibrated and not independent human validation. The memories state that the backend used MySQL previously and was migrated to PostgreSQL, where MySQL is no longer used.",
+        "evidence_memory_ids": [
+          "M2F2A5C099EC24298BB4ED4209B7F2DF6",
+          "M68EDB21AD80144E2844BDFD9B79FAFB3"
+        ],
+        "evaluator": "llm-judge-openrouter-v6",
+        "judge_execution": {
+          "version": "judge-http-meter-v3",
+          "provider": "openrouter",
+          "model": "openai/gpt-6-luna",
+          "reported_model": "openai/gpt-6-luna",
+          "agent_role": "blind_evaluation",
+          "prompt_template_version": "llm-judge-structured-v2",
+          "prompt_fingerprint": "28d5a107043fb22641a78558ec75c5769af852999e5e153cffd357a4d237321f",
+          "input_fingerprint": "128c57ae1e674cd336014c0e82d04413b0f472f4820ae327652ba64cf060b06c",
+          "request_attempts": 1,
+          "failed_http_attempts": 0,
+          "elapsed_ms": 7847.14,
+          "reported_input_tokens": 856,
+          "reported_output_tokens": 158,
+          "reported_total_tokens": 1014,
+          "reported_cost_credits": 0.0001646,
+          "sampling_control": "model_default",
+          "sent_temperature": null,
+          "usage_scope": "last successful provider reply only; failed-attempt usage unknown",
+          "verdict_status": "valid",
+          "provider_verdict": true,
+          "rule_cross_check_verdict": true,
+          "cross_check_version": "rule-based-v59"
+        },
+        "failure_classification": {
+          "status": "unclassified",
+          "method": "semantic-rubric-v6",
+          "reason": "No failure category applies."
+        }
+      }
+    },
+    {
+      "run_id": "RUN2FF9875450564107B904BB6AAA9E9A93",
+      "strategy": "strong_rule_based",
+      "dimension": "conflict_resolution",
+      "result": {
+        "evaluation_id": "E16B79E430E69424EA5BA2AC4CED7060E",
+        "test_id": "T16B79E430E69424EA5BA2AC4CED7060E",
+        "response_id": "R16B79E430E69424EA5BA2AC4CED7060E",
+        "passed": false,
+        "failure_type": "conflict_resolution",
+        "reason": "AI semantic pre-review; uncalibrated and not independent human validation. The response incorrectly says the signed brief’s region is unknown, although it specifies South; the plan specifies North. It should ask which constraint controls before proceeding.",
+        "evidence_memory_ids": [
+          "M32A36A4FB3C14D86BB50A2B3CA7FE3F8",
+          "M6959CDF14EE440EA8867A91FC53F9194"
+        ],
+        "evaluator": "llm-judge-openrouter-v6",
+        "judge_execution": {
+          "version": "judge-http-meter-v3",
+          "provider": "openrouter",
+          "model": "openai/gpt-6-luna",
+          "reported_model": "openai/gpt-6-luna",
+          "agent_role": "blind_evaluation",
+          "prompt_template_version": "llm-judge-structured-v2",
+          "prompt_fingerprint": "ed07e3273b7d0395c5421d14a08be7427a61d31ae6f62b52d136c520a81409a7",
+          "input_fingerprint": "f35eaf768c11d7a67171a4da153859312753f9e91126205a35045759c0443a32",
+          "request_attempts": 1,
+          "failed_http_attempts": 0,
+          "elapsed_ms": 3608.88,
+          "reported_input_tokens": 907,
+          "reported_output_tokens": 208,
+          "reported_total_tokens": 1115,
+          "reported_cost_credits": 0.0001947,
+          "sampling_control": "model_default",
+          "sent_temperature": null,
+          "usage_scope": "last successful provider reply only; failed-attempt usage unknown",
+          "verdict_status": "valid",
+          "provider_verdict": false,
+          "rule_cross_check_verdict": false,
+          "cross_check_version": "rule-based-v59"
+        },
+        "failure_classification": {
+          "status": "classified",
+          "method": "semantic-rubric-v6",
+          "reason": "It overlooks the known conflicting region and asks for missing information instead of asking which constraint controls."
+        }
+      }
+    },
+    {
+      "run_id": "RUN2FF9875450564107B904BB6AAA9E9A93",
+      "strategy": "strong_rule_based",
+      "dimension": "appropriate_use",
+      "result": {
+        "evaluation_id": "E8D664D3913C84710A41171B7539A8774",
+        "test_id": "T8D664D3913C84710A41171B7539A8774",
+        "response_id": "R8D664D3913C84710A41171B7539A8774",
+        "passed": true,
+        "failure_type": null,
+        "reason": "AI semantic pre-review; uncalibrated and not independent human validation. The response recommends Java for the Maple capstone because the course requires it, while preserving Python as the general preference for other backend projects. [M9237A90F39C548F2BFC71A197DE9C03A, M365BEAEB323D4E65B33F814029AB4B63]",
+        "evidence_memory_ids": [
+          "M9237A90F39C548F2BFC71A197DE9C03A",
+          "M365BEAEB323D4E65B33F814029AB4B63"
+        ],
+        "evaluator": "llm-judge-openrouter-v6",
+        "judge_execution": {
+          "version": "judge-http-meter-v3",
+          "provider": "openrouter",
+          "model": "openai/gpt-6-luna",
+          "reported_model": "openai/gpt-6-luna",
+          "agent_role": "blind_evaluation",
+          "prompt_template_version": "llm-judge-structured-v2",
+          "prompt_fingerprint": "56f9f3972d39f681f63f768065d03dca58b9a91b7cf882bb95336d4137190af2",
+          "input_fingerprint": "ae32b3bb09b76d0888effa48b70dc8153b6eea99531641e0f47e67509564db87",
+          "request_attempts": 1,
+          "failed_http_attempts": 0,
+          "elapsed_ms": 4775.27,
+          "reported_input_tokens": 908,
+          "reported_output_tokens": 199,
+          "reported_total_tokens": 1107,
+          "reported_cost_credits": 0.0001903,
+          "sampling_control": "model_default",
+          "sent_temperature": null,
+          "usage_scope": "last successful provider reply only; failed-attempt usage unknown",
+          "verdict_status": "valid",
+          "provider_verdict": true,
+          "rule_cross_check_verdict": true,
+          "cross_check_version": "rule-based-v59"
+        },
+        "failure_classification": {
+          "status": "unclassified",
+          "method": "semantic-rubric-v6",
+          "reason": "No failure category applies."
+        }
+      }
+    }
+  ],
+  "result": {
+    "evaluation_id": "EF810E39631744F36836DB18E047945C8",
+    "test_id": "TF810E39631744F36836DB18E047945C8",
+    "response_id": "RF810E39631744F36836DB18E047945C8",
+    "passed": true,
+    "failure_type": null,
+    "reason": "AI semantic pre-review; uncalibrated and not independent human validation. The confirmed memory states that the user lives in Adelaide.",
+    "evidence_memory_ids": [
+      "M9638A13E680B430CB22A5C36D7C3A146"
+    ],
+    "evaluator": "llm-judge-openrouter-v6",
+    "judge_execution": {
+      "version": "judge-http-meter-v3",
+      "provider": "openrouter",
+      "model": "openai/gpt-6-luna",
+      "reported_model": "openai/gpt-6-luna",
+      "agent_role": "blind_evaluation",
+      "prompt_template_version": "llm-judge-structured-v2",
+      "prompt_fingerprint": "f97b93cc4e49486f69504d71969576a92f2335b9c9d07bce3d5b85670412e988",
+      "input_fingerprint": "4c7098bb664e59eb581afc3817617ced4a161b0e364febbc7c1b3c52378a9834",
+      "request_attempts": 1,
+      "failed_http_attempts": 0,
+      "elapsed_ms": 4078.95,
+      "reported_input_tokens": 730,
+      "reported_output_tokens": 121,
+      "reported_total_tokens": 851,
+      "reported_cost_credits": 0.0001335,
+      "sampling_control": "model_default",
+      "sent_temperature": null,
+      "usage_scope": "last successful provider reply only; failed-attempt usage unknown",
+      "verdict_status": "valid",
+      "provider_verdict": true,
+      "rule_cross_check_verdict": true,
+      "cross_check_version": "rule-based-v59"
+    },
+    "failure_classification": {
+      "status": "unclassified",
+      "method": "semantic-rubric-v6",
+      "reason": "No failure category applies because the response matches the confirmed memory."
+    }
+  }
+}

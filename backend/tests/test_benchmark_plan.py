@@ -16,7 +16,7 @@ from app.schemas.benchmark import LiveBenchmarkRequest
 from app.schemas.domain import Dimension
 from app.services.benchmark_plan import BenchmarkPlanService
 from app.services.runtime_freeze import audit_runtime_signature
-from app.extraction.rule_based import RuleBasedMemoryExtractor
+from app.memory_agent.writers import RuleBasedTargetMemoryWriter
 from app.target_systems.controlled import ControlledTargetSystemAdapter
 from app.schemas.target_profile import TargetMemoryProfile
 from app.target_ai.providers import HttpTargetAIConnector
@@ -45,7 +45,7 @@ def pending(tmp_path,monkeypatch):
         for j,strategy in enumerate(['weak_first_hit','strong_rule_based']):
             rid=f'R{i}{j}'
             ids.append(rid)
-            db.add(AuditRunModel(id=rid,conversation_id='C',experiment_id='EXP',status='TESTS_GENERATED',target_configuration='strong',provider='openrouter',model='openai/gpt-6-luna',temperature=0,random_seed=42,test_budget=4,prompt_template_version='fixture',pipeline_provider='rule_based',evaluator_provider='rule_based',memory_strategy=strategy,target_memory_writer='rule_based',target_memory_writer_version=RuleBasedMemoryExtractor.VERSION,target_system_adapter='controlled-memory',target_system_adapter_version=ControlledTargetSystemAdapter.version,reproducibility_metadata={'audit_runtime_signature':audit_runtime_signature(),'target_memory_profile':profile}))
+            db.add(AuditRunModel(id=rid,conversation_id='C',experiment_id='EXP',status='TESTS_GENERATED',target_configuration='strong',provider='openrouter',model='openai/gpt-6-luna',temperature=0,random_seed=42,test_budget=4,prompt_template_version='fixture',pipeline_provider='rule_based',evaluator_provider='rule_based',memory_strategy=strategy,target_memory_writer='rule_based',target_memory_writer_version=RuleBasedTargetMemoryWriter.VERSION,target_system_adapter='controlled-memory',target_system_adapter_version=ControlledTargetSystemAdapter.version,reproducibility_metadata={'audit_runtime_signature':audit_runtime_signature(),'target_memory_profile':profile}))
             db.flush()
             for d in Dimension:
                 canonical='TR00'+d.value

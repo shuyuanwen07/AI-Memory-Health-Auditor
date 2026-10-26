@@ -10,7 +10,7 @@ from __future__ import annotations
 
 from collections import defaultdict, Counter
 from itertools import combinations
-from math import comb, sqrt
+from math import comb, sqrt, isfinite
 from random import Random
 from typing import Iterable
 
@@ -49,6 +49,58 @@ def condition_label(run: AuditRun | AuditRunModel) -> str:
 
 def _mean(values: list[float]) -> float | None:
     return round(sum(values) / len(values), 3) if values else None
+
+
+def _target_chain_stages(row: dict, profile) -> tuple[list[dict | None], bool]:
+    """Actual target roles only; draft ledger copies are never summed here.
+
+    None is a required but unrecorded stage, not a zero-cost execution. Metadata
+    remains descriptive: this function does not establish semantic validation.
+    """
+    stages: list[dict | None] = [row]
+    chain = False
+    for key, required in (
+        ("identity_analysis", getattr(profile, "identity_analysis", "off") != "off"),
+        ("answer_validation", getattr(profile, "answer_validation", "off") != "off"),
+    ):
+        metadata = row.get(key)
+        if metadata is None and not required:
+            continue
+        chain = True
+        if not isinstance(metadata, dict):
+            stages.append(None)
+            continue
+        execution = metadata.get("execution")
+        if (key == "identity_analysis" and metadata.get("status") == "skipped_not_applicable"
+                and type(metadata.get("request_attempts")) is int and metadata["request_attempts"] == 0
+                and execution is None):
+            continue
+        # Local failures before HTTP are a known zero only when the actual
+        # execution receipt explicitly records zero attempts. Missing is unknown.
+        if isinstance(execution, dict):
+            stages.append(execution)
+        else:
+            stages.append(None)
+    return stages, chain
+
+
+def _target_chain_costs(row: dict, profile) -> dict:
+    stages, chain = _target_chain_stages(row, profile)
+    result = {"has_additional_stage": chain}
+    for key in ("input_tokens", "output_tokens", "total_tokens"):
+        values = [stage.get(key, stage.get("reported_" + key)) if stage is not None else None
+                  for stage in stages]
+        result[key] = (sum(values) if values and all(type(value) is int and value >= 0 for value in values)
+                       else None)
+    if not chain:
+        # Historical primary-only averaging is preserved by the caller.
+        result["latency_ms"] = row.get("latency_ms")
+    else:
+        values = [(stage.get("latency_ms") if index == 0 else stage.get("elapsed_ms"))
+                  if stage is not None else None for index, stage in enumerate(stages)]
+        result["latency_ms"] = (sum(values) if values and all(type(value) in {int, float}
+                                 and isfinite(value) and value >= 0 for value in values) else None)
+    return result
 
 
 def _standard_deviation(values: list[float]) -> float | None:
@@ -95,7 +147,7 @@ def _paired_statistics(differences: list[int], seed: str) -> tuple[float | None,
 class ExperimentAnalyticsService:
     """Build condition/repeat summaries and exact pairwise pass/fail signals."""
 
-    VERSION = "experiment-analytics-v3"
+    VERSION = "experiment-analytics-v4"
 
     @classmethod
     def analysis_metadata(cls) -> dict:
@@ -104,6 +156,7 @@ class ExperimentAnalyticsService:
                 "single_question_interval": "not_estimable", "sign_test": "two_sided_exact_ignoring_ties",
                 "variation": "population_standard_deviation_of_available_scores",
                 "assessment_alignment": "matching_complete_saved_assessment_signature",
+                "cost_scope": "Target answer chain only: primary draft plus attempted identity analysis and answer validation, once per role. Excludes auditor generation/grading and ignores copied draft ledger entries. Missing required-stage usage or latency is unknown, not zero; legacy primary-only summaries retain their original scope.",
                 "notice": "Descriptive results for the observed questions and scored runs. Missing and uncertain judgments are excluded and must be reported separately. Zero-width intervals do not prove certainty. Independent scenarios, human labels and repeated trials are still required; configuration-unknown runs are not established repetitions."}
 
     def condition_summaries(
@@ -152,17 +205,18 @@ class ExperimentAnalyticsService:
             scores = [result.overall_score for result in result_rows if result.overall_score is not None]
             exemplar = grouped_runs[0]
             response_rows = [
-                row
+                (row, run.target_memory_profile)
                 for run in completed
                 for row in (response_metadata_by_run or {}).get(run.run_id, [])
             ]
-            latency_values = [
-                float(row["latency_ms"])
-                for row in response_rows
-                if isinstance(row.get("latency_ms"), (int, float))
-            ]
+            costs = [_target_chain_costs(row, profile) for row, profile in response_rows]
+            has_chain = any(row["has_additional_stage"] for row in costs)
+            latency_values = [float(row["latency_ms"]) for row in costs
+                              if isinstance(row.get("latency_ms"), (int, float))]
+            latency_complete = (not has_chain or len(latency_values) == len(costs))
             def complete_token_sum(key: str) -> int | None:
-                values = [row.get(key) for row in response_rows]
+                values = [cost[key] if cost["has_additional_stage"] else original.get(key)
+                          for cost, (original, _profile) in zip(costs, response_rows, strict=True)]
                 if not values or any(not isinstance(value, int) or isinstance(value, bool) for value in values):
                     return None
                 return sum(values)
@@ -181,7 +235,7 @@ class ExperimentAnalyticsService:
                 tests_passed=sum(result.tests_passed for result in result_rows),
                 tests_total=sum(result.tests_total for result in result_rows),
                 failure_count=sum(len(result.failures) for result in result_rows),
-                mean_latency_ms=_mean(latency_values),
+                mean_latency_ms=_mean(latency_values) if latency_complete else None,
                 total_input_tokens=complete_token_sum("input_tokens"),
                 total_output_tokens=complete_token_sum("output_tokens"),
                 total_tokens=complete_token_sum("total_tokens"),

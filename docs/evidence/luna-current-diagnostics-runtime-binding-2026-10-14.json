@@ -1,0 +1,16 @@
+{
+  "scope": "approved_synthetic_current_runtime_only",
+  "research_evidence": false,
+  "status": "completed",
+  "strict_verification_passed": true,
+  "backend_source_test_files_matching_full_regression": 224,
+  "planned_repetitions_per_policy": 2,
+  "answers": 16,
+  "assessments": 16,
+  "diagnostics_completed": 4,
+  "pending_judgments": 2,
+  "production_database_writes": 0,
+  "snapshot_sha256": "f2e601e4e1364a6d7a6519c03a954aa3c3e045bae9b8cafc6b7f8800477cac11",
+  "zip_sha256": "d507be3c7d0951b7716a43f852e5624af00ba262870296d217c9e3de798d1595",
+  "limits": "Not human gold, formal Experiment B, novice observation or LongMemEval evidence. Earlier failures retained."
+}

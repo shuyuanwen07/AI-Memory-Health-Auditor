@@ -1,0 +1,64 @@
+All checks passed!
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+__________ test_three_intervention_conditions_keep_separate_evidence ___________
+
+client = <starlette.testclient.TestClient object at 0xffff8244b620>
+
+>   ???
+E   assert set()
+
+/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/backend/tests/test_quality_workflows.py:181: AssertionError
+__ test_target_owned_replay_never_queries_auditor_memories_or_passes_answers ___
+
+client = <starlette.testclient.TestClient object at 0xffff81ea0740>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffff81ea09b0>
+
+    def test_target_owned_replay_never_queries_auditor_memories_or_passes_answers(client, monkeypatch):
+        source, _ = run(client)
+        package = client.post(f"/api/v1/audits/{source['run_id']}/interventions").json()
+        rid = next(item['run_id'] for item in package['runs'] if item['label'] == 'Supplement source evidence')
+        seen = []
+    
+        def target(self, case, audit):
+            assert case.expected_behavior == '' and case.supporting_memory_ids == []
+            seen.extend(case.target_memory_context)
+            return TargetResponse(response_id='R-ISOLATION', test_id=case.test_id, run_id=audit.run_id,
+                                  response_text='Synthetic transport only.', model=audit.model, temperature=0, created_at=datetime.now(timezone.utc))
+    
+        monkeypatch.setattr(HttpTargetAIConnector, 'execute', target)
+        with client.sessions() as db:
+            audit = audit_schema(db.get(AuditRunModel, rid))
+            conversation = conversation_schema(db, db.get(ConversationModel, audit.conversation_id))
+            saved = db.scalar(select(TestCaseModel).where(TestCaseModel.run_id == rid))
+            case = TestCase(test_id=saved.id, run_id=rid, dimension=saved.dimension, prompt=saved.prompt,
+                            expected_behavior='AUDITOR_PRIVATE_EXPECTATION',
+                            supporting_memory_ids=saved.supporting_memory_ids, generator_version=saved.generator_version)
+            for memory in db.scalars(select(MemoryModel).where(MemoryModel.conversation_id == audit.conversation_id)):
+                memory.canonical_value = 'AUDITOR_PRIVATE_GOLD'
+            db.commit()
+    
+            def forbid_ground_truth_reads(state):
+                assert not any(d.get('entity') is MemoryModel for d in getattr(state.statement, 'column_descriptions', [])), 'Target stage read auditor ground truth'
+    
+            event.listen(db, 'do_orm_execute', forbid_ground_truth_reads)
+            try:
+                adapter = ControlledTargetSystemAdapter(db, audit)
+                adapter.ingest(conversation)
+                packets = db.scalars(select(TargetAgentMemoryModel).where(TargetAgentMemoryModel.run_id == rid,
+                                     TargetAgentMemoryModel.lifecycle_state == 'DIAGNOSTIC_ONLY')).all()
+>               assert len(packets) == 1
+E               assert 0 == 1
+E                +  where 0 = len([])
+
+/inspection_tests/test_target_isolation_stage.py:47: AssertionError
+=============================== warnings summary ===============================
+../usr/local/lib/python3.12/site-packages/starlette/testclient.py:40
+  /usr/local/lib/python3.12/site-packages/starlette/testclient.py:40: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = typing.Callable[[], typing.ContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_quality_workflows.py::test_three_intervention_conditions_keep_separate_evidence
+FAILED ::test_target_owned_replay_never_queries_auditor_memories_or_passes_answers
+2 failed, 64 deselected, 1 warning in 7.59s

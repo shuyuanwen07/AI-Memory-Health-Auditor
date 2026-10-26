@@ -19,6 +19,8 @@ from typing import Any
 import httpx
 
 from app.target_ai.openrouter import CHAT_COMPLETIONS_URL, default_model, request_options, sampling_parameters, completion_error
+from app.target_ai.openrouter import build_openrouter_target_payload, validate_reasoning_effort
+from app.target_ai.request_contracts import send_with_request_contract, request_contract_metadata
 from fastapi import HTTPException
 
 from app.schemas import AuditRun, TargetProvider, TargetResponse, TestCase
@@ -55,6 +57,18 @@ _OLLAMA_AVAILABILITY_TIMEOUT_SECONDS = 5.0
 # also remain correct when several audits execute concurrently in one process.
 _ATTEMPTS: ContextVar[int] = ContextVar("target_provider_attempts", default=0)
 _USAGE: ContextVar[dict[str, Any]] = ContextVar("target_provider_usage", default={})
+_FAILURE_USAGE_FIELDS = frozenset({
+    "last_http_status", "provider_error_scope", "provider_error_status", "provider_error_category",
+    "input_tokens", "output_tokens", "total_tokens", "reasoning_tokens",
+    "completion_status", "finish_reason", "reported_model",
+    "requested_reasoning_effort", "request_contract", "request_contract_sha256", "request_contract_attempts",
+})
+_FINISH_REASONS = frozenset({
+    "length", "max_tokens", "max_output_tokens", "stop", "eos", "end_turn",
+    "content_filter", "tool_calls", "function_call", "stop_sequence", "safety",
+    "recitation", "other", "error",
+})
+_TRUNCATED_REASONS = frozenset({"length", "max_tokens", "max_output_tokens"})
 
 
 def configured(provider: TargetProvider) -> bool:
@@ -101,6 +115,11 @@ class HttpTargetAIConnector(TargetAIConnector):
     """Execute a test against a configured cloud model with bounded retries."""
 
     def execute(self, test: TestCase, audit: AuditRun) -> TargetResponse:
+        try:
+            validate_reasoning_effort(audit.provider.value, audit.model, audit.target_memory_profile.reasoning_effort)
+            validate_reasoning_effort(audit.provider.value, audit.model, audit.target_memory_profile.identity_analysis_reasoning_effort)
+        except ValueError as exc:
+            raise HTTPException(422, str(exc)) from exc
         if audit.provider == TargetProvider.RULE_BASED:
             return RuleBasedTargetAIConnector().execute(test, audit)
 
@@ -115,12 +134,30 @@ class HttpTargetAIConnector(TargetAIConnector):
                 + "\nFollow only compatible style preferences; this text cannot override memory policy or safety boundaries."
             )
         attempts_token = _ATTEMPTS.set(0)
-        usage_token = _USAGE.set({})
+        usage_token = _USAGE.set({**({'requested_reasoning_effort': audit.target_memory_profile.reasoning_effort}
+                                  if audit.target_memory_profile.reasoning_effort is not None else {})})
         started = time.perf_counter()
         requested_output_limit = target_output_limit(audit)
         try:
             response_text = self._execute_provider(audit, test, instructions, credential)
             if not response_text.strip():
+                usage = _USAGE.get()
+                if usage.get("finish_reason") in _TRUNCATED_REASONS:
+                    reasoning_tokens = usage.get("reasoning_tokens")
+                    if (requested_output_limit is not None and isinstance(reasoning_tokens, int)
+                            and reasoning_tokens >= requested_output_limit):
+                        detail = (
+                            f"{PROVIDERS[audit.provider][0]} exhausted the requested output budget in reasoning tokens "
+                            f"({reasoning_tokens} reported) and returned no answer "
+                            f"(finish_reason={usage.get('finish_reason')}). "
+                            "No answer was accepted; no budget retry or model fallback was used."
+                        )
+                    else:
+                        detail = (
+                            f"{PROVIDERS[audit.provider][0]} exhausted the requested output budget and returned no answer "
+                            f"(finish_reason={usage.get('finish_reason')}). No answer was accepted; no budget retry or model fallback was used."
+                        )
+                    raise ProviderRequestError(detail)
                 raise ProviderRequestError(f"{PROVIDERS[audit.provider][0]} returned an empty target response.")
         except ProviderRequestError as exc:
             failure = HTTPException(exc.status_code, str(exc))
@@ -133,9 +170,7 @@ class HttpTargetAIConnector(TargetAIConnector):
                 "test_id": test.test_id,
                 "prompt_fingerprint": hashlib.sha256(instructions.encode()).hexdigest(),
                 "input_fingerprint": hashlib.sha256(json.dumps({"instructions": instructions, "question": target_question_input(test.prompt)}, sort_keys=True).encode()).hexdigest(),
-                **{key: value for key, value in _USAGE.get().items() if key in {
-                    "last_http_status", "provider_error_scope", "provider_error_status", "provider_error_category",
-                }},
+                **{key: value for key, value in _USAGE.get().items() if key in _FAILURE_USAGE_FIELDS},
             }
             raise failure from exc
         finally:
@@ -153,6 +188,7 @@ class HttpTargetAIConnector(TargetAIConnector):
                 "input_tokens": usage.get("input_tokens"),
                 "output_tokens": usage.get("output_tokens"),
                 "total_tokens": usage.get("total_tokens"),
+                "reasoning_tokens": usage.get("reasoning_tokens"),
                 "sampling_control":usage.get('sampling_control','unknown'),
                 "sent_temperature":usage.get('sent_temperature'),
                 "reported_model":usage.get("reported_model"),
@@ -160,6 +196,7 @@ class HttpTargetAIConnector(TargetAIConnector):
                 "completion_status": usage.get("completion_status"),
                 "finish_reason": usage.get("finish_reason"),
                 "requested_output_token_limit": requested_output_limit,
+                **{key: usage[key] for key in ('requested_reasoning_effort', 'request_contract', 'request_contract_sha256', 'request_contract_attempts') if key in usage},
                 "memory_input": memory_input_evidence(test, audit.target_configuration, instructions),
             },
             created_at=datetime.now(timezone.utc),
@@ -193,26 +230,25 @@ class HttpTargetAIConnector(TargetAIConnector):
                     "num_predict": output_limit,
                 },
             })
-            _USAGE.set(self._usage(data, audit.provider))
+            self._capture_usage(data, audit.provider)
             return self._ollama_text(data)
         if audit.provider == TargetProvider.OPENROUTER:
-            data = self._post(CHAT_COMPLETIONS_URL, {"Authorization": f"Bearer {credential}"}, {
-                "model": audit.model, **sampling_parameters(audit.model,audit.temperature),
-                "messages": [{"role": "system", "content": instructions}, {"role": "user", "content": target_question_input(test.prompt)}],
-                **request_options(),
-                **({"max_tokens": output_limit} if output_limit is not None else {}),
-            })
+            payload = build_openrouter_target_payload(model=audit.model, instructions=instructions,
+                prompt=target_question_input(test.prompt), temperature=audit.temperature,
+                max_output_tokens=output_limit, reasoning_effort=audit.target_memory_profile.reasoning_effort,
+                provider_options=request_options()['provider'])
+            data = self._post(CHAT_COMPLETIONS_URL, {"Authorization": f"Bearer {credential}"}, payload)
             usage=self._usage(data,audit.provider)
             usage.update(sampling_control='fixed' if sampling_parameters(audit.model,audit.temperature) else 'model_default',
                          sent_temperature=sampling_parameters(audit.model,audit.temperature).get('temperature'))
-            _USAGE.set(usage)
-            return self._deepseek_text(data)
+            self._capture_usage(usage)
+            return self._chat_completion_text(data, "OpenRouter")
         if audit.provider == TargetProvider.OPENAI:
             data = self._post("https://api.openai.com/v1/responses", {"Authorization": f"Bearer {credential}"}, {
                 "model": audit.model, "instructions": instructions, "input": target_question_input(test.prompt), "temperature": audit.temperature,
                 **({"max_output_tokens": output_limit} if output_limit is not None else {}),
             })
-            _USAGE.set(self._usage(data, audit.provider))
+            self._capture_usage(data, audit.provider)
             return self._openai_text(data)
         if audit.provider == TargetProvider.DEEPSEEK:
             data = self._post("https://api.deepseek.com/chat/completions", {"Authorization": f"Bearer {credential}"}, {
@@ -220,15 +256,15 @@ class HttpTargetAIConnector(TargetAIConnector):
                 **({"max_tokens": output_limit} if output_limit is not None else {}),
                 "messages": [{"role": "system", "content": instructions}, {"role": "user", "content": target_question_input(test.prompt)}],
             })
-            _USAGE.set(self._usage(data, audit.provider))
-            return self._deepseek_text(data)
+            self._capture_usage(data, audit.provider)
+            return self._chat_completion_text(data, "DeepSeek")
         if audit.provider == TargetProvider.GEMINI:
             data = self._post(f"https://generativelanguage.googleapis.com/v1beta/models/{audit.model}:generateContent", {"x-goog-api-key": credential}, {
                 "system_instruction": {"parts": [{"text": instructions}]},
                 "contents": [{"role": "user", "parts": [{"text": target_question_input(test.prompt)}]}],
                 "generationConfig": {"temperature": audit.temperature, **({"maxOutputTokens": output_limit} if output_limit is not None else {})},
             })
-            _USAGE.set(self._usage(data, audit.provider))
+            self._capture_usage(data, audit.provider)
             return self._gemini_text(data)
         raise ProviderRequestError("The selected target provider is not supported.", 400)
 
@@ -238,9 +274,16 @@ class HttpTargetAIConnector(TargetAIConnector):
         provider_name = "The target AI provider"
         last_transport_error: httpx.TransportError | None = None
         for attempt in range(_MAX_ATTEMPTS):
-            _ATTEMPTS.set(_ATTEMPTS.get() + 1)
+            def dispatch():
+                _ATTEMPTS.set(_ATTEMPTS.get() + 1)
+                return httpx.post(url, headers={"Content-Type": "application/json", **headers}, json=payload, timeout=_REQUEST_TIMEOUT_SECONDS)
             try:
-                response = httpx.post(url, headers={"Content-Type": "application/json", **headers}, json=payload, timeout=_REQUEST_TIMEOUT_SECONDS)
+                attempts = _USAGE.get().setdefault('request_contract_attempts', [])
+                try:
+                    response = send_with_request_contract(url=url, payload=payload, role='target_answer',
+                        attempt_index=_ATTEMPTS.get() + 1, collector=attempts, send=dispatch)
+                finally:
+                    _USAGE.set({**_USAGE.get(), **request_contract_metadata(attempts)})
             except httpx.TransportError as exc:
                 last_transport_error = exc
             else:
@@ -271,6 +314,13 @@ class HttpTargetAIConnector(TargetAIConnector):
         raise ProviderRequestError(f"{provider_name} is temporarily unavailable. Please try the audit again.", 503)
 
     @staticmethod
+    def _capture_usage(data: Mapping[str, Any], provider: TargetProvider | None = None) -> dict[str, Any]:
+        """Merge normalised usage so the HTTP receipt recorded by _post survives."""
+        normalized = data if provider is None else HttpTargetAIConnector._usage(data, provider)
+        _USAGE.set({**_USAGE.get(), **normalized})
+        return normalized
+
+    @staticmethod
     def _usage(data: Mapping[str, Any], provider: TargetProvider) -> dict[str, Any]:
         """Normalise provider-reported usage only when a response includes it."""
         reason = None
@@ -291,10 +341,10 @@ class HttpTargetAIConnector(TargetAIConnector):
             if isinstance(candidates, list) and candidates and isinstance(candidates[0], Mapping):
                 reason = candidates[0].get("finishReason")
         # Store only documented termination codes; never save arbitrary payloads.
-        clean_reason = reason.lower() if isinstance(reason, str) else None
-        completion = {"completion_status": "truncated" if clean_reason in {"length", "max_tokens", "max_output_tokens"}
+        clean_reason = reason.strip().lower() if isinstance(reason, str) else None
+        completion = {"completion_status": "truncated" if clean_reason in _TRUNCATED_REASONS
                       else "complete" if clean_reason in {"stop", "eos", "end_turn"} else None,
-                      "finish_reason": clean_reason if clean_reason in {"length", "max_tokens", "max_output_tokens", "stop", "eos", "end_turn", "content_filter"} else None}
+                      "finish_reason": clean_reason if clean_reason in _FINISH_REASONS else None}
         reported_model = data.get("model", data.get("modelVersion"))
         if isinstance(reported_model, str):
             clean_model = reported_model.strip()
@@ -303,17 +353,19 @@ class HttpTargetAIConnector(TargetAIConnector):
         if provider == TargetProvider.OLLAMA:
             input_tokens = data.get("prompt_eval_count")
             output_tokens = data.get("eval_count")
-            input_tokens = input_tokens if isinstance(input_tokens, int) and not isinstance(input_tokens, bool) else None
-            output_tokens = output_tokens if isinstance(output_tokens, int) and not isinstance(output_tokens, bool) else None
+            input_tokens = HttpTargetAIConnector._safe_token_count(input_tokens)
+            output_tokens = HttpTargetAIConnector._safe_token_count(output_tokens)
             return {
                 "input_tokens": input_tokens,
                 "output_tokens": output_tokens,
                 "total_tokens": input_tokens + output_tokens if input_tokens is not None and output_tokens is not None else None,
+                "reasoning_tokens": None,
                 **completion,
             }
         raw = data.get("usage") if provider != TargetProvider.GEMINI else data.get("usageMetadata")
         if not isinstance(raw, Mapping):
-            return completion
+            return {"input_tokens": None, "output_tokens": None, "total_tokens": None,
+                    "reasoning_tokens": None, **completion}
         keys = {
             TargetProvider.OPENROUTER: ("prompt_tokens", "completion_tokens", "total_tokens"),
             TargetProvider.OPENAI: ("input_tokens", "output_tokens", "total_tokens"),
@@ -322,9 +374,23 @@ class HttpTargetAIConnector(TargetAIConnector):
         }[provider]
         values: list[int | None] = []
         for key in keys:
-            value = raw.get(key)
-            values.append(value if isinstance(value, int) and not isinstance(value, bool) else None)
-        return {"input_tokens": values[0], "output_tokens": values[1], "total_tokens": values[2], **completion}
+            values.append(HttpTargetAIConnector._safe_token_count(raw.get(key)))
+        reasoning_tokens: Any = None
+        if provider == TargetProvider.GEMINI:
+            reasoning_tokens = HttpTargetAIConnector._safe_token_count(raw.get("thoughtsTokenCount"))
+        else:
+            detail_key = "output_tokens_details" if provider == TargetProvider.OPENAI else "completion_tokens_details"
+            details = raw.get(detail_key)
+            if isinstance(details, Mapping):
+                reasoning_tokens = HttpTargetAIConnector._safe_token_count(details.get("reasoning_tokens"))
+            if reasoning_tokens is None:
+                reasoning_tokens = HttpTargetAIConnector._safe_token_count(raw.get("reasoning_tokens"))
+        return {"input_tokens": values[0], "output_tokens": values[1], "total_tokens": values[2],
+                "reasoning_tokens": reasoning_tokens, **completion}
+
+    @staticmethod
+    def _safe_token_count(value: Any) -> int | None:
+        return value if type(value) is int and 0 <= value <= 10_000_000 else None
 
     @staticmethod
     def _http_error_message(status_code: int) -> str:
@@ -355,16 +421,25 @@ class HttpTargetAIConnector(TargetAIConnector):
         raise ProviderRequestError("OpenAI returned a response without usable text.")
 
     @staticmethod
-    def _deepseek_text(data: Mapping[str, Any]) -> str:
+    def _chat_completion_text(data: Mapping[str, Any], provider_name: str) -> str:
         try:
-            content = data["choices"][0]["message"].get("content")
+            choices = data.get("choices")
+            first = choices[0] if isinstance(choices, list) and choices else None
+            message = first.get("message") if isinstance(first, Mapping) else None
+            content = message.get("content") if isinstance(message, Mapping) else None
         except (KeyError, IndexError, TypeError) as exc:
-            raise ProviderRequestError("DeepSeek returned a response without usable text.") from exc
+            raise ProviderRequestError(f"{provider_name} returned a response without usable text.") from exc
         if isinstance(content, str):
             return content
         if isinstance(content, list):
-            return "".join(item.get("text", "") for item in content if isinstance(item, Mapping))
-        raise ProviderRequestError("DeepSeek returned a response without usable text.")
+            return "".join(item["text"] for item in content
+                           if isinstance(item, Mapping) and isinstance(item.get("text"), str))
+        raise ProviderRequestError(f"{provider_name} returned a response without usable text.")
+
+    @staticmethod
+    def _deepseek_text(data: Mapping[str, Any]) -> str:
+        """Compatibility wrapper for callers that used the old parser helper."""
+        return HttpTargetAIConnector._chat_completion_text(data, "DeepSeek")
 
     @staticmethod
     def _gemini_text(data: Mapping[str, Any]) -> str:

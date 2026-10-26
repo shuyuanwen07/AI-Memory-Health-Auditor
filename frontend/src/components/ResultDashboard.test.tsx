@@ -364,3 +364,14 @@ test('a saved question with unavailable evidence is not labelled as never tested
  expect(screen.getByText('Saved questions lack usable assessment evidence')).toBeTruthy();
  expect(buildAuditResultCsv(unavailable)).toContain('Evidence unavailable');
 });
+
+test.each(['low','medium'] as const)('sanitized profile exports preserve explicit %s target requests while historical omission remains absent',async effort=>{
+  const {defaultTargetProfile}=await import('./TargetProfileEditor');
+  const legacy={target_memory_profile:{...defaultTargetProfile}} as AuditRun;
+  expect(buildAuditResultCsv(result,legacy)).not.toContain('reasoning_effort');
+  const configured={...legacy,target_memory_profile:{...defaultTargetProfile,reasoning_effort:effort,identity_analysis_reasoning_effort:'low' as const}};
+  const csv=buildAuditResultCsv(result,configured);
+  expect(csv).toContain('reasoning_effort');expect(csv).toContain('identity_analysis_reasoning_effort');
+  expect(csv).toContain(effort);
+  expect(configured.target_memory_profile.output_token_limit).toBe(2048);
+});

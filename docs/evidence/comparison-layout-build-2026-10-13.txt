@@ -1,0 +1,46 @@
+
+> memory-health-auditor-frontend@0.1.0 build
+> npm run typecheck && vite build
+
+
+> memory-health-auditor-frontend@0.1.0 typecheck
+> tsc -b --pretty false
+
+vite v8.3.0 building client environment for production...
+transforming...
+✓ 3735 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                       0.16 kB │ gzip:   0.14 kB
+dist/assets/NewAudit-DsZNJxEF.css                     0.64 kB │ gzip:   0.35 kB
+dist/assets/index-CxNR3brF.css                       52.82 kB │ gzip:  10.96 kB
+dist/assets/chartColours-C3mm056t.js                  0.08 kB │ gzip:   0.09 kB
+dist/assets/download-DdCxOrzb.js                      0.21 kB │ gzip:   0.18 kB
+dist/assets/BlindReview-fX1LPOkA.js                   1.91 kB │ gzip:   0.98 kB
+dist/assets/Dashboard-D-XiHnYK.js                     4.32 kB │ gzip:   1.62 kB
+dist/assets/AuditorComparison-JzwWvBAA.js             4.55 kB │ gzip:   2.04 kB
+dist/assets/AssessorOperationCharts-D-QH6kQb.js       4.91 kB │ gzip:   2.17 kB
+dist/assets/ModelPicker-C_b_lZDn.js                   5.64 kB │ gzip:   2.30 kB
+dist/assets/ExperimentStatistics-C1ipvp_x.js          6.10 kB │ gzip:   1.94 kB
+dist/assets/TargetMemoryTrace-ts4WLT5u.js             7.26 kB │ gzip:   2.79 kB
+dist/assets/AssessorComparison-DduWb_Ud.js            7.64 kB │ gzip:   3.09 kB
+dist/assets/tag-BqOq4I_U.js                           8.49 kB │ gzip:   3.31 kB
+dist/assets/ExtractionComparison-D9mIskQ5.js          9.79 kB │ gzip:   3.59 kB
+dist/assets/TestSuiteReview-DzoIqpO1.js              10.02 kB │ gzip:   3.17 kB
+dist/assets/EvaluationReview-4Rq64VD2.js             12.81 kB │ gzip:   4.10 kB
+dist/assets/ReviewedMethodComparison-BbtWpDnx.js     13.70 kB │ gzip:   4.70 kB
+dist/assets/AuditorQuality-BxE6hziR.js               16.01 kB │ gzip:   5.37 kB
+dist/assets/GeneratorComparison-CR982dKK.js          18.11 kB │ gzip:   5.92 kB
+dist/assets/AuditComparison-rBdxSTq1.js              24.05 kB │ gzip:   7.56 kB
+dist/assets/ResultDashboard-CqAdjpmV.js              73.64 kB │ gzip:  20.91 kB
+dist/assets/NewAudit-L6nVFYua.js                    101.50 kB │ gzip:  29.59 kB
+dist/assets/StaticPages-DgH-izv7.js                 158.94 kB │ gzip:  41.19 kB
+dist/assets/ResultVisualizations-D8-8g5kO.js        375.77 kB │ gzip: 108.20 kB
+dist/assets/index-G3Z2abvb.js                     1,090.45 kB │ gzip: 347.64 kB
+
+[plugin builtin:vite-reporter] 
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rolldownOptions.output.codeSplitting to improve chunking: https://rolldown.rs/reference/OutputOptions.codeSplitting
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 4.95s

@@ -444,3 +444,12 @@ test('chart groups use verified conditions and friendly settings instead of opaq
   expect(repeated[0].overallAverage).toBe(50);
   expect(repeated[0].label).toBe('qwen3:1.7b · First matching memory');
 });
+
+test.each(['low','medium'] as const)('shows saved optional %s reasoning request without calling it measured effort',async effort=>{
+  const {defaultTargetProfile}=await import('../components/TargetProfileEditor');
+  apiMocks.audits.mockResolvedValue([{...baseRun,run_id:'LOW-REQUEST',status:'COMPLETED',provider:'openrouter',model:'openai/gpt-6-luna',memory_strategy:'scope_aware',
+    target_memory_profile:{...defaultTargetProfile,reasoning_effort:effort,identity_analysis_reasoning_effort:'low'}}]);
+  render(<History/>);
+  expect(await screen.findByText(`Configured final reasoning request: ${effort}`)).toBeInTheDocument();
+  expect(screen.getByText('Configured identity reasoning request: low. Actual reasoning effort is not reported.')).toBeInTheDocument();
+});

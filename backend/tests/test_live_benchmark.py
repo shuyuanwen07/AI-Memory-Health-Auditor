@@ -1,4 +1,4 @@
-from app.extraction.rule_based import RuleBasedMemoryExtractor
+from app.memory_agent.writers import RuleBasedTargetMemoryWriter
 from copy import deepcopy
 from threading import Event
 
@@ -68,7 +68,7 @@ def test_live_calls_use_controlled_policy_without_reference_leakage(monkeypatch)
     assert first.conditions[0].cases[0].supplied_memory_ids
     assert len(first.conditions[0].cases[0].memory_evidence)==2
     assert any(m['supplied'] and 'MySQL' in m['canonical_value'] for m in first.conditions[0].cases[0].memory_evidence)
-    assert first.writer_version==RuleBasedMemoryExtractor.VERSION
+    assert first.writer_version==RuleBasedTargetMemoryWriter.VERSION
     assert first.source_fingerprint_sha256!=second.source_fingerprint_sha256
     assert first.configuration_fingerprint_sha256==second.configuration_fingerprint_sha256
     assert first.dataset_provenance.dataset_version==PROVENANCE['dataset_version']

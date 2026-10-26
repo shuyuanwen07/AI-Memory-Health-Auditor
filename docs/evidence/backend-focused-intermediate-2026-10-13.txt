@@ -1,0 +1,1023 @@
+All checks passed!
+.....F.F..F..FFFF............FFF.....F...F..FFFFF.FFFFFFFFF............. [ 85%]
+............                                                             [100%]
+=================================== FAILURES ===================================
+__________________ test_native_same_reader_and_gold_isolation __________________
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffffb74587a0>
+
+    def test_native_same_reader_and_gold_isolation(monkeypatch):
+        monkeypatch.setenv('MEM0_TARGET_URL','http://native-test.invalid')
+        seen=[]; requests=[]
+        def native(operation,payload):
+            requests.append(payload)
+            if operation=='ingest':return {'namespace':payload['namespace'],'ready':True,'inference':True}
+            record={'id':'native-one','memory':'The backend now uses PostgreSQL instead of MySQL'}
+            return {'namespace':payload['namespace'],'request_id':payload['request_id'],'retrieved':[record],
+                'supplied':[record],'stored':[record],'sdk_version':'2.2.1','target_service':'mem0-oss-target-v1','stored_listing_limit':500}
+        monkeypatch.setattr(mem0,'call',native)
+        def reader(self,audit,test,instructions,credential):
+            assert test.expected_behavior=='' and test.supporting_memory_ids==[]
+            seen.append((instructions,test.prompt,audit.model,audit.temperature,audit.target_configuration.value));return 'PostgreSQL'
+        # Only simulated transport is used; no real credential or model call.
+        monkeypatch.setenv('OPENROUTER_API_KEY', 'synthetic-test-key')
+        monkeypatch.setattr(HttpTargetAIConnector,'_execute_provider',reader)
+        request=LiveBenchmarkRequest(payload=source(),source_authorised=True,dataset_provenance=PROVENANCE,strategies=['scope_aware'],include_mem0=True)
+>       first=LiveBenchmarkRunner().run(request)
+
+tests/test_mem0_shared_reader.py:28: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.benchmarks.live.LiveBenchmarkRunner object at 0xffffb7766600>
+request = LiveBenchmarkRequest(payload=[{'question_id': 'official-layout-synthetic', 'question_type': 'knowledge-update', 'quest..., additional_instructions='', output_token_limit=None), max_cases=8, include_mem0=True, native_repair_comparison=False)
+cancelled = None
+
+    def run(self, request: LiveBenchmarkRequest, cancelled: Event | None = None) -> LiveBenchmarkResponse:
+        if not request.source_authorised:
+            raise ValueError("Confirm that you are authorised to process this benchmark source.")
+        if request.provider not in {TargetProvider.OLLAMA, TargetProvider.OPENROUTER}:
+            raise ValueError("Real-model benchmark execution supports Ollama or OpenRouter; use the separate rule baseline for simulation.")
+        if len(set(request.strategies)) != len(request.strategies):
+            raise ValueError("Choose each memory strategy only once.")
+        cases, report = LongMemEvalAdapter().adapt(request.payload)
+        if len(cases) > request.max_cases:
+            raise ValueError(f"The file has {len(cases)} cases; limit it to {request.max_cases} before live execution. No cases were silently dropped.")
+        if sum(len(m.content) for c in cases for m in c.messages) > 1_000_000:
+            raise ValueError("Live benchmark history exceeds the 1 MB source-text limit.")
+        if request.native_repair_comparison and not request.include_mem0:
+            raise ValueError("Enable native Mem0 before selecting its repair comparison.")
+        if request.native_repair_comparison:
+            from app.benchmarks.mem0 import GENERIC_INSTRUCTION
+            if len((request.target_memory_profile.additional_instructions+'\n'+GENERIC_INSTRUCTION).strip())>4000:
+                raise ValueError('Leave room for the frozen generic instruction within the 4,000 character instruction limit.')
+        if request.native_repair_comparison and len(request.strategies)>1:
+            raise ValueError("Choose one controlled reference alongside the three native repair conditions.")
+        if request.include_mem0:
+            from app.benchmarks.mem0 import endpoint
+            if not endpoint():
+                raise ValueError("Configure the local native Mem0 target before this comparison.")
+            if request.provider != TargetProvider.OLLAMA or request.model != 'qwen3:1.7b':
+>               raise ValueError("The current native Mem0 pilot requires local qwen3:1.7b for every condition.")
+E               ValueError: The current native Mem0 pilot requires local qwen3:1.7b for every condition.
+
+app/benchmarks/live.py:61: ValueError
+___ test_native_repairs_share_snapshot_and_do_not_change_extraction_or_gold ____
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffffb7476e70>
+
+    def test_native_repairs_share_snapshot_and_do_not_change_extraction_or_gold(monkeypatch):
+        calls=[]; readers=[]
+        memories=[{'id':'P','memory':'User prefers Ruby.'},{'id':'T','memory':'User assignment requires Go.'}]
+        def native(operation,payload):
+            calls.append((operation,payload))
+            usage={'llm_attempts':2 if operation=='ingest' else 0,'embedding_attempts':3 if operation=='ingest' else 1,'llm_failures':0,'embedding_failures':0}
+            if operation=='ingest':return {'namespace':payload['namespace'],'ready':True,'inference':True,'inference_usage':usage}
+            return {'namespace':payload['namespace'],'request_id':payload['request_id'],'retrieved':memories,'supplied':memories,'stored':memories,'inference_usage':usage}
+        def reader(self,audit,test,instructions,credential):
+            readers.append((test.target_memory_context,instructions,audit.model,audit.temperature,test.expected_behavior,test.supporting_memory_ids))
+            return 'Go'
+        monkeypatch.setattr(mem0,'call',native)
+        # Only simulated transport is used; no real credential or model call.
+        monkeypatch.setenv('OPENROUTER_API_KEY', 'synthetic-test-key')
+        monkeypatch.setattr(HttpTargetAIConnector,'_execute_provider',reader)
+        case=LongMemEvalAdapter().adapt(source())[0][0].model_copy(update={'question':'Which language must I use for my assignment?'})
+        request=LiveBenchmarkRequest(payload=source(),source_authorised=True,dataset_provenance=PROVENANCE)
+        results=mem0.run_case_comparison(request,case,None,'unit')
+        assert [name for name,_ in calls]==['ingest','retrieve']
+        assert all(r.memory_preparation['native_llm_calls']==2 and r.memory_preparation['embedding_calls']==4 for r in results.values())
+        assert sum(r.memory_preparation['preparation_charged_here'] for r in results.values())==1
+        assert [r[0] for r in readers]==[['User prefers Ruby.','User assignment requires Go.'],['User prefers Ruby.','User assignment requires Go.'],['User assignment requires Go.']]
+        assert mem0.GENERIC_INSTRUCTION not in readers[0][1] and mem0.GENERIC_INSTRUCTION in readers[1][1]
+        assert mem0.GENERIC_INSTRUCTION not in readers[2][1]
+>       assert all(r[2:]==('qwen3:1.7b',0,'',[]) for r in readers)
+E       assert False
+E        +  where False = all(<generator object test_native_repairs_share_snapshot_and_do_not_change_extraction_or_gold.<locals>.<genexpr> at 0xffffb7483760>)
+
+tests/test_mem0_shared_reader.py:79: AssertionError
+___ test_relative_ordering_binds_exact_semantic_files_and_creates_no_records ___
+
+ranking = (<Mock id='281473756938160'>, [namespace(id='before', memory_strategy='weak_first_hit', status='COMPLETED', provider='...': [{...}], 'question': 'What database now?', 'question_id': 'fixture-two', ...}], ...}, 'reference_run_id': 'before'})
+
+    def test_relative_ordering_binds_exact_semantic_files_and_creates_no_records(ranking):
+>       report = analyse(ranking)
+
+tests/test_ranking_agreement.py:69: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ranking_agreement.py:65: in analyse
+    return RankingAgreementService().analyse(db, RankingAgreementRequest(**body))
+app/research/ranking_agreement.py:133: in analyse
+    limits.add(self._receipt_limit(case.execution_metadata.model_dump(), before.provider))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+receipt = {'completion_status': None, 'finish_reason': None, 'input_tokens': None, 'latency_ms': 0.01, ...}
+provider = 'openrouter'
+
+    @staticmethod
+    def _receipt_limit(receipt, provider):
+        limit = receipt.get("requested_output_token_limit")
+        if (receipt.get("response_source") != provider
+            or type(receipt.get("request_attempts")) is not int or receipt["request_attempts"] < 1
+            or receipt.get("shared_source_run_id") or receipt.get("shared_source_response_id")):
+            raise ValueError("Use original model-call receipts, not reused or unverified responses.")
+        if type(limit) is not int or not 1 <= limit <= 8192:
+>           raise ValueError("Actual answer length limits are unknown. Rerun both suites with an explicit token budget.")
+E           ValueError: Actual answer length limits are unknown. Rerun both suites with an explicit token budget.
+
+app/research/ranking_agreement.py:205: ValueError
+_____________ test_ordering_and_ties_are_distinct[2-1-consistent] ______________
+
+ranking = (<Mock id='281473725830432'>, [namespace(id='before', memory_strategy='weak_first_hit', status='COMPLETED', provider='...': [{...}], 'question': 'What database now?', 'question_id': 'fixture-two', ...}], ...}, 'reference_run_id': 'before'})
+audit = 2, benchmark = 1, expected = 'consistent'
+
+    @pytest.mark.parametrize('audit,benchmark,expected',[(2,1,'consistent'),(0,1,'reversed'),(1,1,'inconclusive_tie'),(1,0,'both_tied')])
+    def test_ordering_and_ties_are_distinct(ranking,audit,benchmark,expected):
+        ranking[2]['paired_tests']=[{'dimension':'accuracy','before':{'passed':True},'after':{'passed':audit>0}},
+                                  {'dimension':'freshness','before':{'passed':False},'after':{'passed':audit>1}},
+                                  {'dimension':'conflict_resolution','before':{'passed':False},'after':{'passed':False}},
+                                  {'dimension':'appropriate_use','before':{'passed':False},'after':{'passed':False}}]
+        ranking[3]['candidate_benchmark']['rows'][1]['autoeval_label']['label']=bool(benchmark)
+>       assert analyse(ranking).agreement == expected
+
+tests/test_ranking_agreement.py:104: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ranking_agreement.py:65: in analyse
+    return RankingAgreementService().analyse(db, RankingAgreementRequest(**body))
+app/research/ranking_agreement.py:133: in analyse
+    limits.add(self._receipt_limit(case.execution_metadata.model_dump(), before.provider))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+receipt = {'completion_status': None, 'finish_reason': None, 'input_tokens': None, 'latency_ms': 0.0, ...}
+provider = 'openrouter'
+
+    @staticmethod
+    def _receipt_limit(receipt, provider):
+        limit = receipt.get("requested_output_token_limit")
+        if (receipt.get("response_source") != provider
+            or type(receipt.get("request_attempts")) is not int or receipt["request_attempts"] < 1
+            or receipt.get("shared_source_run_id") or receipt.get("shared_source_response_id")):
+            raise ValueError("Use original model-call receipts, not reused or unverified responses.")
+        if type(limit) is not int or not 1 <= limit <= 8192:
+>           raise ValueError("Actual answer length limits are unknown. Rerun both suites with an explicit token budget.")
+E           ValueError: Actual answer length limits are unknown. Rerun both suites with an explicit token budget.
+
+app/research/ranking_agreement.py:205: ValueError
+______________ test_ordering_and_ties_are_distinct[0-1-reversed] _______________
+
+ranking = (<Mock id='281473724820960'>, [namespace(id='before', memory_strategy='weak_first_hit', status='COMPLETED', provider='...': [{...}], 'question': 'What database now?', 'question_id': 'fixture-two', ...}], ...}, 'reference_run_id': 'before'})
+audit = 0, benchmark = 1, expected = 'reversed'
+
+    @pytest.mark.parametrize('audit,benchmark,expected',[(2,1,'consistent'),(0,1,'reversed'),(1,1,'inconclusive_tie'),(1,0,'both_tied')])
+    def test_ordering_and_ties_are_distinct(ranking,audit,benchmark,expected):
+        ranking[2]['paired_tests']=[{'dimension':'accuracy','before':{'passed':True},'after':{'passed':audit>0}},
+                                  {'dimension':'freshness','before':{'passed':False},'after':{'passed':audit>1}},
+                                  {'dimension':'conflict_resolution','before':{'passed':False},'after':{'passed':False}},
+                                  {'dimension':'appropriate_use','before':{'passed':False},'after':{'passed':False}}]
+        ranking[3]['candidate_benchmark']['rows'][1]['autoeval_label']['label']=bool(benchmark)
+>       assert analyse(ranking).agreement == expected
+
+tests/test_ranking_agreement.py:104: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ranking_agreement.py:65: in analyse
+    return RankingAgreementService().analyse(db, RankingAgreementRequest(**body))
+app/research/ranking_agreement.py:133: in analyse
+    limits.add(self._receipt_limit(case.execution_metadata.model_dump(), before.provider))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+receipt = {'completion_status': None, 'finish_reason': None, 'input_tokens': None, 'latency_ms': 0.0, ...}
+provider = 'openrouter'
+
+    @staticmethod
+    def _receipt_limit(receipt, provider):
+        limit = receipt.get("requested_output_token_limit")
+        if (receipt.get("response_source") != provider
+            or type(receipt.get("request_attempts")) is not int or receipt["request_attempts"] < 1
+            or receipt.get("shared_source_run_id") or receipt.get("shared_source_response_id")):
+            raise ValueError("Use original model-call receipts, not reused or unverified responses.")
+        if type(limit) is not int or not 1 <= limit <= 8192:
+>           raise ValueError("Actual answer length limits are unknown. Rerun both suites with an explicit token budget.")
+E           ValueError: Actual answer length limits are unknown. Rerun both suites with an explicit token budget.
+
+app/research/ranking_agreement.py:205: ValueError
+__________ test_ordering_and_ties_are_distinct[1-1-inconclusive_tie] ___________
+
+ranking = (<Mock id='281473723911152'>, [namespace(id='before', memory_strategy='weak_first_hit', status='COMPLETED', provider='...': [{...}], 'question': 'What database now?', 'question_id': 'fixture-two', ...}], ...}, 'reference_run_id': 'before'})
+audit = 1, benchmark = 1, expected = 'inconclusive_tie'
+
+    @pytest.mark.parametrize('audit,benchmark,expected',[(2,1,'consistent'),(0,1,'reversed'),(1,1,'inconclusive_tie'),(1,0,'both_tied')])
+    def test_ordering_and_ties_are_distinct(ranking,audit,benchmark,expected):
+        ranking[2]['paired_tests']=[{'dimension':'accuracy','before':{'passed':True},'after':{'passed':audit>0}},
+                                  {'dimension':'freshness','before':{'passed':False},'after':{'passed':audit>1}},
+                                  {'dimension':'conflict_resolution','before':{'passed':False},'after':{'passed':False}},
+                                  {'dimension':'appropriate_use','before':{'passed':False},'after':{'passed':False}}]
+        ranking[3]['candidate_benchmark']['rows'][1]['autoeval_label']['label']=bool(benchmark)
+>       assert analyse(ranking).agreement == expected
+
+tests/test_ranking_agreement.py:104: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ranking_agreement.py:65: in analyse
+    return RankingAgreementService().analyse(db, RankingAgreementRequest(**body))
+app/research/ranking_agreement.py:133: in analyse
+    limits.add(self._receipt_limit(case.execution_metadata.model_dump(), before.provider))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+receipt = {'completion_status': None, 'finish_reason': None, 'input_tokens': None, 'latency_ms': 0.0, ...}
+provider = 'openrouter'
+
+    @staticmethod
+    def _receipt_limit(receipt, provider):
+        limit = receipt.get("requested_output_token_limit")
+        if (receipt.get("response_source") != provider
+            or type(receipt.get("request_attempts")) is not int or receipt["request_attempts"] < 1
+            or receipt.get("shared_source_run_id") or receipt.get("shared_source_response_id")):
+            raise ValueError("Use original model-call receipts, not reused or unverified responses.")
+        if type(limit) is not int or not 1 <= limit <= 8192:
+>           raise ValueError("Actual answer length limits are unknown. Rerun both suites with an explicit token budget.")
+E           ValueError: Actual answer length limits are unknown. Rerun both suites with an explicit token budget.
+
+app/research/ranking_agreement.py:205: ValueError
+______________ test_ordering_and_ties_are_distinct[1-0-both_tied] ______________
+
+ranking = (<Mock id='281473726394544'>, [namespace(id='before', memory_strategy='weak_first_hit', status='COMPLETED', provider='...': [{...}], 'question': 'What database now?', 'question_id': 'fixture-two', ...}], ...}, 'reference_run_id': 'before'})
+audit = 1, benchmark = 0, expected = 'both_tied'
+
+    @pytest.mark.parametrize('audit,benchmark,expected',[(2,1,'consistent'),(0,1,'reversed'),(1,1,'inconclusive_tie'),(1,0,'both_tied')])
+    def test_ordering_and_ties_are_distinct(ranking,audit,benchmark,expected):
+        ranking[2]['paired_tests']=[{'dimension':'accuracy','before':{'passed':True},'after':{'passed':audit>0}},
+                                  {'dimension':'freshness','before':{'passed':False},'after':{'passed':audit>1}},
+                                  {'dimension':'conflict_resolution','before':{'passed':False},'after':{'passed':False}},
+                                  {'dimension':'appropriate_use','before':{'passed':False},'after':{'passed':False}}]
+        ranking[3]['candidate_benchmark']['rows'][1]['autoeval_label']['label']=bool(benchmark)
+>       assert analyse(ranking).agreement == expected
+
+tests/test_ranking_agreement.py:104: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ranking_agreement.py:65: in analyse
+    return RankingAgreementService().analyse(db, RankingAgreementRequest(**body))
+app/research/ranking_agreement.py:133: in analyse
+    limits.add(self._receipt_limit(case.execution_metadata.model_dump(), before.provider))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+receipt = {'completion_status': None, 'finish_reason': None, 'input_tokens': None, 'latency_ms': 0.0, ...}
+provider = 'openrouter'
+
+    @staticmethod
+    def _receipt_limit(receipt, provider):
+        limit = receipt.get("requested_output_token_limit")
+        if (receipt.get("response_source") != provider
+            or type(receipt.get("request_attempts")) is not int or receipt["request_attempts"] < 1
+            or receipt.get("shared_source_run_id") or receipt.get("shared_source_response_id")):
+            raise ValueError("Use original model-call receipts, not reused or unverified responses.")
+        if type(limit) is not int or not 1 <= limit <= 8192:
+>           raise ValueError("Actual answer length limits are unknown. Rerun both suites with an explicit token budget.")
+E           ValueError: Actual answer length limits are unknown. Rerun both suites with an explicit token budget.
+
+app/research/ranking_agreement.py:205: ValueError
+_ test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-Complete semantic] _
+
+ranking = (<Mock id='281473713603600'>, [namespace(id='before', memory_strategy='weak_first_hit', status='COMPLETED', provider='...': [{...}], 'question': 'What database now?', 'question_id': 'fixture-two', ...}], ...}, 'reference_run_id': 'before'})
+mutate = <function <lambda> at 0xffffb77eaa20>, match = 'Complete semantic'
+
+    @pytest.mark.parametrize('mutate,match',[
+        (lambda r:r[3].update(candidate_run_id='missing'), 'saved audits'),
+        (lambda r:r[1][0].reproducibility_metadata.pop('target_memory_profile'), 'no frozen memory settings'),
+        (lambda r:r[1][0].reproducibility_metadata.pop('audit_runtime_signature'), 'same saved software snapshot'),
+        (lambda r:r[1][0].reproducibility_metadata.update(assessment_source_run_id='original'), 'original target executions'),
+        (lambda r:r[3]['candidate_benchmark']['rows'].pop(), 'Complete semantic'),
+        (lambda r:r[3]['candidate_benchmark']['rows'][0].update(hypothesis='altered'), 'exact saved reply'),
+        (lambda r:r[3]['candidate_benchmark'].update(evaluator_revision='1'*40), 'same semantic evaluator'),
+        (lambda r:r[3]['candidate_benchmark']['evidence'].update(model='altered'), 'same complete saved comparison'),
+        (lambda r:r[2]['paired_tests'].pop(), 'Every frozen audit question'),
+        (lambda r:r[2]['setting_differences'].append({'field':'temperature'}), 'more than memory strategy'),
+    ])
+    def test_missing_or_changed_evidence_cannot_establish_agreement(ranking,mutate,match):
+        mutate(ranking)
+>       with pytest.raises(ValueError,match=match):analyse(ranking)
+
+tests/test_ranking_agreement.py:134: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ranking_agreement.py:65: in analyse
+    return RankingAgreementService().analyse(db, RankingAgreementRequest(**body))
+app/research/ranking_agreement.py:133: in analyse
+    limits.add(self._receipt_limit(case.execution_metadata.model_dump(), before.provider))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+receipt = {'completion_status': None, 'finish_reason': None, 'input_tokens': None, 'latency_ms': 0.0, ...}
+provider = 'openrouter'
+
+    @staticmethod
+    def _receipt_limit(receipt, provider):
+        limit = receipt.get("requested_output_token_limit")
+        if (receipt.get("response_source") != provider
+            or type(receipt.get("request_attempts")) is not int or receipt["request_attempts"] < 1
+            or receipt.get("shared_source_run_id") or receipt.get("shared_source_response_id")):
+            raise ValueError("Use original model-call receipts, not reused or unverified responses.")
+        if type(limit) is not int or not 1 <= limit <= 8192:
+>           raise ValueError("Actual answer length limits are unknown. Rerun both suites with an explicit token budget.")
+E           ValueError: Actual answer length limits are unknown. Rerun both suites with an explicit token budget.
+
+app/research/ranking_agreement.py:205: ValueError
+
+During handling of the above exception, another exception occurred:
+
+ranking = (<Mock id='281473713603600'>, [namespace(id='before', memory_strategy='weak_first_hit', status='COMPLETED', provider='...': [{...}], 'question': 'What database now?', 'question_id': 'fixture-two', ...}], ...}, 'reference_run_id': 'before'})
+mutate = <function <lambda> at 0xffffb77eaa20>, match = 'Complete semantic'
+
+    @pytest.mark.parametrize('mutate,match',[
+        (lambda r:r[3].update(candidate_run_id='missing'), 'saved audits'),
+        (lambda r:r[1][0].reproducibility_metadata.pop('target_memory_profile'), 'no frozen memory settings'),
+        (lambda r:r[1][0].reproducibility_metadata.pop('audit_runtime_signature'), 'same saved software snapshot'),
+        (lambda r:r[1][0].reproducibility_metadata.update(assessment_source_run_id='original'), 'original target executions'),
+        (lambda r:r[3]['candidate_benchmark']['rows'].pop(), 'Complete semantic'),
+        (lambda r:r[3]['candidate_benchmark']['rows'][0].update(hypothesis='altered'), 'exact saved reply'),
+        (lambda r:r[3]['candidate_benchmark'].update(evaluator_revision='1'*40), 'same semantic evaluator'),
+        (lambda r:r[3]['candidate_benchmark']['evidence'].update(model='altered'), 'same complete saved comparison'),
+        (lambda r:r[2]['paired_tests'].pop(), 'Every frozen audit question'),
+        (lambda r:r[2]['setting_differences'].append({'field':'temperature'}), 'more than memory strategy'),
+    ])
+    def test_missing_or_changed_evidence_cannot_establish_agreement(ranking,mutate,match):
+        mutate(ranking)
+>       with pytest.raises(ValueError,match=match):analyse(ranking)
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'Complete semantic'
+E        Input: 'Actual answer length limits are unknown. Rerun both suites with an explicit token budget.'
+
+tests/test_ranking_agreement.py:134: AssertionError
+_ test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-exact saved reply] _
+
+ranking = (<Mock id='281473714024624'>, [namespace(id='before', memory_strategy='weak_first_hit', status='COMPLETED', provider='...': [{...}], 'question': 'What database now?', 'question_id': 'fixture-two', ...}], ...}, 'reference_run_id': 'before'})
+mutate = <function <lambda> at 0xffffb77eaac0>, match = 'exact saved reply'
+
+    @pytest.mark.parametrize('mutate,match',[
+        (lambda r:r[3].update(candidate_run_id='missing'), 'saved audits'),
+        (lambda r:r[1][0].reproducibility_metadata.pop('target_memory_profile'), 'no frozen memory settings'),
+        (lambda r:r[1][0].reproducibility_metadata.pop('audit_runtime_signature'), 'same saved software snapshot'),
+        (lambda r:r[1][0].reproducibility_metadata.update(assessment_source_run_id='original'), 'original target executions'),
+        (lambda r:r[3]['candidate_benchmark']['rows'].pop(), 'Complete semantic'),
+        (lambda r:r[3]['candidate_benchmark']['rows'][0].update(hypothesis='altered'), 'exact saved reply'),
+        (lambda r:r[3]['candidate_benchmark'].update(evaluator_revision='1'*40), 'same semantic evaluator'),
+        (lambda r:r[3]['candidate_benchmark']['evidence'].update(model='altered'), 'same complete saved comparison'),
+        (lambda r:r[2]['paired_tests'].pop(), 'Every frozen audit question'),
+        (lambda r:r[2]['setting_differences'].append({'field':'temperature'}), 'more than memory strategy'),
+    ])
+    def test_missing_or_changed_evidence_cannot_establish_agreement(ranking,mutate,match):
+        mutate(ranking)
+>       with pytest.raises(ValueError,match=match):analyse(ranking)
+
+tests/test_ranking_agreement.py:134: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ranking_agreement.py:65: in analyse
+    return RankingAgreementService().analyse(db, RankingAgreementRequest(**body))
+app/research/ranking_agreement.py:133: in analyse
+    limits.add(self._receipt_limit(case.execution_metadata.model_dump(), before.provider))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+receipt = {'completion_status': None, 'finish_reason': None, 'input_tokens': None, 'latency_ms': 0.0, ...}
+provider = 'openrouter'
+
+    @staticmethod
+    def _receipt_limit(receipt, provider):
+        limit = receipt.get("requested_output_token_limit")
+        if (receipt.get("response_source") != provider
+            or type(receipt.get("request_attempts")) is not int or receipt["request_attempts"] < 1
+            or receipt.get("shared_source_run_id") or receipt.get("shared_source_response_id")):
+            raise ValueError("Use original model-call receipts, not reused or unverified responses.")
+        if type(limit) is not int or not 1 <= limit <= 8192:
+>           raise ValueError("Actual answer length limits are unknown. Rerun both suites with an explicit token budget.")
+E           ValueError: Actual answer length limits are unknown. Rerun both suites with an explicit token budget.
+
+app/research/ranking_agreement.py:205: ValueError
+
+During handling of the above exception, another exception occurred:
+
+ranking = (<Mock id='281473714024624'>, [namespace(id='before', memory_strategy='weak_first_hit', status='COMPLETED', provider='...': [{...}], 'question': 'What database now?', 'question_id': 'fixture-two', ...}], ...}, 'reference_run_id': 'before'})
+mutate = <function <lambda> at 0xffffb77eaac0>, match = 'exact saved reply'
+
+    @pytest.mark.parametrize('mutate,match',[
+        (lambda r:r[3].update(candidate_run_id='missing'), 'saved audits'),
+        (lambda r:r[1][0].reproducibility_metadata.pop('target_memory_profile'), 'no frozen memory settings'),
+        (lambda r:r[1][0].reproducibility_metadata.pop('audit_runtime_signature'), 'same saved software snapshot'),
+        (lambda r:r[1][0].reproducibility_metadata.update(assessment_source_run_id='original'), 'original target executions'),
+        (lambda r:r[3]['candidate_benchmark']['rows'].pop(), 'Complete semantic'),
+        (lambda r:r[3]['candidate_benchmark']['rows'][0].update(hypothesis='altered'), 'exact saved reply'),
+        (lambda r:r[3]['candidate_benchmark'].update(evaluator_revision='1'*40), 'same semantic evaluator'),
+        (lambda r:r[3]['candidate_benchmark']['evidence'].update(model='altered'), 'same complete saved comparison'),
+        (lambda r:r[2]['paired_tests'].pop(), 'Every frozen audit question'),
+        (lambda r:r[2]['setting_differences'].append({'field':'temperature'}), 'more than memory strategy'),
+    ])
+    def test_missing_or_changed_evidence_cannot_establish_agreement(ranking,mutate,match):
+        mutate(ranking)
+>       with pytest.raises(ValueError,match=match):analyse(ranking)
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'exact saved reply'
+E        Input: 'Actual answer length limits are unknown. Rerun both suites with an explicit token budget.'
+
+tests/test_ranking_agreement.py:134: AssertionError
+_ test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-same semantic evaluator] _
+
+ranking = (<Mock id='281473714294032'>, [namespace(id='before', memory_strategy='weak_first_hit', status='COMPLETED', provider='...': [{...}], 'question': 'What database now?', 'question_id': 'fixture-two', ...}], ...}, 'reference_run_id': 'before'})
+mutate = <function <lambda> at 0xffffb77eab60>
+match = 'same semantic evaluator'
+
+    @pytest.mark.parametrize('mutate,match',[
+        (lambda r:r[3].update(candidate_run_id='missing'), 'saved audits'),
+        (lambda r:r[1][0].reproducibility_metadata.pop('target_memory_profile'), 'no frozen memory settings'),
+        (lambda r:r[1][0].reproducibility_metadata.pop('audit_runtime_signature'), 'same saved software snapshot'),
+        (lambda r:r[1][0].reproducibility_metadata.update(assessment_source_run_id='original'), 'original target executions'),
+        (lambda r:r[3]['candidate_benchmark']['rows'].pop(), 'Complete semantic'),
+        (lambda r:r[3]['candidate_benchmark']['rows'][0].update(hypothesis='altered'), 'exact saved reply'),
+        (lambda r:r[3]['candidate_benchmark'].update(evaluator_revision='1'*40), 'same semantic evaluator'),
+        (lambda r:r[3]['candidate_benchmark']['evidence'].update(model='altered'), 'same complete saved comparison'),
+        (lambda r:r[2]['paired_tests'].pop(), 'Every frozen audit question'),
+        (lambda r:r[2]['setting_differences'].append({'field':'temperature'}), 'more than memory strategy'),
+    ])
+    def test_missing_or_changed_evidence_cannot_establish_agreement(ranking,mutate,match):
+        mutate(ranking)
+>       with pytest.raises(ValueError,match=match):analyse(ranking)
+
+tests/test_ranking_agreement.py:134: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ranking_agreement.py:65: in analyse
+    return RankingAgreementService().analyse(db, RankingAgreementRequest(**body))
+app/research/ranking_agreement.py:133: in analyse
+    limits.add(self._receipt_limit(case.execution_metadata.model_dump(), before.provider))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+receipt = {'completion_status': None, 'finish_reason': None, 'input_tokens': None, 'latency_ms': 0.0, ...}
+provider = 'openrouter'
+
+    @staticmethod
+    def _receipt_limit(receipt, provider):
+        limit = receipt.get("requested_output_token_limit")
+        if (receipt.get("response_source") != provider
+            or type(receipt.get("request_attempts")) is not int or receipt["request_attempts"] < 1
+            or receipt.get("shared_source_run_id") or receipt.get("shared_source_response_id")):
+            raise ValueError("Use original model-call receipts, not reused or unverified responses.")
+        if type(limit) is not int or not 1 <= limit <= 8192:
+>           raise ValueError("Actual answer length limits are unknown. Rerun both suites with an explicit token budget.")
+E           ValueError: Actual answer length limits are unknown. Rerun both suites with an explicit token budget.
+
+app/research/ranking_agreement.py:205: ValueError
+
+During handling of the above exception, another exception occurred:
+
+ranking = (<Mock id='281473714294032'>, [namespace(id='before', memory_strategy='weak_first_hit', status='COMPLETED', provider='...': [{...}], 'question': 'What database now?', 'question_id': 'fixture-two', ...}], ...}, 'reference_run_id': 'before'})
+mutate = <function <lambda> at 0xffffb77eab60>
+match = 'same semantic evaluator'
+
+    @pytest.mark.parametrize('mutate,match',[
+        (lambda r:r[3].update(candidate_run_id='missing'), 'saved audits'),
+        (lambda r:r[1][0].reproducibility_metadata.pop('target_memory_profile'), 'no frozen memory settings'),
+        (lambda r:r[1][0].reproducibility_metadata.pop('audit_runtime_signature'), 'same saved software snapshot'),
+        (lambda r:r[1][0].reproducibility_metadata.update(assessment_source_run_id='original'), 'original target executions'),
+        (lambda r:r[3]['candidate_benchmark']['rows'].pop(), 'Complete semantic'),
+        (lambda r:r[3]['candidate_benchmark']['rows'][0].update(hypothesis='altered'), 'exact saved reply'),
+        (lambda r:r[3]['candidate_benchmark'].update(evaluator_revision='1'*40), 'same semantic evaluator'),
+        (lambda r:r[3]['candidate_benchmark']['evidence'].update(model='altered'), 'same complete saved comparison'),
+        (lambda r:r[2]['paired_tests'].pop(), 'Every frozen audit question'),
+        (lambda r:r[2]['setting_differences'].append({'field':'temperature'}), 'more than memory strategy'),
+    ])
+    def test_missing_or_changed_evidence_cannot_establish_agreement(ranking,mutate,match):
+        mutate(ranking)
+>       with pytest.raises(ValueError,match=match):analyse(ranking)
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'same semantic evaluator'
+E        Input: 'Actual answer length limits are unknown. Rerun both suites with an explicit token budget.'
+
+tests/test_ranking_agreement.py:134: AssertionError
+_ test_missing_auditor_dimension_is_unmeasured_and_cannot_establish_agreement __
+
+ranking = (<Mock id='281473718214032'>, [namespace(id='before', memory_strategy='weak_first_hit', status='COMPLETED', provider='...': [{...}], 'question': 'What database now?', 'question_id': 'fixture-two', ...}], ...}, 'reference_run_id': 'before'})
+
+    def test_missing_auditor_dimension_is_unmeasured_and_cannot_establish_agreement(ranking):
+        ranking[2]['paired_tests'][-1]['dimension'] = 'accuracy'
+>       report = analyse(ranking)
+
+tests/test_ranking_agreement.py:159: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ranking_agreement.py:65: in analyse
+    return RankingAgreementService().analyse(db, RankingAgreementRequest(**body))
+app/research/ranking_agreement.py:133: in analyse
+    limits.add(self._receipt_limit(case.execution_metadata.model_dump(), before.provider))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+receipt = {'completion_status': None, 'finish_reason': None, 'input_tokens': None, 'latency_ms': 0.0, ...}
+provider = 'openrouter'
+
+    @staticmethod
+    def _receipt_limit(receipt, provider):
+        limit = receipt.get("requested_output_token_limit")
+        if (receipt.get("response_source") != provider
+            or type(receipt.get("request_attempts")) is not int or receipt["request_attempts"] < 1
+            or receipt.get("shared_source_run_id") or receipt.get("shared_source_response_id")):
+            raise ValueError("Use original model-call receipts, not reused or unverified responses.")
+        if type(limit) is not int or not 1 <= limit <= 8192:
+>           raise ValueError("Actual answer length limits are unknown. Rerun both suites with an explicit token budget.")
+E           ValueError: Actual answer length limits are unknown. Rerun both suites with an explicit token budget.
+
+app/research/ranking_agreement.py:205: ValueError
+_______________ test_route_is_read_only_and_does_not_call_target _______________
+
+ranking = (<Mock id='281473707565632'>, [namespace(id='before', memory_strategy='weak_first_hit', status='COMPLETED', provider='...': [{...}], 'question': 'What database now?', 'question_id': 'fixture-two', ...}], ...}, 'reference_run_id': 'before'})
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0xffffb49fa120>
+
+    def test_route_is_read_only_and_does_not_call_target(ranking,monkeypatch):
+        from fastapi.testclient import TestClient
+        from app.database.session import get_db
+        from app.main import app
+        from app.target_ai.providers import HttpTargetAIConnector
+        # Only simulated transport is used; no real credential or model call.
+        monkeypatch.setenv('OPENROUTER_API_KEY', 'synthetic-test-key')
+        monkeypatch.setattr(HttpTargetAIConnector,'_execute_provider',lambda *a:pytest.fail('unexpected target call'))
+        def supplied_db():
+            yield ranking[0]
+        app.dependency_overrides[get_db]=supplied_db
+        try:
+            with TestClient(app) as client:
+                result=client.post('/api/v1/research/benchmarks/longmemeval/ranking-agreement',json=ranking[3])
+>               assert result.status_code == 200
+E               assert 422 == 200
+E                +  where 422 = <Response [422 Unprocessable Entity]>.status_code
+
+tests/test_ranking_agreement.py:193: AssertionError
+_ test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons[requested_output_token_limit-512-length limits differ] _
+
+ranking = (<Mock id='281473704598400'>, [namespace(id='before', memory_strategy='weak_first_hit', status='COMPLETED', provider='...': [{...}], 'question': 'What database now?', 'question_id': 'fixture-two', ...}], ...}, 'reference_run_id': 'before'})
+field = 'requested_output_token_limit', value = 512
+match = 'length limits differ'
+
+    @pytest.mark.parametrize('field,value,match',[
+        ('requested_output_token_limit',None,'length limits are unknown'),
+        ('requested_output_token_limit',512,'length limits differ'),
+        ('response_source','shared_saved_answer','original model-call receipts'),
+        ('request_attempts',0,'original model-call receipts'),
+        ('shared_source_response_id','earlier','original model-call receipts'),
+    ])
+    def test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons(ranking,field,value,match):
+        ranking[0].scalars.return_value.all.return_value[0].execution_metadata[field]=value
+>       with pytest.raises(ValueError,match=match):analyse(ranking)
+
+tests/test_ranking_agreement.py:234: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ranking_agreement.py:65: in analyse
+    return RankingAgreementService().analyse(db, RankingAgreementRequest(**body))
+app/research/ranking_agreement.py:133: in analyse
+    limits.add(self._receipt_limit(case.execution_metadata.model_dump(), before.provider))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+receipt = {'completion_status': None, 'finish_reason': None, 'input_tokens': None, 'latency_ms': 0.0, ...}
+provider = 'openrouter'
+
+    @staticmethod
+    def _receipt_limit(receipt, provider):
+        limit = receipt.get("requested_output_token_limit")
+        if (receipt.get("response_source") != provider
+            or type(receipt.get("request_attempts")) is not int or receipt["request_attempts"] < 1
+            or receipt.get("shared_source_run_id") or receipt.get("shared_source_response_id")):
+            raise ValueError("Use original model-call receipts, not reused or unverified responses.")
+        if type(limit) is not int or not 1 <= limit <= 8192:
+>           raise ValueError("Actual answer length limits are unknown. Rerun both suites with an explicit token budget.")
+E           ValueError: Actual answer length limits are unknown. Rerun both suites with an explicit token budget.
+
+app/research/ranking_agreement.py:205: ValueError
+
+During handling of the above exception, another exception occurred:
+
+ranking = (<Mock id='281473704598400'>, [namespace(id='before', memory_strategy='weak_first_hit', status='COMPLETED', provider='...': [{...}], 'question': 'What database now?', 'question_id': 'fixture-two', ...}], ...}, 'reference_run_id': 'before'})
+field = 'requested_output_token_limit', value = 512
+match = 'length limits differ'
+
+    @pytest.mark.parametrize('field,value,match',[
+        ('requested_output_token_limit',None,'length limits are unknown'),
+        ('requested_output_token_limit',512,'length limits differ'),
+        ('response_source','shared_saved_answer','original model-call receipts'),
+        ('request_attempts',0,'original model-call receipts'),
+        ('shared_source_response_id','earlier','original model-call receipts'),
+    ])
+    def test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons(ranking,field,value,match):
+        ranking[0].scalars.return_value.all.return_value[0].execution_metadata[field]=value
+>       with pytest.raises(ValueError,match=match):analyse(ranking)
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'length limits differ'
+E        Input: 'Actual answer length limits are unknown. Rerun both suites with an explicit token budget.'
+
+tests/test_ranking_agreement.py:234: AssertionError
+_ test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons[response_source-shared_saved_answer-original model-call receipts] _
+
+ranking = (<Mock id='281473724440768'>, [namespace(id='before', memory_strategy='weak_first_hit', status='COMPLETED', provider='...': [{...}], 'question': 'What database now?', 'question_id': 'fixture-two', ...}], ...}, 'reference_run_id': 'before'})
+field = 'response_source', value = 'shared_saved_answer'
+match = 'original model-call receipts'
+
+    @pytest.mark.parametrize('field,value,match',[
+        ('requested_output_token_limit',None,'length limits are unknown'),
+        ('requested_output_token_limit',512,'length limits differ'),
+        ('response_source','shared_saved_answer','original model-call receipts'),
+        ('request_attempts',0,'original model-call receipts'),
+        ('shared_source_response_id','earlier','original model-call receipts'),
+    ])
+    def test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons(ranking,field,value,match):
+        ranking[0].scalars.return_value.all.return_value[0].execution_metadata[field]=value
+>       with pytest.raises(ValueError,match=match):analyse(ranking)
+
+tests/test_ranking_agreement.py:234: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ranking_agreement.py:65: in analyse
+    return RankingAgreementService().analyse(db, RankingAgreementRequest(**body))
+app/research/ranking_agreement.py:133: in analyse
+    limits.add(self._receipt_limit(case.execution_metadata.model_dump(), before.provider))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+receipt = {'completion_status': None, 'finish_reason': None, 'input_tokens': None, 'latency_ms': 0.0, ...}
+provider = 'openrouter'
+
+    @staticmethod
+    def _receipt_limit(receipt, provider):
+        limit = receipt.get("requested_output_token_limit")
+        if (receipt.get("response_source") != provider
+            or type(receipt.get("request_attempts")) is not int or receipt["request_attempts"] < 1
+            or receipt.get("shared_source_run_id") or receipt.get("shared_source_response_id")):
+            raise ValueError("Use original model-call receipts, not reused or unverified responses.")
+        if type(limit) is not int or not 1 <= limit <= 8192:
+>           raise ValueError("Actual answer length limits are unknown. Rerun both suites with an explicit token budget.")
+E           ValueError: Actual answer length limits are unknown. Rerun both suites with an explicit token budget.
+
+app/research/ranking_agreement.py:205: ValueError
+
+During handling of the above exception, another exception occurred:
+
+ranking = (<Mock id='281473724440768'>, [namespace(id='before', memory_strategy='weak_first_hit', status='COMPLETED', provider='...': [{...}], 'question': 'What database now?', 'question_id': 'fixture-two', ...}], ...}, 'reference_run_id': 'before'})
+field = 'response_source', value = 'shared_saved_answer'
+match = 'original model-call receipts'
+
+    @pytest.mark.parametrize('field,value,match',[
+        ('requested_output_token_limit',None,'length limits are unknown'),
+        ('requested_output_token_limit',512,'length limits differ'),
+        ('response_source','shared_saved_answer','original model-call receipts'),
+        ('request_attempts',0,'original model-call receipts'),
+        ('shared_source_response_id','earlier','original model-call receipts'),
+    ])
+    def test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons(ranking,field,value,match):
+        ranking[0].scalars.return_value.all.return_value[0].execution_metadata[field]=value
+>       with pytest.raises(ValueError,match=match):analyse(ranking)
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'original model-call receipts'
+E        Input: 'Actual answer length limits are unknown. Rerun both suites with an explicit token budget.'
+
+tests/test_ranking_agreement.py:234: AssertionError
+_ test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons[request_attempts-0-original model-call receipts] _
+
+ranking = (<Mock id='281473705981232'>, [namespace(id='before', memory_strategy='weak_first_hit', status='COMPLETED', provider='...': [{...}], 'question': 'What database now?', 'question_id': 'fixture-two', ...}], ...}, 'reference_run_id': 'before'})
+field = 'request_attempts', value = 0, match = 'original model-call receipts'
+
+    @pytest.mark.parametrize('field,value,match',[
+        ('requested_output_token_limit',None,'length limits are unknown'),
+        ('requested_output_token_limit',512,'length limits differ'),
+        ('response_source','shared_saved_answer','original model-call receipts'),
+        ('request_attempts',0,'original model-call receipts'),
+        ('shared_source_response_id','earlier','original model-call receipts'),
+    ])
+    def test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons(ranking,field,value,match):
+        ranking[0].scalars.return_value.all.return_value[0].execution_metadata[field]=value
+>       with pytest.raises(ValueError,match=match):analyse(ranking)
+
+tests/test_ranking_agreement.py:234: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ranking_agreement.py:65: in analyse
+    return RankingAgreementService().analyse(db, RankingAgreementRequest(**body))
+app/research/ranking_agreement.py:133: in analyse
+    limits.add(self._receipt_limit(case.execution_metadata.model_dump(), before.provider))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+receipt = {'completion_status': None, 'finish_reason': None, 'input_tokens': None, 'latency_ms': 0.0, ...}
+provider = 'openrouter'
+
+    @staticmethod
+    def _receipt_limit(receipt, provider):
+        limit = receipt.get("requested_output_token_limit")
+        if (receipt.get("response_source") != provider
+            or type(receipt.get("request_attempts")) is not int or receipt["request_attempts"] < 1
+            or receipt.get("shared_source_run_id") or receipt.get("shared_source_response_id")):
+            raise ValueError("Use original model-call receipts, not reused or unverified responses.")
+        if type(limit) is not int or not 1 <= limit <= 8192:
+>           raise ValueError("Actual answer length limits are unknown. Rerun both suites with an explicit token budget.")
+E           ValueError: Actual answer length limits are unknown. Rerun both suites with an explicit token budget.
+
+app/research/ranking_agreement.py:205: ValueError
+
+During handling of the above exception, another exception occurred:
+
+ranking = (<Mock id='281473705981232'>, [namespace(id='before', memory_strategy='weak_first_hit', status='COMPLETED', provider='...': [{...}], 'question': 'What database now?', 'question_id': 'fixture-two', ...}], ...}, 'reference_run_id': 'before'})
+field = 'request_attempts', value = 0, match = 'original model-call receipts'
+
+    @pytest.mark.parametrize('field,value,match',[
+        ('requested_output_token_limit',None,'length limits are unknown'),
+        ('requested_output_token_limit',512,'length limits differ'),
+        ('response_source','shared_saved_answer','original model-call receipts'),
+        ('request_attempts',0,'original model-call receipts'),
+        ('shared_source_response_id','earlier','original model-call receipts'),
+    ])
+    def test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons(ranking,field,value,match):
+        ranking[0].scalars.return_value.all.return_value[0].execution_metadata[field]=value
+>       with pytest.raises(ValueError,match=match):analyse(ranking)
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'original model-call receipts'
+E        Input: 'Actual answer length limits are unknown. Rerun both suites with an explicit token budget.'
+
+tests/test_ranking_agreement.py:234: AssertionError
+_ test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons[shared_source_response_id-earlier-original model-call receipts] _
+
+ranking = (<Mock id='281473708768096'>, [namespace(id='before', memory_strategy='weak_first_hit', status='COMPLETED', provider='...': [{...}], 'question': 'What database now?', 'question_id': 'fixture-two', ...}], ...}, 'reference_run_id': 'before'})
+field = 'shared_source_response_id', value = 'earlier'
+match = 'original model-call receipts'
+
+    @pytest.mark.parametrize('field,value,match',[
+        ('requested_output_token_limit',None,'length limits are unknown'),
+        ('requested_output_token_limit',512,'length limits differ'),
+        ('response_source','shared_saved_answer','original model-call receipts'),
+        ('request_attempts',0,'original model-call receipts'),
+        ('shared_source_response_id','earlier','original model-call receipts'),
+    ])
+    def test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons(ranking,field,value,match):
+        ranking[0].scalars.return_value.all.return_value[0].execution_metadata[field]=value
+>       with pytest.raises(ValueError,match=match):analyse(ranking)
+
+tests/test_ranking_agreement.py:234: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ranking_agreement.py:65: in analyse
+    return RankingAgreementService().analyse(db, RankingAgreementRequest(**body))
+app/research/ranking_agreement.py:133: in analyse
+    limits.add(self._receipt_limit(case.execution_metadata.model_dump(), before.provider))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+receipt = {'completion_status': None, 'finish_reason': None, 'input_tokens': None, 'latency_ms': 0.0, ...}
+provider = 'openrouter'
+
+    @staticmethod
+    def _receipt_limit(receipt, provider):
+        limit = receipt.get("requested_output_token_limit")
+        if (receipt.get("response_source") != provider
+            or type(receipt.get("request_attempts")) is not int or receipt["request_attempts"] < 1
+            or receipt.get("shared_source_run_id") or receipt.get("shared_source_response_id")):
+            raise ValueError("Use original model-call receipts, not reused or unverified responses.")
+        if type(limit) is not int or not 1 <= limit <= 8192:
+>           raise ValueError("Actual answer length limits are unknown. Rerun both suites with an explicit token budget.")
+E           ValueError: Actual answer length limits are unknown. Rerun both suites with an explicit token budget.
+
+app/research/ranking_agreement.py:205: ValueError
+
+During handling of the above exception, another exception occurred:
+
+ranking = (<Mock id='281473708768096'>, [namespace(id='before', memory_strategy='weak_first_hit', status='COMPLETED', provider='...': [{...}], 'question': 'What database now?', 'question_id': 'fixture-two', ...}], ...}, 'reference_run_id': 'before'})
+field = 'shared_source_response_id', value = 'earlier'
+match = 'original model-call receipts'
+
+    @pytest.mark.parametrize('field,value,match',[
+        ('requested_output_token_limit',None,'length limits are unknown'),
+        ('requested_output_token_limit',512,'length limits differ'),
+        ('response_source','shared_saved_answer','original model-call receipts'),
+        ('request_attempts',0,'original model-call receipts'),
+        ('shared_source_response_id','earlier','original model-call receipts'),
+    ])
+    def test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons(ranking,field,value,match):
+        ranking[0].scalars.return_value.all.return_value[0].execution_metadata[field]=value
+>       with pytest.raises(ValueError,match=match):analyse(ranking)
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'original model-call receipts'
+E        Input: 'Actual answer length limits are unknown. Rerun both suites with an explicit token budget.'
+
+tests/test_ranking_agreement.py:234: AssertionError
+_______ test_changed_actual_reply_model_cannot_be_hidden_by_run_settings _______
+
+ranking = (<Mock id='281473717639392'>, [namespace(id='before', memory_strategy='weak_first_hit', status='COMPLETED', provider='...': [{...}], 'question': 'What database now?', 'question_id': 'fixture-two', ...}], ...}, 'reference_run_id': 'before'})
+
+    def test_changed_actual_reply_model_cannot_be_hidden_by_run_settings(ranking):
+        ranking[0].scalars.return_value.all.return_value[0].model='different-model'
+>       with pytest.raises(ValueError,match='saved answer used different model'):analyse(ranking)
+
+tests/test_ranking_agreement.py:239: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_ranking_agreement.py:65: in analyse
+    return RankingAgreementService().analyse(db, RankingAgreementRequest(**body))
+app/research/ranking_agreement.py:133: in analyse
+    limits.add(self._receipt_limit(case.execution_metadata.model_dump(), before.provider))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+receipt = {'completion_status': None, 'finish_reason': None, 'input_tokens': None, 'latency_ms': 0.0, ...}
+provider = 'openrouter'
+
+    @staticmethod
+    def _receipt_limit(receipt, provider):
+        limit = receipt.get("requested_output_token_limit")
+        if (receipt.get("response_source") != provider
+            or type(receipt.get("request_attempts")) is not int or receipt["request_attempts"] < 1
+            or receipt.get("shared_source_run_id") or receipt.get("shared_source_response_id")):
+            raise ValueError("Use original model-call receipts, not reused or unverified responses.")
+        if type(limit) is not int or not 1 <= limit <= 8192:
+>           raise ValueError("Actual answer length limits are unknown. Rerun both suites with an explicit token budget.")
+E           ValueError: Actual answer length limits are unknown. Rerun both suites with an explicit token budget.
+
+app/research/ranking_agreement.py:205: ValueError
+
+During handling of the above exception, another exception occurred:
+
+ranking = (<Mock id='281473717639392'>, [namespace(id='before', memory_strategy='weak_first_hit', status='COMPLETED', provider='...': [{...}], 'question': 'What database now?', 'question_id': 'fixture-two', ...}], ...}, 'reference_run_id': 'before'})
+
+    def test_changed_actual_reply_model_cannot_be_hidden_by_run_settings(ranking):
+        ranking[0].scalars.return_value.all.return_value[0].model='different-model'
+>       with pytest.raises(ValueError,match='saved answer used different model'):analyse(ranking)
+E       AssertionError: Regex pattern did not match.
+E        Regex: 'saved answer used different model'
+E        Input: 'Actual answer length limits are unknown. Rerun both suites with an explicit token budget.'
+
+tests/test_ranking_agreement.py:239: AssertionError
+__ test_complete_repeats_report_agreement_equal_weight_scores_and_variability __
+
+repeats = (<Mock id='281473633647072'>, {'planned_trial_ids': ['trial-0', 'trial-1', 'trial-2'], 'trials': [{'comparison': {'can...'after': {'passed': False}, 'before': {'passed': False}, 'dimension': 'appropriate_use'}], 'setting_differences': []}})
+
+    def test_complete_repeats_report_agreement_equal_weight_scores_and_variability(repeats):
+        report = analyse(repeats)
+>       assert report.status == 'complete'
+E       AssertionError: assert 'partial' == 'complete'
+E         
+E         - complete
+E         + partial
+
+tests/test_repeated_ranking_agreement.py:37: AssertionError
+_ test_reversed_trials_and_ties_are_not_hidden_in_the_directional_denominator __
+
+repeats = (<Mock id='281473634068208'>, {'planned_trial_ids': ['trial-0', 'trial-1', 'trial-2'], 'trials': [{'comparison': {'can...'after': {'passed': False}, 'before': {'passed': False}, 'dimension': 'appropriate_use'}], 'setting_differences': []}})
+
+    def test_reversed_trials_and_ties_are_not_hidden_in_the_directional_denominator(repeats):
+        second = repeats[2]['before-1']['paired_tests']
+        for index, pair in enumerate(second):
+            pair['before']['passed'] = index < 3
+            pair['after']['passed'] = index == 0
+        third = repeats[2]['before-2']['paired_tests']
+        for index, pair in enumerate(third):
+            pair['before']['passed'] = pair['after']['passed'] = index == 0
+        repeats[1]['trials'][2]['comparison']['candidate_benchmark']['rows'][1]['autoeval_label']['label'] = False
+        report = analyse(repeats)
+>       assert (report.consistent_trials, report.reversed_trials, report.both_tied_trials) == (1,1,1)
+E       assert (0, 0, 0) == (1, 1, 1)
+E         
+E         At index 0 diff: 0 != 1
+E         Use -v to get more diff
+
+tests/test_repeated_ranking_agreement.py:61: AssertionError
+_ test_missing_planned_trial_prevents_aggregate_claims_without_discarding_valid_reports _
+
+repeats = (<Mock id='281473702109904'>, {'planned_trial_ids': ['trial-0', 'trial-1', 'trial-2'], 'trials': [{'comparison': {'can...'after': {'passed': False}, 'before': {'passed': False}, 'dimension': 'appropriate_use'}], 'setting_differences': []}})
+
+    def test_missing_planned_trial_prevents_aggregate_claims_without_discarding_valid_reports(repeats):
+        repeats[1]['trials'].pop()
+        report = analyse(repeats)
+        assert report.status == 'partial'
+>       assert (report.measured_trials, report.missing_trials) == (2,1)
+E       assert (0, 1) == (2, 1)
+E         
+E         At index 0 diff: 0 != 2
+E         Use -v to get more diff
+
+tests/test_repeated_ranking_agreement.py:72: AssertionError
+__________ test_invalid_planned_trial_keeps_error_and_source_run_ids ___________
+
+repeats = (<Mock id='281473622163776'>, {'planned_trial_ids': ['trial-0', 'trial-1', 'trial-2'], 'trials': [{'comparison': {'can...'after': {'passed': False}, 'before': {'passed': False}, 'dimension': 'appropriate_use'}], 'setting_differences': []}})
+
+    def test_invalid_planned_trial_keeps_error_and_source_run_ids(repeats):
+        repeats[1]['trials'][1]['comparison']['candidate_benchmark']['rows'].pop()
+        report = analyse(repeats)
+>       assert report.status == 'partial' and report.invalid_trials == 1
+E       AssertionError: assert ('partial' == 'partial'
+E         
+E           partial and 3 == 1)
+E        +  where 3 = RepeatedRankingReport(version='repeated-bound-policy-ranking-v1', status='partial', planned_trial_ids=['trial-0', 'tri...sentative LongMemEval subset remain required. This analysis creates no model calls, database records or human labels.').invalid_trials
+
+tests/test_repeated_ranking_agreement.py:82: AssertionError
+___ test_repeats_with_different_frozen_inputs_cannot_be_combined[evaluator] ____
+
+repeats = (<Mock id='281473621210752'>, {'planned_trial_ids': ['trial-0', 'trial-1', 'trial-2'], 'trials': [{'comparison': {'can...'after': {'passed': False}, 'before': {'passed': False}, 'dimension': 'appropriate_use'}], 'setting_differences': []}})
+change = 'evaluator'
+
+    @pytest.mark.parametrize('change', ['evaluator', 'audit_suite', 'benchmark_settings'])
+    def test_repeats_with_different_frozen_inputs_cannot_be_combined(repeats, change):
+        if change == 'audit_suite':
+            repeats[2]['before-1']['paired_tests'][0]['prompt'] = 'A different frozen question.'
+        else:
+            for side in ('reference_benchmark','candidate_benchmark'):
+                item = repeats[1]['trials'][1]['comparison'][side]
+                if change == 'evaluator':
+                    item['evaluator_revision'] = '1'*40
+                else:
+                    item['evidence']['configuration_fingerprint_sha256'] = '1'*64
+        report = analyse(repeats)
+>       assert report.invalid_trials == 1
+E       AssertionError: assert 3 == 1
+E        +  where 3 = RepeatedRankingReport(version='repeated-bound-policy-ranking-v1', status='partial', planned_trial_ids=['trial-0', 'tri...sentative LongMemEval subset remain required. This analysis creates no model calls, database records or human labels.').invalid_trials
+
+tests/test_repeated_ranking_agreement.py:101: AssertionError
+__ test_repeats_with_different_frozen_inputs_cannot_be_combined[audit_suite] ___
+
+repeats = (<Mock id='281473702542944'>, {'planned_trial_ids': ['trial-0', 'trial-1', 'trial-2'], 'trials': [{'comparison': {'can...'after': {'passed': False}, 'before': {'passed': False}, 'dimension': 'appropriate_use'}], 'setting_differences': []}})
+change = 'audit_suite'
+
+    @pytest.mark.parametrize('change', ['evaluator', 'audit_suite', 'benchmark_settings'])
+    def test_repeats_with_different_frozen_inputs_cannot_be_combined(repeats, change):
+        if change == 'audit_suite':
+            repeats[2]['before-1']['paired_tests'][0]['prompt'] = 'A different frozen question.'
+        else:
+            for side in ('reference_benchmark','candidate_benchmark'):
+                item = repeats[1]['trials'][1]['comparison'][side]
+                if change == 'evaluator':
+                    item['evaluator_revision'] = '1'*40
+                else:
+                    item['evidence']['configuration_fingerprint_sha256'] = '1'*64
+        report = analyse(repeats)
+>       assert report.invalid_trials == 1
+E       AssertionError: assert 3 == 1
+E        +  where 3 = RepeatedRankingReport(version='repeated-bound-policy-ranking-v1', status='partial', planned_trial_ids=['trial-0', 'tri...sentative LongMemEval subset remain required. This analysis creates no model calls, database records or human labels.').invalid_trials
+
+tests/test_repeated_ranking_agreement.py:101: AssertionError
+_ test_repeats_with_different_frozen_inputs_cannot_be_combined[benchmark_settings] _
+
+repeats = (<Mock id='281473722177664'>, {'planned_trial_ids': ['trial-0', 'trial-1', 'trial-2'], 'trials': [{'comparison': {'can...'after': {'passed': False}, 'before': {'passed': False}, 'dimension': 'appropriate_use'}], 'setting_differences': []}})
+change = 'benchmark_settings'
+
+    @pytest.mark.parametrize('change', ['evaluator', 'audit_suite', 'benchmark_settings'])
+    def test_repeats_with_different_frozen_inputs_cannot_be_combined(repeats, change):
+        if change == 'audit_suite':
+            repeats[2]['before-1']['paired_tests'][0]['prompt'] = 'A different frozen question.'
+        else:
+            for side in ('reference_benchmark','candidate_benchmark'):
+                item = repeats[1]['trials'][1]['comparison'][side]
+                if change == 'evaluator':
+                    item['evaluator_revision'] = '1'*40
+                else:
+                    item['evidence']['configuration_fingerprint_sha256'] = '1'*64
+        report = analyse(repeats)
+>       assert report.invalid_trials == 1
+E       AssertionError: assert 3 == 1
+E        +  where 3 = RepeatedRankingReport(version='repeated-bound-policy-ranking-v1', status='partial', planned_trial_ids=['trial-0', 'tri...sentative LongMemEval subset remain required. This analysis creates no model calls, database records or human labels.').invalid_trials
+
+tests/test_repeated_ranking_agreement.py:101: AssertionError
+__ test_declared_plan_fingerprint_binds_execution_ids_but_not_outcome_labels ___
+
+repeats = (<Mock id='281473623867760'>, {'planned_trial_ids': ['trial-0', 'trial-1', 'trial-2'], 'trials': [{'comparison': {'can...'after': {'passed': False}, 'before': {'passed': False}, 'dimension': 'appropriate_use'}], 'setting_differences': []}})
+
+    def test_declared_plan_fingerprint_binds_execution_ids_but_not_outcome_labels(repeats):
+        original = analyse(repeats).plan_fingerprint_sha256
+        repeats[1]['trials'][1]['comparison']['candidate_benchmark']['rows'][1]['autoeval_label']['label'] = False
+        assert analyse(repeats).plan_fingerprint_sha256 == original
+        repeats[1]['trials'][1]['comparison']['reference_run_id'] = 'missing-run'
+        changed = analyse(repeats)
+>       assert changed.plan_fingerprint_sha256 != original and changed.invalid_trials == 1
+E       AssertionError: assert ('7e470be33989a93d5c120a01080695c024ecd4135b1db0752905fe1ac6501636' != '0cdc023adeb2742ac891bcdf8e63c0000446cb07968d363625e84a998575175e' and 3 == 1)
+E        +  where '7e470be33989a93d5c120a01080695c024ecd4135b1db0752905fe1ac6501636' = RepeatedRankingReport(version='repeated-bound-policy-ranking-v1', status='partial', planned_trial_ids=['trial-0', 'tri...sentative LongMemEval subset remain required. This analysis creates no model calls, database records or human labels.').plan_fingerprint_sha256
+E        +  and   3 = RepeatedRankingReport(version='repeated-bound-policy-ranking-v1', status='partial', planned_trial_ids=['trial-0', 'tri...sentative LongMemEval subset remain required. This analysis creates no model calls, database records or human labels.').invalid_trials
+
+tests/test_repeated_ranking_agreement.py:111: AssertionError
+_________________ test_all_unmeasured_trials_remain_unmeasured _________________
+
+repeats = (<Mock id='281473714939248'>, {'planned_trial_ids': ['trial-0', 'trial-1', 'trial-2'], 'trials': [{'comparison': {'can...on'}, {'after': {'passed': False}, 'before': {'passed': False}, 'dimension': 'accuracy'}], 'setting_differences': []}})
+
+    def test_all_unmeasured_trials_remain_unmeasured(repeats):
+        for comparison in repeats[2].values():
+            comparison['paired_tests'][-1]['dimension'] = 'accuracy'
+        report = analyse(repeats)
+>       assert report.unmeasured_trials == 3 and report.measured_trials == 0
+E       AssertionError: assert (0 == 3)
+E        +  where 0 = RepeatedRankingReport(version='repeated-bound-policy-ranking-v1', status='partial', planned_trial_ids=['trial-0', 'tri...sentative LongMemEval subset remain required. This analysis creates no model calls, database records or human labels.').unmeasured_trials
+
+tests/test_repeated_ranking_agreement.py:118: AssertionError
+=============================== warnings summary ===============================
+../usr/local/lib/python3.12/site-packages/starlette/testclient.py:40
+  /usr/local/lib/python3.12/site-packages/starlette/testclient.py:40: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = typing.Callable[[], typing.ContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_mem0_shared_reader.py::test_native_same_reader_and_gold_isolation
+FAILED tests/test_mem0_shared_reader.py::test_native_repairs_share_snapshot_and_do_not_change_extraction_or_gold
+FAILED tests/test_ranking_agreement.py::test_relative_ordering_binds_exact_semantic_files_and_creates_no_records
+FAILED tests/test_ranking_agreement.py::test_ordering_and_ties_are_distinct[2-1-consistent]
+FAILED tests/test_ranking_agreement.py::test_ordering_and_ties_are_distinct[0-1-reversed]
+FAILED tests/test_ranking_agreement.py::test_ordering_and_ties_are_distinct[1-1-inconclusive_tie]
+FAILED tests/test_ranking_agreement.py::test_ordering_and_ties_are_distinct[1-0-both_tied]
+FAILED tests/test_ranking_agreement.py::test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-Complete semantic]
+FAILED tests/test_ranking_agreement.py::test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-exact saved reply]
+FAILED tests/test_ranking_agreement.py::test_missing_or_changed_evidence_cannot_establish_agreement[<lambda>-same semantic evaluator]
+FAILED tests/test_ranking_agreement.py::test_missing_auditor_dimension_is_unmeasured_and_cannot_establish_agreement
+FAILED tests/test_ranking_agreement.py::test_route_is_read_only_and_does_not_call_target
+FAILED tests/test_ranking_agreement.py::test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons[requested_output_token_limit-512-length limits differ]
+FAILED tests/test_ranking_agreement.py::test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons[response_source-shared_saved_answer-original model-call receipts]
+FAILED tests/test_ranking_agreement.py::test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons[request_attempts-0-original model-call receipts]
+FAILED tests/test_ranking_agreement.py::test_actual_receipts_prevent_unknown_budget_or_reused_reply_comparisons[shared_source_response_id-earlier-original model-call receipts]
+FAILED tests/test_ranking_agreement.py::test_changed_actual_reply_model_cannot_be_hidden_by_run_settings
+FAILED tests/test_repeated_ranking_agreement.py::test_complete_repeats_report_agreement_equal_weight_scores_and_variability
+FAILED tests/test_repeated_ranking_agreement.py::test_reversed_trials_and_ties_are_not_hidden_in_the_directional_denominator
+FAILED tests/test_repeated_ranking_agreement.py::test_missing_planned_trial_prevents_aggregate_claims_without_discarding_valid_reports
+FAILED tests/test_repeated_ranking_agreement.py::test_invalid_planned_trial_keeps_error_and_source_run_ids
+FAILED tests/test_repeated_ranking_agreement.py::test_repeats_with_different_frozen_inputs_cannot_be_combined[evaluator]
+FAILED tests/test_repeated_ranking_agreement.py::test_repeats_with_different_frozen_inputs_cannot_be_combined[audit_suite]
+FAILED tests/test_repeated_ranking_agreement.py::test_repeats_with_different_frozen_inputs_cannot_be_combined[benchmark_settings]
+FAILED tests/test_repeated_ranking_agreement.py::test_declared_plan_fingerprint_binds_execution_ids_but_not_outcome_labels
+FAILED tests/test_repeated_ranking_agreement.py::test_all_unmeasured_trials_remain_unmeasured
+26 failed, 58 passed, 1 warning in 14.41s

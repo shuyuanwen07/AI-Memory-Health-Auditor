@@ -1,0 +1,10 @@
+{
+  "scope": "synthetic_engineering_artifact_preservation_only",
+  "research_evidence": false,
+  "backend_files_matching_previous_test_manifest": 224,
+  "snapshot_sha256": "8d50ea1412ace7f051b00ec7b125630f0ff31ffde4328c223fc94b385dc0f170",
+  "zip_sha256": "3055e5a541a06c234c30dddfc495936cd42dbba3275927ef2408f311c8888400",
+  "original_status": "partial_diagnostic_failure",
+  "strict_full_workflow_verification": "not rerun for this partial trial",
+  "operational_cap_4096_full_workflow": "not yet measured; separate diagnostic probe completed"
+}

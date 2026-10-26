@@ -1,0 +1,358 @@
+
+> memory-health-auditor-frontend@0.1.0 test
+> vitest run --pool=forks --maxWorkers=2
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv5.0.1 [39m[90m/app[39m
+
+ [32m✓[39m src/components/ValidationWorkbench.test.tsx [2m([22m[2m22 tests[22m[2m)[22m[33m 40286[2mms[22m[39m
+   [33m[2m✓[22m[39m requires review of the rule-generated fixed-template draft before freezing and generating Experiment A[33m 8321[2mms[22m[39m
+   [33m[2m✓[22m[39m shows the post-run model synthesis with its evidence limits and model identity[33m 1798[2mms[22m[39m
+   [33m[2m✓[22m[39m reviews the answer as well as excluded history without silently selecting a repair[33m 973[2mms[22m[39m
+   [33m[2m✓[22m[39m distinguishes selected-but-unsupplied facts from retrieval gaps[33m 756[2mms[22m[39m
+   [33m[2m✓[22m[39m shows review-first advice and preserves existing target instructions and strategy[33m 724[2mms[22m[39m
+   [33m[2m✓[22m[39m requires a repair rationale and sends general settings separately from test answers[33m 3654[2mms[22m[39m
+   [33m[2m✓[22m[39m restores completed conditions and displays pending frozen questions without regeneration[33m 475[2mms[22m[39m
+   [33m[2m✓[22m[39m a restored single-condition follow-up never offers a self-comparison[33m 371[2mms[22m[39m
+   [33m[2m✓[22m[39m separates source overlap from fact correspondence and exposes the recorded text[33m 765[2mms[22m[39m
+   [33m[2m✓[22m[39m shows answer-time eviction and allows an explicit candidate-only capacity repair[33m 5613[2mms[22m[39m
+   [33m[2m✓[22m[39m recovers failed history loading without resetting the diagnosis or edited repair[33m 2563[2mms[22m[39m
+   [33m[2m✓[22m[39m labels an intentional no-memory outcome and retains the reference configuration[33m 418[2mms[22m[39m
+   [33m[2m✓[22m[39m separates saved answers from recorded retries and preserves unknown attempt evidence[33m 1985[2mms[22m[39m
+   [33m[2m✓[22m[39m requires a researcher mapping for every saved method response and freezes its release[33m 5404[2mms[22m[39m
+   [33m[2m✓[22m[39m compares every saved repair condition without new execution or hiding the generic control[33m 1913[2mms[22m[39m
+   [33m[2m✓[22m[39m searches reviewed histories by visible scenario text rather than internal identifiers[33m 1275[2mms[22m[39m
+   [33m[2m✓[22m[39m restores saved target answers for scoring without running the target again[33m 652[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps the visible suite bound to its run when another suite fails to load[33m 685[2mms[22m[39m
+   [33m[2m✓[22m[39m shows question-saving progress without implying model execution and recovers after failure[33m 972[2mms[22m[39m
+   [33m[2m✓[22m[39m shows execution progress only while running and restores controls on execution failure[33m 708[2mms[22m[39m
+ [32m✓[39m src/pages/NewAudit.workflow.test.tsx [2m([22m[2m32 tests[22m[2m)[22m[33m 96906[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps pasted drafts out of browser storage until consent and clears them when consent is withdrawn[33m 1692[2mms[22m[39m
+   [33m[2m✓[22m[39m configured OpenRouter defaults to three methods with two reviewed suites and a saved comparison[33m 5211[2mms[22m[39m
+   [33m[2m✓[22m[39m defaults internal Agents to the shared OpenRouter model and freezes its use[33m 2198[2mms[22m[39m
+   [33m[2m✓[22m[39m explains Agents and ground truth at setup without changing the workflow labels[33m 1527[2mms[22m[39m
+   [33m[2m✓[22m[39m completes the local audit workflow from consent through reviewed results and target trace[33m 2576[2mms[22m[39m
+   [33m[2m✓[22m[39m cancelling a running comparison stops the browser queue before its next condition[33m 4376[2mms[22m[39m
+   [33m[2m✓[22m[39m selects local Qwen as the shared Agent before extracting and freezes it for the audit[33m 3022[2mms[22m[39m
+   [33m[2m✓[22m[39m lost experiment response retries the frozen request identity before any model calls[33m 1744[2mms[22m[39m
+   [33m[2m✓[22m[39m partial comparison retries only the unknown condition with its original key[33m 2519[2mms[22m[39m
+   [33m[2m✓[22m[39m compares unique models on one service with identical frozen settings and distinct labels[33m 6686[2mms[22m[39m
+   [33m[2m✓[22m[39m blocks empty model selections, caps the picker at eight and keeps rule identity fixed[33m 26038[2mms[22m[39m
+   [33m[2m✓[22m[39m uses one selected shared Agent model for extraction and audit preparation[33m 4154[2mms[22m[39m
+   [33m[2m✓[22m[39m one recovery action finishes durable stages for every interrupted comparison condition[33m 3626[2mms[22m[39m
+   [33m[2m✓[22m[39m an interrupted single audit exposes recovery and checks a live stage without executing again[33m 2890[2mms[22m[39m
+   [33m[2m✓[22m[39m refresh restores saved review decisions and full source without another extraction or creation[33m 1331[2mms[22m[39m
+   [33m[2m✓[22m[39m failed review recovery remains retryable without creating new source data[33m 337[2mms[22m[39m
+   [33m[2m✓[22m[39m configuration survives refresh and configured cloud defaults cannot replace restored selections[33m 8165[2mms[22m[39m
+   [33m[2m✓[22m[39m an explicitly blank restored shared Agent model must not silently select a default model[33m 2082[2mms[22m[39m
+   [33m[2m✓[22m[39m three-method comparison uses the configured shared model for the AI review[33m 1917[2mms[22m[39m
+   [33m[2m✓[22m[39m lost conversation response survives refresh and replays the original submission identity and source[33m 926[2mms[22m[39m
+   [33m[2m✓[22m[39m interrupted extraction recovers a committed empty result without extracting or creating again[33m 589[2mms[22m[39m
+   [33m[2m✓[22m[39m unfinished extraction retries the frozen extractor rather than new cloud defaults[33m 782[2mms[22m[39m
+   [33m[2m✓[22m[39m service loading keeps the source editable but blocks submission until services are known[33m 500[2mms[22m[39m
+   [33m[2m✓[22m[39m service failed result offers a safe retry without submitting source or showing internal service names[33m 515[2mms[22m[39m
+   [33m[2m✓[22m[39m service empty result offers a safe retry without submitting source or showing internal service names[33m 800[2mms[22m[39m
+   [33m[2m✓[22m[39m retrying failed services preserves restored audit choices instead of applying cloud defaults[33m 1665[2mms[22m[39m
+   [33m[2m✓[22m[39m starts a separate audit from prepared questions without executing or cancelling saved records[33m 2062[2mms[22m[39m
+   [33m[2m✓[22m[39m a separate audit resets a structured writer when restoring default three-method comparison[33m 5396[2mms[22m[39m
+   [33m[2m✓[22m[39m opening an unfinished submission never calls extraction and starting new removes the old failure[33m 769[2mms[22m[39m
+   [33m[2m✓[22m[39m unfinished openrouter submission can explicitly switch to Luna while preserving its saved source and identity[33m 371[2mms[22m[39m
+   [33m[2m✓[22m[39m unfinished ollama submission can explicitly switch to Luna while preserving its saved source and identity[33m 303[2mms[22m[39m
+[90mstderr[2m | src/components/ResearchValidation.test.tsx[2m > [22m[2mlegacy saved plans without success criteria cannot collect new formal results
+[22m[39mAn update to BenchmarkRankingAgreement inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to FrozenThresholdCheck inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+[90mstderr[2m | src/components/ResearchValidation.test.tsx[2m > [22m[2mlegacy saved plans without success criteria cannot collect new formal results
+[22m[39mAn update to FrozenThresholdCheck inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ [32m✓[39m src/pages/StaticPages.test.tsx [2m([22m[2m21 tests[22m[2m)[22m[33m 53041[2mms[22m[39m
+   [33m[2m✓[22m[39m filters history by text and strategy, while retaining frozen settings[33m 2675[2mms[22m[39m
+   [33m[2m✓[22m[39m shows a recovery plan and can resume an interrupted audit[33m 910[2mms[22m[39m
+   [33m[2m✓[22m[39m shows background progress instead of offering duplicate recovery[33m 566[2mms[22m[39m
+   [33m[2m✓[22m[39m loads reports for the visible page and retains usable groups when one report fails[33m 17345[2mms[22m[39m
+   [33m[2m✓[22m[39m can cancel an unfinished persisted experiment and reports export errors[33m 7527[2mms[22m[39m
+   [33m[2m✓[22m[39m explains equal scores without implying identical answers or general superiority[33m 1523[2mms[22m[39m
+   [33m[2m✓[22m[39m downloads the loaded answer report JSON, including passed answers with their run and test IDs[33m 3702[2mms[22m[39m
+   [33m[2m✓[22m[39m shows accessible passed and unassessed answer rows with source evidence disclosures[33m 2896[2mms[22m[39m
+   [33m[2m✓[22m[39m does not declare tied results with 0 excluded assessments when questions cannot be paired[33m 1522[2mms[22m[39m
+   [33m[2m✓[22m[39m does not declare tied results with 4 excluded assessments when questions cannot be paired[33m 1464[2mms[22m[39m
+   [33m[2m✓[22m[39m shows frozen prepared questions during recovery before requesting model answers[33m 1479[2mms[22m[39m
+   [33m[2m✓[22m[39m explains incompatible recovery before offering another engine request[33m 1311[2mms[22m[39m
+   [33m[2m✓[22m[39m successful partial recovery explains the saved stage without calling it an error[33m 1250[2mms[22m[39m
+   [33m[2m✓[22m[39m history identifies saved-answer reassessment and finds it by its friendly type[33m 746[2mms[22m[39m
+   [33m[2m✓[22m[39m single-setting results do not claim a comparison or all original context[33m 1899[2mms[22m[39m
+   [33m[2m✓[22m[39m multi-setting purpose does not infer fixed memory policies from the evaluator comparison flag[33m 2490[2mms[22m[39m
+   [33m[2m✓[22m[39m does not present a one-question confidence interval or conceal pending judgments[33m 3325[2mms[22m[39m
+ [32m✓[39m src/pages/AuditComparison.test.tsx [2m([22m[2m15 tests[22m[2m)[22m[33m 11140[2mms[22m[39m
+   [33m[2m✓[22m[39m distinguishes review methods for identical models and strategies and can search by method[33m 2489[2mms[22m[39m
+   [33m[2m✓[22m[39m shows before/after scores, paired delta, and repaired question evidence[33m 874[2mms[22m[39m
+   [33m[2m✓[22m[39m explains an empty outcome filter and can show all questions again[33m 912[2mms[22m[39m
+   [33m[2m✓[22m[39m searches saved audits without replacing the selected comparison[33m 1354[2mms[22m[39m
+   [33m[2m✓[22m[39m restores comparison selectors when navigating back in browser history[33m 958[2mms[22m[39m
+   [33m[2m✓[22m[39m opens a shareable presentation link and restores controls when exiting[33m 676[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps pending judgments visible in presentation cards and the main takeaway[33m 509[2mms[22m[39m
+   [33m[2m✓[22m[39m exact dimension changes use canonical paired answers, not different full-suite denominators[33m 666[2mms[22m[39m
+   [33m[2m✓[22m[39m saved-answer reassessment is labelled as changed assessment rather than memory improvement[33m 321[2mms[22m[39m
+   [33m[2m✓[22m[39m two reassessments retain distinct before and after selection labels[33m 416[2mms[22m[39m
+   [33m[2m✓[22m[39m distinguishes unchanged questions from comparable decided assessments[33m 456[2mms[22m[39m
+   [33m[2m✓[22m[39m reused-answer score changes never claim improved answers in the takeaway or chart[33m 681[2mms[22m[39m
+   [33m[2m✓[22m[39m different original executions rescored under one assessor are not called judgement-only changes[33m 448[2mms[22m[39m
+ [32m✓[39m src/components/EvaluationReview.test.tsx [2m([22m[2m19 tests[22m[2m)[22m[33m 15780[2mms[22m[39m
+   [33m[2m✓[22m[39m does not enable adjudication for reviewer aliases[33m 2546[2mms[22m[39m
+   [33m[2m✓[22m[39m does not enable adjudication for reviewer aliases[33m 865[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps automated verdict and summaries hidden in independent blind review mode[33m 589[2mms[22m[39m
+   [33m[2m✓[22m[39m uses the reviewer-selected failure dimension rather than the automated class[33m 659[2mms[22m[39m
+   [33m[2m✓[22m[39m shows recorded judge requests only outside blind mode and leaves historical cost unknown[33m 928[2mms[22m[39m
+   [33m[2m✓[22m[39m confirms a saved blind label without revealing the automated verdict[33m 1240[2mms[22m[39m
+   [33m[2m✓[22m[39m cannot collect an independent label on a report that exposed automated results[33m 632[2mms[22m[39m
+   [33m[2m✓[22m[39m requires an explicit independent failure class without exposing the test dimension as a heading[33m 1592[2mms[22m[39m
+   [33m[2m✓[22m[39m discards previous answers and reviewer decisions when switching audit records[33m 809[2mms[22m[39m
+   [33m[2m✓[22m[39m reference review displays complete original evidence once for passing and failing answers[33m 462[2mms[22m[39m
+   [33m[2m✓[22m[39m refreshes changed version before retrying a final decision[33m 1048[2mms[22m[39m
+   [33m[2m✓[22m[39m refreshes new reviewer before retrying a final decision[33m 1752[2mms[22m[39m
+   [33m[2m✓[22m[39m cannot return to independent review after automated evidence was revealed in this session[33m 650[2mms[22m[39m
+   [33m[2m✓[22m[39m locks the submitted reviewer, category and note while a label is being saved[33m 1348[2mms[22m[39m
+ [32m✓[39m src/pages/AuditorQuality.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[33m 5053[2mms[22m[39m
+   [33m[2m✓[22m[39m does not display fabricated reliability percentages without human labels[33m 1271[2mms[22m[39m
+   [33m[2m✓[22m[39m shows method errors and separates adjudicated references from ordinary references[33m 2342[2mms[22m[39m
+   [33m[2m✓[22m[39m refreshes saved review evidence on return and ignores older responses[33m 339[2mms[22m[39m
+   [33m[2m✓[22m[39m shows loading evidence and explains why reviewed uncertain answers cannot measure agreement[33m 475[2mms[22m[39m
+   [33m[2m✓[22m[39m shows excluded evidence separately without changing it into model failures[33m 354[2mms[22m[39m
+ [32m✓[39m src/components/ResearchValidation.test.tsx [2m([22m[2m36 tests[22m[2m)[22m[33m 281424[2mms[22m[39m
+   [33m[2m✓[22m[39m runs an authorised selected local benchmark and shows its results[33m 7463[2mms[22m[39m
+   [33m[2m✓[22m[39m analyses a pilot package and displays readiness, coverage and agreement[33m 4207[2mms[22m[39m
+   [33m[2m✓[22m[39m reference validation retains declared source without claiming human independence (AI-assisted synthetic engineering fixture)[33m 2352[2mms[22m[39m
+   [33m[2m✓[22m[39m reference validation retains declared source without claiming human independence (undefined)[33m 2368[2mms[22m[39m
+   [33m[2m✓[22m[39m creates an explicitly exploratory matrix without a frozen Experiment B plan[33m 7477[2mms[22m[39m
+   [33m[2m✓[22m[39m a rounded agreement score cannot hide a below-threshold formal gate[33m 7362[2mms[22m[39m
+   [33m[2m✓[22m[39m validates imported research labels and displays a consolidated chart for all four stages[33m 4598[2mms[22m[39m
+   [33m[2m✓[22m[39m requires a local source and consent before a benchmark can run[33m 2698[2mms[22m[39m
+   [33m[2m✓[22m[39m shows actual blank review coverage without exposing dataset hashes[33m 2867[2mms[22m[39m
+   [33m[2m✓[22m[39m shows missing and uncertain prediction coverage instead of implying complete assessment[33m 3281[2mms[22m[39m
+   [33m[2m✓[22m[39m creates two models under one selected memory strategy with identical frozen settings[33m 12010[2mms[22m[39m
+   [33m[2m✓[22m[39m formal Experiment B requires three repetitions for a local model provider[33m 34121[2mms[22m[39m
+   [33m[2m✓[22m[39m formal Experiment B also requires three runs for the deterministic baseline[33m 33043[2mms[22m[39m
+   [33m[2m✓[22m[39m resumes a formal matrix without executing completed or already answered conditions[33m 8904[2mms[22m[39m
+   [33m[2m✓[22m[39m recovers a lost execution reply without another target execution[33m 8749[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps cancelled formal conditions terminal and does not announce a complete matrix[33m 7170[2mms[22m[39m
+   [33m[2m✓[22m[39m restores only a safe matrix plan after remount and verifies saved completion[33m 7334[2mms[22m[39m
+   [33m[2m✓[22m[39m verifies the durable stage planner result after a failed condition is recovered[33m 7098[2mms[22m[39m
+   [33m[2m✓[22m[39m exports bound metrics intact and removes the export when inputs change[33m 4226[2mms[22m[39m
+   [33m[2m✓[22m[39m formal creation remains blocked when a ready pilot belongs to different dataset content[33m 5009[2mms[22m[39m
+   [33m[2m✓[22m[39m review receipt remains available when browser download does not produce a file[33m 2622[2mms[22m[39m
+   [33m[2m✓[22m[39m a late dataset validation cannot restore evidence after the source file changes[33m 3348[2mms[22m[39m
+   [33m[2m✓[22m[39m an invalid replacement file clears previously validated evidence[33m 4195[2mms[22m[39m
+   [33m[2m✓[22m[39m late pilot analysis cannot restore readiness after its package changes[33m 3357[2mms[22m[39m
+   [33m[2m✓[22m[39m changing benchmark family ignores a pending validation from the old family[33m 3742[2mms[22m[39m
+   [33m[2m✓[22m[39m invalid benchmark replacement revokes the old source and authorisation[33m 2630[2mms[22m[39m
+   [33m[2m✓[22m[39m changing benchmark strategy cannot restore a pending run for the old setting[33m 3861[2mms[22m[39m
+   [33m[2m✓[22m[39m formal creation requires explicit criteria and preserves the frozen receipt[33m 11382[2mms[22m[39m
+   [33m[2m✓[22m[39m legacy saved plans without success criteria cannot collect new formal results[33m 960[2mms[22m[39m
+   [33m[2m✓[22m[39m restores a server execution plan without files and locks running while recovery is pending[33m 3904[2mms[22m[39m
+   [33m[2m✓[22m[39m exploratory matrices retain bounded repeat counts and reject fractional or out-of-range input[33m 11129[2mms[22m[39m
+   [33m[2m✓[22m[39m exploratory matrices can optionally check a development split[33m 10920[2mms[22m[39m
+   [33m[2m✓[22m[39m analysis plan is blocked without a sampling rule and submitted before execution[33m 22165[2mms[22m[39m
+   [33m[2m✓[22m[39m research release requires storage confirmation and uses the dedicated formal route[33m 19225[2mms[22m[39m
+   [33m[2m✓[22m[39m research source files stay unread before permission and clear on revocation[33m 2701[2mms[22m[39m
+   [33m[2m✓[22m[39m permission revocation excludes a pending research validation response[33m 2929[2mms[22m[39m
+ [32m✓[39m src/components/BenchmarkRankingAgreement.test.tsx [2m([22m[2m5 tests[22m[2m)[22m[33m 6924[2mms[22m[39m
+   [33m[2m✓[22m[39m gates missing evidence, calls saved-result check and separates scores across suites[33m 2728[2mms[22m[39m
+   [33m[2m✓[22m[39m shows incompatible evidence errors without a ranking chart[33m 945[2mms[22m[39m
+   [33m[2m✓[22m[39m ignores a late ranking file read after source authorisation is revoked[33m 492[2mms[22m[39m
+   [33m[2m✓[22m[39m shows Auditor macro-average separately from pooled passed-answer counts[33m 1694[2mms[22m[39m
+   [33m[2m✓[22m[39m missing Auditor dimensions show no zero-score ranking[33m 1057[2mms[22m[39m
+ [32m✓[39m src/components/GroundTruthReview.test.tsx [2m([22m[2m11 tests[22m[2m)[22m[33m 7044[2mms[22m[39m
+   [33m[2m✓[22m[39m explains ground truth and Agent in plain language while preserving their technical labels[33m 775[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps confirmation unavailable until a memory is accepted or edited[33m 378[2mms[22m[39m
+   [33m[2m✓[22m[39m retains late qualifications in complete source text instead of silently truncating evidence[33m 529[2mms[22m[39m
+   [33m[2m✓[22m[39m adds a missing memory through an accessible inline form[33m 1171[2mms[22m[39m
+   [33m[2m✓[22m[39m requires a user source for a manually added fact and sends its identifier without displaying it[33m 1170[2mms[22m[39m
+   [33m[2m✓[22m[39m edits a candidate memory without using a browser prompt[33m 962[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps a missing-memory draft available after a rejected save[33m 528[2mms[22m[39m
+   [33m[2m✓[22m[39m shows a lost source restriction directly on the candidate card without deciding it for the reviewer[33m 1034[2mms[22m[39m
+ [32m✓[39m src/components/RepeatedBenchmarkRanking.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[33m 3738[2mms[22m[39m
+   [33m[2m✓[22m[39m preserves missing trials and exports the exact partial report without zero imputation[33m 1850[2mms[22m[39m
+   [33m[2m✓[22m[39m revoking source permission invalidates an in-flight file read[33m 518[2mms[22m[39m
+   [33m[2m✓[22m[39m shows complete repeat means with sample variability and all tie counts[33m 585[2mms[22m[39m
+   [33m[2m✓[22m[39m a frozen plan ID dispatches receipt-bound analysis and labels its provenance[33m 780[2mms[22m[39m
+ [32m✓[39m src/components/BenchmarkExecutionPlan.test.tsx [2m([22m[2m5 tests[22m[2m)[22m[33m 7642[2mms[22m[39m
+   [33m[2m✓[22m[39m requires processing and storage consent, freezes the plan and preserves downloadable original answers[33m 2774[2mms[22m[39m
+   [33m[2m✓[22m[39m restores server failure receipts without permitting a second dispatch[33m 1012[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps original evidence on screen when the status refresh fails[33m 1036[2mms[22m[39m
+   [33m[2m✓[22m[39m preserves earlier original answers when the next repeat finishes[33m 2564[2mms[22m[39m
+ [32m✓[39m src/components/BenchmarkSemanticReview.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[33m 6982[2mms[22m[39m
+   [33m[2m✓[22m[39m requires matching source evidence scores and declared revision, without starting model calls[33m 2700[2mms[22m[39m
+   [33m[2m✓[22m[39m reports complete pilot separately and invalidates stale report on edits[33m 1652[2mms[22m[39m
+   [33m[2m✓[22m[39m rejects malformed files and clears prior valid score file[33m 879[2mms[22m[39m
+   [33m[2m✓[22m[39m server rejects different saved reply and does not retain an old success report[33m 1104[2mms[22m[39m
+   [33m[2m✓[22m[39m revoking consent clears every imported file and disables all inputs[33m 468[2mms[22m[39m
+ [32m✓[39m src/components/LiveBenchmark.test.tsx [2m([22m[2m8 tests[22m[2m)[22m[33m 6541[2mms[22m[39m
+   [33m[2m✓[22m[39m counts shared native preparation once and keeps historical costs unknown[33m 2000[2mms[22m[39m
+   [33m[2m✓[22m[39m requires validated source and consent before actual model calls[33m 966[2mms[22m[39m
+   [33m[2m✓[22m[39m invalid source cannot start model calls[33m 428[2mms[22m[39m
+   [33m[2m✓[22m[39m ignores a late benchmark read and validation after source authorisation is revoked[33m 444[2mms[22m[39m
+   [33m[2m✓[22m[39m cancels pending execution and ignores a late response[33m 523[2mms[22m[39m
+   [33m[2m✓[22m[39m includes native condition only when selected and keeps controlled preparation unlabelled[33m 1400[2mms[22m[39m
+   [33m[2m✓[22m[39m requires one controlled reference for three native repair conditions[33m 601[2mms[22m[39m
+ [32m✓[39m src/components/BenchmarkSettings.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 6933[2mms[22m[39m
+   [33m[2m✓[22m[39m sends the audit default answer budget and removes stale scores when the budget changes[33m 5161[2mms[22m[39m
+   [33m[2m✓[22m[39m changing provider requires source authorisation again[33m 1769[2mms[22m[39m
+ [32m✓[39m src/components/TestSuiteReview.test.tsx [2m([22m[2m9 tests[22m[2m)[22m[33m 4905[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps unreviewed legacy questions pending and updates feedback after acceptance[33m 1251[2mms[22m[39m
+   [33m[2m✓[22m[39m accepts every question that has not yet been accepted with one action[33m 400[2mms[22m[39m
+   [33m[2m✓[22m[39m records a specific rejection reason without accepting a rejected question[33m 1213[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps Experiment A human validity separate and requires a researcher pseudonym[33m 1328[2mms[22m[39m
+ [32m✓[39m src/components/FrozenThresholdCheck.test.tsx [2m([22m[2m18 tests[22m[2m)[22m[33m 5652[2mms[22m[39m
+   [33m[2m✓[22m[39m reads saved thresholds and shows unmet and missing evidence without exposing internal ids[33m 964[2mms[22m[39m
+   [33m[2m✓[22m[39m changed evidence clears results and ignores a late server response[33m 319[2mms[22m[39m
+   [33m[2m✓[22m[39m restored replacement plan cannot submit the old experiment selection[33m 303[2mms[22m[39m
+   [33m[2m✓[22m[39m restores server experiments with no browser plan or uploaded files[33m 319[2mms[22m[39m
+   [33m[2m✓[22m[39m server pagination replaces the active selection and clamps a shrinking list[33m 334[2mms[22m[39m
+   [33m[2m✓[22m[39m same-model records created together still have distinct friendly choices[33m 591[2mms[22m[39m
+   [33m[2m✓[22m[39m cached repeated runs retain condition identity and select the exact round[33m 814[2mms[22m[39m
+ [32m✓[39m src/components/ResultDashboard.test.tsx [2m([22m[2m27 tests[22m[2m)[22m[33m 5710[2mms[22m[39m
+   [33m[2m✓[22m[39m explains untested dimensions and makes failure evidence inspectable[33m 892[2mms[22m[39m
+   [33m[2m✓[22m[39m dimension overview links work from the keyboard and land on failure and pending evidence[33m 942[2mms[22m[39m
+   [33m[2m✓[22m[39m CSV and JSON exports preserve every saved answer outcome and its source statement[33m 622[2mms[22m[39m
+   [33m[2m✓[22m[39m reports the save request accurately, handles export failure and does not carry feedback into another audit[33m 510[2mms[22m[39m
+   [33m[2m✓[22m[39m retrieval matching checks share one chart without presenting missing values as zero[33m 357[2mms[22m[39m
+ [32m✓[39m src/pages/AuditorComparison.test.tsx [2m([22m[2m7 tests[22m[2m)[22m[33m 10066[2mms[22m[39m
+   [33m[2m✓[22m[39m restores three methods from saved groups and distinguishes score charts from validity[33m 7358[2mms[22m[39m
+   [33m[2m✓[22m[39m does not treat same-named configurations without verified grouping as repeated samples[33m 1159[2mms[22m[39m
+   [33m[2m✓[22m[39m verified repeated runs retain one condition and measured variation[33m 986[2mms[22m[39m
+ [32m✓[39m src/components/ResearchValidityChart.test.tsx [2m([22m[2m7 tests[22m[2m)[22m[33m 2209[2mms[22m[39m
+   [33m[2m✓[22m[39m distinguishes genuine zero scores from missing observations in the chart alternative[33m 546[2mms[22m[39m
+   [33m[2m✓[22m[39m preserves confusion counts and negative kappa separately from percentage bars[33m 1108[2mms[22m[39m
+ [32m✓[39m src/pages/GeneratorComparison.test.tsx [2m([22m[2m8 tests[22m[2m)[22m[33m 2097[2mms[22m[39m
+   [33m[2m✓[22m[39m restores separate question progress without starting target calls or inventing candidate quality[33m 713[2mms[22m[39m
+ [32m✓[39m src/components/ModelPicker.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[33m 2175[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps the configured model and labels catalog availability states[33m 1136[2mms[22m[39m
+   [33m[2m✓[22m[39m checks only selected catalog models sequentially and shows the new status[33m 514[2mms[22m[39m
+ [32m✓[39m src/components/ConversationStep.test.tsx [2m([22m[2m15 tests[22m[2m)[22m[33m 4326[2mms[22m[39m
+   [33m[2m✓[22m[39m retains original offset provenance when importing an exported UTC message[33m 1016[2mms[22m[39m
+   [33m[2m✓[22m[39m lets the operator record synthetic source origin separately from research eligibility[33m 431[2mms[22m[39m
+   [33m[2m✓[22m[39m discards a late file read after edit[33m 477[2mms[22m[39m
+   [33m[2m✓[22m[39m discards a late file read after clear[33m 419[2mms[22m[39m
+ [32m✓[39m src/components/TargetMemoryTrace.test.tsx [2m([22m[2m8 tests[22m[2m)[22m[33m 2201[2mms[22m[39m
+   [33m[2m✓[22m[39m black-box target trace never claims an empty store or controlled capacity[33m 623[2mms[22m[39m
+   [33m[2m✓[22m[39m distinguishes retrieved candidates from final supplied memories and maps their real identities[33m 354[2mms[22m[39m
+   [33m[2m✓[22m[39m zero supplied memory explicitly warns that correctness cannot prove memory use[33m 320[2mms[22m[39m
+ [32m✓[39m src/components/MemoryCard.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[33m 3518[2mms[22m[39m
+   [33m[2m✓[22m[39m allows a candidate memory to be accepted[33m 953[2mms[22m[39m
+   [33m[2m✓[22m[39m waits for saving, shows the accepted decision, and allows undo[33m 429[2mms[22m[39m
+   [33m[2m✓[22m[39m edits source evidence using readable message labels while preserving API references[33m 693[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps edits available when saving fails[33m 921[2mms[22m[39m
+   [33m[2m✓[22m[39m sends an explicit empty timestamp when the user clears a recorded date[33m 375[2mms[22m[39m
+ [32m✓[39m src/components/ResultVisualizations.test.tsx [2m([22m[2m16 tests[22m[2m)[22m[33m 2453[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps different frozen conditions separate even when their display names match[33m 591[2mms[22m[39m
+   [33m[2m✓[22m[39m compact presentation leads with one grouped dimension chart and keeps supplemental charts expandable[33m 360[2mms[22m[39m
+ [32m✓[39m src/components/FormalStudySummary.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[33m 3720[2mms[22m[39m
+   [33m[2m✓[22m[39m shows histories rather than repeats, missing coverage and an accessible vertical chart[33m 1355[2mms[22m[39m
+   [33m[2m✓[22m[39m exports the current evidence-bound summary and removes export after plan changes[33m 1980[2mms[22m[39m
+ [32m✓[39m src/components/AccessBoundary.test.tsx [2m([22m[2m5 tests[22m[2m)[22m[33m 2060[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps private content unmounted until the server accepts the password[33m 1442[2mms[22m[39m
+ [32m✓[39m src/pages/AssessorComparison.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[33m 2850[2mms[22m[39m
+   [33m[2m✓[22m[39m restores database progress and hides internal identifiers without inventing missing scores[33m 710[2mms[22m[39m
+   [33m[2m✓[22m[39m resumes the failed evaluation stage and does not repeat a completed assessor[33m 516[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps persisted results inspectable when preparation cannot continue[33m 397[2mms[22m[39m
+   [33m[2m✓[22m[39m navigation discards late preparation results and stops the old queue[33m 780[2mms[22m[39m
+ [32m✓[39m src/components/TargetProfileEditor.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 3034[2mms[22m[39m
+   [32m✓[39m frozen target configuration editor [2m(2)[22m
+     [33m[2m✓[22m[39m edits instructions and scope as target settings without a reference-answer input[33m 2563[2mms[22m[39m
+     [33m[2m✓[22m[39m locks all configuration inputs while a run is being prepared[33m 468[2mms[22m[39m
+ [32m✓[39m src/pages/ExtractionComparison.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[33m 1648[2mms[22m[39m
+   [33m[2m✓[22m[39m restores outputs without calls or internal identities and separates unknown from zero[33m 802[2mms[22m[39m
+   [33m[2m✓[22m[39m software drift retains verified charts but blocks calls; input drift hides controlled charts[33m 401[2mms[22m[39m
+ [32m✓[39m src/components/SceneEvidenceVerification.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[33m 1976[2mms[22m[39m
+   [33m[2m✓[22m[39m checks a selected file and clearly distinguishes a server match[33m 924[2mms[22m[39m
+   [33m[2m✓[22m[39m invalid replacement removes the previous result and prevents submission[33m 426[2mms[22m[39m
+   [33m[2m✓[22m[39m missing plan and running execution prevent checking[33m 372[2mms[22m[39m
+ [32m✓[39m src/components/ReviewedMethodComparison.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[33m 2740[2mms[22m[39m
+   [33m[2m✓[22m[39m shows pending answers automatically and updates and restores the chart from saved human labels[33m 1876[2mms[22m[39m
+   [33m[2m✓[22m[39m requires a failure category and preserves pending answers if saving fails[33m 511[2mms[22m[39m
+   [33m[2m✓[22m[39m refreshes saved labels after returning from another page and ignores older loads[33m 345[2mms[22m[39m
+ [32m✓[39m src/components/ui/ui.test.tsx [2m([22m[2m5 tests[22m[2m)[22m[33m 2828[2mms[22m[39m
+   [33m[2m✓[22m[39m library dropdowns keep disabled choices blocked and preserve the selected value on submit[33m 1683[2mms[22m[39m
+   [33m[2m✓[22m[39m focused dropdowns support keyboard opening and dismissal without changing the choice[33m 473[2mms[22m[39m
+   [33m[2m✓[22m[39m a local JSON import can choose the same file again without automatic upload[33m 366[2mms[22m[39m
+ [32m✓[39m src/pages/AuditReportNavigation.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[33m 1652[2mms[22m[39m
+   [33m[2m✓[22m[39m a delayed previous report cannot replace the newly selected audit[33m 748[2mms[22m[39m
+   [33m[2m✓[22m[39m opens incomplete progress and resumes scoring into the saved report[33m 333[2mms[22m[39m
+ [32m✓[39m src/components/ExperimentStatistics.test.tsx [2m([22m[2m5 tests[22m[2m)[22m[33m 2226[2mms[22m[39m
+   [33m[2m✓[22m[39m explains when the selected comparison does not contain repeated runs[33m 983[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps awaiting answers visible in aggregated condition totals[33m 419[2mms[22m[39m
+   [33m[2m✓[22m[39m dimension details retain measured zeros without inventing pass or failure counts for missing decisions[33m 529[2mms[22m[39m
+ [32m✓[39m src/pages/Dashboard.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[33m 2255[2mms[22m[39m
+   [33m[2m✓[22m[39m workflow counts separate errors, unfinished stages and cancelled runs from model accuracy[33m 1087[2mms[22m[39m
+   [33m[2m✓[22m[39m failed loading does not display zero counts and retry reveals saved progress[33m 614[2mms[22m[39m
+ [32m✓[39m src/components/ComparisonVisualizations.test.tsx [2m([22m[2m7 tests[22m[2m)[22m[33m 2489[2mms[22m[39m
+   [33m[2m✓[22m[39m charts actual paired outcomes, including regressions, rather than full-suite improvement[33m 652[2mms[22m[39m
+   [33m[2m✓[22m[39m offers the exact export source if the browser cannot save a chart[33m 617[2mms[22m[39m
+   [33m[2m✓[22m[39m identical answers with recorded shared provenance retain the assessment-only explanation[33m 367[2mms[22m[39m
+   [33m[2m✓[22m[39m export preserves denominators, settings and comparison limits without copying source text[33m 464[2mms[22m[39m
+ [32m✓[39m src/components/JudgmentDifferences.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[33m 1315[2mms[22m[39m
+   [33m[2m✓[22m[39m shows original automated outcomes and explicitly distinguishes separate answers[33m 831[2mms[22m[39m
+   [33m[2m✓[22m[39m human reference labels do not rewrite the original distribution or imply independent accuracy[33m 474[2mms[22m[39m
+ [32m✓[39m src/components/SavedAnswerReassessment.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 1573[2mms[22m[39m
+   [33m[2m✓[22m[39m prepares a separate score and links to it without calling the target[33m 1089[2mms[22m[39m
+   [33m[2m✓[22m[39m existing completed reassessment is reopened without another assessment call[33m 304[2mms[22m[39m
+ [32m✓[39m src/components/GeneratorUsageCharts.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 778[2mms[22m[39m
+   [33m[2m✓[22m[39m shows generation effort separately with coverage and unknown rules usage[33m 641[2mms[22m[39m
+ [32m✓[39m src/components/PairedOutcomeOverview.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 620[2mms[22m[39m
+   [33m[2m✓[22m[39m shows compatible strategy changes without presenting incompatible judge comparisons as improvement[33m 539[2mms[22m[39m
+ [32m✓[39m src/components/PilotCoverageChart.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 358[2mms[22m[39m
+ [32m✓[39m src/components/InitialGenerationCharts.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 519[2mms[22m[39m
+   [33m[2m✓[22m[39m shows first-attempt checks and repair effort separately from saved acceptance[33m 425[2mms[22m[39m
+ [32m✓[39m src/components/CurrentModelPreset.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 762[2mms[22m[39m
+   [33m[2m✓[22m[39m preset waits for verified availability and chooses no failed or unchecked model[33m 655[2mms[22m[39m
+ [32m✓[39m src/components/StepIndicator.test.tsx [2m([22m[2m1 test[22m[2m)[22m[33m 475[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps the Ground Truth step name and exposes its plain-language meaning[33m 464[2mms[22m[39m
+ [32m✓[39m src/components/AssessorOperationCharts.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 384[2mms[22m[39m
+   [33m[2m✓[22m[39m shows two units separately with explicit coverage and missing observations[33m 316[2mms[22m[39m
+ [32m✓[39m src/components/ExperimentAMethodChart.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 485[2mms[22m[39m
+   [33m[2m✓[22m[39m plots measured Experiment A rates with their denominators[33m 380[2mms[22m[39m
+ [32m✓[39m src/services/developmentProxy.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 199[2mms[22m[39m
+ [32m✓[39m src/components/BenchmarkStrategyChart.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 312[2mms[22m[39m
+ [32m✓[39m src/services/api.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 42[2mms[22m[39m
+ [32m✓[39m src/services/display.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 18[2mms[22m[39m
+ [32m✓[39m src/services/csvExport.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32m✓[39m src/services/auditDraftSettings.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 61[2mms[22m[39m
+ [32m✓[39m src/services/memoryReviewConcerns.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32m✓[39m src/services/intakeRecovery.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m55 passed[39m[22m[90m (55)[39m
+[2m      Tests [22m [1m[32m456 passed[39m[22m[90m (456)[39m
+[2m   Start at [22m 09:02:06
+[2m   Duration [22m 608.40s[2m (tests 53%, import 33%, environment 12%, setup 2%, transform 1%)[22m
+
+[2m     Import [22m [33m130 modules were evaluated 452 times[39m[2m · 393.88s total, 33% of tracked time[22m
+[2m            [22m [2m~114.59s faster with [22m[33misolate: false[39m[2m — shared modules are evaluated once per worker instead of once per file[22m
+[2m            [22m [2mlearn more: https://vitest.dev/guide/improving-performance#test-isolation[22m
+

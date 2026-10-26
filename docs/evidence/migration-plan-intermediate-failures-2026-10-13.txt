@@ -1,0 +1,106 @@
+All checks passed!
+No new upgrade operations detected.
+0038_benchmark_plans (head)
+.................F...FF.                                                 [100%]
+=================================== FAILURES ===================================
+______ test_planned_dispatch_records_original_evidence_and_blocks_replay _______
+
+pending = (<sqlalchemy.orm.session.Session object at 0xffffa44a10d0>, BenchmarkPlanCreate(benchmark=LiveBenchmarkRequest(payload...'simulated-reviewer', evaluator_revision='0000000000000000000000000000000000000000', metadata_storage_authorised=True))
+
+    def test_planned_dispatch_records_original_evidence_and_blocks_replay(pending):
+        db,request=pending
+        service=BenchmarkPlanService()
+        plan=service.create(db,request)
+>       result=service.run(db,plan.plan_id,PlannedBenchmarkRun(trial_id='repeat-1',benchmark=request.benchmark))
+
+tests/test_benchmark_plan.py:92: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/services/benchmark_plan.py:149: in run
+    result=LiveBenchmarkRunner().run(request.benchmark)
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffffa417f140>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+__________ test_frozen_plan_binds_scoring_to_original_server_evidence __________
+
+pending = (<sqlalchemy.orm.session.Session object at 0xffffa47b7830>, BenchmarkPlanCreate(benchmark=LiveBenchmarkRequest(payload...'simulated-reviewer', evaluator_revision='0000000000000000000000000000000000000000', metadata_storage_authorised=True))
+
+    def test_frozen_plan_binds_scoring_to_original_server_evidence(pending):
+        from app.schemas.ranking_agreement import RepeatedRankingRequest
+        db,request=pending
+        service=BenchmarkPlanService()
+        plan=service.create(db,request)
+>       evidence=service.run(db,plan.plan_id,PlannedBenchmarkRun(trial_id='repeat-1',benchmark=request.benchmark))
+
+tests/test_benchmark_plan.py:147: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+app/services/benchmark_plan.py:149: in run
+    result=LiveBenchmarkRunner().run(request.benchmark)
+app/benchmarks/live.py:116: in run
+    response = target.answer(private_test, audit)
+app/target_systems/controlled.py:93: in answer
+    response = HttpTargetAIConnector().execute(private_test, audit)
+app/target_ai/providers.py:106: in execute
+    credential = "" if audit.provider == TargetProvider.OLLAMA else self._credential_for(audit.provider)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <app.target_ai.providers.HttpTargetAIConnector object at 0xffff9f5d9610>
+provider = <TargetProvider.OPENROUTER: 'openrouter'>
+
+    def _credential_for(self, provider: TargetProvider) -> str:
+        key_name = _ENVIRONMENT_KEY.get(provider)
+        credential = os.getenv(key_name, "").strip() if key_name else ""
+        if not credential:
+            label = PROVIDERS[provider][0]
+>           raise HTTPException(503, f"{label} is not configured. Add {key_name} to the backend .env file and restart the backend.")
+E           fastapi.exceptions.HTTPException: 503: OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend.
+
+app/target_ai/providers.py:159: HTTPException
+_______________ test_complete_frozen_execution_and_analysis_path _______________
+
+pending = (<sqlalchemy.orm.session.Session object at 0xffff9f556270>, BenchmarkPlanCreate(benchmark=LiveBenchmarkRequest(payload...'simulated-reviewer', evaluator_revision='0000000000000000000000000000000000000000', metadata_storage_authorised=True))
+
+    def test_complete_frozen_execution_and_analysis_path(pending):
+        db,request=pending
+        service=BenchmarkPlanService()
+        plan=service.create(db,request)
+        app.dependency_overrides[get_db]=lambda:db
+        trials=[]
+        with TestClient(app) as client:
+            for trial in request.trials:
+                for rid in (trial.reference_run_id,trial.candidate_run_id):
+                    executed=client.post(f'/api/v1/audits/{rid}/execute')
+>                   assert executed.status_code==200,executed.text
+E                   AssertionError: {"detail":"OpenRouter is not configured. Add OPENROUTER_API_KEY to the backend .env file and restart the backend."}
+E                   assert 503 == 200
+E                    +  where 503 = <Response [503 Service Unavailable]>.status_code
+
+tests/test_benchmark_plan.py:180: AssertionError
+=============================== warnings summary ===============================
+../usr/local/lib/python3.12/site-packages/starlette/testclient.py:40
+  /usr/local/lib/python3.12/site-packages/starlette/testclient.py:40: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = typing.Callable[[], typing.ContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+FAILED tests/test_benchmark_plan.py::test_planned_dispatch_records_original_evidence_and_blocks_replay
+FAILED tests/test_benchmark_plan.py::test_frozen_plan_binds_scoring_to_original_server_evidence
+FAILED tests/test_benchmark_plan.py::test_complete_frozen_execution_and_analysis_path
+3 failed, 21 passed, 1 warning in 13.05s
+

@@ -20,7 +20,7 @@ test('sends the audit default answer budget and removes stale scores when the bu
   const user=userEvent.setup();render(<UIProvider><LiveBenchmark/></UIProvider>);await prepare(user);
   await user.click(screen.getByRole('button',{name:'Run Real-Model Comparison'}));
   await screen.findByText('Real-model comparison completed');
-  expect(calls.runLiveBenchmark).toHaveBeenCalledWith(expect.objectContaining({temperature:0,random_seed:42,target_memory_capacity:50,target_memory_profile:expect.objectContaining({output_token_limit:512,context_character_budget:16000})}),expect.any(AbortSignal));
+  expect(calls.runLiveBenchmark).toHaveBeenCalledWith(expect.objectContaining({temperature:0,random_seed:42,target_memory_capacity:50,target_memory_profile:expect.objectContaining({output_token_limit:2048,context_character_budget:16000})}),expect.any(AbortSignal));
   await user.click(screen.getByRole('button',{name:'Memory & answer settings'}));
   const budget=await screen.findByRole('spinbutton',{name:'Answer length limit'});
   await user.clear(budget);await user.type(budget,'256');await user.tab();

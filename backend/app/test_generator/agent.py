@@ -128,11 +128,15 @@ _COVERAGE_PLAN_SCHEMA: dict[str, Any] = {
     },
 }
 
+def coverage_plan_output_budget(requested_test_count: int) -> int:
+    """Allow the structured plan and concise notes within a bounded output cap."""
+    return min(8192, max(2048, requested_test_count * 96))
+
 
 class AgentTestGenerator(LLMTestGenerator):
     """Generate a planned suite, semantically review it, and repair duplicates."""
 
-    VERSION = "agent-coverage-semantic-v20"
+    VERSION = "agent-coverage-semantic-v21"
     REVIEWER_VERSION = "semantic-intent-review-v8"
     MAX_QUANTITY_FILL_ROUNDS = 4
     MAX_SEMANTIC_REPAIR_ROUNDS = 2
@@ -522,7 +526,7 @@ class AgentTestGenerator(LLMTestGenerator):
             "role": "coverage_planning", "version": self.VERSION,
             "provider": getattr(self.planner_client, "provider", "unknown"),
             "model": getattr(self.planner_client, "model", "unknown"),
-            "prompt_template_version": "coverage-planner-agent-v2",
+            "prompt_template_version": "coverage-planner-agent-v3",
             "instructions": instructions, "prompt": prompt, "schema": planner_schema,
             "input_payload": input_payload,
             "input_refs": {"memory_ids": list(by_id), "candidate_ids": list(seed_by_candidate)},
@@ -532,8 +536,8 @@ class AgentTestGenerator(LLMTestGenerator):
             payload = self.planner_client.complete_json(
                 instructions=instructions, prompt=prompt, schema_name="coverage_plan",
                 schema=planner_schema,
-                max_output_tokens=min(2048, max(512, audit.test_budget * 32)),
-                agent_role="coverage_planning", prompt_template_version="coverage-planner-agent-v2",
+                max_output_tokens=coverage_plan_output_budget(audit.test_budget),
+                agent_role="coverage_planning", prompt_template_version="coverage-planner-agent-v3",
             )
             parsed = _CoveragePlan.model_validate(payload)
             selected_ids = [candidate_id for dimension in Dimension

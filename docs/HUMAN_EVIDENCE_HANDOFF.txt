@@ -1,4 +1,88 @@
-Human evidence handoff — English — 11 October 2026
+Latest engineering / team handoff — 23 October 2026
+Current evidence index: docs/REQUIREMENT_TRACEABILITY_MATRIX.md, latest section.
+Release20 has completed its30-trial pilot and36 synthetic safety controls.
+The36 controls have111 source-reviewed claims and0critical findings; original
+automatic grades31/36remain unchanged. These are agent engineering reviews,
+not independent human labels. Final120 repeated evaluations completed:
+new12 Strong26/36(8/9/9 perround),Weak3/36(1/1/1); Strong72.22%fails75%.
+All120 replies/251 claims were source-reviewed; Strong60 has2critical owner/
+actor errors. Input/wire replay and final browser/original JSON/CSV checks pass,
+but release20 overallFAIL and the goal remains active. A parent's relationship
+error was automatically graded correct; originalgrade and sourcefinding remain
+separate. Different releases' newsets cannot establish a causal improvement.
+
+LongMemEval source/licence/citation are now locally recorded; do not treat the
+older “all remain pending” sentence below as the current download status.
+Release20's selection permits public distractor-session reuse, while excluding
+reused questions and answer evidence under the revised approved protocol.
+The first preparation failed on a missing container path before decoding new
+records. Exact-byte transport corrected it. All12 registered question IDs are
+permanently used, and both preparation attempts remain recorded.
+
+Team-supplied evidence still required:
+- Genuine independent overlapping annotations and original reviewer assistance
+  declarations; preserve originals before adjudicating disagreements.
+- Actual adjudication, question-validity/baseline review and frozen formal
+  collection records. Experiment A's rule-generated initial templates still
+  require real researcher review/edit/confirmation.
+- Genuine novice observations, including difficulties and unsuccessful steps.
+- Formal A/B/C analysis and any permission review required for the selected
+  research use. A dataset-card licence record is not a claim of completed
+  independent research review or official benchmark certification.
+
+Historical full Luna workflow evidence below applies to its archived source.
+Current-source full workflow and A/B/C execution evidence must be checked
+separately from the external120-trial evaluation. No human identity, independent
+label, reviewer approval or formal acceptance may be generated to fill a gap.
+
+Latest LongMemEval follow-up — 19 October 2026 (historical)
+The original0/2loss is traced to retention eviction. Fixed numeric identity,
+unknown-domain false relations and grammatical retrieval overlap. Capacity50
+still yields0/2for both; explicit500control givesStrong2/2.
+Twelve new cases (six strata, two each), once per policy, at500capacity:
+Weak0/12;Strong9/12under pinned upstream task rules withLuna/JSON adaptation.
+Original custom-assessor Strong7/12and the two changed temporal judgments
+are retained. This is exploratory automated evidence, not formalC or gold.
+Independent human labels/adjudication and novice observations remain pending.
+
+Latest LongMemEval pilot — 15 October 2026
+Official longmemeval-cleaned LongMemEval-S was downloaded at revision
+98d7416c24c778c2fee6e6f3006e7a073259d48f under the dataset card's MIT declaration.
+Source, metadata, licence declaration and citation are retained locally in
+experiments/longmemeval-pilot-20261015 (ignored by Git).
+All500cases passed offline adaptation. Two predeclared complete-history cases
+were tested with Weak/Strong using Luna:4answers and4custom automated assessments
+completed, with0/2correct for each strategy. Earlier401attempts are retained;
+the updated credential passed authentication. This is a pilot, not formal C.
+Independent human labels/adjudication and novice observations remain pending.
+
+Human evidence handoff — English — updated 14 October 2026
+
+Current evidence status (14 October 2026)
+The team confirmed “团队后补” for genuine independent labels/adjudication,
+authorised LongMemEval release/licence/citation and novice observations.
+All remain pending; historical worksheets retain their original assistance
+and independence disclosures.
+The v17 approved-synthetic Luna trial completed all roles with16target
+replies,16assessments and4diagnostics, two repetitions per policy.
+Two conflict judgments remain pending. This is engineering evidence only.
+The 14 October retry completed extraction and8target replies/8assessments,
+with matching JSON/CSV exports. One diagnostic was truncated at1800;
+its original failure remains. Separate reanalysis at4096 completed.
+The deployed output cap is4096. The full trial at that cap completed
+16answers/16assessments/4diagnostics, but relationship analysis failed
+its citation contract and strict acceptance failed. One judgment is pending.
+The original report status is preserved; acceptance is partial, not all-role success. Existing conversation/audit counts remain13/18.
+Do not treat pending judgments, provisional scores or synthetic approval
+as independent labels or formal research acceptance.
+
+Latest current-runtime verification (14 October 2026)
+The current diagnostics code at4096 completed every role and passed strict
+model/input/repeated-run/export verification:16answers,16assessments and
+4diagnostics, two repeats per policy. Two judgments remain pending.
+The earlier partial4096trial remains a separate unchanged failure record.
+Formal research and novice evidence still await the team; do not replace
+these with synthetic approval, Agent consensus or automated observations.
 
 Current returned worksheets (updated 12 October 2026)
 A and C each returned all 283 fields for the same frozen material. The coordinator
@@ -14,18 +98,39 @@ collect a new independent blind overlap batch. Do not convert agreement or a
 majority vote into source-verified gold. Reviewer letters below are workflow roles,
 not fixed identities or the similarly named experiment studies.
 
-Current isolated engineering smoke (13 October 2026)
+Historical v8 isolated engineering smoke (13 October 2026)
 The synthetic source fixture `datasets/smoke/qwen-four-dimension-source-v1.json`
 was imported into temporary database
 `/private/tmp/mha-qwen-four-dimension-smoke-20261013-v8.sqlite` as conversation
 `C777B5F3C364549E990838C6C1C38AB60`. Local Ollama reported qwen3:1.7b with tag
 digest `8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7`.
 Extraction returned eight source-cited candidates, but the relationship Agent
-returned no edges and the independent memory reviewer failed validation. The
-user has been asked to review these facts and, if acceptable for this synthetic
-smoke only, add the source-supported UPDATE, CONTEXTUAL_OVERRIDE and CONFLICT
-links. That approval is pending. Do not treat this engineering review as
-independent research annotation, human gold, or held-out evidence.
+returned no edges and the independent memory reviewer failed validation. This
+is the historical v8 result; it is superseded by the engineering-only approval
+and v10 smoke status below. Do not treat the v8 model output as independent
+research annotation, human gold, or held-out evidence.
+
+Latest synthetic engineering smoke (13 October 2026; extractor v10)
+The user approved the Maple candidate facts and the cited edges SYN103 UPDATE
+SYN102, SYN105 CONTEXTUAL_OVERRIDE SYN104, and SYN106 CONFLICT SYN107 for
+engineering smoke only. These decisions may be used to exercise the engineering
+workflow, but are not independent research labels, research gold, or held-out
+evidence.
+
+OpenRouter provider `openrouter`, model `openai/gpt-6-luna`, returned eight
+valid source-cited candidates in one HTTP 200 extraction request. A separate
+local Ollama run with `qwen3:1.7b` and `memory-extraction-agent-v10` also
+returned eight valid candidates, and the independent memory-review Agent
+passed its output contract. Qwen relationship analysis failed the topic-mismatch
+gate, so that response was rejected. Qwen test generation using the user-approved
+synthetic facts and relations failed bounded coverage repair and saved no partial
+suite; target answering and assessment were not reached in that attempt.
+
+The focused regression checks for the v10 change set passed (43 tests). No full
+backend suite was run for this delta. A previously saved live failure trace is
+still v8 and lacks field-path diagnostics; its exact invalid field cannot be
+recovered from that record. Keep that failure separate from the successful v10
+extraction smokes. A complete four-dimension Qwen audit remains unverified.
 
 The software can prepare, execute and analyse experiments. It cannot certify its
 own answers as independent human evidence. A passing regression test verifies
@@ -68,9 +173,74 @@ controls. Formal plans require one target model, a frozen analysis plan and deve
 split, and at least three repetitions for every condition, including the deterministic
 rule-based baseline. Smaller or unplanned matrices use the separate exploratory route
 and are not Experiment B. Record actual repetitions, seed support and costs where observed.
+
+Authorised deidentified Experiment B sources
+-------------------------------------------
+The separate POST /api/v1/research/formal/research-matrix endpoint accepts a
+dataset with data_origin exactly deidentified_research. It uses the same formal
+Weak/Strong, fixed-model, development-split and three-repeat gates as the
+synthetic endpoint. The Research Comparison Matrix page selects this endpoint
+for that declared origin. Upload a Source permission receipt JSON and confirm
+server storage; select formal Experiment B before creating the matrix.
+
+Start from datasets/templates/research-source-permission-template.json. It is
+intentionally unapproved and invalid until completed after a real team review.
+Record the exact validated dataset_fingerprint_sha256, release ID, permission
+reference, licence/consent scope, actual reviewer and time. Declare permission
+for research use and operational storage and confirm deidentification. Personal
+history used solely for a product demonstration is excluded. Cloud conditions
+need cloud_processing_authorised=true; otherwise use local Ollama or the rule
+baseline. Do not put credentials, participant identities or raw source text in
+the receipt. The receipt and fingerprint are saved with the frozen plan and
+recovered/exported with it. The imported histories are stored on the server.
+
+These declarations are supplied by the team; the service cannot authenticate
+permission, reviewer identity, deidentification or independent human authorship.
+A valid permission receipt does not replace the exact-release pilot, independent
+labels, adjudication, or held-out provenance. Automated tests of this path use
+simulated permission and label fixtures, not real research evidence.
 Study C: same policies on a permitted technically compatible LongMemEval subset;
 semantic references and relative rankings; report ties and disagreement. A lexical
 local-format pilot is insufficient for a full upstream benchmark claim.
+The Auditor comparison now uses four-dimension Overall Memory Health, with each
+dimension weighted equally. Missing a dimension makes its ranking unmeasured;
+benchmark response accuracy is a separate scale and must not be compared as an
+absolute percentage against the Auditor score.
+
+Repeated C analysis input and handoff:
+1. Predeclare the permitted subset, one model/reader, Weak first-hit and Strong
+   rule-based policies, frozen audit suite, evaluation revision and planned
+   repeat IDs before examining held-out results. Preserve the actual dated
+   protocol and independent source/evaluator reviews. The current uploaded
+   analysis package does not establish that this predeclaration occurred.
+2. Collect distinct original audit executions from one frozen experiment and
+   distinct original benchmark executions on the same subset. Do not count a
+   copied answer, one saved run reused under another name, or model simulation
+   as a new repeat. Keep failed and missing planned runs in the inventory.
+3. In Experiments -> Research tools -> Does the benchmark agree? -> Compare
+   repeated results, download the input template. A repository copy is at
+   datasets/smoke/experiment-c-repeated-input-template.json. It contains only
+   missing-data placeholders, not research labels or model results.
+4. The top level has planned_trial_ids and trials. Every trial has trial_id and
+   either comparison or unavailable_reason. A comparison contains
+   reference_run_id, candidate_run_id, reference_benchmark and candidate_benchmark.
+   Each benchmark field must contain the full matching assessment input exported
+   from Review saved benchmark assessments, including source, saved evidence,
+   strategy, evaluator_revision and rows. A summary report is not that input.
+   Omitted planned trial IDs are kept as missing; duplicate execution IDs are
+   rejected. Current source permission must be confirmed before file processing.
+5. Inspect each measured, unmeasured, invalid and missing trial. The server checks
+   original receipts, source/frozen-suite fingerprints, model/settings, adapter
+   and evaluator consistency. Mean scores and sample SD are reported only when
+   every planned repeat is measured. Agreement uses consistent / (consistent +
+   reversed) directional trials; both-tied and one-suite-tied counts are shown
+   separately. A partial plan has no aggregate rate or score, rather than zero.
+6. Download repeated comparison evidence. The page and JSON use the same report;
+   retain its exact per-trial reports and fingerprints alongside the original
+   files. This upload path is descriptive repeated analysis. The separate
+   server-frozen plan API is described below; verified
+   external provenance and independent human evidence remain open; do not report an official LongMemEval score or completed formal
+   Experiment C from these calculations alone.
 Repair value: freeze a general diagnosis-directed policy on development cases,
 then compare original, generic instruction and directed repair on new histories.
 Do not insert expected answers or change model weights. Report regressions too.
@@ -166,3 +336,78 @@ now blocks formal readiness when the exact validated dataset fingerprint is abse
 the package currently reports not ready. Do not add a fingerprint or item mapping until
 the team verifies the package against the exact reviewed release. The package's human
 authorship and reviewer independence remain declared, not authenticated by the app.
+
+
+Experiment C server-frozen execution path (API and UI)
+----------------------------------------------------------
+Create one accepted four-dimensional suite with three or more original pending
+Weak/Strong pairs sharing one experiment, reader configuration strong, target
+model, memory profile, seed and evaluator. Every audit must still be
+TESTS_GENERATED, without target responses. Use a genuinely permitted local
+LongMemEval-compatible subset and an explicit common output token limit.
+
+POST /api/v1/research/benchmarks/longmemeval/plans accepts:
+- benchmark: the existing LiveBenchmarkRequest (authorised local payload,
+  version/licence/citation, fixed model/settings, Weak then Strong strategies).
+- trials: at least three unique trial_id/reference_run_id/candidate_run_id pairs.
+- sampling_rule: selection/exclusion rule declared before these executions.
+- evaluator_model and evaluator_revision: the fixed imported scoring standard.
+- metadata_storage_authorised=true after confirming permission to save the
+  fingerprints, case IDs, licence/citation, configuration and execution metadata.
+
+The response saves server time and plan_fingerprint_sha256. GET the same path
+with /{plan_id} to restore metadata. Do not count it as proof that the team had
+never seen earlier results or as authenticated external preregistration.
+Run the bound Auditor executions through the normal execute/evaluate endpoints.
+POST /plans/{plan_id}/execute with trial_id and the identical benchmark request
+for each repeat. The server records RUNNING, COMPLETED or FAILED and an original
+output fingerprint, but does not retain benchmark source or full responses.
+Save each returned evidence JSON locally for the permitted evaluator. A failed,
+interrupted or lost-response trial cannot be silently rerun under the same ID;
+retain its missing evidence in the analysis. Provider retries within one answer
+are governed by the existing bounded connector. Planned target calls count
+answer slots, not physical HTTP retry attempts.
+
+POST /plans/{plan_id}/analyse with analysis equal to the usual repeated-ranking
+package. Keep every frozen trial ID in original order. Evidence must match the
+server execution fingerprint, exact bound audit IDs and fixed evaluator model
+and revision. Missing files produce a partial report with null aggregate scores.
+Changed source/settings/questions or substituted replies cannot qualify.
+The server does not generate human labels or confirm reviewer independence.
+The new API path has a complete simulated test; real repeated Qwen/benchmark
+calls remain pending. The plan UI is covered by simulated frontend tests;
+real-source usability and research results still require team evidence.
+
+
+Using the Experiment C plan page
+-------------------------------
+Open Experiments -> Research tools -> Does the benchmark agree? -> Plan and run
+the benchmark comparison. Download the execution plan template, then complete
+it with the permitted subset, pending audit IDs, exact shared settings, scene
+selection rule and evaluator standard. The template has no study evidence and
+cannot be submitted without completing its blank fields.
+
+Confirm source processing before reading the file, and separately confirm
+metadata storage before Save frozen benchmark plan. The plan ID automatically
+fills the repeated analysis input. Download its metadata receipt. Run the saved
+Auditor pairs separately, then run each benchmark repeat explicitly. The page
+retains each returned original evidence file for download; save all files before
+leaving or switching plans. Full responses are not recoverable from the server.
+
+Find saved benchmark plans reads the latest 50 metadata plans if a creation
+reply was lost. Restore by ID or choose one of the found plans, then reimport
+the matching execution file and reconfirm processing permission. A recorded
+FAILED/RUNNING/COMPLETED repeat is not automatically dispatched again. If a
+reply or status lookup is lost, restore its server receipt to inspect status.
+The page never resends a model call to discover whether it completed.
+
+Supply the full original scored-evidence package in Compare repeated results.
+With a frozen plan ID it calls the receipt-bound server analysis; without one
+it explicitly remains descriptive uploaded-plan analysis. Both require complete
+planned evidence for aggregate scores and display missing evidence as unmeasured.
+The UI does not create human labels, certify unseen prior results, or imply an
+official LongMemEval score.
+
+2026-10-13 follow-up: new model defaults are OpenRouter GPT 6 Luna. Approved synthetic four-dimension generation and exact-response reassessment completed; these are engineering observations only. Use the saved-submission model-switch button before Continue to move an unfinished extractor to Luna without creating a new conversation. Formal B new matrices use protocol v2 / matrix v9 with fixed Strong reader for every strategy. Earlier formal plans without this explicit control keep their historical results but cannot be certified/reused as controlled B experiments. Create a newly reviewed/frozen study for research collection.
+
+2026-10-13 team decision: genuine independent labels/adjudication, authorised LongMemEval materials and real novice acceptance observations will be supplied by the team later. Keep these pending; continue independent engineering work. No synthetic approval is research gold.

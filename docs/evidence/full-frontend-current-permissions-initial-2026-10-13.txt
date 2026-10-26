@@ -1,0 +1,721 @@
+
+> memory-health-auditor-frontend@0.1.0 test
+> vitest run --pool=forks --maxWorkers=2
+
+
+[1m[30m[46m RUN [49m[39m[22m [36mv5.0.1 [39m[90m/app[39m
+
+ [32m✓[39m src/pages/NewAudit.workflow.test.tsx [2m([22m[2m32 tests[22m[2m)[22m[33m 132450[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps pasted drafts out of browser storage until consent and clears them when consent is withdrawn[33m 2663[2mms[22m[39m
+   [33m[2m✓[22m[39m configured OpenRouter defaults to three methods with two reviewed suites and a saved comparison[33m 5197[2mms[22m[39m
+   [33m[2m✓[22m[39m defaults internal Agents to the shared OpenRouter model and freezes its use[33m 4961[2mms[22m[39m
+   [33m[2m✓[22m[39m explains Agents and ground truth at setup without changing the workflow labels[33m 2159[2mms[22m[39m
+   [33m[2m✓[22m[39m completes the local audit workflow from consent through reviewed results and target trace[33m 4769[2mms[22m[39m
+   [33m[2m✓[22m[39m cancelling a running comparison stops the browser queue before its next condition[33m 3477[2mms[22m[39m
+   [33m[2m✓[22m[39m selects local Qwen as the shared Agent before extracting and freezes it for the audit[33m 4868[2mms[22m[39m
+   [33m[2m✓[22m[39m lost experiment response retries the frozen request identity before any model calls[33m 11649[2mms[22m[39m
+   [33m[2m✓[22m[39m partial comparison retries only the unknown condition with its original key[33m 14894[2mms[22m[39m
+   [33m[2m✓[22m[39m compares unique models on one service with identical frozen settings and distinct labels[33m 5795[2mms[22m[39m
+   [33m[2m✓[22m[39m blocks empty model selections, caps the picker at eight and keeps rule identity fixed[33m 12825[2mms[22m[39m
+   [33m[2m✓[22m[39m uses one selected shared Agent model for extraction and audit preparation[33m 5429[2mms[22m[39m
+   [33m[2m✓[22m[39m one recovery action finishes durable stages for every interrupted comparison condition[33m 5387[2mms[22m[39m
+   [33m[2m✓[22m[39m an interrupted single audit exposes recovery and checks a live stage without executing again[33m 4314[2mms[22m[39m
+   [33m[2m✓[22m[39m refresh restores saved review decisions and full source without another extraction or creation[33m 1859[2mms[22m[39m
+   [33m[2m✓[22m[39m failed review recovery remains retryable without creating new source data[33m 459[2mms[22m[39m
+   [33m[2m✓[22m[39m configuration survives refresh and configured cloud defaults cannot replace restored selections[33m 10897[2mms[22m[39m
+   [33m[2m✓[22m[39m an explicitly blank restored shared Agent model must not silently select a default model[33m 1497[2mms[22m[39m
+   [33m[2m✓[22m[39m three-method comparison uses the configured shared model for the AI review[33m 2548[2mms[22m[39m
+   [33m[2m✓[22m[39m lost conversation response survives refresh and replays the original submission identity and source[33m 673[2mms[22m[39m
+   [33m[2m✓[22m[39m interrupted extraction recovers a committed empty result without extracting or creating again[33m 2025[2mms[22m[39m
+   [33m[2m✓[22m[39m unfinished extraction retries the frozen extractor rather than new cloud defaults[33m 1205[2mms[22m[39m
+   [33m[2m✓[22m[39m service loading keeps the source editable but blocks submission until services are known[33m 540[2mms[22m[39m
+   [33m[2m✓[22m[39m service failed result offers a safe retry without submitting source or showing internal service names[33m 818[2mms[22m[39m
+   [33m[2m✓[22m[39m service empty result offers a safe retry without submitting source or showing internal service names[33m 760[2mms[22m[39m
+   [33m[2m✓[22m[39m retrying failed services preserves restored audit choices instead of applying cloud defaults[33m 2147[2mms[22m[39m
+   [33m[2m✓[22m[39m starts a separate audit from prepared questions without executing or cancelling saved records[33m 2617[2mms[22m[39m
+   [33m[2m✓[22m[39m a separate audit resets a structured writer when restoring default three-method comparison[33m 11091[2mms[22m[39m
+   [33m[2m✓[22m[39m opening an unfinished submission never calls extraction and starting new removes the old failure[33m 1072[2mms[22m[39m
+   [33m[2m✓[22m[39m unfinished openrouter submission can explicitly switch to Luna while preserving its saved source and identity[33m 2908[2mms[22m[39m
+   [33m[2m✓[22m[39m unfinished ollama submission can explicitly switch to Luna while preserving its saved source and identity[33m 772[2mms[22m[39m
+ [31m❯[39m src/pages/StaticPages.test.tsx [2m([22m[2m21 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 87113[2mms[22m[39m
+   [33m[2m✓[22m[39m filters history by text and strategy, while retaining frozen settings[33m 5794[2mms[22m[39m
+   [33m[2m✓[22m[39m shows a recovery plan and can resume an interrupted audit[33m 1048[2mms[22m[39m
+   [33m[2m✓[22m[39m does not label a no-memory reference as strong memory[33m 338[2mms[22m[39m
+   [33m[2m✓[22m[39m shows background progress instead of offering duplicate recovery[33m 1278[2mms[22m[39m
+   [33m[2m✓[22m[39m refreshes a stale history row when background work has already completed[33m 491[2mms[22m[39m
+[31m   [31m×[31m loads reports for the visible page and retains usable groups when one report fails[39m[33m 12589[2mms[22m[39m
+   [33m[2m✓[22m[39m can cancel an unfinished persisted experiment and reports export errors[33m 16970[2mms[22m[39m
+   [33m[2m✓[22m[39m explains equal scores without implying identical answers or general superiority[33m 3581[2mms[22m[39m
+   [33m[2m✓[22m[39m downloads the loaded answer report JSON, including passed answers with their run and test IDs[33m 7892[2mms[22m[39m
+   [33m[2m✓[22m[39m shows accessible passed and unassessed answer rows with source evidence disclosures[33m 5345[2mms[22m[39m
+   [33m[2m✓[22m[39m does not declare tied results with 0 excluded assessments when questions cannot be paired[33m 2230[2mms[22m[39m
+   [33m[2m✓[22m[39m does not declare tied results with 4 excluded assessments when questions cannot be paired[33m 1829[2mms[22m[39m
+   [33m[2m✓[22m[39m shows frozen prepared questions during recovery before requesting model answers[33m 2831[2mms[22m[39m
+   [32m✓[39m same-policy settings remain distinguishable by evaluator and repair profile[32m 2[2mms[22m[39m
+   [33m[2m✓[22m[39m explains incompatible recovery before offering another engine request[33m 1573[2mms[22m[39m
+   [33m[2m✓[22m[39m successful partial recovery explains the saved stage without calling it an error[33m 2214[2mms[22m[39m
+   [33m[2m✓[22m[39m history identifies saved-answer reassessment and finds it by its friendly type[33m 1322[2mms[22m[39m
+   [33m[2m✓[22m[39m single-setting results do not claim a comparison or all original context[33m 4126[2mms[22m[39m
+   [33m[2m✓[22m[39m multi-setting purpose does not infer fixed memory policies from the evaluator comparison flag[33m 5373[2mms[22m[39m
+   [33m[2m✓[22m[39m does not present a one-question confidence interval or conceal pending judgments[33m 10264[2mms[22m[39m
+   [32m✓[39m chart groups use verified conditions and friendly settings instead of opaque saved labels[32m 10[2mms[22m[39m
+[90mstderr[2m | src/components/ResearchValidation.test.tsx[2m > [22m[2mlegacy saved plans without success criteria cannot collect new formal results
+[22m[39mAn update to BenchmarkRankingAgreement inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+An update to FrozenThresholdCheck inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+[90mstderr[2m | src/components/ResearchValidation.test.tsx[2m > [22m[2mlegacy saved plans without success criteria cannot collect new formal results
+[22m[39mAn update to FrozenThresholdCheck inside a test was not wrapped in act(...).
+
+When testing, code that causes React state updates should be wrapped into act(...):
+
+act(() => {
+  /* fire events that update state */
+});
+/* assert on the output */
+
+This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+ [32m✓[39m src/components/ValidationWorkbench.test.tsx [2m([22m[2m22 tests[22m[2m)[22m[33m 194228[2mms[22m[39m
+   [33m[2m✓[22m[39m requires review of the rule-generated fixed-template draft before freezing and generating Experiment A[33m 42003[2mms[22m[39m
+   [33m[2m✓[22m[39m shows the post-run model synthesis with its evidence limits and model identity[33m 3199[2mms[22m[39m
+   [33m[2m✓[22m[39m reviews the answer as well as excluded history without silently selecting a repair[33m 3704[2mms[22m[39m
+   [33m[2m✓[22m[39m distinguishes selected-but-unsupplied facts from retrieval gaps[33m 1226[2mms[22m[39m
+   [33m[2m✓[22m[39m shows review-first advice and preserves existing target instructions and strategy[33m 1361[2mms[22m[39m
+   [33m[2m✓[22m[39m requires a repair rationale and sends general settings separately from test answers[33m 18364[2mms[22m[39m
+   [33m[2m✓[22m[39m restores completed conditions and displays pending frozen questions without regeneration[33m 2792[2mms[22m[39m
+   [33m[2m✓[22m[39m a restored single-condition follow-up never offers a self-comparison[33m 406[2mms[22m[39m
+   [33m[2m✓[22m[39m separates source overlap from fact correspondence and exposes the recorded text[33m 1121[2mms[22m[39m
+   [33m[2m✓[22m[39m shows answer-time eviction and allows an explicit candidate-only capacity repair[33m 15105[2mms[22m[39m
+   [33m[2m✓[22m[39m recovers failed history loading without resetting the diagnosis or edited repair[33m 12758[2mms[22m[39m
+   [33m[2m✓[22m[39m labels an intentional no-memory outcome and retains the reference configuration[33m 4495[2mms[22m[39m
+   [33m[2m✓[22m[39m separates saved answers from recorded retries and preserves unknown attempt evidence[33m 8324[2mms[22m[39m
+   [33m[2m✓[22m[39m requires a researcher mapping for every saved method response and freezes its release[33m 49508[2mms[22m[39m
+   [33m[2m✓[22m[39m does not transfer a saved validation experiment into another audit[33m 2709[2mms[22m[39m
+   [33m[2m✓[22m[39m compares every saved repair condition without new execution or hiding the generic control[33m 11663[2mms[22m[39m
+   [33m[2m✓[22m[39m searches reviewed histories by visible scenario text rather than internal identifiers[33m 4611[2mms[22m[39m
+   [33m[2m✓[22m[39m restores saved target answers for scoring without running the target again[33m 2520[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps the visible suite bound to its run when another suite fails to load[33m 1451[2mms[22m[39m
+   [33m[2m✓[22m[39m shows question-saving progress without implying model execution and recovers after failure[33m 2772[2mms[22m[39m
+   [33m[2m✓[22m[39m shows execution progress only while running and restores controls on execution failure[33m 3936[2mms[22m[39m
+ [32m✓[39m src/pages/AuditComparison.test.tsx [2m([22m[2m15 tests[22m[2m)[22m[33m 42881[2mms[22m[39m
+   [33m[2m✓[22m[39m distinguishes review methods for identical models and strategies and can search by method[33m 4409[2mms[22m[39m
+   [33m[2m✓[22m[39m shows before/after scores, paired delta, and repaired question evidence[33m 1503[2mms[22m[39m
+   [33m[2m✓[22m[39m warns about incomparable runs and does not invent a paired improvement[33m 750[2mms[22m[39m
+   [33m[2m✓[22m[39m explains an empty outcome filter and can show all questions again[33m 1261[2mms[22m[39m
+   [33m[2m✓[22m[39m searches saved audits without replacing the selected comparison[33m 7277[2mms[22m[39m
+   [33m[2m✓[22m[39m restores comparison selectors when navigating back in browser history[33m 4271[2mms[22m[39m
+   [33m[2m✓[22m[39m opens a shareable presentation link and restores controls when exiting[33m 5728[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps pending judgments visible in presentation cards and the main takeaway[33m 1630[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps changed assessment evidence visible without claiming improvement[33m 1109[2mms[22m[39m
+   [33m[2m✓[22m[39m exact dimension changes use canonical paired answers, not different full-suite denominators[33m 4436[2mms[22m[39m
+   [33m[2m✓[22m[39m saved-answer reassessment is labelled as changed assessment rather than memory improvement[33m 1658[2mms[22m[39m
+   [33m[2m✓[22m[39m two reassessments retain distinct before and after selection labels[33m 881[2mms[22m[39m
+   [33m[2m✓[22m[39m distinguishes unchanged questions from comparable decided assessments[33m 1722[2mms[22m[39m
+   [33m[2m✓[22m[39m reused-answer score changes never claim improved answers in the takeaway or chart[33m 5166[2mms[22m[39m
+   [33m[2m✓[22m[39m different original executions rescored under one assessor are not called judgement-only changes[33m 1052[2mms[22m[39m
+ [31m❯[39m src/components/ResearchValidation.test.tsx [2m([22m[2m36 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 584609[2mms[22m[39m
+   [33m[2m✓[22m[39m runs an authorised selected local benchmark and shows its results[33m 7703[2mms[22m[39m
+   [33m[2m✓[22m[39m analyses a pilot package and displays readiness, coverage and agreement[33m 4063[2mms[22m[39m
+   [33m[2m✓[22m[39m reference validation retains declared source without claiming human independence (AI-assisted synthetic engineering fixture)[33m 3668[2mms[22m[39m
+   [33m[2m✓[22m[39m reference validation retains declared source without claiming human independence (undefined)[33m 4499[2mms[22m[39m
+   [33m[2m✓[22m[39m creates an explicitly exploratory matrix without a frozen Experiment B plan[33m 21030[2mms[22m[39m
+   [33m[2m✓[22m[39m a rounded agreement score cannot hide a below-threshold formal gate[33m 20671[2mms[22m[39m
+   [33m[2m✓[22m[39m validates imported research labels and displays a consolidated chart for all four stages[33m 6008[2mms[22m[39m
+   [33m[2m✓[22m[39m requires a local source and consent before a benchmark can run[33m 4311[2mms[22m[39m
+   [33m[2m✓[22m[39m shows actual blank review coverage without exposing dataset hashes[33m 5287[2mms[22m[39m
+   [33m[2m✓[22m[39m shows missing and uncertain prediction coverage instead of implying complete assessment[33m 6767[2mms[22m[39m
+   [33m[2m✓[22m[39m creates two models under one selected memory strategy with identical frozen settings[33m 18632[2mms[22m[39m
+   [33m[2m✓[22m[39m formal Experiment B requires three repetitions for a local model provider[33m 36758[2mms[22m[39m
+   [33m[2m✓[22m[39m formal Experiment B also requires three runs for the deterministic baseline[33m 31391[2mms[22m[39m
+   [33m[2m✓[22m[39m resumes a formal matrix without executing completed or already answered conditions[33m 14460[2mms[22m[39m
+   [33m[2m✓[22m[39m recovers a lost execution reply without another target execution[33m 15946[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps cancelled formal conditions terminal and does not announce a complete matrix[33m 12860[2mms[22m[39m
+   [33m[2m✓[22m[39m restores only a safe matrix plan after remount and verifies saved completion[33m 10663[2mms[22m[39m
+   [33m[2m✓[22m[39m verifies the durable stage planner result after a failed condition is recovered[33m 13635[2mms[22m[39m
+   [33m[2m✓[22m[39m exports bound metrics intact and removes the export when inputs change[33m 11427[2mms[22m[39m
+   [33m[2m✓[22m[39m formal creation remains blocked when a ready pilot belongs to different dataset content[33m 9343[2mms[22m[39m
+   [33m[2m✓[22m[39m review receipt remains available when browser download does not produce a file[33m 3750[2mms[22m[39m
+   [33m[2m✓[22m[39m a late dataset validation cannot restore evidence after the source file changes[33m 3651[2mms[22m[39m
+   [33m[2m✓[22m[39m an invalid replacement file clears previously validated evidence[33m 5835[2mms[22m[39m
+   [33m[2m✓[22m[39m late pilot analysis cannot restore readiness after its package changes[33m 4073[2mms[22m[39m
+   [33m[2m✓[22m[39m changing benchmark family ignores a pending validation from the old family[33m 8488[2mms[22m[39m
+   [33m[2m✓[22m[39m invalid benchmark replacement revokes the old source and authorisation[33m 18400[2mms[22m[39m
+   [33m[2m✓[22m[39m changing benchmark strategy cannot restore a pending run for the old setting[33m 19391[2mms[22m[39m
+   [33m[2m✓[22m[39m formal creation requires explicit criteria and preserves the frozen receipt[33m 34382[2mms[22m[39m
+   [33m[2m✓[22m[39m legacy saved plans without success criteria cannot collect new formal results[33m 4826[2mms[22m[39m
+   [33m[2m✓[22m[39m restores a server execution plan without files and locks running while recovery is pending[33m 21554[2mms[22m[39m
+[31m   [31m×[31m exploratory matrices retain bounded repeat counts and reject fractional or out-of-range input[39m[33m 61029[2mms[22m[39m
+   [33m[2m✓[22m[39m exploratory matrices can optionally check a development split[33m 34149[2mms[22m[39m
+   [33m[2m✓[22m[39m analysis plan is blocked without a sampling rule and submitted before execution[33m 50344[2mms[22m[39m
+   [33m[2m✓[22m[39m research release requires storage confirmation and uses the dedicated formal route[33m 46458[2mms[22m[39m
+   [33m[2m✓[22m[39m research source files stay unread before permission and clear on revocation[33m 3721[2mms[22m[39m
+   [33m[2m✓[22m[39m permission revocation excludes a pending research validation response[33m 5400[2mms[22m[39m
+ [32m✓[39m src/components/EvaluationReview.test.tsx [2m([22m[2m19 tests[22m[2m)[22m[33m 18692[2mms[22m[39m
+   [33m[2m✓[22m[39m does not enable adjudication for reviewer aliases[33m 2741[2mms[22m[39m
+   [33m[2m✓[22m[39m does not enable adjudication for reviewer aliases[33m 1720[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps automated verdict and summaries hidden in independent blind review mode[33m 1196[2mms[22m[39m
+   [33m[2m✓[22m[39m uses the reviewer-selected failure dimension rather than the automated class[33m 1538[2mms[22m[39m
+   [33m[2m✓[22m[39m shows recorded judge requests only outside blind mode and leaves historical cost unknown[33m 1232[2mms[22m[39m
+   [33m[2m✓[22m[39m confirms a saved blind label without revealing the automated verdict[33m 968[2mms[22m[39m
+   [33m[2m✓[22m[39m cannot collect an independent label on a report that exposed automated results[33m 921[2mms[22m[39m
+   [33m[2m✓[22m[39m requires an explicit independent failure class without exposing the test dimension as a heading[33m 778[2mms[22m[39m
+   [33m[2m✓[22m[39m discards previous answers and reviewer decisions when switching audit records[33m 1223[2mms[22m[39m
+   [33m[2m✓[22m[39m reference review displays complete original evidence once for passing and failing answers[33m 357[2mms[22m[39m
+   [33m[2m✓[22m[39m refreshes changed version before retrying a final decision[33m 1112[2mms[22m[39m
+   [33m[2m✓[22m[39m refreshes new reviewer before retrying a final decision[33m 1593[2mms[22m[39m
+   [33m[2m✓[22m[39m cannot return to independent review after automated evidence was revealed in this session[33m 960[2mms[22m[39m
+   [33m[2m✓[22m[39m locks the submitted reviewer, category and note while a label is being saved[33m 1366[2mms[22m[39m
+ [32m✓[39m src/components/GroundTruthReview.test.tsx [2m([22m[2m11 tests[22m[2m)[22m[33m 12410[2mms[22m[39m
+   [33m[2m✓[22m[39m explains ground truth and Agent in plain language while preserving their technical labels[33m 1542[2mms[22m[39m
+   [33m[2m✓[22m[39m retains late qualifications in complete source text instead of silently truncating evidence[33m 397[2mms[22m[39m
+   [33m[2m✓[22m[39m adds a missing memory through an accessible inline form[33m 1699[2mms[22m[39m
+   [33m[2m✓[22m[39m requires a user source for a manually added fact and sends its identifier without displaying it[33m 2442[2mms[22m[39m
+   [33m[2m✓[22m[39m edits a candidate memory without using a browser prompt[33m 2515[2mms[22m[39m
+   [33m[2m✓[22m[39m filters memories by their review status without changing the ground truth[33m 754[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps a missing-memory draft available after a rejected save[33m 565[2mms[22m[39m
+   [33m[2m✓[22m[39m shows a lost source restriction directly on the candidate card without deciding it for the reviewer[33m 1924[2mms[22m[39m
+ [32m✓[39m src/components/ResultDashboard.test.tsx [2m([22m[2m27 tests[22m[2m)[22m[33m 4879[2mms[22m[39m
+   [33m[2m✓[22m[39m explains untested dimensions and makes failure evidence inspectable[33m 652[2mms[22m[39m
+   [33m[2m✓[22m[39m dimension overview links work from the keyboard and land on failure and pending evidence[33m 543[2mms[22m[39m
+   [33m[2m✓[22m[39m CSV and JSON exports preserve every saved answer outcome and its source statement[33m 575[2mms[22m[39m
+   [33m[2m✓[22m[39m reports the save request accurately, handles export failure and does not carry feedback into another audit[33m 369[2mms[22m[39m
+ [32m✓[39m src/components/BenchmarkExecutionPlan.test.tsx [2m([22m[2m5 tests[22m[2m)[22m[33m 9712[2mms[22m[39m
+   [33m[2m✓[22m[39m requires processing and storage consent, freezes the plan and preserves downloadable original answers[33m 3708[2mms[22m[39m
+   [33m[2m✓[22m[39m a revoked source cannot restore a late file read[33m 615[2mms[22m[39m
+   [33m[2m✓[22m[39m restores server failure receipts without permitting a second dispatch[33m 1353[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps original evidence on screen when the status refresh fails[33m 1784[2mms[22m[39m
+   [33m[2m✓[22m[39m preserves earlier original answers when the next repeat finishes[33m 2236[2mms[22m[39m
+ [32m✓[39m src/components/BenchmarkRankingAgreement.test.tsx [2m([22m[2m5 tests[22m[2m)[22m[33m 14148[2mms[22m[39m
+   [33m[2m✓[22m[39m gates missing evidence, calls saved-result check and separates scores across suites[33m 7490[2mms[22m[39m
+   [33m[2m✓[22m[39m shows incompatible evidence errors without a ranking chart[33m 1618[2mms[22m[39m
+   [33m[2m✓[22m[39m ignores a late ranking file read after source authorisation is revoked[33m 443[2mms[22m[39m
+   [33m[2m✓[22m[39m shows Auditor macro-average separately from pooled passed-answer counts[33m 1470[2mms[22m[39m
+   [33m[2m✓[22m[39m missing Auditor dimensions show no zero-score ranking[33m 3119[2mms[22m[39m
+ [32m✓[39m src/components/LiveBenchmark.test.tsx [2m([22m[2m8 tests[22m[2m)[22m[33m 7383[2mms[22m[39m
+   [33m[2m✓[22m[39m counts shared native preparation once and keeps historical costs unknown[33m 2517[2mms[22m[39m
+   [33m[2m✓[22m[39m requires validated source and consent before actual model calls[33m 920[2mms[22m[39m
+   [33m[2m✓[22m[39m invalid source cannot start model calls[33m 644[2mms[22m[39m
+   [33m[2m✓[22m[39m cancels pending execution and ignores a late response[33m 521[2mms[22m[39m
+   [33m[2m✓[22m[39m includes native condition only when selected and keeps controlled preparation unlabelled[33m 1575[2mms[22m[39m
+   [33m[2m✓[22m[39m requires one controlled reference for three native repair conditions[33m 707[2mms[22m[39m
+ [32m✓[39m src/components/BenchmarkSemanticReview.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[33m 7456[2mms[22m[39m
+   [33m[2m✓[22m[39m requires matching source evidence scores and declared revision, without starting model calls[33m 2986[2mms[22m[39m
+   [33m[2m✓[22m[39m reports complete pilot separately and invalidates stale report on edits[33m 1281[2mms[22m[39m
+   [33m[2m✓[22m[39m rejects malformed files and clears prior valid score file[33m 1029[2mms[22m[39m
+   [33m[2m✓[22m[39m server rejects different saved reply and does not retain an old success report[33m 1325[2mms[22m[39m
+   [33m[2m✓[22m[39m revoking consent clears every imported file and disables all inputs[33m 616[2mms[22m[39m
+ [32m✓[39m src/components/FrozenThresholdCheck.test.tsx [2m([22m[2m18 tests[22m[2m)[22m[33m 5456[2mms[22m[39m
+   [33m[2m✓[22m[39m reads saved thresholds and shows unmet and missing evidence without exposing internal ids[33m 881[2mms[22m[39m
+   [33m[2m✓[22m[39m refreshing actual labels clears the previous decision while the request is pending[33m 393[2mms[22m[39m
+   [33m[2m✓[22m[39m restores server experiments with no browser plan or uploaded files[33m 514[2mms[22m[39m
+   [33m[2m✓[22m[39m server pagination replaces the active selection and clamps a shrinking list[33m 397[2mms[22m[39m
+   [33m[2m✓[22m[39m same-model records created together still have distinct friendly choices[33m 808[2mms[22m[39m
+   [33m[2m✓[22m[39m cached repeated runs retain condition identity and select the exact round[33m 484[2mms[22m[39m
+ [32m✓[39m src/components/BenchmarkSettings.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 7108[2mms[22m[39m
+   [33m[2m✓[22m[39m sends the audit default answer budget and removes stale scores when the budget changes[33m 5257[2mms[22m[39m
+   [33m[2m✓[22m[39m changing provider requires source authorisation again[33m 1837[2mms[22m[39m
+ [32m✓[39m src/components/SceneEvidenceVerification.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[33m 2188[2mms[22m[39m
+   [33m[2m✓[22m[39m checks a selected file and clearly distinguishes a server match[33m 1241[2mms[22m[39m
+   [33m[2m✓[22m[39m invalid replacement removes the previous result and prevents submission[33m 439[2mms[22m[39m
+ [31m❯[39m src/pages/AuditorComparison.test.tsx [2m([22m[2m7 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 8023[2mms[22m[39m
+   [33m[2m✓[22m[39m restores three methods from saved groups and distinguishes score charts from validity[33m 5906[2mms[22m[39m
+   [32m✓[39m rejects unrelated groups instead of presenting an invalid comparison[32m 121[2mms[22m[39m
+   [32m✓[39m index shows saved comparisons without exposing internal identifiers as labels[32m 136[2mms[22m[39m
+   [33m[2m✓[22m[39m does not treat same-named configurations without verified grouping as repeated samples[33m 1015[2mms[22m[39m
+[31m   [31m×[31m verified repeated runs retain one condition and measured variation[39m[33m 490[2mms[22m[39m
+   [32m✓[39m diagnostic children do not make their original comparison appear incomplete[32m 229[2mms[22m[39m
+   [32m✓[39m a diagnostic child cannot be substituted for a primary comparison group[32m 122[2mms[22m[39m
+ [32m✓[39m src/components/TestSuiteReview.test.tsx [2m([22m[2m9 tests[22m[2m)[22m[33m 5469[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps unreviewed legacy questions pending and updates feedback after acceptance[33m 1601[2mms[22m[39m
+   [33m[2m✓[22m[39m accepts every question that has not yet been accepted with one action[33m 367[2mms[22m[39m
+   [33m[2m✓[22m[39m flags identical questions with different answers instead of declaring the suite ready[33m 346[2mms[22m[39m
+   [33m[2m✓[22m[39m shows formal reference questions read-only without reject or regenerate controls[33m 301[2mms[22m[39m
+   [33m[2m✓[22m[39m coverage follows accepted decisions and keeps unmeasured abilities visible before execution[33m 361[2mms[22m[39m
+   [33m[2m✓[22m[39m records a specific rejection reason without accepting a rejected question[33m 1225[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps Experiment A human validity separate and requires a researcher pseudonym[33m 1098[2mms[22m[39m
+ [32m✓[39m src/pages/AuditorQuality.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[33m 14905[2mms[22m[39m
+   [33m[2m✓[22m[39m does not display fabricated reliability percentages without human labels[33m 2156[2mms[22m[39m
+   [33m[2m✓[22m[39m shows method errors and separates adjudicated references from ordinary references[33m 5679[2mms[22m[39m
+   [33m[2m✓[22m[39m refreshes saved review evidence on return and ignores older responses[33m 533[2mms[22m[39m
+   [33m[2m✓[22m[39m shows loading evidence and explains why reviewed uncertain answers cannot measure agreement[33m 4167[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps zero, missing scores and per-measure denominators distinct in the consolidated chart[33m 1129[2mms[22m[39m
+   [33m[2m✓[22m[39m shows excluded evidence separately without changing it into model failures[33m 1215[2mms[22m[39m
+ [32m✓[39m src/components/RepeatedBenchmarkRanking.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[33m 11977[2mms[22m[39m
+   [33m[2m✓[22m[39m preserves missing trials and exports the exact partial report without zero imputation[33m 8049[2mms[22m[39m
+   [33m[2m✓[22m[39m revoking source permission invalidates an in-flight file read[33m 1022[2mms[22m[39m
+   [33m[2m✓[22m[39m shows complete repeat means with sample variability and all tie counts[33m 1463[2mms[22m[39m
+   [33m[2m✓[22m[39m a frozen plan ID dispatches receipt-bound analysis and labels its provenance[33m 1425[2mms[22m[39m
+ [32m✓[39m src/components/ConversationStep.test.tsx [2m([22m[2m15 tests[22m[2m)[22m[33m 3560[2mms[22m[39m
+   [33m[2m✓[22m[39m retains original offset provenance when importing an exported UTC message[33m 875[2mms[22m[39m
+   [33m[2m✓[22m[39m requires authorisation before continuing[33m 311[2mms[22m[39m
+   [33m[2m✓[22m[39m lets the operator record synthetic source origin separately from research eligibility[33m 454[2mms[22m[39m
+ [32m✓[39m src/components/ResultVisualizations.test.tsx [2m([22m[2m16 tests[22m[2m)[22m[33m 2901[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps different frozen conditions separate even when their display names match[33m 612[2mms[22m[39m
+   [33m[2m✓[22m[39m failure counts distinguish untested, pending-only and measured zero dimensions[33m 330[2mms[22m[39m
+   [33m[2m✓[22m[39m renders overall, dimension, and failure comparison charts for experimental conditions[33m 353[2mms[22m[39m
+   [33m[2m✓[22m[39m compact presentation leads with one grouped dimension chart and keeps supplemental charts expandable[33m 361[2mms[22m[39m
+ [32m✓[39m src/components/FormalStudySummary.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[33m 2767[2mms[22m[39m
+   [33m[2m✓[22m[39m shows histories rather than repeats, missing coverage and an accessible vertical chart[33m 1438[2mms[22m[39m
+   [33m[2m✓[22m[39m a late response from another plan cannot replace the selected study[33m 445[2mms[22m[39m
+   [33m[2m✓[22m[39m exports the current evidence-bound summary and removes export after plan changes[33m 713[2mms[22m[39m
+ [32m✓[39m src/components/MemoryCard.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[33m 2935[2mms[22m[39m
+   [33m[2m✓[22m[39m allows a candidate memory to be accepted[33m 530[2mms[22m[39m
+   [33m[2m✓[22m[39m waits for saving, shows the accepted decision, and allows undo[33m 398[2mms[22m[39m
+   [33m[2m✓[22m[39m edits source evidence using readable message labels while preserving API references[33m 651[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps edits available when saving fails[33m 788[2mms[22m[39m
+   [33m[2m✓[22m[39m sends an explicit empty timestamp when the user clears a recorded date[33m 357[2mms[22m[39m
+ [32m✓[39m src/components/ModelPicker.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[33m 3576[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps the configured model and labels catalog availability states[33m 1501[2mms[22m[39m
+   [33m[2m✓[22m[39m checks only selected catalog models sequentially and shows the new status[33m 1315[2mms[22m[39m
+   [33m[2m✓[22m[39m local models preserve configured choices when Ollama list is unavailable[33m 361[2mms[22m[39m
+ [32m✓[39m src/pages/GeneratorComparison.test.tsx [2m([22m[2m8 tests[22m[2m)[22m[33m 3931[2mms[22m[39m
+   [33m[2m✓[22m[39m restores separate question progress without starting target calls or inventing candidate quality[33m 1715[2mms[22m[39m
+   [33m[2m✓[22m[39m generation resumes only the missing suite and never executes the target[33m 345[2mms[22m[39m
+   [33m[2m✓[22m[39m target testing does not silently generate a missing suite[33m 446[2mms[22m[39m
+   [33m[2m✓[22m[39m late generation preparation cannot overwrite a newly selected comparison[33m 515[2mms[22m[39m
+   [33m[2m✓[22m[39m software drift preserves verified historical charts while blocking all further execution[33m 366[2mms[22m[39m
+ [32m✓[39m src/components/TargetProfileEditor.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 2523[2mms[22m[39m
+   [32m✓[39m frozen target configuration editor [2m(2)[22m
+     [33m[2m✓[22m[39m edits instructions and scope as target settings without a reference-answer input[33m 1601[2mms[22m[39m
+     [33m[2m✓[22m[39m locks all configuration inputs while a run is being prepared[33m 910[2mms[22m[39m
+ [32m✓[39m src/pages/ExtractionComparison.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[33m 2260[2mms[22m[39m
+   [33m[2m✓[22m[39m restores outputs without calls or internal identities and separates unknown from zero[33m 1248[2mms[22m[39m
+   [33m[2m✓[22m[39m software drift retains verified charts but blocks calls; input drift hides controlled charts[33m 535[2mms[22m[39m
+   [33m[2m✓[22m[39m continues only unfinished model entries and never re-extracts the saved rules result[33m 339[2mms[22m[39m
+ [32m✓[39m src/components/AccessBoundary.test.tsx [2m([22m[2m5 tests[22m[2m)[22m[33m 2734[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps private content unmounted until the server accepts the password[33m 2222[2mms[22m[39m
+ [32m✓[39m src/components/ui/ui.test.tsx [2m([22m[2m5 tests[22m[2m)[22m[33m 2081[2mms[22m[39m
+   [33m[2m✓[22m[39m library dropdowns keep disabled choices blocked and preserve the selected value on submit[33m 1313[2mms[22m[39m
+   [33m[2m✓[22m[39m focused dropdowns support keyboard opening and dismissal without changing the choice[33m 340[2mms[22m[39m
+ [32m✓[39m src/components/ExperimentStatistics.test.tsx [2m([22m[2m5 tests[22m[2m)[22m[33m 1905[2mms[22m[39m
+   [33m[2m✓[22m[39m explains when the selected comparison does not contain repeated runs[33m 973[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps awaiting answers visible in aggregated condition totals[33m 302[2mms[22m[39m
+   [33m[2m✓[22m[39m dimension details retain measured zeros without inventing pass or failure counts for missing decisions[33m 424[2mms[22m[39m
+ [32m✓[39m src/components/ReviewedMethodComparison.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[33m 2104[2mms[22m[39m
+   [33m[2m✓[22m[39m shows pending answers automatically and updates and restores the chart from saved human labels[33m 1223[2mms[22m[39m
+   [33m[2m✓[22m[39m requires a failure category and preserves pending answers if saving fails[33m 652[2mms[22m[39m
+ [32m✓[39m src/components/TargetMemoryTrace.test.tsx [2m([22m[2m8 tests[22m[2m)[22m[33m 3259[2mms[22m[39m
+   [33m[2m✓[22m[39m black-box target trace never claims an empty store or controlled capacity[33m 1511[2mms[22m[39m
+   [33m[2m✓[22m[39m distinguishes retrieved candidates from final supplied memories and maps their real identities[33m 302[2mms[22m[39m
+   [33m[2m✓[22m[39m historical traces show unknown input instead of claiming retrieved records were used[33m 349[2mms[22m[39m
+   [33m[2m✓[22m[39m shows supplied diagnostic evidence even when it is outside normal ranking[32m 300[2mms[22m[39m
+ [32m✓[39m src/components/ResearchValidityChart.test.tsx [2m([22m[2m7 tests[22m[2m)[22m[33m 3993[2mms[22m[39m
+   [33m[2m✓[22m[39m distinguishes genuine zero scores from missing observations in the chart alternative[33m 1379[2mms[22m[39m
+   [33m[2m✓[22m[39m preserves confusion counts and negative kappa separately from percentage bars[33m 1399[2mms[22m[39m
+   [33m[2m✓[22m[39m contrasts decided-answer recall with full-reference recall without hiding uncertain outcomes[33m 332[2mms[22m[39m
+   [33m[2m✓[22m[39m missing and absent reference evidence never imply a zero or complete recall[33m 349[2mms[22m[39m
+ [32m✓[39m src/pages/AssessorComparison.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[33m 2616[2mms[22m[39m
+   [33m[2m✓[22m[39m restores database progress and hides internal identifiers without inventing missing scores[33m 963[2mms[22m[39m
+   [33m[2m✓[22m[39m resumes the failed evaluation stage and does not repeat a completed assessor[33m 698[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps persisted results inspectable when preparation cannot continue[33m 466[2mms[22m[39m
+ [32m✓[39m src/components/ComparisonVisualizations.test.tsx [2m([22m[2m7 tests[22m[2m)[22m[33m 1723[2mms[22m[39m
+   [33m[2m✓[22m[39m charts actual paired outcomes, including regressions, rather than full-suite improvement[33m 536[2mms[22m[39m
+   [33m[2m✓[22m[39m offers the exact export source if the browser cannot save a chart[33m 519[2mms[22m[39m
+   [33m[2m✓[22m[39m export preserves denominators, settings and comparison limits without copying source text[33m 319[2mms[22m[39m
+ [32m✓[39m src/components/JudgmentDifferences.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[33m 846[2mms[22m[39m
+   [33m[2m✓[22m[39m shows original automated outcomes and explicitly distinguishes separate answers[33m 606[2mms[22m[39m
+ [32m✓[39m src/pages/AuditReportNavigation.test.tsx [2m([22m[2m6 tests[22m[2m)[22m[33m 1934[2mms[22m[39m
+   [33m[2m✓[22m[39m a delayed previous report cannot replace the newly selected audit[33m 1047[2mms[22m[39m
+   [33m[2m✓[22m[39m opens incomplete progress and resumes scoring into the saved report[33m 344[2mms[22m[39m
+ [32m✓[39m src/pages/Dashboard.test.tsx [2m([22m[2m4 tests[22m[2m)[22m[33m 1493[2mms[22m[39m
+   [33m[2m✓[22m[39m workflow counts separate errors, unfinished stages and cancelled runs from model accuracy[33m 982[2mms[22m[39m
+ [32m✓[39m src/components/CurrentModelPreset.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 487[2mms[22m[39m
+   [33m[2m✓[22m[39m preset waits for verified availability and chooses no failed or unchecked model[33m 415[2mms[22m[39m
+ [32m✓[39m src/components/PairedOutcomeOverview.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 737[2mms[22m[39m
+   [33m[2m✓[22m[39m shows compatible strategy changes without presenting incompatible judge comparisons as improvement[33m 623[2mms[22m[39m
+ [32m✓[39m src/components/SavedAnswerReassessment.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 1369[2mms[22m[39m
+   [33m[2m✓[22m[39m prepares a separate score and links to it without calling the target[33m 1013[2mms[22m[39m
+ [32m✓[39m src/components/StepIndicator.test.tsx [2m([22m[2m1 test[22m[2m)[22m[33m 438[2mms[22m[39m
+   [33m[2m✓[22m[39m keeps the Ground Truth step name and exposes its plain-language meaning[33m 425[2mms[22m[39m
+ [32m✓[39m src/components/GeneratorUsageCharts.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 539[2mms[22m[39m
+   [33m[2m✓[22m[39m shows generation effort separately with coverage and unknown rules usage[33m 421[2mms[22m[39m
+ [32m✓[39m src/components/AssessorOperationCharts.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 429[2mms[22m[39m
+   [33m[2m✓[22m[39m shows two units separately with explicit coverage and missing observations[33m 367[2mms[22m[39m
+ [32m✓[39m src/components/InitialGenerationCharts.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 527[2mms[22m[39m
+   [33m[2m✓[22m[39m shows first-attempt checks and repair effort separately from saved acceptance[33m 450[2mms[22m[39m
+ [32m✓[39m src/components/ExperimentAMethodChart.test.tsx [2m([22m[2m3 tests[22m[2m)[22m[33m 359[2mms[22m[39m
+ [32m✓[39m src/components/BenchmarkStrategyChart.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 276[2mms[22m[39m
+ [32m✓[39m src/components/PilotCoverageChart.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[33m 503[2mms[22m[39m
+   [33m[2m✓[22m[39m shows actual coverage rather than agreement as bar heights[33m 440[2mms[22m[39m
+ [32m✓[39m src/services/developmentProxy.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 193[2mms[22m[39m
+ [32m✓[39m src/services/api.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 46[2mms[22m[39m
+ [32m✓[39m src/services/memoryReviewConcerns.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32m✓[39m src/services/display.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 18[2mms[22m[39m
+ [32m✓[39m src/services/auditDraftSettings.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 26[2mms[22m[39m
+ [32m✓[39m src/services/intakeRecovery.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32m✓[39m src/services/csvExport.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 3 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m src/pages/AuditorComparison.test.tsx[2m > [22mverified repeated runs retain one condition and measured variation
+[31m[1mError[22m: [2mexpect([22m[31melement[31m[2m).toHaveAccessibleName()[22m
+
+Expected element to have accessible name:
+[32m  /± 0%/[31m
+Received:
+[31m  Tested ability average comparison. Qwen · Match the task and project · Rule tests + rule review: 50% tested-ability average · n=1 scored run; 2 decided answers; 1 awaiting review; Qwen · Match the task and project · Model tests + hybrid review: 50% tested-ability average · n=2 scored runs; 4 decided answers; 2 awaiting review (± 0 pp population SD)[31m[39m
+[36m [2m❯[22m src/pages/AuditorComparison.test.tsx:[2m61:18[22m[39m
+    [90m 59|[39m   render(<MemoryRouter initialEntries={['/audit-methods?groups=rules,m…
+    [90m 60|[39m   const figure=await screen.findByRole('figure',{name:/Tested ability …
+    [90m 61|[39m   expect(figure).toHaveAccessibleName(/± 0%/);
+    [90m   |[39m                  [31m^[39m
+    [90m 62|[39m   expect(screen.queryByText(/Setting [23]/)).toBeNull();
+    [90m 63|[39m   expect(screen.queryByText(/verified-model/)).toBeNull();
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/pages/StaticPages.test.tsx[2m > [22mloads reports for the visible page and retains usable groups when one report fails
+[31m[1mTestingLibraryElementError[22m[39m: Unable to find role="button" and name "Retry result summary"
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<section>[39m
+      [36m<h1>[39m
+        [0mCompare memory strategies & models[0m
+      [36m</h1>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"experiment-page-intro"[39m
+      [36m>[39m
+        [0mSee how different settings perform on the same questions. Start with the result summary, then inspect which answers changed.[0m
+      [36m</p>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"ant-card ant-card-bordered ui-card experiment css-dev-only-do-not-override-oc1rc0 css-var-root"[39m
+        [33mrole[39m=[32m"article"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"ant-card-body"[39m
+          [33mstyle[39m=[32m"padding: 0px;"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"experiment-heading"[39m
+          [36m>[39m
+            [36m<div>[39m
+              [36m<p[39m
+                [33mclass[39m=[32m"eyebrow"[39m
+              [36m>[39m
+                [0mSAVED EXPERIMENT[0m
+              [36m</p>[39m
+              [36m<h2>[39m
+                [0mScenario 1[0m
+              [36m</h2>[39m
+              [36m<p[39m
+                [33mclass[39m=[32m"experiment-date"[39m
+              [36m>[39m
+                [0mJan 1, 2026, 12:00 AM[0m
+              [36m</p>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"experiment-scores"[39m
+          [36m>[39m
+            [36m<span>[39m
+              [36m<small>[39m
+                [0mQuestions in the shared test set[0m
+              [36m</small>[39m
+              [36m<b>[39m
+                [0m4[0m
+              [36m</b>[39m
+            [36m</span>[39m
+            [36m<span>[39m
+              [36m<small>[39m
+                [0mRuns completed · not questions passed[0m
+              [36m</small>[39m
+              [36m<b>[39m
+                [0mLoading…[0m
+              [36m</b>[39m
+            [36m</span>[39m
+          [36m</div>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"experiment-purpose"[39m
+          [36m>[39m
+            [0mLoading the saved comparison settings…[0m
+          [36m</p>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"ant-collapse ant-collapse-icon-placement-start ui-panel experiment-history-detail css-dev-only-do-not-override-oc1rc0 css-var-root"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"ant-collapse-item"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33maria-disabled[39m=[32m"false"[39m
+                [33maria-expanded[39m=[32m"false"[39m
+                [33mclass[39m=[32m"ant-collapse-header"[39m
+                [33mrole[39m=[32m"button"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"ant-collapse-expand-icon"[39m
+                [36m>[39m
+                  [36m<span[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33maria-label[39m=[32m"right"[39m
+                    [33mclass[39m=[32m"anticon anticon-right ant-collapse-arrow"[39m
+                    [33mrole[39m=[32m"img"[39m
+                  [36m>[39m
+                    [36m<svg[39m
+                      [33maria-hidden[39m=[32m"true"[39m
+                      [33mdata-icon[39m=[32m"right"[39m
+                      [33mfill[39m=[32m"currentColor"[39m
+                      [33mfocusable[39m=[32m"false"[39m
+                      [33mheight[39m=[32m"1em"[39m
+                      [33mviewBox[39m=[32m"64 64 896 896"[39m
+                      [33mwidth[39m=[32m"1em"[39m
+                    [36m>[39m
+                      [36m<path[39m
+                        [33md[39m=[32m"M765.7 486.8L314.9 134.7A7.97 7.97 0 00302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 000-50.4z"[39m
+                      [36m/>[39m
+                    [36m</svg>[39m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"ant-collapse-title"[39m
+                [36m>[39m
+                  [0mExport results & experiment settings[0m
+                [36m</span>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"ant-collapse-panel ant-collapse-panel-inactive"[39m
+                [33mstyle[39m=[32m"display: none;"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"ant-collapse-body"[39m
+                [36m>[39m
+                  [36m<p>[39m
+                    [0mDownload a results table, a record for reproducing this experiment, or the fixed test materials.[0m
+                  [36m</p>[39m
+                  [36m<div[39m
+                    [33mclass[39m=[32m"experiment-export-actions"[39m
+                  [36m>[39m
+                    [36m<button[39m
+                      [33mclass[39m=[32m"ant-btn css-dev-only-do-not-override-oc1rc0 css-var-root ant-btn-default ant-btn-color-default ant-btn-variant-outlined ui-button secondary"[39m
+                      [33mtype[39m=[32m"button"[39m
+                    [36m>[39m
+                      [36m<span>[39m
+                        [0mResults table (CSV)[0m
+                      [36m</span>[39m
+                    [36m</button>[39m
+                    [36m<button[39m
+                      [33mclass[39m=[32m"ant-btn css-dev-only-do-not-override-oc1rc0 css-var-root ant-btn-default ant-btn-color-default ant-btn-variant-outlined ui-button secondary"[39m
+                      [33mdisabled[39m=[32m""[39m
+                      [33mtype[39m=[32m"button"[39m
+                    [36m>[39m
+                      [36m<span>[39m
+                        [0mAnswer report (JSON)[0m
+                      [36m</span>[39m
+                    [36m</button>[39m
+                    [36m<button[39m
+                      [33mclass[39m=[32m"ant-btn css-dev-only-do-not-override-oc1rc0 css-var-root ant-btn-default ant-btn-color-default ant-btn-variant-outlined ui-button secondary"[39m
+                      [33mtype[39m=[32m"button"[39m
+                    [36m>[39m
+                      [36m<span>[39m
+                        [0mReproduction package[0m
+                      [36m</span>[39m
+                    [36m</button>[39m
+                    [36m<button[39m
+                      [33mclass[39m=[32m"ant-btn css-dev-only-do-not-override-oc1rc0 css-var-root ant-btn-default ant-btn-color-default ant-btn-variant-outlined ui-button secondary"[39m
+                      [33mtype[39m=[32m"button"[39m
+    ...
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<section>[39m
+      [36m<h1>[39m
+        [0mCompare memory strategies & models[0m
+      [36m</h1>[39m
+      [36m<p[39m
+        [33mclass[39m=[32m"experiment-page-intro"[39m
+      [36m>[39m
+        [0mSee how different settings perform on the same questions. Start with the result summary, then inspect which answers changed.[0m
+      [36m</p>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"ant-card ant-card-bordered ui-card experiment css-dev-only-do-not-override-oc1rc0 css-var-root"[39m
+        [33mrole[39m=[32m"article"[39m
+      [36m>[39m
+        [36m<div[39m
+          [33mclass[39m=[32m"ant-card-body"[39m
+          [33mstyle[39m=[32m"padding: 0px;"[39m
+        [36m>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"experiment-heading"[39m
+          [36m>[39m
+            [36m<div>[39m
+              [36m<p[39m
+                [33mclass[39m=[32m"eyebrow"[39m
+              [36m>[39m
+                [0mSAVED EXPERIMENT[0m
+              [36m</p>[39m
+              [36m<h2>[39m
+                [0mScenario 1[0m
+              [36m</h2>[39m
+              [36m<p[39m
+                [33mclass[39m=[32m"experiment-date"[39m
+              [36m>[39m
+                [0mJan 1, 2026, 12:00 AM[0m
+              [36m</p>[39m
+            [36m</div>[39m
+          [36m</div>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"experiment-scores"[39m
+          [36m>[39m
+            [36m<span>[39m
+              [36m<small>[39m
+                [0mQuestions in the shared test set[0m
+              [36m</small>[39m
+              [36m<b>[39m
+                [0m4[0m
+              [36m</b>[39m
+            [36m</span>[39m
+            [36m<span>[39m
+              [36m<small>[39m
+                [0mRuns completed · not questions passed[0m
+              [36m</small>[39m
+              [36m<b>[39m
+                [0mLoading…[0m
+              [36m</b>[39m
+            [36m</span>[39m
+          [36m</div>[39m
+          [36m<p[39m
+            [33mclass[39m=[32m"experiment-purpose"[39m
+          [36m>[39m
+            [0mLoading the saved comparison settings…[0m
+          [36m</p>[39m
+          [36m<div[39m
+            [33mclass[39m=[32m"ant-collapse ant-collapse-icon-placement-start ui-panel experiment-history-detail css-dev-only-do-not-override-oc1rc0 css-var-root"[39m
+          [36m>[39m
+            [36m<div[39m
+              [33mclass[39m=[32m"ant-collapse-item"[39m
+            [36m>[39m
+              [36m<div[39m
+                [33maria-disabled[39m=[32m"false"[39m
+                [33maria-expanded[39m=[32m"false"[39m
+                [33mclass[39m=[32m"ant-collapse-header"[39m
+                [33mrole[39m=[32m"button"[39m
+                [33mtabindex[39m=[32m"0"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"ant-collapse-expand-icon"[39m
+                [36m>[39m
+                  [36m<span[39m
+                    [33maria-hidden[39m=[32m"true"[39m
+                    [33maria-label[39m=[32m"right"[39m
+                    [33mclass[39m=[32m"anticon anticon-right ant-collapse-arrow"[39m
+                    [33mrole[39m=[32m"img"[39m
+                  [36m>[39m
+                    [36m<svg[39m
+                      [33maria-hidden[39m=[32m"true"[39m
+                      [33mdata-icon[39m=[32m"right"[39m
+                      [33mfill[39m=[32m"currentColor"[39m
+                      [33mfocusable[39m=[32m"false"[39m
+                      [33mheight[39m=[32m"1em"[39m
+                      [33mviewBox[39m=[32m"64 64 896 896"[39m
+                      [33mwidth[39m=[32m"1em"[39m
+                    [36m>[39m
+                      [36m<path[39m
+                        [33md[39m=[32m"M765.7 486.8L314.9 134.7A7.97 7.97 0 00302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 000-50.4z"[39m
+                      [36m/>[39m
+                    [36m</svg>[39m
+                  [36m</span>[39m
+                [36m</div>[39m
+                [36m<span[39m
+                  [33mclass[39m=[32m"ant-collapse-title"[39m
+                [36m>[39m
+                  [0mExport results & experiment settings[0m
+                [36m</span>[39m
+              [36m</div>[39m
+              [36m<div[39m
+                [33mclass[39m=[32m"ant-collapse-panel ant-collapse-panel-inactive"[39m
+                [33mstyle[39m=[32m"display: none;"[39m
+              [36m>[39m
+                [36m<div[39m
+                  [33mclass[39m=[32m"ant-collapse-body"[39m
+                [36m>[39m
+                  [36m<p>[39m
+                    [0mDownload a results table, a record for reproducing this experiment, or the fixed test materials.[0m
+                  [36m</p>[39m
+                  [36m<div[39m
+                    [33mclass[39m=[32m"experiment-export-actions"[39m
+                  [36m>[39m
+                    [36m<button[39m
+                      [33mclass[39m=[32m"ant-btn css-dev-only-do-not-override-oc1rc0 css-var-root ant-btn-default ant-btn-color-default ant-btn-variant-outlined ui-button secondary"[39m
+                      [33mtype[39m=[32m"button"[39m
+                    [36m>[39m
+                      [36m<span>[39m
+                        [0mResults table (CSV)[0m
+                      [36m</span>[39m
+                    [36m</button>[39m
+                    [36m<button[39m
+                      [33mclass[39m=[32m"ant-btn css-dev-only-do-not-override-oc1rc0 css-var-root ant-btn-default ant-btn-color-default ant-btn-variant-outlined ui-button secondary"[39m
+                      [33mdisabled[39m=[32m""[39m
+                      [33mtype[39m=[32m"button"[39m
+                    [36m>[39m
+                      [36m<span>[39m
+                        [0mAnswer report (JSON)[0m
+                      [36m</span>[39m
+                    [36m</button>[39m
+                    [36m<button[39m
+                      [33mclass[39m=[32m"ant-btn css-dev-only-do-not-override-oc1rc0 css-var-root ant-btn-default ant-btn-color-default ant-btn-variant-outlined ui-button secondary"[39m
+                      [33mtype[39m=[32m"button"[39m
+                    [36m>[39m
+                      [36m<span>[39m
+                        [0mReproduction package[0m
+                      [36m</span>[39m
+                    [36m</button>[39m
+                    [36m<button[39m
+                      [33mclass[39m=[32m"ant-btn css-dev-only-do-not-override-oc1rc0 css-var-root ant-btn-default ant-btn-color-default ant-btn-variant-outlined ui-button secondary"[39m
+                      [33mtype[39m=[32m"button"[39m
+    ...
+[90m [2m❯[22m waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:[2m163:27[22m[39m
+[90m [2m❯[22m node_modules/@testing-library/dom/dist/query-helpers.js:[2m86:33[22m[39m
+[36m [2m❯[22m src/pages/StaticPages.test.tsx:[2m119:16[22m[39m
+    [90m117|[39m   });
+    [90m118|[39m   render(<Experiments />);
+    [90m119|[39m   await screen.findByRole('button', {name: 'Retry result summary'});
+    [90m   |[39m                [31m^[39m
+    [90m120|[39m   expect(screen.getByRole('heading', {name: 'Scenario 1'})).toBeTruthy…
+    [90m121|[39m   expect(screen.getByRole('heading', {name: 'Scenario 2'})).toBeTruthy…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m src/components/ResearchValidation.test.tsx[2m > [22mexploratory matrices retain bounded repeat counts and reject fractional or out-of-range input
+[31m[1mError[22m: Test timed out in 60000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".[39m
+[36m [2m❯[22m src/components/ResearchValidation.test.tsx:[2m526:1[22m[39m
+    [90m524|[39m
+    [90m525|[39m
+    [90m526|[39m test('exploratory matrices retain bounded repeat counts and reject fra…
+    [90m   |[39m [31m^[39m
+    [90m527|[39m   const user=await prepareFormalMatrixUi();apiMocks.createExploratoryS…
+    [90m528|[39m   const repeats=screen.getByLabelText('Runs per condition');
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m52 passed[39m[22m[90m (55)[39m
+[2m      Tests [22m [1m[31m3 failed[39m[22m[2m | [22m[1m[32m453 passed[39m[22m[90m (456)[39m
+[2m   Start at [22m 08:00:53
+[2m   Duration [22m 991.58s[2m (tests 63%, import 26%, environment 9%, setup 2%, transform 1%)[22m
+
+[2m     Import [22m [33m130 modules were evaluated 453 times[39m[2m · 503.07s total, 26% of tracked time[22m
+[2m            [22m [2m~146.59s faster with [22m[33misolate: false[39m[2m — shared modules are evaluated once per worker instead of once per file[22m
+[2m            [22m [2mlearn more: https://vitest.dev/guide/improving-performance#test-isolation[22m
+

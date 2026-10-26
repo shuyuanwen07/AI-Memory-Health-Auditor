@@ -103,3 +103,21 @@ test('export preserves denominators, settings and comparison limits without copy
   expect(markup).not.toContain('PRIVATE INSTRUCTIONS');
   expect(Number(parsed.documentElement.getAttribute('viewBox')!.split(' ')[3])).toBeGreaterThan(420);
 });
+
+test.each(['low','medium'] as const)('chart configuration evidence preserves explicit %s versus omitted settings and server fingerprints',async effort=>{
+  const {defaultTargetProfile}=await import('./TargetProfileEditor');
+  const compared={...data,
+    before:{...data.before,run:{...data.before.run,target_memory_profile:{...defaultTargetProfile},reproducibility:{configuration_fingerprint:'legacy-configuration-signature'}}},
+    after:{...data.after,run:{...data.after.run,target_memory_profile:{...defaultTargetProfile,reasoning_effort:effort,identity_analysis_reasoning_effort:'low'},reproducibility:{configuration_fingerprint:`explicit-${effort}-configuration-signature`}}},
+  } as unknown as AuditComparison;
+  render(<ComparisonVisualizations data={compared}/>);
+  await userEvent.click(screen.getByRole('button',{name:'Save chart (SVG)'}));
+  await userEvent.click(screen.getByText('Last prepared chart source (SVG)'));
+  const markup=(screen.getByRole('textbox',{name:'Prepared chart SVG'}) as HTMLTextAreaElement).value;
+  const metadata=JSON.parse(new DOMParser().parseFromString(markup,'image/svg+xml').querySelector('metadata')!.textContent!);
+  expect(metadata.before.memory_profile).not.toHaveProperty('reasoning_effort');
+  expect(metadata.before.memory_profile).not.toHaveProperty('identity_analysis_reasoning_effort');
+  expect(metadata.after.memory_profile).toMatchObject({reasoning_effort:effort,identity_analysis_reasoning_effort:'low'});
+  expect(metadata.before.configuration_fingerprint).toBe('legacy-configuration-signature');
+  expect(metadata.after.configuration_fingerprint).toBe(`explicit-${effort}-configuration-signature`);
+});

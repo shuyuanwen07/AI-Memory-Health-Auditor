@@ -1,0 +1,197 @@
+- banner:
+  - link "Memory Auditor":
+    - /url: /
+    - generic: ✦
+    - text: Memory Auditor
+  - navigation "Primary navigation":
+    - menu:
+      - menuitem "Dashboard":
+        - link "Dashboard":
+          - /url: /
+      - menuitem "New audit":
+        - link "New audit":
+          - /url: /new-audit
+      - menuitem "History":
+        - link "History":
+          - /url: /history
+      - menuitem "Before & after":
+        - link "Before & after":
+          - /url: /compare
+      - menuitem "Audit methods":
+        - link "Audit methods":
+          - /url: /audit-methods
+      - link:
+        - /url: /assessor-models
+        - text: AI assessors
+      - link:
+        - /url: /generator-models
+        - text: Test generators
+      - link:
+        - /url: /extraction-models
+        - text: Memory extractors
+      - link:
+        - /url: /quality
+        - text: Auditor reliability
+      - link:
+        - /url: /experiments
+        - text: Experiments
+      - link:
+        - /url: /about
+        - text: About
+      - menuitem "ellipsis":
+        - img "ellipsis":
+- main:
+  - paragraph: BEFORE & AFTER
+  - heading "Memory improvement results" [level=1]
+  - button "Presentation view":
+    - generic: Presentation view
+  - paragraph: Compare saved tests before and after a change. Check the repaired failures and any regressions alongside the score.
+  - text: Find saved audits
+  - textbox "Find saved audits":
+    - /placeholder: Search audit name, model, memory approach or review method
+  - button "Swap before & after":
+    - generic: Swap before & after
+  - status: 4 matching audits. Your selected audits stay available.
+  - text: Before improvement
+  - generic "Audit 1 · GPT 6 Luna · Model tests + hybrid review · First matching memory · 10/13/2026, 11:42:09 AM":
+    - text: Audit 1 · GPT 6 Luna · Model tests + hybrid review · First matching memory · 10/13/2026, 11:42:09 AM
+    - combobox "Before improvement"
+  - img "down":
+  - text: After improvement
+  - generic "Audit 2 · GPT 6 Luna · Model tests + hybrid review · Prioritise requirements and updates · 10/13/2026, 11:42:09 AM":
+    - text: Audit 2 · GPT 6 Luna · Model tests + hybrid review · Prioritise requirements and updates · 10/13/2026, 11:42:09 AM
+    - combobox "After improvement"
+  - img "down":
+  - region "Comparison takeaway":
+    - paragraph: ON THE SAME QUESTIONS
+    - heading "1 answer improved" [level=2]
+    - generic: 3 shared questions
+    - generic: 0 regressions
+    - generic: 1 still failing
+    - paragraph: "Same model: openai/gpt-6-luna · Memory approach: First matching memory → Prioritise requirements and updates"
+    - text: Results are automatically assessed. A change in memory approach does not mean the model was trained.
+    - note: "Awaiting review: before 1, after 1. These answers are excluded from scores and paired outcomes; improvement and regression counts cover decided answers only."
+  - note:
+    - text: Check before interpreting improvement
+    - list:
+      - listitem: Only the shared, unchanged questions contribute to the paired comparison.
+  - article:
+    - generic: Before improvement
+    - strong: 33.3%
+    - paragraph: 1 / 3 decided tests passed
+    - paragraph: 1 answer awaiting review · excluded from this score
+    - generic: openai/gpt-6-luna · First matching memory
+    - link "Open full report →":
+      - /url: /audits/RUN7D8C28BDE0D7471DBC738E8B70213999
+  - article:
+    - generic: After improvement
+    - strong: 66.7%
+    - paragraph: 2 / 3 decided tests passed
+    - paragraph: 1 answer awaiting review · excluded from this score
+    - generic: openai/gpt-6-luna · Prioritise requirements and updates
+    - link "Open full report →":
+      - /url: /audits/RUNB47600896AAF4AA9983DF0EB7BD19C78
+  - article:
+    - generic: Change on comparable assessments
+    - strong: +33.3 pp
+    - paragraph: 3 questions with comparable decided assessments
+    - generic: Percentage points in paired pass rate. Each score is an automated assessment.
+  - paragraph: 4 unchanged shared questions · 3 with decided assessments on both sides · 3 assessed under matching standards.
+  - region "Memory improvement charts":
+    - paragraph: MEMORY ABILITIES
+    - heading "Before and after, side by side" [level=2]
+    - paragraph: Compare each ability on the same 0–100% scale.
+    - generic "Chart question scope":
+      - button "Shared questions" [pressed]:
+        - generic: Shared questions
+      - button "Full test suites":
+        - generic: Full test suites
+    - figure "3 comparable decided questions · Counts below the bars show passed / tested. An untested ability has no bar. Save chart (SVG)":
+      - 'img "Memory ability pass rates before and after improvement Accuracy: before 100% (1/1), after 100% (1/1), change 0 pp. Freshness: before Not scored (0/0), after Not scored (0/0), change No comparison. Conflict resolution: before 0% (0/1), after 0% (0/1), change 0 pp. Appropriate use: before 0% (0/1), after 100% (1/1), change +100 pp."':
+        - generic: Memory ability comparison · shared questions
+        - generic: "Before: GPT 6 Luna · First matching memory"
+        - generic: "After: GPT 6 Luna · Prioritise requirements and updates"
+        - generic: Before
+        - generic: After
+        - generic: 0%
+        - generic: 25%
+        - generic: 50%
+        - generic: 75%
+        - generic: 100%
+        - 'generic "Accuracy · before: 100% · 1/1 passed"':
+          - generic: 100%
+          - generic: 1/1
+        - 'generic "Accuracy · after: 100% · 1/1 passed"':
+          - generic: 100%
+          - generic: 1/1
+        - generic: Accuracy
+        - generic: 0 pp
+        - 'generic "Freshness · before: Not scored · 0/0 passed"':
+          - generic: Not scored
+          - generic: —
+        - 'generic "Freshness · after: Not scored · 0/0 passed"':
+          - generic: Not scored
+          - generic: —
+        - generic: Freshness
+        - generic: No comparison
+        - 'generic "Conflict resolution · before: 0% · 0/1 passed"':
+          - generic: 0%
+          - generic: 0/1
+        - 'generic "Conflict resolution · after: 0% · 0/1 passed"':
+          - generic: 0%
+          - generic: 0/1
+        - generic: Conflict resolution
+        - generic: 0 pp
+        - 'generic "Appropriate use · before: 0% · 0/1 passed"':
+          - generic: 0%
+          - generic: 0/1
+        - 'generic "Appropriate use · after: 100% · 1/1 passed"':
+          - generic: 100%
+          - generic: 1/1
+        - generic: Appropriate use
+        - generic: +100 pp
+        - generic: Pass rate · counts shown as passed/tested · pp = percentage points · automated assessments
+      - generic: 3 comparable decided questions · Counts below the bars show passed / tested. An untested ability has no bar.
+      - button "Save chart (SVG)" [active]:
+        - generic: Save chart (SVG)
+    - region "Chart download alternative":
+      - status: Chart prepared. Your browser was asked to save it. If no file appears, copy the SVG source below.
+      - button "Last prepared chart source (SVG)":
+        - generic: Last prepared chart source (SVG)
+    - generic "Shared question outcomes":
+      - paragraph:
+        - generic: "1"
+        - text: fixed
+        - generic: ·
+        - generic: "0"
+        - text: regressed
+        - generic: ·
+        - generic: "2"
+        - text: unchanged
+        - generic: on comparable decided questions
+  - button "View exact dimension scores":
+    - generic: View exact dimension scores
+  - heading "What changed on the same questions?" [level=2]
+  - button "1 Fixed":
+    - strong: "1"
+    - generic: Fixed
+  - button "0 Regressed":
+    - strong: "0"
+    - generic: Regressed
+  - button "1 Still failing":
+    - strong: "1"
+    - generic: Still failing
+  - button "1 Still passing":
+    - strong: "1"
+    - generic: Still passing
+  - button "Still passing Which city is recorded as the user's place of residence? accuracy":
+    - text: Still passing Which city is recorded as the user's place of residence?
+    - generic: accuracy
+  - button "Fixed For the Maple capstone backend work, which backend language should you recommend based on the remembered requirements, and why does that recommendation not change your preferences for unrelated projects? appropriate use":
+    - text: Fixed For the Maple capstone backend work, which backend language should you recommend based on the remembered requirements, and why does that recommendation not change your preferences for unrelated projects?
+    - generic: appropriate use
+  - button "Still failing For the Maple capstone deployment, how should the assistant handle the conflicting production-region constraints before acting? conflict resolution":
+    - text: Still failing For the Maple capstone deployment, how should the assistant handle the conflicting production-region constraints before acting?
+    - generic: conflict resolution
+  - button "Comparison settings":
+    - generic: Comparison settings

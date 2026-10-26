@@ -18,7 +18,9 @@ from typing import Any
 
 import httpx
 
-from app.target_ai.openrouter import CHAT_COMPLETIONS_URL, default_model, request_options, sampling_parameters, completion_error
+from app.target_ai.openrouter import CHAT_COMPLETIONS_URL, default_model, request_options, completion_error
+from app.target_ai.openrouter import build_openrouter_json_payload, validate_reasoning_effort
+from app.target_ai.request_contracts import send_with_request_contract, request_contract_metadata
 from fastapi import HTTPException
 
 
@@ -79,6 +81,19 @@ def pipeline_output_token_cap() -> int | None:
     return int(raw)
 
 
+def resolve_pipeline_output_budget(declared_output_token_limit, configured_output_token_cap):
+    """Pure budget resolution shared with offline preflight/reconstruction."""
+    for value in (declared_output_token_limit, configured_output_token_cap):
+        if value is not None and (type(value) is not int or value < 1):
+            raise ValueError('Invalid pipeline output budget.')
+    effective = declared_output_token_limit
+    if configured_output_token_cap is not None:
+        effective = min(effective, configured_output_token_cap) if effective is not None else configured_output_token_cap
+    return {'declared_output_token_limit': declared_output_token_limit,
+            'configured_output_token_cap': configured_output_token_cap,
+            'requested_output_token_limit': effective}
+
+
 class PipelineLLMClient:
     """Minimal HTTP client shared by LLM extraction and LLM test generation."""
 
@@ -97,13 +112,22 @@ class PipelineLLMClient:
 
     def complete_json(self, *, instructions: str, prompt: str, schema_name: str, schema: dict[str, Any],
                       max_output_tokens: int | None = None, agent_role: str | None = None,
-                      prompt_template_version: str | None = None, thinking: bool = False) -> Any:
+                      prompt_template_version: str | None = None, thinking: bool = False,
+                      reasoning_effort: str | None = None) -> Any:
+        self.last_execution = None
+        try:
+            validate_reasoning_effort(self.provider, self.model, reasoning_effort)
+        except ValueError as exc:
+            raise PipelineRequestError(str(exc), 422) from exc
         if type(thinking) is not bool or (thinking and self.provider != 'ollama'):
             raise PipelineRequestError('Explicit thinking mode is supported only for the local pipeline.', 422)
         declared_output_limit = max_output_tokens
         configured_cap = pipeline_output_token_cap() if self.provider == 'openrouter' else None
-        if configured_cap is not None:
-            max_output_tokens = min(max_output_tokens, configured_cap) if max_output_tokens is not None else configured_cap
+        try:
+            budget = resolve_pipeline_output_budget(max_output_tokens, configured_cap)
+        except ValueError as exc:
+            raise PipelineRequestError(str(exc), 422) from exc
+        max_output_tokens = budget['requested_output_token_limit']
         meter={'version':'pipeline-http-meter-v2','provider':self.provider,'model':self.model,
             'request_attempts':0,'failed_http_attempts':0,'status':'started',
             'reported_input_tokens':None,'reported_output_tokens':None,'reported_total_tokens':None,
@@ -120,12 +144,14 @@ class PipelineLLMClient:
             }, ensure_ascii=False, sort_keys=True, separators=(',', ':')).encode('utf-8')).hexdigest(),
             'input_fingerprint': hashlib.sha256(prompt.encode('utf-8')).hexdigest(),
             'output_fingerprint':None,'error_code':None,
+            **({'requested_reasoning_effort': reasoning_effort} if reasoning_effort is not None else {}),
             'scope':'Last successful HTTP reply only; failed-attempt usage unknown. Elapsed time includes retry waits and parsing.'}
         self.last_execution=None
         token=_PIPELINE_METER.set(meter);started=time.perf_counter()
         try:
             result=self._complete_json(instructions=instructions,prompt=prompt,schema_name=schema_name,schema=schema,
-                                       max_output_tokens=max_output_tokens)
+                                       max_output_tokens=max_output_tokens,
+                                       **({'reasoning_effort': reasoning_effort} if reasoning_effort is not None else {}))
             meter['status']='parsed'
             meter['output_fingerprint'] = hashlib.sha256(json.dumps(
                 result, ensure_ascii=False, sort_keys=True, separators=(',', ':'), default=str
@@ -141,7 +167,7 @@ class PipelineLLMClient:
             _PIPELINE_METER.reset(token)
 
     def _complete_json(self, *, instructions: str, prompt: str, schema_name: str, schema: dict[str, Any],
-                       max_output_tokens: int | None = None) -> Any:
+                       max_output_tokens: int | None = None, reasoning_effort: str | None = None) -> Any:
         """Request strict JSON and parse it without accepting prose or Markdown."""
         if self.provider == "ollama":
             from app.target_ai.providers import ollama_base_url
@@ -186,16 +212,9 @@ class PipelineLLMClient:
                 ) from exc
         credential = self._credential()
         if self.provider == "openrouter":
-            payload = {
-                "model": self.model,
-                **sampling_parameters(self.model,0),
-                "messages": [{"role": "system", "content": instructions}, {"role": "user", "content": prompt}],
-                "response_format": {"type": "json_schema", "json_schema": {
-                    "name": schema_name, "strict": True, "schema": schema,
-                }},
-                **({"max_tokens": max_output_tokens} if max_output_tokens is not None else {}),
-                **request_options(),
-            }
+            payload = build_openrouter_json_payload(model=self.model, instructions=instructions,
+                prompt=prompt, schema_name=schema_name, schema=schema, max_output_tokens=max_output_tokens,
+                reasoning_effort=reasoning_effort, provider_options=request_options()['provider'])
             try:
                 data = self._post(CHAT_COMPLETIONS_URL, {"Authorization": f"Bearer {credential}"}, payload)
             except PipelineRequestError:
@@ -278,12 +297,20 @@ class PipelineLLMClient:
                 temperature=payload.get('temperature',payload.get('generationConfig',{}).get('temperature',payload.get('options',{}).get('temperature')))
                 meter['sampling_control']='fixed' if temperature is not None else 'model_default'
                 meter['sent_temperature']=temperature
-            if meter is not None:meter['request_attempts']+=1
+            def dispatch():
+                if meter is not None:
+                    meter['request_attempts'] += 1
+                return httpx.post(url, headers={"Content-Type": "application/json", **headers}, json=payload,
+                                  timeout=timeout_seconds)
             try:
-                response = httpx.post(
-                    url, headers={"Content-Type": "application/json", **headers}, json=payload,
-                    timeout=timeout_seconds,
-                )
+                attempts = meter.setdefault('request_contract_attempts', []) if meter is not None else []
+                try:
+                    response = send_with_request_contract(url=url, payload=payload,
+                        role=meter.get('agent_role') if meter else 'unattributed_pipeline',
+                        attempt_index=meter['request_attempts'] + 1 if meter else attempt + 1, collector=attempts, send=dispatch)
+                finally:
+                    if meter is not None:
+                        meter.update(request_contract_metadata(attempts))
             except httpx.TransportError as exc:
                 if meter is not None:meter['failed_http_attempts']+=1
                 last_transport_error = exc
@@ -327,7 +354,9 @@ class PipelineLLMClient:
         google=data.get('usageMetadata') if isinstance(data.get('usageMetadata'),dict) else {}
         values={'reported_input_tokens':usage.get('input_tokens',usage.get('prompt_tokens',google.get('promptTokenCount'))),
             'reported_output_tokens':usage.get('output_tokens',usage.get('completion_tokens',google.get('candidatesTokenCount'))),
-            'reported_total_tokens':usage.get('total_tokens',google.get('totalTokenCount'))}
+            'reported_total_tokens':usage.get('total_tokens',google.get('totalTokenCount')),
+            'reported_reasoning_tokens':(usage.get('completion_tokens_details') or usage.get('output_tokens_details') or {}).get('reasoning_tokens')
+                if isinstance(usage.get('completion_tokens_details') or usage.get('output_tokens_details') or {},dict) else None}
         for key,value in values.items():
             if type(value) is int and value>=0:meter[key]=value
         if meter['reported_total_tokens'] is None and meter['reported_input_tokens'] is not None and meter['reported_output_tokens'] is not None:

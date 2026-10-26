@@ -396,6 +396,8 @@ class TargetMemoryInputEvidence(BaseModel):
     instruction_sha256: str
     prompt_sha256: str
     sent_memory_ids: list[str] | None = None
+    identity_advisory_sha256: str | None = None
+    identity_failure_receipt_sha256: str | None = None
 
 class TargetMemoryTraceRetrieval(BaseModel):
     question: str | None = None
@@ -544,6 +546,15 @@ class AuditCreate(BaseModel):
     target_system_adapter: TargetSystemAdapterKind = TargetSystemAdapterKind.CONTROLLED_MEMORY
     target_memory_profile: TargetMemoryProfile = Field(default_factory=TargetMemoryProfile)
 
+    @model_validator(mode='after')
+    def validate_answer_validation_target(self):
+        if self.target_memory_profile.answer_validation != 'off':
+            if self.target_system_adapter != TargetSystemAdapterKind.CONTROLLED_MEMORY:
+                raise ValueError('Answer source validation requires the controlled memory target.')
+            if self.provider != TargetProvider.OPENROUTER or self.model != 'openai/gpt-6-luna':
+                raise ValueError('Answer source validation requires OpenRouter GPT 6 Luna.')
+        return self
+
 
 class RetryPolicyMetadata(BaseModel):
     """The bounded target-provider retry policy frozen with a run."""
@@ -595,6 +606,10 @@ class SharedAnswerRequest(BaseModel):
     source_run_id: str = Field(min_length=1, max_length=100)
 
 
+from pydantic import model_serializer
+from app.schemas.request_contracts import OpenRouterRequestContract, HTTPRequestAttemptReceipt
+
+
 class ExecutionMetadata(BaseModel):
     """Sanitised per-response facts; optional usage is provider supplied."""
     request_attempts: int = 0
@@ -602,6 +617,7 @@ class ExecutionMetadata(BaseModel):
     input_tokens: int | None = None
     output_tokens: int | None = None
     total_tokens: int | None = None
+    reasoning_tokens: int | None = Field(default=None, ge=0, le=10_000_000)
     sampling_control: str = 'unknown'
     sent_temperature: float | None = None
     reported_model: str | None = Field(default=None, max_length=120, pattern=r"^[A-Za-z0-9][A-Za-z0-9._:/+_-]*$")
@@ -612,6 +628,20 @@ class ExecutionMetadata(BaseModel):
     finish_reason: str | None = Field(default=None, max_length=40)
     requested_output_token_limit: int | None = Field(default=None, ge=1, le=8192)
     memory_input: TargetMemoryInputEvidence | None = None
+    identity_analysis: dict | None = None
+    answer_validation: dict | None = None
+    requested_reasoning_effort: Literal['low', 'medium'] | None = None
+    request_contract: OpenRouterRequestContract | None = None
+    request_contract_sha256: str | None = None
+    request_contract_attempts: list[HTTPRequestAttemptReceipt] | None = None
+
+    @model_serializer(mode='wrap')
+    def _omit_missing_wire_metadata(self, handler):
+        value = handler(self)
+        for key in ('requested_reasoning_effort', 'request_contract', 'request_contract_sha256', 'request_contract_attempts', 'answer_validation'):
+            if value.get(key) is None:
+                value.pop(key, None)
+        return value
 
 class AuditRun(BaseModel):
     run_id: str; conversation_id: str; experiment_id: str | None = None; status: AuditStatus; target_configuration: TargetConfiguration; provider: TargetProvider
@@ -646,6 +676,8 @@ class TestCase(BaseModel):
     probe_variant: str | None = None
     # Private runtime memory supplied to the controlled target, not displayed in the UI.
     target_memory_context: list[str] = []
+    target_identity_evidence: dict | None = None
+    target_identity_failure_receipt: dict | None = None
 class TestCasePublic(BaseModel):
     """Test data visible to clients; controlled-target context stays server-side."""
     test_id: str; run_id: str; dimension: Dimension; prompt: str; expected_behavior: str
@@ -735,6 +767,14 @@ class JudgeExecutionEvidence(BaseModel):
     reported_cost_credits: float | None = Field(default=None, ge=0, allow_inf_nan=False)
     sampling_control: str = 'unknown'
     sent_temperature: float | None = None
+    # Missing historical fields remain unknown; no provider cap is inferred.
+    requested_output_token_limit: int | None = Field(default=None, ge=1)
+    declared_output_token_limit: int | None = Field(default=None, ge=1)
+    configured_output_token_cap: int | None = Field(default=None, ge=1)
+    output_budget_status: Literal["configured", "provider_default", "invalid", "not_applicable"] | None = None
+    completion_status: Literal["complete", "truncated"] | None = None
+    finish_reason: str | None = Field(default=None, max_length=40)
+    native_finish_reason: str | None = Field(default=None, max_length=40)
     usage_scope: str = "last successful provider reply only; failed-attempt usage unknown"
     verdict_status: str
     provider_verdict: bool | None = None

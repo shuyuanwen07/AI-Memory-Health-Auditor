@@ -1,0 +1,23 @@
+{
+  "provider": "ollama",
+  "inventory_observed_at": "2026-10-13T03:33:14.313798+00:00",
+  "scope": "inventory_after_generation_smokes_not_a_call_bound_digest",
+  "model_inventory": {
+    "name": "qwen3:1.7b",
+    "model": "qwen3:1.7b",
+    "digest": "8f68893c685c3ddff2aa3fffce2aa60a30bb2da65ca488b61fff134a4d1730e7",
+    "size": 1359293444,
+    "details": {
+      "parent_model": "",
+      "format": "gguf",
+      "family": "qwen3",
+      "families": [
+        "qwen3"
+      ],
+      "parameter_size": "2.0B",
+      "quantization_level": "Q4_K_M",
+      "context_length": 40960,
+      "embedding_length": 2048
+    }
+  }
+}

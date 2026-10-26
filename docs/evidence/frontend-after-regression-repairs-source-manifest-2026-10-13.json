@@ -1,0 +1,481 @@
+{
+  "scope": "Frontend source/tests/style after three regression repairs",
+  "files": [
+    {
+      "path": "frontend/src/components/ui/testHelpers.ts",
+      "sha256": "945424ba8de946157b2c18a8a42627134a128cf2164b0b2914820fa1ade0bab0"
+    },
+    {
+      "path": "frontend/src/services/access.ts",
+      "sha256": "db1d0d20062981b9ed9de9436563cb17705719ba2195cb58a9fa4f4458db1b44"
+    },
+    {
+      "path": "frontend/src/services/api.test.ts",
+      "sha256": "e532a7c6c7a6ec721bdf272124f0d51e7fa7eaa8dc94e4909eec6e222089ef58"
+    },
+    {
+      "path": "frontend/src/services/api.ts",
+      "sha256": "b21cd8313864e3047179f094865e4868d8ce501f1240d56429ac53a8fc62f623"
+    },
+    {
+      "path": "frontend/src/services/auditDraftSettings.test.ts",
+      "sha256": "5b29eed520e464ea56cf8d2ee0d5496e13138f2b55ba1f25e5c7c72f16ad1bee"
+    },
+    {
+      "path": "frontend/src/services/auditDraftSettings.ts",
+      "sha256": "086b5edb9254f86f4b5700f6101590cb1bfebbd4d76bcd150a1e95b17ab939af"
+    },
+    {
+      "path": "frontend/src/services/chartColours.ts",
+      "sha256": "1753eaa35cd5427c1882909e67a3d6b05a544112b6b174b29b9bc4424e38acf4"
+    },
+    {
+      "path": "frontend/src/services/csvExport.test.ts",
+      "sha256": "463306ec1b51079e972d2b2cdda6551b1ed8f31c96d1f9a79b80de0b6b78ed34"
+    },
+    {
+      "path": "frontend/src/services/csvExport.ts",
+      "sha256": "4e02516c113bfd4aa8fbc9623e51cf9d3f7ec1ae943f81db4f6af6c074403f82"
+    },
+    {
+      "path": "frontend/src/services/developmentProxy.test.ts",
+      "sha256": "771d75085b1f1dff84656f56cfe9917f2ac428941980622d1388f82697149016"
+    },
+    {
+      "path": "frontend/src/services/display.test.ts",
+      "sha256": "298b58889ddd0ffee43953fd125139d56fc8ca5730b26b96e212448a9fe06c0e"
+    },
+    {
+      "path": "frontend/src/services/display.ts",
+      "sha256": "3c3707cf85e39d22f314271374b54ddab576a88e0b702555e110dd4b6de2b9a9"
+    },
+    {
+      "path": "frontend/src/services/download.ts",
+      "sha256": "5713edef578bf3cc2b90055ca3e60037fc00a015cea611d79d944d8baf5b95ed"
+    },
+    {
+      "path": "frontend/src/services/intakeRecovery.test.ts",
+      "sha256": "0bdc95999172c3b47e87e92ea8cee7750d37c7f9010a151d252769022bfc45b6"
+    },
+    {
+      "path": "frontend/src/services/intakeRecovery.ts",
+      "sha256": "66eebe71451979288d621585393935988eabd20f1bc8de886a7c013957fc58af"
+    },
+    {
+      "path": "frontend/src/services/memoryReviewConcerns.test.ts",
+      "sha256": "5f0ad00cef449b60e9656a43c6496aeb417e628cf813a0e661ad1262f3284171"
+    },
+    {
+      "path": "frontend/src/services/memoryReviewConcerns.ts",
+      "sha256": "d062bcfae428e50414ec8a470fa20382e9975374cc5a5b24a788620a9390ecda"
+    },
+    {
+      "path": "frontend/src/testSetup.ts",
+      "sha256": "f77f6a4e7bf36e5f3505c379f0ffdc4f317af8a4132766dd539217990b453af6"
+    },
+    {
+      "path": "frontend/src/types/domain.ts",
+      "sha256": "439fd6b5126e8eff6ad6234e21437f1a44feb1e6c2284121ba0f412258afabb5"
+    },
+    {
+      "path": "frontend/src/App.tsx",
+      "sha256": "1180224ee98804cdcb6894237a93691b9d8d934655bbf152a12ecc6c368339ec"
+    },
+    {
+      "path": "frontend/src/components/AccessBoundary.test.tsx",
+      "sha256": "33dd20cebd09f6f6194b273baa60790cdd91bd3b993eed333e22a5dd92fcf356"
+    },
+    {
+      "path": "frontend/src/components/AccessBoundary.tsx",
+      "sha256": "6853e8b6e76fc713eb1d2bc55e431e89a70ccba30dae33bc1e7deeb5f102c432"
+    },
+    {
+      "path": "frontend/src/components/AssessorOperationCharts.test.tsx",
+      "sha256": "b96c81371d92411959cf41d5f992e2d11081e06fe6d5498fa60ddfc388907762"
+    },
+    {
+      "path": "frontend/src/components/AssessorOperationCharts.tsx",
+      "sha256": "0a1f6f641c8b76c34f9301efceced0aee14089179a3fb7c62a8745ab28b4cc0e"
+    },
+    {
+      "path": "frontend/src/components/BenchmarkExecutionPlan.test.tsx",
+      "sha256": "45124b63ec2eff63b568cf554eb89171dd5ad31e2da1e233f8c50421d931a1ca"
+    },
+    {
+      "path": "frontend/src/components/BenchmarkExecutionPlan.tsx",
+      "sha256": "2744035011fe021a909d9a85392ad20e1e7e6def56112d573896183ec23e6ee6"
+    },
+    {
+      "path": "frontend/src/components/BenchmarkRankingAgreement.test.tsx",
+      "sha256": "261af45c6cd371b0fefc7fd63fa35aef80ecaaf92f33eb21191fdfc5f2e3a294"
+    },
+    {
+      "path": "frontend/src/components/BenchmarkRankingAgreement.tsx",
+      "sha256": "f167374c16c356f93ff11d6a746bdfaa462f16495838041f9b2a0004677d3437"
+    },
+    {
+      "path": "frontend/src/components/BenchmarkSemanticReview.test.tsx",
+      "sha256": "58d5a505130ce12169e955dd74ae9f646ef7c27a5aa926fc5765e50f01a26dec"
+    },
+    {
+      "path": "frontend/src/components/BenchmarkSemanticReview.tsx",
+      "sha256": "2cba27ccc7dfe5a9d00cd1f3e4710f2b3bbebdc83d9ac0056d1362a35c25f86b"
+    },
+    {
+      "path": "frontend/src/components/BenchmarkSettings.test.tsx",
+      "sha256": "dfe9087b0b4e609f35a8655f6c92674bc2262bc583c524530b6490a67a339183"
+    },
+    {
+      "path": "frontend/src/components/BenchmarkStrategyChart.test.tsx",
+      "sha256": "12c5702f3906b27c8888f1e4e26aae5d4431bb314340dcf97fa0e71ff72c68cb"
+    },
+    {
+      "path": "frontend/src/components/BenchmarkStrategyChart.tsx",
+      "sha256": "e32a4bfdf17f3338868f53059d290aeab3102ff4300379a2794c6615779caed9"
+    },
+    {
+      "path": "frontend/src/components/ComparisonVisualizations.test.tsx",
+      "sha256": "ca903746572468bfa97edd6bd21b8025db1c0ebf420d5b0ab7d2147a5590ada7"
+    },
+    {
+      "path": "frontend/src/components/ComparisonVisualizations.tsx",
+      "sha256": "234f7a428dfff55f1d55ed8832672ea95fcf9a62f37399764b39b3d1e1f04953"
+    },
+    {
+      "path": "frontend/src/components/ConversationStep.test.tsx",
+      "sha256": "580e3decf4e5879dbe48426afa0b028ff2dbc03fb0c35837bc0546e9381f91b2"
+    },
+    {
+      "path": "frontend/src/components/ConversationStep.tsx",
+      "sha256": "064a582973901c5831b73b0711106ffc60bfa7a64237b0608e36d26f940ff2b3"
+    },
+    {
+      "path": "frontend/src/components/CurrentModelPreset.test.tsx",
+      "sha256": "befc0990b052816aa6394a9443a4fc905cf9934ecddec740c01cf59dabf7ee16"
+    },
+    {
+      "path": "frontend/src/components/CurrentModelPreset.tsx",
+      "sha256": "e019d897d0a62d22c9b6975babe47318804d8adf6ccace60b21640ad51e7b1ed"
+    },
+    {
+      "path": "frontend/src/components/EvaluationReview.test.tsx",
+      "sha256": "4f5947064c4cb9797ae74e32a816aa67c132f5d60d98d179e3606bf05814c402"
+    },
+    {
+      "path": "frontend/src/components/EvaluationReview.tsx",
+      "sha256": "f9dcee07637b87b7039cb53bc5f6807784ffbd93d9984411ceb9e9c63543a337"
+    },
+    {
+      "path": "frontend/src/components/ExperimentAMethodChart.test.tsx",
+      "sha256": "5aeaa43002988aa929f46876590819aa3386a66e1df3a08cb4f3b0e927476d0b"
+    },
+    {
+      "path": "frontend/src/components/ExperimentAMethodChart.tsx",
+      "sha256": "d882e033ff97801c6af83ed9d105dcb963114ab2c94a7abc4906c77311cc7fb9"
+    },
+    {
+      "path": "frontend/src/components/ExperimentStatistics.test.tsx",
+      "sha256": "0bde1e7ece69481ce9de1259c72de11963079a2adb83ff7eef555da5e5f1c651"
+    },
+    {
+      "path": "frontend/src/components/ExperimentStatistics.tsx",
+      "sha256": "c93add3711c7b5ab804dba3ca9858948b3fdbbe4228ab5de71acee9fd3de0223"
+    },
+    {
+      "path": "frontend/src/components/FormalStudySummary.test.tsx",
+      "sha256": "966b1136e2ee2e701e307a29b49854b871c150b855c9b8c0dc7c00980f520caf"
+    },
+    {
+      "path": "frontend/src/components/FormalStudySummary.tsx",
+      "sha256": "a11a1c99e6051151e6b4e2e05e7806853701158dfcf6ce9ee2ebe5e2f32dfa22"
+    },
+    {
+      "path": "frontend/src/components/FrozenThresholdCheck.test.tsx",
+      "sha256": "f501849cddda3a645b4d37575451214b5de26f2f798b17dba1acf0979536488d"
+    },
+    {
+      "path": "frontend/src/components/FrozenThresholdCheck.tsx",
+      "sha256": "e9ec36d4f23e4f4e8f8dd696129bdf08fc18b7a7adf1bb7b56bf204638ef8119"
+    },
+    {
+      "path": "frontend/src/components/GeneratorQualityCharts.tsx",
+      "sha256": "3e0e401b3fc2905651b7f28413ffee1c8b5993074dae31b6fbd97bdc67776c67"
+    },
+    {
+      "path": "frontend/src/components/GeneratorUsageCharts.test.tsx",
+      "sha256": "2c2641aff1af59da596c3c839ccf945cb8347cd4c8f31f8a96ca9395f3b0f4eb"
+    },
+    {
+      "path": "frontend/src/components/GeneratorUsageCharts.tsx",
+      "sha256": "ae9b43d8683af07c50c8f81261b50dd9a1d1427540b55c72dbadf962e8d1c286"
+    },
+    {
+      "path": "frontend/src/components/GroundTruthReview.test.tsx",
+      "sha256": "7e5d8b1a8975db4d92d814537e31e66fcb8c00865e59b95c5d1b775e889340fb"
+    },
+    {
+      "path": "frontend/src/components/GroundTruthReview.tsx",
+      "sha256": "71e0715a710a25eca4db3b9dff48ac3dc7821e3628e307c318178d46eb3f0ce8"
+    },
+    {
+      "path": "frontend/src/components/InitialGenerationCharts.test.tsx",
+      "sha256": "1b0cf868885f5753c53aac1cc2993a51feabe31bbc82d8b417a619df57c79fb3"
+    },
+    {
+      "path": "frontend/src/components/InitialGenerationCharts.tsx",
+      "sha256": "b9da54166f3977d0a3058d5687ed659592fb305ba9ec3ed257b3f452b278514a"
+    },
+    {
+      "path": "frontend/src/components/JudgmentDifferences.test.tsx",
+      "sha256": "9037ee261a247d20d5be13263c6aadd531f9c74980719e80edfb8dd323dc33b4"
+    },
+    {
+      "path": "frontend/src/components/JudgmentDifferences.tsx",
+      "sha256": "51973f6a5e38d6984068fae8297ba4cea5fce2106dba0fec783b7a3cb7bf6cd2"
+    },
+    {
+      "path": "frontend/src/components/LiveBenchmark.test.tsx",
+      "sha256": "927d9c9f1e695b7eb19440601aa2035f77e91546b0eacf9cc6e15be9dc9391dc"
+    },
+    {
+      "path": "frontend/src/components/LiveBenchmark.tsx",
+      "sha256": "94ebab9b28ad178debb5b2e81a937510177aa42018a50d0ddc345ecadf4f5a36"
+    },
+    {
+      "path": "frontend/src/components/MemoryCard.test.tsx",
+      "sha256": "9e09252602870154568c2e4231da8d729209a8bfed9cd9829402e102a87a9b39"
+    },
+    {
+      "path": "frontend/src/components/MemoryCard.tsx",
+      "sha256": "20231950f64411ec01bf509361fd6402a81360b8a271323f5d54cc76c1d7fa56"
+    },
+    {
+      "path": "frontend/src/components/ModelComparison.tsx",
+      "sha256": "4220586f6d66f8e9579e03896ab5efa4a27f064aa18e357d38453be469660971"
+    },
+    {
+      "path": "frontend/src/components/ModelPicker.test.tsx",
+      "sha256": "ffdfbdd37d134945c6e1b3b5950bf66c1eebc42ed6fd8c512a024d1571a8b7c1"
+    },
+    {
+      "path": "frontend/src/components/ModelPicker.tsx",
+      "sha256": "f2b39868f6b654b46a4a254a1f60dd74d8e31f6ed0d96e3e0c4de9aa7f649849"
+    },
+    {
+      "path": "frontend/src/components/PairedOutcomeOverview.test.tsx",
+      "sha256": "45611c7ad58842169a8d733dbed5f0a917bf4efef8e5d78e3e33dfd5c6108ebf"
+    },
+    {
+      "path": "frontend/src/components/PairedOutcomeOverview.tsx",
+      "sha256": "caee9d19f6378ba652fcae9645c52b0528399b88e99714d76fd568b74790064a"
+    },
+    {
+      "path": "frontend/src/components/PilotCoverageChart.test.tsx",
+      "sha256": "a1b8382a0bad4d15929805b8b0098f3db79547301668b107592976dd1555d741"
+    },
+    {
+      "path": "frontend/src/components/PilotCoverageChart.tsx",
+      "sha256": "5156fc4b10ba1a985b592a43262de6ab1fbb29ff479f76a132004a908636c1e3"
+    },
+    {
+      "path": "frontend/src/components/RepeatedBenchmarkRanking.test.tsx",
+      "sha256": "627c7af1905cb7dc16eb30f0c4dbb4ff1cc38a6f28795a3f469708f75d70d269"
+    },
+    {
+      "path": "frontend/src/components/RepeatedBenchmarkRanking.tsx",
+      "sha256": "0c9030997b49f1959ac0dcedcc383d7aaa6051d1cc1d86d1c5fe72a1dbf0314d"
+    },
+    {
+      "path": "frontend/src/components/ResearchValidation.test.tsx",
+      "sha256": "05817641b73d88b42fed4c3148905a9bf0aaf92fe7f91bb916e3c18274759ca4"
+    },
+    {
+      "path": "frontend/src/components/ResearchValidation.tsx",
+      "sha256": "d9228a12b1ceb915691debc4fd4f3c235ca1d159d70c2bc455043531c6756b50"
+    },
+    {
+      "path": "frontend/src/components/ResearchValidityChart.test.tsx",
+      "sha256": "62fefa9b9103fff08420af43b35339928551d2797dc9536bc0c3490fde9ca0ce"
+    },
+    {
+      "path": "frontend/src/components/ResearchValidityChart.tsx",
+      "sha256": "4dace01a0cd3bb23e13da889bcf2b1119760b4978f294406db178d89ebb75487"
+    },
+    {
+      "path": "frontend/src/components/ResultDashboard.test.tsx",
+      "sha256": "e97e604bc17c48458351b5d30ddd97e6215c7b3aad46427ebbe9d56d80dcf431"
+    },
+    {
+      "path": "frontend/src/components/ResultDashboard.tsx",
+      "sha256": "4d05a81d054c6a398cb90d21b4c5cdeb94ae85492fa96b13e97b8df6470348f2"
+    },
+    {
+      "path": "frontend/src/components/ResultVisualizations.test.tsx",
+      "sha256": "66e209a3ac7b2c25be15dabe1b4e22a64916d266d15383784cff39702adc00f0"
+    },
+    {
+      "path": "frontend/src/components/ResultVisualizations.tsx",
+      "sha256": "899145849ba539dddc0a54b8644b66441c2d338dcdd6e47d919deafe31db2aaa"
+    },
+    {
+      "path": "frontend/src/components/ReviewedMethodComparison.test.tsx",
+      "sha256": "7d13e5cb2b32a94a2d6e10a31b80985c048eaa9590de4b032526f59b2043c9af"
+    },
+    {
+      "path": "frontend/src/components/ReviewedMethodComparison.tsx",
+      "sha256": "16dff17c44814d70f51673f7ab1c0b0c1407ecc9f932afb3973bdf04c9174571"
+    },
+    {
+      "path": "frontend/src/components/SavedAnswerReassessment.test.tsx",
+      "sha256": "f20bd4be181ea5d9f97a9a2e9512abac482c9d3f6d9c203b21fe67cb2bb5d816"
+    },
+    {
+      "path": "frontend/src/components/SavedAnswerReassessment.tsx",
+      "sha256": "89aac3cdeb799a76ce081a6d89f9ee2c2c71889a0e8ab94a2afe158c8ec45ff2"
+    },
+    {
+      "path": "frontend/src/components/SceneEvidenceVerification.test.tsx",
+      "sha256": "9025f7f75a8a4ebe9c8108d69bf288e5f3616590979861637b41758e3a9dc6e8"
+    },
+    {
+      "path": "frontend/src/components/SceneEvidenceVerification.tsx",
+      "sha256": "4c365aa9abe1bc58df9a100b1e03161dab25a6ca5e512bd92df1c6eba5bf8ff1"
+    },
+    {
+      "path": "frontend/src/components/StepIndicator.test.tsx",
+      "sha256": "785cac2b05f4d7e3fb2def38265654f7052f26d750bde0ec90a437d303004bff"
+    },
+    {
+      "path": "frontend/src/components/StepIndicator.tsx",
+      "sha256": "8a19ab6e4bd1460b141d7a3f0798d2855867959890ab2931e6ef9dfa7b296a76"
+    },
+    {
+      "path": "frontend/src/components/TargetMemoryTrace.test.tsx",
+      "sha256": "dfe11cb06703e7abbe89ac11fb9e8b745baa59b186b68f334f145ba3745ff379"
+    },
+    {
+      "path": "frontend/src/components/TargetMemoryTrace.tsx",
+      "sha256": "e04a57bbe6e9b4c638397f20d009bf8634b876b01560ea508e782011b6944270"
+    },
+    {
+      "path": "frontend/src/components/TargetProfileEditor.test.tsx",
+      "sha256": "a16233d6d79685c5a5bd9fab6deff12bfa34968ea222c7a8113c42e7ff9962ca"
+    },
+    {
+      "path": "frontend/src/components/TargetProfileEditor.tsx",
+      "sha256": "ec5adaf9647cd0ab122a11d5d9eff7326e3e298efe9a1156a87599aae787c11c"
+    },
+    {
+      "path": "frontend/src/components/TestSuiteReview.test.tsx",
+      "sha256": "a021bfc06a8fdebb0000a170d2aeda5f9945efca8a3cf74cf62a2aedc3add7c9"
+    },
+    {
+      "path": "frontend/src/components/TestSuiteReview.tsx",
+      "sha256": "720d9f0af1e960c1890d4527b23da22dcc406aec9d1483be14f797d1011f6f68"
+    },
+    {
+      "path": "frontend/src/components/ValidationWorkbench.test.tsx",
+      "sha256": "ce37c99496342553e898a4faaf7e2c24932a8e4739f202e582670c08c7bf11db"
+    },
+    {
+      "path": "frontend/src/components/ValidationWorkbench.tsx",
+      "sha256": "0110cee33ce2107ccb39283471a5dc5f5a609521864b61f9dc8ec3d0c51fc40c"
+    },
+    {
+      "path": "frontend/src/components/ui/index.tsx",
+      "sha256": "275a0f1ac5f38b92babe810ceec9b740004c5d10085455bd1bb6fd0ea923bb89"
+    },
+    {
+      "path": "frontend/src/components/ui/ui.test.tsx",
+      "sha256": "0e7898f608677d9f833515eefebba1e2e6a08ba99248ab3ff2e59d45c59cfd68"
+    },
+    {
+      "path": "frontend/src/main.tsx",
+      "sha256": "b49cc3529bd31d310829a8e19bfd130eb3ac898355e55cd1e8dc06e574063e96"
+    },
+    {
+      "path": "frontend/src/pages/AssessorComparison.test.tsx",
+      "sha256": "baea653d44e1ce8e7a85fcbb84f2d4b433d9b5f020d89330466576397cad5940"
+    },
+    {
+      "path": "frontend/src/pages/AssessorComparison.tsx",
+      "sha256": "7ab84154caaad632941ab563e6386bf213b93029124e481daf76d2f8e803fc72"
+    },
+    {
+      "path": "frontend/src/pages/AuditComparison.test.tsx",
+      "sha256": "41068e0db12c90c7c4dedbe5537e7792dc469f30439deb1f42d7ef4ec5730326"
+    },
+    {
+      "path": "frontend/src/pages/AuditComparison.tsx",
+      "sha256": "703f7f4b6f192feb75974bb1a19d2e6cc8c264ab27995a2d5654ac92f6db0394"
+    },
+    {
+      "path": "frontend/src/pages/AuditReportNavigation.test.tsx",
+      "sha256": "b1145cd027c7c6fbde81d83952e85274413b97f67707516d68c54ba77af21d77"
+    },
+    {
+      "path": "frontend/src/pages/AuditorComparison.test.tsx",
+      "sha256": "6f347a410e3052fb8c5564388ea65ba713e21229fecf76e3aaf03c2b702ce4f3"
+    },
+    {
+      "path": "frontend/src/pages/AuditorComparison.tsx",
+      "sha256": "1159792dc0863579c7a90151c7bce6863005c35d3240c7dd8411aa1ba541c885"
+    },
+    {
+      "path": "frontend/src/pages/AuditorQuality.test.tsx",
+      "sha256": "dda35204bc44d0a08c19aa8397b610743a2d63308c25203b2c738ad441c228ba"
+    },
+    {
+      "path": "frontend/src/pages/AuditorQuality.tsx",
+      "sha256": "46ae213d9e6d680ab6e39ea9ed092ee3b0d1f9b6f6d8f0f00f5561b5990eac06"
+    },
+    {
+      "path": "frontend/src/pages/BlindReview.tsx",
+      "sha256": "5bb7b2c14ff899c1632d8c53cdfc5ae0601cb358c7c4568fae9e1891e7ad17e2"
+    },
+    {
+      "path": "frontend/src/pages/Dashboard.test.tsx",
+      "sha256": "10d1c01cbefce26b501f9d9d42b6cabf06d725f744781c7a9ec7b95073e9a081"
+    },
+    {
+      "path": "frontend/src/pages/Dashboard.tsx",
+      "sha256": "da3e771cfb60df8d18ec7ad47ff1e2f67d9072ff7e6bc8339ba45af8a0697e3c"
+    },
+    {
+      "path": "frontend/src/pages/ExtractionComparison.test.tsx",
+      "sha256": "003289d502c93c49981509e3e13834c7a9a091d002b9f7a9281a02a8dd82d04f"
+    },
+    {
+      "path": "frontend/src/pages/ExtractionComparison.tsx",
+      "sha256": "08b055279976706acced7e80481110a1f38edbc6cd42b97ef59109c5a4d0e16a"
+    },
+    {
+      "path": "frontend/src/pages/GeneratorComparison.test.tsx",
+      "sha256": "f3f795a18b05d6d9fc34b2cc32e2b9d424c65a158a23ad3d3e67d2aaed53e6b9"
+    },
+    {
+      "path": "frontend/src/pages/GeneratorComparison.tsx",
+      "sha256": "a887c54320b2a65a43ac4c163418a99d6939d9c20c7d28e189347317a4262c54"
+    },
+    {
+      "path": "frontend/src/pages/NewAudit.tsx",
+      "sha256": "27a7cf57d66ba2884f1a395618f8f2f67c6f082c5b7df226fb71377a8cebac30"
+    },
+    {
+      "path": "frontend/src/pages/NewAudit.workflow.test.tsx",
+      "sha256": "6846f5e662046cbf35b04a54fc08fc8c5d241fdb9db33225096eaac45e5e3bf3"
+    },
+    {
+      "path": "frontend/src/pages/StaticPages.test.tsx",
+      "sha256": "368c941e729c8a613ef895ba1ef0c20ebddc782bb78f4237575707dd19a66cc9"
+    },
+    {
+      "path": "frontend/src/pages/StaticPages.tsx",
+      "sha256": "229aed5157c08a580b2cbecf0d7b9a657fc5527eb17530aabc7c04a3e0f3a9e2"
+    },
+    {
+      "path": "frontend/src/styles.css",
+      "sha256": "38bad2d70c49ef8f8e5b81b80c2524076cce7dc7eec2d204f915b54b47de1b47"
+    }
+  ]
+}

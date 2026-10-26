@@ -97,3 +97,19 @@ def test_agent_trace_preserves_bounded_output_limit_and_finish_reason():
     row=record_agent_execution(db,role='post_run_diagnostic',provider='openrouter',model='openai/gpt-6-luna',prompt_template_version='diagnostic-fixture',instructions='Synthetic fixture.',prompt='Synthetic fixture.',schema={},input_payload={},input_refs={},output_data=None,status='failed',execution={'request_attempts':1,'requested_output_token_limit':4096,'reported_finish_reason':'length'})
     assert row.error_diagnostics['requested_output_token_limit']==4096
     assert row.error_diagnostics['reported_finish_reason']=='length'
+
+
+def test_reasoning_usage_is_metered_without_storing_reasoning_content(monkeypatch):
+    monkeypatch.setenv('OPENROUTER_API_KEY', 'synthetic-secret')
+    monkeypatch.setattr('app.extraction.llm.httpx.post', lambda *args, **kwargs: httpx.Response(200, json={
+        'model': 'openai/gpt-6-luna',
+        'choices': [{'finish_reason': 'stop', 'message': {'content': '{}', 'reasoning': 'private-content'}}],
+        'usage': {'prompt_tokens': 10, 'completion_tokens': 90,
+                  'completion_tokens_details': {'reasoning_tokens': 80}},
+    }))
+    client = PipelineLLMClient('openrouter', 'openai/gpt-6-luna')
+    assert call(client) == {}
+    assert client.last_execution['reported_reasoning_tokens'] == 80
+    assert client.last_execution['reported_total_tokens'] == 100
+    assert 'private-content' not in str(client.last_execution)
+    assert 'synthetic-secret' not in str(client.last_execution)

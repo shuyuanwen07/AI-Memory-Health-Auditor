@@ -1,0 +1,17 @@
+{
+  "scope": "target-failure diagnostic delta and v13 isolated recovery binding",
+  "current_app_source_sha256": "201e7bc9a780a7b98391631ef84c9d5ca81a6a82127d02df951ef3ba58e4137b",
+  "current_source_archive_sha256": "59581f730e5347437a4167431da6bb59334fd833df25c33c587d7715a9fb1d34",
+  "current_backend_test_source_count": 224,
+  "test_sources_unchanged": true,
+  "single_target_probe_status": "completed",
+  "single_target_probe_research_evidence": false,
+  "original_runtime_recovery_status": "failed",
+  "original_saved_response_count_preserved": 2,
+  "original_saved_responses_unchanged": true,
+  "original_snapshot_unchanged": true,
+  "recovery_snapshot_sha256": "db10c24c9e7cec6b297858ce8d1b42c03691aec1bed2e25cae5e37de7cbd6a61",
+  "recovery_snapshot_sha_verified": true,
+  "disposable_database_removed": true,
+  "scope_limit": "Single input replay succeeds; full audit remains unproven. Recovery uses original frozen source, not the current diagnostic delta."
+}

@@ -3,6 +3,8 @@
 **Status:** Prepared for a real walkthrough; no user session has been recorded.
 **Purpose:** Check whether a person unfamiliar with Agents or research terminology can complete and understand one audit using the release build. This is a usability check, not a model-quality or research-validity label.
 
+**Team handoff:** The team will supply a real session record later. Leave all observation fields blank until that session takes place. The current new-run default is OpenRouter GPT 6 Luna; record the service and model actually selected. Use only the supplied synthetic conversation, and explain that selecting OpenRouter sends it to that model service before the participant authorises processing.
+
 ## Session record
 
 - Session ID / participant pseudonym:
@@ -26,7 +28,7 @@ Do not collect personal conversation histories for this walkthrough. Use the des
 1. Give the participant only the task wording below. Do not explain product terms or point to controls before they ask for help.
 2. Ask them to say what they are looking for and what they think each result means. Do not confirm whether their interpretation is correct until the task is finished.
 3. Record completion, time, navigation errors, terminology questions, misunderstandings, and every observer intervention. Distinguish an interface problem from a model or local-service failure.
-4. If a required service is unavailable, record the exact stage and stop dependent tasks. Do not substitute a mock or rule-based result and call the Qwen flow complete.
+4. If a required service is unavailable, record the exact stage and stop dependent tasks. Do not substitute a mock or rule-based result and call the selected-model flow complete.
 5. Keep original observations. Do not rewrite the participant's words into a preferred outcome.
 
 ## Walkthrough tasks
@@ -55,7 +57,7 @@ For each task, mark **Completed unaided**, **Completed with help**, **Not comple
 
 ### 3. Configure and run
 
-> Choose the requested local model and run settings, review the generated questions, and start the audit if the questions are supported by the source.
+> Choose the requested model service, model and run settings, review the generated questions, and start the audit if the questions are supported by the source.
 
 - Outcome:
 - Time:

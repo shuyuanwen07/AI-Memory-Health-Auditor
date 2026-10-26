@@ -9,11 +9,14 @@ stable replacement seam for a future agent memory backend.
 from __future__ import annotations
 
 import json
+import math
+from collections import Counter
 import re
 from app.services.location_facts import location_value
 from app.services.memory_entities import named_projects
 from app.services.memory_topics import is_language_topic
 from app.services.meeting_facts import is_meeting_platform_topic
+from app.services.fact_identity import FACT_TOKENS, fact_fingerprint
 from datetime import datetime, timezone
 from uuid import uuid4
 
@@ -46,13 +49,27 @@ from app.schemas import (
 from app.services.interfaces import MemoryExtractor, TargetMemoryStore
 from app.schemas.target_profile import TargetMemoryProfile
 from app.memory_agent.retrieval_agent import AgentMemoryRetriever
+from app.memory_agent.temporal_context import temporal_question, query_window, temporal_references
+from app.memory_agent.retrieval_text import retrieval_tokens, assistant_history_intent
+from app.memory_agent.topic_neighborhood import topic_neighborhood_proposals
+from app.memory_agent.retention_coverage import RetentionCoverageCandidate, select_retention_coverage
 
 
-_WORDS = re.compile(r"[a-zA-Z][a-zA-Z0-9_+-]*")
+_WORDS = FACT_TOKENS
 _STOP = frozenset({
     "the", "and", "for", "with", "from", "that", "this", "what", "which",
     "should", "would", "about", "user", "memory", "remembered", "does", "use",
     "used", "using", "now", "current", "currently", "please", "tell", "me",
+})
+# Retrieval relevance must not arise merely from pronouns or question grammar.
+# Keep these separate from the content signature used for conservative dedup.
+_RETRIEVAL_STOP = frozenset({
+    "i", "my", "we", "our", "you", "your", "it", "its", "s", "they", "their",
+    "them", "he", "his", "she", "her", "a", "an", "of", "to", "in", "on",
+    "at", "as", "by", "is", "am", "are", "was", "were", "be", "been", "being",
+    "have", "has", "had", "do", "did", "how", "many", "much", "when", "where",
+    "can", "could", "will", "would", "shall", "not", "just", "also", "so",
+    "some", "any", "there", "then", "than", "since", "again", "new", "more",
 })
 _NEGATION_OR_CHANGE_CUES = frozenset({
     "not", "never", "without", "instead", "except", "former", "previous",
@@ -89,9 +106,30 @@ def infer_target_memory_scope(canonical_value: str) -> TargetMemoryScope:
         return TargetMemoryScope.PROJECT_REQUIREMENT
     if re.search(r"\b(?:prefer(?:s|red|ence)?|favour(?:s|ed|ite)?|favorite|favourite|(?:would|\'d)\s+rather)\b", value):
         return TargetMemoryScope.PREFERENCE
+    if re.search(r"\bi\s+(?:(?:also|usually|generally|really|particularly)\s+)?(?:like|enjoy|love)\b", value):
+        return TargetMemoryScope.PREFERENCE
+    # Scope governs retention/retrieval priority, not truth or current-state certainty.
+    # Keep ongoing background and explicit personal relationships from being
+    # treated like disposable one-off conversation fragments. Preserve the
+    # full source wording, including plans, dates and uncertainty.
+    if re.search(r"\b(?:i|we)(?:['’](?:ve|m|re)|\s+(?:have|am|are))\s+(?:been\s+)?"
+                 r"(?:work(?:ing|ed)?|liv(?:e|ing|ed)|stud(?:y|ying|ied))\b", value):
+        return TargetMemoryScope.PROFILE
+    if re.search(r"\bmy\s+(?:sister|brother|mother|father|daughter|son|partner|spouse|wife|husband)\b", value):
+        return TargetMemoryScope.PROFILE
     if location_value(value) or re.search(r"\b(?:i\s+am|my\s+name|based\s+in|live\s+in|located\s+in|(?:moved|relocated)\s+to|work\s+as|(?:my|the)\s+backend|i\s+(?:now\s+)?use)\b", value):
         return TargetMemoryScope.PROFILE
     return TargetMemoryScope.EPISODIC
+
+
+def _reference_ranges(reference: dict) -> list[tuple[str, str]]:
+    """Keep disjoint calendar candidates disjoint during retrieval scoring."""
+    candidates = reference.get("candidate_ranges")
+    if reference.get("range_kind") == "candidate_envelope" and isinstance(candidates, list):
+        return [(item["resolved_start"], item["resolved_end"]) for item in candidates
+                if isinstance(item, dict) and isinstance(item.get("resolved_start"), str)
+                and isinstance(item.get("resolved_end"), str)]
+    return [(reference["resolved_start"], reference["resolved_end"])]
 
 
 class SqlTargetMemoryStore(TargetMemoryStore):
@@ -211,7 +249,10 @@ class SqlTargetMemoryStore(TargetMemoryStore):
                     },
                 )
                 continue
-            scope = infer_target_memory_scope(candidate.canonical_value)
+            source_roles = {message.role.strip().lower() for message in conversation.messages
+                            if message.message_id in candidate.source_message_ids}
+            scope = (TargetMemoryScope.EPISODIC if source_roles == {"assistant"}
+                     else infer_target_memory_scope(candidate.canonical_value))
             record = TargetAgentMemoryModel(
                 id=_ident("TM"), run_id=run_id,
                 source_conversation_id=conversation.conversation_id,
@@ -325,6 +366,15 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             )
         self._mark_retrieval_eligibility(candidates, strategy, evicted_ids)
         self._include_update_history_for_question_context(candidates, relations, test.prompt, strategy)
+        if self.profile.retrieve_message_context and strategy not in {
+            MemoryStrategy.NO_MEMORY, MemoryStrategy.WEAK_FIRST_HIT, MemoryStrategy.FULL_CONTEXT,
+        }:
+            self._annotate_lexical_strength(candidates)
+            self._include_message_context(candidates)
+            if temporal_question(test.prompt):
+                self._include_temporal_neighborhood(candidates, test.prompt)
+            else:
+                self._include_topic_neighborhood(candidates)
         preferred_scope, _ = _preferred_scope(test.prompt)
         eligible: list[dict] = []
         for item in candidates:
@@ -352,6 +402,9 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             {
                 "memory_id": item["record"].id,
                 "relevance": item["relevance"],
+                "temporal_window_match": item.get("temporal_window_match", False),
+                "context_score": item.get("context_score"),
+                "topic_neighborhood": item.get("topic_neighborhood"),
                 "policy_score": item["policy_score"],
                 "lifecycle_state": item["record"].lifecycle_state,
                 "scope": item["record"].scope,
@@ -387,7 +440,7 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         )
         self.db.flush()
         return TargetMemoryRetrievalResult(
-            context=[item["record"].canonical_value for item in selected],
+            context=[self._render_context(item) for item in selected],
             evidence=TargetMemoryRetrievalEvidence(
                 retrieval_id=retrieval.id, run_id=run_id, test_id=test.test_id,
                 strategy=strategy, selected_memory_ids=list(retrieval.selected_memory_ids),
@@ -556,7 +609,7 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         characters = 0
         for choice in choices["selected"]:
             item = by_id[choice["memory_id"]]
-            cost = len(item["record"].canonical_value) + 3
+            cost = len(self._render_context(item)) + 3
             if len(selected) >= self.profile.max_retrieved_records:
                 item["agent_reason"] = "Selected by the Agent but excluded by the record-count limit."
                 continue
@@ -631,7 +684,7 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         )
         self.db.flush()
         return TargetMemoryRetrievalResult(
-            context=[item["record"].canonical_value for item in selected],
+            context=[self._render_context(item) for item in selected],
             evidence=TargetMemoryRetrievalEvidence(
                 retrieval_id=retrieval.id, run_id=run_id, test_id=test.test_id,
                 strategy=strategy, selected_memory_ids=list(retrieval.selected_memory_ids),
@@ -728,16 +781,275 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         # Ranking policies order from low to high priority. Keep the strongest
         # records without reversing the supplied chronology/order.
         priority = retained if strategy in {MemoryStrategy.FULL_CONTEXT, MemoryStrategy.WEAK_FIRST_HIT} else list(reversed(retained))
+        source_coverage = self.profile.retrieve_message_context and strategy == MemoryStrategy.STRONG_RULE_BASED
+        if source_coverage:
+            priority = self._source_coverage_priority(priority, test)
         chosen = set()
+        chosen_items: list[dict] = []
         characters = 0
         for item in priority:
-            cost = len(item["record"].canonical_value) + 3
+            if source_coverage and any(self._source_text_covers(other, item) for other in chosen_items):
+                item["reason"] += ", profile_text_covered_by_selected_source_record"
+                continue
+            cost = len(self._render_context(item)) + 3
             if len(chosen) >= self.profile.max_retrieved_records or characters + cost > self.profile.context_character_budget:
                 item["reason"] += ", profile_context_budget_excluded"
+                item["reason"] += (", profile_record_limit_excluded" if len(chosen) >= self.profile.max_retrieved_records
+                                   else ", profile_character_limit_excluded")
                 continue
             chosen.add(item["record"].id)
+            chosen_items.append(item)
             characters += cost
-        return [item for item in retained if item["record"].id in chosen]
+        result = [item for item in retained if item["record"].id in chosen]
+        if self.profile.retrieve_message_context:
+            result.sort(key=lambda item: (self._time_value(item["record"]), item["record"].write_order))
+        return result
+
+    @staticmethod
+    def _source_group_key(item: dict) -> tuple:
+        """A delivery provenance group, never an entity or event equivalence."""
+        record = item["record"]
+        sources = tuple(record.source_message_ids)
+        return (sources, record.observed_at) if sources else ((), record.id)
+
+    @classmethod
+    def _source_text_covers(cls, container: dict, item: dict) -> bool:
+        """Skip only text already delivered from the exact same observation.
+
+        A longer quoted context can carry a retained fact and its antecedent.
+        This does not consolidate store records or infer a relationship. Facts
+        with relationship evidence remain independently selectable.
+        """
+        if (container is item or cls._source_group_key(container) != cls._source_group_key(item)
+                or item.get("relationship_types")):
+            return False
+        value = " ".join(item["record"].canonical_value.split()).casefold().rstrip(". ")
+        text = " ".join(container["record"].canonical_value.split()).casefold()
+        return len(value) >= 12 and value in text and len(text) > len(value) + 1
+
+    def _source_coverage_priority(self, priority: list[dict], test: TestCase) -> list[dict]:
+        """Pack query evidence across observations before repeated fragments.
+
+        Density remains a tie-breaker, not a reason to fill the entire context
+        with short plans and neighboring fragments. Provenance coverage does
+        not estimate an event count: multiple noncontained facts from one
+        source remain candidates in later rounds. No original messages,
+        reviewer IDs, expected answers or inferred identity groups are read.
+        """
+        question = re.split(r"\nQuestion date:", getattr(test, "prompt", ""), flags=re.I)[0]
+        prospective_query = bool(re.search(
+            r"\b(?:plan\w*|intend\w*|future|want\w*|hope\w*|wish\w*|will|would|should|"
+            r"recommend\w*|suggest\w*)\b|\bgoing\s+to\b", question, re.I))
+        prospective_opening = re.compile(
+            r"^(?:(?:by the way|for [^,.]{1,80}),?\s*)?"
+            r"(?:i(?:['’]m| am)\s+(?:planning|hoping|going to)|"
+            r"i\s+(?:want|wish|hope|intend|plan|would|think\s+i(?:['’]ll| will| should)|"
+            r"would\s+like)|i['’]d\s+like)\b", re.I)
+        personal_query = bool(re.search(r"\b(?:I|my|me|we|our)\b", question, re.I))
+        assistant_recall = assistant_history_intent(question)
+        buckets: dict[tuple, dict[tuple, list[tuple[int, dict]]]] = {}
+        for position, item in enumerate(priority):
+            prospective = not prospective_query and bool(prospective_opening.search(item["record"].canonical_value))
+            direct = item.get("direct_relevance", item.get("relevance", 0)) > 0
+            support = (3 if direct else 2) if not prospective else (1 if direct else 0)
+            roles = item.get("source_roles", set())
+            # Long assistant suggestions must not crowd direct user facts out
+            # of a personal-fact answer. Explicit assistant-history questions
+            # reverse that preference. No role is removed or exempted from
+            # the same delivered-character/record budget.
+            role_priority = (int(roles == {"assistant"}) if assistant_recall
+                             else int(roles == {"user"}) if personal_query else 0)
+            # Keep coverage tiers finite: continuous content scores already
+            # order the incoming ranking. Reusing them as outer bucket keys
+            # would split one observation across near-unique tiers and exhaust
+            # repeated fragments before another source gets its first turn.
+            # A window match is a retrieval hint, never an asserted event date.
+            tier = (item.get("policy_score", 20),
+                    bool(item.get("temporal_window_match")), role_priority, support)
+            bucket = buckets.setdefault(tier, {})
+            bucket.setdefault(self._source_group_key(item), []).append((position, item))
+        result: list[dict] = []
+        for tier in sorted(buckets, reverse=True):
+            groups = list(buckets[tier].values())
+            for group in groups:
+                # Prefer a verbatim context that actually contains another
+                # candidate fact; its extra source clauses must still pay the
+                # ordinary delivered-character and record budgets.
+                members = tuple(group)
+                group.sort(key=lambda row: (
+                    -sum(self._source_text_covers(row[1], other[1]) for other in members), row[0],
+                ))
+            groups.sort(key=lambda group: min(row[0] for row in group))
+            depth = 0
+            while any(depth < len(group) for group in groups):
+                for group in groups:
+                    if depth < len(group):
+                        item = group[depth][1]
+                        item["reason"] += ", profile_source_coverage"
+                        result.append(item)
+                depth += 1
+        return result
+
+    def _render_context(self, item: dict) -> str:
+        record = item["record"]
+        if not self.profile.retrieve_message_context:
+            return record.canonical_value
+        # Metadata belongs to delivery, not fact text, fingerprints or matching.
+        payload = {"source_observed_at": record.observed_at.isoformat() if record.observed_at else None,
+                   "source_message_ids": record.source_message_ids, "content": record.canonical_value}
+        if temporal_question(item.get("test_prompt", "")):
+            references = temporal_references(record.canonical_value, record.observed_at)
+            if references:
+                payload["relative_time_reference_only"] = [
+                    {key: ref[key] for key in (
+                        "phrase", "resolved_start", "resolved_end", "precision", "approximate",
+                        "range_kind", "ambiguity", "candidate_ranges", "weekend_convention",
+                        *(("caution",) if ref["precision"] == "weekend" else ()),
+                    ) if key in ref}
+                    for ref in references[:6]
+                ]
+        return json.dumps(payload, ensure_ascii=False, separators=(",", ":"))
+
+    @staticmethod
+    def _include_topic_neighborhood(candidates: list[dict]) -> None:
+        """Recall related retained content; never assert a factual relation.
+
+        The pure helper freezes original lexical anchors and proposes only
+        bounded one-hop neighbors. Its score cannot bypass lifecycle filters
+        or the ordinary final record/character budgets.
+        """
+        by_id = {item["record"].id: item for item in candidates}
+        for proposal in topic_neighborhood_proposals(candidates):
+            item = by_id[proposal.memory_id]
+            item["relevance"] = max(item["relevance"], proposal.relevance)
+            item["context_score"] = max(item.get("context_score", 0), proposal.context_score)
+            item["reason"] += ", " + proposal.reason
+            item["topic_neighborhood"] = {
+                "anchor_memory_id": proposal.anchor_memory_id,
+                "shared_terms": list(proposal.shared_terms),
+                "shared_weight": proposal.shared_weight,
+                "neighbor_content_coverage": proposal.neighbor_content_coverage,
+                "anchor_source_roles": list(proposal.anchor_source_roles),
+                "validation_scope": proposal.validation_scope,
+            }
+
+    @staticmethod
+    def _annotate_lexical_strength(candidates: list[dict]) -> None:
+        """Weight retained content matches without reading source or gold.
+
+        Document frequency uses the same eligible private store on each query.
+        Repeated mentions of a common word contribute less than distinctive
+        content. This affects packing, never canonical text or identity.
+        """
+        available = [item for item in candidates if item["eligible"]]
+        frequencies = Counter(term for item in available for term in item.get("_memory_terms", set()))
+        for item in available:
+            shared = item.get("_query_terms", set()) & item.get("_memory_terms", set())
+            score = sum(1 + math.log((len(available) + 1) / (frequencies[term] + 1)) for term in sorted(shared))
+            if item.get("category_match"):
+                score += 3
+            if not item.get("_query_terms"):
+                score = item.get("direct_relevance", item.get("relevance", 0))
+            item["direct_context_score"] = score
+            item["context_score"] = score
+
+    @staticmethod
+    def _include_message_context(candidates: list[dict]) -> None:
+        """Recover active sibling fragments without consulting original text or gold.
+
+        Use a single hop from directly matching records. Never revive unavailable
+        records. Normal profile filters and budgets still apply after expansion.
+        """
+        anchors: dict[str, float] = {}
+        strengths: dict[str, float] = {}
+        for item in candidates:
+            if item["eligible"] and item["relevance"] > 0:
+                for source_id in item["record"].source_message_ids:
+                    anchors[source_id] = max(anchors.get(source_id, 0), item["relevance"])
+                    strengths[source_id] = max(strengths.get(source_id, 0), item.get("direct_context_score", item["relevance"]))
+        for item in candidates:
+            if not item["eligible"]:
+                continue
+            score = max((anchors.get(s, 0) for s in item["record"].source_message_ids), default=0)
+            if score > item["relevance"]:
+                item["relevance"] = score
+                item["reason"] += ", same_message_context"
+            strength = max((strengths.get(s, 0) for s in item["record"].source_message_ids), default=0) * 0.85
+            item["context_score"] = max(item.get("context_score", item["relevance"]), strength)
+
+    @staticmethod
+    def _include_temporal_neighborhood(candidates: list[dict], prompt: str) -> None:
+        """Recover temporal context with bounded, attenuated stored-fact links.
+
+        IDF preserves discriminative names over generic event words. Personal
+        event questions use user statements; explicitly requested assistant
+        history remains available. All expansion is one hop from direct query
+        matches, never from gold or unstored source text.
+        """
+        question = re.split(r"\nQuestion date:", prompt, flags=re.I)[0]
+        personal = bool(re.search(r"\b(?:I|my|we|our)\b", question, re.I))
+        assistant_recall = assistant_history_intent(question)
+        # Assistant text may locate a nearby user statement without itself
+        # becoming evidence that the user attended an event.
+        bridge_candidates = [item for item in candidates if item["eligible"]]
+        if personal and not assistant_recall:
+            for item in candidates:
+                if item.get("source_roles") == {"assistant"}:
+                    item["eligible"] = False
+                    item["reason"] += ", assistant_history_not_user_event_evidence"
+        available = [item for item in candidates if item["eligible"]]
+        frequencies = Counter(term for item in bridge_candidates for term in item.get("_memory_terms", set()))
+        for item in bridge_candidates:
+            score = sum(1 + math.log((len(bridge_candidates) + 1) / (frequencies[term] + 1))
+                        for term in sorted(item.get("_query_terms", set()) & item.get("_memory_terms", set())))
+            if item.get("category_match"):
+                score += 3
+            if not item.get("_query_terms"):
+                score = item.get("direct_relevance", 0)
+            item["direct_context_score"] = score
+            item["context_score"] = score
+        anchors = [item for item in bridge_candidates if item.get("direct_relevance", 0) > 0]
+        rare_limit = max(3, int(len(available) * 0.05))
+        window = query_window(prompt)
+        for item in available:
+            best = item["context_score"]
+            raw = item["relevance"]
+            for anchor in anchors:
+                strength = 0.0
+                if set(item["record"].source_message_ids) & set(anchor["record"].source_message_ids):
+                    strength = 1.0
+                else:
+                    shared = item.get("_memory_terms", set()) & anchor.get("_memory_terms", set())
+                    rare_shared = sum(frequencies[term] <= rare_limit and not term.isdigit() for term in shared)
+                    for pos_a, time_a in item.get("source_context_points", []):
+                        for pos_b, time_b in anchor.get("source_context_points", []):
+                            if time_a != time_b:
+                                continue
+                            distance = abs(pos_a - pos_b)
+                            if distance <= 6:
+                                strength = max(strength, 0.5)
+                            # Explicit shared content can link a name to a date
+                            # across up to six dialogue exchanges, still one hop.
+                            if distance <= 12 and rare_shared >= 2:
+                                strength = max(strength, 0.8)
+                best = max(best, strength * anchor["direct_context_score"])
+                raw = max(raw, strength * anchor["direct_relevance"])
+            if raw > item["relevance"]:
+                item["relevance"] = raw
+                item["reason"] += ", bounded_temporal_source_neighborhood"
+            item["context_score"] = best
+            if not window or item["relevance"] <= 0:
+                continue
+            record = item["record"]
+            references = temporal_references(record.canonical_value, record.observed_at)
+            dates = [interval for ref in references for interval in _reference_ranges(ref)]
+            if record.observed_at:
+                observed = record.observed_at.date().isoformat()
+                dates.append((observed, observed))
+            if any(start <= window_end and end >= window_start
+                   for start, end in dates for window_start, window_end in _reference_ranges(window)):
+                item["temporal_window_match"] = True
+                item["reason"] += ", query_temporal_window_match"
 
     def _select(self, candidates: list[dict], strategy: MemoryStrategy) -> list[dict]:
         if not candidates:
@@ -756,7 +1068,11 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             return [min(candidates, key=lambda item: item["record"].write_order)]
         if strategy == MemoryStrategy.STRONG_RULE_BASED:
             return sorted(candidates, key=lambda item: (
-                item["policy_score"], self._time_value(item["record"]), item["record"].write_order,
+                bool(item.get("temporal_window_match")) if self.profile.retrieve_message_context else False,
+                item["policy_score"],
+                (item.get("context_score", item["relevance"]) / math.sqrt(len(self._render_context(item)) + 3))
+                if self.profile.retrieve_message_context else 0,
+                self._time_value(item["record"]), item["record"].write_order,
             ))
         if strategy == MemoryStrategy.SCOPE_AWARE:
             return self._select_scope_aware(candidates)
@@ -856,8 +1172,20 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         self, record: TargetAgentMemoryModel, test: TestCase,
         relations: list[TargetAgentMemoryRelationshipModel],
     ) -> dict:
-        prompt_terms = _tokens(test.prompt)
-        value_terms = _tokens(record.canonical_value)
+        # The benchmark appends source chronology for the reader. That footer
+        # is not part of the substantive question's lexical retrieval intent.
+        question = re.sub(r"\nQuestion date: [^\n]+$", "", test.prompt)
+        prompt_terms = _retrieval_tokens(question, normalise_inflections=self.profile.retrieve_message_context)
+        value_terms = _retrieval_tokens(record.canonical_value, normalise_inflections=self.profile.retrieve_message_context)
+        if self.profile.retrieve_message_context and temporal_question(question):
+            # Temporal scaffolding is not an event's topic. Otherwise "weeks"
+            # can retrieve arbitrary facts and seed unrelated neighborhoods.
+            prompt_terms -= {"ago", "day", "week", "month", "year", "past", "last", "first",
+                             "earliest", "latest", "order", "starting", "activity", "related", "device",
+                             "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",
+                             "ten", "eleven", "twelve", "set", "up", "passed", "attended", "attend", "event",
+                             "this", "current", "calendar", "how", "many", "number"}
+            prompt_terms = {term for term in prompt_terms if not term.isdigit()}
         overlap = len(prompt_terms & value_terms)
         category_match = int(bool(_category(test.prompt) and _category(test.prompt) == _category(record.canonical_value)))
         relevance = overlap + (3 * category_match)
@@ -884,7 +1212,8 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             policy_score = max(policy_score, 30)
             reasons.append("unresolved_conflict")
         return {
-            "record": record, "relevance": relevance,
+            "record": record, "relevance": relevance, "direct_relevance": relevance,
+            "_query_terms": prompt_terms, "_memory_terms": value_terms,
             "category_match": bool(category_match),
             "resolution_history": False,
             "policy_score": policy_score, "relationship_types": relationship_types,
@@ -938,11 +1267,21 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             message.message_id: position
             for position, message in enumerate(conversation.messages, start=1)
         }
+        source_times = {message.message_id: message.timestamp.isoformat() for message in conversation.messages}
+        source_roles = {message.message_id: message.role.strip().lower() for message in conversation.messages}
         message_total = max(len(conversation.messages), 1)
         fallback_total = max((item["record"].write_order for item in candidates), default=1)
         for item in candidates:
             record = item["record"]
             positions = [source_position[item_id] for item_id in record.source_message_ids if item_id in source_position]
+            item["source_positions"] = positions
+            item["source_roles"] = {source_roles[source_id] for source_id in record.source_message_ids
+                                    if source_id in source_roles}
+            item["source_time_keys"] = [source_times[source_id] for source_id in record.source_message_ids
+                                        if source_id in source_times]
+            item["source_context_points"] = [(source_position[source_id], source_times[source_id])
+                                              for source_id in record.source_message_ids
+                                              if source_id in source_times]
             if positions:
                 position = max(positions)
                 denominator = message_total
@@ -1051,6 +1390,44 @@ class SqlTargetMemoryStore(TargetMemoryStore):
                     "protected_conflicted_memory_ids": [record.id for record in protected],
                 },
             )
+            return
+
+        if self.profile.retention_policy == "source_coverage" and len(retained) > self.max_active_records:
+            # Prospective batch selection over available written records only.
+            # Previous evictions above are unavailable, even if their text is
+            # retained in the diagnostic database. Both retrieval arms use this
+            # same frozen ingestion choice and the original record capacity.
+            decision = select_retention_coverage([
+                RetentionCoverageCandidate(
+                    memory_id=record.id, lifecycle_state=record.lifecycle_state,
+                    retention_priority=self._retention_rank(record, relation_by_memory.get(record.id, []))[0],
+                    observed_at=record.observed_at.isoformat() if record.observed_at else None,
+                    observed_order=self._time_value(record), write_order=record.write_order,
+                    source_message_ids=tuple(record.source_message_ids), canonical_value=record.canonical_value,
+                ) for record in retained
+            ], capacity=self.max_active_records, representative_policy="content_information")
+            by_id = {record.id: record for record in retained}
+            trace = {row["memory_id"]: row for row in decision.decisions}
+            self._event(run_id, None, TargetMemoryEventType.MAINTENANCE_APPLIED, details={
+                "maintenance_action": "capacity_source_coverage_selection",
+                "retention_policy": self.profile.retention_policy, "selector_version": decision.version,
+                "max_active_records": self.max_active_records,
+                "retained_record_count": len(decision.retained_memory_ids),
+                "priority_counts": list(decision.priority_counts),
+                "decisions": list(decision.decisions),
+                "scope": "provenance_and_observation_coverage_not_event_identity_or_lossless_retention",
+            })
+            for memory_id in decision.evicted_memory_ids:
+                record = by_id[memory_id]
+                record.lifecycle_state = TargetMemoryLifecycleState.EVICTED.value
+                self._event(run_id, record.id, TargetMemoryEventType.MAINTENANCE_APPLIED,
+                    source_message_ids=list(record.source_message_ids), details={
+                        "maintenance_action": "capacity_evicted_record",
+                        "max_active_records": self.max_active_records, "evicted_memory_id": record.id,
+                        "canonical_fingerprint": _canonical_fingerprint(record.canonical_value),
+                        "scope": record.scope, "exclusion": "all_retrieval_strategies",
+                        "selector_version": decision.version, "retention_decision": trace[memory_id],
+                    })
             return
 
         evictable = [record for record in retained if record not in protected]
@@ -1175,16 +1552,32 @@ class SqlTargetMemoryStore(TargetMemoryStore):
 
     @staticmethod
     def _time_value(record: TargetAgentMemoryModel) -> float:
-        return record.observed_at.timestamp() if record.observed_at else float(record.write_order)
+        if record.observed_at is None:
+            return float(record.write_order)
+        # SQLite commonly returns naive UTC datetimes even when writes were
+        # timezone-aware. Treat both forms as UTC so retention order is stable
+        # across databases and hosts with different local time zones.
+        observed_at = record.observed_at
+        if observed_at.tzinfo is None:
+            observed_at = observed_at.replace(tzinfo=timezone.utc)
+        return observed_at.timestamp()
 
 
 def _tokens(text: str) -> set[str]:
     return {term.lower() for term in _WORDS.findall(text) if term.lower() not in _STOP}
 
 
+def _retrieval_tokens(text: str, *, normalise_inflections: bool = False) -> set[str]:
+    # Shared contraction cleanup applies to both arms. Optional morphology
+    # remains controlled by the declared message-context profile. Canonical
+    # signatures continue using _tokens above without this retrieval helper.
+    return retrieval_tokens(text, normalise_inflections=normalise_inflections,
+                            stop_words=_STOP | _RETRIEVAL_STOP)
+
+
 def _canonical_fingerprint(value: str) -> str:
     """Normalise only case/spacing/punctuation for traceable exact deduping."""
-    return " ".join(_WORDS.findall(value.lower()))
+    return fact_fingerprint(value)
 
 
 def _near_duplicate_signature(value: str) -> frozenset[str]:
@@ -1200,7 +1593,11 @@ def _near_duplicate_signature(value: str) -> frozenset[str]:
 def _is_conservative_near_duplicate(value: str) -> bool:
     """Reject near merging whenever wording may imply a changed fact."""
     words = {term.lower() for term in _WORDS.findall(value)}
-    return not bool(words & _NEGATION_OR_CHANGE_CUES)
+    # A bag of words cannot preserve which entity owns each quantity/date.
+    # Numeric facts may still exact-deduplicate, with their token order intact.
+    return not bool(words & _NEGATION_OR_CHANGE_CUES) and not any(
+        any(character.isdigit() for character in word) for word in words
+    )
 
 
 def _preferred_scope(prompt: str) -> tuple[TargetMemoryScope | None, str]:

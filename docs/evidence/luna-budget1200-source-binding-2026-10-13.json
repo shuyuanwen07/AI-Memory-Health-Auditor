@@ -1,0 +1,14 @@
+{
+  "scope": "failed1200budget trial source binding",
+  "app_source_sha256": "4ffda12de0b335bfa381de5a67e92e71dc2b906187fc3b4918463788ffe5efa8",
+  "app_files": 122,
+  "matches_original_reports": [
+    "luna-current-isolated-api-v9-failed-2026-10-13.json",
+    "luna-current-isolated-api-v10-route-failed-2026-10-13.json",
+    "luna-current-isolated-api-v11-route-failed-2026-10-13.json"
+  ],
+  "archive_sha256": "6696e4bf8e187b55bece9fbf39878e8813c5a9006586551af69b9326ab8c038e",
+  "v9_v11_snapshot_hashes_verified": true,
+  "pipeline_output_token_cap": 1200,
+  "research_evidence": false
+}

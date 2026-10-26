@@ -1,0 +1,446 @@
+{
+  "scope": "synthetic_full_context_target_and_judge_smoke_only",
+  "research_evidence": false,
+  "source_sha256": "e84fb0e564c7439ce3edf0fc6ebf7b25a681c9bb9dd209b1b97eb5d5d8a7d406",
+  "provider": "openrouter",
+  "model": "openai/gpt-6-luna",
+  "audit_database_writes": 0,
+  "reused_target_responses": true,
+  "cases": [
+    {
+      "test": {
+        "test_id": "T001",
+        "run_id": "SYN-QWEN-GENERATION",
+        "dimension": "accuracy",
+        "prompt": "What city does the user live in?",
+        "expected_behavior": "The user lives in Adelaide.",
+        "supporting_memory_ids": [
+          "M001"
+        ],
+        "generator_version": "agent-coverage-semantic-v20",
+        "test_type": "direct",
+        "quality_status": "pending",
+        "grounding_status": "pending",
+        "validation_notes": null,
+        "human_validity_status": "pending",
+        "human_validity_reviewer": null,
+        "human_validity_note": null,
+        "human_validity_reviewed_at": null,
+        "probe_group_id": null,
+        "probe_variant": null,
+        "target_memory_context": [
+          "I live in Adelaide.",
+          "The Maple capstone backend used MySQL previously.",
+          "We migrated the Maple capstone backend to PostgreSQL; MySQL is no longer used there.",
+          "In general, I prefer Python for backend projects.",
+          "For Maple capstone backend work, the course requires Java only; that requirement applies to this capstone project.",
+          "The current deployment plan for the Maple capstone says the production region is North.",
+          "The signed client brief for the same Maple capstone deployment says the production region is South.",
+          "Both deployment documents are still active; I have not established which instruction controls."
+        ]
+      },
+      "response": {
+        "response_id": "R001",
+        "test_id": "T001",
+        "run_id": "SYN-QWEN-GENERATION",
+        "response_text": "The user lives in Adelaide.",
+        "model": "openai/gpt-6-luna",
+        "temperature": 0.0,
+        "execution_metadata": {
+          "request_attempts": 1,
+          "latency_ms": 5952.92,
+          "input_tokens": 497,
+          "output_tokens": 10,
+          "total_tokens": 507,
+          "sampling_control": "model_default",
+          "sent_temperature": null,
+          "reported_model": "openai/gpt-6-luna",
+          "shared_source_run_id": null,
+          "shared_source_response_id": null,
+          "response_source": "openrouter",
+          "completion_status": "complete",
+          "finish_reason": "stop",
+          "requested_output_token_limit": null,
+          "memory_input": {
+            "version": "target-memory-input-v1",
+            "record_count": 8,
+            "context_sha256": "6f1a4960a3c4b065d8021d5fd7550d8be2097cc629899a41a5753442a7b67273",
+            "instruction_sha256": "a5c4aafbfa2cfab7a565df3bf9526eb5e728af109a0898aa49e591d8879a53b6",
+            "prompt_sha256": "cf44fabecd49fbd73e525d6910e0177c6b1b2e4b460c1eb74bd2746a8b3f3ccc",
+            "sent_memory_ids": null
+          }
+        },
+        "created_at": "2026-10-13T05:27:59.411156Z"
+      },
+      "evaluation": {
+        "evaluation_id": "E001",
+        "test_id": "T001",
+        "response_id": "R001",
+        "passed": true,
+        "failure_type": null,
+        "reason": "AI semantic pre-review; uncalibrated and not independent human validation. The response correctly states that the user lives in Adelaide, as confirmed by the supplied memory.",
+        "evidence_memory_ids": [
+          "M001"
+        ],
+        "evaluator": "llm-judge-openrouter-v6",
+        "judge_execution": {
+          "version": "judge-http-meter-v2",
+          "provider": "openrouter",
+          "model": "openai/gpt-6-luna",
+          "reported_model": null,
+          "agent_role": "blind_evaluation",
+          "prompt_template_version": "llm-judge-structured-v2",
+          "prompt_fingerprint": "c340cfe627aa775b2e53fbf5789d3e1910538776d5b209daffa2d8422b983805",
+          "input_fingerprint": "d42ffde2d493c669f71a112070186dcc78aec08854f4394b2ddcb3cee8e3006a",
+          "request_attempts": 1,
+          "failed_http_attempts": 0,
+          "elapsed_ms": 3098.51,
+          "reported_input_tokens": 696,
+          "reported_output_tokens": 57,
+          "reported_total_tokens": 753,
+          "reported_cost_credits": 9.81e-05,
+          "sampling_control": "model_default",
+          "sent_temperature": null,
+          "usage_scope": "last successful provider reply only; failed-attempt usage unknown",
+          "verdict_status": "valid",
+          "provider_verdict": true,
+          "rule_cross_check_verdict": true,
+          "cross_check_version": "rule-based-v58"
+        },
+        "failure_classification": {
+          "status": "unclassified",
+          "method": "semantic-rubric-v6",
+          "reason": "No failure category applies."
+        }
+      }
+    },
+    {
+      "test": {
+        "test_id": "T002",
+        "run_id": "SYN-QWEN-GENERATION",
+        "dimension": "freshness",
+        "prompt": "For the Maple capstone backend, which database applies now, and what earlier database did it replace?",
+        "expected_behavior": "PostgreSQL is the current database; it replaced MySQL, which was used previously.",
+        "supporting_memory_ids": [
+          "M002",
+          "M003"
+        ],
+        "generator_version": "agent-coverage-semantic-v20",
+        "test_type": "contextual",
+        "quality_status": "pending",
+        "grounding_status": "pending",
+        "validation_notes": null,
+        "human_validity_status": "pending",
+        "human_validity_reviewer": null,
+        "human_validity_note": null,
+        "human_validity_reviewed_at": null,
+        "probe_group_id": null,
+        "probe_variant": null,
+        "target_memory_context": [
+          "I live in Adelaide.",
+          "The Maple capstone backend used MySQL previously.",
+          "We migrated the Maple capstone backend to PostgreSQL; MySQL is no longer used there.",
+          "In general, I prefer Python for backend projects.",
+          "For Maple capstone backend work, the course requires Java only; that requirement applies to this capstone project.",
+          "The current deployment plan for the Maple capstone says the production region is North.",
+          "The signed client brief for the same Maple capstone deployment says the production region is South.",
+          "Both deployment documents are still active; I have not established which instruction controls."
+        ]
+      },
+      "response": {
+        "response_id": "R002",
+        "test_id": "T002",
+        "run_id": "SYN-QWEN-GENERATION",
+        "response_text": "PostgreSQL applies now; it replaced MySQL. The records say MySQL is no longer used for the Maple capstone backend.",
+        "model": "openai/gpt-6-luna",
+        "temperature": 0.0,
+        "execution_metadata": {
+          "request_attempts": 1,
+          "latency_ms": 9465.14,
+          "input_tokens": 509,
+          "output_tokens": 82,
+          "total_tokens": 591,
+          "sampling_control": "model_default",
+          "sent_temperature": null,
+          "reported_model": "openai/gpt-6-luna",
+          "shared_source_run_id": null,
+          "shared_source_response_id": null,
+          "response_source": "openrouter",
+          "completion_status": "complete",
+          "finish_reason": "stop",
+          "requested_output_token_limit": null,
+          "memory_input": {
+            "version": "target-memory-input-v1",
+            "record_count": 8,
+            "context_sha256": "6f1a4960a3c4b065d8021d5fd7550d8be2097cc629899a41a5753442a7b67273",
+            "instruction_sha256": "a5c4aafbfa2cfab7a565df3bf9526eb5e728af109a0898aa49e591d8879a53b6",
+            "prompt_sha256": "00645a6034447e71a76a333c21db44018f1237d2b8261d9f2766dc5da2711519",
+            "sent_memory_ids": null
+          }
+        },
+        "created_at": "2026-10-13T05:28:20.213542Z"
+      },
+      "evaluation": {
+        "evaluation_id": "E002",
+        "test_id": "T002",
+        "response_id": "R002",
+        "passed": true,
+        "failure_type": null,
+        "reason": "AI semantic pre-review; uncalibrated and not independent human validation. M002 says the backend previously used MySQL, and M003 says it migrated to PostgreSQL and no longer uses MySQL.",
+        "evidence_memory_ids": [
+          "M002",
+          "M003"
+        ],
+        "evaluator": "llm-judge-openrouter-v6",
+        "judge_execution": {
+          "version": "judge-http-meter-v2",
+          "provider": "openrouter",
+          "model": "openai/gpt-6-luna",
+          "reported_model": null,
+          "agent_role": "blind_evaluation",
+          "prompt_template_version": "llm-judge-structured-v2",
+          "prompt_fingerprint": "c07a2f7e081c9f9db7de3fb8410df850da3ed3f90a786eb3672bd3a34ededdfa",
+          "input_fingerprint": "f1c6e832bd5fa40ae2471a4f9e6b88ad70d54008fe09a0103b90c8cf8f6dab1c",
+          "request_attempts": 1,
+          "failed_http_attempts": 0,
+          "elapsed_ms": 5821.88,
+          "reported_input_tokens": 800,
+          "reported_output_tokens": 120,
+          "reported_total_tokens": 920,
+          "reported_cost_credits": 0.00014,
+          "sampling_control": "model_default",
+          "sent_temperature": null,
+          "usage_scope": "last successful provider reply only; failed-attempt usage unknown",
+          "verdict_status": "valid",
+          "provider_verdict": true,
+          "rule_cross_check_verdict": true,
+          "cross_check_version": "rule-based-v58"
+        },
+        "failure_classification": {
+          "status": "unclassified",
+          "method": "semantic-rubric-v6",
+          "reason": "No failure category applies; the response matches the confirmed database history."
+        }
+      }
+    },
+    {
+      "test": {
+        "test_id": "T003",
+        "run_id": "SYN-QWEN-GENERATION",
+        "dimension": "conflict_resolution",
+        "prompt": "For the Maple capstone deployment, the recorded production-region constraints conflict. What should you clarify before proceeding?",
+        "expected_behavior": "The current deployment plan says the production region is North, while the signed client brief says it is South. Ask the user which constraint controls; do not choose a winner or infer priority from recency or document status.",
+        "supporting_memory_ids": [
+          "M007",
+          "M006"
+        ],
+        "generator_version": "agent-coverage-semantic-v20",
+        "test_type": "indirect",
+        "quality_status": "pending",
+        "grounding_status": "pending",
+        "validation_notes": null,
+        "human_validity_status": "pending",
+        "human_validity_reviewer": null,
+        "human_validity_note": null,
+        "human_validity_reviewed_at": null,
+        "probe_group_id": null,
+        "probe_variant": null,
+        "target_memory_context": [
+          "I live in Adelaide.",
+          "The Maple capstone backend used MySQL previously.",
+          "We migrated the Maple capstone backend to PostgreSQL; MySQL is no longer used there.",
+          "In general, I prefer Python for backend projects.",
+          "For Maple capstone backend work, the course requires Java only; that requirement applies to this capstone project.",
+          "The current deployment plan for the Maple capstone says the production region is North.",
+          "The signed client brief for the same Maple capstone deployment says the production region is South.",
+          "Both deployment documents are still active; I have not established which instruction controls."
+        ]
+      },
+      "response": {
+        "response_id": "R003",
+        "test_id": "T003",
+        "run_id": "SYN-QWEN-GENERATION",
+        "response_text": "Clarify whether the production region should be North or South before proceeding. The current deployment plan says North, while the signed client brief says South, and neither has been established as controlling.",
+        "model": "openai/gpt-6-luna",
+        "temperature": 0.0,
+        "execution_metadata": {
+          "request_attempts": 1,
+          "latency_ms": 4476.83,
+          "input_tokens": 510,
+          "output_tokens": 95,
+          "total_tokens": 605,
+          "sampling_control": "model_default",
+          "sent_temperature": null,
+          "reported_model": "openai/gpt-6-luna",
+          "shared_source_run_id": null,
+          "shared_source_response_id": null,
+          "response_source": "openrouter",
+          "completion_status": "complete",
+          "finish_reason": "stop",
+          "requested_output_token_limit": null,
+          "memory_input": {
+            "version": "target-memory-input-v1",
+            "record_count": 8,
+            "context_sha256": "6f1a4960a3c4b065d8021d5fd7550d8be2097cc629899a41a5753442a7b67273",
+            "instruction_sha256": "a5c4aafbfa2cfab7a565df3bf9526eb5e728af109a0898aa49e591d8879a53b6",
+            "prompt_sha256": "ea6d8f0bbf7a3435e320e9c98c49687654f8935678396d5bee5712ca3ca2f28c",
+            "sent_memory_ids": null
+          }
+        },
+        "created_at": "2026-10-13T05:28:30.535059Z"
+      },
+      "evaluation": {
+        "evaluation_id": "E003",
+        "test_id": "T003",
+        "response_id": "R003",
+        "passed": true,
+        "failure_type": null,
+        "reason": "AI semantic pre-review; uncalibrated and not independent human validation. The response accurately identifies the conflicting North and South constraints and asks which should control without choosing a winner.",
+        "evidence_memory_ids": [
+          "M006",
+          "M007"
+        ],
+        "evaluator": "llm-judge-openrouter-v6",
+        "judge_execution": {
+          "version": "judge-http-meter-v2",
+          "provider": "openrouter",
+          "model": "openai/gpt-6-luna",
+          "reported_model": null,
+          "agent_role": "blind_evaluation",
+          "prompt_template_version": "llm-judge-structured-v2",
+          "prompt_fingerprint": "6c397536c2625f6f28d3c2c526c8017c694be09a3298926d01debb1ecf149c45",
+          "input_fingerprint": "da6dd27310036ca0300e4bd9d80bebac80215b339840d317c4303d281d4b33a9",
+          "request_attempts": 1,
+          "failed_http_attempts": 0,
+          "elapsed_ms": 6341.27,
+          "reported_input_tokens": 844,
+          "reported_output_tokens": 102,
+          "reported_total_tokens": 946,
+          "reported_cost_credits": 0.0001354,
+          "sampling_control": "model_default",
+          "sent_temperature": null,
+          "usage_scope": "last successful provider reply only; failed-attempt usage unknown",
+          "verdict_status": "valid",
+          "provider_verdict": true,
+          "rule_cross_check_verdict": true,
+          "cross_check_version": "rule-based-v58"
+        },
+        "failure_classification": {
+          "status": "unclassified",
+          "method": "semantic-rubric-v6",
+          "reason": "No failure category applies."
+        }
+      }
+    },
+    {
+      "test": {
+        "test_id": "T004",
+        "run_id": "SYN-QWEN-GENERATION",
+        "dimension": "appropriate_use",
+        "prompt": "For my Maple capstone backend work, what backend language should you recommend, and how should that recommendation relate to my other backend projects?",
+        "expected_behavior": "Recommend Java for the Maple capstone backend because the course requires it; this requirement applies within the capstone project. For the user's other backend projects, retain their general preference for Python.",
+        "supporting_memory_ids": [
+          "M004",
+          "M005"
+        ],
+        "generator_version": "agent-coverage-semantic-v20",
+        "test_type": "paraphrased",
+        "quality_status": "pending",
+        "grounding_status": "pending",
+        "validation_notes": null,
+        "human_validity_status": "pending",
+        "human_validity_reviewer": null,
+        "human_validity_note": null,
+        "human_validity_reviewed_at": null,
+        "probe_group_id": null,
+        "probe_variant": null,
+        "target_memory_context": [
+          "I live in Adelaide.",
+          "The Maple capstone backend used MySQL previously.",
+          "We migrated the Maple capstone backend to PostgreSQL; MySQL is no longer used there.",
+          "In general, I prefer Python for backend projects.",
+          "For Maple capstone backend work, the course requires Java only; that requirement applies to this capstone project.",
+          "The current deployment plan for the Maple capstone says the production region is North.",
+          "The signed client brief for the same Maple capstone deployment says the production region is South.",
+          "Both deployment documents are still active; I have not established which instruction controls."
+        ]
+      },
+      "response": {
+        "response_id": "R004",
+        "test_id": "T004",
+        "run_id": "SYN-QWEN-GENERATION",
+        "response_text": "For the Maple capstone backend, I should recommend Java; for your other backend projects, Python is your general preference. The capstone’s Java-only course requirement applies specifically to that project.",
+        "model": "openai/gpt-6-luna",
+        "temperature": 0.0,
+        "execution_metadata": {
+          "request_attempts": 1,
+          "latency_ms": 14108.25,
+          "input_tokens": 516,
+          "output_tokens": 195,
+          "total_tokens": 711,
+          "sampling_control": "model_default",
+          "sent_temperature": null,
+          "reported_model": "openai/gpt-6-luna",
+          "shared_source_run_id": null,
+          "shared_source_response_id": null,
+          "response_source": "openrouter",
+          "completion_status": "complete",
+          "finish_reason": "stop",
+          "requested_output_token_limit": null,
+          "memory_input": {
+            "version": "target-memory-input-v1",
+            "record_count": 8,
+            "context_sha256": "6f1a4960a3c4b065d8021d5fd7550d8be2097cc629899a41a5753442a7b67273",
+            "instruction_sha256": "a5c4aafbfa2cfab7a565df3bf9526eb5e728af109a0898aa49e591d8879a53b6",
+            "prompt_sha256": "b9dfc16778d5ee390daef4708e0dbf1383147f03ae674b4cafbbbad69fcf8f6d",
+            "sent_memory_ids": null
+          }
+        },
+        "created_at": "2026-10-13T05:28:48.436856Z"
+      },
+      "evaluation": {
+        "evaluation_id": "E004",
+        "test_id": "T004",
+        "response_id": "R004",
+        "passed": true,
+        "failure_type": null,
+        "reason": "AI semantic pre-review; uncalibrated and not independent human validation. The response correctly recommends Java for the Maple capstone because the course requires it, and preserves Python as the general preference for other backend projects.",
+        "evidence_memory_ids": [
+          "M004",
+          "M005"
+        ],
+        "evaluator": "llm-judge-openrouter-v6",
+        "judge_execution": {
+          "version": "judge-http-meter-v2",
+          "provider": "openrouter",
+          "model": "openai/gpt-6-luna",
+          "reported_model": null,
+          "agent_role": "blind_evaluation",
+          "prompt_template_version": "llm-judge-structured-v2",
+          "prompt_fingerprint": "e5b91346517d6f8cb338b77229651bc8bb93bcf04ddcba9bd9a90d174860f6d2",
+          "input_fingerprint": "435996b969733d6f7b1e3cf714d3d55bc35c47c2f61588768a18b4fc2d0ff3ff",
+          "request_attempts": 1,
+          "failed_http_attempts": 0,
+          "elapsed_ms": 10446.23,
+          "reported_input_tokens": 843,
+          "reported_output_tokens": 112,
+          "reported_total_tokens": 955,
+          "reported_cost_credits": 0.0001403,
+          "sampling_control": "model_default",
+          "sent_temperature": null,
+          "usage_scope": "last successful provider reply only; failed-attempt usage unknown",
+          "verdict_status": "valid",
+          "provider_verdict": true,
+          "rule_cross_check_verdict": true,
+          "cross_check_version": "rule-based-v58"
+        },
+        "failure_classification": {
+          "status": "unclassified",
+          "method": "semantic-rubric-v6",
+          "reason": "No failure category applies."
+        }
+      }
+    }
+  ],
+  "status": "completed"
+}

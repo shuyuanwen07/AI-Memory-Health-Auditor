@@ -1,0 +1,13 @@
+{
+  "scope": "failedv12same-Luna Bedrock route binding",
+  "matches_frozen_archive": "luna-budget1200-frozen-application-source.zip",
+  "archive_sha256": "6696e4bf8e187b55bece9fbf39878e8813c5a9006586551af69b9326ab8c038e",
+  "source_sha256": "4ffda12de0b335bfa381de5a67e92e71dc2b906187fc3b4918463788ffe5efa8",
+  "snapshot_sha256": "4a0531f3db733827f43124ee431ce99dcd18a544f370e038d08c77c3d3887c54",
+  "snapshot_hash_verified": true,
+  "requested_upstream_slug": "amazon-bedrock",
+  "upstream_http_status": 404,
+  "api_wrapper_http_status": 502,
+  "pipeline_output_token_cap": 1200,
+  "research_evidence": false
+}

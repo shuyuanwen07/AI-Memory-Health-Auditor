@@ -1,0 +1,16 @@
+{
+  "scope": "endpoint_citation_diagnostic_delta_only",
+  "command": "docker compose exec -T backend python -m pytest tests/test_relationship_topic_isolation.py tests/test_input_and_relationship_guards.py -q",
+  "passed": 23,
+  "failed": 0,
+  "warnings": [
+    "Existing Starlette anyio deprecation warning"
+  ],
+  "full_backend_suite_for_delta": "not run",
+  "files": {
+    "backend/app/extraction/relationship_agent.py": "6a8664f5ee992a0f64e27e3d8edb27e6610057a19c87431ee640c12be0821b69",
+    "backend/tests/test_relationship_topic_isolation.py": "74bfe68b572d8e09f4570298ba57692e752c8fcca054d3f1244e27e0166ebade",
+    "scripts/probe_luna_relationship.py": "fa5b0ae09fa9a5d2ef3b6b2e3533284978961b4a98c12f0807060dbee80612c3"
+  },
+  "privacy": "Diagnostics store field paths and counts only, never invalid message identifiers or source text."
+}
