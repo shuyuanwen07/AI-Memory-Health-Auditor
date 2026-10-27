@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import re
 from app.services.location_facts import location_value
+from app.services.deployment_facts import deployment_region_value
 from dataclasses import dataclass
 
 from app.schemas import Conversation, Memory, MemoryRelationship, MemoryStatus, RelationshipType
@@ -44,7 +45,7 @@ class _Candidate:
 class RuleBasedMemoryExtractor(MemoryExtractor):
     """Extract durable-looking user statements and explicit relationships."""
 
-    VERSION = "rule-based-memory-extractor-v25"
+    VERSION = "rule-based-memory-extractor-v27"
 
     def extract(self, conversation: Conversation) -> list[Memory]:
         candidates = self._candidates(conversation)
@@ -172,11 +173,18 @@ class RuleBasedMemoryExtractor(MemoryExtractor):
         from app.services.memory_entities import named_projects
         subject = bool(re.search(r"\b(?:i|we|my|our|the|this)\b", lower)) or bool(named_projects(value))
         explicit_policy = bool(re.search(r"\b(?:policy|requirement|rule)\b.*\b(?:requires?|must|mandates?)\b", lower))
-        return (any(signal in lower for signal in _MEMORY_SIGNALS) or exclusive_platform_value(value) is not None) and (subject or explicit_policy)
+        return (any(signal in lower for signal in _MEMORY_SIGNALS) or exclusive_platform_value(value) is not None or deployment_region_value(value) is not None) and (subject or explicit_policy)
 
     def _relationships(self, current: Memory, prior_memories: list[Memory]) -> list[MemoryRelationship]:
         lower = current.canonical_value.lower()
         relationships: list[MemoryRelationship] = []
+        # A statement denying a change or separating unrelated topics is not
+        # an UPDATE/CONFLICT merely because it contains change/negation words.
+        if (re.search(r"\b(?:not|never)\s+(?:a\s+)?database\s+change\b|\bnone\s+of\s+that\s+was\s+a\s+database\s+change\b", lower)
+            or (re.search(r"\b(?:food|diet|lunch)\b", lower)
+                and re.search(r"\b(?:separate|no need|distinct|unrelated)\b", lower)
+                and re.search(r"\b(?:technical|programming|databases?|deployment)\b", lower))):
+            return []
         from app.services.memory_entities import named_projects
         withdrawal = _WITHDRAWN_PLATFORM.search(current.canonical_value)
         if withdrawal:
@@ -275,6 +283,9 @@ class RuleBasedMemoryExtractor(MemoryExtractor):
         if current_topic and prior_topic and current_topic != prior_topic:
             return False
         current_text, prior_text = current.canonical_value.lower(), prior.canonical_value.lower()
+        current_region, prior_region = deployment_region_value(current_text), deployment_region_value(prior_text)
+        if current_region and prior_region:
+            return current_region != prior_region
         if equivalent_exclusive_platform_rules(current_text, prior_text):
             return False
         same_topic = bool(self._overlap(self._topic_terms(current_text), self._topic_terms(prior_text))) or (self._category(current_text) is not None and self._category(current_text) == self._category(prior_text))
@@ -302,6 +313,7 @@ class RuleBasedMemoryExtractor(MemoryExtractor):
     @staticmethod
     def _category(value: str) -> str | None:
         text = value.lower()
+        if deployment_region_value(value): return "deployment-region"
         if re.search(r"\b(?:mysql|postgres(?:ql)?|mongodb|sqlite|redis|mariadb|cassandra|dynamodb|database|sql)\b", text): return "database"
         if re.search(r"\b(?:logs?|logging|object storage|storage bucket)\b", text): return "log-storage"
         if re.search(r"\b(?:secrets?|credentials?|environment variables?|config(?:uration)? files?)\b", text): return "secret-configuration"

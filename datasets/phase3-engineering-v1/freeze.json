@@ -1,0 +1,15 @@
+{
+  "version": "phase3-synthetic-engineering-v1",
+  "frozen_before_code_change": true,
+  "independent_human_labels": false,
+  "validation_policy": "Run validation only after development fixes freeze. No tuning or threshold relaxation after validation outcomes. Any failure remains a failure and is reported.",
+  "acceptance": {
+    "development_regressions": "all specified contracts must pass",
+    "validation": "report all cases without changing requirements; no independence or population claim",
+    "weak_policy": "unchanged single first-hit baseline"
+  },
+  "files": {
+    "evaluations.json": "b0ccc161bb758b4e207fd1a4f5fc99679e86f1984f395ae18f36c63450c8a010",
+    "retrieval.json": "7fdf43865763312576ee713948ec5de01971f9f7345c0d6772657091c28935d7"
+  }
+}

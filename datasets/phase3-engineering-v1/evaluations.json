@@ -1,0 +1,272 @@
+[
+  {
+    "id": "development-owner-0-correct",
+    "split": "development",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Mira.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Your sister's partner is Mira.",
+    "expected_passed": true
+  },
+  {
+    "id": "development-owner-0-bare",
+    "split": "development",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Mira.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Mira",
+    "expected_passed": true
+  },
+  {
+    "id": "development-owner-0-wrong_owner",
+    "split": "development",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Mira.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Your brother's partner is Mira.",
+    "expected_passed": false
+  },
+  {
+    "id": "development-owner-0-wrong_user",
+    "split": "development",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Mira.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Your partner is Mira.",
+    "expected_passed": false
+  },
+  {
+    "id": "development-owner-0-negated_wrong",
+    "split": "development",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Mira.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Your sister's partner is Mira, not your brother's partner.",
+    "expected_passed": true
+  },
+  {
+    "id": "development-owner-1-correct",
+    "split": "development",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Eli.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Your sister's partner is Eli.",
+    "expected_passed": true
+  },
+  {
+    "id": "development-owner-1-bare",
+    "split": "development",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Eli.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Eli",
+    "expected_passed": true
+  },
+  {
+    "id": "development-owner-1-wrong_owner",
+    "split": "development",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Eli.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Your brother's partner is Eli.",
+    "expected_passed": false
+  },
+  {
+    "id": "development-owner-1-wrong_user",
+    "split": "development",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Eli.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Your partner is Eli.",
+    "expected_passed": false
+  },
+  {
+    "id": "development-owner-1-negated_wrong",
+    "split": "development",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Eli.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Your sister's partner is Eli, not your brother's partner.",
+    "expected_passed": true
+  },
+  {
+    "id": "validation-owner-0-correct",
+    "split": "validation",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Nora.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Your sister's partner is Nora.",
+    "expected_passed": true
+  },
+  {
+    "id": "validation-owner-0-bare",
+    "split": "validation",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Nora.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Nora",
+    "expected_passed": true
+  },
+  {
+    "id": "validation-owner-0-wrong_owner",
+    "split": "validation",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Nora.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Your brother's partner is Nora.",
+    "expected_passed": false
+  },
+  {
+    "id": "validation-owner-0-wrong_user",
+    "split": "validation",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Nora.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Your partner is Nora.",
+    "expected_passed": false
+  },
+  {
+    "id": "validation-owner-0-negated_wrong",
+    "split": "validation",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Nora.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Your sister's partner is Nora, not your brother's partner.",
+    "expected_passed": true
+  },
+  {
+    "id": "validation-owner-1-correct",
+    "split": "validation",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Theo.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Your sister's partner is Theo.",
+    "expected_passed": true
+  },
+  {
+    "id": "validation-owner-1-bare",
+    "split": "validation",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Theo.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Theo",
+    "expected_passed": true
+  },
+  {
+    "id": "validation-owner-1-wrong_owner",
+    "split": "validation",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Theo.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Your brother's partner is Theo.",
+    "expected_passed": false
+  },
+  {
+    "id": "validation-owner-1-wrong_user",
+    "split": "validation",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Theo.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Your partner is Theo.",
+    "expected_passed": false
+  },
+  {
+    "id": "validation-owner-1-negated_wrong",
+    "split": "validation",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Theo.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Your sister's partner is Theo, not your brother's partner.",
+    "expected_passed": true
+  },
+  {
+    "id": "validation-owner-2-correct",
+    "split": "validation",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Zara.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Your sister's partner is Zara.",
+    "expected_passed": true
+  },
+  {
+    "id": "validation-owner-2-bare",
+    "split": "validation",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Zara.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Zara",
+    "expected_passed": true
+  },
+  {
+    "id": "validation-owner-2-wrong_owner",
+    "split": "validation",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Zara.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Your brother's partner is Zara.",
+    "expected_passed": false
+  },
+  {
+    "id": "validation-owner-2-wrong_user",
+    "split": "validation",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Zara.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Your partner is Zara.",
+    "expected_passed": false
+  },
+  {
+    "id": "validation-owner-2-negated_wrong",
+    "split": "validation",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Zara.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Your sister's partner is Zara, not your brother's partner.",
+    "expected_passed": true
+  },
+  {
+    "id": "validation-owner-3-correct",
+    "split": "validation",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Owen.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Your sister's partner is Owen.",
+    "expected_passed": true
+  },
+  {
+    "id": "validation-owner-3-bare",
+    "split": "validation",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Owen.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Owen",
+    "expected_passed": true
+  },
+  {
+    "id": "validation-owner-3-wrong_owner",
+    "split": "validation",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Owen.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Your brother's partner is Owen.",
+    "expected_passed": false
+  },
+  {
+    "id": "validation-owner-3-wrong_user",
+    "split": "validation",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Owen.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Your partner is Owen.",
+    "expected_passed": false
+  },
+  {
+    "id": "validation-owner-3-negated_wrong",
+    "split": "validation",
+    "kind": "owner_binding",
+    "source": "My sister's partner is Owen.",
+    "prompt": "Who is the user's sister's partner?",
+    "answer": "Your sister's partner is Owen, not your brother's partner.",
+    "expected_passed": true
+  }
+]

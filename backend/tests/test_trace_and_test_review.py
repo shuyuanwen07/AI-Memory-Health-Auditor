@@ -69,6 +69,14 @@ def test_review_decision_and_regeneration_are_synchronised_to_experiment_peers(m
             assert {item["quality_status"] for item in client.get(f"/api/v1/audits/{peer['run_id']}/tests").json() if item["dimension"] == generated[0]["dimension"]} >= {"rejected"}
             assert client.post(f"/api/v1/audits/{peer['run_id']}/execute").status_code == 409
 
+            # This contract checks synchronisation of a real replacement;
+            # a deterministic no-op is tested separately and must be refused.
+            from types import SimpleNamespace
+            from app.schemas import TestCase
+            replacement_candidate = TestCase.model_validate(generated[0]).model_copy(
+                update={'prompt': generated[0]['prompt'] + ' Answer briefly.'})
+            monkeypatch.setattr(routes, 'get_suite_generator', lambda *_: SimpleNamespace(
+                generate=lambda *_: [replacement_candidate]))
             regenerated = client.post(f"/api/v1/audits/{peer['run_id']}/tests/{source_test_id}/regenerate")
             assert regenerated.status_code == 200
             assert regenerated.json()["quality_status"] == "pending"
@@ -326,6 +334,12 @@ def test_rule_based_workflow_reviews_then_executes_and_exposes_trace(monkeypatch
                 "quality_status": "rejected", "note": "Check wording before execution.",
             }).status_code == 200
             assert client.post(f"/api/v1/audits/{run_id}/execute").status_code == 409
+            from types import SimpleNamespace
+            from app.schemas import TestCase
+            replacement_candidate = TestCase.model_validate(generated.json()[0]).model_copy(
+                update={'prompt': generated.json()[0]['prompt'] + ' Answer briefly.'})
+            monkeypatch.setattr(routes, 'get_suite_generator', lambda *_: SimpleNamespace(
+                generate=lambda *_: [replacement_candidate]))
             replacement = client.post(f"/api/v1/audits/{run_id}/tests/{first_test_id}/regenerate")
             assert replacement.status_code == 200
             assert replacement.json()["quality_status"] == "pending"

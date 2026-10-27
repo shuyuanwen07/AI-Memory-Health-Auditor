@@ -181,7 +181,7 @@ def test_baselines_are_deterministic_and_selectable_without_a_route():
     assert len(direct) == 1
     assert direct[0].dimension == Dimension.ACCURACY
     assert direct[0].test_type == TestType.DIRECT
-    assert direct[0].generator_version == "direct-ground-truth-v3"
+    assert direct[0].generator_version == "direct-ground-truth-v4"
     assert isinstance(get_suite_generator(TestSuiteMode.DIRECT_GROUND_TRUTH), DirectGroundTruthTestGenerator)
     assert isinstance(get_suite_generator(TestSuiteMode.FIXED_TEMPLATE), FixedTemplateTestGenerator)
     assert isinstance(get_suite_generator(TestSuiteMode.BEHAVIOURAL), RuleBasedTestGenerator)
@@ -213,7 +213,7 @@ def test_fixed_template_baseline_preserves_templates_but_records_its_method():
     regular = RuleBasedTestGenerator().generate(memories, _audit())
 
     assert [test.prompt for test in fixed] == [test.prompt for test in regular]
-    assert {test.generator_version for test in fixed} == {"fixed-template-v2"}
+    assert {test.generator_version for test in fixed} == {"fixed-template-v3"}
 
 
 def test_location_leak_detection_handles_cities_outside_the_builtin_examples():
@@ -457,3 +457,34 @@ def test_unresolved_conflict_accepts_passive_user_clarification_without_priority
     assert validator.validate(test,memories).quality_status.value=='accepted'
     for expected in ('The user should not be asked which constraint controls.', 'Use the newer North plan. The user should be asked to confirm.'):
         assert validator.validate(test.model_copy(update={'expected_behavior':expected}),memories).quality_status.value=='rejected'
+
+
+def test_confirmed_cross_topic_conflict_is_not_valid_test_evidence():
+    frontend = Memory(memory_id='frontend', conversation_id='C',
+        canonical_value='The Harbour web frontend uses TypeScript', status=MemoryStatus.CONFIRMED)
+    diet = Memory(memory_id='diet', conversation_id='C', status=MemoryStatus.CONFIRMED,
+        canonical_value='Food suggestions are separate from our technical work, and there is no need to bring my diet into decisions about programming languages, databases or deployment',
+        relationships=[MemoryRelationship(type=RelationshipType.CONFLICT, target_memory_id='frontend')])
+    test = TestCase(test_id='T', run_id='R', dimension=Dimension.CONFLICT_RESOLUTION,
+        prompt="Two recorded deployment constraints conflict. What should be clarified?",
+        expected_behavior='Keep both records visible and ask the user for clarification.',
+        supporting_memory_ids=['frontend', 'diet'], generator_version='fixture')
+    result = RuleBasedTestQualityValidator().validate(test, [frontend, diet])
+    assert result.quality_status == TestQualityStatus.REJECTED
+    assert 'different topics' in result.reason
+
+
+def test_conjunction_is_not_a_project_name():
+    from app.services.memory_entities import named_projects
+    assert not named_projects('Keep food separate from programming languages, databases or deployment.')
+
+
+@pytest.mark.parametrize('text', [
+    'The Maple capstone backend used MySQL previously.',
+    'The current deployment plan for the Maple capstone says the production region is North.',
+    'The signed client brief for the same Maple capstone deployment says South.',
+    'The Maple web frontend uses TypeScript.',
+])
+def test_project_name_survives_capstone_and_frontend_modifiers(text):
+    from app.services.memory_entities import named_projects
+    assert named_projects(text) == {'maple'}

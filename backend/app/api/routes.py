@@ -189,7 +189,7 @@ def reproducibility_snapshot(*, provider: str, model: str, temperature: float, r
         "target_system_adapter": TargetSystemAdapterKind(target_system_adapter).value,
         "target_system_adapter_version": adapter_version,
         "target_memory_profile": profile.model_dump(),
-        "memory_policy_version": "target-memory-policy-v42",
+        "memory_policy_version": "target-memory-policy-v43",
         # A seed is fully deterministic for the local baseline. Third-party
         # APIs do not share one portable seed contract, so retain it as a
         # configuration identifier rather than implying bit-for-bit replay.
@@ -1155,9 +1155,11 @@ def generated_candidate_for_review(db: Session, source: TestCaseModel) -> TestCa
         matching = [candidate for candidate in candidates if candidate.dimension.value == source.dimension]
         reference_changed = bool(matching)
     matching = [candidate for candidate in matching if candidate.prompt not in peer_prompts]
-    # A deterministic baseline can legitimately reproduce the same wording;
-    # the review history still records that the reviewer asked for a new pass.
-    candidate = next((item for item in matching if item.prompt != source.prompt), None) or (matching[0] if matching else None)
+    # Repeating the rejected wording is not regeneration. Preserve the saved
+    # decision and explain the deterministic limit instead of a review loop.
+    candidate = next((item for item in matching if item.prompt != source.prompt), None)
+    if not candidate and matching:
+        raise HTTPException(422, "The deterministic generator reproduced the same question. No replacement was saved. Review the source relationships or use a different test generator.")
     if not candidate:
         raise HTTPException(422, "The generator could not produce a compatible replacement test.")
     assessment = RuleBasedTestQualityValidator().validate(candidate, memories)

@@ -28,7 +28,7 @@ from app.extraction.rule_based import RuleBasedMemoryExtractor
 class RuleBasedTestQualityValidator(TestQualityValidator):
     """Validate evidence provenance and basic answer-independence deterministically."""
 
-    VERSION = "rule-based-quality-v23"
+    VERSION = "rule-based-quality-v24"
     _STOP_WORDS = {"a", "an", "the", "is", "are", "was", "were", "to", "of", "in", "on", "for", "that"}
 
     @staticmethod
@@ -87,6 +87,27 @@ class RuleBasedTestQualityValidator(TestQualityValidator):
             r"\byour\s+(?:general\s+|usual\s+)?(?:preferred|preference|favourite|favorite)\b|\b(?:what|which|how)\b[^?!]{0,100}\byou\s+(?:generally\s+)?prefer\b", test.prompt, re.I
         ):
             return self._result(False, False, "The question asks for the AI's personal preference while the evidence describes the user; identify the user explicitly.")
+        # A recorded edge is provenance, not proof of a coherent relationship.
+        # Reject known cross-topic endpoints rather than certifying any edge
+        # merely because both records were accepted in the memory review.
+        for memory in support:
+            for relation in memory.relationships:
+                prior = evidence.get(relation.target_memory_id)
+                if (relation.type not in {RelationshipType.UPDATE, RelationshipType.CONFLICT}
+                    or prior is None or prior.memory_id not in test.supporting_memory_ids):
+                    continue
+                texts = (memory.canonical_value, prior.canonical_value)
+                if any(re.search(r"\b(?:food|diet|lunch)\b", text, re.I)
+                       and re.search(r"\b(?:separate|no need|distinct|unrelated)\b", text, re.I)
+                       and re.search(r"\b(?:technical|programming|databases?|deployment)\b", text, re.I)
+                       for text in texts):
+                    return self._result(False, False,
+                        "Relationship endpoints identify different topics: a food/technical separation instruction is not a changed or conflicting technical requirement.")
+                current_topic = RuleBasedMemoryExtractor._category(memory.canonical_value)
+                prior_topic = RuleBasedMemoryExtractor._category(prior.canonical_value)
+                if current_topic and prior_topic and current_topic != prior_topic:
+                    return self._result(False, False,
+                        "Relationship endpoints identify different topics; review the source relationship before generating a test.")
         question_topic = RuleBasedMemoryExtractor._category(test.prompt)
         answer_topic = RuleBasedMemoryExtractor._category(test.expected_behavior)
         if question_topic and answer_topic and question_topic != answer_topic:

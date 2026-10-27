@@ -784,10 +784,46 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         source_coverage = self.profile.retrieve_message_context and strategy == MemoryStrategy.STRONG_RULE_BASED
         if source_coverage:
             priority = self._source_coverage_priority(priority, test)
+        # Preserve explicit target-owned conflict pairs as atomic budget units.
+        # Delivering just one side can imply a resolved constraint. Do not
+        # exceed either budget when a pair cannot fit; preserve an evidence gap.
+        peers = {item["record"].id: item for item in retained}
+        conflict_peers: dict[str, set[str]] = {}
+        if strategy == MemoryStrategy.STRONG_RULE_BASED:
+            for item in retained:
+                for target in item.get("conflict_targets", []):
+                    if target in peers:
+                        conflict_peers.setdefault(item["record"].id, set()).add(target)
+                        conflict_peers.setdefault(target, set()).add(item["record"].id)
         chosen = set()
         chosen_items: list[dict] = []
         characters = 0
+        considered: set[str] = set()
         for item in priority:
+            identity = item["record"].id
+            if identity in considered:
+                continue
+            group_ids = {identity}
+            pending = [identity]
+            while pending:
+                for peer in conflict_peers.get(pending.pop(), set()) - group_ids:
+                    group_ids.add(peer)
+                    pending.append(peer)
+            if len(group_ids) > 1:
+                group = [other for other in priority if other["record"].id in group_ids]
+                considered.update(group_ids)
+                cost = sum(len(self._render_context(other)) + 3 for other in group)
+                if (len(chosen) + len(group_ids) > self.profile.max_retrieved_records
+                    or characters + cost > self.profile.context_character_budget):
+                    for other in group:
+                        other["reason"] += ", profile_conflict_group_budget_excluded"
+                    continue
+                chosen.update(group_ids)
+                chosen_items.extend(group)
+                characters += cost
+                for other in group:
+                    other["reason"] += ", profile_complete_conflict_group"
+                continue
             if source_coverage and any(self._source_text_covers(other, item) for other in chosen_items):
                 item["reason"] += ", profile_text_covered_by_selected_source_record"
                 continue
@@ -1069,6 +1105,9 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         if strategy == MemoryStrategy.STRONG_RULE_BASED:
             return sorted(candidates, key=lambda item: (
                 bool(item.get("temporal_window_match")) if self.profile.retrieve_message_context else False,
+                # A requirement in an unrelated typed domain must not displace
+                # the queried fact merely because it has an override label.
+                bool(item.get("category_match")),
                 item["policy_score"],
                 (item.get("context_score", item["relevance"]) / math.sqrt(len(self._render_context(item)) + 3))
                 if self.profile.retrieve_message_context else 0,
@@ -1217,6 +1256,8 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             "category_match": bool(category_match),
             "resolution_history": False,
             "policy_score": policy_score, "relationship_types": relationship_types,
+            "conflict_targets": [relation.target_memory_id for relation in relations
+                                 if relation.relationship_type == RelationshipType.CONFLICT.value],
             "reason": ", ".join(reasons), "test_prompt": test.prompt,
             # Ingested source IDs are resolved against the authorised
             # conversation in ``_annotate_relative_chronology``.

@@ -1,0 +1,218 @@
+[
+  {
+    "id": "development-Cedar-1",
+    "split": "development",
+    "project": "Cedar",
+    "record_budget": 1,
+    "messages": [
+      "I generally prefer Python.",
+      "The Cedar project database must use MySQL.",
+      "The Cedar project database must use PostgreSQL.",
+      "The Cedar project requires Java."
+    ],
+    "prompt": "Which database requirements conflict for the Cedar project, and what should be clarified?",
+    "required_options": [
+      "mysql",
+      "postgresql"
+    ],
+    "expected_delivery": "both_or_abstain"
+  },
+  {
+    "id": "development-Cedar-2",
+    "split": "development",
+    "project": "Cedar",
+    "record_budget": 2,
+    "messages": [
+      "I generally prefer Python.",
+      "The Cedar project database must use MySQL.",
+      "The Cedar project database must use PostgreSQL.",
+      "The Cedar project requires Java."
+    ],
+    "prompt": "Which database requirements conflict for the Cedar project, and what should be clarified?",
+    "required_options": [
+      "mysql",
+      "postgresql"
+    ],
+    "expected_delivery": "both"
+  },
+  {
+    "id": "development-Cedar-3",
+    "split": "development",
+    "project": "Cedar",
+    "record_budget": 3,
+    "messages": [
+      "I generally prefer Python.",
+      "The Cedar project database must use MySQL.",
+      "The Cedar project database must use PostgreSQL.",
+      "The Cedar project requires Java."
+    ],
+    "prompt": "Which database requirements conflict for the Cedar project, and what should be clarified?",
+    "required_options": [
+      "mysql",
+      "postgresql"
+    ],
+    "expected_delivery": "both"
+  },
+  {
+    "id": "validation-Juniper-1",
+    "split": "validation",
+    "project": "Juniper",
+    "record_budget": 1,
+    "messages": [
+      "I generally prefer Python.",
+      "The Juniper project database must use MySQL.",
+      "The Juniper project database must use PostgreSQL.",
+      "The Juniper project requires Java."
+    ],
+    "prompt": "Which database requirements conflict for the Juniper project, and what should be clarified?",
+    "required_options": [
+      "mysql",
+      "postgresql"
+    ],
+    "expected_delivery": "both_or_abstain"
+  },
+  {
+    "id": "validation-Juniper-2",
+    "split": "validation",
+    "project": "Juniper",
+    "record_budget": 2,
+    "messages": [
+      "I generally prefer Python.",
+      "The Juniper project database must use MySQL.",
+      "The Juniper project database must use PostgreSQL.",
+      "The Juniper project requires Java."
+    ],
+    "prompt": "Which database requirements conflict for the Juniper project, and what should be clarified?",
+    "required_options": [
+      "mysql",
+      "postgresql"
+    ],
+    "expected_delivery": "both"
+  },
+  {
+    "id": "validation-Juniper-3",
+    "split": "validation",
+    "project": "Juniper",
+    "record_budget": 3,
+    "messages": [
+      "I generally prefer Python.",
+      "The Juniper project database must use MySQL.",
+      "The Juniper project database must use PostgreSQL.",
+      "The Juniper project requires Java."
+    ],
+    "prompt": "Which database requirements conflict for the Juniper project, and what should be clarified?",
+    "required_options": [
+      "mysql",
+      "postgresql"
+    ],
+    "expected_delivery": "both"
+  },
+  {
+    "id": "validation-Kestrel-1",
+    "split": "validation",
+    "project": "Kestrel",
+    "record_budget": 1,
+    "messages": [
+      "I generally prefer Python.",
+      "The Kestrel project database must use MySQL.",
+      "The Kestrel project database must use PostgreSQL.",
+      "The Kestrel project requires Java."
+    ],
+    "prompt": "Which database requirements conflict for the Kestrel project, and what should be clarified?",
+    "required_options": [
+      "mysql",
+      "postgresql"
+    ],
+    "expected_delivery": "both_or_abstain"
+  },
+  {
+    "id": "validation-Kestrel-2",
+    "split": "validation",
+    "project": "Kestrel",
+    "record_budget": 2,
+    "messages": [
+      "I generally prefer Python.",
+      "The Kestrel project database must use MySQL.",
+      "The Kestrel project database must use PostgreSQL.",
+      "The Kestrel project requires Java."
+    ],
+    "prompt": "Which database requirements conflict for the Kestrel project, and what should be clarified?",
+    "required_options": [
+      "mysql",
+      "postgresql"
+    ],
+    "expected_delivery": "both"
+  },
+  {
+    "id": "validation-Kestrel-3",
+    "split": "validation",
+    "project": "Kestrel",
+    "record_budget": 3,
+    "messages": [
+      "I generally prefer Python.",
+      "The Kestrel project database must use MySQL.",
+      "The Kestrel project database must use PostgreSQL.",
+      "The Kestrel project requires Java."
+    ],
+    "prompt": "Which database requirements conflict for the Kestrel project, and what should be clarified?",
+    "required_options": [
+      "mysql",
+      "postgresql"
+    ],
+    "expected_delivery": "both"
+  },
+  {
+    "id": "validation-Aster-1",
+    "split": "validation",
+    "project": "Aster",
+    "record_budget": 1,
+    "messages": [
+      "I generally prefer Python.",
+      "The Aster project database must use MySQL.",
+      "The Aster project database must use PostgreSQL.",
+      "The Aster project requires Java."
+    ],
+    "prompt": "Which database requirements conflict for the Aster project, and what should be clarified?",
+    "required_options": [
+      "mysql",
+      "postgresql"
+    ],
+    "expected_delivery": "both_or_abstain"
+  },
+  {
+    "id": "validation-Aster-2",
+    "split": "validation",
+    "project": "Aster",
+    "record_budget": 2,
+    "messages": [
+      "I generally prefer Python.",
+      "The Aster project database must use MySQL.",
+      "The Aster project database must use PostgreSQL.",
+      "The Aster project requires Java."
+    ],
+    "prompt": "Which database requirements conflict for the Aster project, and what should be clarified?",
+    "required_options": [
+      "mysql",
+      "postgresql"
+    ],
+    "expected_delivery": "both"
+  },
+  {
+    "id": "validation-Aster-3",
+    "split": "validation",
+    "project": "Aster",
+    "record_budget": 3,
+    "messages": [
+      "I generally prefer Python.",
+      "The Aster project database must use MySQL.",
+      "The Aster project database must use PostgreSQL.",
+      "The Aster project requires Java."
+    ],
+    "prompt": "Which database requirements conflict for the Aster project, and what should be clarified?",
+    "required_options": [
+      "mysql",
+      "postgresql"
+    ],
+    "expected_delivery": "both"
+  }
+]

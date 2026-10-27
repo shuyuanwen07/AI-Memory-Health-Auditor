@@ -64,7 +64,13 @@ def test_software_drift_stops_engine_and_preserves_existing_artifacts(tmp_path, 
             assert ready['retryable']
             assert ready['resume_blocked_reason'] is None
             resumed = client.post(endpoint)
-            assert resumed.status_code == 200, resumed.text
+            if stage == 'regenerate':
+                # Runtime recovery succeeds, but a rule generator with only
+                # this fact has no distinct replacement to save.
+                assert resumed.status_code == 422, resumed.text
+                assert 'same question' in resumed.json()['detail']
+            else:
+                assert resumed.status_code == 200, resumed.text
             if stage == 'evaluate':
                 result = client.get(path + '/results')
                 assert result.status_code == 200

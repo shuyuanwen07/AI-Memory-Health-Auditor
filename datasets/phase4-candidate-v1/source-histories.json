@@ -1,0 +1,173 @@
+[
+  {
+    "scenario_id": "P4-H1",
+    "authorised": true,
+    "source_origin": "synthetic",
+    "project": "Cobalt",
+    "messages": [
+      {
+        "message_id": "P4H1S1",
+        "role": "user",
+        "content": "I live in Brisbane.",
+        "timestamp": "2026-10-10T00:00:00Z"
+      },
+      {
+        "message_id": "P4H1S2",
+        "role": "user",
+        "content": "The Cobalt capstone backend used MySQL previously.",
+        "timestamp": "2026-10-10T00:01:00Z"
+      },
+      {
+        "message_id": "P4H1S3",
+        "role": "user",
+        "content": "We migrated the Cobalt capstone backend to PostgreSQL; MySQL is no longer used there.",
+        "timestamp": "2026-10-10T00:02:00Z"
+      },
+      {
+        "message_id": "P4H1S4",
+        "role": "user",
+        "content": "In general, I prefer Python for backend projects.",
+        "timestamp": "2026-10-10T00:03:00Z"
+      },
+      {
+        "message_id": "P4H1S5",
+        "role": "user",
+        "content": "For Cobalt capstone backend work, the course requires Java only; that requirement applies to this capstone project.",
+        "timestamp": "2026-10-10T00:04:00Z"
+      },
+      {
+        "message_id": "P4H1S6",
+        "role": "user",
+        "content": "The current deployment plan for the Cobalt capstone says the production region is North.",
+        "timestamp": "2026-10-10T00:05:00Z"
+      },
+      {
+        "message_id": "P4H1S7",
+        "role": "user",
+        "content": "The signed client brief for the same Cobalt capstone deployment says the production region is South.",
+        "timestamp": "2026-10-10T00:06:00Z"
+      },
+      {
+        "message_id": "P4H1S8",
+        "role": "user",
+        "content": "Both deployment documents are still active; I have not established which instruction controls.",
+        "timestamp": "2026-10-10T00:07:00Z"
+      }
+    ],
+    "review_status": "AI-authored engineering source; independent human review pending"
+  },
+  {
+    "scenario_id": "P4-H2",
+    "authorised": true,
+    "source_origin": "synthetic",
+    "project": "Linden",
+    "messages": [
+      {
+        "message_id": "P4H2S1",
+        "role": "user",
+        "content": "I live in Perth.",
+        "timestamp": "2026-10-11T00:00:00Z"
+      },
+      {
+        "message_id": "P4H2S2",
+        "role": "user",
+        "content": "The Linden capstone backend used MySQL previously.",
+        "timestamp": "2026-10-11T00:01:00Z"
+      },
+      {
+        "message_id": "P4H2S3",
+        "role": "user",
+        "content": "We migrated the Linden capstone backend to PostgreSQL; MySQL is no longer used there.",
+        "timestamp": "2026-10-11T00:02:00Z"
+      },
+      {
+        "message_id": "P4H2S4",
+        "role": "user",
+        "content": "In general, I prefer Python for backend projects.",
+        "timestamp": "2026-10-11T00:03:00Z"
+      },
+      {
+        "message_id": "P4H2S5",
+        "role": "user",
+        "content": "For Linden capstone backend work, the course requires Java only; that requirement applies to this capstone project.",
+        "timestamp": "2026-10-11T00:04:00Z"
+      },
+      {
+        "message_id": "P4H2S6",
+        "role": "user",
+        "content": "The current deployment plan for the Linden capstone says the production region is North.",
+        "timestamp": "2026-10-11T00:05:00Z"
+      },
+      {
+        "message_id": "P4H2S7",
+        "role": "user",
+        "content": "The signed client brief for the same Linden capstone deployment says the production region is South.",
+        "timestamp": "2026-10-11T00:06:00Z"
+      },
+      {
+        "message_id": "P4H2S8",
+        "role": "user",
+        "content": "Both deployment documents are still active; I have not established which instruction controls.",
+        "timestamp": "2026-10-11T00:07:00Z"
+      }
+    ],
+    "review_status": "AI-authored engineering source; independent human review pending"
+  },
+  {
+    "scenario_id": "P4-H3",
+    "authorised": true,
+    "source_origin": "synthetic",
+    "project": "Meridian",
+    "messages": [
+      {
+        "message_id": "P4H3S1",
+        "role": "user",
+        "content": "I live in Wellington.",
+        "timestamp": "2026-10-12T00:00:00Z"
+      },
+      {
+        "message_id": "P4H3S2",
+        "role": "user",
+        "content": "The Meridian capstone backend used MySQL previously.",
+        "timestamp": "2026-10-12T00:01:00Z"
+      },
+      {
+        "message_id": "P4H3S3",
+        "role": "user",
+        "content": "We migrated the Meridian capstone backend to PostgreSQL; MySQL is no longer used there.",
+        "timestamp": "2026-10-12T00:02:00Z"
+      },
+      {
+        "message_id": "P4H3S4",
+        "role": "user",
+        "content": "In general, I prefer Python for backend projects.",
+        "timestamp": "2026-10-12T00:03:00Z"
+      },
+      {
+        "message_id": "P4H3S5",
+        "role": "user",
+        "content": "For Meridian capstone backend work, the course requires Java only; that requirement applies to this capstone project.",
+        "timestamp": "2026-10-12T00:04:00Z"
+      },
+      {
+        "message_id": "P4H3S6",
+        "role": "user",
+        "content": "The current deployment plan for the Meridian capstone says the production region is North.",
+        "timestamp": "2026-10-12T00:05:00Z"
+      },
+      {
+        "message_id": "P4H3S7",
+        "role": "user",
+        "content": "The signed client brief for the same Meridian capstone deployment says the production region is South.",
+        "timestamp": "2026-10-12T00:06:00Z"
+      },
+      {
+        "message_id": "P4H3S8",
+        "role": "user",
+        "content": "Both deployment documents are still active; I have not established which instruction controls.",
+        "timestamp": "2026-10-12T00:07:00Z"
+      }
+    ],
+    "review_status": "AI-authored engineering source; independent human review pending"
+  }
+]

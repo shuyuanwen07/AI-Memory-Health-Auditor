@@ -42,6 +42,10 @@ def main():
     os.environ.update(PIPELINE_PROVIDER='rule_based',EVALUATOR_PROVIDER='rule_based',
         DATABASE_URL=f'sqlite:///{run / "application-global.sqlite"}',AUTO_CREATE_SCHEMA='false')
     # Environment setup precedes every application import, including pytest collection.
+    # Tests also import the repository's scripts package. Direct invocation
+    # sets sys.path[0] to scripts/, not the repository root; resolve it before
+    # chdir/collection instead of relying on the caller's PYTHONPATH.
+    sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
     sys.path.insert(0,str(backend))
     import pytest
 

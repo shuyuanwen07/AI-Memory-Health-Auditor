@@ -14,7 +14,7 @@ from app.test_generator.rule_based import RuleBasedTestGenerator
 class DirectGroundTruthTestGenerator(TestGenerator):
     """Baseline A: ask a direct question for each confirmed memory."""
 
-    VERSION = "direct-ground-truth-v3"
+    VERSION = "direct-ground-truth-v4"
 
     def generate(self, memories: list[Memory], audit: AuditRun) -> list[TestCase]:
         # Match the current facts/relationships used by other suite methods.
@@ -42,7 +42,7 @@ class DirectGroundTruthTestGenerator(TestGenerator):
 class FixedTemplateTestGenerator(RuleBasedTestGenerator):
     """Baseline B: standard deterministic templates with explicit provenance."""
 
-    VERSION = "fixed-template-v2"
+    VERSION = "fixed-template-v3"
 
     def generate(self, memories: list[Memory], audit: AuditRun) -> list[TestCase]:
         tests = super().generate(memories, audit)
@@ -57,7 +57,7 @@ class ContextualIndirectTestGenerator(TestGenerator):
     evidence-grounded slots into task prompts without exposing fact values.
     """
 
-    VERSION = "contextual-indirect-auditor-v1"
+    VERSION = "contextual-indirect-auditor-v2"
     ALLOWED_TEST_TYPES = frozenset({TestType.CONTEXTUAL, TestType.INDIRECT})
 
     def __init__(self, generator: TestGenerator | None = None) -> None:
@@ -77,6 +77,9 @@ class ContextualIndirectTestGenerator(TestGenerator):
                 if relation.target_memory_id in test.supporting_memory_ids
             }
             prompt = self._contextual_prompt(test.dimension, topic, relationships)
+            if test.dimension == Dimension.ACCURACY and any(
+                    edge.type == RelationshipType.UPDATE for memory in supporting for edge in memory.relationships):
+                prompt = f"Prepare an up-to-date profile for the user. Include the current {topic} as a concrete fact."
             kind = TestType.CONTEXTUAL if test.dimension == Dimension.ACCURACY else TestType.INDIRECT
             result.append(test.model_copy(update={
                 "prompt": prompt,

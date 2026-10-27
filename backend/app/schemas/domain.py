@@ -77,7 +77,7 @@ class MethodComparisonInventoryImport(BaseModel):
     reviewers: list[str] = Field(min_length=2, max_length=2)
     defects: list[MethodComparisonDefect] = Field(max_length=500)
     fixed_template_release_id: str = Field(min_length=1, max_length=120)
-    fixed_template_draft_generator_version: Literal['fixed-template-v2']
+    fixed_template_draft_generator_version: Literal['fixed-template-v2', 'fixed-template-v3']
     fixed_template_draft_fingerprint_sha256: str = Field(pattern=r'^[0-9a-f]{64}$')
     fixed_template_review_confirmed: Literal[True]
     fixed_template_reviewers: list[str] = Field(min_length=1, max_length=2)

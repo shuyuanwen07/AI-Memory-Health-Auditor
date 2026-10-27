@@ -17,7 +17,7 @@ class RuleBasedBehaviourEvaluator(BehaviourEvaluator):
     It has the same interface that a future rule-and-LLM evaluator will use.
     """
 
-    VERSION = "rule-based-v61"
+    VERSION = "rule-based-v65"
     _GENERIC_REFERENCE_TERMS = frozenset({
         "language", "system", "information", "value", "fact", "record", "requirement",
         "preference", "answer", "response", "behavior", "behaviour", "details", "detail", "data", "context", "managed",
@@ -33,6 +33,19 @@ class RuleBasedBehaviourEvaluator(BehaviourEvaluator):
         incomplete = incomplete_output_evaluation(test, response, self.VERSION)
         if incomplete is not None:
             return incomplete
+        from app.services.relationship_bindings import explicit_owner_conflicts
+        owner_issues = explicit_owner_conflicts(response.response_text, [
+            memory.canonical_value for memory in memories
+            if memory.memory_id in test.supporting_memory_ids
+            and memory.status in {MemoryStatus.CONFIRMED, MemoryStatus.EDITED}])
+        if owner_issues:
+            return EvaluationResult(
+                evaluation_id=f"E{test.test_id[1:]}", test_id=test.test_id,
+                response_id=response.response_id, passed=False, failure_type=Dimension.ACCURACY,
+                reason="Failed source attribution: " + "; ".join(owner_issues) + ".",
+                failure_classification=FailureClassification(status="classified", method="source-owner-binding-v1",
+                    reason="An explicit affirmative relationship changes the source owner for the same named person and predicate."),
+                evidence_memory_ids=self._evidence_ids(test, memories), evaluator=self.VERSION)
         expected = self._expected_statement(test.expected_behavior)
         response_words = set(self._words(response.response_text))
         required_terms = self._required_terms(expected, reject_generic_tail=True)
@@ -351,6 +364,24 @@ class RuleBasedBehaviourEvaluator(BehaviourEvaluator):
                         and relation.target_memory_id != current.memory_id
                         and any(t in self._words(current.canonical_value) for t in terms)]
         answer_words = set(self._words(response.response_text))
+        # A linked contextual override plus an affirmative restatement of the
+        # general preference can establish inappropriate use. Missing keywords
+        # alone, or the requested test dimension, cannot establish this cause.
+        for requirement in support:
+            required = self._explicit_requirement_terms(requirement.canonical_value)
+            if not required or any(word in answer_words for word in required):
+                continue
+            for relation in requirement.relationships:
+                general = by_id.get(relation.target_memory_id)
+                if relation.type.value != 'CONTEXTUAL_OVERRIDE' or general is None:
+                    continue
+                preference = re.search(r"\b(?:prefer|prefers)\s+([^.;!?]+)", general.canonical_value, re.I)
+                values = self._words(preference.group(1)) if preference else []
+                if values and all(word in answer_words and not self._term_is_negated(word, response.response_text)
+                                  for word in values):
+                    return Dimension.APPROPRIATE_USE, FailureClassification(
+                        status="classified", method="evidence-rules-v3",
+                        reason="The answer repeats a linked general preference while omitting the explicit task-specific requirement that overrides it.")
         if replacements:
             for _, m in replacements:
                 obsolete = set(self._required_terms(m.canonical_value)) - set(terms)
@@ -364,6 +395,12 @@ class RuleBasedBehaviourEvaluator(BehaviourEvaluator):
                         return Dimension.FRESHNESS, FailureClassification(
                             status="classified", method="evidence-rules-v2",
                             reason="The answer selects an obsolete value as current despite a source-supported explicit replacement.")
+        from app.evaluator.source_abstention import classify_source_abstention
+        omission = classify_source_abstention(test.prompt, response.response_text, support)
+        if omission is not None:
+            category, explanation = omission
+            return category, FailureClassification(status="classified", method="source-abstention-v1",
+                reason=explanation + " This describes the observed missing answer, not its internal cause.")
         return None, FailureClassification(method="evidence-rules-v2",
             reason="A rule failure was detected, but the supplied evidence does not identify a unique observed error category.")
 
@@ -487,6 +524,34 @@ class RuleBasedBehaviourEvaluator(BehaviourEvaluator):
         return next(iter(values)) if len(values)==1 else None
 
     @classmethod
+    def _explicit_requirement_terms(cls, expected: str) -> list[str] | None:
+        """Preserve a bounded positive requirement's answer-bearing qualifiers.
+
+        A shared container noun such as 'charts' cannot prove 'grayscale
+        charts'. Do not interpret negatives, alternatives or scoped clauses
+        with this short-value parser; they retain the existing specialised
+        checks and semantic-review boundary.
+        """
+        match = re.search(
+            r"\b(?:requires?|must\s+use)\s+(?P<value>[a-z0-9][a-z0-9_+-]*(?:\s+[a-z0-9][a-z0-9_+-]*){1,4})\s*[.!?]*$",
+            expected, re.I,
+        )
+        if match is None:
+            return None
+        words = cls._words(match['value'])
+        if set(words) & {'not', 'no', 'without', 'unless', 'except', 'if', 'or', 'and', 'for', 'to', 'by', 'than'}:
+            return None
+        containers = {'the', 'a', 'an', 'charts', 'chart', 'pages', 'page', 'documents', 'document',
+                      'files', 'file', 'backups', 'backup'}
+        # Only handle the concrete container patterns covered here. Abstract
+        # references (e.g. "a specific programming language") must keep the
+        # existing UNCERTAIN boundary rather than becoming literal demands.
+        if not set(words) & (containers - {'the', 'a', 'an'}):
+            return None
+        values = list(dict.fromkeys(word for word in words if word not in containers))
+        return values or None
+
+    @classmethod
     def _required_terms(cls, expected: str, *, reject_generic_tail: bool = False) -> list[str]:
         """Select the answer-bearing part of a generated expectation.
 
@@ -524,6 +589,8 @@ class RuleBasedBehaviourEvaluator(BehaviourEvaluator):
             rf"\bcurrent\s+record\s+(?:says|states|indicates|confirms)\s+(?P<current>{database})\s+is\s+(?:currently\s+)?used\b(?!\s+(?:previously|formerly|historically|earlier)\b)",
             expected, re.I,
         )
+        current_database = current_database or re.search(
+            rf"\b(?:migrated?|switched?)\b[^.!?;]{{0,100}}?\bto\s+(?P<current>{database})\b", expected, re.I)
         if current_database:
             return [current_database.group('current').lower()]
         scoped_languages = cls._scoped_language_values(expected)
@@ -570,6 +637,9 @@ class RuleBasedBehaviourEvaluator(BehaviourEvaluator):
         short_requirement = re.search(r"\b(?:requires?|must\s+use)\s+(?:(?:the\s+)?use\s+of\s+)?([a-z0-9][a-z0-9_+-]*)(?=\s*(?:[.!?,;]|$)|\s+(?:for|instead|rather|on|by)\b)", expected, re.I)
         if short_requirement:
             return [short_requirement.group(1).lower()]
+        qualified_requirement = cls._explicit_requirement_terms(expected)
+        if qualified_requirement:
+            return qualified_requirement
         # A constraint such as "must use PostgreSQL rather than SQLite" has
         # one positive answer and one explicitly rejected alternative. The
         # answer is the first value, not the final word of the sentence.
@@ -662,6 +732,9 @@ class RuleBasedBehaviourEvaluator(BehaviourEvaluator):
         values = {value.lower() for source in support if (value := deployment_region_value(source))}
         if len(values) < 2:
             return []
+        missing = [value for value in sorted(values) if not re.search(rf"(?<![\w-]){re.escape(value)}(?![\w-])", response, re.I)]
+        if missing:
+            return ["Conflict answer omits the source-region option: " + ", ".join(missing) + "."]
         option = '|'.join(re.escape(value) for value in sorted(values, key=len, reverse=True))
         text = response.lower()
         for choice in re.finditer(rf"\b(?:use|choose|select|deploy\s+(?:in|to))\s+(?:the\s+)?(?:{option})\b|\b(?:{option})\s+is\s+(?:the\s+)?(?:chosen|recommended|correct)\s+(?:production\s+)?region\b", text):

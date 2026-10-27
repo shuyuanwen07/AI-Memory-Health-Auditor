@@ -22,7 +22,7 @@ class RuleBasedTestGenerator(TestGenerator):
 
     # Changed prompt wording is a protocol change; retain a distinct version
     # so pre-change and post-change runs are never compared as one template.
-    VERSION = "rule-based-v26"
+    VERSION = "rule-based-v28"
 
     def generate(self, memories: list[Memory], audit: AuditRun) -> list[TestCase]:
         by_id = {memory.memory_id: memory for memory in memories}
@@ -53,6 +53,10 @@ class RuleBasedTestGenerator(TestGenerator):
         unresolved.update(r.target_memory_id for memory in memories for r in memory.relationships if r.type == RelationshipType.CONFLICT)
         for memory in memories:
             if memory.memory_id not in unresolved and memory.memory_id not in superseded:
+                # An unresolved-reference status is context for a conflict,
+                # not a standalone scalar answer for an accuracy probe.
+                if re.search(r"\bnot established which\b", memory.canonical_value, re.I):
+                    continue
                 candidates.append(self._accuracy(memory))
 
         # An actual unresolved contradiction is the primary conflict probe;
@@ -79,6 +83,8 @@ class RuleBasedTestGenerator(TestGenerator):
             prompt = "Who did the user meet, and when? State the person and recorded date."
         elif topic == "programming-language choice" and re.search(r"\b(?:prefers?|preferences?|favours?|favorite|favourite)\b", memory.canonical_value, re.I):
             prompt = "What programming language does the user generally prefer? State the language only."
+        elif topic == "database technology" and any(r.type == RelationshipType.UPDATE for r in memory.relationships):
+            prompt = f"What is the user's current {cls._scoped_topic(memory)} now? State the current value only."
         elif re.search(r"\b(?:requires?|required|must|mandatory)\b", memory.canonical_value, re.I):
             prompt = f"For the current task, what is the recorded requirement about {cls._scoped_topic(memory)}? State the relevant requirement only."
         else:

@@ -196,7 +196,7 @@ def test_method_comparison_has_distinct_suites_equal_caps(client):
     supporting_ids=initial_template['supporting_memory_ids']
     source_ids=sorted({source_id for memory_id in supporting_ids for source_id in memories_by_id[memory_id]['source_message_ids']})
     inventory=plan['inventory_template']
-    assert inventory['fixed_template_draft_generator_version']=='fixed-template-v2'
+    assert inventory['fixed_template_draft_generator_version']=='fixed-template-v3'
     assert len(inventory['fixed_template_draft_fingerprint_sha256'])==64
     assert inventory['fixed_template_review_confirmed'] is False
     inventory.update({"release_id":"test-fixture-release","reviewers":["Reviewer A","Reviewer B"],
@@ -261,7 +261,7 @@ def test_method_comparison_has_distinct_suites_equal_caps(client):
     assert report.json()['inventory']['fixed_template_question_count']==audit['test_budget']
     assert report.json()['inventory']['fixed_template_review_identity_verified'] is False
     assert report.json()['inventory']['fixed_template_review_confirmed'] is True
-    assert report.json()['inventory']['fixed_template_draft_generator_version']=='fixed-template-v2'
+    assert report.json()['inventory']['fixed_template_draft_generator_version']=='fixed-template-v3'
     assert report.json()['inventory']['fixed_template_draft_fingerprint_sha256']==inventory['fixed_template_draft_fingerprint_sha256']
     assert report.json()['inventory']['fixed_template_final_fingerprint_sha256']
     assert report.json()['planned_test_budgets_equal'] is True
