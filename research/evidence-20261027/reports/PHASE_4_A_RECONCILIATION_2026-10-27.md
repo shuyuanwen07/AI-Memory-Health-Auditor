@@ -1,0 +1,11 @@
+# Experiment A review reconciliation — 27 October 2026
+
+The user explicitly revised their review to agree with the AI evidence cross-check, then confirmed that Shuyuan Wen had the same conclusions. Record the user-reported revised agreement by Yichao Wang and Shuyuan Wen as3 pass,27 failed memory tasks and6 uncertain prompt/reference cases per reviewer. The earlier user-reported all-pass conclusion is preserved in the historical cross-check record.
+
+The adopted case IDs and evidence references are bound to the exact AI cross-check SHA256 in `artifacts/local/phase4-20261027/human-reconciliation/A-chat-confirmed-revision-v1.json`. References were prepared by AI and adopted through chat; these are not separately authored or signed reviewer worksheets. The revision followed AI analysis and automated-result disclosure and must be described as AI-assisted reference reconciliation, not independent blind gold. Reviewer identities and independent authorship are not authenticated by software.
+
+All36 answers were reconciled to unique saved response IDs. Six cases remain uncertain because the generic recorded-database question and current-only expected answer have different temporal scope. Their original prompts, answers and scores are unchanged. The reviewed27 failures concern missing current database state, project-specific language and unresolved deployment conflict; cautious answers based on an incomplete retrieved record still failed those memory tasks.
+
+No new model call, formal independent label import, invented defect mapping, or discovery-rate calculation was made. Defect IDs remain explicitly unspecified: dimension matching cannot substitute for the required actual response-to-defect release. The actual adoption record is preserved without expanding it into unsupported claims of manual extraction validation or completing B's separate review.
+
+Remaining work: resolve the six original ambiguous cases under a documented adjudication; obtain an explicit complete researcher defect mapping; obtain genuinely independent evidence for any blind reliability claim. A/B/C automatic executions are complete, but full Phase4 human reliability validation is not certified by this revised agreement.
