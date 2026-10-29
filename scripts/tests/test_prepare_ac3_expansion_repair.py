@@ -2,7 +2,11 @@
 import copy
 import json
 import unittest
-from scripts.prepare_ac3_expansion_repair import PARENT, CHANGED, build
+from scripts.prepare_ac3_expansion_repair import ROOT, CHANGED, build, review_packet, dump, sha
+
+# The live v5 draft was later edited by reviewers. Use the separately retained
+# byte-identical reconstruction of the frozen parent for this historical test.
+PARENT = ROOT/'output/proposal-delivery/ac3-expanded-v5-original-reconstructed-2026-10-28'
 
 
 class ExpandedRevisionTest(unittest.TestCase):
@@ -24,10 +28,10 @@ class ExpandedRevisionTest(unittest.TestCase):
             build((PARENT/'candidate-inputs.json').read_bytes()+b' ',(PARENT/'proposed-fact-plan.json').read_bytes())
 
     def test_delta_review_packets_are_empty_and_exactly_changed_histories(self):
-        from pathlib import Path
-        directory=Path(__file__).resolve().parents[2]/'output/proposal-delivery/ac3-expanded-30-candidate-draft-2026-10-28-v6'
+        source, plan = build((PARENT/'candidate-inputs.json').read_bytes(), (PARENT/'proposed-fact-plan.json').read_bytes())
+        changed = [case for case in source['cases'] if case['history_id'] in CHANGED]
         for slot in (1,2):
-            d=json.loads((directory/f'reviewer-{slot}.json').read_text())
+            d=review_packet(changed,plan,sha(dump(source)),sha(dump(plan)),slot)
             self.assertEqual([c['history_id'] for c in d['cases']],CHANGED)
             self.assertIsNone(d['reviewer_declaration']['completed_by_human'])
             for case in d['cases']:

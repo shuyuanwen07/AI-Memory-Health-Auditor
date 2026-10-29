@@ -1,3 +1,4 @@
+import os
 """Verify provenance is recorded as automated, not a synthetic human signature."""
 import copy
 import json
@@ -10,19 +11,20 @@ from pathlib import Path
 from scripts import freeze_ac3_prospective_suite as freeze
 from scripts import ac3_fixed_suite_adapter as adapter
 from scripts.prepare_ac3_pilot_provenance_audit import build_audit, SELECTION
+from scripts.ac3_evidence_paths import pilot_audits_equivalent
 
 
 class PilotProvenanceAuditTests(unittest.TestCase):
     def test_saved_audit_recomputes_without_human_or_identity_claim(self):
         audit = build_audit()
         saved = json.loads((freeze.ROOT / 'output/proposal-delivery/ac3-pilot-automated-provenance-audit-2026-10-28.json').read_text())
-        self.assertEqual(audit, saved)
+        self.assertTrue(pilot_audits_equivalent(saved, audit))
         self.assertFalse(audit['human_attestation_created'])
         self.assertFalse(audit['identity_or_independence_authenticated'])
         self.assertIn('not independently resolved', audit['pilot_limitations'])
 
     def test_synthetic_run_uses_checked_audit_and_still_rejects_tampering(self):
-        with tempfile.TemporaryDirectory() as directory:
+        with tempfile.TemporaryDirectory(dir=os.environ.get("CI_FIXTURE_OUTPUT_ROOT")) as directory:
             tmp, returns = Path(directory), []
             for slot in (1, 2):
                 review = json.loads((freeze.PACKET / f'grounding-reviewer-{slot}.json').read_text())

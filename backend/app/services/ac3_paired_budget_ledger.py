@@ -6,7 +6,7 @@ connector invokes this draft; target-response database settlement is separate.
 """
 import hashlib
 import json
-from decimal import Decimal
+from decimal import Decimal  # noqa: F401
 from pathlib import Path
 from sqlalchemy import select, text
 from app.models import TargetResponseModel

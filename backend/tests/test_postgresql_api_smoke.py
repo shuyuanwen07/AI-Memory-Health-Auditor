@@ -97,8 +97,10 @@ def test_postgresql_comparison_plan_export_and_confirmed_erasure():
 
 
 @pytest.mark.postgres
-def test_postgresql_migrated_api_path():
+def test_postgresql_migrated_api_path(monkeypatch):
     _require_isolated_postgres()
+    monkeypatch.setenv("PIPELINE_PROVIDER", "rule_based")
+    monkeypatch.setenv("EVALUATOR_PROVIDER", "rule_based")
 
     from app.main import app
 
@@ -106,8 +108,9 @@ def test_postgresql_migrated_api_path():
         payload = {
             "authorised": True,
             "messages": [
-                {"message_id": "export-message-1", "role": "user", "content": "I used MySQL before.", "timestamp": datetime.now(timezone.utc).isoformat()},
-                {"message_id": "export-message-2", "role": "user", "content": "The backend now uses PostgreSQL.", "timestamp": datetime.now(timezone.utc).isoformat()},
+                {"message_id": "export-message-1", "role": "user", "content": "The backend used MySQL before.", "timestamp": datetime.now(timezone.utc).isoformat()},
+                {"message_id": "export-message-2", "role": "user", "content": "The backend now uses PostgreSQL instead of MySQL.", "timestamp": datetime.now(timezone.utc).isoformat()},
+                {"message_id": "export-message-3", "role": "user", "content": "I prefer Python. This assignment requires Java.", "timestamp": datetime.now(timezone.utc).isoformat()},
             ],
         }
         created = client.post("/api/v1/conversations", json=payload)
@@ -146,7 +149,8 @@ def test_postgresql_migrated_api_path():
             })
             assert audit.status_code == 201, audit.text
             run_id = audit.json()["run_id"]
-            assert client.post(f"/api/v1/audits/{run_id}/generate-tests").status_code == 200
+            generated = client.post(f"/api/v1/audits/{run_id}/generate-tests")
+            assert generated.status_code == 200, generated.text
             assert client.post(f"/api/v1/audits/{run_id}/execute").status_code == 200
             assert client.post(f"/api/v1/audits/{run_id}/evaluate").status_code == 200
             assert client.get(f"/api/v1/audits/{run_id}/results").status_code == 200

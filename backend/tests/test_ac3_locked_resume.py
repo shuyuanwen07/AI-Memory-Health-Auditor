@@ -7,7 +7,7 @@ from app.models import TargetResponseModel
 from app.services.ac3_staging import stage_reviewed_suite
 from app.services.ac3_locked_preflight import locked_ac3_preflight
 from scripts.ac3_fixed_suite_adapter import sha
-from test_ac3_database_mapping import saved_histories, fake_compile, add_fixture_audits
+from test_ac3_database_mapping import saved_histories as saved_histories, fake_compile, add_fixture_audits
 
 
 @pytest.fixture

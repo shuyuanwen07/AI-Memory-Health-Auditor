@@ -256,6 +256,8 @@ button:not(.ant-btn):disabled { opacity: .46; }
 
 .question-coverage { margin: 1rem 0; padding: 1rem; background: #f6fafb; border-radius: 12px; }
 .question-coverage h3 { margin-top: 0; }
+.question-review-source { max-height: 18rem; overflow-y: auto; padding-left: 1.5rem; }
+.question-review-source li { margin: .45rem 0; overflow-wrap: anywhere; }
 .question-coverage-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 1rem; }
 .question-coverage-grid b { display: block; margin: .35rem 0; font-size: 1.4rem; }
 .question-coverage-track { height: 6px; background: #e5ecee; border-radius: 3px; overflow: hidden; }

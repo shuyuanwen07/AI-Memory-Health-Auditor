@@ -33,19 +33,17 @@ beforeEach(() => {
   }));
 });
 
-it('uses the root route as a results-only dashboard with final A/B/C and the v7 supplement', async () => {
+it('uses the root route as a results-only dashboard with experiment and audit summaries', async () => {
   const { container } = render(<MemoryRouter initialEntries={['/']}><App /></MemoryRouter>);
   expect(await screen.findByRole('heading', { name: 'Audit and experiment results' })).toBeInTheDocument();
-  expect((await screen.findAllByRole('img', { name: /27 failures, 3 passes, 6 uncertain of 36 answers/ })).length).toBeGreaterThan(0);
-  expect(screen.getByText('Red shows answers that failed, not Auditor errors.')).toBeInTheDocument();
-  expect(await screen.findByLabelText('Four-strategy accuracy chart')).toBeInTheDocument();
+  expect(await screen.findByText('A · Which audit method finds problems?')).toBeInTheDocument();
+  expect(screen.getByText('B & C · Four memory strategies')).toBeInTheDocument();
+  expect(screen.getByText('Auditor · Before and after improvement')).toBeInTheDocument();
   expect(screen.queryByText('B · Original two-policy study')).not.toBeInTheDocument();
   expect(screen.queryByText('C · Original two-policy LongMemEval')).not.toBeInTheDocument();
-  expect(screen.getByRole('heading', {name: 'Auditor validation'})).toBeInTheDocument();
-  expect(screen.getByLabelText('Four-strategy repeat trend')).toBeInTheDocument();
   expect(screen.getByText('No completed audits are available yet. Start a memory audit and return here after it completes.')).toBeInTheDocument();
   const completedResults = container.querySelector('[aria-label="Selected completed audit results"]')!;
-  const researchCards = container.querySelector('.research-summary-grid')!;
+  const researchCards = container.querySelector('.compact-results')!;
   expect(researchCards.compareDocumentPosition(completedResults) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
   expect(screen.getByRole('link', { name: 'History' })).toHaveAttribute('href', '/history');
   expect(screen.queryByText('Unfinished audits')).not.toBeInTheDocument();

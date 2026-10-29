@@ -951,3 +951,81 @@ test('downloads the exact default JSON bytes through the shared download helper'
   expect(JSON.parse(contents).messages).toEqual(presentationDemo.messages);
   expect(apiMocks.createConversation).not.toHaveBeenCalled();
 });
+
+test('partial coverage survives browser review restoration and formal comparison temporarily applies strict',async()=>{
+  apiMocks.targetProviders.mockResolvedValue([{provider:'openrouter',label:'OpenRouter',configured:true,default_model:'test/target',default_pipeline_model:'test/pipeline',default_evaluator_model:'test/judge'}]);
+  apiMocks.coveragePreview.mockImplementation(async (_id:string,budget:number,policy:string)=>({
+    requested_test_count:budget,planned_test_count:policy==='evidence_supported_only_v1'?1:budget,minimum_met:true,
+    dimensions:['accuracy','freshness','conflict_resolution','appropriate_use'].map((dimension,index)=>({dimension,evidence_supported:index===0?true:null,reason:'fixture',planned_question_count:index===0?1:0,required_question_count:index===0?1:0,available_question_count:index===0?1:0,accepted_question_count:0}))
+  }));
+  const user=userEvent.setup();const first=render(<NewAudit/>);
+  await reachCreationConfiguration(user);
+  const compare=screen.getByRole('checkbox',{name:/compare all three audit methods/i});
+  if((compare as HTMLInputElement).checked)await user.click(compare);
+  await selectUIOption(user,'Coverage policy','Only locally identified evidence slots');
+  await waitFor(()=>expect(selectedUILabel('Coverage policy')).toContain('Only locally identified evidence slots'));
+  await waitFor(()=>expect(screen.getByText(/Partial coverage: 1 planned/)).toBeInTheDocument());
+  expect(screen.getByText(/This is a maximum/)).toBeInTheDocument();
+  expect(screen.queryByText(/The Agent needs at least one distinct, evidence-backed question for each ability/)).toBeNull();
+  first.unmount();render(<NewAudit/>);
+  await user.click(screen.getByRole('button',{name:'Resume saved review'}));
+  await screen.findByRole('heading',{name:'Review Extracted Memories'});
+  await user.click(screen.getByRole('button',{name:'Confirm Ground Truth & Continue'}));
+  await screen.findByRole('heading',{name:'Configure Memory Audit'});
+  expect(selectedUILabel('Coverage policy')).toContain('Only locally identified evidence slots');
+  await user.click(screen.getByRole('checkbox',{name:/compare all three audit methods/i}));
+  expect(screen.queryByRole('combobox',{name:'Coverage policy'})).toBeNull();
+  expect(screen.getByText(/Strict coverage applies to this setup/)).toBeInTheDocument();
+  await user.click(screen.getByRole('checkbox',{name:/compare all three audit methods/i}));
+  expect(selectedUILabel('Coverage policy')).toContain('Only locally identified evidence slots');
+  expect(apiMocks.execute).not.toHaveBeenCalled();
+});
+
+test('partial creation retry preserves the exact frozen request and selection',async()=>{
+  apiMocks.targetProviders.mockResolvedValue([{provider:'openrouter',label:'OpenRouter',configured:true,default_model:'test/target',default_pipeline_model:'test/pipeline',default_evaluator_model:'test/judge'}]);
+  apiMocks.createExperiment.mockRejectedValueOnce(new Error('response lost'));
+  const user=userEvent.setup();render(<NewAudit/>);await reachCreationConfiguration(user);
+  const compare=screen.getByRole('checkbox',{name:/compare all three audit methods/i});
+  if((compare as HTMLInputElement).checked)await user.click(compare);
+  await selectUIOption(user,'Coverage policy','Only locally identified evidence slots');
+  await waitFor(()=>expect(selectedUILabel('Coverage policy')).toContain('Only locally identified evidence slots'));
+  await user.click(screen.getByRole('button',{name:'Start Memory Audit'}));
+  await screen.findByRole('heading',{name:'Continue Preparing Your Audit'});
+  const frozen=apiMocks.createExperiment.mock.calls[0][0];
+  expect(frozen.test_suite_configuration.coverage_policy).toBe('evidence_supported_only_v1');
+  await user.click(screen.getByRole('button',{name:'Resume Audit Preparation'}));
+  await screen.findByRole('heading',{name:'Prepare Memory Audit'});
+  expect(apiMocks.createExperiment.mock.calls[1][0]).toEqual(frozen);
+  expect(apiMocks.execute).not.toHaveBeenCalled();
+});
+
+test('review renders frozen server coverage policy instead of the mutable form selection',async()=>{
+  apiMocks.testReview.mockResolvedValue({run_id:'RUN001',canonical_run_id:'RUN001',coverage_policy:'evidence_supported_only_v1',planned_test_count:1,tests:[pendingTest],dimension_coverage:['accuracy','freshness','conflict_resolution','appropriate_use'].map((dimension,index)=>({dimension,evidence_supported:index===0?true:null,reason:'unknown',required_question_count:index===0?1:0,planned_question_count:index===0?1:0,available_question_count:index===0?1:0,accepted_question_count:0}))});
+  const user=userEvent.setup();render(<NewAudit/>);await reachCreationConfiguration(user);
+  await user.click(screen.getByRole('button',{name:'Start Memory Audit'}));
+  await screen.findByRole('heading',{name:'Prepare Memory Audit'});
+  await user.click(screen.getByRole('button',{name:'Generate Tests for Review'}));
+  expect(await screen.findByText(/This does not prove that source evidence is absent/)).toBeInTheDocument();
+  expect(apiMocks.testReview).toHaveBeenCalledWith('RUN001');
+});
+
+test('starting a separate audit resets an earlier partial opt-in to strict',async()=>{
+  apiMocks.targetProviders.mockResolvedValue([{provider:'openrouter',label:'OpenRouter',configured:true,default_model:'test/target',default_pipeline_model:'test/pipeline',default_evaluator_model:'test/judge'}]);
+  const user=userEvent.setup();render(<NewAudit/>);await reachCreationConfiguration(user);
+  const compare=screen.getByRole('checkbox',{name:/compare all three audit methods/i});
+  if((compare as HTMLInputElement).checked)await user.click(compare);
+  await selectUIOption(user,'Coverage policy','Only locally identified evidence slots');
+  await waitFor(()=>expect(selectedUILabel('Coverage policy')).toContain('Only locally identified evidence slots'));
+  await user.click(screen.getByRole('button',{name:'Start Memory Audit'}));
+  await screen.findByRole('heading',{name:'Prepare Memory Audit'});
+  await user.click(screen.getByRole('button',{name:'Start a separate audit'}));
+  await user.type(screen.getByRole('textbox',{name:'Authorised conversation text'}),'[User] I prefer Python.');
+  await user.click(screen.getByRole('checkbox',{name:/authorised to use this conversation/i}));
+  await user.click(screen.getByRole('button',{name:'Continue to Ground Truth'}));
+  await user.click(await screen.findByRole('button',{name:'Accept'}));
+  await user.click(screen.getByRole('button',{name:'Confirm Ground Truth & Continue'}));
+  const freshCompare=await screen.findByRole('checkbox',{name:/compare all three audit methods/i});
+  if((freshCompare as HTMLInputElement).checked)await user.click(freshCompare);
+  expect(selectedUILabel('Coverage policy')).toContain('All four abilities required');
+  expect(apiMocks.execute).not.toHaveBeenCalled();
+});

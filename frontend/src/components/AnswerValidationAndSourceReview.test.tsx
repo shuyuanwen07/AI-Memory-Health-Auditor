@@ -126,8 +126,8 @@ describe('readable saved source evidence, separate from grades',()=>{
     expect(rows).toHaveLength(5);
     const sourceRows=rows.slice(1).map(row=>row.textContent);
     expect(sourceRows).toEqual(expect.arrayContaining([
-      expect.stringContaining('developmentStrong'),expect.stringContaining('developmentWeak'),
-      expect.stringContaining('evaluationStrong'),expect.stringContaining('evaluationWeak'),
+      expect.stringContaining('developmentRelationship-priority retrieval'),expect.stringContaining('developmentFirst-match retrieval'),
+      expect.stringContaining('evaluationRelationship-priority retrieval'),expect.stringContaining('evaluationFirst-match retrieval'),
     ]));
     expect(within(table).getAllByText('Not assessed')).toHaveLength(2);
     expect(screen.getByText(/do not replace the package’s recorded acceptance gates or original grades/)).toBeInTheDocument();

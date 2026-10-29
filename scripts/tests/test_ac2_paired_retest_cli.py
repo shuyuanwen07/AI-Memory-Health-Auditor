@@ -7,6 +7,7 @@ from unittest.mock import patch
 
 from scripts.ac2_paired_retest_cli import execute, freeze
 
+ROOT = Path(__file__).resolve().parents[2]
 
 class PairedCLITests(unittest.TestCase):
     def setUp(self):
@@ -15,9 +16,9 @@ class PairedCLITests(unittest.TestCase):
         root = Path(self.temp.name)
         contents = {'source': b'{"cases":[{"history_id":"fixture"}]}', 'plan': b'{}',
                     'review1': b'fixture-one', 'review2': b'fixture-two',
-                    'archive': Path('/output/proposal-delivery/ac3-retest-diverse-candidate-2026-10-28-v6/legacy-app-source-unlocked.zip').read_bytes(),
-                    'candidate': Path('/app/app/test_generator/rule_based.py').read_bytes(),
-                    'validator': Path('/app/app/test_generator/quality.py').read_bytes()}
+                    'archive': (ROOT/'output/proposal-delivery/ac3-retest-diverse-candidate-2026-10-28-v6/legacy-app-source-unlocked.zip').read_bytes(),
+                    'candidate': (ROOT/'backend/app/test_generator/rule_based.py').read_bytes(),
+                    'validator': (ROOT/'backend/app/test_generator/quality.py').read_bytes()}
         values = {}
         for name, content in contents.items():
             path = root / name

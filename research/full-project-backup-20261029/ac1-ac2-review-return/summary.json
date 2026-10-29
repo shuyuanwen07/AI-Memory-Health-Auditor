@@ -1,0 +1,37 @@
+{
+  "source_archive_sha256": "256c0559dd763238df387c75b9783e79432a4e64f9f2dd7260a4ef05c379c414",
+  "adjudication_sha256": "4d1010f6aa7beabadc1fea32c26a58e3961b84788ad951ff7901f505ebb555de",
+  "ac1": {
+    "histories": 27,
+    "facts": {
+      "full": 204,
+      "missing": 3,
+      "partial": 9
+    },
+    "relationships": {
+      "correct_type": 53,
+      "partial": 1
+    }
+  },
+  "ac2": {
+    "questions": 17,
+    "metrics": {
+      "grounding": {
+        "invalid": 5,
+        "valid": 11,
+        "unresolved": 1
+      },
+      "executability": {
+        "invalid": 5,
+        "valid": 5,
+        "unresolved": 7
+      },
+      "reference_answer_validity": {
+        "invalid": 5,
+        "valid": 11,
+        "unresolved": 1
+      }
+    }
+  },
+  "provenance": "AI-assisted review judgments individually checked by humans per user; independence of human review not established."
+}

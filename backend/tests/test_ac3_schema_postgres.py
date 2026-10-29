@@ -2,7 +2,7 @@
 import pytest
 from sqlalchemy import inspect, text
 from app.services.ac3_schema import ac3_schema_migration_sha256, ensure_ac3_ledger_schema
-from test_ac3_atomic_settlement_postgres import prepared, pytestmark
+from test_ac3_atomic_settlement_postgres import prepared as prepared, pytestmark as pytestmark
 
 
 def test_install_is_idempotent_and_rejects_digest_drift(prepared):

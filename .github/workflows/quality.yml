@@ -38,7 +38,7 @@ jobs:
       - name: Verify the Alembic chain upgrades a disposable PostgreSQL database
         env:
           DATABASE_URL: postgresql+psycopg://auditor:auditor@localhost:5432/memory_auditor_ci
-          PYTHONPATH: .
+          PYTHONPATH: .:..
         run: |
           alembic upgrade head
           alembic check
@@ -48,18 +48,56 @@ jobs:
       - name: Exercise the migrated PostgreSQL API path
         env:
           DATABASE_URL: postgresql+psycopg://auditor:auditor@localhost:5432/memory_auditor_ci
-          PYTHONPATH: .
+          PYTHONPATH: .:..
         run: pytest -q tests/test_postgresql_api_smoke.py
 
   paper-artifacts:
     name: Paper artifact generator contracts
     runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: ${{ github.workspace }}/backend:${{ github.workspace }}
+      AC3_OUTPUT_ROOT: ${{ github.workspace }}/output
+      CI_FIXTURE_OUTPUT_ROOT: ${{ github.workspace }}/output
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - run: pip install -r backend/requirements.txt
+      - name: Restore and verify the frozen research contract evidence
+        run: |
+          cat research/ci-fixtures/contract-evidence.tar.gz.part-* > research/ci-fixtures/contract-evidence-new.tar.gz
+          (cd research/ci-fixtures && sha256sum -c SHA256SUMS)
+          tar -xzf research/ci-fixtures/contract-evidence-new.tar.gz
+          python - <<'PY' >> "$GITHUB_ENV"
+          import json
+          from pathlib import Path
+          source = Path('output/proposal-delivery/ac3-expanded-primary-frozen-2026-10-28.json')
+          paths = json.loads(source.read_text())['source_hashes']
+          roots = {value.split('/output/', 1)[0] for value in paths if value.startswith('/') and '/output/' in value}
+          if len(roots) != 1:
+              raise SystemExit('Frozen source paths have an ambiguous original project root')
+          print('AC3_HOST_PROJECT_ROOT=' + roots.pop())
+          PY
       - run: python -m unittest discover -s scripts/tests -v
+      - name: Run current-source research tests
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE/output/ci-temp"
+          TMPDIR="$GITHUB_WORKSPACE/output/ci-temp" python -m pytest -s -q \
+            --basetemp="$GITHUB_WORKSPACE/output/ci-pytest-temp" scripts/tests \
+            --ignore=scripts/tests/test_replay_ac2_scope_supplement_pilot.py
+      - name: Replay frozen AC2 supplement with its historical application
+        run: |
+          frozen="$RUNNER_TEMP/ac2-v36"
+          mkdir -p "$frozen/output/proposal-delivery"
+          tar -C "$frozen" -xzf research/ci-fixtures/frozen-backend-app-v36.tar.gz
+          cp backend/app/test_generator/frozen_scope_review_v3.py "$frozen/backend/app/test_generator/"
+          cp -a scripts datasets "$frozen/"
+          cp -a output/proposal-delivery/ac2-source-supplement-paired-20261029-v1 \
+            output/proposal-delivery/ac2-source-supplement-review-return-20261029-v1 \
+            output/proposal-delivery/ac2-scope-guard-development-20261029 "$frozen/output/proposal-delivery/"
+          cd "$frozen"
+          PYTHONPATH="$frozen/backend:$frozen" python -m pytest -q scripts/tests/test_replay_ac2_scope_supplement_pilot.py
       - name: Generate illustrative artifacts as a smoke check
         run: python scripts/generate_paper_artifacts.py datasets/paper-artifacts/synthetic_illustrative_results.csv /tmp/paper-artifacts
 

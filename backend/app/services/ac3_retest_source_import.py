@@ -1,6 +1,6 @@
 """Quarantined paired-retest source import; no model or audit execution."""
 import hashlib
-import json
+import json  # noqa: F401
 from datetime import datetime, timedelta
 from sqlalchemy import select
 from sqlalchemy.orm import Session

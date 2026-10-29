@@ -1078,6 +1078,40 @@ def test_standalone_diagnostic_retains_custom_frozen_protocol(client):
         assert group.test_suite_configuration['prompt_template_version'] == 'standalone-protocol-v1'
 
 
+def test_rule_generator_saves_rejected_candidates_and_reports_short_suite(client):
+    source = client.post('/api/v1/conversations', json={'authorised': True, 'messages': [
+        {'message_id': 'S1', 'role': 'user', 'content': 'I enjoy purple tulips.', 'timestamp': '2026-01-01T00:00:00Z'},
+        {'message_id': 'S2', 'role': 'user', 'content': 'I prefer Python programming.', 'timestamp': '2026-01-02T00:00:00Z'},
+    ]})
+    assert source.status_code == 201, source.text
+    conversation_id = source.json()['conversation_id']
+    ids = []
+    for source_id, fact in [('S1', 'I enjoy purple tulips.'), ('S2', 'The user prefers Python programming.')]:
+        response = client.post('/api/v1/memories', json={'conversation_id': conversation_id, 'canonical_value': fact, 'source_message_ids': [source_id]})
+        assert response.status_code == 201, response.text
+        ids.append(response.json()['memory_id'])
+    assert client.post(f'/api/v1/conversations/{conversation_id}/confirm-ground-truth', json={'confirmed_memory_ids': ids}).status_code == 200
+    created = client.post('/api/v1/audits', json={'conversation_id': conversation_id, 'provider': 'rule_based', 'target_configuration': 'weak', 'test_budget': 2})
+    assert created.status_code == 201, created.text
+    run_id = created.json()['run_id']
+    generated = client.post(f'/api/v1/audits/{run_id}/generate-tests')
+    assert generated.status_code == 200, generated.text
+    assert len(generated.json()) == 1
+    review = client.get(f'/api/v1/audits/{run_id}/test-review')
+    assert review.status_code == 200
+    assert review.json()['count_target_met'] is False
+    assert all(item['evidence_supported'] is None for item in review.json()['dimension_coverage'])
+    with client.sessions() as db:
+        observation = db.get(AuditRunModel, run_id).reproducibility_metadata['generation_observations'][-1]
+        assert observation['count_target_met'] is False
+        assert observation['rejected_candidate_count'] == 1
+        assert observation['rejected_candidates'][0]['supporting_memory_ids'] == [ids[0]]
+        assert 'recorded stored information' in observation['rejected_candidates'][0]['prompt']
+        assert observation['rejected_candidates'][0]['reason']
+    response = client.post(f'/api/v1/audits/{run_id}/execute')
+    assert response.status_code == 200, response.text
+
+
 def test_independent_category_disagreement_is_separate_from_binary_consensus(client):
     audit, _ = run(client)
     key = audit['run_id']

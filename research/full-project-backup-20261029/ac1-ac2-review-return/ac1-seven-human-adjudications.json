@@ -1,0 +1,52 @@
+{
+  "format": "ac1-human-adjudication-v1",
+  "date": "2026-10-29",
+  "source_archive_sha256": "256c0559dd763238df387c75b9783e79432a4e64f9f2dd7260a4ef05c379c414",
+  "source_disagreements_sha256": "776cec2bd2134db9096df8604127a3b813552d329024514b163384d3d7c1a878",
+  "user_instruction": "7 项都按 partial 裁定",
+  "items": [
+    {
+      "id": "AC3-H06-R1",
+      "kind": "selected_relation",
+      "decision": "partial",
+      "basis": "User adjudication in chat; original reviewer judgments preserved."
+    },
+    {
+      "id": "AC3-H12-F6",
+      "kind": "fact_coverage",
+      "decision": "partial",
+      "basis": "User adjudication in chat; original reviewer judgments preserved."
+    },
+    {
+      "id": "AC3-H15-F6",
+      "kind": "fact_coverage",
+      "decision": "partial",
+      "basis": "User adjudication in chat; original reviewer judgments preserved."
+    },
+    {
+      "id": "AC3-H17-F6",
+      "kind": "fact_coverage",
+      "decision": "partial",
+      "basis": "User adjudication in chat; original reviewer judgments preserved."
+    },
+    {
+      "id": "AC3-H19-F6",
+      "kind": "fact_coverage",
+      "decision": "partial",
+      "basis": "User adjudication in chat; original reviewer judgments preserved."
+    },
+    {
+      "id": "AC3-H20-F6",
+      "kind": "fact_coverage",
+      "decision": "partial",
+      "basis": "User adjudication in chat; original reviewer judgments preserved."
+    },
+    {
+      "id": "AC3-H22-F6",
+      "kind": "fact_coverage",
+      "decision": "partial",
+      "basis": "User adjudication in chat; original reviewer judgments preserved."
+    }
+  ],
+  "provenance": "The user previously confirmed both AC1 and AC2 sets were individually checked by humans; no independent human-review process is inferred."
+}

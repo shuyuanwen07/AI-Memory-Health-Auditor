@@ -116,7 +116,7 @@ export const api = {
   getConversation:(id:string)=>request<Conversation>(`/conversations/${id}`),
   conversationMemories:(id:string)=>request<Memory[]>(`/conversations/${id}/memories`),
   conversationAgentExecutions:(id:string)=>request<AgentExecution[]>(`/conversations/${id}/agent-executions`),
-  coveragePreview:(id:string,testBudget:number)=>request<DimensionCoveragePreview>(`/conversations/${id}/test-coverage-preview?test_budget=${testBudget}`),
+  coveragePreview:(id:string,testBudget:number,policy:'strict_full_v1'|'evidence_supported_only_v1'='strict_full_v1')=>request<DimensionCoveragePreview>(`/conversations/${id}/test-coverage-preview?test_budget=${testBudget}&coverage_policy=${policy}`),
   deleteConversation:(id:string, confirmation:string)=>request<ConversationDeletionReceipt>(`/conversations/${id}`,{method:'DELETE',body:JSON.stringify({confirmation})}),
   downloadConversationExport: async (id:string) => {
     const response = await fetchResponse(`${BASE}/conversations/${id}/export`);

@@ -210,7 +210,7 @@ describe('StabilityStudyResults local import panel', () => {
     expect(details.getByText(/exact_substring_mismatch/)).toBeInTheDocument();
     expect(details.queryByText('Recorded execution failure diagnostics')).not.toBeInTheDocument();
     expect(details.getByText(/Official incorrect fixture/)).toBeInTheDocument();
-    expect(screen.getByText(/It does not isolate retrieval or have equal total call cost/)).toBeInTheDocument();
+    expect(screen.getByText(/does not isolate retrieval or hold total call cost equal/)).toBeInTheDocument();
     expect(screen.getByText(/Validated means the saved output contract and source-quote checks passed/)).toBeInTheDocument();
     expect(screen.getByText(/It does not prove that an identity relationship is semantically true/)).toBeInTheDocument();
   });

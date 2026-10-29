@@ -7,7 +7,7 @@ not a guarantee of provider billing. The caller must provision the reviewed
 synthetic conversations/memories/audits and research ledger schema first.
 """
 from datetime import datetime, timezone
-from decimal import Decimal
+from decimal import Decimal  # noqa: F401
 import hashlib
 import json
 from sqlalchemy import select, text

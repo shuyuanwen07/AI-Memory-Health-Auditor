@@ -4,8 +4,8 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 from app.models import ConversationModel
 from app.services.ac3_reviewed_source_import import import_reviewed_ac3_sources
-from test_ac3_atomic_settlement_postgres import prepared, pytestmark
-from test_ac3_reviewed_source_import import fixture_plan
+from test_ac3_atomic_settlement_postgres import prepared as prepared, pytestmark as pytestmark
+from test_ac3_reviewed_source_import import fixture_plan as fixture_plan
 
 
 def test_postgres_import_preserves_existing_data_and_revalidates(prepared, fixture_plan):

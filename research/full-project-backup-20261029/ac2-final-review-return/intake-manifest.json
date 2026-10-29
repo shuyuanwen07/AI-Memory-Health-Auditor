@@ -1,0 +1,40 @@
+{
+  "original_archive_sha256": "ed1b7be5ec71197e5a160d5ea56075f4ea584a3c46deb9dd1d821b68fd92fdb3",
+  "reordered_archive_sha256": "6895bb0b78313f2321e73ce8005d0087cd8739c6c4f6b3a43cd5555fae74d80f",
+  "reconciled_sha256": "015981236cadfa313319b992a076e7aa5999347c09f51f7681be33ad86300a44",
+  "reordering": "Only member paths changed; reviewer JSON bytes remain unchanged.",
+  "declarations": "Original forms say AI completed and completed_by_human=false. The user subsequently confirmed that all 48 facts, 24 relationships and 60 question judgments were individually checked and accepted by humans; see user-human-review-confirmation.json. The number and independence of human reviewers and their exposure are unspecified.",
+  "result_counts": {
+    "四维来源与题目": {
+      "source_consensus": {
+        "valid": 72
+      },
+      "questions": 32,
+      "question_overall_consensus": {
+        "valid": 31,
+        "unresolved": 1
+      }
+    },
+    "03-产品新规划10题": {
+      "questions": 10,
+      "overall_consensus": {
+        "valid": 8,
+        "invalid": 2
+      }
+    },
+    "04-原规划15题": {
+      "questions": 15,
+      "overall_consensus": {
+        "valid": 13,
+        "invalid": 2
+      }
+    },
+    "05-隔离原型3题": {
+      "questions": 3,
+      "overall_consensus": {
+        "valid": 1,
+        "invalid": 2
+      }
+    }
+  }
+}

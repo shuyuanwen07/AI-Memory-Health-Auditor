@@ -4,8 +4,8 @@ import pytest
 from sqlalchemy import event, select, text
 from app.models import TargetResponseModel
 from app.services.ac3_atomic_settlement import settle_and_save
-from test_ac3_database_mapping import fake_compile, saved_histories
-from test_ac3_locked_resume import staged
+from test_ac3_database_mapping import fake_compile, saved_histories as saved_histories
+from test_ac3_locked_resume import staged as staged
 
 
 @pytest.fixture

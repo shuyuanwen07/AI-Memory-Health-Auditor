@@ -1,6 +1,5 @@
 """Controlled source-only extraction with synthetic fake model responses."""
 import hashlib,json
-from pathlib import Path
 from unittest.mock import patch
 import pytest
 from scripts.run_ac1_extraction import prepare_freeze, run

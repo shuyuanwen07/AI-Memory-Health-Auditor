@@ -3,7 +3,7 @@
 This does not run a model or authorize a study. Callers must supply a digest-bound
 receipt export; provider reports and timestamps remain independently unverified.
 """
-from datetime import datetime, timezone
+from datetime import datetime, timezone  # noqa: F401
 from decimal import Decimal, InvalidOperation
 from pathlib import Path
 import re

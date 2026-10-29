@@ -1,0 +1,7 @@
+{
+  "source": "user chat confirmation",
+  "date": "2026-10-29",
+  "original_archive_sha256": "ed1b7be5ec71197e5a160d5ea56075f4ea584a3c46deb9dd1d821b68fd92fdb3",
+  "confirmed": "48 source facts, 24 relationships and 60 question judgments were individually checked and accepted by humans.",
+  "scope_limit": "The user did not specify number of human reviewers, independence or exposure for this new batch. Original files declare AI completion; that declaration is preserved. Invalid and uncertain judgments are not turned into passes."
+}

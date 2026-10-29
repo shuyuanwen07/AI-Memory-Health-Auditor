@@ -10,6 +10,7 @@ export interface AuditDraftSettings {
   retrievalModel: string | null;
   pipelineModel: string | null; semanticReviewModel: string | null; evaluatorModel: string | null;
   budget: number; repetitions: number; suiteMode: TestSuiteMode;
+  coveragePolicy?: 'strict_full_v1' | 'evidence_supported_only_v1';
   maintenancePolicy: MemoryMaintenancePolicy; targetMemoryCapacity: number;
   targetMemoryWriter: TargetMemoryWriterKind; targetProfile: TargetMemoryProfile;
   targetSystem: string; compareAuditors: boolean;
@@ -37,6 +38,7 @@ export function parseAuditDraftSettings(value: unknown): AuditDraftSettings | nu
     ||!model(v.pipelineModel)||!model(v.semanticReviewModel??null)||!model(v.evaluatorModel)
     ||!v.targetModels||typeof v.targetModels!=='object'||Array.isArray(v.targetModels)
     ||!Object.entries(v.targetModels).every(([key,item])=>providerNames.includes(key)&&typeof item==='string'&&item.length<=4000)
+    ||(v.coveragePolicy!==undefined&&!['strict_full_v1','evidence_supported_only_v1'].includes(String(v.coveragePolicy)))
     ||!integer(v.budget,1,100)||!integer(v.repetitions,1,10)||!integer(v.targetMemoryCapacity,1,500)
     ||!['behavioural','direct_ground_truth','fixed_template','paired_contextual','contextual_indirect'].includes(String(v.suiteMode))
     ||!['append_only','update_aware_consolidation'].includes(String(v.maintenancePolicy))
@@ -59,7 +61,7 @@ export function parseAuditDraftSettings(value: unknown): AuditDraftSettings | nu
     ||typeof p.additional_instructions!=='string'||p.additional_instructions.length>4000
     ||(p.output_token_limit!=null&&!integer(p.output_token_limit,1,8192)))return null;
   // Copy only known fields; browser debris is not part of the target profile.
-  return {...v,semanticReviewProvider:v.semanticReviewProvider??'same_as_generator',semanticReviewModel:v.semanticReviewModel??null,
+  return {...v,coveragePolicy:v.coveragePolicy??'strict_full_v1',semanticReviewProvider:v.semanticReviewProvider??'same_as_generator',semanticReviewModel:v.semanticReviewModel??null,
     retrievalMode:v.retrievalMode??'agent',retrievalProvider:v.retrievalProvider??'automatic',retrievalModel:v.retrievalModel??null,
     targetProfile:{label:p.label,version:p.version,max_retrieved_records:p.max_retrieved_records,
     context_character_budget:p.context_character_budget,isolate_project_scope:p.isolate_project_scope,

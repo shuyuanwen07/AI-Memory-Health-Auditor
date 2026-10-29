@@ -1,7 +1,6 @@
 """End-to-end preparation in disposable SQLite, with synthetic human fixtures."""
 from datetime import datetime, timezone
 from unittest.mock import patch
-import pytest
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import Session
 from app.models.entities import Base
@@ -11,7 +10,7 @@ from app.services.ac3_controlled_runner import _SETTINGS_FIELDS, target_settings
 from app.services.ac3_prepare_system import prepare_staged_ac3
 from app.memory_agent.writers import RuleBasedTargetMemoryWriter
 from app.target_systems.controlled import ControlledTargetSystemAdapter
-from test_ac3_reviewed_source_import import fixture_plan
+from test_ac3_reviewed_source_import import fixture_plan as fixture_plan
 
 
 def test_prepares_all_reviewed_sources_and_audits_idempotently(fixture_plan):

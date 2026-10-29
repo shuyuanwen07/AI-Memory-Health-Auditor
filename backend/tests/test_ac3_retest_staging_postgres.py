@@ -11,7 +11,7 @@ from app.models import AuditRunModel, ConversationModel, MemoryModel, TestCaseMo
 from app.services.ac3_retest_staging import stage_paired_retest
 from app.services.ac3_retest_source_import import import_paired_sources
 from app.services.stage_lock import stage_lock_key
-from test_ac3_staging_postgres_isolated import isolated_db, URL
+from test_ac3_staging_postgres_isolated import isolated_db as isolated_db, URL
 
 pytestmark=pytest.mark.skipif(os.environ.get('AC3_DISPOSABLE_POSTGRES_TEST')!='yes',reason='Disposable PostgreSQL only')
 

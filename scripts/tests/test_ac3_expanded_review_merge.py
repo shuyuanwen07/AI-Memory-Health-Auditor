@@ -1,3 +1,4 @@
+import os
 """Exercise 30-history merge with synthetic new-review declarations only."""
 import copy
 import json
@@ -69,7 +70,7 @@ class ExpandedReviewMergeTests(unittest.TestCase):
                 convert(*self.args,self.encoded(candidate))
 
     def test_synthetic_review_round_trips_through_freeze_and_mock_stage(self):
-        with tempfile.TemporaryDirectory() as directory:
+        with tempfile.TemporaryDirectory(dir=os.environ.get("CI_FIXTURE_OUTPUT_ROOT")) as directory:
             tmp=Path(directory);packets=self.accepted_fixture()
             reviews=[]
             for i,packet in enumerate(packets,1):
@@ -201,7 +202,7 @@ class ExpandedReviewMergeTests(unittest.TestCase):
         self.assertTrue(all(c['fact_review']['decision'] is None for c in parents[0]['cases'] if c['history_id'] in changed))
         # Check the actual CLI, revised composite manifest, readiness and mock
         # staging together. Everything below is a temporary synthetic fixture.
-        with tempfile.TemporaryDirectory() as directory:
+        with tempfile.TemporaryDirectory(dir=os.environ.get("CI_FIXTURE_OUTPUT_ROOT")) as directory:
             tmp=Path(directory)
             parent_paths=[REVIEWED_PARENT/f'reviewer-{i}-user-confirmed.json' for i in (1,2)];delta_paths=[]
             for slot,delta in enumerate(deltas,1):

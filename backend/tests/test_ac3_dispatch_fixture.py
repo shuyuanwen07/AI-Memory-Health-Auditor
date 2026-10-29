@@ -8,7 +8,7 @@ from app.api.routes import audit_run_locks
 from app.models import TargetResponseModel
 from app.services.ac3_dispatch_fixture import exercise_locked_fixture_dispatch
 from app.services.ac3_staging import stage_reviewed_suite
-from test_ac3_database_mapping import saved_histories, fake_compile, add_fixture_audits
+from test_ac3_database_mapping import saved_histories as saved_histories, fake_compile, add_fixture_audits
 
 
 def setup(db, path, digest, mapping):

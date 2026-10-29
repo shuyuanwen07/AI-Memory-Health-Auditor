@@ -1,3 +1,4 @@
+import os
 """User-selected thresholds are source-bound; all reviews here are synthetic."""
 import json
 import subprocess
@@ -32,7 +33,7 @@ class UserThresholdSelectionTest(unittest.TestCase):
             freeze.validate_threshold_selection({**config, 'thresholds': {**values, 'false_positive_rate_max': float('nan')}}, pilot, digest, record)
 
     def test_synthetic_freeze_binds_record_and_detects_later_tampering(self):
-        with tempfile.TemporaryDirectory() as directory:
+        with tempfile.TemporaryDirectory(dir=os.environ.get("CI_FIXTURE_OUTPUT_ROOT")) as directory:
             tmp, returns = Path(directory), []
             for slot in (1, 2):
                 data = json.loads((freeze.PACKET / f'grounding-reviewer-{slot}.json').read_text())

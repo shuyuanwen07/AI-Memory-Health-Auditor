@@ -49,6 +49,22 @@ def test_reviewed_revision_requires_user_bound_composite(tmp_path):
         publisher.bind_reviewed_revision(result, publisher.REVISION, tmp_path, publisher.COMPOSITE, publisher.FACT_DECLARATIONS)
 
 
+def test_reviewed_revision_rejects_relocated_path_outside_output(tmp_path, monkeypatch):
+    composite = tmp_path / 'composite'
+    shutil.copytree(publisher.COMPOSITE, composite)
+    path = composite / 'manifest.json'
+    manifest = json.loads(path.read_text())
+    original = manifest['inputs'][10]['path']
+    assert '/output/' in original
+    monkeypatch.setenv('AC3_HOST_PROJECT_ROOT', original.split('/output/', 1)[0])
+    monkeypatch.setenv('AC3_OUTPUT_ROOT', str(publisher.ROOT / 'output'))
+    manifest['inputs'][10]['path'] = '/different-project/output/forged.json'
+    path.write_text(json.dumps(manifest))
+    with pytest.raises(ValueError, match='outside the configured project output'):
+        publisher.bind_reviewed_revision({'revision': {}}, publisher.REVISION, publisher.REVISION_CONFIRMATION,
+                                         composite, publisher.FACT_DECLARATIONS)
+
+
 def test_expansion_preserves_reviewed_prefix_and_does_not_claim_new_review(tmp_path):
     summary = publisher.bind_expansion({}, publisher.EXPANSION, publisher.REVISION)
     assert summary['expansion']['reviewed_questions'] == 32
@@ -106,6 +122,20 @@ def test_v7_retains_119_unchanged_questions_and_rejects_tampering(tmp_path):
     (tmp_path / 'candidate-inputs.json').write_text((tmp_path / 'candidate-inputs.json').read_text() + ' ')
     with pytest.raises(ValueError, match='does not bind'):
         publisher.bind_single_question_revision(result, tmp_path, publisher.EXPANSION_REPAIR, publisher.EXPANSION_V5_CONFIRMED)
+
+
+def test_v6_composite_rejects_reference_outside_output(tmp_path, monkeypatch):
+    composite = tmp_path / 'composite-v6'
+    shutil.copytree(publisher.EXPANSION_V6_COMPOSITE, composite)
+    path = composite / 'manifest.json'
+    manifest = json.loads(path.read_text())
+    original = manifest['inputs'][14]['path']
+    monkeypatch.setenv('AC3_HOST_PROJECT_ROOT', original.split('/output/', 1)[0])
+    monkeypatch.setenv('AC3_OUTPUT_ROOT', str(publisher.ROOT / 'output'))
+    manifest['inputs'][14]['path'] = '/different-project/output/forged.json'
+    path.write_text(json.dumps(manifest))
+    with pytest.raises(ValueError, match='outside the configured project output'):
+        publisher.bind_confirmed_v6({}, publisher.EXPANSION_V6_CONFIRMED, composite, publisher.EXPANSION_REPAIR)
 
 
 def test_v8_retains_question_reviews_but_keeps_fact_and_edge_pending(tmp_path):

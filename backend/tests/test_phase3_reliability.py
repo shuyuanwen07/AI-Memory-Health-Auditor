@@ -2,7 +2,6 @@
 import json
 from pathlib import Path
 from datetime import datetime,timezone
-from types import SimpleNamespace
 import pytest
 from app.services.relationship_bindings import explicit_owner_conflicts
 from app.extraction.rule_based import RuleBasedMemoryExtractor

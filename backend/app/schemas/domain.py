@@ -448,10 +448,14 @@ class MemoryUpdate(BaseModel):
 class GroundTruthConfirm(BaseModel):
     confirmed_memory_ids: list[str] = []
 
+CoveragePolicy = Literal["strict_full_v1", "evidence_supported_only_v1"]
+
+
 class TestSuiteConfiguration(BaseModel):
     """Frozen inputs used once when generating an experiment test suite."""
     __test__ = False  # avoid pytest treating this Pydantic contract as a test class
     test_budget: int = Field(default=8, ge=1, le=100)
+    coverage_policy: CoveragePolicy = "strict_full_v1"
     random_seed: int = 42
     prompt_template_version: str = "rule-based-v4"
     pipeline_provider: TargetProvider = TargetProvider.RULE_BASED
@@ -472,6 +476,8 @@ class TestSuiteConfiguration(BaseModel):
 
     @model_validator(mode="after")
     def complete_pairs(self):
+        if self.coverage_policy != "strict_full_v1" and (self.compare_evaluators or self.auditor_comparison_id):
+            raise ValueError("Formal auditor comparison requires strict coverage.")
         if self.suite_mode == TestSuiteMode.PAIRED_CONTEXTUAL and self.test_budget < 2:
             raise ValueError("Paired probes require a budget of at least two questions.")
         return self
@@ -525,6 +531,7 @@ class AuditCreate(BaseModel):
     temperature: float = 0.0
     random_seed: int = 42
     test_budget: int = Field(default=8, ge=1, le=100)
+    coverage_policy: CoveragePolicy = "strict_full_v1"
     prompt_template_version: str = "rule-based-v4"
     pipeline_provider: TargetProvider | None = None
     pipeline_model: str | None = None
@@ -573,6 +580,7 @@ class ReproducibilityMetadata(BaseModel):
     defaults change.
     """
     schema_version: str = "reproducibility-v1"
+    coverage_policy: CoveragePolicy = "strict_full_v1"
     extraction_provenance: dict | None = None
     auditor_method: Literal["rules", "model_generation", "hybrid", "custom"] = "custom"
     auditor_comparison_id: str | None = None
@@ -725,10 +733,14 @@ class TestDimensionCoverage(BaseModel):
     available_question_count: int = 0
     accepted_question_count: int = 0
 class TestCoveragePreview(BaseModel):
+    coverage_policy: CoveragePolicy = "strict_full_v1"
+    planned_test_count: int | None = None
     requested_test_count: int
     minimum_met: bool
     dimensions: list[TestDimensionCoverage] = Field(default_factory=list)
 class TestReviewSuite(BaseModel):
+    coverage_policy: CoveragePolicy = "strict_full_v1"
+    planned_test_count: int | None = None
     run_id: str
     canonical_run_id: str
     tests: list[TestCasePublic]

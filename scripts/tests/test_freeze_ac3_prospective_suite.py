@@ -1,3 +1,4 @@
+import os
 import json
 import subprocess
 import sys
@@ -12,7 +13,7 @@ from scripts import ac3_fixed_suite_adapter as adapter
 class FreezeAC3Test(unittest.TestCase):
     def test_normalized_duplicate_or_blank_reviewer_names_are_not_ready(self):
         script = freeze.ROOT / 'scripts/check_ac3_prospective_readiness.py'
-        with tempfile.TemporaryDirectory() as directory:
+        with tempfile.TemporaryDirectory(dir=os.environ.get("CI_FIXTURE_OUTPUT_ROOT")) as directory:
             root = Path(directory)
             for labels in [(' Reviewer ', 'reviewer'), ('   ', 'other')]:
                 paths = []
@@ -29,7 +30,7 @@ class FreezeAC3Test(unittest.TestCase):
                 self.assertFalse(json.loads(proc.stdout)['grounding_ready_for_adjudication'])
 
     def test_blank_real_reviews_cannot_freeze(self):
-        with tempfile.TemporaryDirectory() as directory:
+        with tempfile.TemporaryDirectory(dir=os.environ.get("CI_FIXTURE_OUTPUT_ROOT")) as directory:
             out = Path(directory) / 'out.json'
             proc = subprocess.run([sys.executable, str(freeze.ROOT / 'scripts/freeze_ac3_prospective_suite.py'), '--review-1', str(freeze.PACKET / 'grounding-reviewer-1.json'), '--review-2', str(freeze.PACKET / 'grounding-reviewer-2.json'), '--config', str(freeze.PACKET / 'protocol-config-template.json'), '--output', str(out)], capture_output=True, text=True)
             self.assertNotEqual(proc.returncode, 0)
@@ -37,7 +38,7 @@ class FreezeAC3Test(unittest.TestCase):
             self.assertFalse(out.exists())
 
     def test_synthetic_fixture_freezes_inputs_but_never_executes_and_rejects_overwrite(self):
-        with tempfile.TemporaryDirectory() as directory:
+        with tempfile.TemporaryDirectory(dir=os.environ.get("CI_FIXTURE_OUTPUT_ROOT")) as directory:
             tmp = Path(directory)
             returns = []
             for slot in (1, 2):

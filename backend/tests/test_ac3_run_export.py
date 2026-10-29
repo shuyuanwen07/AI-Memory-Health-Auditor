@@ -4,17 +4,17 @@ from datetime import datetime, timezone, timedelta
 from unittest.mock import patch
 import pytest
 from sqlalchemy import select
-from app.models import TestCaseModel, TargetResponseModel, EvaluationResultModel
+from app.models import TargetResponseModel, EvaluationResultModel
 from app.services.ac3_staging import stage_reviewed_suite
 from app.services.ac3_run_export import build_heldout_run, export_heldout_run
 from scripts.ac3_fixed_suite_adapter import sha
-from test_ac3_database_mapping import saved_histories, fake_compile, add_fixture_audits
+from test_ac3_database_mapping import saved_histories as saved_histories, fake_compile, add_fixture_audits
 
 
 def fake_export_compile(path, expected, reservation, snapshot=None):
     result = fake_compile(path, expected, reservation, snapshot)
     result['model_configuration']['evaluator_implementation_version'] = 'rule-based-v65'
-    result['model_configuration']['pipeline_implementation_version'] = 'rule-based-v35'
+    result['model_configuration']['pipeline_implementation_version'] = 'rule-based-v36'
     return result
 
 

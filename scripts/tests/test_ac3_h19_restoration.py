@@ -1,3 +1,4 @@
+import os
 """Synthetic re-review fixtures; no new human review or paid call is created."""
 import copy
 import json
@@ -73,7 +74,7 @@ class H19RestorationTests(unittest.TestCase):
         self.assertIn('not authenticated',grounds[0]['reviewer_declaration']['note'])
 
     def test_synthetic_cli_through_readiness_freeze_and_repeat_child(self):
-        with tempfile.TemporaryDirectory() as directory:
+        with tempfile.TemporaryDirectory(dir=os.environ.get("CI_FIXTURE_OUTPUT_ROOT")) as directory:
             tmp=Path(directory);review_paths=[]
             for slot,data in enumerate(self.approved_fixture(),1):
                 path=tmp/f'review-{slot}.json';path.write_bytes(data);review_paths.append(path)

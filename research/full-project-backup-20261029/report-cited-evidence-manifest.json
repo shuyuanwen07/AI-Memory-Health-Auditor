@@ -1,0 +1,381 @@
+{
+  "purpose": "Selected report-cited evidence, supplementing existing archives. Extract only into an empty separate directory.",
+  "files": [
+    {
+      "path": "output/ac3-generated/ac2-generation-coverage-diagnosis-20261029.json",
+      "sha256": "9b79359dba6f2cc16d1deedd6add920ebe09c6544b9dd6da128b54f2c52805c8",
+      "bytes": 12903
+    },
+    {
+      "path": "output/ac3-generated/ac1-relationship-retry-diagnostic-20261029-v1/summary.json",
+      "sha256": "583c12a2cc7483f8ff57654c5d406fb911d0368da7210d2a26f9fe4d9fac33c9",
+      "bytes": 805
+    },
+    {
+      "path": "output/proposal-delivery/ac2-scope-v2-independent-review-20261029-v1/protocol.json",
+      "sha256": "f38947613d0e05d7717d49b8ea0fe2e80674cc9782f5352021cf97a4a4c85572",
+      "bytes": 24207
+    },
+    {
+      "path": "output/proposal-delivery/ac2-source-supplement-paired-20261029-v1/protocol.json",
+      "sha256": "d5ce6527d82ab94eabbe34fa06a87ba47585b66e057b2d964f3ccaa40fad6e52",
+      "bytes": 24404
+    },
+    {
+      "path": "output/proposal-delivery/ac1-override-consistency-human-recheck-20261029.json",
+      "sha256": "8f356cc54b57f31b56860f2722baa88980d77bfa917b34c25ded60f6a2709427",
+      "bytes": 18270
+    },
+    {
+      "path": "output/proposal-delivery/experiment-a-diverse-candidate-20261029-v1/ai-readiness-summary.json",
+      "sha256": "78942b5a3775310c785eafcd147dc17fcfa229ad1dbba9f3e9ffe4d58b06d710",
+      "bytes": 244707
+    },
+    {
+      "path": "output/proposal-delivery/experiment-a-diverse-candidate-20261029-v1/exploratory-stop-decision.json",
+      "sha256": "3f5ec8f17747f6cdadbbe4b486fe83b81da19b43812db0a716d4fd74eb845345",
+      "bytes": 1606
+    },
+    {
+      "path": "output/ac3-generated/ac1-retest-stage-diagnosis-20261029-v1.json",
+      "sha256": "63e0143322bd8f2216e3560182180076df22dacc042bc8fa68f71be02abb1399",
+      "bytes": 3988
+    },
+    {
+      "path": "output/proposal-delivery/four-strategy-grader-human-comparison-2026-10-29.json",
+      "sha256": "f9858926968830c8565d0259bd78379808640cb3856b903326e2baecea887ced",
+      "bytes": 1671
+    },
+    {
+      "path": "output/proposal-delivery/human-return-2026-10-29-ff607492/four-adjudication-user-confirmed.json",
+      "sha256": "ede234a241af8fe798cd041796dc58ce59e2d414de86417d182bf5b7163bcc35",
+      "bytes": 1872
+    },
+    {
+      "path": "output/proposal-delivery/human-return-2026-10-29-ff607492/ac3-intake.json",
+      "sha256": "3f20f5da534a38fe0524aae963b2056abde93b29409ff9d39defc2b3f85cd8df",
+      "bytes": 3112
+    },
+    {
+      "path": "output/ac3-generated/AC3-ec20077e07ead83925fa38bb/reviews-f76539560dbb8760-c54b47bf9887b74e/summary.json",
+      "sha256": "6844ed919cacffde161074d13cb1bc8747c9828b01f54863f96543505e514f74",
+      "bytes": 4856
+    },
+    {
+      "path": "output/ac3-generated/AC3-taxonomy-judge-development-v1/aggregate-development.json",
+      "sha256": "b1827ca1d578d0823a20ccfaa8468672b7de0ed12e5c4a367eece2d5513b868e",
+      "bytes": 3639
+    },
+    {
+      "path": "output/proposal-delivery/ac3-category-diagnosis-2026-10-29.json",
+      "sha256": "e78dc89720fd3ba111eaed62af6ad2dde88fcfcc58eb92efe4df5f20a7e5366b",
+      "bytes": 3553
+    },
+    {
+      "path": "output/proposal-delivery/ac3-paired-development-diagnosis-2026-10-29.json",
+      "sha256": "e27c335d006a2a6f6d0fb1efd392808f2ac9f09780c6820d97267170c312f9cb",
+      "bytes": 5269
+    },
+    {
+      "path": "output/proposal-delivery/ac3-expanded-30-candidate-draft-2026-10-28-v8/proposed-fact-plan.json",
+      "sha256": "9afee8dd5f27f4b9779ef78d2e5083cabb01f076cd0cd9728de41fa7906daa4e",
+      "bytes": 80196
+    },
+    {
+      "path": "output/proposal-delivery/ac3-expanded-30-candidate-draft-2026-10-28-v8/reviewer-1.json",
+      "sha256": "0ee70f03f9448465f3509e91d5a281a65b20946f633b4e399e2f647ebc652259",
+      "bytes": 5182
+    },
+    {
+      "path": "output/proposal-delivery/ac3-expanded-30-candidate-draft-2026-10-28-v8/candidate-inputs.json",
+      "sha256": "e90e8dfbeb429568976ba30f0d796837dfba9513edcc1511b9597a52eb3a3063",
+      "bytes": 65172
+    },
+    {
+      "path": "output/proposal-delivery/ac3-expanded-30-candidate-draft-2026-10-28-v8/reviewer-2.json",
+      "sha256": "bfe9869e9d76c3b980649f9fb12374f1808d35755ff0fe9c82a1f661c9e68b02",
+      "bytes": 5205
+    },
+    {
+      "path": "output/proposal-delivery/ac3-expanded-30-candidate-draft-2026-10-28-v8/manifest.json",
+      "sha256": "990343a68dccb676ac5f401a03ed24d1f9c7c5f3400a468c9939e854a0be2889",
+      "bytes": 3128
+    },
+    {
+      "path": "output/proposal-delivery/ac3-expanded-30-candidate-draft-2026-10-28-v8/说明.md",
+      "sha256": "4d97dab2151575a9b71868915178ea975f3bfd6a13b840d07012d67f3a0ff3a0",
+      "bytes": 998
+    },
+    {
+      "path": "output/proposal-delivery/ac3-grounding-human-confirmed-2026-10-28/confirmation-record.json",
+      "sha256": "c0549ff979050eaed841f49d1e759e1ac2052314eccbc926bb76b518dde8e412",
+      "bytes": 2720
+    },
+    {
+      "path": "output/proposal-delivery/ac3-threshold-user-acceptance-2026-10-28.json",
+      "sha256": "72552266b717566ae7928f7e66bcbbc1e83a7572c3f99725a47099796f48197b",
+      "bytes": 767
+    },
+    {
+      "path": "output/proposal-delivery/ac3-threshold-selection-user-delegated-2026-10-28.json",
+      "sha256": "6a3ba0b90e038ffc60895dbd74b38eeced0df236e47737418a0dec652e7e7439",
+      "bytes": 977
+    },
+    {
+      "path": "output/proposal-delivery/ac3-expanded-primary-frozen-2026-10-28.json",
+      "sha256": "ec20077e07ead83925fa38bb67936d81773098e0762c1e4627ae3b94d8ff0f58",
+      "bytes": 243618
+    },
+    {
+      "path": "output/proposal-delivery/ac3-expanded-repeat-frozen-2026-10-28.json",
+      "sha256": "d5f88c4d118ffd0ffb941d564cf1c33cce82dd10ee78f8aaa33f91e508df2246",
+      "bytes": 79851
+    },
+    {
+      "path": "output/proposal-delivery/ac3-conflict-revision-draft-2026-10-28-v3/changed-items-reviewer-1.json",
+      "sha256": "3d0f0c4fc3ff38a5cddefa06b8a223bd18c1d7b20dfaccf40fb72b6138917a60",
+      "bytes": 22362
+    },
+    {
+      "path": "output/proposal-delivery/ac3-conflict-revision-draft-2026-10-28-v3/proposed-fact-plan.json",
+      "sha256": "4d8eb2926674cdd35eb0183eb17c0c00089cedddca7618268619edf05672ab1a",
+      "bytes": 29510
+    },
+    {
+      "path": "output/proposal-delivery/ac3-conflict-revision-draft-2026-10-28-v3/fact-reviewer-1.json",
+      "sha256": "9173db0b0a9b7c96c698e2e99f58f7a51c49875456e084cce9bb7b8c6b00f251",
+      "bytes": 56877
+    },
+    {
+      "path": "output/proposal-delivery/ac3-conflict-revision-draft-2026-10-28-v3/grounding-reviewer-1.json",
+      "sha256": "920dda83537999a5f1481ff8b9e571f77210b72e466ba999fc20170dfef111f6",
+      "bytes": 30302
+    },
+    {
+      "path": "output/proposal-delivery/ac3-conflict-revision-draft-2026-10-28-v3/candidate-inputs.json",
+      "sha256": "b2154f818d1fcd8d3e88127983793bacdba09899cfeb664df4c5c6908036bcc3",
+      "bytes": 26530
+    },
+    {
+      "path": "output/proposal-delivery/ac3-conflict-revision-draft-2026-10-28-v3/manifest.json",
+      "sha256": "46c3df1077061465c485215deb5bfe6d9a949be4aa691bf7d940538c1c9efbd2",
+      "bytes": 843
+    },
+    {
+      "path": "output/proposal-delivery/ac3-conflict-revision-draft-2026-10-28-v3/fact-reviewer-2.json",
+      "sha256": "4be8fd28018d3e97bd9b30d8c936a4efadbb9580c1ab1e5fb614915db5bc1186",
+      "bytes": 56877
+    },
+    {
+      "path": "output/proposal-delivery/ac3-conflict-revision-draft-2026-10-28-v3/grounding-reviewer-2.json",
+      "sha256": "573303c8554fb8f330103c66ef1213996ef1f89c66107b2ce5c49fe8322b9c5c",
+      "bytes": 30302
+    },
+    {
+      "path": "output/proposal-delivery/ac3-conflict-revision-draft-2026-10-28-v3/审核说明.md",
+      "sha256": "bf005954c6bfabf79552a905fc5461c04083e710fc112ee677d25dd5482e76b1",
+      "bytes": 815
+    },
+    {
+      "path": "output/proposal-delivery/ac3-conflict-revision-draft-2026-10-28-v3/changed-items-reviewer-2.json",
+      "sha256": "6bb3c3ed6f1817244dbaaa42a98d854fe733876e1ae2f5d48c06fcdc9101f613",
+      "bytes": 22362
+    },
+    {
+      "path": "output/proposal-delivery/ac3-conflict-v3-user-confirmed-2026-10-28/confirmation-record.json",
+      "sha256": "59769788dcb29ef92e750e391099d2eba789e78ea655ec63a11b126c142c5728",
+      "bytes": 1142
+    },
+    {
+      "path": "output/proposal-delivery/ac3-v3-composite-human-review-2026-10-28/manifest.json",
+      "sha256": "c4d3a508fb6e54bd492ddcb604a962bc4fe244fda81a1056f8b5eaa831ede148",
+      "bytes": 3991
+    },
+    {
+      "path": "output/proposal-delivery/ac2-generation-reviewed-summary-2026-10-28-v1.json",
+      "sha256": "ef6a23c423f8842a64b097a779c8a34fb87b007b447b563cf211786f927df542",
+      "bytes": 135836
+    },
+    {
+      "path": "output/proposal-delivery/ac2-generation-adjudicated-summary-2026-10-28-v1.json",
+      "sha256": "9a1204bf28cdd7dfdf65dc7737eab3c5e2de27b943a01c3d3239f8dde8355b6f",
+      "bytes": 2530
+    },
+    {
+      "path": "output/proposal-delivery/ac2-uncertain-ai-followup-2026-10-28.json",
+      "sha256": "fb74125775575cacb015173428e576ddbd2706da65e37b0f7ab6ab523b8132e9",
+      "bytes": 174127
+    },
+    {
+      "path": "output/proposal-delivery/ac2-ai-followup-user-human-confirmation-2026-10-28.json",
+      "sha256": "8dab525f680850ee362062adc94595c4fcf1c89b2ab0d7ba17059a28306c7ec1",
+      "bytes": 719
+    },
+    {
+      "path": "output/proposal-delivery/human-return-2026-10-29-ff607492/ac2-frozen.json",
+      "sha256": "0806b5c77c00260658e1ba952b4b02ff617d3b4397da824f13e89eb3e66f8f39",
+      "bytes": 2847
+    },
+    {
+      "path": "output/proposal-delivery/human-return-2026-10-29-ff607492/ac2-output.json",
+      "sha256": "2b12374769fa6b7ba895e6c1c640bc846eb71daa47ddb247305d5cff17536484",
+      "bytes": 449838
+    },
+    {
+      "path": "output/proposal-delivery/ac2-paired-review-2026-10-29-v1/审核说明.md",
+      "sha256": "0050c0bb242b69e6c649ed5ed1c07332d67c7f0be866df4daf0fc1ee1e0b0ebe",
+      "bytes": 1298
+    },
+    {
+      "path": "output/proposal-delivery/ac1-extraction-reviewed-summary-2026-10-28-v2.json",
+      "sha256": "ff2494b3501e873e1fa583de3831a49b37d7033a362b259b0d8fb5ad23e1d584",
+      "bytes": 21514
+    },
+    {
+      "path": "output/proposal-delivery/ac1-relationship-breakdown-2026-10-29-v4.json",
+      "sha256": "95d554c087c4fd31b51a1ec7e2fa8b19d160c2b9bc84d23f8698907d79ab1326",
+      "bytes": 2131
+    },
+    {
+      "path": "output/proposal-delivery/ac1-reference-fullness-reviewed-summary-2026-10-28.json",
+      "sha256": "29380c8077649d34e5d5f1b7f9f45c5f23618aacdbb3cf8c33ede0411140c3c8",
+      "bytes": 50370
+    },
+    {
+      "path": "output/proposal-delivery/reconciliation-user-2026-10-28.json",
+      "sha256": "94613753b896cbf48fb71a4d9d0484ece3eb4860dd9ade5ae7d560b61862807a",
+      "bytes": 1307425
+    },
+    {
+      "path": "output/proposal-delivery/human-review-independence-user-confirmation-2026-10-28.json",
+      "sha256": "31c1681bd29ef6c2d783d2cf5dd9221027f0cf9b71a05275644bb219cdf0ab76",
+      "bytes": 818
+    },
+    {
+      "path": "output/proposal-delivery/live-current-source-repair-2026-10-28/experiment.bundle.json",
+      "sha256": "e26cca18601be85b4f174e78bfe3780f1cb7c1c5d852b11ad1da613a0e003520",
+      "bytes": 711127
+    },
+    {
+      "path": "output/proposal-delivery/live-current-source-repair-2026-10-28/README.md",
+      "sha256": "7831f92bbfd6c62b83e0d8a943d9406f8108ac4d5271d11628a8e66f08b6ccfb",
+      "bytes": 2664
+    },
+    {
+      "path": "output/proposal-delivery/live-current-source-repair-2026-10-28/manifest.json",
+      "sha256": "7f3220c065354a8f6c0807df99fabd1f17ef74733af5879b1e8ad8fd70c1f694",
+      "bytes": 9613
+    },
+    {
+      "path": "output/proposal-delivery/live-repair-loop-2026-10-28/group-2026-10-27-1609.json",
+      "sha256": "f03b0a0a6bf1ccea92ba7eb6818f4c87e1c1f63fbcbbc424dc2696ae76760afe",
+      "bytes": 392615
+    },
+    {
+      "path": "output/proposal-delivery/live-repair-loop-2026-10-28/group-2026-10-27-1602.json",
+      "sha256": "4f63bd511458ea56d93e801a7e5b927d8b0b572c49379e64a89432b8a5dcce20",
+      "bytes": 359626
+    },
+    {
+      "path": "output/proposal-delivery/live-repair-loop-2026-10-28/BLIND_REVIEW_INSTRUCTIONS.md",
+      "sha256": "56c7336e3b1b1d10f6ff19ac79f52f071c79401f628cfdc15b22f50750c37cef",
+      "bytes": 1372
+    },
+    {
+      "path": "output/proposal-delivery/live-repair-loop-2026-10-28/README.md",
+      "sha256": "d958682eb2530e5e4da06397b45c2549e23f845b59dafcc4fe614d405558a298",
+      "bytes": 2694
+    },
+    {
+      "path": "output/proposal-delivery/live-repair-loop-2026-10-28/blind-review.csv",
+      "sha256": "10cff4dc850ebb3fde69560a3814d586029ff1c463192e50908be261f1c2f18d",
+      "bytes": 28094
+    },
+    {
+      "path": "output/proposal-delivery/live-repair-loop-2026-10-28/manifest.json",
+      "sha256": "464e873da249ef59b30c70b818216f41e584a97480244f008c14fb497f1e14f8",
+      "bytes": 8704
+    },
+    {
+      "path": "output/proposal-delivery/live-repair-loop-2026-10-28/group-2026-10-27-1606.json",
+      "sha256": "adbbd1298cf07cdb71169fcc13510d03e765f83ff635587fc2ebcb87c04af4e4",
+      "bytes": 377393
+    },
+    {
+      "path": "output/proposal-delivery/live-presentation-demo-2026-10-28/experiment.csv",
+      "sha256": "bb2a346597c077712759247f60ffcad7e699ea12a718c2a6c8548dafd3215335",
+      "bytes": 212613
+    },
+    {
+      "path": "output/proposal-delivery/live-presentation-demo-2026-10-28/experiment.bundle.json",
+      "sha256": "f649fa6f820abe0794af89efda9ad05dee880fefeae84d47cea040062e7b8371",
+      "bytes": 1793888
+    },
+    {
+      "path": "output/proposal-delivery/live-presentation-demo-2026-10-28/verification.json",
+      "sha256": "71862b7f4ccd655151b28389b61f845542de4d2672bd2d4a8a32a59b21b00584",
+      "bytes": 23044
+    },
+    {
+      "path": "output/proposal-delivery/ac4-human-confirmed-intake-2026-10-28/manifest.json",
+      "sha256": "ec25a1753d7d7a2fdb0f79fc72392ce96f7db83c9278d4ac35fbaae47fe430f0",
+      "bytes": 1822
+    },
+    {
+      "path": "output/proposal-delivery/live-extraction-retest-2026-10-28/receipt-summary.json",
+      "sha256": "cf05a433a786a420cb0ced9915ccfb40674a580116dd4175ff9a41695f8f34a1",
+      "bytes": 3295
+    },
+    {
+      "path": "output/proposal-delivery/live-presentation-demo-current-source-2026-10-28/experiment.csv",
+      "sha256": "c64c5f1642e295bb22a7dda2f615a2defb2f9e9e9865ae36b5b41a3f8675433a",
+      "bytes": 209635
+    },
+    {
+      "path": "output/proposal-delivery/live-presentation-demo-current-source-2026-10-28/experiment.bundle.json",
+      "sha256": "7637398a794ec032588a5b4a0ac0906e5b02c1fd2080d85b6eb23afff7ee5789",
+      "bytes": 1338158
+    },
+    {
+      "path": "output/proposal-delivery/live-presentation-demo-current-source-2026-10-28/README.md",
+      "sha256": "6c4cda9aa8d8f00262baa903f20aeb40776558213ed1aed189c115e085dbc564",
+      "bytes": 2663
+    },
+    {
+      "path": "output/proposal-delivery/live-presentation-demo-current-source-2026-10-28/manifest.json",
+      "sha256": "ff3385e3190986880ae700945cb86fbf4a09941026d4d20f85e9e08f52381aba",
+      "bytes": 3518
+    },
+    {
+      "path": "output/proposal-delivery/live-presentation-demo-current-source-2026-10-28/verification.json",
+      "sha256": "4c65707f802f25549661f60982a502cf7474819ed5cab3cfa1d681c0c203e531",
+      "bytes": 22267
+    },
+    {
+      "path": "output/proposal-delivery/phase4-c-v6-human-review/README.md",
+      "sha256": "a8aa47b418f46d6ba4425c93db95e7e398d7e98c0f76a8f8b7ac7d290db1c028",
+      "bytes": 577
+    },
+    {
+      "path": "output/proposal-delivery/ac1-retrospective-adjudicated-2026-10-28.json",
+      "sha256": "3d7722799710337b35adcfe7f2fb962f3995225dfe014e1d291deb997ee1424c",
+      "bytes": 1224
+    },
+    {
+      "path": "output/proposal-evaluation/assisted-human-return-2026-10-28.json",
+      "sha256": "d28bbf93019797aac87b8b425c62aea49aaaf1741e02129e29a4e7badd359d7d",
+      "bytes": 2123
+    },
+    {
+      "path": "output/proposal-evaluation/phase4-review-recheck-2026-10-28.json",
+      "sha256": "38a1393db67f25b61ed9d808ff1d8f3f44fce5e3a4497a5920e6a8666f2e6837",
+      "bytes": 14802
+    },
+    {
+      "path": "output/ten-cycle-summary/RESULTS.md",
+      "sha256": "8ac4233adef1ec59383808827e08b34b25dcfeeac537e7fb72121d887773f384",
+      "bytes": 2346
+    }
+  ],
+  "excluded": "Large rendering JSON and private review mapping excluded; directory links include selected summaries and bundles, not every file."
+}

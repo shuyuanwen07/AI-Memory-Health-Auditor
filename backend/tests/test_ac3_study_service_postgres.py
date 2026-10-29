@@ -15,8 +15,8 @@ from app.services.ac3_schema import ac3_schema_migration_sha256
 from app.services.formal_freeze import formal_runtime_signature
 from app.services.ac3_study_service import run_study
 from scripts.ac3_fixed_suite_adapter import sha
-from test_ac3_atomic_settlement_postgres import prepared, pytestmark
-from test_ac3_reviewed_source_import import fixture_plan
+from test_ac3_atomic_settlement_postgres import prepared as prepared, pytestmark as pytestmark
+from test_ac3_reviewed_source_import import fixture_plan as fixture_plan
 
 
 def test_full_preparation_run_and_blind_export_with_fake_provider(prepared, fixture_plan, tmp_path, monkeypatch):

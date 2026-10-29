@@ -190,7 +190,11 @@ def package(root: Path, destination: Path) -> dict:
             info.create_system = 3
             info.external_attr = (stat.S_IMODE(path.stat().st_mode) | stat.S_IFREG) << 16
             bundle.writestr(info, contents[path.relative_to(root).as_posix()])
-        bundle.writestr('ASSESSMENT_SOURCE_MANIFEST.json', json.dumps(manifest, indent=2))
+        manifest_info = zipfile.ZipInfo('ASSESSMENT_SOURCE_MANIFEST.json')
+        manifest_info.compress_type = zipfile.ZIP_DEFLATED
+        manifest_info.create_system = 3
+        manifest_info.external_attr = (0o644 | stat.S_IFREG) << 16
+        bundle.writestr(manifest_info, json.dumps(manifest, indent=2))
     manifest['archive_sha256'] = hashlib.sha256(archive.read_bytes()).hexdigest()
     (destination / 'source-manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
     return manifest

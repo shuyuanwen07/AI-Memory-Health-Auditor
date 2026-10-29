@@ -44,6 +44,8 @@ def assert_formal_runtime_frozen(audit) -> None:
     metadata = audit.reproducibility_metadata or {}
     if not metadata.get('formal_matrix_version'):
         return
+    if metadata.get('coverage_policy', 'strict_full_v1') != 'strict_full_v1':
+        raise HTTPException(409, 'Formal studies require strict coverage.')
     saved = metadata.get('formal_runtime_signature')
     if not saved or saved != formal_runtime_signature():
         raise HTTPException(409,
@@ -113,6 +115,8 @@ def assert_formal_inputs_frozen(db: Session, audit) -> None:
     metadata = audit.reproducibility_metadata or {}
     if not metadata.get('formal_matrix_version'):
         return
+    if metadata.get('coverage_policy', 'strict_full_v1') != 'strict_full_v1':
+        raise HTTPException(409, 'Formal studies require strict coverage.')
     protocol = metadata.get('formal_acceptance_protocol') or {}
     if protocol.get('study_mode') == 'formal_experiment_b' and (
         protocol.get('reader_control') != 'fixed_strong_reader'

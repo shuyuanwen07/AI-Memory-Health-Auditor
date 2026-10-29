@@ -1,0 +1,384 @@
+{
+  "format": "ac2-generation-coverage-diagnosis-v1",
+  "input_sha256": "3931e674d126db506212f4f4c4b24ffc0852ab38aec38f59ad353c5a642c4317",
+  "scope": "Retrospective local rule-generator diagnostic after observing failures; no product changes, new labels, target execution or independent validation.",
+  "histories": 30,
+  "histories_with_four_nonrejected_candidates": 1,
+  "hypothetical_nonrejected_candidates_up_to_four": 15,
+  "limitations": [
+    "Per-question checks alone do not certify semantic validity or whole-suite compatibility.",
+    "Using larger local diagnostic budget changes candidate inspection, not the frozen original result.",
+    "These observed histories are development examples and cannot serve as an independent retest after tuning."
+  ],
+  "histories_detail": [
+    {
+      "history_id": "prospective-01",
+      "original_status": "failed",
+      "candidate_count": 2,
+      "candidate_quality": {
+        "accepted": 1,
+        "rejected": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 1
+    },
+    {
+      "history_id": "prospective-02",
+      "original_status": "failed",
+      "candidate_count": 1,
+      "candidate_quality": {
+        "rejected": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 0
+    },
+    {
+      "history_id": "prospective-03",
+      "original_status": "failed",
+      "candidate_count": 2,
+      "candidate_quality": {
+        "rejected": 1,
+        "accepted": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 1
+    },
+    {
+      "history_id": "prospective-04",
+      "original_status": "failed",
+      "candidate_count": 1,
+      "candidate_quality": {
+        "rejected": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 0
+    },
+    {
+      "history_id": "prospective-05",
+      "original_status": "failed",
+      "candidate_count": 2,
+      "candidate_quality": {
+        "rejected": 1,
+        "accepted": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 1
+    },
+    {
+      "history_id": "prospective-06",
+      "original_status": "failed",
+      "candidate_count": 2,
+      "candidate_quality": {
+        "rejected": 1,
+        "accepted": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 1
+    },
+    {
+      "history_id": "prospective-07",
+      "original_status": "failed",
+      "candidate_count": 1,
+      "candidate_quality": {
+        "rejected": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 0
+    },
+    {
+      "history_id": "prospective-08",
+      "original_status": "failed",
+      "candidate_count": 1,
+      "candidate_quality": {
+        "rejected": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 0
+    },
+    {
+      "history_id": "prospective-09",
+      "original_status": "failed",
+      "candidate_count": 1,
+      "candidate_quality": {
+        "rejected": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 0
+    },
+    {
+      "history_id": "prospective-10",
+      "original_status": "failed",
+      "candidate_count": 1,
+      "candidate_quality": {
+        "rejected": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 0
+    },
+    {
+      "history_id": "prospective-11",
+      "original_status": "failed",
+      "candidate_count": 5,
+      "candidate_quality": {
+        "rejected": 1,
+        "accepted": 4
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 4
+    },
+    {
+      "history_id": "prospective-12",
+      "original_status": "failed",
+      "candidate_count": 2,
+      "candidate_quality": {
+        "rejected": 1,
+        "accepted": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 1
+    },
+    {
+      "history_id": "prospective-13",
+      "original_status": "failed",
+      "candidate_count": 2,
+      "candidate_quality": {
+        "accepted": 1,
+        "rejected": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 1
+    },
+    {
+      "history_id": "prospective-14",
+      "original_status": "failed",
+      "candidate_count": 1,
+      "candidate_quality": {
+        "rejected": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 0
+    },
+    {
+      "history_id": "prospective-15",
+      "original_status": "failed",
+      "candidate_count": 2,
+      "candidate_quality": {
+        "rejected": 2
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 2
+      },
+      "hypothetical_up_to_four_not_rejected": 0
+    },
+    {
+      "history_id": "prospective-16",
+      "original_status": "failed",
+      "candidate_count": 2,
+      "candidate_quality": {
+        "rejected": 1,
+        "accepted": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 1
+    },
+    {
+      "history_id": "prospective-17",
+      "original_status": "failed",
+      "candidate_count": 2,
+      "candidate_quality": {
+        "rejected": 1,
+        "accepted": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 1
+    },
+    {
+      "history_id": "prospective-18",
+      "original_status": "failed",
+      "candidate_count": 2,
+      "candidate_quality": {
+        "accepted": 1,
+        "rejected": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 1
+    },
+    {
+      "history_id": "prospective-19",
+      "original_status": "failed",
+      "candidate_count": 2,
+      "candidate_quality": {
+        "rejected": 1,
+        "accepted": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 1
+    },
+    {
+      "history_id": "prospective-20",
+      "original_status": "failed",
+      "candidate_count": 1,
+      "candidate_quality": {
+        "rejected": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 0
+    },
+    {
+      "history_id": "prospective-21",
+      "original_status": "failed",
+      "candidate_count": 1,
+      "candidate_quality": {
+        "rejected": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 0
+    },
+    {
+      "history_id": "prospective-22",
+      "original_status": "failed",
+      "candidate_count": 1,
+      "candidate_quality": {
+        "rejected": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 0
+    },
+    {
+      "history_id": "prospective-23",
+      "original_status": "completed",
+      "candidate_count": 1,
+      "candidate_quality": {
+        "accepted": 1
+      },
+      "rejected_reasons": {},
+      "hypothetical_up_to_four_not_rejected": 1
+    },
+    {
+      "history_id": "prospective-24",
+      "original_status": "failed",
+      "candidate_count": 1,
+      "candidate_quality": {
+        "rejected": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 0
+    },
+    {
+      "history_id": "prospective-25",
+      "original_status": "failed",
+      "candidate_count": 1,
+      "candidate_quality": {
+        "rejected": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 0
+    },
+    {
+      "history_id": "prospective-26",
+      "original_status": "failed",
+      "candidate_count": 1,
+      "candidate_quality": {
+        "rejected": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 0
+    },
+    {
+      "history_id": "prospective-27",
+      "original_status": "failed",
+      "candidate_count": 1,
+      "candidate_quality": {
+        "rejected": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 0
+    },
+    {
+      "history_id": "prospective-28",
+      "original_status": "failed",
+      "candidate_count": 1,
+      "candidate_quality": {
+        "rejected": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 0
+    },
+    {
+      "history_id": "prospective-29",
+      "original_status": "failed",
+      "candidate_count": 2,
+      "candidate_quality": {
+        "rejected": 2
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 2
+      },
+      "hypothetical_up_to_four_not_rejected": 0
+    },
+    {
+      "history_id": "prospective-30",
+      "original_status": "failed",
+      "candidate_count": 1,
+      "candidate_quality": {
+        "rejected": 1
+      },
+      "rejected_reasons": {
+        "The question does not identify the fact or event being tested; replace the generic stored-information wording before execution.": 1
+      },
+      "hypothetical_up_to_four_not_rejected": 0
+    }
+  ]
+}

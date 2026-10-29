@@ -5,7 +5,7 @@ from sqlalchemy import select
 from app.models import AuditRunModel, TestCaseModel
 from app.services.ac3_readiness import inspect_staged_ac3
 from app.services.ac3_staging import stage_reviewed_suite
-from test_ac3_database_mapping import saved_histories, fake_compile, add_fixture_audits
+from test_ac3_database_mapping import saved_histories as saved_histories, fake_compile, add_fixture_audits
 
 
 @patch('scripts.ac3_database_mapping.compile_mock', side_effect=fake_compile)

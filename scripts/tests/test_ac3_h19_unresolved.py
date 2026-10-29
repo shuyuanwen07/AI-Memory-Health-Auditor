@@ -1,3 +1,4 @@
+import os
 """Synthetic two-review fixtures only; original human judgments are not edited."""
 import copy
 import json
@@ -64,7 +65,7 @@ class H19UnresolvedTests(unittest.TestCase):
         self.assertNotEqual(facts[0]['fact_plan_sha256'],json.loads(self.facts[0])['fact_plan_sha256'])
 
     def test_synthetic_120_primary_and_40_repeat_chain(self):
-        with tempfile.TemporaryDirectory() as directory:
+        with tempfile.TemporaryDirectory(dir=os.environ.get("CI_FIXTURE_OUTPUT_ROOT")) as directory:
             tmp=Path(directory);review_paths=[]
             for slot,data in enumerate(self.approved_fixture(),1):
                 path=tmp/f'review-{slot}.json';path.write_bytes(data);review_paths.append(path)

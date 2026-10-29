@@ -53,10 +53,35 @@ test('accepts every question that has not yet been accepted with one action', as
   expect(acceptAll).toHaveBeenCalledWith([pending, rejected]);
 });
 
+test('partial suites show the full source and require individual question decisions', () => {
+  const test: TestCase = {test_id:'one',run_id:'run',dimension:'accuracy',prompt:'When?',expected_behavior:'Tuesday',supporting_memory_ids:['M1'],generator_version:'preview',quality_status:'pending'};
+  const source=[{message_id:'one',role:'user',content:'The club meets on Tuesday.',timestamp:'2026-01-01'},
+    {message_id:'two',role:'user',content:'Next month it moves to Thursday.',timestamp:'2026-01-02',original_timestamp:'2026-01-02T09:00:00+11:00'}];
+  const view=render(<TestSuiteReview tests={[test]} partialCoverage sourceMessages={source} busy={false} onReview={vi.fn()} onRegenerate={vi.fn()} onAcceptAll={vi.fn()}/>);
+  const evidence=within(screen.getByRole('region',{name:'Original conversation for question review'}));
+  expect(evidence.getByText('Next month it moves to Thursday.')).toBeInTheDocument();
+  expect(evidence.getByText(/Recorded time: 2026-01-02T09:00:00\+11:00/)).toBeInTheDocument();
+  expect(evidence.getByText(/Ordering time: 2026-01-01 · source date not provided/)).toBeInTheDocument();
+  expect(evidence.getByText(/timestamps may be generated for ordering/)).toBeInTheDocument();
+  expect(screen.queryByRole('button',{name:'Accept all questions'})).toBeNull();
+  expect(screen.getByRole('button',{name:'Accept'})).toBeEnabled();
+  view.rerender(<TestSuiteReview tests={[test]} partialCoverage busy={false} onReview={vi.fn()} onRegenerate={vi.fn()}/>);
+  expect(screen.getByRole('alert')).toHaveTextContent('Original messages are unavailable');
+  expect(screen.getByRole('button',{name:'Accept'})).toBeDisabled();
+});
+
+test('strict suites also show later source updates when reviewing questions', () => {
+  const test: TestCase = {test_id:'one',run_id:'run',dimension:'accuracy',prompt:'When?',expected_behavior:'Tuesday',supporting_memory_ids:['M1'],generator_version:'preview',quality_status:'pending'};
+  const source=[{message_id:'one',role:'user',content:'The club meets on Tuesday.',timestamp:'2026-01-01'},
+    {message_id:'two',role:'user',content:'Next month it moves to Thursday.',timestamp:'2026-01-02'}];
+  render(<TestSuiteReview tests={[test]} sourceMessages={source} busy={false} onReview={vi.fn()} onRegenerate={vi.fn()}/>);
+  expect(within(screen.getByRole('region',{name:'Original conversation for question review'})).getByText('Next month it moves to Thursday.')).toBeInTheDocument();
+});
+
 test('flags identical questions with different answers instead of declaring the suite ready', () => {
   const test: TestCase = { test_id: 'one', run_id: 'run', dimension: 'accuracy', prompt: 'Which task?', expected_behavior: 'First policy', supporting_memory_ids: [], generator_version: 'preview', quality_status: 'accepted' };
   render(<TestSuiteReview tests={[test, {...test, test_id: 'two', prompt: 'Which task!', expected_behavior: 'Second policy'}]} busy={false} onReview={vi.fn()} onRegenerate={vi.fn()} />);
-  expect(screen.getByRole('alert').textContent).toContain('same wording');
+  expect(screen.getByText(/Two questions have the same wording/)).toBeInTheDocument();
   expect(screen.queryByText('Quality decisions complete')).toBeNull();
   expect(screen.getByText('Duplicate questions need repair')).toBeTruthy();
 });
@@ -132,4 +157,13 @@ test('hides embedded audit identifiers in primary question and expected-answer t
   expect(screen.getByText('Recall Python from saved record.')).toBeInTheDocument();
   expect(screen.queryByText(/MABCDEF|M001/)).toBeNull();
   expect(test.expected_behavior).toContain('MABCDEF');
+});
+test('partial suite labels unplanned abilities as not measured and never as zero or absent evidence',()=>{
+  const test: TestCase={test_id:'one',run_id:'run',dimension:'accuracy',prompt:'Which fact?',expected_behavior:'Value',supporting_memory_ids:['m1'],generator_version:'v22',quality_status:'accepted'};
+  const dimensions=['accuracy','freshness','conflict_resolution','appropriate_use'] as const;
+  const coverage=dimensions.map((dimension,index)=>({dimension,evidence_supported:index===0?true:null,reason:'Local planner found no eligible slot',required_question_count:index===0?1:0,available_question_count:index===0?1:0,planned_question_count:index===0?1:0,accepted_question_count:index===0?1:0}));
+  render(<TestSuiteReview tests={[test]} dimensionCoverage={coverage} partialCoverage busy={false} onReview={vi.fn()} onRegenerate={vi.fn()} />);
+  expect(screen.getByText(/This does not prove that source evidence is absent/)).toBeInTheDocument();
+  expect(screen.queryByText(/Not testable from the confirmed evidence/)).toBeNull();
+  expect(screen.queryByText(/minimum is not met/)).toBeNull();
 });

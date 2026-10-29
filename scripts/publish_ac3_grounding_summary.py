@@ -128,7 +128,11 @@ def bind_reviewed_revision(result, revision, confirmation_dir, composite_dir, de
         returned.append(source)
     manifest_path = composite_dir / 'manifest.json'
     manifest = json.loads(manifest_path.read_text())
-    if [str(p.resolve()) for p in returned] != [entry['path'] for entry in manifest['inputs'][10:12]]:
+    from scripts.ac3_evidence_paths import resolve_evidence_path
+    # Saved manifests retain their original host paths. Resolve each through
+    # the configured, symlink-safe output boundary before comparing identity;
+    # verify_manifest below still checks every original byte hash.
+    if [p.resolve() for p in returned] != [resolve_evidence_path(entry['path']).resolve() for entry in manifest['inputs'][10:12]]:
         raise ValueError('Composite refers to different revised review copies')
     source_path = revision / 'candidate-inputs.json'
     ground = [composite_dir / f'grounding-reviewer-{i}.json' for i in (1, 2)]
@@ -245,6 +249,7 @@ def bind_confirmed_v5_unchanged(result, confirmed, revision, composite, declarat
 def bind_confirmed_v6(result, confirmed, composite, repair):
     """Record complete human judgments while retaining a semantic qualification."""
     from scripts.import_ac3_expanded_reviews import verify_expanded_manifest
+    from scripts.ac3_evidence_paths import resolve_evidence_path
     record_path = confirmed / 'confirmation.json'; record = json.loads(record_path.read_text())
     if record.get('format') != 'ac3-expanded-v6-user-confirmation-v1' or record.get('user_response') != '是，v6 两人已独立核对通过':
         raise ValueError('V6 human confirmation is missing')
@@ -263,7 +268,7 @@ def bind_confirmed_v6(result, confirmed, composite, repair):
         current = json.loads(confirmed_copy.read_text())
         if {k:v for k,v in original.items() if k != 'reviewer_declaration'} != {k:v for k,v in current.items() if k != 'reviewer_declaration'}:
             raise ValueError('V6 confirmation copy changes review judgments')
-        if manifest['inputs'][13 + slot]['path'] != str(confirmed_copy.resolve()):
+        if resolve_evidence_path(manifest['inputs'][13 + slot]['path']).resolve() != confirmed_copy.resolve():
             raise ValueError('Composite does not bind the confirmed v6 copies')
     ground = [(composite / f'grounding-reviewer-{i}.json').read_bytes() for i in (1,2)]
     facts = [(composite / f'fact-reviewer-{i}.json').read_bytes() for i in (1,2)]
@@ -298,8 +303,9 @@ def bind_single_question_revision(result, revision, parent, confirmed_v5):
         or manifest.get('protocol_frozen') is not False or manifest.get('model_called') is not False
         or plan_path.read_bytes() != parent_plan_path.read_bytes()):
         raise ValueError('Single-question revision does not bind the reviewed v6 source')
+    from scripts.ac3_evidence_paths import resolve_evidence_path
     for entry in manifest.get('evidence', {}).values():
-        p = Path(entry.get('path', ''))
+        p = resolve_evidence_path(entry.get('path', ''))
         if not p.is_absolute() or p.is_symlink() or not p.is_file() or digest(p) != entry.get('sha256'):
             raise ValueError('Single-question revision evidence changed')
     previous = json.loads(parent_source_path.read_text()); current = json.loads(source_path.read_text())
@@ -361,8 +367,9 @@ def bind_v8_pending_fact(result, draft, previous):
         or manifest.get('unresolved_edge_status') != 'unresolved_not_written_as_confirmed'
         or manifest.get('protocol_frozen') is not False or manifest.get('model_called') is not False):
         raise ValueError('V8 fact revision is not bound to the reviewed v7 source')
+    from scripts.ac3_evidence_paths import resolve_evidence_path
     for entry in manifest.get('evidence', {}).values():
-        p = Path(entry.get('path', ''))
+        p = resolve_evidence_path(entry.get('path', ''))
         if not p.is_absolute() or p.is_symlink() or not p.is_file() or digest(p) != entry.get('sha256'):
             raise ValueError('V8 fact revision evidence changed')
     expected = copy.deepcopy(json.loads(old_plan.read_text()))
@@ -394,12 +401,13 @@ def bind_confirmed_v8_handling(result, confirmed, composite, draft):
         slot = entry['slot']; template = draft / f'reviewer-{slot}.json'; reviewed = confirmed / f'reviewer-{slot}-user-confirmed.json'
         if digest(template) != entry['blank_sha256'] or digest(reviewed) != entry['confirmed_sha256']:
             raise ValueError('H19 fact review copy or original template differs')
+    from scripts.ac3_evidence_paths import resolve_evidence_path
     manifest_path = composite / 'manifest.json'; manifest = json.loads(manifest_path.read_text()); source = draft / 'candidate-inputs.json'
     if (manifest.get('format') != 'ac3-expanded-h19-unresolved-user-confirmed-composite-review-v1'
-        or manifest['inputs'][12]['path'] != str(record_path.resolve())):
+        or resolve_evidence_path(manifest['inputs'][12]['path']).resolve() != record_path.resolve()):
         raise ValueError('V8 composite does not bind the user confirmation')
     for slot in (1,2):
-        if manifest['inputs'][9+slot]['path'] != str((confirmed / f'reviewer-{slot}-user-confirmed.json').resolve()):
+        if resolve_evidence_path(manifest['inputs'][9+slot]['path']).resolve() != (confirmed / f'reviewer-{slot}-user-confirmed.json').resolve():
             raise ValueError('V8 composite refers to other fact reviews')
     ground = [(composite / f'grounding-reviewer-{i}.json').read_bytes() for i in (1,2)]
     facts = [(composite / f'fact-reviewer-{i}.json').read_bytes() for i in (1,2)]

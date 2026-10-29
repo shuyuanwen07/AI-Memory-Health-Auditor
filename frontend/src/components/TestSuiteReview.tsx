@@ -2,7 +2,7 @@ import { UIAlert, UICard } from './ui';
 import { UIProgress, UIButton, UITextArea } from './ui';
 import {useState} from 'react';
 import { friendlyText } from '../services/display';
-import type { Dimension, DimensionCoverage, TestCase } from '../types/domain';
+import type { ConversationMessage, Dimension, DimensionCoverage, TestCase } from '../types/domain';
 
 export const hasDuplicateQuestions = (tests: TestCase[]) => {
   const prompts = tests.map(test => test.prompt.normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N}]/gu, ''));
@@ -13,9 +13,11 @@ const abilities: [Dimension, string][] = [['accuracy','Accuracy'],['freshness','
 
 const typeLabels: Record<string, string> = { direct: 'Direct', contextual: 'Contextual', paraphrased: 'Paraphrased', indirect: 'Indirect' };
 
-export function TestSuiteReview({ tests, dimensionCoverage, busy, onReview, onRegenerate, onAcceptAll, onHumanValidityReview }: {
+export function TestSuiteReview({ tests, dimensionCoverage, partialCoverage = false, sourceMessages, busy, onReview, onRegenerate, onAcceptAll, onHumanValidityReview }: {
   tests: TestCase[];
   dimensionCoverage?: DimensionCoverage[];
+  partialCoverage?: boolean;
+  sourceMessages?: ConversationMessage[];
   busy: boolean;
   onReview: (test: TestCase, decision: 'accepted' | 'rejected', note?:string) => void;
   onRegenerate: (test: TestCase) => void;
@@ -37,7 +39,7 @@ export function TestSuiteReview({ tests, dimensionCoverage, busy, onReview, onRe
       supported:report?.evidence_supported ?? null, reason:report?.reason,
       required:report?.required_question_count ?? 0, available:report?.available_question_count ?? 0};
   });
-  const supported = coverage.filter(item=>item.supported===true);
+  const supported = coverage.filter(item=>item.supported===true && (!partialCoverage || item.required>0));
   const coveredSupported = supported.filter(item=>item.count>=(item.required || 1));
   const unsupported = coverage.filter(item=>item.supported===false);
   const missingSupported = supported.filter(item=>item.count<(item.required || 1));
@@ -57,22 +59,29 @@ export function TestSuiteReview({ tests, dimensionCoverage, busy, onReview, onRe
       : 'Automatic checks can accept questions; this does not constitute independent human review. Inspect the frozen questions before any target model is executed. A decision or replacement is synchronised to every model and strategy condition in this experiment.'}</p>}
     {duplicateQuestions && <UIAlert role="alert" className="alert">Two questions have the same wording. Regenerate the duplicate questions before running; different expected answers do not make an identical question valid.</UIAlert>}
     <div className="summary"><span>Accepted {accepted}</span><span>Needs review {pending}</span><span>Rejected {rejected}</span></div>
-    {!frozen && onAcceptAll && notAccepted.length > 0 && <UIButton type="button" className="secondary" disabled={busy} onClick={() => onAcceptAll(notAccepted)}>Accept all questions</UIButton>}
+    {!frozen && <section aria-label="Original conversation for question review" className="question-coverage">
+      <h3>Check the complete source</h3>
+      <p>Check for later updates, conflicts and relative dates. Recorded timestamps may be generated for ordering and do not by themselves establish the original date.</p>
+      {sourceMessages?.length ? <ol className="question-review-source">{sourceMessages.map(message=><li key={message.message_id}><b>{message.role}:</b> {message.content} <small>· {message.original_timestamp ? `Recorded time: ${message.original_timestamp}` : `Ordering time: ${message.timestamp || 'not available'} · source date not provided`}</small></li>)}</ol> : <UIAlert role="alert">{partialCoverage ? 'Original messages are unavailable. Restore the source before accepting questions.' : 'Original messages are unavailable here. Check the source before relying on these questions.'}</UIAlert>}
+    </section>}
+    {!partialCoverage && !frozen && onAcceptAll && notAccepted.length > 0 && <UIButton type="button" className="secondary" disabled={busy} onClick={() => onAcceptAll(notAccepted)}>Accept all questions</UIButton>}
     {tests.length > 0 && <div className="review-progress"><div><b>{duplicateQuestions ? 'Duplicate questions need repair' : rejected > 0 ? `${rejected} rejected ${rejected === 1 ? 'question blocks' : 'questions block'} execution` : pending === 0 ? 'Quality decisions complete' : `${pending} ${pending === 1 ? 'question still needs' : 'questions still need'} review`}</b><span>{accepted + rejected} / {tests.length} decided</span></div><UIProgress aria-label="Question review progress" max={tests.length} value={accepted + rejected} /></div>}
     {tests.length > 0 && <section className="question-coverage" aria-label="Accepted question coverage">
       <h3>Accepted questions by ability</h3>
       <p>{supportVerified
-        ? `${coveredSupported.length} of ${supported.length} evidence-supported abilities meet their minimum question count.`
+        ? partialCoverage ? `${coveredSupported.length} of ${supported.length} provisional abilities meet their planned question count.`
+          : `${coveredSupported.length} of ${supported.length} evidence-supported abilities meet their minimum question count.`
         : `${4-uncovered.length} of 4 abilities have accepted questions. Evidence support was not recorded for this suite.`}</p>
       <div className="question-coverage-grid">{coverage.map(item=><div key={item.label}>
         <span>{item.label}</span><b>{item.count}</b>
         {showSupportStatus && <small>{item.supported===true
-          ? `Evidence-supported${item.required>0?` · need ${item.required}, available slots ${item.available}`:''}`
-          : item.supported===false?'Not testable from current evidence':'Support not recorded'}</small>}
+          ? `${partialCoverage?'Provisional candidate slots':'Evidence-supported'}${item.required>0?` · need ${item.required}, available slots ${item.available}`:''}`
+          : partialCoverage ? 'Not measured · local planner did not select a slot' : item.supported===false?'Not testable from current evidence':'Support not recorded'}</small>}
         <div className="question-coverage-track" role="img" aria-label={`${item.label}: ${item.count} accepted questions`}><span style={{width:`${item.count/maximumCount*100}%`}}/></div>
       </div>)}</div>
-      {supportVerified && unsupported.length>0 && <p className="trace-note">Not testable from the confirmed evidence: {unsupported.map(item=>`${item.label} — ${item.reason}`).join(' · ')}</p>}
-      {supportVerified && missingSupported.length>0 && <UIAlert role="alert">The evidence supports these abilities, but their minimum is not met: {missingSupported.map(item=>`${item.label} needs ${item.required || 1}, has ${item.count}`).join('; ')}. Add or regenerate questions before execution.</UIAlert>}
+      {!partialCoverage && supportVerified && unsupported.length>0 && <p className="trace-note">Not testable from the confirmed evidence: {unsupported.map(item=>`${item.label} — ${item.reason}`).join(' · ')}</p>}
+      {supportVerified && missingSupported.length>0 && <UIAlert role="alert">{partialCoverage?'These planned abilities still need reviewed questions':'The evidence supports these abilities, but their minimum is not met'}: {missingSupported.map(item=>`${item.label} needs ${item.required || 1}, has ${item.count}`).join('; ')}. Review or regenerate questions before execution.</UIAlert>}
+      {partialCoverage && uncovered.length>0 && <p className="trace-note">Not measured: {uncovered.map(item=>item.label).join(', ')}. This does not prove that source evidence is absent.</p>}
       {!supportVerified && uncovered.length>0 && <p className="trace-note">No accepted questions for: {uncovered.map(item=>item.label).join(', ')}. Scores will cover only tested abilities.</p>}
     </section>}
     {onHumanValidityReview&&<section className="question-coverage" aria-label="Human validity review">
@@ -89,7 +98,7 @@ export function TestSuiteReview({ tests, dimensionCoverage, busy, onReview, onRe
       <p className="test-dimension">{test.dimension.replaceAll('_', ' ')}</p>
       <p><b>Question</b><br />{friendlyText(test.prompt)}</p>
       <p><b>Expected behaviour</b><br />{friendlyText(test.expected_behavior)}</p>
-      {!onHumanValidityReview&&<p className="test-review-meta">{test.quality_status==='pending' && test.validation_notes?.startsWith('source-scope-review-')?'Source evidence needs review':test.grounding_status==='grounded'?'Evidence references recorded':test.grounding_status==='ungrounded'?'Source evidence needs correction':'Source evidence needs review'} · {friendlyText((test.validation_notes ?? 'No review note available.').replace(/^(?:rule-based-quality|source-scope-review)-v[\d.]+:\s*/i,''))}</p>}
+      {!onHumanValidityReview&&<p className="test-review-meta">{test.quality_status==='pending' && (test.validation_notes?.startsWith('source-scope-review-') || test.validation_notes?.startsWith('partial-source-review-'))?'Source evidence needs review':test.grounding_status==='grounded'?'Evidence references recorded':test.grounding_status==='ungrounded'?'Source evidence needs correction':'Source evidence needs review'} · {friendlyText((test.validation_notes ?? 'No review note available.').replace(/^(?:rule-based-quality|source-scope-review|partial-source-review)-v[\d.]+:\s*/i,''))}</p>}
       {onHumanValidityReview&&<p className={`review-decision-note ${test.human_validity_status==='accepted'?'accepted':test.human_validity_status==='rejected'?'rejected':'pending'}`} role="status" aria-label={`Human validity status for question ${index+1}`}>
         {test.human_validity_status==='accepted'?`Human validity confirmed by ${test.human_validity_reviewer||'researcher'}${test.human_validity_note?` · ${friendlyText(test.human_validity_note)}`:''}`:test.human_validity_status==='rejected'?`Human validity rejected by ${test.human_validity_reviewer||'researcher'}${test.human_validity_note?` · ${friendlyText(test.human_validity_note)}`:''}`:'Human validity not yet reviewed.'}
       </p>}
@@ -103,7 +112,7 @@ export function TestSuiteReview({ tests, dimensionCoverage, busy, onReview, onRe
       </>}
       {!frozen&&test.quality_status==='rejected'&&<UIButton disabled={busy||!notes[test.test_id]?.trim()} onClick={()=>decide(test,'rejected')}>Save rejection reason</UIButton>}
       {!frozen && <div className="actions">
-        <UIButton type="button" className={test.quality_status === 'accepted' ? 'review-accepted-button' : ''} disabled={busy || test.quality_status === 'accepted'} onClick={() => decide(test, 'accepted')}>{test.quality_status === 'accepted' ? '✓ Accepted' : 'Accept'}</UIButton>
+        <UIButton type="button" className={test.quality_status === 'accepted' ? 'review-accepted-button' : ''} disabled={busy || test.quality_status === 'accepted' || (partialCoverage && !sourceMessages?.length)} onClick={() => decide(test, 'accepted')}>{test.quality_status === 'accepted' ? '✓ Accepted' : 'Accept'}</UIButton>
         <UIButton type="button" className="ghost" disabled={busy || test.quality_status === 'rejected'} onClick={() => decide(test, 'rejected')}>Reject</UIButton>
         <UIButton type="button" className="secondary" disabled={busy} onClick={() => onRegenerate(test)}>Regenerate</UIButton>
       </div>}

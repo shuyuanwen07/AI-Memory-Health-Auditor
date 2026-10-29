@@ -20,7 +20,7 @@ from scripts.ac3_retest_paired_freeze import canonical
 from scripts.ac3_retest_reference_stage import compile_reference_stage
 from scripts.ac3_paired_blind_review import make_packets,validate_reviews
 from scripts.tests.test_ac3_retest_paired_freeze import PairFreezeTests
-from test_ac3_staging_postgres_isolated import isolated_db,URL
+from test_ac3_staging_postgres_isolated import isolated_db as isolated_db,URL
 
 pytestmark=pytest.mark.skipif(os.environ.get('AC3_DISPOSABLE_POSTGRES_TEST')!='yes',reason='Disposable PostgreSQL only')
 

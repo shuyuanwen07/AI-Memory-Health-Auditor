@@ -1,7 +1,6 @@
 """Synthetic continuation never repeats an already attempted history."""
 from datetime import datetime,timezone
 import hashlib,json
-from pathlib import Path
 from unittest.mock import patch
 from scripts.run_ac1_extraction import prepare_freeze
 from scripts.run_ac1_extraction_remaining import prepare_addendum,run_remaining

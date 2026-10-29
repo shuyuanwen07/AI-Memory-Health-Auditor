@@ -30,6 +30,7 @@ type ExportMemoryProfile = {
 type AuditExportConfiguration = {
   target_provider: string | null; configured_target_model: string | null; reported_target_models: string[];
   target_configuration: string | null; memory_strategy: string | null; temperature: number | null;
+  sampling_controls_note: string;
   random_seed: number | null; test_budget: number | null; prompt_template_version: string | null;
   memory_maintenance_policy: string | null; target_memory_capacity: number | null;
   target_memory_writer: string | null; target_memory_writer_version: string | null;
@@ -98,6 +99,7 @@ function auditExportConfiguration(result: AuditResult, run?: AuditRun): AuditExp
     memory_strategy: run?.memory_strategy ?? null,
     temperature: run?.temperature ?? null,
     random_seed: run?.random_seed ?? null,
+    sampling_controls_note: 'Temperature and seed are requested settings; check response execution metadata for actual provider sampling.',
     test_budget: run?.test_budget ?? null,
     prompt_template_version: run?.prompt_template_version ?? null,
     memory_maintenance_policy: run?.memory_maintenance_policy ?? null,
@@ -122,7 +124,8 @@ function auditExportConfiguration(result: AuditResult, run?: AuditRun): AuditExp
 const configurationColumns: Array<[keyof AuditExportConfiguration, string]> = [
   ['target_provider','Configured target provider'], ['configured_target_model','Configured target model'],
   ['reported_target_models','Reported target model(s)'], ['target_configuration','Target configuration'],
-  ['memory_strategy','Memory strategy'], ['temperature','Temperature'], ['random_seed','Random seed'],
+  ['memory_strategy','Memory strategy'], ['temperature','Requested temperature'], ['random_seed','Requested random seed'],
+  ['sampling_controls_note','Sampling settings note'],
   ['test_budget','Test budget'], ['prompt_template_version','Target prompt template version'],
   ['memory_maintenance_policy','Memory maintenance policy'], ['target_memory_capacity','Target memory capacity'],
   ['target_memory_writer','Target memory writer'], ['target_memory_writer_version','Target memory writer version'],

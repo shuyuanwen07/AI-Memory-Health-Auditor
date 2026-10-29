@@ -1,3 +1,4 @@
+import os
 """The fabricated delta decisions below are fixtures, never human evidence."""
 import copy
 import json
@@ -78,7 +79,7 @@ class ConflictDeltaReviewTests(unittest.TestCase):
 
     def test_revised_composite_readiness_freeze_and_tampering(self):
         """Synthetic test attestation is confined to a temporary directory."""
-        with tempfile.TemporaryDirectory() as directory:
+        with tempfile.TemporaryDirectory(dir=os.environ.get("CI_FIXTURE_OUTPUT_ROOT")) as directory:
             tmp = Path(directory)
             paths = []
             flat = self.args[:4] + self.args[4] + self.args[5] + self.args[6:8] + self.args[8] + self.args[9]

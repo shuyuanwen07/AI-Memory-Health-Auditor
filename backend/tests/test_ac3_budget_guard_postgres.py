@@ -4,7 +4,7 @@ from pathlib import Path
 from unittest.mock import patch
 from sqlalchemy import text
 from app.services.ac3_budget_guard import BudgetedDispatchLedger
-from test_ac3_atomic_settlement_postgres import prepared, pytestmark
+from test_ac3_atomic_settlement_postgres import prepared as prepared, pytestmark as pytestmark
 from test_ac3_budget_guard import fake_budget_compile
 
 

@@ -160,6 +160,7 @@ test('CSV and JSON exports preserve every saved answer outcome and its source st
   expect(exported.run_configuration).toMatchObject({
     target_provider:'ollama', configured_target_model:'qwen3:1.7b',
     reported_target_models:['ollama/qwen3:1.7b'], memory_strategy:'scope_aware', test_budget:4,
+    sampling_controls_note: expect.stringContaining('requested settings'),
     target_memory_profile:{label:'Synthetic profile',output_token_limit:256},
   });
   expect(text).not.toContain('private instruction text');
@@ -182,8 +183,9 @@ test('exports numeric pending and excluded counts alongside unavailable scores w
  expect(summary).toContain('"Evidence unavailable"');
  expect(summary).toContain('"1","1","2","Not recorded"');
  expect(dimension).toContain('"1","1","2","Not recorded"');
- expect(csvColumnCount(lines[0])).toBe(46);
- expect(lines.map(csvColumnCount)).toEqual(Array.from({length:lines.length},()=>46));
+ expect(lines[0]).toContain('"Requested temperature","Requested random seed","Sampling settings note"');
+ expect(csvColumnCount(lines[0])).toBe(47);
+ expect(lines.map(csvColumnCount)).toEqual(Array.from({length:lines.length},()=>47));
 });
 
 test('reports the save request accurately, handles export failure and does not carry feedback into another audit',async()=>{

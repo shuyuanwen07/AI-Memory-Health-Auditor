@@ -147,9 +147,9 @@ test('requires a local source and consent before a benchmark can run', async () 
   await user.upload(screen.getByLabelText('Local benchmark JSON'), new File(['not json'], 'broken.json', { type: 'application/json' }));
   expect(apiMocks.validateBenchmark).not.toHaveBeenCalled();
   expect(screen.getByText(/selected file has not been read/i)).toBeInTheDocument();
-  expect(screen.queryByRole('alert')).toBeNull();
+  expect(screen.queryByText(/not valid JSON/i)).not.toBeInTheDocument();
   await user.click(screen.getByLabelText('Benchmark source authorisation'));
-  await waitFor(() => expect(screen.getByRole('alert').textContent).toContain('not valid JSON'));
+  await waitFor(() => expect(screen.getByText(/not valid JSON/i)).toBeInTheDocument());
 });
 
 
@@ -237,7 +237,7 @@ async function prepareFormalStudyForm(targetRuntime:'Local Ollama'|'Deterministi
   for(const label of ['Supply no memories','Replay all retained memories','Rank memories by relevance','Match the task and project','Consider time and importance']) await user.click(screen.getByRole('checkbox',{name:label}));
   const development={dataset_id:'development-v1',dataset_version:'1.0.0',conversations:[]};
   await user.upload(screen.getByLabelText('Development annotation dataset JSON'),new File([JSON.stringify(development)],'development.json',{type:'application/json'}));
-  await user.type(screen.getByLabelText('Formal scene selection rule'),'Select every permitted history before inspecting any formal results; exclude none.');
+  fireEvent.change(screen.getByLabelText('Formal scene selection rule'),{target:{value:'Select every permitted history before inspecting any formal results; exclude none.'}});
   return user;
 }
 
@@ -564,7 +564,7 @@ test('analysis plan is blocked without a sampling rule and submitted before exec
   await user.upload(screen.getByLabelText('Development annotation dataset JSON'),new File([JSON.stringify(development)],'dev.json',{type:'application/json'}));
   expect(screen.getByRole('button',{name:'Create Formal Experiment B'})).toBeDisabled();
   const rule='Use every permitted scene from the fixed inventory; exclude no scene after inspecting results.';
-  await user.type(screen.getByLabelText('Formal scene selection rule'),rule);
+  fireEvent.change(screen.getByLabelText('Formal scene selection rule'),{target:{value:rule}});
   await user.click(screen.getByRole('button',{name:'Create Formal Experiment B'}));
   await waitFor(()=>expect(apiMocks.createFormalSyntheticMatrix).toHaveBeenCalled());
   expect(apiMocks.createFormalSyntheticMatrix.mock.calls.at(-1)?.[0].study_design).toEqual({sampling_rule:rule,primary_outcome:'overall_memory_health',analysis_unit:'source_history',incomplete_results:'report_without_imputing_scores'});

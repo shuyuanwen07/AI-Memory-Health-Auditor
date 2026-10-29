@@ -1,0 +1,12 @@
+{
+  "protocol_sha256": "0204ecaf05b4d07f90f20866003087934adc2e3dd92b98cee272562a7c7120ff",
+  "saved_application_files": 193,
+  "changed_application_files": [
+    "backend/app/api/routes.py"
+  ],
+  "extra_application_files": [],
+  "restore_file": "research/frozen-implementations/routes_before_timestamp_provenance_20261029.py",
+  "restore_to": "backend/app/api/routes.py",
+  "restore_sha256": "1bad4233b5c896bfce36d918c4a460935446d07e8af9e4e768bedd15876f47aa",
+  "note": "This is a source-file comparison only, not a complete dependency or provider-model environment. Restore only into a separate copy; do not overwrite the current workspace."
+}

@@ -8,6 +8,42 @@ from app.database.session import Base, get_db
 from app.main import app
 
 
+def test_missing_source_time_stays_unknown_through_export_and_reimport(tmp_path):
+    engine = create_engine(f"sqlite:///{tmp_path / 'unknown-time.db'}")
+    Base.metadata.create_all(engine)
+    sessions = sessionmaker(bind=engine)
+    def test_db():
+        with sessions() as db:
+            yield db
+    app.dependency_overrides[get_db] = test_db
+    try:
+        with TestClient(app) as client:
+            pasted = client.post('/api/v1/conversations', json={'authorised': True, 'pasted_text': '[User] Meet today.'})
+            assert pasted.status_code == 201
+            message = pasted.json()['messages'][0]
+            assert message['timestamp'] and message['original_timestamp'] is None
+            exported = client.get(f"/api/v1/conversations/{pasted.json()['conversation_id']}/export").json()['conversation']
+            restored = client.post('/api/v1/conversations', json={'authorised': True, 'messages': exported['messages']})
+            assert restored.status_code == 201
+            assert restored.json()['messages'] == exported['messages']
+
+            structured = client.post('/api/v1/conversations', json={'authorised': True, 'messages': [{'role': 'user', 'content': 'No date'}]})
+            assert structured.status_code == 201
+            assert structured.json()['messages'][0]['original_timestamp'] is None
+
+            time = '2026-01-02T09:00:00+11:00'
+            original = {'authorised': True, 'creation_request_key': 'time-provenance-test', 'messages': [{'role': 'user', 'content': 'Dated', 'timestamp': time}]}
+            first = client.post('/api/v1/conversations', json=original)
+            assert first.status_code == 201
+            assert first.json()['messages'][0]['original_timestamp'] == time
+            assert client.post('/api/v1/conversations', json=original).json()['conversation_id'] == first.json()['conversation_id']
+            unknown = {'authorised': True, 'creation_request_key': 'time-provenance-test', 'messages': [{'role': 'user', 'content': 'Dated', 'timestamp': time, 'original_timestamp': None}]}
+            assert client.post('/api/v1/conversations', json=unknown).status_code == 409
+    finally:
+        app.dependency_overrides.clear()
+        engine.dispose()
+
+
 def test_offset_import_roundtrip_and_extraction_keep_actual_chronology(tmp_path,monkeypatch):
     from app.models import MessageModel
     from sqlalchemy import select

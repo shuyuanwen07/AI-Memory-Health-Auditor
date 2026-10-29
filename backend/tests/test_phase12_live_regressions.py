@@ -1,12 +1,10 @@
 """Defects observed during real Phase 2 synthetic workflow verification."""
 from datetime import datetime, timezone
 NOW=datetime(2026,10,27,tzinfo=timezone.utc)
-import json
-from pathlib import Path
 from app.extraction.rule_based import RuleBasedMemoryExtractor
 from app.test_generator.rule_based import RuleBasedTestGenerator
 from app.evaluator.rule_based import RuleBasedBehaviourEvaluator
-from app.schemas import Conversation, Memory, MemoryStatus, MemoryRelationship, RelationshipType, AuditRun, Dimension, TestCase, TargetResponse
+from app.schemas import Conversation, Memory, MemoryStatus, RelationshipType, AuditRun, Dimension, TestCase, TargetResponse
 
 
 def test_signed_region_brief_survives_extraction_and_forms_unresolved_conflict():

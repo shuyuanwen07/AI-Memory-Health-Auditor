@@ -10,10 +10,10 @@ from app.models.entities import Base
 from app.services.ac3_staging import stage_reviewed_suite
 from scripts.ac3_database_mapping import compile_database_stage
 from scripts.ac3_fixed_suite_adapter import sha
-from scripts.tests.test_ac3_reviewed_fact_map import fixture as fact_fixture
+from scripts.tests.test_ac3_reviewed_fact_map import fixture as fact_fixture  # noqa: F401
 
 @pytest.fixture
-def saved_fact_plan(tmp_path, fact_fixture):
+def saved_fact_plan(tmp_path, fact_fixture):  # noqa: F811
     suite, plan, reviews, snapshot = fact_fixture
     for n, message in enumerate(suite['cases'][0]['source_messages']):
         message.update(role='user', order=n + 1)

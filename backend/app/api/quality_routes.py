@@ -1,5 +1,6 @@
 """Auditor reliability, exploratory diagnosis and controlled repair workflows."""
 import os
+import copy as copy_module
 import hashlib
 import json
 from datetime import datetime, timezone
@@ -14,6 +15,7 @@ from app.schemas import (AuditCreate, AuditStatus, Dimension, TestSuiteConfigura
 from app.schemas.target_profile import RepairExperimentRequest, TargetMemoryProfile, FollowUpRequest
 from app.api.routes import (audit_schema, build_audit, evaluation_review_items_for, evaluation_review_batches_for, target_memory_trace_payload,
                             ident, memory_schema, persist_generated_tests, public_test_schema)
+from app.services.generation_coverage import saved_suite_observation, assert_generation_coverage
 from app.services.auditor_quality import reliability_summary, paired_probe_summary, scenario_reliability, apply_evidence_integrity
 from app.test_generator.quality import RuleBasedTestQualityValidator
 from app.services.evidence_correspondence import correspondence, evidence_units
@@ -327,11 +329,25 @@ def run_post_diagnostic_agent(run_id: str, db: Session = Depends(get_db)):
 def fork_conditions(source: AuditRunModel, db: Session, profiles: list[TargetMemoryProfile], *, role: str, note: str, same_suite: bool = True, conversation_id: str | None = None, commit: bool = True, targeted_memory_strategy: str | None = None, targeted_memory_capacity: int | None = None) -> dict:
     original = audit_schema(source)
     experiment = db.get(ExperimentModel, source.experiment_id) if source.experiment_id else None
+    source_policy = (source.reproducibility_metadata or {}).get("coverage_policy", "strict_full_v1")
+    if source_policy != "strict_full_v1" and role not in {"repair_comparison", "held_out_repair", "diagnostic_intervention"}:
+        raise HTTPException(409, "This study cannot inherit a partial coverage contract; create a new strict audit.")
     configuration = TestSuiteConfiguration.model_validate(experiment.test_suite_configuration) if experiment else TestSuiteConfiguration(
-        test_budget=source.test_budget, random_seed=source.random_seed, pipeline_provider=source.pipeline_provider,
+        coverage_policy=source_policy, test_budget=source.test_budget, random_seed=source.random_seed, pipeline_provider=source.pipeline_provider,
         pipeline_model=source.pipeline_model, semantic_review_provider=source.semantic_review_provider,
         semantic_review_model=source.semantic_review_model,
         evaluator_provider=source.evaluator_provider, evaluator_model=source.evaluator_model)
+    if configuration.coverage_policy != source_policy:
+        raise HTTPException(409, "Source coverage policy differs from the frozen experiment.")
+    frozen_observation = None
+    if same_suite and source_policy == "evidence_supported_only_v1":
+        source_tests = db.scalars(select(TestCaseModel).where(TestCaseModel.run_id == source.id)).all()
+        canonical = db.get(AuditRunModel, experiment.test_suite_source_run_id) if experiment and experiment.test_suite_source_run_id else source
+        if (not canonical or canonical.conversation_id != source.conversation_id or canonical.test_budget != source.test_budget
+                or (canonical.reproducibility_metadata or {}).get("coverage_policy", "strict_full_v1") != source_policy):
+            raise HTTPException(409, "The shared suite source is missing or has a different frozen coverage contract.")
+        frozen_observation = copy_module.deepcopy(saved_suite_observation(canonical.reproducibility_metadata))
+        assert_generation_coverage(frozen_observation, source_tests, source.test_budget, coverage_policy=source_policy)
     configuration = TestSuiteConfiguration.model_validate({**configuration.model_dump(mode="json"),
         "auditor_comparison_id": None, "compare_evaluators": False,
         "random_seed": source.random_seed, "test_budget": source.test_budget,
@@ -364,6 +380,8 @@ def fork_conditions(source: AuditRunModel, db: Session, profiles: list[TargetMem
                           target_system_adapter=original.target_system_adapter, target_memory_profile=profile), db)
         row = db.get(AuditRunModel, run.run_id)
         metadata = dict(row.reproducibility_metadata)
+        if frozen_observation is not None:
+            metadata["generation_observations"] = [copy_module.deepcopy(frozen_observation)]
         metadata.update({"study_role": role, "diagnostic_source_run_id": source.id, "diagnosis_note": note,
                          "human_validation": "pending", "validation_split": "candidate_held_out" if conversation_id else "diagnostic_replay"})
         row.reproducibility_metadata = metadata
@@ -488,6 +506,8 @@ def create_interventions(run_id: str, db: Session = Depends(get_db)):
 def create_method_comparison(run_id: str, db: Session = Depends(get_db)):
     """Fixed target configuration, equal maximum calls, separately frozen suites."""
     source = completed(run_id, db)
+    if (source.reproducibility_metadata or {}).get("coverage_policy", "strict_full_v1") != "strict_full_v1":
+        raise HTTPException(409, "Formal method comparisons require strict coverage; create a new audit.")
     base = audit_schema(source).target_memory_profile
     comparison_id = ident("MCA")
     source_fingerprint = method_comparison_source_fingerprint(source, db)
@@ -567,6 +587,8 @@ def method_comparison_source_fingerprint(source: AuditRunModel, db: Session) -> 
 @quality_router.post("/audits/{run_id}/method-comparison-inventory", status_code=201)
 def freeze_method_comparison_inventory(run_id: str, payload: MethodComparisonInventoryImport, db: Session = Depends(get_db)):
     source = completed(run_id, db)
+    if (source.reproducibility_metadata or {}).get("coverage_policy", "strict_full_v1") != "strict_full_v1":
+        raise HTTPException(409, "Formal method comparison requires strict coverage.")
     if payload.source_fingerprint_sha256 != method_comparison_source_fingerprint(source, db):
         raise HTTPException(409, "The failure inventory was prepared for a different source release. Download a fresh inventory template and reconcile it before freezing.")
     _, current_draft_fingerprint = method_comparison_fixed_template_draft(source, db)
@@ -658,6 +680,8 @@ def freeze_method_comparison_discovery_mapping(
         run_id: str, payload: MethodComparisonDiscoveryMappingImport, db: Session = Depends(get_db)):
     """Freeze a human mapping from every saved response to zero or more known defects."""
     run = completed(run_id, db)
+    if (run.reproducibility_metadata or {}).get("coverage_policy", "strict_full_v1") != "strict_full_v1":
+        raise HTTPException(409, "Formal method comparison requires strict coverage.")
     group = db.get(ExperimentModel, run.experiment_id) if run.experiment_id else None
     metadata = (group.test_suite_metadata or {}) if group else {}
     if (not group or metadata.get("study_role") != "audit_method_comparison"

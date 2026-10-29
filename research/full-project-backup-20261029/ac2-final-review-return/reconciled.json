@@ -1,0 +1,2988 @@
+{
+  "input_zip_sha256": "6895bb0b78313f2321e73ce8005d0087cd8739c6c4f6b3a43cd5555fae74d80f",
+  "input_file_sha256": {
+    "01-四维来源": [
+      "6e4c40a2a57536ed17171b66a3658cc76564652078ba163d6d40daf0671cacc3",
+      "0a976e6c1e25113bfc12360a3ee68e644a61929c9ef82fbaab985c2f9444d082"
+    ],
+    "02-四维32题": [
+      "22c7e8d4abffa9c5c55efbf1e656f88d1a85a1b160b84477d7c07e64781ba8b4",
+      "1ef84cb1a252f8d33a9802c7db0cee8bf6dff8c00f4da3947670546622012e33"
+    ],
+    "03-产品新规划10题": [
+      "ffd7e4b3f5ab549f180042d18246eb76cc798c46e42ba8c30140af0c03c97e08",
+      "d9b9f67c24f7c9db8d24e722126e1e955722b06a19f4d3e5a0843a8c81dcf7bc"
+    ],
+    "04-原规划15题": [
+      "58051ebe67f728c6d6cb7271bddb057f5e1875148608d8683867475d61bf786a",
+      "dc0956da5c1d3e7437fa8e248736e2c9dd58bdb410baa52dc2aa1a2585fa65e8"
+    ],
+    "05-隔离原型3题": [
+      "3062bde6c2eedf204a3b4177dd75852f783d85d0e795251efae8173a5a03f932",
+      "5c738bd2a0cdb039118ff507ff172d2a03a14522d7a78f106c29c4ade4c3bb0b"
+    ]
+  },
+  "groups": {
+    "四维来源与题目": {
+      "source_items": 72,
+      "source_consensus": {
+        "valid": 72
+      },
+      "questions": 32,
+      "question_overall_consensus": {
+        "valid": 31,
+        "unresolved": 1
+      },
+      "source_rows": [
+        {
+          "id": "fact:FS01-M1",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS01-M1 原文逐字支持：I generally use email for coordinating projects. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS01-M1 原文逐字陈述：I generally use email for coordinating projects.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS01-M2",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS01-M2 原文逐字支持：For the Solstice activity, use text messages for coordinating projects; the general preference remains unchanged elsewhere. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS01-M2 原文逐字陈述：For the Solstice activity, use text messages for coordinating projects; the general preference remains unchanged elsewhere.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS01-M3",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS01-M3 原文逐字支持：The first Solstice logistics note set the storage location to east shed. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS01-M3 原文逐字陈述：The first Solstice logistics note set the storage location to east shed.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS01-M4",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS01-M4 原文逐字支持：A signed replacement moved the Solstice storage location from east shed to west shed; the old location is no longer current. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS01-M4 原文逐字陈述：A signed replacement moved the Solstice storage location from east shed to west shed; the old location is no longer current.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS01-M5",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS01-M5 原文逐字支持：For the Solstice event, an active site plan says the greenhouse is the only final confirmed venue. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS01-M5 原文逐字陈述：For the Solstice event, an active site plan says the greenhouse is the only final confirmed venue.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS01-M6",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS01-M6 原文逐字支持：For the same Solstice event, an active signed booking says the courtyard is the only final confirmed venue. Neither record has priority and no replacement has been made. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS01-M6 原文逐字陈述：For the same Solstice event, an active signed booking says the courtyard is the only final confirmed venue. Neither record has priority and no replacement has been made.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "edge:FS01:FS01-M2:FS01-M1:CONTEXTUAL_OVERRIDE",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS01-M2 → FS01-M1：仅本活动改用另一方式，并明确其他情境一般偏好不变，符合局部覆盖而非全局更新。 原文分别为 [For the Solstice activity, use text messages for coordinating projects; the general preference remains unchanged elsewhere.] / [I generally use email for coordinating projects.]"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS01-M2：For the Solstice activity, use text messages for coordinating projects; the general preference remains unchanged elsewhere.；FS01-M1：I generally use email for coordinating projects.。特定活动改用另一协调方式，且明确其他项目的一般偏好不变，因此是有范围的覆盖。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "edge:FS01:FS01-M4:FS01-M3:UPDATE",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS01-M4 → FS01-M3：明确 signed replacement、from/to 以及旧位置不再现行，符合更新而非单凭时间推定。 原文分别为 [A signed replacement moved the Solstice storage location from east shed to west shed; the old location is no longer current.] / [The first Solstice logistics note set the storage location to east shed.]"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS01-M4：A signed replacement moved the Solstice storage location from east shed to west shed; the old location is no longer current.；FS01-M3：The first Solstice logistics note set the storage location to east shed.。明确 signed replacement、from/to 及旧值 no longer current，支持替代更新，非仅按日期猜测。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "edge:FS01:FS01-M6:FS01-M5:CONFLICT",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS01-M6 → FS01-M5：同一事件两个现行记录各自声称唯一最终场地，值互斥且明确无优先或替换，冲突仍未解决。 原文分别为 [For the same Solstice event, an active signed booking says the courtyard is the only final confirmed venue. Neither record has priority and no replacement has been made.] / [For the Solstice event, an active site plan says the greenhouse is the only final confirmed venue.]"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS01-M6：For the same Solstice event, an active signed booking says the courtyard is the only final confirmed venue. Neither record has priority and no replacement has been made.；FS01-M5：For the Solstice event, an active site plan says the greenhouse is the only final confirmed venue.。同一活动两个仍有效记录各称不同地点为唯一最终会场，且明确无优先级、无替代，不能自行择一。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS02-M1",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS02-M1 原文逐字支持：I generally use phone calls for coordinating projects. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS02-M1 原文逐字陈述：I generally use phone calls for coordinating projects.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS02-M2",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS02-M2 原文逐字支持：For the Cobalt activity, use email for coordinating projects; the general preference remains unchanged elsewhere. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS02-M2 原文逐字陈述：For the Cobalt activity, use email for coordinating projects; the general preference remains unchanged elsewhere.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS02-M3",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS02-M3 原文逐字支持：The first Cobalt logistics note set the storage location to north room. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS02-M3 原文逐字陈述：The first Cobalt logistics note set the storage location to north room.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS02-M4",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS02-M4 原文逐字支持：A signed replacement moved the Cobalt storage location from north room to south room; the old location is no longer current. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS02-M4 原文逐字陈述：A signed replacement moved the Cobalt storage location from north room to south room; the old location is no longer current.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS02-M5",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS02-M5 原文逐字支持：For the Cobalt event, an active site plan says the auditorium is the only final confirmed venue. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS02-M5 原文逐字陈述：For the Cobalt event, an active site plan says the auditorium is the only final confirmed venue.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS02-M6",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS02-M6 原文逐字支持：For the same Cobalt event, an active signed booking says the garden is the only final confirmed venue. Neither record has priority and no replacement has been made. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS02-M6 原文逐字陈述：For the same Cobalt event, an active signed booking says the garden is the only final confirmed venue. Neither record has priority and no replacement has been made.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "edge:FS02:FS02-M2:FS02-M1:CONTEXTUAL_OVERRIDE",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS02-M2 → FS02-M1：仅本活动改用另一方式，并明确其他情境一般偏好不变，符合局部覆盖而非全局更新。 原文分别为 [For the Cobalt activity, use email for coordinating projects; the general preference remains unchanged elsewhere.] / [I generally use phone calls for coordinating projects.]"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS02-M2：For the Cobalt activity, use email for coordinating projects; the general preference remains unchanged elsewhere.；FS02-M1：I generally use phone calls for coordinating projects.。特定活动改用另一协调方式，且明确其他项目的一般偏好不变，因此是有范围的覆盖。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "edge:FS02:FS02-M4:FS02-M3:UPDATE",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS02-M4 → FS02-M3：明确 signed replacement、from/to 以及旧位置不再现行，符合更新而非单凭时间推定。 原文分别为 [A signed replacement moved the Cobalt storage location from north room to south room; the old location is no longer current.] / [The first Cobalt logistics note set the storage location to north room.]"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS02-M4：A signed replacement moved the Cobalt storage location from north room to south room; the old location is no longer current.；FS02-M3：The first Cobalt logistics note set the storage location to north room.。明确 signed replacement、from/to 及旧值 no longer current，支持替代更新，非仅按日期猜测。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "edge:FS02:FS02-M6:FS02-M5:CONFLICT",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS02-M6 → FS02-M5：同一事件两个现行记录各自声称唯一最终场地，值互斥且明确无优先或替换，冲突仍未解决。 原文分别为 [For the same Cobalt event, an active signed booking says the garden is the only final confirmed venue. Neither record has priority and no replacement has been made.] / [For the Cobalt event, an active site plan says the auditorium is the only final confirmed venue.]"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS02-M6：For the same Cobalt event, an active signed booking says the garden is the only final confirmed venue. Neither record has priority and no replacement has been made.；FS02-M5：For the Cobalt event, an active site plan says the auditorium is the only final confirmed venue.。同一活动两个仍有效记录各称不同地点为唯一最终会场，且明确无优先级、无替代，不能自行择一。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS03-M1",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS03-M1 原文逐字支持：I generally use a paper notebook for coordinating projects. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS03-M1 原文逐字陈述：I generally use a paper notebook for coordinating projects.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS03-M2",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS03-M2 原文逐字支持：For the Fern activity, use a shared digital notebook for coordinating projects; the general preference remains unchanged elsewhere. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS03-M2 原文逐字陈述：For the Fern activity, use a shared digital notebook for coordinating projects; the general preference remains unchanged elsewhere.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS03-M3",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS03-M3 原文逐字支持：The first Fern logistics note set the storage location to upper cabinet. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS03-M3 原文逐字陈述：The first Fern logistics note set the storage location to upper cabinet.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS03-M4",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS03-M4 原文逐字支持：A signed replacement moved the Fern storage location from upper cabinet to lower cabinet; the old location is no longer current. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS03-M4 原文逐字陈述：A signed replacement moved the Fern storage location from upper cabinet to lower cabinet; the old location is no longer current.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS03-M5",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS03-M5 原文逐字支持：For the Fern event, an active site plan says the studio is the only final confirmed venue. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS03-M5 原文逐字陈述：For the Fern event, an active site plan says the studio is the only final confirmed venue.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS03-M6",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS03-M6 原文逐字支持：For the same Fern event, an active signed booking says the hall is the only final confirmed venue. Neither record has priority and no replacement has been made. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS03-M6 原文逐字陈述：For the same Fern event, an active signed booking says the hall is the only final confirmed venue. Neither record has priority and no replacement has been made.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "edge:FS03:FS03-M2:FS03-M1:CONTEXTUAL_OVERRIDE",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS03-M2 → FS03-M1：仅本活动改用另一方式，并明确其他情境一般偏好不变，符合局部覆盖而非全局更新。 原文分别为 [For the Fern activity, use a shared digital notebook for coordinating projects; the general preference remains unchanged elsewhere.] / [I generally use a paper notebook for coordinating projects.]"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS03-M2：For the Fern activity, use a shared digital notebook for coordinating projects; the general preference remains unchanged elsewhere.；FS03-M1：I generally use a paper notebook for coordinating projects.。特定活动改用另一协调方式，且明确其他项目的一般偏好不变，因此是有范围的覆盖。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "edge:FS03:FS03-M4:FS03-M3:UPDATE",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS03-M4 → FS03-M3：明确 signed replacement、from/to 以及旧位置不再现行，符合更新而非单凭时间推定。 原文分别为 [A signed replacement moved the Fern storage location from upper cabinet to lower cabinet; the old location is no longer current.] / [The first Fern logistics note set the storage location to upper cabinet.]"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS03-M4：A signed replacement moved the Fern storage location from upper cabinet to lower cabinet; the old location is no longer current.；FS03-M3：The first Fern logistics note set the storage location to upper cabinet.。明确 signed replacement、from/to 及旧值 no longer current，支持替代更新，非仅按日期猜测。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "edge:FS03:FS03-M6:FS03-M5:CONFLICT",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS03-M6 → FS03-M5：同一事件两个现行记录各自声称唯一最终场地，值互斥且明确无优先或替换，冲突仍未解决。 原文分别为 [For the same Fern event, an active signed booking says the hall is the only final confirmed venue. Neither record has priority and no replacement has been made.] / [For the Fern event, an active site plan says the studio is the only final confirmed venue.]"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS03-M6：For the same Fern event, an active signed booking says the hall is the only final confirmed venue. Neither record has priority and no replacement has been made.；FS03-M5：For the Fern event, an active site plan says the studio is the only final confirmed venue.。同一活动两个仍有效记录各称不同地点为唯一最终会场，且明确无优先级、无替代，不能自行择一。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS04-M1",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS04-M1 原文逐字支持：I generally use a shared board for coordinating projects. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS04-M1 原文逐字陈述：I generally use a shared board for coordinating projects.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS04-M2",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS04-M2 原文逐字支持：For the Orion activity, use a printed log for coordinating projects; the general preference remains unchanged elsewhere. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS04-M2 原文逐字陈述：For the Orion activity, use a printed log for coordinating projects; the general preference remains unchanged elsewhere.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS04-M3",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS04-M3 原文逐字支持：The first Orion logistics note set the storage location to blue cupboard. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS04-M3 原文逐字陈述：The first Orion logistics note set the storage location to blue cupboard.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS04-M4",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS04-M4 原文逐字支持：A signed replacement moved the Orion storage location from blue cupboard to red cupboard; the old location is no longer current. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS04-M4 原文逐字陈述：A signed replacement moved the Orion storage location from blue cupboard to red cupboard; the old location is no longer current.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS04-M5",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS04-M5 原文逐字支持：For the Orion event, an active site plan says the lobby is the only final confirmed venue. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS04-M5 原文逐字陈述：For the Orion event, an active site plan says the lobby is the only final confirmed venue.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS04-M6",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS04-M6 原文逐字支持：For the same Orion event, an active signed booking says the terrace is the only final confirmed venue. Neither record has priority and no replacement has been made. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS04-M6 原文逐字陈述：For the same Orion event, an active signed booking says the terrace is the only final confirmed venue. Neither record has priority and no replacement has been made.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "edge:FS04:FS04-M2:FS04-M1:CONTEXTUAL_OVERRIDE",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS04-M2 → FS04-M1：仅本活动改用另一方式，并明确其他情境一般偏好不变，符合局部覆盖而非全局更新。 原文分别为 [For the Orion activity, use a printed log for coordinating projects; the general preference remains unchanged elsewhere.] / [I generally use a shared board for coordinating projects.]"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS04-M2：For the Orion activity, use a printed log for coordinating projects; the general preference remains unchanged elsewhere.；FS04-M1：I generally use a shared board for coordinating projects.。特定活动改用另一协调方式，且明确其他项目的一般偏好不变，因此是有范围的覆盖。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "edge:FS04:FS04-M4:FS04-M3:UPDATE",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS04-M4 → FS04-M3：明确 signed replacement、from/to 以及旧位置不再现行，符合更新而非单凭时间推定。 原文分别为 [A signed replacement moved the Orion storage location from blue cupboard to red cupboard; the old location is no longer current.] / [The first Orion logistics note set the storage location to blue cupboard.]"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS04-M4：A signed replacement moved the Orion storage location from blue cupboard to red cupboard; the old location is no longer current.；FS04-M3：The first Orion logistics note set the storage location to blue cupboard.。明确 signed replacement、from/to 及旧值 no longer current，支持替代更新，非仅按日期猜测。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "edge:FS04:FS04-M6:FS04-M5:CONFLICT",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS04-M6 → FS04-M5：同一事件两个现行记录各自声称唯一最终场地，值互斥且明确无优先或替换，冲突仍未解决。 原文分别为 [For the same Orion event, an active signed booking says the terrace is the only final confirmed venue. Neither record has priority and no replacement has been made.] / [For the Orion event, an active site plan says the lobby is the only final confirmed venue.]"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS04-M6：For the same Orion event, an active signed booking says the terrace is the only final confirmed venue. Neither record has priority and no replacement has been made.；FS04-M5：For the Orion event, an active site plan says the lobby is the only final confirmed venue.。同一活动两个仍有效记录各称不同地点为唯一最终会场，且明确无优先级、无替代，不能自行择一。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS05-M1",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS05-M1 原文逐字支持：I generally use email for coordinating projects. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS05-M1 原文逐字陈述：I generally use email for coordinating projects.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS05-M2",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS05-M2 原文逐字支持：For the Willow activity, use phone calls for coordinating projects; the general preference remains unchanged elsewhere. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS05-M2 原文逐字陈述：For the Willow activity, use phone calls for coordinating projects; the general preference remains unchanged elsewhere.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS05-M3",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS05-M3 原文逐字支持：The first Willow logistics note set the storage location to front store. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS05-M3 原文逐字陈述：The first Willow logistics note set the storage location to front store.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS05-M4",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS05-M4 原文逐字支持：A signed replacement moved the Willow storage location from front store to back store; the old location is no longer current. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS05-M4 原文逐字陈述：A signed replacement moved the Willow storage location from front store to back store; the old location is no longer current.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS05-M5",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS05-M5 原文逐字支持：For the Willow event, an active site plan says the classroom is the only final confirmed venue. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS05-M5 原文逐字陈述：For the Willow event, an active site plan says the classroom is the only final confirmed venue.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS05-M6",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS05-M6 原文逐字支持：For the same Willow event, an active signed booking says the workshop is the only final confirmed venue. Neither record has priority and no replacement has been made. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS05-M6 原文逐字陈述：For the same Willow event, an active signed booking says the workshop is the only final confirmed venue. Neither record has priority and no replacement has been made.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "edge:FS05:FS05-M2:FS05-M1:CONTEXTUAL_OVERRIDE",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS05-M2 → FS05-M1：仅本活动改用另一方式，并明确其他情境一般偏好不变，符合局部覆盖而非全局更新。 原文分别为 [For the Willow activity, use phone calls for coordinating projects; the general preference remains unchanged elsewhere.] / [I generally use email for coordinating projects.]"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS05-M2：For the Willow activity, use phone calls for coordinating projects; the general preference remains unchanged elsewhere.；FS05-M1：I generally use email for coordinating projects.。特定活动改用另一协调方式，且明确其他项目的一般偏好不变，因此是有范围的覆盖。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "edge:FS05:FS05-M4:FS05-M3:UPDATE",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS05-M4 → FS05-M3：明确 signed replacement、from/to 以及旧位置不再现行，符合更新而非单凭时间推定。 原文分别为 [A signed replacement moved the Willow storage location from front store to back store; the old location is no longer current.] / [The first Willow logistics note set the storage location to front store.]"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS05-M4：A signed replacement moved the Willow storage location from front store to back store; the old location is no longer current.；FS05-M3：The first Willow logistics note set the storage location to front store.。明确 signed replacement、from/to 及旧值 no longer current，支持替代更新，非仅按日期猜测。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "edge:FS05:FS05-M6:FS05-M5:CONFLICT",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS05-M6 → FS05-M5：同一事件两个现行记录各自声称唯一最终场地，值互斥且明确无优先或替换，冲突仍未解决。 原文分别为 [For the same Willow event, an active signed booking says the workshop is the only final confirmed venue. Neither record has priority and no replacement has been made.] / [For the Willow event, an active site plan says the classroom is the only final confirmed venue.]"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS05-M6：For the same Willow event, an active signed booking says the workshop is the only final confirmed venue. Neither record has priority and no replacement has been made.；FS05-M5：For the Willow event, an active site plan says the classroom is the only final confirmed venue.。同一活动两个仍有效记录各称不同地点为唯一最终会场，且明确无优先级、无替代，不能自行择一。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS06-M1",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS06-M1 原文逐字支持：I generally use text messages for coordinating projects. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS06-M1 原文逐字陈述：I generally use text messages for coordinating projects.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS06-M2",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS06-M2 原文逐字支持：For the Marble activity, use email for coordinating projects; the general preference remains unchanged elsewhere. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS06-M2 原文逐字陈述：For the Marble activity, use email for coordinating projects; the general preference remains unchanged elsewhere.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS06-M3",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS06-M3 原文逐字支持：The first Marble logistics note set the storage location to small locker. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS06-M3 原文逐字陈述：The first Marble logistics note set the storage location to small locker.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS06-M4",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS06-M4 原文逐字支持：A signed replacement moved the Marble storage location from small locker to large locker; the old location is no longer current. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS06-M4 原文逐字陈述：A signed replacement moved the Marble storage location from small locker to large locker; the old location is no longer current.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS06-M5",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS06-M5 原文逐字支持：For the Marble event, an active site plan says the library is the only final confirmed venue. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS06-M5 原文逐字陈述：For the Marble event, an active site plan says the library is the only final confirmed venue.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS06-M6",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS06-M6 原文逐字支持：For the same Marble event, an active signed booking says the museum is the only final confirmed venue. Neither record has priority and no replacement has been made. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS06-M6 原文逐字陈述：For the same Marble event, an active signed booking says the museum is the only final confirmed venue. Neither record has priority and no replacement has been made.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "edge:FS06:FS06-M2:FS06-M1:CONTEXTUAL_OVERRIDE",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS06-M2 → FS06-M1：仅本活动改用另一方式，并明确其他情境一般偏好不变，符合局部覆盖而非全局更新。 原文分别为 [For the Marble activity, use email for coordinating projects; the general preference remains unchanged elsewhere.] / [I generally use text messages for coordinating projects.]"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS06-M2：For the Marble activity, use email for coordinating projects; the general preference remains unchanged elsewhere.；FS06-M1：I generally use text messages for coordinating projects.。特定活动改用另一协调方式，且明确其他项目的一般偏好不变，因此是有范围的覆盖。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "edge:FS06:FS06-M4:FS06-M3:UPDATE",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS06-M4 → FS06-M3：明确 signed replacement、from/to 以及旧位置不再现行，符合更新而非单凭时间推定。 原文分别为 [A signed replacement moved the Marble storage location from small locker to large locker; the old location is no longer current.] / [The first Marble logistics note set the storage location to small locker.]"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS06-M4：A signed replacement moved the Marble storage location from small locker to large locker; the old location is no longer current.；FS06-M3：The first Marble logistics note set the storage location to small locker.。明确 signed replacement、from/to 及旧值 no longer current，支持替代更新，非仅按日期猜测。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "edge:FS06:FS06-M6:FS06-M5:CONFLICT",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS06-M6 → FS06-M5：同一事件两个现行记录各自声称唯一最终场地，值互斥且明确无优先或替换，冲突仍未解决。 原文分别为 [For the same Marble event, an active signed booking says the museum is the only final confirmed venue. Neither record has priority and no replacement has been made.] / [For the Marble event, an active site plan says the library is the only final confirmed venue.]"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS06-M6：For the same Marble event, an active signed booking says the museum is the only final confirmed venue. Neither record has priority and no replacement has been made.；FS06-M5：For the Marble event, an active site plan says the library is the only final confirmed venue.。同一活动两个仍有效记录各称不同地点为唯一最终会场，且明确无优先级、无替代，不能自行择一。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS07-M1",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS07-M1 原文逐字支持：I generally use a digital calendar for coordinating projects. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS07-M1 原文逐字陈述：I generally use a digital calendar for coordinating projects.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS07-M2",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS07-M2 原文逐字支持：For the Saffron activity, use a paper calendar for coordinating projects; the general preference remains unchanged elsewhere. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS07-M2 原文逐字陈述：For the Saffron activity, use a paper calendar for coordinating projects; the general preference remains unchanged elsewhere.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS07-M3",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS07-M3 原文逐字支持：The first Saffron logistics note set the storage location to indoor cabinet. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS07-M3 原文逐字陈述：The first Saffron logistics note set the storage location to indoor cabinet.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS07-M4",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS07-M4 原文逐字支持：A signed replacement moved the Saffron storage location from indoor cabinet to outdoor cabinet; the old location is no longer current. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS07-M4 原文逐字陈述：A signed replacement moved the Saffron storage location from indoor cabinet to outdoor cabinet; the old location is no longer current.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS07-M5",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS07-M5 原文逐字支持：For the Saffron event, an active site plan says the gallery is the only final confirmed venue. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS07-M5 原文逐字陈述：For the Saffron event, an active site plan says the gallery is the only final confirmed venue.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS07-M6",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS07-M6 原文逐字支持：For the same Saffron event, an active signed booking says the atrium is the only final confirmed venue. Neither record has priority and no replacement has been made. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS07-M6 原文逐字陈述：For the same Saffron event, an active signed booking says the atrium is the only final confirmed venue. Neither record has priority and no replacement has been made.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "edge:FS07:FS07-M2:FS07-M1:CONTEXTUAL_OVERRIDE",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS07-M2 → FS07-M1：仅本活动改用另一方式，并明确其他情境一般偏好不变，符合局部覆盖而非全局更新。 原文分别为 [For the Saffron activity, use a paper calendar for coordinating projects; the general preference remains unchanged elsewhere.] / [I generally use a digital calendar for coordinating projects.]"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS07-M2：For the Saffron activity, use a paper calendar for coordinating projects; the general preference remains unchanged elsewhere.；FS07-M1：I generally use a digital calendar for coordinating projects.。特定活动改用另一协调方式，且明确其他项目的一般偏好不变，因此是有范围的覆盖。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "edge:FS07:FS07-M4:FS07-M3:UPDATE",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS07-M4 → FS07-M3：明确 signed replacement、from/to 以及旧位置不再现行，符合更新而非单凭时间推定。 原文分别为 [A signed replacement moved the Saffron storage location from indoor cabinet to outdoor cabinet; the old location is no longer current.] / [The first Saffron logistics note set the storage location to indoor cabinet.]"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS07-M4：A signed replacement moved the Saffron storage location from indoor cabinet to outdoor cabinet; the old location is no longer current.；FS07-M3：The first Saffron logistics note set the storage location to indoor cabinet.。明确 signed replacement、from/to 及旧值 no longer current，支持替代更新，非仅按日期猜测。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "edge:FS07:FS07-M6:FS07-M5:CONFLICT",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS07-M6 → FS07-M5：同一事件两个现行记录各自声称唯一最终场地，值互斥且明确无优先或替换，冲突仍未解决。 原文分别为 [For the same Saffron event, an active signed booking says the atrium is the only final confirmed venue. Neither record has priority and no replacement has been made.] / [For the Saffron event, an active site plan says the gallery is the only final confirmed venue.]"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS07-M6：For the same Saffron event, an active signed booking says the atrium is the only final confirmed venue. Neither record has priority and no replacement has been made.；FS07-M5：For the Saffron event, an active site plan says the gallery is the only final confirmed venue.。同一活动两个仍有效记录各称不同地点为唯一最终会场，且明确无优先级、无替代，不能自行择一。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS08-M1",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS08-M1 原文逐字支持：I generally use phone calls for coordinating projects. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS08-M1 原文逐字陈述：I generally use phone calls for coordinating projects.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS08-M2",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS08-M2 原文逐字支持：For the Tern activity, use text messages for coordinating projects; the general preference remains unchanged elsewhere. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS08-M2 原文逐字陈述：For the Tern activity, use text messages for coordinating projects; the general preference remains unchanged elsewhere.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS08-M3",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS08-M3 原文逐字支持：The first Tern logistics note set the storage location to east shelf. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS08-M3 原文逐字陈述：The first Tern logistics note set the storage location to east shelf.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS08-M4",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS08-M4 原文逐字支持：A signed replacement moved the Tern storage location from east shelf to west shelf; the old location is no longer current. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS08-M4 原文逐字陈述：A signed replacement moved the Tern storage location from east shelf to west shelf; the old location is no longer current.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS08-M5",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS08-M5 原文逐字支持：For the Tern event, an active site plan says the kitchen is the only final confirmed venue. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS08-M5 原文逐字陈述：For the Tern event, an active site plan says the kitchen is the only final confirmed venue.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "fact:FS08-M6",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS08-M6 原文逐字支持：For the same Tern event, an active signed booking says the dining room is the only final confirmed venue. Neither record has priority and no replacement has been made. 这是原文记载的支持性，不保证该单条为现行唯一真实值；M3已被M4替代，M5/M6为未解决记录冲突。"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS08-M6 原文逐字陈述：For the same Tern event, an active signed booking says the dining room is the only final confirmed venue. Neither record has priority and no replacement has been made.。审核的是来源支持；历史值或冲突记录的存在不等于当前事实已确认。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "edge:FS08:FS08-M2:FS08-M1:CONTEXTUAL_OVERRIDE",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS08-M2 → FS08-M1：仅本活动改用另一方式，并明确其他情境一般偏好不变，符合局部覆盖而非全局更新。 原文分别为 [For the Tern activity, use text messages for coordinating projects; the general preference remains unchanged elsewhere.] / [I generally use phone calls for coordinating projects.]"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS08-M2：For the Tern activity, use text messages for coordinating projects; the general preference remains unchanged elsewhere.；FS08-M1：I generally use phone calls for coordinating projects.。特定活动改用另一协调方式，且明确其他项目的一般偏好不变，因此是有范围的覆盖。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "edge:FS08:FS08-M4:FS08-M3:UPDATE",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS08-M4 → FS08-M3：明确 signed replacement、from/to 以及旧位置不再现行，符合更新而非单凭时间推定。 原文分别为 [A signed replacement moved the Tern storage location from east shelf to west shelf; the old location is no longer current.] / [The first Tern logistics note set the storage location to east shelf.]"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS08-M4：A signed replacement moved the Tern storage location from east shelf to west shelf; the old location is no longer current.；FS08-M3：The first Tern logistics note set the storage location to east shelf.。明确 signed replacement、from/to 及旧值 no longer current，支持替代更新，非仅按日期猜测。"
+          },
+          "consensus": "valid"
+        },
+        {
+          "id": "edge:FS08:FS08-M6:FS08-M5:CONFLICT",
+          "reviewer_1": {
+            "label": "valid",
+            "reason": "FS08-M6 → FS08-M5：同一事件两个现行记录各自声称唯一最终场地，值互斥且明确无优先或替换，冲突仍未解决。 原文分别为 [For the same Tern event, an active signed booking says the dining room is the only final confirmed venue. Neither record has priority and no replacement has been made.] / [For the Tern event, an active site plan says the kitchen is the only final confirmed venue.]"
+          },
+          "reviewer_2": {
+            "label": "valid",
+            "reason": "FS08-M6：For the same Tern event, an active signed booking says the dining room is the only final confirmed venue. Neither record has priority and no replacement has been made.；FS08-M5：For the Tern event, an active site plan says the kitchen is the only final confirmed venue.。同一活动两个仍有效记录各称不同地点为唯一最终会场，且明确无优先级、无替代，不能自行择一。"
+          },
+          "consensus": "valid"
+        }
+      ],
+      "question_rows": [
+        {
+          "id": "Q001",
+          "dimension": "appropriate_use",
+          "history_id": "FS01",
+          "reviewer_1": {
+            "dimension": "appropriate_use",
+            "history_id": "FS01",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS01-M1：I generally use email for coordinating projects.；FS01-M2：For the Solstice activity, use text messages for coordinating projects; the general preference remains unchanged elsewhere.。M2明确仅活动内适用，M1一般方式在其他项目保留；参考同时保留两个作用域。"
+          },
+          "reviewer_2": {
+            "dimension": "appropriate_use",
+            "history_id": "FS01",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS01-M1：I generally use email for coordinating projects.；FS01-M2：For the Solstice activity, use text messages for coordinating projects; the general preference remains unchanged elsewhere.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 FS01-M2 明确局部活动例外，且保留 FS01-M1 的一般偏好，参考答保持此范围。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q002",
+          "dimension": "conflict_resolution",
+          "history_id": "FS01",
+          "reviewer_1": {
+            "dimension": "conflict_resolution",
+            "history_id": "FS01",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS01-M5：For the Solstice event, an active site plan says the greenhouse is the only final confirmed venue.；FS01-M6：For the same Solstice event, an active signed booking says the courtyard is the only final confirmed venue. Neither record has priority and no replacement has been made.。M5/M6互斥且同为现行，无优先、无替换；参考要求澄清而未擅定胜者。"
+          },
+          "reviewer_2": {
+            "dimension": "conflict_resolution",
+            "history_id": "FS01",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS01-M5：For the Solstice event, an active site plan says the greenhouse is the only final confirmed venue.；FS01-M6：For the same Solstice event, an active signed booking says the courtyard is the only final confirmed venue. Neither record has priority and no replacement has been made.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 FS01-M5 与 FS01-M6 的唯一会场互斥；M6明确无优先和替换，参考答要求澄清而不按签名或日期武断解决。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q003",
+          "dimension": "accuracy",
+          "history_id": "FS01",
+          "reviewer_1": {
+            "dimension": "accuracy",
+            "history_id": "FS01",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS01-M1：I generally use email for coordinating projects.。所问属性由引用直接支持；情境覆盖或场地冲突未改变该属性。"
+          },
+          "reviewer_2": {
+            "dimension": "accuracy",
+            "history_id": "FS01",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS01-M1：I generally use email for coordinating projects.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 准确性题只需回忆所问字段，不能把局部要求泛化。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q004",
+          "dimension": "freshness",
+          "history_id": "FS01",
+          "reviewer_1": {
+            "dimension": "freshness",
+            "history_id": "FS01",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS01-M3：The first Solstice logistics note set the storage location to east shed.；FS01-M4：A signed replacement moved the Solstice storage location from east shed to west shed; the old location is no longer current.。M4明确替换M3且旧值不再现行，参考列出新旧值。"
+          },
+          "reviewer_2": {
+            "dimension": "freshness",
+            "history_id": "FS01",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS01-M3：The first Solstice logistics note set the storage location to east shed.；FS01-M4：A signed replacement moved the Solstice storage location from east shed to west shed; the old location is no longer current.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 FS01-M4 明确替换 FS01-M3，参考答同时给出当前及历史值，依据是替换语义而非单纯较晚。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q005",
+          "dimension": "accuracy",
+          "history_id": "FS02",
+          "reviewer_1": {
+            "dimension": "accuracy",
+            "history_id": "FS02",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS02-M1：I generally use phone calls for coordinating projects.。所问属性由引用直接支持；情境覆盖或场地冲突未改变该属性。"
+          },
+          "reviewer_2": {
+            "dimension": "accuracy",
+            "history_id": "FS02",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS02-M1：I generally use phone calls for coordinating projects.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 准确性题只需回忆所问字段，不能把局部要求泛化。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q006",
+          "dimension": "freshness",
+          "history_id": "FS02",
+          "reviewer_1": {
+            "dimension": "freshness",
+            "history_id": "FS02",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS02-M3：The first Cobalt logistics note set the storage location to north room.；FS02-M4：A signed replacement moved the Cobalt storage location from north room to south room; the old location is no longer current.。M4明确替换M3且旧值不再现行，参考列出新旧值。"
+          },
+          "reviewer_2": {
+            "dimension": "freshness",
+            "history_id": "FS02",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS02-M3：The first Cobalt logistics note set the storage location to north room.；FS02-M4：A signed replacement moved the Cobalt storage location from north room to south room; the old location is no longer current.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 FS02-M4 明确替换 FS02-M3，参考答同时给出当前及历史值，依据是替换语义而非单纯较晚。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q007",
+          "dimension": "appropriate_use",
+          "history_id": "FS02",
+          "reviewer_1": {
+            "dimension": "appropriate_use",
+            "history_id": "FS02",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS02-M1：I generally use phone calls for coordinating projects.；FS02-M2：For the Cobalt activity, use email for coordinating projects; the general preference remains unchanged elsewhere.。M2明确仅活动内适用，M1一般方式在其他项目保留；参考同时保留两个作用域。"
+          },
+          "reviewer_2": {
+            "dimension": "appropriate_use",
+            "history_id": "FS02",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS02-M1：I generally use phone calls for coordinating projects.；FS02-M2：For the Cobalt activity, use email for coordinating projects; the general preference remains unchanged elsewhere.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 FS02-M2 明确局部活动例外，且保留 FS02-M1 的一般偏好，参考答保持此范围。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q008",
+          "dimension": "conflict_resolution",
+          "history_id": "FS02",
+          "reviewer_1": {
+            "dimension": "conflict_resolution",
+            "history_id": "FS02",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS02-M5：For the Cobalt event, an active site plan says the auditorium is the only final confirmed venue.；FS02-M6：For the same Cobalt event, an active signed booking says the garden is the only final confirmed venue. Neither record has priority and no replacement has been made.。M5/M6互斥且同为现行，无优先、无替换；参考要求澄清而未擅定胜者。"
+          },
+          "reviewer_2": {
+            "dimension": "conflict_resolution",
+            "history_id": "FS02",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS02-M5：For the Cobalt event, an active site plan says the auditorium is the only final confirmed venue.；FS02-M6：For the same Cobalt event, an active signed booking says the garden is the only final confirmed venue. Neither record has priority and no replacement has been made.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 FS02-M5 与 FS02-M6 的唯一会场互斥；M6明确无优先和替换，参考答要求澄清而不按签名或日期武断解决。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q009",
+          "dimension": "conflict_resolution",
+          "history_id": "FS03",
+          "reviewer_1": {
+            "dimension": "conflict_resolution",
+            "history_id": "FS03",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS03-M5：For the Fern event, an active site plan says the studio is the only final confirmed venue.；FS03-M6：For the same Fern event, an active signed booking says the hall is the only final confirmed venue. Neither record has priority and no replacement has been made.。M5/M6互斥且同为现行，无优先、无替换；参考要求澄清而未擅定胜者。"
+          },
+          "reviewer_2": {
+            "dimension": "conflict_resolution",
+            "history_id": "FS03",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS03-M5：For the Fern event, an active site plan says the studio is the only final confirmed venue.；FS03-M6：For the same Fern event, an active signed booking says the hall is the only final confirmed venue. Neither record has priority and no replacement has been made.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 FS03-M5 与 FS03-M6 的唯一会场互斥；M6明确无优先和替换，参考答要求澄清而不按签名或日期武断解决。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q010",
+          "dimension": "appropriate_use",
+          "history_id": "FS03",
+          "reviewer_1": {
+            "dimension": "appropriate_use",
+            "history_id": "FS03",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS03-M1：I generally use a paper notebook for coordinating projects.；FS03-M2：For the Fern activity, use a shared digital notebook for coordinating projects; the general preference remains unchanged elsewhere.。M2明确仅活动内适用，M1一般方式在其他项目保留；参考同时保留两个作用域。"
+          },
+          "reviewer_2": {
+            "dimension": "appropriate_use",
+            "history_id": "FS03",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS03-M1：I generally use a paper notebook for coordinating projects.；FS03-M2：For the Fern activity, use a shared digital notebook for coordinating projects; the general preference remains unchanged elsewhere.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 FS03-M2 明确局部活动例外，且保留 FS03-M1 的一般偏好，参考答保持此范围。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q011",
+          "dimension": "freshness",
+          "history_id": "FS03",
+          "reviewer_1": {
+            "dimension": "freshness",
+            "history_id": "FS03",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS03-M3：The first Fern logistics note set the storage location to upper cabinet.；FS03-M4：A signed replacement moved the Fern storage location from upper cabinet to lower cabinet; the old location is no longer current.。M4明确替换M3且旧值不再现行，参考列出新旧值。"
+          },
+          "reviewer_2": {
+            "dimension": "freshness",
+            "history_id": "FS03",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS03-M3：The first Fern logistics note set the storage location to upper cabinet.；FS03-M4：A signed replacement moved the Fern storage location from upper cabinet to lower cabinet; the old location is no longer current.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 FS03-M4 明确替换 FS03-M3，参考答同时给出当前及历史值，依据是替换语义而非单纯较晚。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q012",
+          "dimension": "accuracy",
+          "history_id": "FS03",
+          "reviewer_1": {
+            "dimension": "accuracy",
+            "history_id": "FS03",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "uncertain",
+              "reference_answer_correctness": "uncertain",
+              "overall": "uncertain"
+            },
+            "notes": "FS03-M4：A signed replacement moved the Fern storage location from upper cabinet to lower cabinet; the old location is no longer current.。M4仅确立 Fern 活动的 storage location 为 lower cabinet；问题的 for the Fern 可理解为项目，但参考 The Fern is currently in the lower cabinet 将项目名当成柜中实体，原文未说 Fern 本体已放入柜中。若意指项目存储位置可接受，需明确改写后确认。"
+          },
+          "reviewer_2": {
+            "dimension": "accuracy",
+            "history_id": "FS03",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "uncertain",
+              "overall": "uncertain"
+            },
+            "notes": "FS03-M4：A signed replacement moved the Fern storage location from upper cabinet to lower cabinet; the old location is no longer current.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 准确性题只需回忆所问字段，不能把局部要求泛化。 注意：原文指 Fern 活动的 storage location，参考答却称“The Fern is currently in the lower cabinet”，把活动写成位于柜中的实体；地点值正确，但实体表述超出原文，宜改为 Fern 当前指定储存地点是 lower cabinet 后再确认。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "unresolved",
+            "reference_answer_correctness": "unresolved",
+            "overall": "unresolved"
+          }
+        },
+        {
+          "id": "Q013",
+          "dimension": "freshness",
+          "history_id": "FS04",
+          "reviewer_1": {
+            "dimension": "freshness",
+            "history_id": "FS04",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS04-M3：The first Orion logistics note set the storage location to blue cupboard.；FS04-M4：A signed replacement moved the Orion storage location from blue cupboard to red cupboard; the old location is no longer current.。M4明确替换M3且旧值不再现行，参考列出新旧值。"
+          },
+          "reviewer_2": {
+            "dimension": "freshness",
+            "history_id": "FS04",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS04-M3：The first Orion logistics note set the storage location to blue cupboard.；FS04-M4：A signed replacement moved the Orion storage location from blue cupboard to red cupboard; the old location is no longer current.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 FS04-M4 明确替换 FS04-M3，参考答同时给出当前及历史值，依据是替换语义而非单纯较晚。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q014",
+          "dimension": "accuracy",
+          "history_id": "FS04",
+          "reviewer_1": {
+            "dimension": "accuracy",
+            "history_id": "FS04",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS04-M2：For the Orion activity, use a printed log for coordinating projects; the general preference remains unchanged elsewhere.。所问属性由引用直接支持；情境覆盖或场地冲突未改变该属性。"
+          },
+          "reviewer_2": {
+            "dimension": "accuracy",
+            "history_id": "FS04",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS04-M2：For the Orion activity, use a printed log for coordinating projects; the general preference remains unchanged elsewhere.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 准确性题只需回忆所问字段，不能把局部要求泛化。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q015",
+          "dimension": "appropriate_use",
+          "history_id": "FS04",
+          "reviewer_1": {
+            "dimension": "appropriate_use",
+            "history_id": "FS04",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS04-M1：I generally use a shared board for coordinating projects.；FS04-M2：For the Orion activity, use a printed log for coordinating projects; the general preference remains unchanged elsewhere.。M2明确仅活动内适用，M1一般方式在其他项目保留；参考同时保留两个作用域。"
+          },
+          "reviewer_2": {
+            "dimension": "appropriate_use",
+            "history_id": "FS04",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS04-M1：I generally use a shared board for coordinating projects.；FS04-M2：For the Orion activity, use a printed log for coordinating projects; the general preference remains unchanged elsewhere.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 FS04-M2 明确局部活动例外，且保留 FS04-M1 的一般偏好，参考答保持此范围。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q016",
+          "dimension": "conflict_resolution",
+          "history_id": "FS04",
+          "reviewer_1": {
+            "dimension": "conflict_resolution",
+            "history_id": "FS04",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS04-M5：For the Orion event, an active site plan says the lobby is the only final confirmed venue.；FS04-M6：For the same Orion event, an active signed booking says the terrace is the only final confirmed venue. Neither record has priority and no replacement has been made.。M5/M6互斥且同为现行，无优先、无替换；参考要求澄清而未擅定胜者。"
+          },
+          "reviewer_2": {
+            "dimension": "conflict_resolution",
+            "history_id": "FS04",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS04-M5：For the Orion event, an active site plan says the lobby is the only final confirmed venue.；FS04-M6：For the same Orion event, an active signed booking says the terrace is the only final confirmed venue. Neither record has priority and no replacement has been made.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 FS04-M5 与 FS04-M6 的唯一会场互斥；M6明确无优先和替换，参考答要求澄清而不按签名或日期武断解决。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q017",
+          "dimension": "conflict_resolution",
+          "history_id": "FS05",
+          "reviewer_1": {
+            "dimension": "conflict_resolution",
+            "history_id": "FS05",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS05-M5：For the Willow event, an active site plan says the classroom is the only final confirmed venue.；FS05-M6：For the same Willow event, an active signed booking says the workshop is the only final confirmed venue. Neither record has priority and no replacement has been made.。M5/M6互斥且同为现行，无优先、无替换；参考要求澄清而未擅定胜者。"
+          },
+          "reviewer_2": {
+            "dimension": "conflict_resolution",
+            "history_id": "FS05",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS05-M5：For the Willow event, an active site plan says the classroom is the only final confirmed venue.；FS05-M6：For the same Willow event, an active signed booking says the workshop is the only final confirmed venue. Neither record has priority and no replacement has been made.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 FS05-M5 与 FS05-M6 的唯一会场互斥；M6明确无优先和替换，参考答要求澄清而不按签名或日期武断解决。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q018",
+          "dimension": "accuracy",
+          "history_id": "FS05",
+          "reviewer_1": {
+            "dimension": "accuracy",
+            "history_id": "FS05",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS05-M4：A signed replacement moved the Willow storage location from front store to back store; the old location is no longer current.。所问属性由引用直接支持；情境覆盖或场地冲突未改变该属性。"
+          },
+          "reviewer_2": {
+            "dimension": "accuracy",
+            "history_id": "FS05",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS05-M4：A signed replacement moved the Willow storage location from front store to back store; the old location is no longer current.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 准确性题只需回忆所问字段，不能把局部要求泛化。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q019",
+          "dimension": "appropriate_use",
+          "history_id": "FS05",
+          "reviewer_1": {
+            "dimension": "appropriate_use",
+            "history_id": "FS05",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS05-M1：I generally use email for coordinating projects.；FS05-M2：For the Willow activity, use phone calls for coordinating projects; the general preference remains unchanged elsewhere.。M2明确仅活动内适用，M1一般方式在其他项目保留；参考同时保留两个作用域。"
+          },
+          "reviewer_2": {
+            "dimension": "appropriate_use",
+            "history_id": "FS05",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS05-M1：I generally use email for coordinating projects.；FS05-M2：For the Willow activity, use phone calls for coordinating projects; the general preference remains unchanged elsewhere.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 FS05-M2 明确局部活动例外，且保留 FS05-M1 的一般偏好，参考答保持此范围。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q020",
+          "dimension": "freshness",
+          "history_id": "FS05",
+          "reviewer_1": {
+            "dimension": "freshness",
+            "history_id": "FS05",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS05-M3：The first Willow logistics note set the storage location to front store.；FS05-M4：A signed replacement moved the Willow storage location from front store to back store; the old location is no longer current.。M4明确替换M3且旧值不再现行，参考列出新旧值。"
+          },
+          "reviewer_2": {
+            "dimension": "freshness",
+            "history_id": "FS05",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS05-M3：The first Willow logistics note set the storage location to front store.；FS05-M4：A signed replacement moved the Willow storage location from front store to back store; the old location is no longer current.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 FS05-M4 明确替换 FS05-M3，参考答同时给出当前及历史值，依据是替换语义而非单纯较晚。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q021",
+          "dimension": "appropriate_use",
+          "history_id": "FS06",
+          "reviewer_1": {
+            "dimension": "appropriate_use",
+            "history_id": "FS06",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS06-M1：I generally use text messages for coordinating projects.；FS06-M2：For the Marble activity, use email for coordinating projects; the general preference remains unchanged elsewhere.。M2明确仅活动内适用，M1一般方式在其他项目保留；参考同时保留两个作用域。"
+          },
+          "reviewer_2": {
+            "dimension": "appropriate_use",
+            "history_id": "FS06",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS06-M1：I generally use text messages for coordinating projects.；FS06-M2：For the Marble activity, use email for coordinating projects; the general preference remains unchanged elsewhere.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 FS06-M2 明确局部活动例外，且保留 FS06-M1 的一般偏好，参考答保持此范围。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q022",
+          "dimension": "conflict_resolution",
+          "history_id": "FS06",
+          "reviewer_1": {
+            "dimension": "conflict_resolution",
+            "history_id": "FS06",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS06-M5：For the Marble event, an active site plan says the library is the only final confirmed venue.；FS06-M6：For the same Marble event, an active signed booking says the museum is the only final confirmed venue. Neither record has priority and no replacement has been made.。M5/M6互斥且同为现行，无优先、无替换；参考要求澄清而未擅定胜者。"
+          },
+          "reviewer_2": {
+            "dimension": "conflict_resolution",
+            "history_id": "FS06",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS06-M5：For the Marble event, an active site plan says the library is the only final confirmed venue.；FS06-M6：For the same Marble event, an active signed booking says the museum is the only final confirmed venue. Neither record has priority and no replacement has been made.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 FS06-M5 与 FS06-M6 的唯一会场互斥；M6明确无优先和替换，参考答要求澄清而不按签名或日期武断解决。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q023",
+          "dimension": "freshness",
+          "history_id": "FS06",
+          "reviewer_1": {
+            "dimension": "freshness",
+            "history_id": "FS06",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS06-M3：The first Marble logistics note set the storage location to small locker.；FS06-M4：A signed replacement moved the Marble storage location from small locker to large locker; the old location is no longer current.。M4明确替换M3且旧值不再现行，参考列出新旧值。"
+          },
+          "reviewer_2": {
+            "dimension": "freshness",
+            "history_id": "FS06",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS06-M3：The first Marble logistics note set the storage location to small locker.；FS06-M4：A signed replacement moved the Marble storage location from small locker to large locker; the old location is no longer current.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 FS06-M4 明确替换 FS06-M3，参考答同时给出当前及历史值，依据是替换语义而非单纯较晚。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q024",
+          "dimension": "accuracy",
+          "history_id": "FS06",
+          "reviewer_1": {
+            "dimension": "accuracy",
+            "history_id": "FS06",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS06-M1：I generally use text messages for coordinating projects.。所问属性由引用直接支持；情境覆盖或场地冲突未改变该属性。"
+          },
+          "reviewer_2": {
+            "dimension": "accuracy",
+            "history_id": "FS06",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS06-M1：I generally use text messages for coordinating projects.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 准确性题只需回忆所问字段，不能把局部要求泛化。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q025",
+          "dimension": "freshness",
+          "history_id": "FS07",
+          "reviewer_1": {
+            "dimension": "freshness",
+            "history_id": "FS07",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS07-M3：The first Saffron logistics note set the storage location to indoor cabinet.；FS07-M4：A signed replacement moved the Saffron storage location from indoor cabinet to outdoor cabinet; the old location is no longer current.。M4明确替换M3且旧值不再现行，参考列出新旧值。"
+          },
+          "reviewer_2": {
+            "dimension": "freshness",
+            "history_id": "FS07",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS07-M3：The first Saffron logistics note set the storage location to indoor cabinet.；FS07-M4：A signed replacement moved the Saffron storage location from indoor cabinet to outdoor cabinet; the old location is no longer current.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 FS07-M4 明确替换 FS07-M3，参考答同时给出当前及历史值，依据是替换语义而非单纯较晚。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q026",
+          "dimension": "appropriate_use",
+          "history_id": "FS07",
+          "reviewer_1": {
+            "dimension": "appropriate_use",
+            "history_id": "FS07",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS07-M1：I generally use a digital calendar for coordinating projects.；FS07-M2：For the Saffron activity, use a paper calendar for coordinating projects; the general preference remains unchanged elsewhere.。M2明确仅活动内适用，M1一般方式在其他项目保留；参考同时保留两个作用域。"
+          },
+          "reviewer_2": {
+            "dimension": "appropriate_use",
+            "history_id": "FS07",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS07-M1：I generally use a digital calendar for coordinating projects.；FS07-M2：For the Saffron activity, use a paper calendar for coordinating projects; the general preference remains unchanged elsewhere.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 FS07-M2 明确局部活动例外，且保留 FS07-M1 的一般偏好，参考答保持此范围。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q027",
+          "dimension": "conflict_resolution",
+          "history_id": "FS07",
+          "reviewer_1": {
+            "dimension": "conflict_resolution",
+            "history_id": "FS07",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS07-M5：For the Saffron event, an active site plan says the gallery is the only final confirmed venue.；FS07-M6：For the same Saffron event, an active signed booking says the atrium is the only final confirmed venue. Neither record has priority and no replacement has been made.。M5/M6互斥且同为现行，无优先、无替换；参考要求澄清而未擅定胜者。"
+          },
+          "reviewer_2": {
+            "dimension": "conflict_resolution",
+            "history_id": "FS07",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS07-M5：For the Saffron event, an active site plan says the gallery is the only final confirmed venue.；FS07-M6：For the same Saffron event, an active signed booking says the atrium is the only final confirmed venue. Neither record has priority and no replacement has been made.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 FS07-M5 与 FS07-M6 的唯一会场互斥；M6明确无优先和替换，参考答要求澄清而不按签名或日期武断解决。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q028",
+          "dimension": "accuracy",
+          "history_id": "FS07",
+          "reviewer_1": {
+            "dimension": "accuracy",
+            "history_id": "FS07",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS07-M1：I generally use a digital calendar for coordinating projects.。所问属性由引用直接支持；情境覆盖或场地冲突未改变该属性。"
+          },
+          "reviewer_2": {
+            "dimension": "accuracy",
+            "history_id": "FS07",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS07-M1：I generally use a digital calendar for coordinating projects.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 准确性题只需回忆所问字段，不能把局部要求泛化。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q029",
+          "dimension": "conflict_resolution",
+          "history_id": "FS08",
+          "reviewer_1": {
+            "dimension": "conflict_resolution",
+            "history_id": "FS08",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS08-M5：For the Tern event, an active site plan says the kitchen is the only final confirmed venue.；FS08-M6：For the same Tern event, an active signed booking says the dining room is the only final confirmed venue. Neither record has priority and no replacement has been made.。M5/M6互斥且同为现行，无优先、无替换；参考要求澄清而未擅定胜者。"
+          },
+          "reviewer_2": {
+            "dimension": "conflict_resolution",
+            "history_id": "FS08",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS08-M5：For the Tern event, an active site plan says the kitchen is the only final confirmed venue.；FS08-M6：For the same Tern event, an active signed booking says the dining room is the only final confirmed venue. Neither record has priority and no replacement has been made.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 FS08-M5 与 FS08-M6 的唯一会场互斥；M6明确无优先和替换，参考答要求澄清而不按签名或日期武断解决。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q030",
+          "dimension": "appropriate_use",
+          "history_id": "FS08",
+          "reviewer_1": {
+            "dimension": "appropriate_use",
+            "history_id": "FS08",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS08-M1：I generally use phone calls for coordinating projects.；FS08-M2：For the Tern activity, use text messages for coordinating projects; the general preference remains unchanged elsewhere.。M2明确仅活动内适用，M1一般方式在其他项目保留；参考同时保留两个作用域。"
+          },
+          "reviewer_2": {
+            "dimension": "appropriate_use",
+            "history_id": "FS08",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS08-M1：I generally use phone calls for coordinating projects.；FS08-M2：For the Tern activity, use text messages for coordinating projects; the general preference remains unchanged elsewhere.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 FS08-M2 明确局部活动例外，且保留 FS08-M1 的一般偏好，参考答保持此范围。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q031",
+          "dimension": "accuracy",
+          "history_id": "FS08",
+          "reviewer_1": {
+            "dimension": "accuracy",
+            "history_id": "FS08",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS08-M1：I generally use phone calls for coordinating projects.。所问属性由引用直接支持；情境覆盖或场地冲突未改变该属性。"
+          },
+          "reviewer_2": {
+            "dimension": "accuracy",
+            "history_id": "FS08",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS08-M1：I generally use phone calls for coordinating projects.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 准确性题只需回忆所问字段，不能把局部要求泛化。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q032",
+          "dimension": "freshness",
+          "history_id": "FS08",
+          "reviewer_1": {
+            "dimension": "freshness",
+            "history_id": "FS08",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS08-M3：The first Tern logistics note set the storage location to east shelf.；FS08-M4：A signed replacement moved the Tern storage location from east shelf to west shelf; the old location is no longer current.。M4明确替换M3且旧值不再现行，参考列出新旧值。"
+          },
+          "reviewer_2": {
+            "dimension": "freshness",
+            "history_id": "FS08",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "FS08-M3：The first Tern logistics note set the storage location to east shelf.；FS08-M4：A signed replacement moved the Tern storage location from east shelf to west shelf; the old location is no longer current.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 FS08-M4 明确替换 FS08-M3，参考答同时给出当前及历史值，依据是替换语义而非单纯较晚。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        }
+      ],
+      "provenance": "This result records submitted labels only; human checking, reviewer identity, independence and exposure require separate confirmation. Disagreements and uncertainty remain unresolved.",
+      "limitations": [
+        "Synthetic related histories, not an estimate for a population.",
+        "Source references are authored study materials, not exhaustive real-world gold."
+      ]
+    },
+    "03-产品新规划10题": {
+      "questions": 10,
+      "overall_consensus": {
+        "valid": 8,
+        "invalid": 2
+      },
+      "rows": [
+        {
+          "id": "Q001",
+          "history_id": "IND-006",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-006",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-006-M05：I use a watering can.。已对照本题全部原文；问答语义与引用范围相符，其他消息未推翻所问属性。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-006",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-006-M05：I use a watering can.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q002",
+          "history_id": "IND-006",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-006",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-006-M01：My apartment has a small north-facing balcony.。已对照本题全部原文；问答语义与引用范围相符，其他消息未推翻所问属性。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-006",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-006-M01：My apartment has a small north-facing balcony.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q003",
+          "history_id": "IND-006",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-006",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-006-M02：I grow mint there in a pot.。已对照本题全部原文；问答语义与引用范围相符，其他消息未推翻所问属性。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-006",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-006-M02：I grow mint there in a pot.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q004",
+          "history_id": "IND-007",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-007",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "uncertain",
+              "reference_answer_correctness": "invalid",
+              "overall": "invalid"
+            },
+            "notes": "IND-007-M01：My book club meets on the first Tuesday of each month.；IND-007-M04明确 Starting next month 改为第二个周四，M05仍每月。参考只报第一个周二、遗漏已宣布生效的未来日程；若问历史或本月可成立，但问题未限定，应给本月/下月两阶段日程。引用的历史记载本身有支持，不能据此当成完整现行答案。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-007",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "uncertain",
+              "reference_answer_correctness": "invalid",
+              "overall": "invalid"
+            },
+            "notes": "IND-007-M01 原先每月首个星期二；M04 明确从下月起改为第二个星期四，M05 保留每月频率。题目未指定历史/当前/下月时点，参考答只给旧安排且不提已宣布的变更，不完整且会误导；应答每月一次，旧安排截至本月，下月起第二个星期四，或明确题目时点。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "unresolved",
+            "reference_answer_correctness": "invalid",
+            "overall": "invalid"
+          }
+        },
+        {
+          "id": "Q005",
+          "history_id": "IND-007",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-007",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-007-M02：We usually choose novels.。已对照本题全部原文；问答语义与引用范围相符，其他消息未推翻所问属性。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-007",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-007-M02：We usually choose novels.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 此处 We 指读书会，参考答省略群体主语但用户作为成员通常选小说的读法可接受；更精确可写读书会通常选小说。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q006",
+          "history_id": "IND-007",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-007",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-007-M05：We will still meet monthly.。已对照本题全部原文；问答语义与引用范围相符，其他消息未推翻所问属性。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-007",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-007-M05：We will still meet monthly.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q007",
+          "history_id": "IND-008",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-008",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "invalid",
+              "overall": "invalid"
+            },
+            "notes": "IND-008-M01：My sole home internet plan has a monthly data limit of exactly 100 GB.；IND-008-M04同一唯一套餐又称 unlimited/no cap，M05明确不知哪种描述正确。未说明替换；100 GB仅为冲突一侧而非可确认适用额度。参考应呈现冲突并澄清。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-008",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "invalid",
+              "overall": "invalid"
+            },
+            "notes": "IND-008-M01 说同一唯一套餐100 GB/月，M04 却说无限且无月上限，M05 明言不确定哪个描述正确。单条引文确为原文，但全记录不能确认100 GB适用；参考答武断选旧值，应列冲突并询问核实。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "invalid",
+            "overall": "invalid"
+          }
+        },
+        {
+          "id": "Q008",
+          "history_id": "IND-008",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-008",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-008-M03：I share the connection with one roommate.。已对照本题全部原文；问答语义与引用范围相符，其他消息未推翻所问属性。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-008",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-008-M03：I share the connection with one roommate.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q009",
+          "history_id": "IND-008",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-008",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-008-M05：I am unsure which description of the plan is right.。已对照本题全部原文；问答语义与引用范围相符，其他消息未推翻所问属性。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-008",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-008-M05：I am unsure which description of the plan is right.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q010",
+          "history_id": "IND-008",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-008",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-008-M07：I have a little time to work on this today.。已对照本题全部原文；问答语义与引用范围相符，其他消息未推翻所问属性。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-008",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-008-M07：I have a little time to work on this today.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        }
+      ],
+      "provenance": "Submitted labels only; any human review, independence and exposure require separate confirmation.",
+      "limitations": [
+        "These are development questions from related synthetic histories, not a population estimate.",
+        "Disagreements, missing confirmation and uncertain labels do not become valid by default."
+      ]
+    },
+    "04-原规划15题": {
+      "questions": 15,
+      "overall_consensus": {
+        "valid": 13,
+        "invalid": 2
+      },
+      "rows": [
+        {
+          "id": "Q001",
+          "history_id": "IND-010",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-010",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-010-M01：I prefer email for work updates.。M02的电话偏好仅限家庭计划，不改变M01工作更新用email。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-010",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-010-M01：I prefer email for work updates.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q002",
+          "history_id": "IND-014",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-014",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-014-M01：I prefer responses without emojis.。M04仅此次邀请添加表情，未全局废除M01偏好。问题可作一般偏好询问，参考可接受；建议加 generally 避免当次邀请适用歧义。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-014",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-014-M01：I prefer responses without emojis.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 特定邀请/按钮示例的例外不撤销一般偏好；本题问一般偏好，参考答有效，但用于该具体任务时须遵守例外。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q003",
+          "history_id": "IND-015",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-015",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-015-M02：I prefer herbal tea in the evening.。已对照本题全部原文；问答语义与引用范围相符，其他消息未推翻所问属性。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-015",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-015-M02：I prefer herbal tea in the evening.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q004",
+          "history_id": "IND-016",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-016",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-016-M04：I use a laptop for class notes.。已对照本题全部原文；问答语义与引用范围相符，其他消息未推翻所问属性。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-016",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-016-M04：I use a laptop for class notes.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q005",
+          "history_id": "IND-018",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-018",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "invalid",
+              "overall": "invalid"
+            },
+            "notes": "IND-018-M01：The only printer in my office is black and white only and cannot print color.；M04同一唯一打印机又称能全彩，M05明确不知哪项真实，未决冲突而非替换。参考断定不能彩印不成立，应保留冲突并澄清。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-018",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "invalid",
+              "overall": "invalid"
+            },
+            "notes": "IND-018-M01 称唯一办公室打印机仅黑白不能彩色；M04 称同一台能全彩，M05 不知道哪种说法为真。没有明确替换/纠正或优先依据。引文存在，但参考答仅断定黑白忽略未决冲突，应澄清颜色能力。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "invalid",
+            "overall": "invalid"
+          }
+        },
+        {
+          "id": "Q006",
+          "history_id": "IND-018",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-018",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-018-M02：I need to print a flyer.。已对照本题全部原文；问答语义与引用范围相符，其他消息未推翻所问属性。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-018",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-018-M02：I need to print a flyer.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q007",
+          "history_id": "IND-019",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-019",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-019-M01：I normally prefer vegetarian meal suggestions.。M04鸡肉仅为兄弟此次午餐，M01一般素食偏好仍成立。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-019",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-019-M01：I normally prefer vegetarian meal suggestions.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q008",
+          "history_id": "IND-020",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-020",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-020-M02：At bedtime I prefer poetry.。已对照本题全部原文；问答语义与引用范围相符，其他消息未推翻所问属性。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-020",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-020-M02：At bedtime I prefer poetry.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q009",
+          "history_id": "IND-023",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-023",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-023-M03：The library is near my office.。M01/M04图书证冲突不涉及M03图书馆近办公室。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-023",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-023-M03：The library is near my office.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q010",
+          "history_id": "IND-024",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-024",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-024-M01：I prefer examples in Python when discussing programming.。M04本次按钮用JavaScript局部例外，不更新一般Python偏好。建议问题加 generally。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-024",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-024-M01：I prefer examples in Python when discussing programming.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。 特定邀请/按钮示例的例外不撤销一般偏好；本题问一般偏好，参考答有效，但用于该具体任务时须遵守例外。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q011",
+          "history_id": "IND-025",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-025",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-025-M01：I prefer a quiet room when I write.。M02画画背景人声作用域不同，写作安静房间不受影响。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-025",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-025-M01：I prefer a quiet room when I write.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q012",
+          "history_id": "IND-027",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-027",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "invalid",
+              "overall": "invalid"
+            },
+            "notes": "IND-027-M01：My preferred contact address for this project is old@example.test.；IND-027-M04明确 from now on 使用 new@example.test 且替换 old@example.test。题目未问历史，参考旧地址失效；应报新地址并可提旧值被替换。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-027",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "invalid",
+              "overall": "invalid"
+            },
+            "notes": "IND-027-M01 原指定 old@example.test；M04 明确 from now on 改用 new@example.test 并替代旧地址。问题未限定历史时点，参考答仍将旧地址作首选，违反已生效替换。应答 new@example.test，并可说明旧地址已被替代。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "invalid",
+            "overall": "invalid"
+          }
+        },
+        {
+          "id": "Q013",
+          "history_id": "IND-028",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-028",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-028-M02：We need to arrange chairs.。M01/M04容量冲突不影响M02需要安排椅子。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-028",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-028-M02：We need to arrange chairs.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q014",
+          "history_id": "IND-030",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-030",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-030-M04：I watch films on a laptop.。已对照本题全部原文；问答语义与引用范围相符，其他消息未推翻所问属性。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-030",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-030-M04：I watch films on a laptop.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q015",
+          "history_id": "IND-030",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-030",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-030-M01：I prefer subtitles for films in languages I am learning.。M02母语电影字幕关闭属于不同语言作用域，学习语言时开字幕偏好仍成立。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-030",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-030-M01：I prefer subtitles for films in languages I am learning.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        }
+      ],
+      "provenance": "Submitted labels only; any human review, independence and exposure require separate confirmation.",
+      "limitations": [
+        "These are development questions from related synthetic histories, not a population estimate.",
+        "Disagreements, missing confirmation and uncertain labels do not become valid by default."
+      ]
+    },
+    "05-隔离原型3题": {
+      "questions": 3,
+      "overall_consensus": {
+        "valid": 1,
+        "invalid": 2
+      },
+      "rows": [
+        {
+          "id": "Q001",
+          "history_id": "IND-006",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-006",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-006-M01：My apartment has a small north-facing balcony.。已对照本题全部原文；问答语义与引用范围相符，其他消息未推翻所问属性。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-006",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "valid",
+              "overall": "valid"
+            },
+            "notes": "IND-006-M01：My apartment has a small north-facing balcony.。引文支持所问内容；已核对全部消息，其他消息未撤回该项陈述，参考答与问题范围一致。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "valid",
+            "overall": "valid"
+          }
+        },
+        {
+          "id": "Q002",
+          "history_id": "IND-007",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-007",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "uncertain",
+              "reference_answer_correctness": "invalid",
+              "overall": "invalid"
+            },
+            "notes": "IND-007-M01：My book club meets on the first Tuesday of each month.；IND-007-M04明确 Starting next month 改为第二个周四，M05仍每月。参考只报第一个周二、遗漏已宣布生效的未来日程；若问历史或本月可成立，但问题未限定，应给本月/下月两阶段日程。引用的历史记载本身有支持，不能据此当成完整现行答案。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-007",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "uncertain",
+              "reference_answer_correctness": "invalid",
+              "overall": "invalid"
+            },
+            "notes": "IND-007-M01 原先每月首个星期二；M04 明确从下月起改为第二个星期四，M05 保留每月频率。题目未指定历史/当前/下月时点，参考答只给旧安排且不提已宣布的变更，不完整且会误导；应答每月一次，旧安排截至本月，下月起第二个星期四，或明确题目时点。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "unresolved",
+            "reference_answer_correctness": "invalid",
+            "overall": "invalid"
+          }
+        },
+        {
+          "id": "Q003",
+          "history_id": "IND-008",
+          "reviewer_1": {
+            "dimension": "not_recorded",
+            "history_id": "IND-008",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "invalid",
+              "overall": "invalid"
+            },
+            "notes": "IND-008-M01：My sole home internet plan has a monthly data limit of exactly 100 GB.；IND-008-M04同一唯一套餐又称 unlimited/no cap，M05明确不知哪种描述正确。未说明替换；100 GB仅为冲突一侧而非可确认适用额度。参考应呈现冲突并澄清。"
+          },
+          "reviewer_2": {
+            "dimension": "not_recorded",
+            "history_id": "IND-008",
+            "decisions": {
+              "source_support": "valid",
+              "question_clarity": "valid",
+              "reference_answer_correctness": "invalid",
+              "overall": "invalid"
+            },
+            "notes": "IND-008-M01 说同一唯一套餐100 GB/月，M04 却说无限且无月上限，M05 明言不确定哪个描述正确。单条引文确为原文，但全记录不能确认100 GB适用；参考答武断选旧值，应列冲突并询问核实。"
+          },
+          "consensus": {
+            "source_support": "valid",
+            "question_clarity": "valid",
+            "reference_answer_correctness": "invalid",
+            "overall": "invalid"
+          }
+        }
+      ],
+      "provenance": "Submitted labels only; any human review, independence and exposure require separate confirmation.",
+      "limitations": [
+        "These are development questions from related synthetic histories, not a population estimate.",
+        "Disagreements, missing confirmation and uncertain labels do not become valid by default."
+      ]
+    }
+  },
+  "declarations": {
+    "01-四维来源": [
+      {
+        "reviewer": "reviewer-1",
+        "completed_by_human": false,
+        "independent_review": true,
+        "reviewed_without_other_review": true,
+        "reviewed_without_system_quality_feedback": true
+      },
+      {
+        "reviewer": "reviewer-2",
+        "completed_by_human": false,
+        "independent_review": true,
+        "reviewed_without_other_review": true,
+        "reviewed_without_system_quality_feedback": true
+      }
+    ],
+    "02-四维32题": [
+      {
+        "reviewer_id": "reviewer-1",
+        "completed_by_human": false,
+        "independent_review": true,
+        "reviewed_without_other_review": true,
+        "reviewed_without_system_quality_feedback": true
+      },
+      {
+        "reviewer_id": "reviewer-2",
+        "completed_by_human": false,
+        "independent_review": true,
+        "reviewed_without_other_review": true,
+        "reviewed_without_system_quality_feedback": true
+      }
+    ],
+    "03-产品新规划10题": [
+      {
+        "reviewer_id": "reviewer-1",
+        "completed_by_human": false,
+        "independent_review": true,
+        "reviewed_without_other_review": true,
+        "reviewed_without_system_quality_feedback": true
+      },
+      {
+        "reviewer_id": "reviewer-2",
+        "completed_by_human": false,
+        "independent_review": true,
+        "reviewed_without_other_review": true,
+        "reviewed_without_system_quality_feedback": true
+      }
+    ],
+    "04-原规划15题": [
+      {
+        "reviewer_id": "reviewer-1",
+        "completed_by_human": false,
+        "independent_review": true,
+        "reviewed_without_other_review": true,
+        "reviewed_without_system_quality_feedback": true
+      },
+      {
+        "reviewer_id": "reviewer-2",
+        "completed_by_human": false,
+        "independent_review": true,
+        "reviewed_without_other_review": true,
+        "reviewed_without_system_quality_feedback": true
+      }
+    ],
+    "05-隔离原型3题": [
+      {
+        "reviewer_id": "reviewer-1",
+        "completed_by_human": false,
+        "independent_review": true,
+        "reviewed_without_other_review": true,
+        "reviewed_without_system_quality_feedback": true
+      },
+      {
+        "reviewer_id": "reviewer-2",
+        "completed_by_human": false,
+        "independent_review": true,
+        "reviewed_without_other_review": true,
+        "reviewed_without_system_quality_feedback": true
+      }
+    ]
+  },
+  "provenance": "Submitted labels only. Human review, independence and exposure require separate confirmation; AI recommendations are not imported as human decisions."
+}

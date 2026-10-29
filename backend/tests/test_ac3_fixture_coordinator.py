@@ -2,15 +2,15 @@
 from unittest.mock import patch
 import pytest
 from sqlalchemy import select, text
-from app.models import AuditRunModel, TargetResponseModel, EvaluationResultModel
+from app.models import AuditRunModel
 from app.services.ac3_staging import stage_reviewed_suite
 from app.services.ac3_fixture_coordinator import FixtureProvider, disabled_live_runner, run_fixture_step
-from test_ac3_database_mapping import saved_histories, fake_compile, add_fixture_audits
+from test_ac3_database_mapping import saved_histories as saved_histories, fake_compile, add_fixture_audits
 
 
 def fake_hosted_compile(path, expected, reservation, snapshot=None):
     result = fake_compile(path, expected, reservation, snapshot)
-    result['model_configuration'].update(target_provider='openrouter', target_model='openai/gpt-6-luna', evaluator_model='rule-based-v4', evaluator_implementation_version='rule-based-v65', pipeline_implementation_version='rule-based-v35')
+    result['model_configuration'].update(target_provider='openrouter', target_model='openai/gpt-6-luna', evaluator_model='rule-based-v4', evaluator_implementation_version='rule-based-v65', pipeline_implementation_version='rule-based-v36')
     return result
 
 

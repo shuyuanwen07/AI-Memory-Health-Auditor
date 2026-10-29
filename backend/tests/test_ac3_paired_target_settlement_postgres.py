@@ -11,7 +11,7 @@ from app.models import TargetResponseModel
 from app.services.ac3_paired_budget_ledger import PairedBudgetLedger
 from app.services.ac3_paired_target_settlement import settle_target
 from scripts.ac3_retest_paired_freeze import canonical
-from test_ac3_retest_staging_postgres import inputs, isolated_db, stage
+from test_ac3_retest_staging_postgres import inputs, isolated_db as isolated_db, stage
 from test_ac3_paired_budget_ledger import evidence
 
 pytestmark=pytest.mark.skipif(os.environ.get('AC3_DISPOSABLE_POSTGRES_TEST')!='yes',reason='Disposable PostgreSQL only')

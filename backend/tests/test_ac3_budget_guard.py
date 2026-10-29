@@ -4,8 +4,8 @@ import pytest
 from sqlalchemy import event, text
 from app.services.ac3_budget_guard import BudgetedDispatchLedger
 from app.services.ac3_atomic_settlement import settle_and_save
-from test_ac3_locked_resume import staged
-from test_ac3_database_mapping import saved_histories, fake_compile
+from test_ac3_locked_resume import staged as staged
+from test_ac3_database_mapping import saved_histories as saved_histories, fake_compile
 
 
 def fake_budget_compile(path, digest, reservation, snapshot=None):

@@ -247,6 +247,8 @@ class FormalSyntheticMatrixService:
         if not selected:
             raise HTTPException(404, 'The saved experiment could not be found.')
         metadata = selected.reproducibility_metadata or {}
+        if metadata.get('coverage_policy', 'strict_full_v1') != 'strict_full_v1':
+            raise HTTPException(409, 'Formal matrix restoration requires strict coverage.')
         try:
             plan = FormalMatrixCreateResponse.model_validate(metadata.get('formal_matrix_manifest'))
         except ValidationError as error:
@@ -275,6 +277,8 @@ class FormalSyntheticMatrixService:
             for item in scenario.run_ids:
                 run = rows[item]
                 saved = run.reproducibility_metadata or {}
+                if saved.get('coverage_policy', 'strict_full_v1') != 'strict_full_v1':
+                    raise HTTPException(409, 'Every formal matrix condition requires strict coverage.')
                 if run.experiment_id != scenario.experiment_id or saved.get('formal_matrix_manifest') != manifest or saved.get('formal_acceptance_protocol') != manifest['acceptance_protocol']:
                     raise HTTPException(409, 'The saved conditions no longer belong to the same frozen plan.')
                 if (plan.acceptance_protocol.reader_control == 'fixed_strong_reader'

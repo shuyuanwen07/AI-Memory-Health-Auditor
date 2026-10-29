@@ -1,14 +1,23 @@
-import copy,json,sys,unittest,subprocess,tempfile
+import copy,json,sys,unittest,tempfile
 from pathlib import Path
+from types import SimpleNamespace
+from unittest.mock import patch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from import_ac2_reference_reviews import aggregate,verify_outputs,sha,blind
+from scripts import run_ac2_reference_generation as generation
 class Tests(unittest.TestCase):
  def setUp(self):
   p=Path(__file__).resolve().parents[2]/'output/proposal-delivery';self.folder=p/'ac2-reference-generation-blind-review-2026-10-28-v1'
   with tempfile.TemporaryDirectory() as temp:
    root=p.parent.parent
    generated=Path(temp)/'packets'
-   subprocess.run([sys.executable,str(root/'scripts/run_ac2_reference_generation.py'),'review','--protocol',str(p/'ac2-reference-generation-frozen-2026-10-28-v1.json'),'--output',str(p/'ac2-reference-generation-output-corrected-2026-10-28-v1.json'),'--output-dir',str(generated)],check=True,capture_output=True)
+   # The frozen protocol preserves its original machine path. Rebase only the
+   # path passed to the reader; retain and verify the original content hash.
+   original_frozen_source=generation.frozen_source
+   def rebased_source(_saved_path, digest):
+    return original_frozen_source(p/'ac3-expanded-primary-frozen-2026-10-28.json', digest)
+   with patch.object(generation,'frozen_source',side_effect=rebased_source):
+    generation.review(SimpleNamespace(protocol=p/'ac2-reference-generation-frozen-2026-10-28-v1.json',output=p/'ac2-reference-generation-output-corrected-2026-10-28-v1.json',output_dir=generated))
    self.original=[blind(json.loads((generated/f'reviewer-{i}.json').read_text())) for i in (1,2)]
   self.reviews=copy.deepcopy(self.original)
   for i,r in enumerate(self.reviews):

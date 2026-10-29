@@ -32,7 +32,7 @@ from app.services.runtime_freeze import (
     refresh_failed_preexecution_generation, inherit_preexecution_runtime_refresh,
 )
 from app.services.stage_lock import database_stage_lock, database_stage_locks, database_stage_busy
-from app.services.generation_coverage import assert_generation_coverage, saved_suite_observation
+from app.services.generation_coverage import assert_generation_coverage, saved_suite_observation, partial_generation_block_reason
 from app.services.reviewer_identity import reviewer_identity, distinct_reviewers, unique_independent_reviews
 from app.models import AgentExecutionModel, AssessorComparisonModel, AuditRunModel, ConversationModel, EvaluationHumanReviewModel, EvaluationResultModel, ExperimentModel, MemoryModel, MemoryRelationshipModel, MessageModel, TargetAgentMemoryEventModel, TargetAgentMemoryModel, TargetAgentMemoryRelationshipModel, TargetAgentRetrievalModel, TargetResponseModel, TestCaseModel
 from app.schemas.assessor_comparison import AssessorComparisonRequest
@@ -49,8 +49,9 @@ from app.target_systems.controlled import ControlledTargetSystemAdapter
 from app.test_generator.factory import get_test_generator
 from app.test_generator.baselines import get_suite_generator, HumanReviewedFixedTemplateGenerator
 from app.test_generator.quality import RuleBasedTestQualityValidator
-from app.test_generator.rule_based import RuleBasedTestGenerator
-from app.test_generator.scope_review import VERSION as SCOPE_REVIEW_VERSION, scope_warning
+from app.test_generator.conflict_aware import ConflictAwareRuleBasedTestGenerator
+from app.test_generator.scope_review import VERSION as SCOPE_REVIEW_VERSION, later_explicit_time_update_advice, scope_warning
+from app.test_generator.location_subject_guard_v1 import location_subject_advice
 
 router = APIRouter(prefix="/api/v1")
 _RUN_LOCKS: dict[str, Lock] = {}
@@ -117,7 +118,6 @@ _PASTED_ROLE = re.compile(r"^\s*\[(?P<role>[^\]]+)\]\s*(?P<content>.*)$")
 
 def pasted_messages(text: str) -> list[ConversationMessageInput]:
     """Turn the documented one-message-per-line form into ordered records."""
-    base = datetime.now(timezone.utc)
     messages: list[ConversationMessageInput] = []
     for line in text.splitlines():
         if not line.strip():
@@ -128,7 +128,6 @@ def pasted_messages(text: str) -> list[ConversationMessageInput]:
         if content:
             messages.append(ConversationMessageInput(
                 message_id=f"MSG{len(messages) + 1:03d}", role=role, content=content,
-                timestamp=base + timedelta(microseconds=len(messages)),
             ))
     return messages
 def memory_schema(db, obj):
@@ -154,7 +153,8 @@ def reproducibility_snapshot(*, provider: str, model: str, temperature: float, r
                              target_memory_writer: TargetMemoryWriterKind | str,
                              target_memory_capacity: int,
                              target_system_adapter: TargetSystemAdapterKind | str,
-                             target_memory_profile: TargetMemoryProfile | None = None) -> dict:
+                             target_memory_profile: TargetMemoryProfile | None = None,
+                             coverage_policy: str = "strict_full_v1") -> dict:
     """Freeze safe reproducibility facts when a run is created."""
     profile = target_memory_profile or TargetMemoryProfile()
     semantic_review_provider = semantic_review_provider or pipeline_provider
@@ -186,8 +186,12 @@ def reproducibility_snapshot(*, provider: str, model: str, temperature: float, r
         "target_system_adapter_version": adapter_version,
         "target_memory_profile": profile.model_dump(),
     }
+    # Preserve the historical strict configuration fingerprint exactly.
+    if coverage_policy != "strict_full_v1":
+        configuration["coverage_policy"] = coverage_policy
     return {
         "schema_version": "reproducibility-v1",
+        "coverage_policy": coverage_policy,
         "audit_runtime_signature": audit_runtime_signature(),
         "configuration_fingerprint": fingerprint(configuration),
         "prompt_template_fingerprint": fingerprint({
@@ -256,6 +260,33 @@ def experiment_schema(obj, run_receipts=None):
                 metadata["diagnostic_source_run_id"] = next(iter(sources))
     return Experiment(experiment_id=obj.id, conversation_id=obj.conversation_id, label=obj.label, status=obj.status, test_suite_configuration=TestSuiteConfiguration.model_validate(obj.test_suite_configuration), test_suite_metadata=TestSuiteMetadata.model_validate(metadata), test_suite_source_run_id=obj.test_suite_source_run_id, created_at=obj.created_at, completed_at=obj.completed_at)
 def test_schema(o): return TestCase(test_id=o.id, run_id=o.run_id, dimension=o.dimension, prompt=o.prompt, expected_behavior=o.expected_behavior, supporting_memory_ids=o.supporting_memory_ids, generator_version=o.generator_version, test_type=o.test_type, quality_status=o.quality_status, grounding_status=o.grounding_status, validation_notes=o.validation_notes, human_validity_status=getattr(o, "human_validity_status", "pending"), human_validity_reviewer=getattr(o, "human_validity_reviewer", None), human_validity_note=getattr(o, "human_validity_note", None), human_validity_reviewed_at=getattr(o, "human_validity_reviewed_at", None), probe_group_id=o.probe_group_id, probe_variant=o.probe_variant, target_memory_context=o.target_memory_context)
+
+
+def location_guarded_assessment(validator, test, memories):
+    """Preserve prior quality rejections while adding subject review advice."""
+    assessment = validator.validate(test, memories)
+    if assessment.quality_status != TestQualityStatus.REJECTED:
+        subject_advice = location_subject_advice(test, memories)
+        if subject_advice is not None:
+            assessment = subject_advice
+    return assessment
+
+
+def generated_quality_update(assessment, coverage_policy):
+    """Partial suites require a source review even when local rules pass."""
+    if coverage_policy == 'evidence_supported_only_v1':
+        return {
+            'quality_status': TestQualityStatus.PENDING,
+            'grounding_status': assessment.grounding_status,
+            'validation_notes': 'partial-source-review-v1: Check the full original conversation, including later updates and conflicts, before accepting this question. Automated checks do not confirm validity.',
+        }
+    return {
+        'quality_status': assessment.quality_status,
+        'grounding_status': assessment.grounding_status,
+        'validation_notes': f'{assessment.validator_version}: {assessment.reason}',
+    }
+
+
 def public_test_schema(o):
     return TestCasePublic(
         test_id=o.id if hasattr(o, "id") else o.test_id, run_id=o.run_id,
@@ -453,11 +484,15 @@ def create_conversation(payload: ConversationCreate, db: Session = Depends(get_d
         raise
     fallback_time = datetime.now(timezone.utc)
     for i, (m, source_id) in enumerate(zip(messages, source_ids), 1):
+        # An explicitly null original timestamp survives export/reimport. A
+        # supplied timestamp without that field is itself the source time.
+        source_time = (m.original_timestamp if 'original_timestamp' in m.model_fields_set
+                       else m.timestamp.isoformat() if m.timestamp else None)
         db.add(MessageModel(
             id=ident("MSG"), conversation_id=c.id, source_message_id=source_id, sequence=i,
             role=m.role.strip(), content=m.content.strip(),
             timestamp=MessageModel.timestamp_for_storage(m.timestamp or fallback_time + timedelta(microseconds=i)),
-            original_timestamp=m.original_timestamp or (m.timestamp or fallback_time + timedelta(microseconds=i)).isoformat(),
+            original_timestamp=source_time,
         ))
     db.commit(); db.refresh(c); return conversation_schema(db, c)
 @router.get("/conversations/{conversation_id}", response_model=Conversation)
@@ -731,7 +766,7 @@ def audit_agent_executions(run_id: str, db: Session = Depends(get_db)):
     return [agent_execution_schema(row) for row in rows]
 
 @router.get("/conversations/{conversation_id}/test-coverage-preview", response_model=TestCoveragePreview)
-def test_coverage_preview(conversation_id: str, test_budget: int = 20, db: Session = Depends(get_db)):
+def test_coverage_preview(conversation_id: str, test_budget: int = 20, coverage_policy: CoveragePolicy = "strict_full_v1", db: Session = Depends(get_db)):
     """Preview the exact deterministic evidence slots before audit inputs freeze."""
     if not db.get(ConversationModel, conversation_id):
         missing("Conversation")
@@ -742,13 +777,16 @@ def test_coverage_preview(conversation_id: str, test_budget: int = 20, db: Sessi
         MemoryModel.status.in_(["confirmed", "edited"]),
     )).all()]
     from app.test_generator.agent import AgentTestGenerator
-    coverage = AgentTestGenerator.preview_dimension_coverage(confirmed_memories, test_budget)
+    coverage = AgentTestGenerator.preview_dimension_coverage(confirmed_memories, test_budget, coverage_policy)
     minimum_met = test_budget >= len(Dimension) and all(
         item["available_question_count"] >= item["required_question_count"]
         for item in coverage
     ) and sum(item["required_question_count"] for item in coverage) == test_budget
+    planned_count = sum(item["required_question_count"] for item in coverage)
+    if coverage_policy == "evidence_supported_only_v1":
+        minimum_met = planned_count > 0
     return TestCoveragePreview(
-        requested_test_count=test_budget,
+        coverage_policy=coverage_policy, planned_test_count=planned_count, requested_test_count=test_budget,
         minimum_met=minimum_met,
         dimensions=[TestDimensionCoverage.model_validate(item) for item in coverage],
     )
@@ -805,6 +843,21 @@ def confirm_ground_truth(conversation_id: str, payload: GroundTruthConfirm, db: 
 
 def creation_fingerprint(payload) -> str:
     data = payload.model_dump(mode="json", exclude={"creation_request_key"})
+    # An exported ordering time with explicit null provenance is semantically
+    # different from an otherwise identical user-supplied source timestamp.
+    if isinstance(payload, ConversationCreate) and payload.messages:
+        missing = [i for i, m in enumerate(payload.messages)
+                   if m.timestamp is not None and 'original_timestamp' in m.model_fields_set
+                   and m.original_timestamp is None]
+        if missing:
+            data['_explicit_unknown_timestamp_indices'] = missing
+    # Strict is the historical implicit policy. Omit it for idempotency so
+    # retries of pre-upgrade requests still match their stored fingerprint.
+    if data.get("coverage_policy") == "strict_full_v1":
+        data.pop("coverage_policy")
+    suite = data.get("test_suite_configuration")
+    if isinstance(suite, dict) and suite.get("coverage_policy") == "strict_full_v1":
+        suite.pop("coverage_policy")
     return hashlib.sha256(json.dumps(data, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
@@ -824,6 +877,11 @@ def create_experiment(payload: ExperimentCreate, db: Session = Depends(get_db)):
         return experiment_schema(existing)
     if not db.get(ConversationModel, payload.conversation_id): missing("Conversation")
     ensure_supported_pipeline_role(payload.test_suite_configuration.pipeline_provider, "memory-extraction and test-generation pipeline")
+    if payload.test_suite_configuration.coverage_policy != "strict_full_v1" and (
+        payload.test_suite_configuration.pipeline_provider == TargetProvider.RULE_BASED
+        or payload.test_suite_configuration.suite_mode != TestSuiteMode.BEHAVIOURAL
+    ):
+        raise HTTPException(422, "Partial coverage is limited to model-generated behavioural audits.")
     confirmed = db.scalars(select(MemoryModel).where(MemoryModel.conversation_id == payload.conversation_id, MemoryModel.status.in_(["confirmed", "edited"]))).all()
     if not confirmed: raise HTTPException(409, "Confirm ground truth before creating an experiment.")
     suite_configuration = payload.test_suite_configuration.model_dump(mode="json")
@@ -918,6 +976,12 @@ def build_audit(payload: AuditCreate, db: Session):
     suite = TestSuiteConfiguration.model_validate(experiment.test_suite_configuration) if experiment else None
     selected_pipeline_provider = suite.pipeline_provider.value if suite else (payload.pipeline_provider.value if payload.pipeline_provider else pipeline_provider())
     ensure_supported_pipeline_role(TargetProvider(selected_pipeline_provider), "memory-extraction and test-generation pipeline")
+    selected_coverage_policy = suite.coverage_policy if suite else payload.coverage_policy
+    if selected_coverage_policy != "strict_full_v1" and (
+        selected_pipeline_provider == TargetProvider.RULE_BASED.value
+        or (suite and suite.suite_mode != TestSuiteMode.BEHAVIOURAL)
+    ):
+        raise HTTPException(422, "Partial coverage is limited to model-generated behavioural audits.")
     if suite:
         if suite.compare_evaluators:
             selected_evaluator_provider, selected_evaluator_model = configured_evaluator(
@@ -994,6 +1058,7 @@ def build_audit(payload: AuditCreate, db: Session):
         target_memory_capacity=selected_memory_capacity,
         target_system_adapter=payload.target_system_adapter,
         target_memory_profile=payload.target_memory_profile,
+        coverage_policy=suite.coverage_policy if suite else payload.coverage_policy,
     )
     metadata["auditor_comparison_id"] = suite.auditor_comparison_id if suite else None
     metadata["retrieval_mode"] = selected_retrieval_mode
@@ -1183,7 +1248,7 @@ def generated_candidate_for_review(db: Session, source: TestCaseModel) -> TestCa
         raise HTTPException(422, "The deterministic generator reproduced the same question. No replacement was saved. Review the source relationships or use a different test generator.")
     if not candidate:
         raise HTTPException(422, "The generator could not produce a compatible replacement test.")
-    assessment = RuleBasedTestQualityValidator().validate(candidate, memories)
+    assessment = location_guarded_assessment(RuleBasedTestQualityValidator(), candidate, memories)
     if assessment.quality_status == TestQualityStatus.REJECTED:
         raise HTTPException(422, f"The replacement test was rejected by the quality gate: {assessment.reason}")
     return candidate.model_copy(update={
@@ -1210,6 +1275,15 @@ def _generate(run_id: str, db: Session):
     refresh_failed_preexecution_generation(db, a)
     assert_audit_runtime_frozen(a)
     experiment = db.get(ExperimentModel, a.experiment_id) if a.experiment_id else None
+    policy = (a.reproducibility_metadata or {}).get("coverage_policy", "strict_full_v1")
+    if experiment and TestSuiteConfiguration.model_validate(experiment.test_suite_configuration).coverage_policy != policy:
+        raise HTTPException(409, "Coverage policy differs from the frozen experiment.")
+    partial_block = partial_generation_block_reason(a.reproducibility_metadata)
+    if partial_block:
+        raise HTTPException(409, partial_block)
+    if ((experiment and (experiment.test_suite_metadata or {}).get("study_role") == "audit_method_comparison") or
+            (a.reproducibility_metadata or {}).get("formal_matrix_version")) and policy != "strict_full_v1":
+        raise HTTPException(409, "Formal studies require strict coverage.")
     if experiment and (experiment.test_suite_metadata or {}).get("study_role") == "audit_method_comparison":
         experiment_metadata = experiment.test_suite_metadata or {}
         frozen_inventory = experiment_metadata.get("failure_inventory") or {}
@@ -1284,14 +1358,11 @@ def _generate(run_id: str, db: Session):
         raise HTTPException(422, suite_problem)
     tests: list[TestCase] = []
     for test in generated:
-        assessment = validator.validate(test, memories)
+        assessment = location_guarded_assessment(validator, test, memories)
         if assessment.quality_status == TestQualityStatus.REJECTED:
             raise HTTPException(422, f"Generated test {test.test_id} was rejected by the quality gate: {assessment.reason}")
-        tests.append(test.model_copy(update={
-            "quality_status": assessment.quality_status,
-            "grounding_status": assessment.grounding_status,
-            "validation_notes": f"{assessment.validator_version}: {assessment.reason}",
-        }))
+        tests.append(test.model_copy(update=generated_quality_update(
+            assessment, (a.reproducibility_metadata or {}).get('coverage_policy', 'strict_full_v1'))))
     persisted = persist_generated_tests(db, a, tests)
     mark_generated_suite_saved(a)
     a.status="TESTS_GENERATED"
@@ -1357,6 +1428,8 @@ def test_review_suite(run_id: str, db: Session = Depends(get_db)):
     return TestReviewSuite(
         run_id=run_id,
         canonical_run_id=source_run_id,
+        coverage_policy=(source_run.reproducibility_metadata or {}).get("coverage_policy", "strict_full_v1"),
+        planned_test_count=generation_observation.get("planned_test_count"),
         tests=[public_test_schema(test) for test in source_tests],
         requested_test_count=source_run.test_budget,
         generated_test_count=len(source_tests),
@@ -1392,7 +1465,7 @@ def review_test_scopes(run_id: str, db: Session = Depends(get_db)):
         if not tests:
             raise HTTPException(409, 'No questions are available for review.')
         messages = db.scalars(select(MessageModel).where(
-            MessageModel.conversation_id == audit.conversation_id, MessageModel.role == 'user'
+            MessageModel.conversation_id == audit.conversation_id, func.lower(MessageModel.role) == 'user'
         )).all()
         source_by_id = {message.source_message_id: message.content for message in messages}
         memories = db.scalars(select(MemoryModel).where(
@@ -1402,7 +1475,7 @@ def review_test_scopes(run_id: str, db: Session = Depends(get_db)):
         memory_by_id = {memory.id: memory for memory in memories}
         # Topic matching is a conservative warning heuristic, not a claim that
         # facts conflict or that the relationship set is complete.
-        topics = {memory.id: RuleBasedTestGenerator._topic(memory) for memory in memories}
+        topics = {memory.id: ConflictAwareRuleBasedTestGenerator._topic(memory) for memory in memories}
         for test in tests:
             # Existing explicit human decisions are not silently overwritten.
             if test.validation_notes and test.validation_notes.startswith('Review decision:'):
@@ -1423,7 +1496,13 @@ def review_test_scopes(run_id: str, db: Session = Depends(get_db)):
                                   for mid in (memory.source_message_ids or [])
                                   if isinstance(mid, str) and mid in source_by_id]
             warning = scope_warning(test.prompt, test.dimension, supporting_sources,
-                                    source_complete=source_complete, related_topic_count=related_topic_count)
+                                    source_complete=source_complete, related_topic_count=related_topic_count,
+                                    conversation_source_texts=list(source_by_id.values()))
+            if not warning and source_complete:
+                cited_source_ids = {mid for memory in support if memory is not None for mid in (memory.source_message_ids or [])}
+                ordered_messages = [{'source_id': message.source_message_id, 'sequence': message.sequence, 'text': message.content}
+                                    for message in messages]
+                warning = later_explicit_time_update_advice(cited_source_ids, ordered_messages)
             if warning:
                 test.quality_status = TestQualityStatus.PENDING.value
                 test.validation_notes = f'{SCOPE_REVIEW_VERSION}: {warning}'
@@ -1459,19 +1538,29 @@ def _dimension_coverage_for_review(observation: dict, tests: list) -> list[TestD
     result = []
     for dimension in Dimension:
         item = report_by_dimension.get(dimension)
-        if item is not None and isinstance(item.get("evidence_supported"), bool):
-            supported = item["evidence_supported"]
+        if item is not None and (isinstance(item.get("evidence_supported"), bool)
+                                 or (observation.get("coverage_policy") == "evidence_supported_only_v1"
+                                     and item.get("evidence_supported") is None)):
+            supported = item.get("evidence_supported")
             reason = str(item.get("reason") or "Evidence support recorded during generation.")
             planned = int(item.get("planned_question_count") or planned_counts[dimension])
             required = int(item.get("required_question_count") or 0)
             available = int(item.get("available_question_count") or planned_counts[dimension])
         elif saved_plan:
-            supported = planned_counts[dimension] > 0
+            supported = (True if planned_counts[dimension] > 0 else
+                         None if observation.get("coverage_policy") == "evidence_supported_only_v1" else False)
             reason = ("The saved plan included an evidence-backed question for this ability."
-                      if supported else "The saved plan did not find a confirmed evidence relationship for this ability.")
+                      if supported else "The saved plan did not identify an eligible slot; source support is unknown."
+                      if supported is None else "The saved plan did not find a confirmed evidence relationship for this ability.")
             planned = planned_counts[dimension]
             required = 0
             available = planned_counts[dimension]
+        elif observation.get('agent_version') in {'rule-based-v37', 'rule-based-v38', 'rule-based-v39', 'rule-based-v40'}:
+            supported = None
+            reason = 'Local candidate counts do not establish source support or question validity.'
+            planned = accepted_counts[dimension]
+            required = 0
+            available = int((observation.get('local_candidate_counts_by_dimension') or {}).get(dimension.value, 0))
         else:
             supported = None
             reason = "This suite predates evidence-based dimension coverage reporting."
@@ -1518,6 +1607,8 @@ def _continue_test_generation(run_id: str, db: Session) -> TestReviewSuite:
         observation = saved_suite_observation(source_run.reproducibility_metadata)
         return TestReviewSuite(
             run_id=run_id, canonical_run_id=source_run.id,
+        coverage_policy=(source_run.reproducibility_metadata or {}).get("coverage_policy", "strict_full_v1"),
+        planned_test_count=(saved_suite_observation(source_run.reproducibility_metadata)).get("planned_test_count"),
             tests=[public_test_schema(test) for test in source_tests],
             requested_test_count=source_run.test_budget, generated_test_count=len(source_tests),
             count_target_met=True, quantity_shortfall_reason=None,
@@ -1596,14 +1687,11 @@ def _continue_test_generation(run_id: str, db: Session) -> TestReviewSuite:
         raise HTTPException(422, problem)
     reviewed: list[TestCase] = []
     for test in generated:
-        assessment = validator.validate(test, memories)
+        assessment = location_guarded_assessment(validator, test, memories)
         if assessment.quality_status == TestQualityStatus.REJECTED:
             raise HTTPException(422, f"Generated test {test.test_id} was rejected by the quality gate: {assessment.reason}")
-        reviewed.append(test.model_copy(update={
-            "quality_status": assessment.quality_status,
-            "grounding_status": assessment.grounding_status,
-            "validation_notes": f"{assessment.validator_version}: {assessment.reason}",
-        }))
+        reviewed.append(test.model_copy(update=generated_quality_update(
+            assessment, (source_run.reproducibility_metadata or {}).get('coverage_policy', 'strict_full_v1'))))
 
     # Keep the existing questions if a fresh generation found no additional
     # supported coverage. The observation still explains the shortfall.
@@ -1658,6 +1746,8 @@ def _continue_test_generation(run_id: str, db: Session) -> TestReviewSuite:
     observation = saved_suite_observation(source_run.reproducibility_metadata)
     return TestReviewSuite(
         run_id=run_id, canonical_run_id=source_run.id,
+        coverage_policy=(source_run.reproducibility_metadata or {}).get("coverage_policy", "strict_full_v1"),
+        planned_test_count=(saved_suite_observation(source_run.reproducibility_metadata)).get("planned_test_count"),
         tests=[public_test_schema(test) for test in source_tests],
         requested_test_count=source_run.test_budget, generated_test_count=len(source_tests),
         count_target_met=observation.get("count_target_met"),
@@ -1715,7 +1805,7 @@ def scope_sources_available(db: Session, conversation_id: str, test: TestCaseMod
     if not test.supporting_memory_ids or len(memories) != len(set(test.supporting_memory_ids)):
         return False
     source_ids = {message.source_message_id for message in db.scalars(select(MessageModel).where(
-        MessageModel.conversation_id == conversation_id, MessageModel.role == 'user'
+        MessageModel.conversation_id == conversation_id, func.lower(MessageModel.role) == 'user'
     )).all() if message.content and message.content.strip()}
     return all(memory.source_message_ids and all(mid in source_ids for mid in memory.source_message_ids) for memory in memories)
 
@@ -1733,6 +1823,9 @@ def _review_test(run_id: str, test_id: str, payload: TestReviewUpdate, db: Sessi
     source = canonical_test_for_review(db, audit, test_id)
     if payload.quality_status == TestQualityStatus.ACCEPTED:
         assert_test_evidence_available(db, audit.conversation_id, [source], 422)
+        if ((audit.reproducibility_metadata or {}).get('coverage_policy') == 'evidence_supported_only_v1'
+                and not scope_sources_available(db, audit.conversation_id, source)):
+            raise HTTPException(422, 'Original source messages are unavailable. Restore the source before accepting this question.')
         if (re.search(r'source-scope-review-v\d+: Original source messages are missing;', source.validation_notes or '')
                 and not scope_sources_available(db, audit.conversation_id, source)):
             raise HTTPException(422, 'Original source messages are unavailable. Restore the source or regenerate the question before accepting it.')
@@ -1876,6 +1969,11 @@ def _execute(run_id: str, db: Session):
     is_method_comparison = bool(
         experiment and (experiment.test_suite_metadata or {}).get("study_role") == "audit_method_comparison"
     )
+    effective_policy = (a.reproducibility_metadata or {}).get("coverage_policy", "strict_full_v1")
+    if experiment and TestSuiteConfiguration.model_validate(experiment.test_suite_configuration).coverage_policy != effective_policy:
+        raise HTTPException(409, "Coverage policy differs from the frozen experiment.")
+    if (is_method_comparison or (a.reproducibility_metadata or {}).get("formal_matrix_version")) and effective_policy != "strict_full_v1":
+        raise HTTPException(409, "Formal studies require strict coverage.")
     if is_method_comparison:
         require_state(a, {AuditStatus.TESTS_GENERATED})
         method_tests = db.scalars(select(TestCaseModel).where(TestCaseModel.run_id == run_id)).all()
@@ -1893,7 +1991,10 @@ def _execute(run_id: str, db: Session):
     assert_test_evidence_available(db, a.conversation_id, review_rows)
     coverage_source_id = experiment.test_suite_source_run_id if experiment and experiment.test_suite_source_run_id else a.id
     coverage_source = db.get(AuditRunModel, coverage_source_id) or a
-    assert_generation_coverage(saved_suite_observation(coverage_source.reproducibility_metadata), review_rows, coverage_source.test_budget)
+    source_policy = (coverage_source.reproducibility_metadata or {}).get("coverage_policy", "strict_full_v1")
+    if source_policy != effective_policy:
+        raise HTTPException(409, "Shared suite coverage policy differs from this audit.")
+    assert_generation_coverage(saved_suite_observation(coverage_source.reproducibility_metadata), review_rows, coverage_source.test_budget, coverage_policy=source_policy)
     suite_problem = RuleBasedTestQualityValidator.validate_suite([test_schema(row) for row in review_rows])
     if suite_problem:
         raise HTTPException(409, suite_problem)
@@ -2133,8 +2234,9 @@ def retry_plan(run_id: str, db: Session = Depends(get_db)):
     # Inspect compatibility without mutating artifacts or making provider calls.
     # Keep the unfinished stage visible, but do not promise a resumable audit
     # that the engine guard will immediately reject.
-    resume_blocked_reason = None
-    if plan.retryable:
+    resume_blocked_reason = (partial_generation_block_reason(audit.reproducibility_metadata)
+                             if plan.next_stage and plan.next_stage.value == "generate_tests" else None)
+    if plan.retryable and resume_blocked_reason is None:
         from app.services.formal_freeze import assert_formal_runtime_frozen, assert_formal_inputs_frozen
         try:
             assert_formal_runtime_frozen(audit)
@@ -2168,6 +2270,8 @@ def _retry_audit(run_id: str, db: Session):
     assert_audit_runtime_frozen(audit)
     assert_formal_inputs_frozen(db, audit)
     plan = retry_plan(run_id, db)
+    if plan.get("resume_blocked_reason") and plan.get("next_stage") == "generate_tests" and partial_generation_block_reason(audit.reproducibility_metadata):
+        raise HTTPException(409, plan["resume_blocked_reason"])
     if not plan["retryable"]:
         # A provider/database interruption can occur after the final durable
         # evaluation was written but before the public COMPLETED transition.

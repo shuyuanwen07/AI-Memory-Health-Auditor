@@ -469,6 +469,50 @@ function Provenance({ report }: { report: DashboardReport }) {
   </details>;
 }
 
+function CompletedAuditSummary({ runs, refreshToken }: { runs: AuditRun[]; refreshToken: number }) {
+  const [state, setState] = useState<{ loaded: number; failed: number; passed: number; failures: number; uncertain: number } | null>(null);
+  useEffect(() => {
+    let active = true;
+    setState(null);
+    async function load() {
+      let next = 0;
+      const outcomes: PromiseSettledResult<AuditResult>[] = new Array(runs.length);
+      async function worker() {
+        while (next < runs.length) {
+          const index = next++;
+          try { outcomes[index] = { status: 'fulfilled', value: await api.results(runs[index].run_id) }; }
+          catch (reason) { outcomes[index] = { status: 'rejected', reason }; }
+        }
+      }
+      await Promise.all(Array.from({ length: Math.min(8, runs.length) }, () => worker()));
+      if (!active) return;
+      const loaded = outcomes.filter((item): item is PromiseFulfilledResult<AuditResult> => item.status === 'fulfilled');
+      setState({ loaded: loaded.length, failed: runs.length - loaded.length,
+        passed: loaded.reduce((sum, item) => sum + item.value.tests_passed, 0),
+        failures: loaded.reduce((sum, item) => sum + (item.value.failures?.length ?? 0), 0),
+        uncertain: loaded.reduce((sum, item) => sum + (item.value.uncertain_count ?? item.value.uncertain_answers?.length ?? 0), 0) });
+    }
+    void load();
+    return () => { active = false; };
+  }, [runs, refreshToken]);
+  if (!state) return <section role="status" aria-label="Loading audit summary"><Skeleton active paragraph={{ rows: 1 }} /></section>;
+  const rows = [
+    { name: 'Passed', value: state.passed, colour: OUTCOME_COLOURS[0] },
+    { name: 'Failed', value: state.failures, colour: OUTCOME_COLOURS[1] },
+    { name: 'Uncertain', value: state.uncertain, colour: OUTCOME_COLOURS[2] },
+  ];
+  const total = rows.reduce((sum, row) => sum + row.value, 0);
+  return <Card size="small" title="Completed audit outcomes" style={{ marginBottom: 16 }}>
+    <p><b>{state.loaded}</b> of {runs.length} completed audit reports loaded{state.failed ? ` · ${state.failed} unavailable` : ''}</p>
+    {total > 0 && <div role="img" aria-label={`Completed audit outcomes: ${state.passed} passed, ${state.failures} failed, ${state.uncertain} uncertain`}
+      style={{ display: 'flex', height: 16, overflow: 'hidden', borderRadius: 8 }}>
+      {rows.map(row => <span key={row.name} style={{ width: `${100 * row.value / total}%`, background: row.colour }} />)}
+    </div>}
+    <ul className="chart-key" style={{ marginTop: 8 }}>{rows.map(row => <li key={row.name}><i style={{ background: row.colour }} />{row.name} {row.value}</li>)}</ul>
+    <p><small>Counts include repeated audits and reassessments. They describe saved judgments, not independent cases or overall accuracy.</small></p>
+  </Card>;
+}
+
 function CompletedAuditResults() {
   const [runs, setRuns] = useState<AuditRun[]>([]);
   const [runNames, setRunNames] = useState<Record<string, string>>({});
@@ -533,6 +577,7 @@ function CompletedAuditResults() {
     {auditState === 'error' && <Alert role="alert" type="warning" showIcon title="Saved completed audits could not be loaded" description={auditError} />}
     {auditState === 'empty' && <p>No completed audits are available yet. Start a memory audit and return here after it completes.</p>}
     {auditState === 'ready' && runs.length > 0 && <>
+      <CompletedAuditSummary runs={runs} refreshToken={refreshToken} />
       <label htmlFor="completed-audit-select"><b>Choose a completed audit</b></label>
       <Select id="completed-audit-select" aria-label="Choose a completed audit" value={selectedRunId} onChange={runId => { selectionIsExplicit.current = true; setSelectedRunId(runId); }} style={{ display: 'block', maxWidth: 720, margin: '0.5rem 0 1rem' }} options={runs.map(run => ({
         value: run.run_id, label: completedAuditOptionLabel(run, runNames[run.run_id]),

@@ -67,3 +67,8 @@ test('preserves an explicit retention policy and never fills an absent legacy ch
     expect(parseAuditDraftSettings({...valid,targetProfile:{...defaultTargetProfile,retention_policy:policy}})).toBeNull();
   }
 });
+test('coverage policy restores explicit opt-in and defaults old drafts to strict',()=>{
+  expect(parseAuditDraftSettings(valid)?.coveragePolicy).toBe('strict_full_v1');
+  expect(parseAuditDraftSettings({...valid,coveragePolicy:'evidence_supported_only_v1'})?.coveragePolicy).toBe('evidence_supported_only_v1');
+  expect(parseAuditDraftSettings({...valid,coveragePolicy:'invented'})).toBeNull();
+});

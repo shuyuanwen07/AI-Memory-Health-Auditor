@@ -1,3 +1,4 @@
+import { effectiveCoveragePolicy as resolveCoveragePolicy } from '../services/coveragePolicy';
 import { INTAKE_KEY, loadIntakeRecovery, type IntakeRecovery } from '../services/intakeRecovery';
 import { memoryStrategyLabel, modelDisplayName, friendlyText } from '../services/display';
 import { parseAuditDraftSettings, type AuditDraftSettings } from '../services/auditDraftSettings';
@@ -88,6 +89,7 @@ export function NewAudit() {
   const [providerStatus, setProviderStatus] = useState<'loading'|'ready'|'error'>('loading');
   const providersInitialised = useRef(false);
   const [budget, setBudget] = useState(8);
+  const [coveragePolicy,setCoveragePolicy] = useState<'strict_full_v1'|'evidence_supported_only_v1'>('strict_full_v1');
   const [repetitions, setRepetitions] = useState(1);
   const [suiteMode, setSuiteMode] = useState<TestSuiteMode>('behavioural');
   const [maintenancePolicy, setMaintenancePolicy] = useState<MemoryMaintenancePolicy>('update_aware_consolidation');
@@ -105,6 +107,7 @@ export function NewAudit() {
   const [failedRuns, setFailedRuns] = useState<FailedRun[]>([]);
   const [reviewTests, setReviewTests] = useState<TestCase[] | null>(null);
   const [dimensionCoverage, setDimensionCoverage] = useState<Record<string, DimensionCoverage[]>>({});
+  const [reviewPolicies, setReviewPolicies] = useState<Record<string, 'strict_full_v1'|'evidence_supported_only_v1'>>({});
   const [coveragePreview, setCoveragePreview] = useState<DimensionCoveragePreview | null>(null);
   const [coveragePreviewStatus, setCoveragePreviewStatus] = useState<'idle'|'loading'|'ready'|'error'>('idle');
   const [coveragePreviewError, setCoveragePreviewError] = useState('');
@@ -171,10 +174,10 @@ export function NewAudit() {
     const settings: AuditDraftSettings = {selectedStrategies,targetProviders,targetModels:frozenModels,pipelineProvider,evaluatorProvider:pipelineProvider,
       semanticReviewProvider:'same_as_generator',retrievalMode,retrievalProvider:'automatic',retrievalModel:null,
       pipelineModel:sharedModel,semanticReviewModel:null,evaluatorModel:sharedModel,
-      budget,repetitions,suiteMode,maintenancePolicy,targetMemoryCapacity,targetMemoryWriter,targetProfile,targetSystem,compareAuditors};
+      budget,repetitions,suiteMode,coveragePolicy,maintenancePolicy,targetMemoryCapacity,targetMemoryWriter,targetProfile,targetSystem,compareAuditors};
     try { sessionStorage.setItem(REVIEW_KEY,JSON.stringify({conversationId,settings})); }
     catch { setRecoveryNotice('Review decisions remain saved, but this browser cannot keep the audit settings. Keep this page open until the audit is created.'); }
-  },[conversationId,step,providers,selectedStrategies,targetProviders,targetModels,pipelineProvider,retrievalMode,pipelineModel,budget,repetitions,suiteMode,maintenancePolicy,targetMemoryCapacity,targetMemoryWriter,targetProfile,targetSystem,compareAuditors]);
+  },[conversationId,step,providers,selectedStrategies,targetProviders,targetModels,pipelineProvider,retrievalMode,pipelineModel,budget,repetitions,suiteMode,coveragePolicy,maintenancePolicy,targetMemoryCapacity,targetMemoryWriter,targetProfile,targetSystem,compareAuditors]);
 
   const clearDraft = () => {
     sessionStorage.removeItem(DRAFT_KEY);
@@ -257,7 +260,7 @@ export function NewAudit() {
       setPipelineProvider(settings.pipelineProvider);
       setRetrievalMode(settings.pipelineProvider === 'rule_based' ? 'fixed' : settings.retrievalMode);
       setPipelineModel(settings.pipelineModel);
-      setBudget(settings.budget);setRepetitions(settings.repetitions);setSuiteMode(settings.suiteMode);
+      setBudget(settings.budget);setRepetitions(settings.repetitions);setSuiteMode(settings.suiteMode);setCoveragePolicy(settings.coveragePolicy??'strict_full_v1');
       setMaintenancePolicy(settings.maintenancePolicy);setTargetMemoryCapacity(settings.targetMemoryCapacity);
       setTargetMemoryWriter(settings.targetMemoryWriter);setTargetProfile(settings.targetProfile);
       setTargetSystem(settings.targetSystem);setCompareAuditors(settings.compareAuditors);
@@ -268,6 +271,7 @@ export function NewAudit() {
   });
 
   const startFresh = () => {
+    setCoveragePolicy('strict_full_v1');
     sessionStorage.removeItem(REVIEW_KEY);sessionStorage.removeItem(INTAKE_KEY);setSavedIntake(null);
     restoringSettings.current=false;
     if(providers.some(item=>item.provider==='openrouter'&&item.configured)){
@@ -280,7 +284,7 @@ export function NewAudit() {
   const startSeparateAudit = () => {
     if(busy)return;
     startFresh();clearDraft();setStep(0);setConversationId('');setMemories([]);setMemoryReview(null);setAgentExecutions([]);setSourceMessages([]);
-    setRuns([]);setExperimentIds([]);setResults([]);setFailedRuns([]);setReviewTests(null);setDimensionCoverage({});setQuestionCountNote('');setContinueGenerationRuns([]);
+    setRuns([]);setExperimentIds([]);setResults([]);setFailedRuns([]);setReviewTests(null);setDimensionCoverage({});setReviewPolicies({});setQuestionCountNote('');setContinueGenerationRuns([]);
     creationBatch.current=null;setCreationPending(false);setRunningLabel('');setRunningRunId('');setRunningStage('idle');
     setQueueStopped(false);setEntireExperimentCancelled(false);cancellationRequested.current=false;
     entireExperimentCancelledRef.current=false;cancelledRunIds.current.clear();completedRunIds.current.clear();
@@ -336,6 +340,8 @@ export function NewAudit() {
         : Math.floor(budget / auditDimensions.length) + Number(index < budget % auditDimensions.length)),
   ])) as Record<Dimension,number>;
   const coverageRequired = pipelineProvider !== 'rule_based' && (compareAuditors || suiteMode === 'behavioural');
+  const partialEligible = pipelineProvider !== 'rule_based' && !compareAuditors && suiteMode === 'behavioural';
+  const effectiveCoveragePolicy = resolveCoveragePolicy(coveragePolicy, pipelineProvider, compareAuditors, suiteMode);
   const dimensionSlots = Object.fromEntries(auditDimensions.map(dimension => [
     dimension,
     coveragePreview?.dimensions.find(item => item.dimension === dimension)?.available_question_count ?? 0,
@@ -359,7 +365,7 @@ export function NewAudit() {
     setCoveragePreview(null);
     setCoveragePreviewStatus('loading');
     setCoveragePreviewError('');
-    void api.coveragePreview(conversationId, budget).then((preview) => {
+    void api.coveragePreview(conversationId, budget, effectiveCoveragePolicy).then((preview) => {
       if (cancelled) return;
       setCoveragePreview(preview);
       setCoveragePreviewStatus('ready');
@@ -369,7 +375,7 @@ export function NewAudit() {
       setCoveragePreviewStatus('error');
     });
     return () => { cancelled = true; };
-  }, [step, coverageRequired, conversationId, budget]);
+  }, [step, coverageRequired, conversationId, budget, effectiveCoveragePolicy]);
   // Null means use the displayed configured default; an explicit blank is not a default.
   const preparationModel = (pipelineModel ?? selectedPipeline?.default_pipeline_model ?? selectedPipeline?.default_model)?.trim();
   const semanticReviewerModel = preparationModel;
@@ -437,7 +443,7 @@ export function NewAudit() {
             semantic_review_provider: method.semantic, semantic_review_model: method.semanticModel,
             evaluator_provider: method.evaluator, evaluator_model: method.judge,
             compare_evaluators: compareAuditors && method.key === 'model', auditor_comparison_id: auditorComparisonId,
-            suite_mode: compareAuditors ? 'behavioural' : suiteMode,
+            suite_mode: compareAuditors ? 'behavioural' : suiteMode, coverage_policy: effectiveCoveragePolicy,
           },
         },
       }])).values()];
@@ -503,6 +509,7 @@ export function NewAudit() {
     const canonicalRuns = [...new Map(runs.map(run => [run.generationGroup, run])).values()];
     const questions: TestCase[] = [];
     const coverageByRun: Record<string, DimensionCoverage[]> = {};
+    const policyByRun: Record<string, 'strict_full_v1'|'evidence_supported_only_v1'> = {};
     const countNotes: string[] = [];
     const continuableRuns: string[] = [];
     for (const run of canonicalRuns) {
@@ -511,6 +518,7 @@ export function NewAudit() {
       const suite = await api.testReview(run.runId);
       questions.push(...suite.tests);
       coverageByRun[suite.canonical_run_id] = suite.dimension_coverage ?? [];
+      policyByRun[suite.canonical_run_id] = suite.coverage_policy ?? 'strict_full_v1';
       if (suite.can_continue_generation) {
         continuableRuns.push(suite.canonical_run_id);
         countNotes.push(
@@ -519,12 +527,12 @@ export function NewAudit() {
       }
       if (suite.count_target_met === false && suite.requested_test_count != null) {
         countNotes.push(
-          `The Agent generated ${suite.generated_test_count ?? suite.tests.length} of ${suite.requested_test_count} requested questions. `
+          `The generator produced ${suite.generated_test_count ?? suite.tests.length} of up to ${suite.requested_test_count} questions. `
           + (suite.quantity_shortfall_reason ?? 'The confirmed evidence did not support more distinct questions.')
         );
       }
     }
-    setReviewTests(questions); setDimensionCoverage(coverageByRun); setQuestionCountNote(countNotes.join(' ')); setContinueGenerationRuns(continuableRuns); setRunningLabel('');
+    setReviewTests(questions); setDimensionCoverage(coverageByRun); setReviewPolicies(policyByRun); setQuestionCountNote(countNotes.join(' ')); setContinueGenerationRuns(continuableRuns); setRunningLabel('');
   });
 
   const continueGeneration = (runId: string) => act(async () => {
@@ -532,6 +540,7 @@ export function NewAudit() {
     const suite: TestReviewSuite = await api.continueGeneration(runId);
     setReviewTests((items) => [...(items ?? []).filter(test => test.run_id !== suite.canonical_run_id), ...suite.tests]);
     setDimensionCoverage((items) => ({...items, [suite.canonical_run_id]: suite.dimension_coverage ?? []}));
+    setReviewPolicies((items) => ({...items, [suite.canonical_run_id]: suite.coverage_policy ?? 'strict_full_v1'}));
     setQuestionCountNote(suite.count_target_met === false
       ? `The Agent generated ${suite.generated_test_count ?? suite.tests.length} of ${suite.requested_test_count ?? 'the requested'} questions. ${suite.quantity_shortfall_reason ?? 'The confirmed evidence did not support more distinct questions.'}`
       : 'The Agent generated the requested number of distinct, evidence-backed questions. Review them before running the audit.');
@@ -544,6 +553,7 @@ export function NewAudit() {
     const suite = await api.reviewQuestionScopes(runId);
     setReviewTests((items) => [...(items ?? []).filter(test => test.run_id !== suite.canonical_run_id), ...suite.tests]);
     setDimensionCoverage((items) => ({...items, [suite.canonical_run_id]: suite.dimension_coverage ?? []}));
+    setReviewPolicies((items) => ({...items, [suite.canonical_run_id]: suite.coverage_policy ?? 'strict_full_v1'}));
     setRunningLabel('');
   });
 
@@ -747,10 +757,18 @@ export function NewAudit() {
       {(selectedTargets.length===0 || (retrievalMode === 'fixed' && selectedStrategies.length===0))&&<UIAlert role="status">Choose at least one target service{retrievalMode === 'fixed' ? ' and one memory strategy' : ''} before starting.</UIAlert>}
       <div className="form-grid">
         {!compareAuditors && <label>Test suite design<UISelect aria-label={["Test suite design"].join(' ')} value={suiteMode} onChange={(event) => setSuiteMode(event.target.value as TestSuiteMode)}><UIOption value="paired_contextual">Paired recall &amp; task probes</UIOption><UIOption value="contextual_indirect">Contextual/indirect tests</UIOption><UIOption value="behavioural">Behavioural tests</UIOption><UIOption value="direct_ground_truth">Direct Ground-Truth baseline</UIOption><UIOption value="fixed_template">Fixed-Template baseline</UIOption></UISelect><small>Frozen once and shared by every condition. Paired probes need at least two calls; an odd budget leaves one call unused. Contextual/indirect suites contain no direct-recall items.</small></label>}
-        <label>Requested test count<UIInput preserveValueOnClear type="number" min="1" max="100" value={budget} onChange={(event) => setBudget(Math.max(1, Math.min(100, Math.trunc(Number(event.target.value)) || 1)))} /><small>The Agent needs at least one distinct, evidence-backed question for each ability. It distributes the remaining questions as evenly as confirmed evidence allows; if one ability has only one slot, extra questions go to abilities with more supported slots. A dimension score based on one question is less stable, and results show the actual question count. Proposal Category Coverage also counts a dimension once it has at least one valid question. The full requested count still needs enough distinct evidence overall. Add a source-backed example if needed, and link UPDATE, CONFLICT and CONTEXTUAL_OVERRIDE records in Ground Truth Review before creating the audit.</small></label>
+        {partialEligible && <label>Coverage policy<UISelect aria-label="Coverage policy" value={coveragePolicy} onChange={event=>setCoveragePolicy(event.target.value as 'strict_full_v1'|'evidence_supported_only_v1')}><UIOption value="strict_full_v1">All four abilities required</UIOption><UIOption value="evidence_supported_only_v1">Only locally identified evidence slots</UIOption></UISelect><small>Unplanned abilities are not measured. A missing slot does not prove there is no source evidence. The request is a maximum; planned questions still require full quality review.</small></label>}
+        {!partialEligible && coveragePolicy==='evidence_supported_only_v1' && <p>Strict coverage applies to this setup. Returning to a model behavioural audit restores your partial selection.</p>}
+        <label>Requested test count<UIInput preserveValueOnClear type="number" min="1" max="100" value={budget} onChange={(event) => setBudget(Math.max(1, Math.min(100, Math.trunc(Number(event.target.value)) || 1)))} /><small>{effectiveCoveragePolicy === 'evidence_supported_only_v1' ? 'This is a maximum. The planner may select fewer locally identified evidence slots; abilities without a selected slot are not measured. A missing slot does not prove source evidence is absent. Every selected question still needs quality review.' : 'The Agent needs at least one distinct, evidence-backed question for each ability. It distributes the remaining questions as evenly as confirmed evidence allows; if one ability has only one slot, extra questions go to abilities with more supported slots. A dimension score based on one question is less stable, and results show the actual question count. Proposal Category Coverage also counts a dimension once it has at least one valid question. The full requested count still needs enough distinct evidence overall. Add a source-backed example if needed, and link UPDATE, CONFLICT and CONTEXTUAL_OVERRIDE records in Ground Truth Review before creating the audit.'}</small></label>
         <label>Repeated runs per condition<UIInput preserveValueOnClear type="number" min="1" max="10" value={repetitions} onChange={(event) => setRepetitions(Math.max(1, Math.min(10, Math.trunc(Number(event.target.value)) || 1)))} /></label>
       </div>
       {coverageRequired && <UIAlert role={coveragePreviewStatus === 'ready' && !coveragePreview?.minimum_met ? 'alert' : 'status'}>
+        {effectiveCoveragePolicy === 'evidence_supported_only_v1' ? <>
+          <b>Partial coverage: {coveragePreview?.planned_test_count ?? 0} planned / {budget} maximum.</b>
+          {coveragePreviewStatus === 'loading' && <p>Checking local evidence slots…</p>}
+          {coveragePreviewStatus === 'error' && <p>Coverage check failed: {coveragePreviewError}</p>}
+          {coveragePreviewStatus === 'ready' && <p>{auditDimensions.map(dimension=>`${dimension.replaceAll('_',' ')}: ${dimensionQuotas[dimension] ? `${dimensionQuotas[dimension]} planned` : 'not measured'}`).join(' · ')}. Unplanned does not establish that evidence is absent.</p>}
+        </> : <>
         <b>{budget < 4
           ? 'All four abilities need at least one question, so request at least 4 questions.'
           : coveragePreviewStatus === 'ready'
@@ -767,6 +785,7 @@ export function NewAudit() {
             : coveragePreview?.minimum_met
               ? <p>All four abilities have at least one supported question, and the requested count fits the available distinct evidence. The Agent will still validate each question and retry unsupported or duplicate slots before saving.</p>
               : <p>The requested count is too small to allocate at least one question to each ability. Increase it to 4 or more.</p>}
+        </>}
         </>}
       </UIAlert>}
       {selectedTargets.length > 0 && <div className="form-grid model-overrides">{selectedTargets.map((provider) => <label key={provider.provider}>Target model for {provider.label}<ModelPicker label={`Target model for ${provider.label}`} provider={provider.provider} defaultModel={provider.default_model} multiple disabled={provider.provider === 'rule_based'} value={provider.provider === 'rule_based' ? provider.default_model : targetModels[provider.provider] ?? provider.default_model} onChange={(value) => setTargetModels((current) => ({ ...current, [provider.provider]: value }))} /><small>{provider.provider === 'rule_based' ? 'This deterministic baseline has one fixed identity.' : 'Search and select up to eight models to compare.'}</small></label>)}</div>}
@@ -801,7 +820,7 @@ export function NewAudit() {
       {questionCountNote && <UIAlert role="status">{questionCountNote}</UIAlert>}
       {busy && runningLabel && <p className="running-model">Currently working: <b>{runningLabel}</b>{runningRunId && <> <UIButton type="button" className="secondary" onClick={cancelCurrentRun}>Cancel current run &amp; stop queue</UIButton>{runs.length > 1 && <UIButton type="button" className="secondary" onClick={cancelExperiment}>Cancel entire comparison</UIButton>}</>}</p>}
       <ul className="progress"><li>Preparing confirmed ground truth <b>Complete</b></li><li>Preparing reviewed test suites <b>{reviewTests ? 'Complete' : busy ? 'In progress' : 'Waiting'}</b></li><li>Test-suite quality checks <b>{readyForExecution ? 'Complete' : reviewTests ? 'Action required' : 'Waiting'}</b></li><li>Initialising target AI <b>{readyForExecution ? 'Ready' : 'Waiting'}</b></li><li>Executing memory tests <b>{runningStage === 'execute' ? 'In progress' : runningStage === 'evaluate' ? 'Complete' : runningStage === 'recover' ? 'Recovering' : 'Waiting'}</b></li><li>Evaluating responses <b>{runningStage === 'evaluate' ? 'In progress' : runningStage === 'recover' ? 'Recovering' : 'Waiting'}</b></li></ul>
-      {!reviewTests ? <UIButton disabled={busy} onClick={prepareTests}>{busy ? 'Generating Shared Test Suite…' : 'Generate Tests for Review'}</UIButton> : <>{[...new Set(reviewTests.map(test => test.run_id))].map(id => <div key={id}><h2>{runs.find(run => run.runId === id)?.generationGroup === 'rules' ? 'Rule-generated questions' : compareAuditors ? 'Model-generated questions · shared by both reviewers' : 'Questions for review'}</h2>{continueGenerationRuns.includes(id) && <UIButton type="button" className="secondary" disabled={busy} onClick={() => continueGeneration(id)}>Regenerate the suite toward the requested count</UIButton>}<UIButton type="button" className="secondary" disabled={busy || completedRunIds.current.size > 0 || cancelledRunIds.current.size > 0} onClick={() => reviewQuestionScopes(id)}>Check question scope against source</UIButton><p className="provider-note">Flagged questions need your review. No warning does not guarantee a question is valid.</p><TestSuiteReview tests={reviewTests.filter(test => test.run_id === id)} dimensionCoverage={dimensionCoverage[id]} busy={busy || completedRunIds.current.size > 0 || cancelledRunIds.current.size > 0} onReview={reviewTest} onRegenerate={regenerateTest} onAcceptAll={acceptAllTests} /></div>)}<UIButton disabled={busy || !readyForExecution || queueStopped} onClick={() => runAudit()}>{queueStopped ? 'Execution Queue Cancelled' : busy ? runningLabel ? `Running ${runningLabel}…` : 'Updating question review…' : runs.length > 1 ? 'Run Comparison & View Results' : 'Run Audit & View Results'}</UIButton>{queueStopped && <div className="provider-note"><p>{entireExperimentCancelled ? 'This comparison is terminal. Start a new audit for a fresh controlled comparison.' : remainingConditions.length ? 'The current condition was cancelled. Remaining conditions still use the same frozen suite.' : 'No conditions remain to run. Saved evidence is available in Audit History.'}</p>{!entireExperimentCancelled && remainingConditions.length > 0 && <><UIButton type="button" className="secondary" onClick={() => runAudit(true)}>Continue Remaining Conditions</UIButton><UIButton type="button" className="secondary" onClick={cancelExperiment}>Cancel Remaining Conditions</UIButton></>}{remainingConditions.length === 0 && <a href="/history">Open Audit History</a>}</div>}{!readyForExecution && <p className="provider-note">Accept pending questions, and accept or regenerate rejected questions before execution. Duplicate questions must be regenerated.</p>}</>}
+      {!reviewTests ? <UIButton disabled={busy} onClick={prepareTests}>{busy ? 'Generating Shared Test Suite…' : 'Generate Tests for Review'}</UIButton> : <>{[...new Set(reviewTests.map(test => test.run_id))].map(id => <div key={id}><h2>{runs.find(run => run.runId === id)?.generationGroup === 'rules' ? 'Rule-generated questions' : compareAuditors ? 'Model-generated questions · shared by both reviewers' : 'Questions for review'}</h2>{continueGenerationRuns.includes(id) && <UIButton type="button" className="secondary" disabled={busy} onClick={() => continueGeneration(id)}>Regenerate the suite toward the requested count</UIButton>}<UIButton type="button" className="secondary" disabled={busy || completedRunIds.current.size > 0 || cancelledRunIds.current.size > 0} onClick={() => reviewQuestionScopes(id)}>Check question scope against source</UIButton><p className="provider-note">Flagged questions need your review. No warning does not guarantee a question is valid.</p><TestSuiteReview tests={reviewTests.filter(test => test.run_id === id)} dimensionCoverage={dimensionCoverage[id]} partialCoverage={reviewPolicies[id] === 'evidence_supported_only_v1'} sourceMessages={sourceMessages} busy={busy || completedRunIds.current.size > 0 || cancelledRunIds.current.size > 0} onReview={reviewTest} onRegenerate={regenerateTest} onAcceptAll={acceptAllTests} /></div>)}<UIButton disabled={busy || !readyForExecution || queueStopped} onClick={() => runAudit()}>{queueStopped ? 'Execution Queue Cancelled' : busy ? runningLabel ? `Running ${runningLabel}…` : 'Updating question review…' : runs.length > 1 ? 'Run Comparison & View Results' : 'Run Audit & View Results'}</UIButton>{queueStopped && <div className="provider-note"><p>{entireExperimentCancelled ? 'This comparison is terminal. Start a new audit for a fresh controlled comparison.' : remainingConditions.length ? 'The current condition was cancelled. Remaining conditions still use the same frozen suite.' : 'No conditions remain to run. Saved evidence is available in Audit History.'}</p>{!entireExperimentCancelled && remainingConditions.length > 0 && <><UIButton type="button" className="secondary" onClick={() => runAudit(true)}>Continue Remaining Conditions</UIButton><UIButton type="button" className="secondary" onClick={cancelExperiment}>Cancel Remaining Conditions</UIButton></>}{remainingConditions.length === 0 && <a href="/history">Open Audit History</a>}</div>}{!readyForExecution && <p className="provider-note">Accept pending questions, and accept or regenerate rejected questions before execution. Duplicate questions must be regenerated.</p>}</>}
     </section>}
     {step === 4 && <section>
       {compareAuditors && <a href={`/audit-methods?groups=${encodeURIComponent(experimentIds.join(','))}`}>Open saved three-method comparison</a>}

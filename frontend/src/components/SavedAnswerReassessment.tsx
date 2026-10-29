@@ -21,10 +21,10 @@ export function SavedAnswerReassessment({runId, sourceId}:{runId:string;sourceId
     finally {setBusy(false);}
   };
   return <section aria-label="Reassess saved answers">
-    <h2>Check these answers with the current assessor</h2>
+    <h2>Reassess these saved answers</h2>
     <p><a href={`/assessor-models?source=${sourceId||runId}`}>Compare different AI assessors on these answers</a></p>
     {sourceId&&<p>This is a separate assessment of saved answers. <a href={`/audits/${sourceId}`}>View the original assessment</a>.</p>}
-    <p>The original questions, answers and result stay saved. This creates a separate result using the same assessment service and model with the installed software. The target model is not called again. An AI assessor may make new review requests.</p>
+    <p>The original questions, answers and result stay saved. Each option creates a separate result without calling the target model again. The first uses the original assessment service and model with the installed software; the second uses the evidence-based auditor.</p>
     <UIButton disabled={busy} onClick={()=>reassess()}>{busy?'Reassessing saved answers…':'Reassess saved answers'}</UIButton>
     <UIButton disabled={busy} onClick={()=>reassess(true)}>Reassess with evidence-based auditor</UIButton>
     <p>Evidence-based auditor uses GPT-6 Luna to review the saved answers and may incur model charges.</p>

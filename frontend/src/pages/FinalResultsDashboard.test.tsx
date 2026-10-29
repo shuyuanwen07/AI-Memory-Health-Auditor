@@ -65,19 +65,38 @@ it('loads one saved completed repair audit with ability scores, issues, and evid
 
   expect(await screen.findByText('Completed audits')).toBeInTheDocument();
   expect(await screen.findByText(/3\/4 passed/)).toBeInTheDocument();
+  expect(await screen.findByRole('img', {name:'Completed audit outcomes: 3 passed, 1 failed, 1 uncertain'})).toBeInTheDocument();
+  expect(screen.getByText(/Counts include repeated audits and reassessments/)).toBeInTheDocument();
   expect(await screen.findByText('A · Which audit method finds problems?')).toBeInTheDocument();
   expect(screen.getByText('B & C · Four memory strategies')).toBeInTheDocument();
+  expect(screen.getByRole('img', {name:'Experiment B pass rates by ability and memory strategy'})).toBeInTheDocument();
+  expect(screen.getByText(/higher than First-match in 2\/4 comparable abilities; 2 tied/)).toBeInTheDocument();
+  expect(screen.getByText(/Human reviewers failed the first answer, but the saved automatic judge passed both/)).toBeInTheDocument();
+  expect(screen.getByRole('link',{name:'Inspect the first audit'})).toHaveAttribute('href','/audits/RUN560F7B163C244FC09C3EB804BC1A855D');
+  expect(screen.getByRole('figure',{name:'Development retest of update history retrieval'})).toHaveTextContent('Change history · original');
+  expect(screen.getByRole('figure',{name:'Development retest of update history retrieval'})).toHaveTextContent('0/4 pass');
+  expect(screen.getByRole('figure',{name:'Development retest of update history retrieval'})).toHaveTextContent('4/4 pass');
+  expect(screen.getByRole('figure',{name:'Development retest of update history retrieval'})).toHaveTextContent('Two independent humans checked AI-assisted reviews');
+  expect(screen.getByRole('figure',{name:'Latest AC2 development question review'})).toHaveTextContent('22 valid · 2 invalid');
+  expect(screen.getByText('50/111 · 45.0%')).toBeInTheDocument();
+  expect(screen.getByText('62/117 · 53.0%')).toBeInTheDocument();
+  expect(screen.getByText(/later two-person wording recheck: one question in each group changed to invalid/)).toBeInTheDocument();
+  expect(screen.getByRole('figure',{name:'Latest AC2 development question review'})).toHaveTextContent('7/9 related synthetic histories saved questions');
   expect(screen.getByText('Auditor · Before and after improvement')).toBeInTheDocument();
+  expect(screen.getByText(/After is an optional reassessment, not the default evaluator/)).toBeInTheDocument();
+  expect(screen.getByText(/Detection difference: history-resampling range -5.4 to 23.2 percentage points; includes no improvement/)).toBeInTheDocument();
   expect(screen.getByText(/same 3 of 9 predefined defects/)).toBeInTheDocument();
-  expect(screen.getByRole('img', {name:'Human-invalid: 17 rejected, 37 pending review, 0 accepted'})).toBeInTheDocument();
-  expect(screen.getByRole('img', {name:'Human-valid: 9 rejected, 53 pending review, 1 accepted'})).toBeInTheDocument();
-  expect(screen.getByRole('img', {name:'Human-valid: 13 newly pending, 1 accepted'})).toBeInTheDocument();
-  expect(screen.getByRole('img', {name:'Human-invalid: 14 already rejected by the per-question rule'})).toBeInTheDocument();
-  expect(screen.getByText(/Per-question rule and scope check reconstructed afterwards, not the full production workflow/)).toBeInTheDocument();
-  expect(screen.getByRole('img', {name:'Human-invalid: model labelled 2 invalid, 12 uncertain, 0 valid'})).toBeInTheDocument();
-  expect(screen.getByRole('img', {name:'Human-valid: model labelled 3 invalid, 1 uncertain, 10 valid'})).toBeInTheDocument();
-  expect(screen.getByText(/4\/33 responses could not be parsed and count as uncertain/)).toBeInTheDocument();
-  expect(screen.getByText(/this candidate is not deployed and does not establish a safety improvement/)).toBeInTheDocument();
+  expect(screen.getByRole('img', {name:'15 histories generated questions; 15 histories did not'})).toBeInTheDocument();
+  expect(screen.getByText('17 saved questions · Accuracy only · 11 pending · 6 accepted')).toBeInTheDocument();
+  expect(screen.getByRole('img', {name:'Executable: 1 accepted, 4 pending'})).toBeInTheDocument();
+  expect(screen.getByRole('img', {name:'Not executable: 4 accepted, 1 pending'})).toBeInTheDocument();
+  expect(screen.getByRole('img', {name:'Unresolved: 1 accepted, 6 pending'})).toBeInTheDocument();
+  expect(screen.getByText(/individually checked by humans, as reported by the user/)).toBeInTheDocument();
+  expect(screen.getByRole('img', {name:'Facts: 204 full or correct type, 9 partial, 3 missing'})).toBeInTheDocument();
+  expect(screen.getByRole('img', {name:'Relationships: 53 full or correct type, 1 partial, 0 missing'})).toBeInTheDocument();
+  expect(screen.getByRole('img', {name:'Accuracy: 7 agreed valid, 0 agreed invalid, 1 unresolved out of 8'})).toBeInTheDocument();
+  expect(screen.getByRole('img', {name:'Freshness: 8 agreed valid, 0 agreed invalid, 0 unresolved out of 8'})).toBeInTheDocument();
+  expect(screen.getByText(/Accepted is not proof of validity/)).toBeInTheDocument();
   expect(screen.getByText('Overall memory health across measured abilities')).toBeInTheDocument();
   expect(screen.getByText('83.3%')).toBeInTheDocument();
   expect(screen.getByText(/3\/4 abilities measured/)).toBeInTheDocument();
@@ -109,6 +128,27 @@ it('defaults to the newest completed audit, preserves an explicit selection, and
   expect(defaultCompletedAuditId([newestAudit, olderRepair], 'OLDER', true)).toBe('OLDER');
   expect(defaultCompletedAuditId([newestAudit], 'OLDER', true)).toBe('NEWEST');
   expect(defaultCompletedAuditId([], '', false)).toBe('');
+});
+
+it('refreshes the aggregate for new completed audits and reports unavailable results', async () => {
+  const first = { run_id: 'FIRST', status: 'COMPLETED', model: 'rules', memory_strategy: 'weak_first_hit', created_at: '2026-10-27T00:00:00Z' } as unknown as AuditRun;
+  const second = { ...first, run_id: 'SECOND', created_at: '2026-10-28T00:00:00Z' } as AuditRun;
+  const unavailable = { ...first, run_id: 'UNAVAILABLE' } as AuditRun;
+  const failed = { ...first, run_id: 'FAILED', status: 'FAILED' } as AuditRun;
+  const result = (runId: string, passed: number, failures: number, uncertain: number) => ({
+    run_id: runId, tests_passed: passed, tests_total: passed + failures,
+    dimensions: [], failures: Array.from({ length: failures }, () => ({})), uncertain_count: uncertain,
+  }) as unknown as AuditResult;
+  mocks.audits.mockResolvedValueOnce([first]).mockResolvedValue([first, second, unavailable, failed]);
+  mocks.results.mockImplementation(async (id: string) => {
+    if (id === 'UNAVAILABLE') throw new Error('unavailable');
+    return id === 'SECOND' ? result(id, 2, 1, 1) : result(id, 1, 0, 0);
+  });
+  render(<FinalResultsDashboard />);
+  expect(await screen.findByRole('img', { name: 'Completed audit outcomes: 1 passed, 0 failed, 0 uncertain' })).toBeInTheDocument();
+  fireEvent.focus(window);
+  expect(await screen.findByRole('img', { name: 'Completed audit outcomes: 3 passed, 1 failed, 1 uncertain' })).toBeInTheDocument();
+  expect(screen.getByText(/of 3 completed audit reports loaded.*1 unavailable/)).toBeInTheDocument();
 });
 
 it('still shows research results when there are no completed audits', async () => {

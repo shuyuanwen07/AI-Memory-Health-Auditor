@@ -83,5 +83,6 @@ class AssessmentSourceTests(unittest.TestCase):
                 self.assertEqual(set(archive.namelist()),{'backend/app/main.py','ASSESSMENT_SOURCE_MANIFEST.json'})
                 self.assertEqual((archive.getinfo('backend/app/main.py').external_attr >> 16) & 0o777,0o755)
                 manifest=json.loads(archive.read('ASSESSMENT_SOURCE_MANIFEST.json'))
+                self.assertEqual(archive.getinfo('ASSESSMENT_SOURCE_MANIFEST.json').date_time, (1980, 1, 1, 0, 0, 0))
                 self.assertEqual(manifest['files'],result['files'])
             self.assertEqual(package(root,root/'output/release')['archive_sha256'],result['archive_sha256'])

@@ -9,7 +9,7 @@ from sqlalchemy import event, text
 from sqlalchemy.orm import Session
 from app.services.ac3_paired_budget_ledger import PairedBudgetLedger
 from app.models import TestCaseModel, TargetResponseModel
-from test_ac3_staging_postgres_isolated import isolated_db
+from test_ac3_staging_postgres_isolated import isolated_db as isolated_db
 from test_ac3_paired_budget_ledger import evidence
 
 pytestmark=pytest.mark.skipif(os.environ.get('AC3_DISPOSABLE_POSTGRES_TEST')!='yes',reason='Disposable PostgreSQL only')

@@ -9,7 +9,7 @@ import type { ExperimentAnalytics } from '../types/domain';
 
 const apiMocks = vi.hoisted(() => ({
   savedFormalRuns: vi.fn(), audits: vi.fn(), results: vi.fn(), retryPlan: vi.fn(), retry: vi.fn(),
-  testReview: vi.fn(), reviewTest: vi.fn(), regenerateTest: vi.fn(),
+  testReview: vi.fn(), reviewTest: vi.fn(), regenerateTest: vi.fn(), getConversation: vi.fn(),
   downloadConversationExport: vi.fn(), deleteConversation: vi.fn(),
   experimentGroups: vi.fn(), experimentResults: vi.fn(), cancelExperiment: vi.fn(),
   downloadExperimentCsv: vi.fn(), downloadExperimentBundle: vi.fn(), downloadExperimentArtifact: vi.fn(),
@@ -29,6 +29,8 @@ const baseRun = {
 
 beforeEach(() => {
   vi.clearAllMocks();
+  apiMocks.getConversation.mockReset();
+  apiMocks.getConversation.mockResolvedValue({messages:[]});
   apiMocks.savedFormalRuns.mockResolvedValue({items:[],total:0,offset:0,limit:25});
   // Group headers load before page summaries; allow both UI update stages.
   configure({asyncUtilTimeout: 5000});
@@ -55,6 +57,7 @@ test('filters history by text and strategy, while retaining frozen settings', as
   expect(screen.getByRole('link', {name:'View report'})).not.toBeNull();
   expect(screen.queryByRole('button', {name:'View recovery plan'})).toBeNull();
   await user.click(screen.getByText(/Memory settings · Match the task and project/i));
+  expect(screen.getByText(/requested temperature .* requested seed .* Provider sampling may differ/i)).not.toBeNull();
   expect(screen.getByText('Test generation: Rule-based processing')).not.toBeNull();
 });
 
@@ -303,6 +306,7 @@ test.each([0, 4])('does not declare tied results with %i excluded assessments wh
 test('shows frozen prepared questions during recovery before requesting model answers', async () => {
   const user = userEvent.setup();
   const pending = { test_id:'T-recovery', run_id:'RUN-FAILED', dimension:'accuracy', prompt:'What is the recorded city?', expected_behavior:'State Albury.', supporting_memory_ids:[], generator_version:'fixture', test_type:'direct', quality_status:'pending', grounding_status:'grounded', validation_notes:'Needs review.' };
+  apiMocks.getConversation.mockResolvedValue({messages:[{message_id:'M1',role:'user',content:'Later I moved to Bathurst.',timestamp:'2026-01-02'}]});
   apiMocks.testReview.mockResolvedValue({tests:[pending]});
   apiMocks.reviewTest.mockResolvedValue({...pending,quality_status:'accepted'});
   render(<History />);
@@ -310,12 +314,26 @@ test('shows frozen prepared questions during recovery before requesting model an
   await user.click(screen.getByRole('button', {name:'View recovery plan'}));
   await user.click(await screen.findByRole('button', {name:'Review prepared tests'}));
   await screen.findByText('What is the recorded city?');
+  expect(await screen.findByText('Later I moved to Bathurst.')).toBeInTheDocument();
   expect(screen.getByRole('button',{name:'Resume audit'})).toBeDisabled();
   expect(apiMocks.retry).not.toHaveBeenCalled();
   await user.click(screen.getByRole('button', {name:'Accept'}));
   await waitFor(()=>expect(apiMocks.reviewTest).toHaveBeenCalledWith('RUN-FAILED','T-recovery','accepted'));
   expect(await screen.findByText(/This question is ready for testing/)).toBeTruthy();
   expect(screen.getByRole('button',{name:'Resume audit'})).toBeEnabled();
+});
+
+test('partial recovery blocks question acceptance when the original conversation cannot load', async () => {
+  const user = userEvent.setup();
+  const pending = {test_id:'T-recovery',run_id:'RUN-FAILED',dimension:'accuracy',prompt:'What is the recorded city?',expected_behavior:'State Albury.',supporting_memory_ids:[],generator_version:'fixture',test_type:'direct',quality_status:'pending',grounding_status:'grounded'};
+  apiMocks.testReview.mockResolvedValue({tests:[pending],coverage_policy:'evidence_supported_only_v1'});
+  apiMocks.getConversation.mockRejectedValue(new Error('Source unavailable'));
+  render(<History />);
+  await user.click(await screen.findByRole('button',{name:'View recovery plan'}));
+  await user.click(await screen.findByRole('button',{name:'Review prepared tests'}));
+  expect(await screen.findByText('Original messages are unavailable. Restore the source before accepting questions.')).toBeInTheDocument();
+  expect(screen.getByRole('button',{name:'Accept'})).toBeDisabled();
+  expect(apiMocks.retry).not.toHaveBeenCalled();
 });
 
 
@@ -452,4 +470,23 @@ test.each(['low','medium'] as const)('shows saved optional %s reasoning request 
   render(<History/>);
   expect(await screen.findByText(`Configured final reasoning request: ${effort}`)).toBeInTheDocument();
   expect(screen.getByText('Configured identity reasoning request: low. Actual reasoning effort is not reported.')).toBeInTheDocument();
+});
+
+test('history recovery reloads the server-frozen partial coverage and unknown abilities',async()=>{
+  const user=userEvent.setup();
+  const test={test_id:'T-recovery',run_id:'RUN-FAILED',dimension:'accuracy',prompt:'What is the recorded city?',expected_behavior:'State Albury.',supporting_memory_ids:[],generator_version:'fixture',test_type:'direct',quality_status:'pending',grounding_status:'grounded'};
+  const dimensions=['accuracy','freshness','conflict_resolution','appropriate_use'];
+  apiMocks.getConversation.mockResolvedValue({messages:[{message_id:'M1',role:'user',content:'The original city is Albury.',timestamp:'2026-01-01'},{message_id:'M2',role:'user',content:'Later I moved to Bathurst.',timestamp:'2026-01-02'}]});
+  apiMocks.testReview.mockResolvedValue({run_id:'RUN-FAILED',canonical_run_id:'RUN-FAILED',coverage_policy:'evidence_supported_only_v1',planned_test_count:1,tests:[test],dimension_coverage:dimensions.map((dimension,index)=>({dimension,evidence_supported:index===0?true:null,reason:'unknown',required_question_count:index===0?1:0,planned_question_count:index===0?1:0,available_question_count:index===0?1:0,accepted_question_count:0}))});
+  const first=render(<History/>);
+  await user.click(await screen.findByRole('button',{name:'View recovery plan'}));
+  await user.click(await screen.findByRole('button',{name:'Review prepared tests'}));
+  expect(await screen.findByText(/This does not prove that source evidence is absent/)).toBeInTheDocument();
+  expect(await screen.findByText('Later I moved to Bathurst.')).toBeInTheDocument();
+  expect(screen.getByRole('button',{name:'Accept'})).toBeEnabled();
+  first.unmount();render(<History/>);
+  await user.click(await screen.findByRole('button',{name:'View recovery plan'}));
+  await user.click(await screen.findByRole('button',{name:'Review prepared tests'}));
+  expect(await screen.findByText(/This does not prove that source evidence is absent/)).toBeInTheDocument();
+  expect(apiMocks.retry).not.toHaveBeenCalled();
 });

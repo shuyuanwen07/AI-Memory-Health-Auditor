@@ -4,6 +4,7 @@ Callers must persist the predeclared protocol before invoking this function.
 No app database is written and no human labels are created.
 """
 import io
+import inspect
 import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
@@ -23,9 +24,9 @@ def run(frozen, source, plan, reviews, archive, candidate, validator):
     expected['frozen_at_utc'] = frozen.get('frozen_at_utc')
     if expected != frozen or not frozen.get('frozen_at_utc'):
         raise ValueError('Frozen source, review or runtime changed.')
-    if sha(Path('/app/app/test_generator/rule_based.py').read_bytes()) != sha(candidate):
+    if sha(Path(inspect.getfile(RuleBasedTestGenerator)).read_bytes()) != sha(candidate):
         raise ValueError('Candidate is not the running product generator.')
-    if sha(Path('/app/app/test_generator/quality.py').read_bytes()) != sha(validator):
+    if sha(Path(inspect.getfile(RuleBasedTestQualityValidator)).read_bytes()) != sha(validator):
         raise ValueError('Quality validator is not the running product version.')
     import json
     suite, facts = json.loads(source), json.loads(plan)['histories']

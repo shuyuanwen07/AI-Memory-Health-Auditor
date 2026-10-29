@@ -1,0 +1,1028 @@
+{
+  "report": "docs/EXPERIMENT_REPORT_2026-10-28.md",
+  "report_sha256": "601c8b17d5e57e4afb45f22f07aa5fedb078fe07a296e286ffc369e8a9c7f417",
+  "distinct_output_links": 127,
+  "covered_by_tracked_file_or_selected_archive": 127,
+  "not_found_in_selected_archives": [],
+  "note": "Archive membership does not make report links clickable in a fresh checkout; extract selected evidence into an empty directory. Directory coverage means at least one archived descendant, not all contents.",
+  "links": [
+    {
+      "report_link": "../output/proposal-delivery/ac2-wording-return-20261030-v1/",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-wording-human-return-20261030.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-work-warning-replay-20261030.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-work-warning-replay-20261030.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-v4-prospective-product-20261029-v1/summary.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-prospective-feasibility-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/ac3-generated/ac2-generation-coverage-diagnosis-20261029.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-v37-same-source-development-20261029-v1/summary-verified.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac1-ac2-development-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-v37-same-source-development-20261029-v1/blind-review/ai-review-summary.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac1-ac2-development-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-v37-scope-copy-diagnostic-20261029-v1/summary.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac1-ac2-development-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-v39-same-source-development-20261029-v1/summary-verified.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac1-ac2-development-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-v40-same-source-development-20261029-v1/summary-verified.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac1-ac2-development-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-v40-same-source-development-20261029-v1/blind-review-v2/ai-review-summary.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac1-ac2-development-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-scope-v5-c11-development-20261029-v1/",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac1-ac2-development-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-v40-scope-v5-copy-diagnostic-20261029-v1/",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac1-ac2-development-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-v40-scope-v6-copy-diagnostic-20261029-v1/",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac1-ac2-development-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-v6-independent-prospective-product-20261029-v1/summary.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-independent-feasibility-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-v6-independent-prospective-product-20261029-v1/ai-review-summary.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-independent-feasibility-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-reference-alignment-development-20261030.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-reference-alignment-development-20261030.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-topic-inference-diagnostic-20261030.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-topic-diagnostic-20261030.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-topic-candidate-paired-replay-20261030.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-topic-candidate-replay-20261030.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-topic-candidate-v2-paired-replay-20261030.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-topic-candidate-v2-replay-20261030.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-topic-candidate-v3-paired-replay-20261030.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-topic-candidate-v3-replay-20261030.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-topic-candidate-v4-paired-replay-20261030.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-topic-candidate-v4-replay-20261030.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-topic-candidate-v5-paired-replay-20261030.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-topic-candidate-v5-replay-20261030.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-time-update-warning-development-20261030.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-time-warning-development-20261030.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-fact-slots-product-nine-development-20261029-v1/verification.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-nine-history-development-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/ac3-generated/ac2-full-source-critic-development-20261030-v1/analysis.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-full-source-critic-development-20261030.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ai-review-return-20261030-v1/analysis.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ai-review-return-20261030.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ai-review-return-20261030-v1/human-confirmed-summary.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ai-review-return-20261030.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-full-source-critic-user-confirmed-20261030.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-full-source-critic-confirmed-comparison-20261030.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-scope-v7-subject-development-20261030.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-scope-v7-subject-development-20261030.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-scope-v7-user-confirmed-development-20261030.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-scope-v7-confirmed-comparison-20261030.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-scope-v8-time-development-20261030.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-scope-v8-time-development-20261030.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-reference-alignment-cross-sample-20261030.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-reference-alignment-cross-sample-20261030.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-prior-valid-scope-concern-20261030.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-prior-valid-scope-concern-20261030.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-scope-concern-sensitivity-20261030.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-scope-concern-sensitivity-20261030.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/current-source-timestamp-smoke-20261029-v1/",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "current-source-timestamp-smoke-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-partial-twenty-five-history-development-20261029-v1/receipt-audit.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-partial-model-development-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-partial-twenty-five-history-development-20261029-v1/candidate-inventory-diagnostic.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-partial-model-development-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-fact-slots-product-three-development-20261029-v1/summary.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-fact-slots-product-development-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-fact-slots-product-nine-development-20261029-v1/selection-lineage-verification.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-nine-history-development-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-fact-slots-product-nine-development-20261029-v1/",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-nine-history-development-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-fact-slots-product-nine-development-20261029-v1/blind-review/relative-date-prototype-diagnostic.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-nine-history-development-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-four-dimension-new-source-20261029-v1/summary.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-four-dimension-new-source-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-four-dimension-new-source-20261029-v1/ai-review-summary.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-four-dimension-new-source-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-four-dimension-new-source-20261029-v1/usage-audit.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-four-dimension-new-source-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-partial-five-history-development-20261029-v1/summary.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-independent-feasibility-20261029.tar.gz",
+        "ac2-partial-model-development-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-partial-five-history-development-20261029-v1/blind-review-two-questions/",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac2-independent-feasibility-20261029.tar.gz",
+        "ac2-partial-model-development-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-v39-same-source-development-20261029-v1/blind-review/ai-review-summary.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac1-ac2-development-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-model-development-20261029-v1/analysis.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac1-ac2-development-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-model-extraction-development-20261029-v1/analysis.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac1-ac2-development-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/new-audits-ai-review-return-20261029/summary.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "new-audits-two-ai-reviews-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/new-audits-ai-review-return-20261029/user-human-review-confirmation.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "new-audits-two-ai-reviews-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/final-evidence-human-review-confirmation-20261029.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "key-experiment-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/ac3-generated/ac1-relationship-retry-diagnostic-20261029-v1/summary.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac1-ai-two-stage-comparison-20261029/summary.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "ac1-ac2-development-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-source-supplement-review-return-20261029-v1/analysis.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "key-experiment-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-scope-v2-independent-review-20261029-v1/protocol.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-source-supplement-paired-20261029-v1/protocol.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac1-override-consistency-human-recheck-20261029.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac1-ac2-b-return-20261029-v1/product-scope-retrospective-replay-v2.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "key-experiment-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac1-ac2-b-return-20261029-v1/product-scope-retrospective-replay-v3.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "key-experiment-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-source-supplement-review-return-20261029-v1/product-v3-pilot-reconstruction-v2.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "key-experiment-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/ac3-generated/semantic-scope-pilot-20261029-v1/analysis.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "key-experiment-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/experiment-a-diverse-candidate-20261029-v1/ai-readiness-summary.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/experiment-a-diverse-candidate-20261029-v1/exploratory-stop-decision.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac1-ac2-b-return-20261029-v1/ac1-paired-comparison.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "key-experiment-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac1-ac2-b-return-20261029-v1/ac2-adjudicated-paired-summary.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "key-experiment-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac1-ac2-b-return-20261029-v1/ac2-consensus-summary.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "key-experiment-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac1-ac2-b-return-20261029-v1/b-consensus-summary.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "key-experiment-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/ac3-generated/b-candidate-fresh-history-pilot-20261030-v1/verification.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "b-fresh-pilot-20261030.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/ac3-generated/b-candidate-fresh-history-pilot-20261030-v1/ai-review-analysis.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "b-fresh-pilot-20261030.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/b-freshness-trace-diagnostic-20261029-v1/analysis.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "b-freshness-trace-diagnostic-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/b-freshness-all-traces-20261029-v1/analysis.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "b-freshness-all-traces-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/b-freshness-all-traces-20261029-v1/candidate-eligibility-replay.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "b-freshness-all-traces-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/b-freshness-all-traces-20261029-v1/candidate-profile-replay.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "b-freshness-all-traces-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/b-freshness-all-traces-20261029-v1/candidate-profile-v2-replay.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "b-freshness-all-traces-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/b-freshness-all-traces-20261029-v1/candidate-live-store-fixture.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "b-freshness-all-traces-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/b-freshness-all-traces-20261029-v1/candidate-budget-boundary.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "b-freshness-all-traces-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/b-freshness-all-traces-20261029-v1/candidate-guard-replay.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "b-freshness-all-traces-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/b-freshness-all-traces-20261029-v1/candidate-guard-limit1.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "b-freshness-all-traces-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/ac3-generated/b-candidate-answer-development-20261029-v1/ai-review-analysis.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "b-candidate-answer-development-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/ac3-generated/paired-authorized-retest-20261029-v1/blind-review/user-confirmation.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "key-experiment-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/ac3-generated/paired-authorized-retest-20261029-v1/paired-analysis.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "key-experiment-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/ac3-generated/paired-authorized-retest-20261029-v1/AC3复测结果说明.md",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "key-experiment-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/ac3-generated/ac1-retest-stage-diagnosis-20261029-v1.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/experiment-a-human-return-20261029-v1/analysis.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "key-experiment-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/four-strategy-review-return-2026-10-29-v1/strategy-summary.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "key-experiment-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/four-strategy-grader-human-comparison-2026-10-29.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/human-return-2026-10-29-ff607492/four-adjudication-user-confirmed.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/human-return-2026-10-29-ff607492/ac3-intake.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/ac3-generated/AC3-ec20077e07ead83925fa38bb/reviews-f76539560dbb8760-c54b47bf9887b74e/summary.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/ac3-generated/AC3-taxonomy-judge-development-v1/aggregate-development.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac3-category-diagnosis-2026-10-29.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac3-paired-development-diagnosis-2026-10-29.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac3-expanded-30-candidate-draft-2026-10-28-v8/",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac3-grounding-human-confirmed-2026-10-28/confirmation-record.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac3-threshold-user-acceptance-2026-10-28.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac3-threshold-selection-user-delegated-2026-10-28.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac3-expanded-primary-frozen-2026-10-28.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac3-expanded-repeat-frozen-2026-10-28.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac3-conflict-revision-draft-2026-10-28-v3/",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac3-conflict-v3-user-confirmed-2026-10-28/confirmation-record.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac3-v3-composite-human-review-2026-10-28/manifest.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-generation-reviewed-summary-2026-10-28-v1.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-generation-adjudicated-summary-2026-10-28-v1.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-uncertain-ai-followup-2026-10-28.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-ai-followup-user-human-confirmation-2026-10-28.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/human-return-2026-10-29-ff607492/ac2-frozen.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/human-return-2026-10-29-ff607492/ac2-output.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac2-paired-review-2026-10-29-v1/审核说明.md",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac1-extraction-reviewed-summary-2026-10-28-v2.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac1-relationship-breakdown-2026-10-29-v4.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac1-reference-fullness-reviewed-summary-2026-10-28.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/reconciliation-user-2026-10-28.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/human-review-independence-user-confirmation-2026-10-28.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/live-current-source-repair-2026-10-28/",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/live-repair-loop-2026-10-28/",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/live-repair-loop-2026-10-28/README.md",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/live-presentation-demo-2026-10-28/",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac4-human-confirmed-intake-2026-10-28/manifest.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/live-extraction-retest-2026-10-28/receipt-summary.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/live-presentation-demo-current-source-2026-10-28/",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/phase4-c-v6-human-review/README.md",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/c-v7-sampling-record-audit-20261030.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "c-v7-sampling-record-audit-20261030.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-delivery/ac1-retrospective-adjudicated-2026-10-28.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-evaluation/assisted-human-return-2026-10-28.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/proposal-evaluation/phase4-review-recheck-2026-10-28.json",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    },
+    {
+      "report_link": "../output/ten-cycle-summary/RESULTS.md",
+      "local_exists": true,
+      "git_tracked": false,
+      "selected_archives": [
+        "report-cited-evidence-20261029.tar.gz"
+      ]
+    }
+  ]
+}

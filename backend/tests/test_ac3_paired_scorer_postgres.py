@@ -9,9 +9,9 @@ from sqlalchemy.orm import Session
 from app.models import TestCaseModel,TargetResponseModel
 from app.services.ac3_paired_scorer_transport import post_once
 from app.target_ai.request_contracts import build_openrouter_request_contract
-from test_ac3_paired_budget_postgres import ledger
+from test_ac3_paired_budget_postgres import ledger as ledger
 from test_ac3_paired_budget_ledger import evidence
-from test_ac3_staging_postgres_isolated import isolated_db
+from test_ac3_staging_postgres_isolated import isolated_db as isolated_db
 
 pytestmark=pytest.mark.skipif(os.environ.get('AC3_DISPOSABLE_POSTGRES_TEST')!='yes',reason='Disposable PostgreSQL only')
 

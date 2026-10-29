@@ -9,13 +9,13 @@ from fastapi import HTTPException
 from sqlalchemy import select
 
 from app.services.formal_freeze import formal_runtime_signature
-from app.test_generator.rule_based import RuleBasedTestGenerator
+from app.test_generator.conflict_aware import ConflictAwareRuleBasedTestGenerator
 
 
 def audit_runtime_signature() -> dict[str, str]:
     return {**formal_runtime_signature(),
             "protocol": "audit-runtime-v1",
-            "generator": RuleBasedTestGenerator.VERSION}
+            "generator": ConflictAwareRuleBasedTestGenerator.VERSION}
 
 
 def assert_audit_runtime_frozen(audit) -> None:

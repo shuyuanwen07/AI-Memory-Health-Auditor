@@ -45,6 +45,8 @@ def test_project_prefix_facts_are_retained_and_isolated():
 def test_lowercase_project_prefix_keeps_the_name_and_never_treats_for_as_a_name():
     from app.services.memory_entities import named_projects
     from app.test_generator.rule_based import RuleBasedTestGenerator
+    from app.test_generator.frozen_quality_filtered_v37 import QualityFilteredRuleBasedTestGenerator as FrozenV37
+    from app.test_generator.quality_filtered import QualityFilteredRuleBasedTestGenerator
     cedar=Memory(memory_id='CEDAR',conversation_id='C',status=MemoryStatus.CONFIRMED,
                  canonical_value='For project Cedar, Java is required.')
     maple=cedar.model_copy(update={'memory_id':'MAPLE','canonical_value':'For project Maple, Rust is required.'})
@@ -52,8 +54,24 @@ def test_lowercase_project_prefix_keeps_the_name_and_never_treats_for_as_a_name(
     assert named_projects('For project Cedar meetings, only Zoom is allowed.')=={'cedar'}
     assert named_projects('For project work, I generally prefer Python.')==set()
     assert not RuleBasedMemoryExtractor()._relationships(maple,[cedar])
-    topic=RuleBasedTestGenerator._scoped_topic(cedar)
+    # Keep the frozen historical generator reproducible; the product version
+    # adds support for the project-name prefix without rewriting that version.
+    assert RuleBasedTestGenerator._scoped_topic(cedar)=='programming-language choice'
+    assert FrozenV37._scoped_topic(cedar)=='programming-language choice'
+    topic=QualityFilteredRuleBasedTestGenerator._scoped_topic(cedar)
     assert topic=='programming-language choice for the Cedar project'
+
+
+def test_current_generator_project_prefix_respects_shared_scope_and_answer_leaks():
+    from app.test_generator.quality_filtered import QualityFilteredRuleBasedTestGenerator as Generator
+    cedar = Memory(memory_id='C1', conversation_id='C', status=MemoryStatus.CONFIRMED,
+                   canonical_value='For project Cedar, Java is required.')
+    same = cedar.model_copy(update={'memory_id':'C2', 'canonical_value':'The Cedar project requires Python.'})
+    other = cedar.model_copy(update={'memory_id':'C3', 'canonical_value':'For project Maple, Rust is required.'})
+    repeated = cedar.model_copy(update={'memory_id':'C4', 'canonical_value':'For project Cedar, the project code is Cedar.'})
+    assert Generator._scoped_topic(cedar, same)=='programming-language choice for the Cedar project'
+    assert 'Cedar project' not in Generator._scoped_topic(cedar, other)
+    assert 'Cedar project' not in Generator._scoped_topic(repeated)
 
 
 def test_shared_project_name_does_not_link_database_to_updated_logs():
