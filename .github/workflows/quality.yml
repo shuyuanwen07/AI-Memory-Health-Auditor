@@ -34,6 +34,26 @@ jobs:
           python-version: '3.12'
       - run: python -m pip install --upgrade pip
       - run: pip install -r requirements.txt
+      - name: Restore isolated backend research fixtures
+        working-directory: .
+        run: |
+          cat research/ci-fixtures/contract-evidence.tar.gz.part-* > research/ci-fixtures/contract-evidence-new.tar.gz
+          (cd research/ci-fixtures && sha256sum -c SHA256SUMS)
+          tar -xzf research/ci-fixtures/contract-evidence-new.tar.gz
+          mkdir -p output/proposal-delivery/ac3-taxonomy-development-tools-2026-10-28
+          cp research/ci-fixtures/taxonomy-development-tools/*.py output/proposal-delivery/ac3-taxonomy-development-tools-2026-10-28/
+          test ! -e /app && test ! -e /output
+          sudo ln -s "$GITHUB_WORKSPACE/backend" /app
+          sudo ln -s "$GITHUB_WORKSPACE/output" /output
+          python - <<'PY' >> "$GITHUB_ENV"
+          import json
+          from pathlib import Path
+          paths = json.loads(Path('output/proposal-delivery/ac3-expanded-primary-frozen-2026-10-28.json').read_text())['source_hashes']
+          roots = {value.split('/output/', 1)[0] for value in paths if value.startswith('/') and '/output/' in value}
+          if len(roots) != 1:
+              raise SystemExit('Frozen source paths have an ambiguous original project root')
+          print('AC3_HOST_PROJECT_ROOT=' + roots.pop())
+          PY
       - run: sh scripts/check.sh
       - name: Verify the Alembic chain upgrades a disposable PostgreSQL database
         env:
