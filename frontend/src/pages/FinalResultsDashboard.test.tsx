@@ -96,6 +96,7 @@ it('loads one saved completed repair audit with ability scores, issues, and evid
   expect(screen.getAllByText('Conflict resolution').length).toBeGreaterThan(0);
   expect(screen.getByRole('img', { name: /Donut chart of decided and uncertain audit outcomes/ })).toBeInTheDocument();
   expect(screen.getByText('Not measured')).toBeInTheDocument();
+  expect(screen.getByText(/Small sample: at least one ability has only one decided question/)).toBeInTheDocument();
   expect(screen.getByRole('link', { name: 'Open full saved audit evidence →' })).toHaveAttribute('href', `/audits/${run.run_id}`);
   expect(screen.getByRole('link', { name: 'Open diagnosis / repair experiment →' })).toHaveAttribute('href', `/experiments/${run.experiment_id}`);
   expect(screen.getByRole('link', { name: 'Open original target run →' })).toHaveAttribute('href', '/audits/RUN87654321');

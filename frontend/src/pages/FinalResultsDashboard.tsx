@@ -210,6 +210,7 @@ function AbilityScoreChart({ dimensions }: { dimensions: Array<{ id: Dimension; 
         <small>{score ? `${score.passed}/${score.total} decided passed` : 'No saved dimension result'}{(score?.uncertain_count ?? 0) > 0 ? ` · ${score?.uncertain_count} uncertain` : ''}</small>
       </li>)}
     </ul>
+    {dimensions.some(({ score }) => score?.total === 1) && <p><small>Small sample: at least one ability has only one decided question. Its percentage is not a reliable overall estimate.</small></p>}
     <figcaption><small>An absent score means the saved audit has no decided evidence for that ability; it is not a zero.</small></figcaption>
   </figure>;
 }
