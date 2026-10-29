@@ -42,9 +42,10 @@ jobs:
           tar -xzf research/ci-fixtures/contract-evidence-new.tar.gz
           mkdir -p output/proposal-delivery/ac3-taxonomy-development-tools-2026-10-28
           cp research/ci-fixtures/taxonomy-development-tools/*.py output/proposal-delivery/ac3-taxonomy-development-tools-2026-10-28/
-          test ! -e /app && test ! -e /output
+          test ! -e /app && test ! -e /output && test ! -e /scripts
           sudo ln -s "$GITHUB_WORKSPACE/backend" /app
           sudo ln -s "$GITHUB_WORKSPACE/output" /output
+          sudo ln -s "$GITHUB_WORKSPACE/scripts" /scripts
           python - <<'PY' >> "$GITHUB_ENV"
           import json
           from pathlib import Path
