@@ -2,7 +2,7 @@
 
 An ELEC5623 full-stack application for auditing how reliably a controlled conversational AI remembers and uses information over time.
 
-It provides consented conversation intake, memory-ground-truth review, controlled weak/strong target configurations, behavioural tests, evidence-backed evaluation, Memory Health scorecards, audit history, and experiment summaries.
+It provides consented conversation intake, memory-ground-truth review, controlled retrieval strategies, behavioural tests, evidence-backed evaluation, Memory Health scorecards, audit history, and experiment summaries.
 
 ## Start
 
@@ -35,8 +35,10 @@ See the [architecture](docs/ARCHITECTURE.md) and
 ## Assessment evidence and handoff
 
 See [requirements and evidence](docs/REQUIREMENTS_TRACEABILITY.txt),
-[the report draft](docs/A2_REPORT_DRAFT.txt), and
+[the experiment report](docs/EXPERIMENT_REPORT_2026-10-28.md), and
 [the remaining human tasks](docs/HUMAN_EVIDENCE_HANDOFF.txt).
+The [final presentation](output/presentation/ELEC5623_AI_Memory_Health_Auditor_Presentation_Final.pptx)
+includes the four-speaker script in its slide notes.
 The research workspace guides proposal A/B/C and general repair validation.
 Independent blind review offers a complete blank source-and-answer download.
 Formal results and actual member contributions require human verification.
@@ -88,7 +90,7 @@ Owner A's [English handoff report](docs/OWNER_A_HANDOFF.md) documents a 20-scena
 
 The **Experiments** page also contains a Research Workspace: permitted local LongMemEval-, LoCoMo- and BEAM-compatible JSON can be validated and run against the deterministic policy baseline; double-annotation pilot packages can be checked for coverage, adjudication and Cohen’s κ; and frozen human labels can be compared with Auditor predictions. Research uploads are request-scoped and never retained as audit history, except the explicit **Formal Synthetic Pilot Matrix** workflow: after a matching ready human double-annotation gate, it can materialise an authorised synthetic release into frozen, paired operational runs for target-model comparison.
 
-Conversation JSON import is lossless for supplied message IDs, roles, content, timestamps and source order. The Dashboard opens saved audit history; each completed run also has a durable `/audits/{run_id}` report URL, while saved experiment groups retain their comparison charts after refresh.
+Conversation JSON import is lossless for supplied message IDs, roles, content, timestamps and source order. The Dashboard summarizes a selected completed audit alongside the preserved A/B/C research outcomes and the four-strategy supplement. History lists saved runs; each completed run also has a durable `/audits/{run_id}` report URL, while saved experiment groups retain their comparison charts after refresh.
 
 The optional benchmark runners use isolated in-memory target-memory simulations and return reproducibility metadata, retrieval evidence, token-level F1 and measured case latency. They do not download, bundle, redistribute, or retain external benchmark data, and their results are **local compatibility results, not official benchmark scores**. Researchers must obtain each source lawfully and comply with its licence, citation, consent and privacy requirements. The research workspace also exposes `no_memory` and `full_context` reference ablations so strategy gains are not interpreted without baselines. See [the API documentation](docs/API.md), [annotation protocol](docs/ANNOTATION_PROTOCOL.md), [formal experiment protocol](docs/FORMAL_EXPERIMENT_PROTOCOL.md) and [development guide](docs/DEVELOPMENT.md).
 

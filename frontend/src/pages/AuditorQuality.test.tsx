@@ -10,7 +10,7 @@ it('does not display fabricated reliability percentages without human labels',as
   const metric={percentage:null,numerator:0,denominator:0,interval_95:null};
   vi.mocked(api.auditorQuality).mockResolvedValue({evaluated:8,decided:8,uncertain:0,resolved_reference_count:0,double_reviewed_count:0,completed_runs:1,scenario_count:1,evidence_status:'not_calibrated',notice:'Human references required.',accuracy:metric,failure_precision:metric,failure_recall:metric,false_positive_rate:metric,review_coverage:metric,decided_reference_count:0,labelled_abstention_rate:metric,failure_classification_accuracy:metric,failure_detection_and_classification_recall:metric,review_queue:[]});
   render(<AuditorQualityPage/>);
-  expect(await screen.findByText(/Human reviews are needed before/)).toBeInTheDocument();
+  expect(await screen.findByText(/Independent reviews are needed before/)).toBeInTheDocument();
   expect(screen.getAllByText('Not measured')).toHaveLength(6);
   expect(screen.queryByText('100.0%')).toBeNull();
 });
@@ -24,7 +24,7 @@ it('shows method errors and separates adjudicated references from ordinary refer
   expect(screen.getByText('False alarms')).toBeInTheDocument();
   expect(screen.getByText('Missed failures')).toBeInTheDocument();
   expect(screen.getByText(/0 references adjudicated/)).toBeInTheDocument();
-  expect(screen.getByText('Some answers have human reviews. Independent validation is still incomplete.')).toBeInTheDocument();
+  expect(screen.getByText('Some answers have reference labels. Independent validation is still incomplete.')).toBeInTheDocument();
   expect(screen.getByText('Different histories are not a controlled comparison.')).toBeInTheDocument();
   expect(screen.getByRole('link',{name:'Latest of 1 audits'})).toHaveAttribute('href','/audits/one');
   fireEvent.click(screen.getByRole('button',{name:'Inspect 1 cases'}));
@@ -69,13 +69,15 @@ it('keeps zero, missing scores and per-measure denominators distinct in the cons
   vi.mocked(api.auditorQuality).mockResolvedValue({evaluated:5,decided:3,uncertain:2,resolved_reference_count:5,double_reviewed_count:0,completed_runs:1,scenario_count:1,evidence_status:'human_references_available',notice:'Different measures use different eligible references.',accuracy:zero,failure_precision:missing,failure_recall:{...zero,percentage:50,numerator:1,denominator:2},false_positive_rate:zero,review_coverage:missing,decided_reference_count:3,labelled_abstention_rate:{...missing,percentage:40,numerator:2,denominator:5},failure_classification_accuracy:missing,failure_detection_and_classification_recall:missing,review_queue:[]});
   render(<AuditorQualityPage/>);
   const chart=await screen.findByRole('img',{name:/Auditor reliability overview/});
-  expect(chart).toHaveAccessibleDescription(/Assessment accuracy: 0.0%; 0 of 3 eligible human reviews/);
-  expect(chart).toHaveAccessibleDescription(/Reported errors confirmed: Not measured; 0 of 0 eligible human reviews/);
-  expect(chart).toHaveAccessibleDescription(/Human errors detected: 50.0%; 1 of 2 eligible human reviews/);
+  expect(chart).toHaveAccessibleDescription(/Reference agreement: 0.0%; 0 of 3 eligible reference labels/);
+  expect(chart).toHaveAccessibleDescription(/Reference-supported failures: Not measured; 0 of 0 eligible reference labels/);
+  expect(chart).toHaveAccessibleDescription(/Reference-labelled failures detected: 50.0%; 1 of 2 eligible reference labels/);
   expect(chart.querySelectorAll('rect')).toHaveLength(3);
   expect(screen.getByRole('region',{name:'Scrollable reliability overview'})).toHaveAttribute('tabindex','0');
   fireEvent.click(screen.getByText('Score definitions, intervals & evidence limits'));
   expect(screen.getAllByText(/95% descriptive interval: 0–70%/)).toHaveLength(3);
+  expect(screen.getByText(/Saved reference labels may be assisted or non-independent/)).toBeInTheDocument();
+  expect(screen.queryByText(/human-confirmed failures/i)).toBeNull();
 });
 
 

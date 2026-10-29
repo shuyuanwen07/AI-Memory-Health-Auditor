@@ -20,6 +20,15 @@ test('existing completed reassessment is reopened without another assessment cal
   expect(mocks.evaluate).not.toHaveBeenCalled();
   expect(mocks.retry).not.toHaveBeenCalled();
 });
+test('offers the validated evidence-based auditor as an explicit choice',async()=>{
+  render(<SavedAnswerReassessment runId="OLD"/>);
+  await userEvent.click(screen.getByRole('button',{name:'Reassess with evidence-based auditor'}));
+  await screen.findByRole('link',{name:'View reassessment result'});
+  expect(mocks.prepareReassessment).toHaveBeenCalledWith('OLD',{
+    evaluator_provider:'openrouter_taxonomy',evaluator_model:'openai/gpt-6-luna',
+  });
+  expect(mocks.evaluate).toHaveBeenCalledWith('NEW');
+});
 test('failed assessment keeps a recovery action instead of showing a result as complete',async()=>{
   mocks.evaluate.mockRejectedValue(new Error('Review service unavailable.'));
   render(<SavedAnswerReassessment runId="OLD"/>);

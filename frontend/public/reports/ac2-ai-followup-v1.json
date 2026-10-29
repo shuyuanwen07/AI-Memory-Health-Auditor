@@ -1,0 +1,38 @@
+{
+  "format": "ac2-ai-followup-public-v1",
+  "status": "human_confirmed_ai_followup",
+  "original_human_adjudicated_structural": {
+    "valid": 8,
+    "invalid": 13,
+    "unresolved": 99,
+    "denominator": 120
+  },
+  "ai_followup_counts": {
+    "uncertain": 75,
+    "invalid": 24
+  },
+  "mixed_structural": {
+    "valid": 8,
+    "invalid": 37,
+    "unresolved": 75,
+    "denominator": 120
+  },
+  "context_source_id_coverage_counts": {
+    "none": 73,
+    "all": 12,
+    "partial": 14
+  },
+  "limitations": [
+    "User reports two people separately reviewed and agreed with the same AI follow-up; this is not independent blind first-pass labelling and identity is not authenticated.",
+    "The follow-up does not overwrite original judgments.",
+    "The retrieval context was reconstructed in isolated SQLite under one frozen target configuration, not observed in the AC2 run.",
+    "A matched source ID is not proof of full semantic coverage or a correct answer; no AC2 model answers were collected."
+  ],
+  "source_sha256": {
+    "human_adjudication": "7eab2a0d8efd9708b8f8614c404e8d638092c745a5cba0ccebf86c07993e311f",
+    "human_adjudicated_summary": "9a1204bf28cdd7dfdf65dc7737eab3c5e2de27b943a01c3d3239f8dde8355b6f",
+    "offline_context": "f8cc4f45f5b898e067bd684e21685683989b7280abdc1bf794b5aa7fece0fccf",
+    "ai_followup": "fb74125775575cacb015173428e576ddbd2706da65e37b0f7ab6ab523b8132e9",
+    "user_confirmation": "8dab525f680850ee362062adc94595c4fcf1c89b2ab0d7ba17059a28306c7ec1"
+  }
+}

@@ -436,13 +436,13 @@ test('chart groups use verified conditions and friendly settings instead of opaq
   const report = {runs,conditions:[]} as unknown as ExperimentAnalytics;
   const separate = calculateExperimentStatistics(experimentChartRuns(report));
   expect(separate.map(group=>group.overallAverage)).toEqual([25,75]);
-  expect(separate.every(group=>group.label.includes('First matching memory'))).toBe(true);
+  expect(separate.every(group=>group.label.includes('First-match retrieval'))).toBe(true);
   expect(separate.every(group=>!group.label.includes('RUN-'))).toBe(true);
-  report.conditions = [{condition_id:'verified-id',label:'Weak First Hit · RUN-INTERNAL',run_ids:['RUN-0','RUN-1']}] as ExperimentAnalytics['conditions'];
+  report.conditions = [{condition_id:'verified-id',label:'First-match retrieval · RUN-INTERNAL',run_ids:['RUN-0','RUN-1']}] as ExperimentAnalytics['conditions'];
   const repeated = calculateExperimentStatistics(experimentChartRuns(report));
   expect(repeated).toHaveLength(1);
   expect(repeated[0].overallAverage).toBe(50);
-  expect(repeated[0].label).toBe('qwen3:1.7b · First matching memory');
+  expect(repeated[0].label).toBe('qwen3:1.7b · First-match retrieval');
 });
 
 test.each(['low','medium'] as const)('shows saved optional %s reasoning request without calling it measured effort',async effort=>{

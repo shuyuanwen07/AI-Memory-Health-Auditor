@@ -176,6 +176,27 @@ def test_llm_extractor_rejects_a_source_message_id_as_memory_content():
     assert stage["output_data"] is None
 
 
+def test_extractor_requests_separate_source_bound_relationship_endpoints():
+    from app.extraction.llm_extractor import LLMMemoryExtractor
+    now = datetime(2026, 1, 1, tzinfo=timezone.utc)
+    conversation = Conversation(conversation_id="C-SYN", created_at=now, authorised=True,
+        messages=[ConversationMessage(message_id="SYN001", role="user", timestamp=now,
+            content="I usually use paper notes. For this project, I must use encrypted notes.")])
+    class Client:
+        def complete_json(self, **request):
+            self.request = request
+            return {"memories": [
+                {"memory_id":"M001", "canonical_value":"I usually use paper notes.", "source_message_refs":[1], "timestamp":None, "confidence":0.9},
+                {"memory_id":"M002", "canonical_value":"For this project, I must use encrypted notes.", "source_message_refs":[1], "timestamp":None, "confidence":0.9},
+            ]}
+    client = Client()
+    memories = LLMMemoryExtractor(client=client).extract(conversation)
+    assert client.request['prompt_template_version'] == 'memory-extraction-agent-v12'
+    assert 'each side separately even if both appear in one message' in client.request['instructions']
+    assert 'Do not invent a second side' in client.request['instructions']
+    assert len(memories) == 2 and all(m.source_message_ids == ['SYN001'] for m in memories)
+
+
 def test_llm_extractor_reports_safe_contract_error_paths():
     from app.extraction.llm_extractor import LLMMemoryExtractor, _EXTRACTION_SCHEMA
 
@@ -432,6 +453,44 @@ def _coverage_memories():
     ]
 
 
+def test_question_quota_redistributes_slots_when_one_ability_has_limited_evidence():
+    from app.test_generator.agent import AgentTestGenerator
+
+    available = {
+        Dimension.ACCURACY: 6,
+        Dimension.FRESHNESS: 2,
+        Dimension.CONFLICT_RESOLUTION: 1,
+        Dimension.APPROPRIATE_USE: 2,
+    }
+    quotas = AgentTestGenerator._dimension_quotas(8, available)
+
+    assert quotas == {
+        Dimension.ACCURACY: 3,
+        Dimension.FRESHNESS: 2,
+        Dimension.CONFLICT_RESOLUTION: 1,
+        Dimension.APPROPRIATE_USE: 2,
+    }
+    assert sum(quotas.values()) == 8
+    assert all(quotas[dimension] >= 1 for dimension in Dimension)
+    assert all(quotas[dimension] <= available[dimension] for dimension in Dimension)
+
+
+def test_unfundable_requested_count_fails_before_calling_coverage_planner():
+    from app.test_generator.agent import AgentTestGenerator
+
+    available = {dimension: 1 for dimension in Dimension}
+    quotas = AgentTestGenerator._dimension_quotas(8, available)
+    generator = AgentTestGenerator(client=object(), reviewer_client=object(), planner_client=object())
+    generator._coverage_seed_inventory = lambda *_args, **_kwargs: ([], quotas, available)
+    generator._build_coverage_plan = lambda *_args, **_kwargs: pytest.fail("Planner must not run when evidence cannot fund the requested count")
+
+    with pytest.raises(PipelineRequestError, match="supports only 4 distinct planned questions"):
+        generator.generate([], _audit().model_copy(update={"test_budget": 8}))
+
+    assert generator.last_observation["coverage_gate"]["status"] == "failed"
+    assert generator.last_observation["coverage_gate"]["available_planned_question_count"] == 4
+
+
 def _coverage_payload(dimensions):
     return {"tests": [{"dimension": dimension, "prompt": f"Which recorded fact applies for {dimension}?",
                        "expected_behavior": "Use the confirmed source fact and temporal relationship.",
@@ -564,6 +623,9 @@ def test_generic_recall_on_freshness_slot_routes_through_bounded_semantic_repair
         Memory(memory_id="M2", conversation_id="C1", canonical_value="The backend now uses PostgreSQL.", status="confirmed",
                relationships=[MemoryRelationship(type="UPDATE", target_memory_id="M1")]),
         Memory(memory_id="M3", conversation_id="C1", canonical_value="The user is based in Sydney.", status="confirmed"),
+        Memory(memory_id="M4", conversation_id="C1", canonical_value="The user generally prefers Python.", status="confirmed"),
+        Memory(memory_id="M5", conversation_id="C1", canonical_value="The Harbour project requires Java.", status="confirmed",
+               relationships=[MemoryRelationship(type="CONTEXTUAL_OVERRIDE", target_memory_id="M4")]),
     ]
     update_signature = [{"source_memory_id": "M2", "type": "UPDATE", "target_memory_id": "M1"}]
     plan = [
@@ -579,11 +641,25 @@ def test_generic_recall_on_freshness_slot_routes_through_bounded_semantic_repair
             "relationship_types": [], "relationship_signatures": [],
             "intent": "Recall one confirmed fact accurately.",
         },
+        {
+            "slot": 3, "planner_candidate_id": "S003", "dimension": "conflict_resolution",
+            "test_type": "indirect", "supporting_memory_ids": ["M1", "M2"],
+            "relationship_types": ["UPDATE"], "relationship_signatures": update_signature,
+            "intent": "Apply the current record over its explicitly replaced historical record.",
+        },
+        {
+            "slot": 4, "planner_candidate_id": "S004", "dimension": "appropriate_use",
+            "test_type": "paraphrased", "supporting_memory_ids": ["M4", "M5"],
+            "relationship_types": ["CONTEXTUAL_OVERRIDE"], "relationship_signatures": [{
+                "source_memory_id": "M5", "type": "CONTEXTUAL_OVERRIDE", "target_memory_id": "M4",
+            }],
+            "intent": "Apply a scoped requirement without replacing the general preference.",
+        },
     ]
 
-    def candidate(test_id, dimension, prompt, expected, support):
+    def candidate(test_id, dimension, prompt, expected, support, test_type="contextual"):
         return TestCase(
-            test_id=test_id, run_id="RUN001", dimension=dimension,
+            test_id=test_id, run_id="RUN001", dimension=dimension, test_type=test_type,
             prompt=prompt, expected_behavior=expected, supporting_memory_ids=support,
             generator_version="fixture",
         )
@@ -600,6 +676,16 @@ def test_generic_recall_on_freshness_slot_routes_through_bounded_semantic_repair
         "T001", Dimension.FRESHNESS,
         "Which database value is current, and what earlier value did it replace?",
         "PostgreSQL is current and replaces MySQL.", ["M1", "M2"],
+    )
+    conflict_resolution = candidate(
+        "T003", Dimension.CONFLICT_RESOLUTION,
+        "Which database value applies now, and which earlier value did it replace?",
+        "PostgreSQL applies now and replaces MySQL.", ["M1", "M2"], "indirect",
+    )
+    appropriate_use = candidate(
+        "T004", Dimension.APPROPRIATE_USE,
+        "For the Harbour project, which programming language should be used?",
+        "Use Java for Harbour and retain Python as the general preference elsewhere.", ["M4", "M5"], "paraphrased",
     )
 
     class Reviewer:
@@ -623,7 +709,7 @@ def test_generic_recall_on_freshness_slot_routes_through_bounded_semantic_repair
 
     reviewer = Reviewer()
     generator = AgentTestGenerator(client=object(), reviewer_client=reviewer, planner_client=object())
-    generator._build_coverage_plan = lambda _memories, _audit: plan
+    generator._build_coverage_plan = lambda _memories, _audit, **_kwargs: plan
     generator._agent_observation = None
 
     def generate_round(_memories, _audit, stage, *, generation_context=None):
@@ -631,12 +717,14 @@ def test_generic_recall_on_freshness_slot_routes_through_bounded_semantic_repair
             return [generic_recall]
         if stage == "initial_slot_2":
             return [accurate_recall]
+        if stage == "initial_slot_3":
+            return [conflict_resolution]
+        if stage == "initial_slot_4":
+            return [appropriate_use]
         if stage == "semantic_quality_repair":
             assert generator._active_coverage_plan[0]["relationship_signatures"] == update_signature
             assert generator._active_coverage_plan[0]["intent"] == plan[0]["intent"]
             return [corrected_freshness]
-        if stage == "quantity_fill":
-            return []
         raise AssertionError(f"Unexpected generator stage: {stage}")
 
     generator._generate_round = generate_round
@@ -730,6 +818,9 @@ def test_repeated_slot_alignment_mismatch_fails_closed_after_bounded_repairs():
         Memory(memory_id="M2", conversation_id="C1", canonical_value="The backend now uses PostgreSQL.", status="confirmed",
                relationships=[MemoryRelationship(type="UPDATE", target_memory_id="M1")]),
         Memory(memory_id="M3", conversation_id="C1", canonical_value="The user is based in Sydney.", status="confirmed"),
+        Memory(memory_id="M4", conversation_id="C1", canonical_value="The user generally prefers Python.", status="confirmed"),
+        Memory(memory_id="M5", conversation_id="C1", canonical_value="The Harbour project requires Java.", status="confirmed",
+               relationships=[MemoryRelationship(type="CONTEXTUAL_OVERRIDE", target_memory_id="M4")]),
     ]
     slot = {
         "slot": 1, "dimension": "freshness", "test_type": "contextual",
@@ -741,6 +832,16 @@ def test_repeated_slot_alignment_mismatch_fails_closed_after_bounded_repairs():
         "slot": 2, "dimension": "accuracy", "test_type": "contextual",
         "supporting_memory_ids": ["M3"], "relationship_types": [], "relationship_signatures": [],
         "intent": "Recall one confirmed fact accurately.",
+    }, {
+        "slot": 3, "dimension": "conflict_resolution", "test_type": "indirect",
+        "supporting_memory_ids": ["M1", "M2"], "relationship_types": ["UPDATE"],
+        "relationship_signatures": [{"source_memory_id": "M2", "type": "UPDATE", "target_memory_id": "M1"}],
+        "intent": "Apply the current record over its explicitly replaced historical record.",
+    }, {
+        "slot": 4, "dimension": "appropriate_use", "test_type": "paraphrased",
+        "supporting_memory_ids": ["M4", "M5"], "relationship_types": ["CONTEXTUAL_OVERRIDE"],
+        "relationship_signatures": [{"source_memory_id": "M5", "type": "CONTEXTUAL_OVERRIDE", "target_memory_id": "M4"}],
+        "intent": "Apply a scoped requirement without replacing the general preference.",
     }]
     bad = TestCase(
         test_id="T001", run_id="RUN001", dimension=Dimension.FRESHNESS,
@@ -754,7 +855,7 @@ def test_repeated_slot_alignment_mismatch_fails_closed_after_bounded_repairs():
     )
     replacement_calls = []
     generator = AgentTestGenerator(client=object(), reviewer_client=object(), planner_client=object())
-    generator._build_coverage_plan = lambda _memories, _audit: plan
+    generator._build_coverage_plan = lambda _memories, _audit, **_kwargs: plan
     generator._review_semantic_intent = lambda _tests, _memories, _plan: {
         "duplicate_pairs": [],
         "quality_findings": [{
@@ -770,6 +871,18 @@ def test_repeated_slot_alignment_mismatch_fails_closed_after_bounded_repairs():
             return [bad]
         if stage == "initial_slot_2":
             return [accurate]
+        if stage == "initial_slot_3":
+            return [TestCase(test_id="T003", run_id="RUN001", dimension=Dimension.CONFLICT_RESOLUTION,
+                             test_type="indirect",
+                             prompt="Which database value applies now, and which earlier value did it replace?",
+                             expected_behavior="PostgreSQL applies now and replaces MySQL.",
+                             supporting_memory_ids=["M1", "M2"], generator_version="fixture")]
+        if stage == "initial_slot_4":
+            return [TestCase(test_id="T004", run_id="RUN001", dimension=Dimension.APPROPRIATE_USE,
+                             test_type="paraphrased",
+                             prompt="For the Harbour project, which programming language should be used?",
+                             expected_behavior="Use Java for Harbour and retain Python as the general preference elsewhere.",
+                             supporting_memory_ids=["M4", "M5"], generator_version="fixture")]
         if stage == "semantic_quality_repair":
             replacement_calls.append(generator._active_coverage_plan[0])
             return [bad]

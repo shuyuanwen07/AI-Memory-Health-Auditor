@@ -1,0 +1,33 @@
+{
+  "format": "category-gate-summary-v1",
+  "development": {
+    "original": {
+      "correct": 11,
+      "incorrect": 2,
+      "total": 13
+    },
+    "candidate": {
+      "correct": 11,
+      "incorrect": 0,
+      "unclassified": 2,
+      "total": 13
+    }
+  },
+  "historical_check": {
+    "original": {
+      "correct": 18,
+      "incorrect": 0
+    },
+    "candidate": {
+      "correct": 17,
+      "incorrect": 0,
+      "unclassified": 1
+    }
+  },
+  "deployed": false,
+  "prospective_held_out": false,
+  "source_sha256": [
+    "30a8c0b81e583e56bf2aa8d642f8b978569103d0ee71fbe5c27224f9497f1cf7",
+    "42f9856ec8a6a7986f3f5fabfa49c7dfa53715413838abe11d3d98bcd162f0c1"
+  ]
+}

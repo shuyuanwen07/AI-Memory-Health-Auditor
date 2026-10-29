@@ -31,8 +31,8 @@ function ratioPercent(value: unknown): string {
 }
 
 function armName(arm: string): string {
-  if (arm === 'weak_first_hit') return 'Weak · first matching memory';
-  if (arm === 'strong_rule_based') return 'Strong · rule-based memory';
+  if (arm === 'weak_first_hit') return 'First-match retrieval';
+  if (arm === 'strong_rule_based') return 'Relationship-priority retrieval';
   return arm;
 }
 
@@ -168,9 +168,9 @@ const GATE_LABELS: Record<string, string> = {
   final_case_source_safety: 'All benchmark replies source review',
   actual_memory_preparation: 'Saved memory decisions and replay',
   three_grade_unanimity: 'Agreement across three rounds',
-  Strong_round_correct_range: 'Strong results across rounds',
-  Strong_mean_accuracy: 'Strong average accuracy',
-  Strong_at_least_Weak: 'Strong compared with Weak',
+  Strong_round_correct_range: 'Target condition results across rounds',
+  Strong_mean_accuracy: 'Target condition average accuracy',
+  Strong_at_least_Weak: 'Target condition compared with baseline',
   auxiliary_validation_coverage: 'Auxiliary output validation coverage',
   frozen_protocol_binding: 'Frozen protocol consistency',
 };
@@ -293,7 +293,7 @@ function AuxiliaryReport({ evidence, protocol }: { evidence: unknown; protocol: 
   if (!isRecord(stages)) return null;
   return <section className="stability-package-meta"><h5>Auxiliary identity suggestions</h5>
     <p>Validated means the saved output contract and source-quote checks passed. It does not prove that an identity relationship is semantically true.</p>
-    <p>Strong is the whole preregistered condition that can use accepted identity suggestions or continue without them. It does not isolate retrieval or have equal total call cost. Grades for valid and degraded subgroups are descriptive comparisons.</p>
+    <p>The target condition is the whole preregistered condition and can use operator-accepted identity suggestions or continue without them. This study therefore does not isolate retrieval or hold total call cost equal. Grades for valid and degraded subgroups are descriptive comparisons.</p>
     <p>Rejected suggestions are never counted as validated. Each required stage must independently meet its auxiliary coverage gate; unknown states and unexpected calls fail it. Source safety clearance requires a completed review with zero critical errors; pending or failed reviews do not provide clearance. Every final answer with rejected suggestions still requires source safety review.</p>
     {Object.entries(stages).map(([name, summary]) => {
       const total = field(summary, 'total');

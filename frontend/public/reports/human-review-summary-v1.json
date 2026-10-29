@@ -1,0 +1,21 @@
+{
+  "format": "human-review-summary-v1",
+  "baseline_items": 686,
+  "agreement": 612,
+  "uncertain": 71,
+  "disagreement": 3,
+  "additional_fact_disagreements": 3,
+  "v7_items": 360,
+  "v7_both_reviewed": 0,
+  "human_review_confirmed_by_user": true,
+  "distinct_reviewers_confirmed_by_user": true,
+  "independence_confirmed_by_user": true,
+  "independence_declarations_in_original_files_conflict": true,
+  "source_sha256": {
+    "baseline": "94613753b896cbf48fb71a4d9d0484ece3eb4860dd9ade5ae7d560b61862807a",
+    "combined": "dcd6e405e85ede11d73f57be4b6be8cbb17f15dbfe11abb7f74bc780b9e105b2",
+    "confirmation": "668ca76dda835a608b311fe6aa61854cf8ed8bd241d4c562a61be43e3e132d5f",
+    "distinct_confirmation": "f69e61496445bb30b9b657788858cae6be75ae0f9756723d322d625876830edd",
+    "independence_confirmation": "31c1681bd29ef6c2d783d2cf5dd9221027f0cf9b71a05275644bb219cdf0ab76"
+  }
+}

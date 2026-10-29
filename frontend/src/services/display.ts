@@ -83,8 +83,8 @@ export function auditDisplayNames(runs: AuditRun[]) {
 
 export function memoryStrategyLabel(strategy: AuditRun['memory_strategy']) {
   const labels: Record<AuditRun['memory_strategy'],string> = {
-    weak_first_hit: 'First matching memory', scope_aware: 'Match the task and project',
-    strong_score_based: 'Rank memories by relevance', strong_rule_based: 'Prioritise requirements and updates',
+    weak_first_hit: 'First-match retrieval', scope_aware: 'Match the task and project',
+    strong_score_based: 'Rank memories by relevance', strong_rule_based: 'Relationship-priority retrieval',
     temporal_importance: 'Consider time and importance', full_context: 'Replay all retained memories',
     no_memory: 'Supply no memories',
   };

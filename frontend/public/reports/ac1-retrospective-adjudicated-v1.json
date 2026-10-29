@@ -1,0 +1,27 @@
+{
+  "format": "ac1-retrospective-adjudicated-v1",
+  "scope": "Three related synthetic histories; retrospective user-confirmed, AI-assisted adjudication",
+  "candidate_valid": {
+    "numerator": 27,
+    "denominator": 27,
+    "agreed_original": 21,
+    "later_adjudicated": 6
+  },
+  "reference_coverage": {
+    "full": 18,
+    "partial": 6,
+    "total": 24
+  },
+  "limitations": [
+    "Six candidate approvals require the original source context; they are not all standalone memories.",
+    "The reference catalogue is not known to be exhaustive; full coverage among listed units is not population recall.",
+    "Later adjudication was AI-assisted and exposed to previous judgments; independence and reviewer identity are not authenticated.",
+    "These counts do not establish AC1 acceptance and do not replace the earlier preserved result."
+  ],
+  "source_sha256": {
+    "reconciliation": "94613753b896cbf48fb71a4d9d0484ece3eb4860dd9ade5ae7d560b61862807a",
+    "suggestion": "36b6d7d74c2831015560ab609c45ea1159cb5b971b5bce802a39c893fb9eeefc",
+    "user_confirmation": "7420b2fb895e659098724849cffbbe70cf99cab37368040a62f87470ccfdf739",
+    "packet": "a5c7469699019ea67acad60828d5963bc10ef379dbb0ce42871b4bcfc305a38f"
+  }
+}

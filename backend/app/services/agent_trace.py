@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 import hashlib
+from decimal import Decimal, InvalidOperation
 import json
 import re
 from typing import Any
@@ -79,6 +80,16 @@ def record_agent_execution(
         value = receipt.get(field, receipt.get("reported_" + field))
         if type(value) is int and 0 <= value <= 10_000_000:
             diagnostics[field] = value
+    # Store only the provider's explicit, non-negative numeric report; missing
+    # or malformed costs stay unknown and must not be treated as free calls.
+    reported_cost = receipt.get('reported_cost_usd')
+    if isinstance(reported_cost, str) and len(reported_cost) <= 64:
+        try:
+            amount = Decimal(reported_cost)
+            if amount.is_finite() and 0 <= amount <= 1_000_000:
+                diagnostics['reported_cost_usd'] = str(amount)
+        except InvalidOperation:
+            pass
     completion_status = receipt.get("completion_status")
     if isinstance(completion_status, str) and completion_status in {"complete", "truncated"}:
         diagnostics["completion_status"] = completion_status

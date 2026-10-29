@@ -1,0 +1,398 @@
+{
+  "format": "phase4-c-four-strategy-v7",
+  "study_id": "phase4-c-four-strategy-v7",
+  "generated_at": "2026-10-28T05:25:52.430496+00:00",
+  "protocol_id": "phase4-c-openrouter-gpt6-luna-four-arm-20261028-v7",
+  "protocol_sha256": "2eb4eacb17da0d8765cfef6177e9c14a99a179730d2462806a487654fe977441",
+  "run_sha256": "a38edc5dfd7459163ff7a6fa3182be1598fab8c8aee4379679510ad162dbc15b",
+  "source_revision": "98d7416c24c778c2fee6e6f3006e7a073259d48f",
+  "collection_status": "complete_automatic_collection",
+  "collection_complete": true,
+  "complete_for_decision": false,
+  "pacing_status": "utc_timing_unverifiable",
+  "case_count": 30,
+  "repetitions": 3,
+  "total_target_answers": 360,
+  "total_usable_grades": 360,
+  "estimated_cost_usd": 0.3797702,
+  "usage_based_cost_estimate_usd": 0.3797702,
+  "request_dispatches": 720,
+  "recommended_strategy": "no_clear_winner",
+  "decision_rule": "Recommend one strategy only when the collection is complete, that strategy has the unique highest pooled strict pass rate, and it beats each of the other three strategies in at least 2 of 3 repetition-level comparisons; otherwise report no clear winner.",
+  "strategies": [
+    {
+      "id": "weak_first_hit",
+      "label": "First-match retrieval",
+      "correct": 19,
+      "total": 90,
+      "accuracy_percent": 21.1111,
+      "per_repetition": [
+        {
+          "repetition": 1,
+          "correct": 6,
+          "total": 30,
+          "accuracy_percent": 20.0
+        },
+        {
+          "repetition": 2,
+          "correct": 7,
+          "total": 30,
+          "accuracy_percent": 23.3333
+        },
+        {
+          "repetition": 3,
+          "correct": 6,
+          "total": 30,
+          "accuracy_percent": 20.0
+        }
+      ],
+      "categories": [
+        {
+          "category": "abstention",
+          "correct": 12,
+          "total": 12,
+          "accuracy_percent": 100.0
+        },
+        {
+          "category": "knowledge-update",
+          "correct": 3,
+          "total": 12,
+          "accuracy_percent": 25.0
+        },
+        {
+          "category": "multi-session",
+          "correct": 0,
+          "total": 15,
+          "accuracy_percent": 0.0
+        },
+        {
+          "category": "single-session-assistant",
+          "correct": 1,
+          "total": 12,
+          "accuracy_percent": 8.3333
+        },
+        {
+          "category": "single-session-preference",
+          "correct": 0,
+          "total": 12,
+          "accuracy_percent": 0.0
+        },
+        {
+          "category": "single-session-user",
+          "correct": 3,
+          "total": 12,
+          "accuracy_percent": 25.0
+        },
+        {
+          "category": "temporal-reasoning",
+          "correct": 0,
+          "total": 15,
+          "accuracy_percent": 0.0
+        }
+      ]
+    },
+    {
+      "id": "strong_rule_based",
+      "label": "Relationship-priority retrieval",
+      "correct": 64,
+      "total": 90,
+      "accuracy_percent": 71.1111,
+      "per_repetition": [
+        {
+          "repetition": 1,
+          "correct": 21,
+          "total": 30,
+          "accuracy_percent": 70.0
+        },
+        {
+          "repetition": 2,
+          "correct": 22,
+          "total": 30,
+          "accuracy_percent": 73.3333
+        },
+        {
+          "repetition": 3,
+          "correct": 21,
+          "total": 30,
+          "accuracy_percent": 70.0
+        }
+      ],
+      "categories": [
+        {
+          "category": "abstention",
+          "correct": 12,
+          "total": 12,
+          "accuracy_percent": 100.0
+        },
+        {
+          "category": "knowledge-update",
+          "correct": 12,
+          "total": 12,
+          "accuracy_percent": 100.0
+        },
+        {
+          "category": "multi-session",
+          "correct": 0,
+          "total": 15,
+          "accuracy_percent": 0.0
+        },
+        {
+          "category": "single-session-assistant",
+          "correct": 12,
+          "total": 12,
+          "accuracy_percent": 100.0
+        },
+        {
+          "category": "single-session-preference",
+          "correct": 12,
+          "total": 12,
+          "accuracy_percent": 100.0
+        },
+        {
+          "category": "single-session-user",
+          "correct": 12,
+          "total": 12,
+          "accuracy_percent": 100.0
+        },
+        {
+          "category": "temporal-reasoning",
+          "correct": 4,
+          "total": 15,
+          "accuracy_percent": 26.6667
+        }
+      ]
+    },
+    {
+      "id": "scope_aware",
+      "label": "Match the task and project",
+      "correct": 55,
+      "total": 90,
+      "accuracy_percent": 61.1111,
+      "per_repetition": [
+        {
+          "repetition": 1,
+          "correct": 18,
+          "total": 30,
+          "accuracy_percent": 60.0
+        },
+        {
+          "repetition": 2,
+          "correct": 19,
+          "total": 30,
+          "accuracy_percent": 63.3333
+        },
+        {
+          "repetition": 3,
+          "correct": 18,
+          "total": 30,
+          "accuracy_percent": 60.0
+        }
+      ],
+      "categories": [
+        {
+          "category": "abstention",
+          "correct": 12,
+          "total": 12,
+          "accuracy_percent": 100.0
+        },
+        {
+          "category": "knowledge-update",
+          "correct": 9,
+          "total": 12,
+          "accuracy_percent": 75.0
+        },
+        {
+          "category": "multi-session",
+          "correct": 0,
+          "total": 15,
+          "accuracy_percent": 0.0
+        },
+        {
+          "category": "single-session-assistant",
+          "correct": 10,
+          "total": 12,
+          "accuracy_percent": 83.3333
+        },
+        {
+          "category": "single-session-preference",
+          "correct": 12,
+          "total": 12,
+          "accuracy_percent": 100.0
+        },
+        {
+          "category": "single-session-user",
+          "correct": 9,
+          "total": 12,
+          "accuracy_percent": 75.0
+        },
+        {
+          "category": "temporal-reasoning",
+          "correct": 3,
+          "total": 15,
+          "accuracy_percent": 20.0
+        }
+      ]
+    },
+    {
+      "id": "temporal_importance",
+      "label": "Consider time and importance",
+      "correct": 56,
+      "total": 90,
+      "accuracy_percent": 62.2222,
+      "per_repetition": [
+        {
+          "repetition": 1,
+          "correct": 19,
+          "total": 30,
+          "accuracy_percent": 63.3333
+        },
+        {
+          "repetition": 2,
+          "correct": 18,
+          "total": 30,
+          "accuracy_percent": 60.0
+        },
+        {
+          "repetition": 3,
+          "correct": 19,
+          "total": 30,
+          "accuracy_percent": 63.3333
+        }
+      ],
+      "categories": [
+        {
+          "category": "abstention",
+          "correct": 11,
+          "total": 12,
+          "accuracy_percent": 91.6667
+        },
+        {
+          "category": "knowledge-update",
+          "correct": 9,
+          "total": 12,
+          "accuracy_percent": 75.0
+        },
+        {
+          "category": "multi-session",
+          "correct": 0,
+          "total": 15,
+          "accuracy_percent": 0.0
+        },
+        {
+          "category": "single-session-assistant",
+          "correct": 12,
+          "total": 12,
+          "accuracy_percent": 100.0
+        },
+        {
+          "category": "single-session-preference",
+          "correct": 12,
+          "total": 12,
+          "accuracy_percent": 100.0
+        },
+        {
+          "category": "single-session-user",
+          "correct": 9,
+          "total": 12,
+          "accuracy_percent": 75.0
+        },
+        {
+          "category": "temporal-reasoning",
+          "correct": 3,
+          "total": 15,
+          "accuracy_percent": 20.0
+        }
+      ]
+    }
+  ],
+  "pairwise": [
+    {
+      "left": "weak_first_hit",
+      "right": "strong_rule_based",
+      "left_only": 0,
+      "right_only": 45,
+      "both": 19,
+      "neither": 26,
+      "total": 90,
+      "left_accuracy_percent": 21.1111,
+      "right_accuracy_percent": 71.1111,
+      "difference_pp": -50.0
+    },
+    {
+      "left": "weak_first_hit",
+      "right": "scope_aware",
+      "left_only": 0,
+      "right_only": 36,
+      "both": 19,
+      "neither": 35,
+      "total": 90,
+      "left_accuracy_percent": 21.1111,
+      "right_accuracy_percent": 61.1111,
+      "difference_pp": -40.0
+    },
+    {
+      "left": "weak_first_hit",
+      "right": "temporal_importance",
+      "left_only": 1,
+      "right_only": 38,
+      "both": 18,
+      "neither": 33,
+      "total": 90,
+      "left_accuracy_percent": 21.1111,
+      "right_accuracy_percent": 62.2222,
+      "difference_pp": -41.1111
+    },
+    {
+      "left": "strong_rule_based",
+      "right": "scope_aware",
+      "left_only": 9,
+      "right_only": 0,
+      "both": 55,
+      "neither": 26,
+      "total": 90,
+      "left_accuracy_percent": 71.1111,
+      "right_accuracy_percent": 61.1111,
+      "difference_pp": 10.0
+    },
+    {
+      "left": "strong_rule_based",
+      "right": "temporal_importance",
+      "left_only": 8,
+      "right_only": 0,
+      "both": 56,
+      "neither": 26,
+      "total": 90,
+      "left_accuracy_percent": 71.1111,
+      "right_accuracy_percent": 62.2222,
+      "difference_pp": 8.8889
+    },
+    {
+      "left": "scope_aware",
+      "right": "temporal_importance",
+      "left_only": 1,
+      "right_only": 2,
+      "both": 54,
+      "neither": 33,
+      "total": 90,
+      "left_accuracy_percent": 61.1111,
+      "right_accuracy_percent": 62.2222,
+      "difference_pp": -1.1111
+    }
+  ],
+  "limitations": [
+    "This reuses the existing v6 30 cases; it is a local exploratory four-arm replay, not a fresh sample or the complete official benchmark.",
+    "New question IDs and frozen evidence-session identifiers do not guarantee statistical independence; shared filler sessions or scenario themes may remain correlated.",
+    "The controlled-memory reader and app adapter are not the official LongMemEval execution stack.",
+    "The upstream prompt is paired with an OpenRouter GPT-6 Luna judge; this is not the benchmark's official metric model or independent human calibration.",
+    "Provider seed is recorded but not enforced; scores are automatic and do not establish Auditor validity or generalisation.",
+    "The historic v5 run used a different collection period/source-code snapshot; any 44-case combined summary is secondary and is never pooled into the v7 winner rule.",
+    "The v7 comparison replays prior v6 histories whose outcomes were already observed; it is exploratory and not independent confirmation.",
+    "Three repetitions per case are repeated measurements, not additional histories.",
+    "GPT-6 Luna supplies both target outputs and automatic scorer decisions; these are not independent human labels or an official benchmark score.",
+    "Any incomplete collection or unusable automatic grade prevents a winner recommendation.",
+    "A model winner on these local cases does not alone establish Auditor real-world value or correctness.",
+    "The raw UTC pacing journal includes an interval below the frozen timing threshold. No monotonic timestamps were persisted, so actual request spacing and the cause of the UTC discrepancy cannot be independently determined. Scores are descriptive only; no winner recommendation is allowed.",
+    "The pacing addendum preserves the raw UTC timestamps; no monotonic trace was saved, so pacing compliance and the cause of the discrepancy remain unverified. No strategy winner is declared."
+  ],
+  "pacing_addendum_sha256": "a490933f7ada873cf203434a79eb190d75dc83eaf0bb4f948a78676a70353052"
+}

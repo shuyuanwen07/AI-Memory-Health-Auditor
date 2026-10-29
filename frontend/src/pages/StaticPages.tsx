@@ -14,6 +14,8 @@ import { TestSuiteReview } from '../components/TestSuiteReview';
 import type { TestCase } from '../types/domain';
 import { ResearchValidation } from '../components/ResearchValidation';
 import { PairedOutcomeOverview } from '../components/PairedOutcomeOverview';
+import { ReviewedMethodComparison } from '../components/ReviewedMethodComparison';
+import type { ExperimentStatisticsRun } from '../components/ExperimentStatistics';
 
 const ComparisonVisualizations = lazy(() => import('../components/ResultVisualizations').then((module) => ({ default: module.ComparisonVisualizations })));
 
@@ -319,8 +321,8 @@ function strategyExplanation(strategy: AuditRun['memory_strategy']) {
   const descriptions: Record<AuditRun['memory_strategy'], string> = {
     no_memory: 'Answers without stored memories.',
     full_context: 'Replays retained current facts and unresolved conflicts. Replaced historical facts may be excluded; check the saved model input.',
-    weak_first_hit: 'Uses the first matching memory.',
-    strong_rule_based: 'Selects memories using predefined rules.',
+    weak_first_hit: 'Uses the first matching memory (First-match retrieval).',
+    strong_rule_based: 'Prioritises related facts, updates and conflicts (Relationship-priority retrieval).',
     strong_score_based: 'Ranks memories by relevance and other scoring signals.',
     scope_aware: 'Selects memories for the relevant project or context.',
     temporal_importance: 'Considers relevance, time and importance when selecting memories.',
@@ -415,6 +417,7 @@ function ExperimentHistoryCard({ experiment, report, reportError, onRetryReport,
         <span>{condition.completed_runs} of {condition.planned_runs} runs complete</span>
       </div>)}</div></UIPanel>}
       {visualRuns.length > 0 && <Suspense fallback={<p className="chart-loading" role="status">Loading result charts…</p>}><ComparisonVisualizations runs={visualRuns} compact singleSetting={report.conditions.length === 1} /></Suspense>}
+      {report.conditions.length === 2 && visualRuns.length > 1 && <ReferenceReviewedExperimentView runs={visualRuns} />}
       <RunReports runs={report.runs} />
       <UIPanel className="experiment-history-detail"><UISummary>Detailed scores, runtime & statistics</UISummary><ConditionTable report={report} /><PairedSignals comparisons={report.paired_comparisons} /></UIPanel>
     </>}
@@ -424,6 +427,16 @@ function ExperimentHistoryCard({ experiment, report, reportError, onRetryReport,
       <p><small>Requested question limit: {experiment.test_suite_configuration.test_budget} · Questions generated: {experiment.test_suite_metadata.test_count} · Random seed: {experiment.test_suite_configuration.random_seed}</small></p>
     </UIPanel>
   </UICard>;
+}
+
+function ReferenceReviewedExperimentView({ runs }: { runs: ExperimentStatisticsRun[] }) {
+  const [open, setOpen] = useState(false);
+  return <UIPanel className="experiment-history-detail">
+    <UISummary>Reference-reviewed comparison</UISummary>
+    <p>This separate view applies saved reference labels where available and keeps the original automated results above unchanged. Reference labels entered after seeing model results are not independent blind validation.</p>
+    <UIButton type="button" className="secondary" onClick={() => setOpen(value => !value)}>{open ? 'Hide reference-reviewed comparison' : 'Show reference-reviewed comparison'}</UIButton>
+    {open && <ReviewedMethodComparison runs={runs} />}
+  </UIPanel>;
 }
 
 function ConditionTable({ report }: { report: ExperimentAnalytics }) {

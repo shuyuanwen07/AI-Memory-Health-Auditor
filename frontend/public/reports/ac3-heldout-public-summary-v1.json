@@ -1,0 +1,180 @@
+{
+  "format": "ac3-heldout-public-summary-v1",
+  "cases": 120,
+  "histories": 30,
+  "grounding": {
+    "valid": 120,
+    "invalid": 0,
+    "uncertain": 0,
+    "validity_conservative": {
+      "numerator": 120,
+      "denominator": 120,
+      "value": 1.0
+    }
+  },
+  "human_reference": {
+    "pass": 40,
+    "fail": 80,
+    "unresolved": 0,
+    "disagreement": 0,
+    "uncertain": 0
+  },
+  "automatic": {
+    "tp": 70,
+    "fp": 8,
+    "tn": 32,
+    "fn_decided": 9,
+    "abstain_reference_fail": 1,
+    "abstain_reference_pass": 0,
+    "category_correct": 0,
+    "category_incorrect": 0,
+    "category_missing": 70
+  },
+  "metrics": {
+    "decided_coverage": {
+      "numerator": 119,
+      "denominator": 120,
+      "value": 0.9916666666666667
+    },
+    "failure_recall_conservative": {
+      "numerator": 70,
+      "denominator": 80,
+      "value": 0.875
+    },
+    "failure_recall_decided": {
+      "numerator": 70,
+      "denominator": 79,
+      "value": 0.8860759493670886
+    },
+    "false_positive_rate_decided": {
+      "numerator": 8,
+      "denominator": 40,
+      "value": 0.2
+    },
+    "false_positive_rate_lower_bound": {
+      "numerator": 8,
+      "denominator": 40,
+      "value": 0.2
+    },
+    "false_positive_rate_upper_bound": {
+      "numerator": 8,
+      "denominator": 40,
+      "value": 0.2
+    },
+    "classification_accuracy_conservative": {
+      "numerator": 0,
+      "denominator": 70,
+      "value": 0.0
+    },
+    "classification_accuracy_decided": {
+      "numerator": 0,
+      "denominator": 0,
+      "value": null
+    }
+  },
+  "history_bootstrap": {
+    "method": "history_cluster_percentile_bootstrap",
+    "iterations": 2000,
+    "seed": 5623,
+    "histories": 30,
+    "intervals": {
+      "failure_recall_conservative": {
+        "lower": 0.8048780487804879,
+        "upper": 0.9397590361445783,
+        "valid_iterations": 2000,
+        "status": "descriptive"
+      },
+      "classification_accuracy_conservative": {
+        "lower": 0.0,
+        "upper": 0.0,
+        "valid_iterations": 2000,
+        "status": "descriptive"
+      },
+      "false_positive_rate_decided": {
+        "lower": 0.07894736842105263,
+        "upper": 0.34146341463414637,
+        "valid_iterations": 2000,
+        "status": "descriptive"
+      }
+    },
+    "limitations": "Resamples observed synthetic histories; intervals describe resampling variability, not generalisation to a population. Repeated questions within a history remain clustered.",
+    "status": "descriptive"
+  },
+  "evidence_sufficiency": {
+    "checks": {
+      "decided_coverage": {
+        "observed": 0.9916666666666667,
+        "minimum": 0.8,
+        "met": true
+      },
+      "human_passes": {
+        "observed": 40,
+        "minimum": 30,
+        "met": true
+      },
+      "human_failures": {
+        "observed": 80,
+        "minimum": 30,
+        "met": true
+      },
+      "history_coverage": {
+        "observed": 30,
+        "minimum": 30,
+        "met": true
+      }
+    },
+    "status": "minimums_met_descriptively",
+    "notice": "History count refers to distinct synthetic history IDs, not independent random samples. Meeting minimum counts does not establish population validity."
+  },
+  "threshold_comparison_descriptive": {
+    "failure_detection_recall_min": {
+      "metric": {
+        "numerator": 70,
+        "denominator": 80,
+        "value": 0.875
+      },
+      "threshold": 0.8,
+      "direction": "min",
+      "met_descriptively": true
+    },
+    "failure_classification_accuracy_min": {
+      "metric": {
+        "numerator": 0,
+        "denominator": 70,
+        "value": 0.0
+      },
+      "threshold": 0.8,
+      "direction": "min",
+      "met_descriptively": false
+    },
+    "test_validity_min": {
+      "metric": {
+        "numerator": 120,
+        "denominator": 120,
+        "value": 1.0
+      },
+      "threshold": 0.9,
+      "direction": "min",
+      "met_descriptively": true
+    },
+    "false_positive_rate_max": {
+      "metric": {
+        "numerator": 8,
+        "denominator": 40,
+        "value": 0.2
+      },
+      "threshold": 0.1,
+      "direction": "max",
+      "met_descriptively": false
+    }
+  },
+  "acceptance": "not_assessed_until_provenance_and_independence_are_verified",
+  "limitations": "Descriptive held-out comparison on synthetic histories; identity, independence and clock are user-reported or unverified. Abstentions and human disagreements remain visible.",
+  "source_sha256": {
+    "frozen": "ec20077e07ead83925fa38bb67936d81773098e0762c1e4627ae3b94d8ff0f58",
+    "run": "46c3670eafb67a2f6e3a5e40b08e5a6fa2f126a7cbd5e1aad14752c389eafdb1",
+    "blind_key": "bfa54c0e9e79277dd1c51179a32d62f4c5ac3e577e4660beaeb8054507a064be",
+    "review_1": "f76539560dbb8760b5ccab1aa6badc3946162daa2ab28d2c3d61ae992d9888f1",
+    "review_2": "c54b47bf9887b74e710a7959720e18d1971c7119c17fc9d44595cae30ec339f8"
+  }
+}

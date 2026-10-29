@@ -11,6 +11,7 @@ from app.api.routes import router
 from app.api.research_routes import research_router
 from app.api.quality_routes import quality_router
 from app.api.access_routes import access_router
+from app.api.ac3_study_routes import ac3_study_router
 from app.security.access import AccessSettings, OperatorAccessMiddleware
 from app.database.session import Base, engine
 import app.models  # register models
@@ -90,6 +91,7 @@ app.include_router(research_router)
 app.include_router(quality_router)
 
 app.include_router(access_router)
+app.include_router(ac3_study_router)
 
 
 @app.exception_handler(RequestValidationError)

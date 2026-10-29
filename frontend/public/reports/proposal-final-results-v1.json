@@ -1,0 +1,944 @@
+{
+  "format": "proposal-final-results-dashboard-v1",
+  "generated_at": "2026-10-28T12:26:50.020911+00:00",
+  "source_bundle": "artifacts/local/phase4-20261027",
+  "source_revision": "b44ced90ea39eb569eaa6ea01dee4c3df5712085",
+  "generator": {
+    "path": "scripts/publish_proposal_results_dashboard.py",
+    "sha256": "b3a9a8ad26da62da7ccc664261dccad952dc7886fbd1caf83e1733744932bf65",
+    "version": "1"
+  },
+  "source_hashes": [
+    {
+      "path": "artifacts/local/phase4-20261027/analysis.json",
+      "sha256": "5f9adb274ebc320cdb2630a3846c5e56aaf0f59d5cb827bed4180683a116f1af"
+    },
+    {
+      "path": "artifacts/local/phase4-20261027/A-verification-summary.json",
+      "sha256": "49ac399512b189888a8b6f8f3e8cdee57910791699beb6d7b7483b62739253aa"
+    },
+    {
+      "path": "artifacts/local/phase4-20261027/A-AI-cross-check.json",
+      "sha256": "4b232b14af5b0961c5094fefd27eb47754205f2617c6970bfb06aade6b619a2a"
+    },
+    {
+      "path": "artifacts/local/phase4-20261027/human-reconciliation/A-reference-analysis-v1.json",
+      "sha256": "2c2acac4e0aa000eb4d2bbeff304f98ef79365e9d6e8b37f099f10126d5cf37e"
+    },
+    {
+      "path": "artifacts/local/phase4-20261027/human-reconciliation/A-chat-confirmed-revision-v1.json",
+      "sha256": "2c61a80d067b5471d14ffc7785660152b782a7a04a6cbfd255c0538df110a589"
+    },
+    {
+      "path": "artifacts/local/phase4-20261027/human-reconciliation/A-open-items-v1.json",
+      "sha256": "2cfcd01bd1d64f50f360b7d33a556a9e13171dce3c4e9876bcd3f58e647008da"
+    },
+    {
+      "path": "artifacts/local/phase4-20261027/B-live.json",
+      "sha256": "5b117d1a243ef027db87deef069d726b10f044616b8e1979f92260ffe1a2de82"
+    },
+    {
+      "path": "artifacts/local/phase4-20261027/C-live.json",
+      "sha256": "7a4e8b20b797d0d93b64f28117e4656ea85f32d4f8bea1b4e3e7f69d874d170b"
+    },
+    {
+      "path": "artifacts/local/phase4-20261027/protocol.json",
+      "sha256": "35b63d0dc8a36f24dc252a0c46f310b3a3e49846e8e9a52d72edaa3a2afd24c6"
+    },
+    {
+      "path": "artifacts/local/phase4-20261027/verification-summary.json",
+      "sha256": "635e2b7e8e9d4749ef7d2363328073565adbfee2c7fb15c07fda060ed456325d"
+    },
+    {
+      "path": "artifacts/local/phase4-20261027/evidence-manifest.json",
+      "sha256": "2847c44f97d7e7ebc1688ead716d6f0b29bf40c2120b8483ff774f39fbf91030"
+    },
+    {
+      "path": "frontend/public/reports/phase4-c-expanded-v6.json",
+      "sha256": "e96da86cab823f3cb8da5bbfe1465ba2b1a16790b8784ceb5ac681b8035da25f"
+    },
+    {
+      "path": "output/proposal-delivery/reconciliation-user-2026-10-28.json",
+      "sha256": "94613753b896cbf48fb71a4d9d0484ece3eb4860dd9ade5ae7d560b61862807a"
+    },
+    {
+      "path": "output/proposal-delivery/human-review-independence-user-confirmation-2026-10-28.json",
+      "sha256": "31c1681bd29ef6c2d783d2cf5dd9221027f0cf9b71a05275644bb219cdf0ab76"
+    }
+  ],
+  "proposal_a": {
+    "answers": 36,
+    "histories": 3,
+    "methods": 3,
+    "questions_per_method_per_history": 4,
+    "conditions": 9,
+    "execution_verified": true,
+    "retrospective_review": {
+      "resolved": 30,
+      "total": 36,
+      "passes": 3,
+      "failures": 27,
+      "uncertain": 6,
+      "confusion_vs_adopted_references": {
+        "tp": 27,
+        "fp": 0,
+        "fn": 0,
+        "tn": 3,
+        "decided_total": 30
+      },
+      "per_method": [
+        {
+          "label": "Contextual / indirect tests",
+          "answers": 12,
+          "resolved": 10,
+          "passes": 1,
+          "failures": 9,
+          "uncertain": 2,
+          "confusion": {
+            "tp": 9,
+            "fp": 0,
+            "fn": 0,
+            "tn": 1
+          }
+        },
+        {
+          "label": "Direct questions",
+          "answers": 12,
+          "resolved": 10,
+          "passes": 1,
+          "failures": 9,
+          "uncertain": 2,
+          "confusion": {
+            "tp": 9,
+            "fp": 0,
+            "fn": 0,
+            "tn": 1
+          }
+        },
+        {
+          "label": "Fixed templates",
+          "answers": 12,
+          "resolved": 10,
+          "passes": 1,
+          "failures": 9,
+          "uncertain": 2,
+          "confusion": {
+            "tp": 9,
+            "fp": 0,
+            "fn": 0,
+            "tn": 1
+          }
+        }
+      ],
+      "review_process": "Exploratory AI-assisted reference calibration following user-reported agreement; not independent blind reliability evidence",
+      "review_authorship": "Chat-confirmed adoption of the AI case review; not separately authored blinded worksheets",
+      "formal_status": "Not certified:6 unresolved references, incomplete explicit defect mapping and shared AI-result exposure"
+    },
+    "formal_failure_discovery_rate": null,
+    "formal_failure_detection_recall": null,
+    "unresolved_items": 6,
+    "independent_blind_gold": false,
+    "automatic_initial_counts": {
+      "pass": 3,
+      "fail": 33
+    },
+    "limitations": [
+      "The retrospective labels were AI-assisted after exposure to automatic results and later adopted through chat; they are not independent blind gold.",
+      "Six of 36 responses remain uncertain because the prompt/reference alignment is ambiguous.",
+      "Formal distinct-failure discovery and failure-detection recall remain unmeasured; explicit defect-to-inventory mapping is incomplete."
+    ]
+  },
+  "proposal_b": {
+    "canonical_answers": 72,
+    "histories": 3,
+    "policies": [
+      {
+        "id": "weak_first_hit",
+        "label": "First-match retrieval",
+        "canonical_answers": 36,
+        "macro_accuracy_percent": 25.0,
+        "population_sd_pp": 0.0,
+        "passes": 9,
+        "failures": 27,
+        "uncertain": 0,
+        "dimensions": [
+          {
+            "category": "Accuracy",
+            "correct": 9,
+            "decided": 9,
+            "scheduled": 9,
+            "uncertain": 0,
+            "accuracy_percent": 100.0
+          },
+          {
+            "category": "Freshness",
+            "correct": 0,
+            "decided": 9,
+            "scheduled": 9,
+            "uncertain": 0,
+            "accuracy_percent": 0.0
+          },
+          {
+            "category": "Conflict resolution",
+            "correct": 0,
+            "decided": 9,
+            "scheduled": 9,
+            "uncertain": 0,
+            "accuracy_percent": 0.0
+          },
+          {
+            "category": "Appropriate use",
+            "correct": 0,
+            "decided": 9,
+            "scheduled": 9,
+            "uncertain": 0,
+            "accuracy_percent": 0.0
+          }
+        ],
+        "per_repetition": [
+          {
+            "repetition": 1,
+            "macro_accuracy_percent": 25.0,
+            "passes": 3,
+            "failures": 9,
+            "uncertain": 0,
+            "dimension_scores": [
+              {
+                "category": "Accuracy",
+                "correct": 3,
+                "decided": 3,
+                "accuracy_percent": 100.0
+              },
+              {
+                "category": "Freshness",
+                "correct": 0,
+                "decided": 3,
+                "accuracy_percent": 0.0
+              },
+              {
+                "category": "Conflict resolution",
+                "correct": 0,
+                "decided": 3,
+                "accuracy_percent": 0.0
+              },
+              {
+                "category": "Appropriate use",
+                "correct": 0,
+                "decided": 3,
+                "accuracy_percent": 0.0
+              }
+            ]
+          },
+          {
+            "repetition": 2,
+            "macro_accuracy_percent": 25.0,
+            "passes": 3,
+            "failures": 9,
+            "uncertain": 0,
+            "dimension_scores": [
+              {
+                "category": "Accuracy",
+                "correct": 3,
+                "decided": 3,
+                "accuracy_percent": 100.0
+              },
+              {
+                "category": "Freshness",
+                "correct": 0,
+                "decided": 3,
+                "accuracy_percent": 0.0
+              },
+              {
+                "category": "Conflict resolution",
+                "correct": 0,
+                "decided": 3,
+                "accuracy_percent": 0.0
+              },
+              {
+                "category": "Appropriate use",
+                "correct": 0,
+                "decided": 3,
+                "accuracy_percent": 0.0
+              }
+            ]
+          },
+          {
+            "repetition": 3,
+            "macro_accuracy_percent": 25.0,
+            "passes": 3,
+            "failures": 9,
+            "uncertain": 0,
+            "dimension_scores": [
+              {
+                "category": "Accuracy",
+                "correct": 3,
+                "decided": 3,
+                "accuracy_percent": 100.0
+              },
+              {
+                "category": "Freshness",
+                "correct": 0,
+                "decided": 3,
+                "accuracy_percent": 0.0
+              },
+              {
+                "category": "Conflict resolution",
+                "correct": 0,
+                "decided": 3,
+                "accuracy_percent": 0.0
+              },
+              {
+                "category": "Appropriate use",
+                "correct": 0,
+                "decided": 3,
+                "accuracy_percent": 0.0
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "strong_rule_based",
+        "label": "Relationship-priority retrieval",
+        "canonical_answers": 36,
+        "macro_accuracy_percent": 97.22222222222223,
+        "population_sd_pp": 3.9283710065919353,
+        "passes": 34,
+        "failures": 1,
+        "uncertain": 1,
+        "dimensions": [
+          {
+            "category": "Accuracy",
+            "correct": 9,
+            "decided": 9,
+            "scheduled": 9,
+            "uncertain": 0,
+            "accuracy_percent": 100.0
+          },
+          {
+            "category": "Freshness",
+            "correct": 8,
+            "decided": 8,
+            "scheduled": 9,
+            "uncertain": 1,
+            "accuracy_percent": 100.0
+          },
+          {
+            "category": "Conflict resolution",
+            "correct": 8,
+            "decided": 9,
+            "scheduled": 9,
+            "uncertain": 0,
+            "accuracy_percent": 88.8889
+          },
+          {
+            "category": "Appropriate use",
+            "correct": 9,
+            "decided": 9,
+            "scheduled": 9,
+            "uncertain": 0,
+            "accuracy_percent": 100.0
+          }
+        ],
+        "per_repetition": [
+          {
+            "repetition": 1,
+            "macro_accuracy_percent": 100.0,
+            "passes": 12,
+            "failures": 0,
+            "uncertain": 0,
+            "dimension_scores": [
+              {
+                "category": "Accuracy",
+                "correct": 3,
+                "decided": 3,
+                "accuracy_percent": 100.0
+              },
+              {
+                "category": "Freshness",
+                "correct": 3,
+                "decided": 3,
+                "accuracy_percent": 100.0
+              },
+              {
+                "category": "Conflict resolution",
+                "correct": 3,
+                "decided": 3,
+                "accuracy_percent": 100.0
+              },
+              {
+                "category": "Appropriate use",
+                "correct": 3,
+                "decided": 3,
+                "accuracy_percent": 100.0
+              }
+            ]
+          },
+          {
+            "repetition": 2,
+            "macro_accuracy_percent": 100.0,
+            "passes": 12,
+            "failures": 0,
+            "uncertain": 0,
+            "dimension_scores": [
+              {
+                "category": "Accuracy",
+                "correct": 3,
+                "decided": 3,
+                "accuracy_percent": 100.0
+              },
+              {
+                "category": "Freshness",
+                "correct": 3,
+                "decided": 3,
+                "accuracy_percent": 100.0
+              },
+              {
+                "category": "Conflict resolution",
+                "correct": 3,
+                "decided": 3,
+                "accuracy_percent": 100.0
+              },
+              {
+                "category": "Appropriate use",
+                "correct": 3,
+                "decided": 3,
+                "accuracy_percent": 100.0
+              }
+            ]
+          },
+          {
+            "repetition": 3,
+            "macro_accuracy_percent": 91.66666666666666,
+            "passes": 10,
+            "failures": 1,
+            "uncertain": 1,
+            "dimension_scores": [
+              {
+                "category": "Accuracy",
+                "correct": 3,
+                "decided": 3,
+                "accuracy_percent": 100.0
+              },
+              {
+                "category": "Freshness",
+                "correct": 2,
+                "decided": 2,
+                "accuracy_percent": 100.0
+              },
+              {
+                "category": "Conflict resolution",
+                "correct": 2,
+                "decided": 3,
+                "accuracy_percent": 66.6667
+              },
+              {
+                "category": "Appropriate use",
+                "correct": 3,
+                "decided": 3,
+                "accuracy_percent": 100.0
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "repetitions": 3,
+    "answers_per_policy": 36,
+    "answers_per_history_policy_repeat": 4,
+    "score_definition": "Unweighted macro average of pass rates over Accuracy, Freshness, Conflict resolution and Appropriate use; each dimension denominator is the decided verdict count shown.",
+    "paired_history_macro_deltas_pp": [
+      75.0,
+      66.66666666666666,
+      75.0
+    ],
+    "paired_mean_delta_pp": 72.22222222222221,
+    "history_bootstrap_interval_pp": [
+      66.66666666666666,
+      75.0
+    ],
+    "exact_two_sided_sign_p": 0.25,
+    "independent_human_results_received": false,
+    "protocol_sha256": "35b63d0dc8a36f24dc252a0c46f310b3a3e49846e8e9a52d72edaa3a2afd24c6",
+    "limitations": [
+      "Three synthetic histories share an authored scenario structure; repeats are correlated and are not independent population cases.",
+      "The automated rule judgements do not have independent human calibration.",
+      "One Relationship-priority result was uncertain; dimension denominators exclude undecided judgements."
+    ]
+  },
+  "proposal_c": {
+    "archived_compatibility": {
+      "cases": 14,
+      "available_cases": 500,
+      "repetitions": 3,
+      "target_answers": 84,
+      "usable_grades": 84,
+      "policies": [
+        {
+          "id": "weak_first_hit",
+          "label": "First-match retrieval",
+          "correct": 15,
+          "total": 42,
+          "accuracy_percent": 35.7143,
+          "per_repetition": [
+            {
+              "repetition": 1,
+              "correct": 5,
+              "total": 14,
+              "accuracy_percent": 35.714285714285715
+            },
+            {
+              "repetition": 2,
+              "correct": 5,
+              "total": 14,
+              "accuracy_percent": 35.714285714285715
+            },
+            {
+              "repetition": 3,
+              "correct": 5,
+              "total": 14,
+              "accuracy_percent": 35.714285714285715
+            }
+          ],
+          "categories": [
+            {
+              "category": "abstention",
+              "correct": 6,
+              "total": 6,
+              "accuracy_percent": 100.0
+            },
+            {
+              "category": "knowledge-update",
+              "correct": 0,
+              "total": 6,
+              "accuracy_percent": 0.0
+            },
+            {
+              "category": "multi-session",
+              "correct": 0,
+              "total": 6,
+              "accuracy_percent": 0.0
+            },
+            {
+              "category": "single-session-assistant",
+              "correct": 6,
+              "total": 6,
+              "accuracy_percent": 100.0
+            },
+            {
+              "category": "single-session-preference",
+              "correct": 3,
+              "total": 6,
+              "accuracy_percent": 50.0
+            },
+            {
+              "category": "single-session-user",
+              "correct": 0,
+              "total": 6,
+              "accuracy_percent": 0.0
+            },
+            {
+              "category": "temporal-reasoning",
+              "correct": 0,
+              "total": 6,
+              "accuracy_percent": 0.0
+            }
+          ]
+        },
+        {
+          "id": "strong_rule_based",
+          "label": "Relationship-priority retrieval",
+          "correct": 30,
+          "total": 42,
+          "accuracy_percent": 71.4286,
+          "per_repetition": [
+            {
+              "repetition": 1,
+              "correct": 11,
+              "total": 14,
+              "accuracy_percent": 78.57142857142857
+            },
+            {
+              "repetition": 2,
+              "correct": 10,
+              "total": 14,
+              "accuracy_percent": 71.42857142857143
+            },
+            {
+              "repetition": 3,
+              "correct": 9,
+              "total": 14,
+              "accuracy_percent": 64.28571428571429
+            }
+          ],
+          "categories": [
+            {
+              "category": "abstention",
+              "correct": 6,
+              "total": 6,
+              "accuracy_percent": 100.0
+            },
+            {
+              "category": "knowledge-update",
+              "correct": 4,
+              "total": 6,
+              "accuracy_percent": 66.6667
+            },
+            {
+              "category": "multi-session",
+              "correct": 2,
+              "total": 6,
+              "accuracy_percent": 33.3333
+            },
+            {
+              "category": "single-session-assistant",
+              "correct": 6,
+              "total": 6,
+              "accuracy_percent": 100.0
+            },
+            {
+              "category": "single-session-preference",
+              "correct": 3,
+              "total": 6,
+              "accuracy_percent": 50.0
+            },
+            {
+              "category": "single-session-user",
+              "correct": 6,
+              "total": 6,
+              "accuracy_percent": 100.0
+            },
+            {
+              "category": "temporal-reasoning",
+              "correct": 3,
+              "total": 6,
+              "accuracy_percent": 50.0
+            }
+          ]
+        }
+      ],
+      "b_c_ordering_agreement": {
+        "agreed_repetitions": 3,
+        "total_repetitions": 3,
+        "scope": "Direction-of-ranking agreement only between B's dimension macro and this archived C subset; no absolute cross-dataset scores are compared."
+      },
+      "upstream_binding": {
+        "upstream_revision": "9e0b455f4ef0e2ab8f2e582289761153549043fc",
+        "source_sha256": "ecce9c4c79dc89d99534ac17b383a5cbb5b9f0c69ee98adaf0684742e3d95251",
+        "dataset_revision": "98d7416c24c778c2fee6e6f3006e7a073259d48f",
+        "dataset_sha256": "821a2034d219ab45846873dd14c14f12cfe7776e73527a483f9dac095d38620c",
+        "source_repo": "https://github.com/xiaowu0162/LongMemEval",
+        "dataset_repo": "https://huggingface.co/datasets/xiaowu0162/longmemeval-cleaned",
+        "license": "MIT",
+        "variant": "official oracle, not S or M"
+      },
+      "limitations": [
+        "14/500 stratified Oracle subset, not S/M",
+        "OpenRouter transport for pinned official GPT-4o judge",
+        "Controlled-memory reader and source adapter, not upstream execution stack",
+        "No independent human calibration; automated ranking only"
+      ]
+    },
+    "expanded_v5_v6": {
+      "source_revision": "98d7416c24c778c2fee6e6f3006e7a073259d48f",
+      "source_sha256": "821a2034d219ab45846873dd14c14f12cfe7776e73527a483f9dac095d38620c",
+      "v5": {
+        "case_count": 14,
+        "repetitions": 3,
+        "policies": [
+          {
+            "id": "weak_first_hit",
+            "label": "First-match retrieval",
+            "correct": 12,
+            "total": 42,
+            "accuracy_percent": 28.5714,
+            "per_repetition": [
+              {
+                "repetition": 1,
+                "correct": 4,
+                "total": 14,
+                "accuracy_percent": 28.5714
+              },
+              {
+                "repetition": 2,
+                "correct": 4,
+                "total": 14,
+                "accuracy_percent": 28.5714
+              },
+              {
+                "repetition": 3,
+                "correct": 4,
+                "total": 14,
+                "accuracy_percent": 28.5714
+              }
+            ]
+          },
+          {
+            "id": "strong_rule_based",
+            "label": "Relationship-priority retrieval",
+            "correct": 35,
+            "total": 42,
+            "accuracy_percent": 83.3333,
+            "per_repetition": [
+              {
+                "repetition": 1,
+                "correct": 12,
+                "total": 14,
+                "accuracy_percent": 85.7143
+              },
+              {
+                "repetition": 2,
+                "correct": 11,
+                "total": 14,
+                "accuracy_percent": 78.5714
+              },
+              {
+                "repetition": 3,
+                "correct": 12,
+                "total": 14,
+                "accuracy_percent": 85.7143
+              }
+            ]
+          }
+        ],
+        "categories": [],
+        "interpretation": "Preserved 14-case v5 cohort; separate collection from v6."
+      },
+      "v6": {
+        "case_count": 30,
+        "repetitions": 3,
+        "policies": [
+          {
+            "id": "weak_first_hit",
+            "label": "First-match retrieval",
+            "correct": 19,
+            "total": 90,
+            "accuracy_percent": 21.1111,
+            "per_repetition": [
+              {
+                "repetition": 1,
+                "correct": 6,
+                "total": 30,
+                "accuracy_percent": 20.0
+              },
+              {
+                "repetition": 2,
+                "correct": 6,
+                "total": 30,
+                "accuracy_percent": 20.0
+              },
+              {
+                "repetition": 3,
+                "correct": 7,
+                "total": 30,
+                "accuracy_percent": 23.3333
+              }
+            ]
+          },
+          {
+            "id": "strong_rule_based",
+            "label": "Relationship-priority retrieval",
+            "correct": 61,
+            "total": 90,
+            "accuracy_percent": 67.7778,
+            "per_repetition": [
+              {
+                "repetition": 1,
+                "correct": 22,
+                "total": 30,
+                "accuracy_percent": 73.3333
+              },
+              {
+                "repetition": 2,
+                "correct": 19,
+                "total": 30,
+                "accuracy_percent": 63.3333
+              },
+              {
+                "repetition": 3,
+                "correct": 20,
+                "total": 30,
+                "accuracy_percent": 66.6667
+              }
+            ]
+          }
+        ],
+        "categories": [
+          {
+            "category": "abstention",
+            "case_count": 4,
+            "per_policy": [
+              {
+                "id": "weak_first_hit",
+                "label": "First-match retrieval",
+                "correct": 12,
+                "total": 12,
+                "accuracy_percent": 100.0
+              },
+              {
+                "id": "strong_rule_based",
+                "label": "Relationship-priority retrieval",
+                "correct": 12,
+                "total": 12,
+                "accuracy_percent": 100.0
+              }
+            ]
+          },
+          {
+            "category": "knowledge-update",
+            "case_count": 4,
+            "per_policy": [
+              {
+                "id": "weak_first_hit",
+                "label": "First-match retrieval",
+                "correct": 3,
+                "total": 12,
+                "accuracy_percent": 25.0
+              },
+              {
+                "id": "strong_rule_based",
+                "label": "Relationship-priority retrieval",
+                "correct": 12,
+                "total": 12,
+                "accuracy_percent": 100.0
+              }
+            ]
+          },
+          {
+            "category": "multi-session",
+            "case_count": 5,
+            "per_policy": [
+              {
+                "id": "weak_first_hit",
+                "label": "First-match retrieval",
+                "correct": 0,
+                "total": 15,
+                "accuracy_percent": 0.0
+              },
+              {
+                "id": "strong_rule_based",
+                "label": "Relationship-priority retrieval",
+                "correct": 0,
+                "total": 15,
+                "accuracy_percent": 0.0
+              }
+            ]
+          },
+          {
+            "category": "single-session-assistant",
+            "case_count": 4,
+            "per_policy": [
+              {
+                "id": "weak_first_hit",
+                "label": "First-match retrieval",
+                "correct": 0,
+                "total": 12,
+                "accuracy_percent": 0.0
+              },
+              {
+                "id": "strong_rule_based",
+                "label": "Relationship-priority retrieval",
+                "correct": 10,
+                "total": 12,
+                "accuracy_percent": 83.3333
+              }
+            ]
+          },
+          {
+            "category": "single-session-preference",
+            "case_count": 4,
+            "per_policy": [
+              {
+                "id": "weak_first_hit",
+                "label": "First-match retrieval",
+                "correct": 1,
+                "total": 12,
+                "accuracy_percent": 8.3333
+              },
+              {
+                "id": "strong_rule_based",
+                "label": "Relationship-priority retrieval",
+                "correct": 10,
+                "total": 12,
+                "accuracy_percent": 83.3333
+              }
+            ]
+          },
+          {
+            "category": "single-session-user",
+            "case_count": 4,
+            "per_policy": [
+              {
+                "id": "weak_first_hit",
+                "label": "First-match retrieval",
+                "correct": 3,
+                "total": 12,
+                "accuracy_percent": 25.0
+              },
+              {
+                "id": "strong_rule_based",
+                "label": "Relationship-priority retrieval",
+                "correct": 12,
+                "total": 12,
+                "accuracy_percent": 100.0
+              }
+            ]
+          },
+          {
+            "category": "temporal-reasoning",
+            "case_count": 5,
+            "per_policy": [
+              {
+                "id": "weak_first_hit",
+                "label": "First-match retrieval",
+                "correct": 0,
+                "total": 15,
+                "accuracy_percent": 0.0
+              },
+              {
+                "id": "strong_rule_based",
+                "label": "Relationship-priority retrieval",
+                "correct": 5,
+                "total": 15,
+                "accuracy_percent": 33.3333
+              }
+            ]
+          }
+        ],
+        "interpretation": "Primary decision uses only the 30 new v6 cases and its predeclared three-repeat rule."
+      },
+      "v6_within_collection_repeat_wins": 3,
+      "v6_decision_rule": "Choose Strong only when its pooled v6 pass rate exceeds Weak and it wins at least 2 of 3 repetition-level paired comparisons.",
+      "v6_human_review": {
+        "status": "received; 168 agreed, 12 unresolved",
+        "review_items": 180,
+        "independent_histories": 30
+      },
+      "v6_operational_diagnostics": {
+        "target_latency_ms_mean": {
+          "weak": 4035.113,
+          "strong": 6800.2431
+        },
+        "target_input_tokens": {
+          "weak": 168849,
+          "strong": 388620
+        },
+        "estimated_cost_usd": 0.1783034,
+        "billing_uncertain": true,
+        "recovered_http_429_attempts": 3,
+        "unresolved_requests": 0,
+        "note": "Token-rate cost estimate, not a provider invoice; three explicit grader 429 responses were recovered under the saved operational addendum."
+      },
+      "combined_secondary_summary": "Secondary descriptive sum of separate v5 and v6 collections; not the primary decision.",
+      "cross_metric_agreement_claim": false,
+      "limitations": [
+        "v6 is a local compatibility experiment on 30 newly selected cases from a 500-case source, not the full official benchmark or its official score.",
+        "Three repetitions reuse the same 30 source histories; 90 answers per strategy are not 90 independent histories.",
+        "Category results are small descriptive subgroups; multi-session performance remains weak and temporal reasoning remains limited.",
+        "The combined 44-case row is secondary: v5 and v6 were collected on different days and different frozen code snapshots.",
+        "This page measures target retrieval-strategy outcomes. It does not by itself establish the Auditor's independent validity, extraction recall, or generalisation.",
+        "The user reports independent human review before automatic scores; original declarations conflict, and identities and procedures are not independently authenticated. 12 answer judgments remain unresolved."
+      ]
+    }
+  }
+}

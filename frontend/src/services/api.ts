@@ -44,6 +44,13 @@ async function request<T>(path:string, options?:RequestInit):Promise<T> {
   return r.status===204 ? undefined as T : r.json();
 }
 export const api = {
+  ac3FrozenStudies:()=>request<{studies:Array<{file:string;sha256:string;questions:number;histories:number;reservation_usd:string;executable?:boolean}>}>('/ac3/studies/frozen'),
+  ac3StartStudy:(body:{frozen_file:string;frozen_sha256:string})=>request<{study_id:string;status:string;completed?:number;total?:number}>('/ac3/studies/start',{method:'POST',body:JSON.stringify(body)}),
+  ac3StudyStatus:(id:string)=>request<{study_id:string;status:string;completed?:number;total?:number;failed_test_id?:string}>(`/ac3/studies/${encodeURIComponent(id)}/status`),
+  ac3ReviewDownloadUrl:(id:string,file:'blind-packet.json'|'reviewer-1.json'|'reviewer-2.json')=>`${BASE}/ac3/studies/${encodeURIComponent(id)}/review/${file}`,
+  ac3SubmitReviews:(id:string,body:{reviewer_1_json:string;reviewer_2_json:string})=>request<{status:string;summary:unknown}>(`/ac3/studies/${encodeURIComponent(id)}/reviews`,{method:'POST',body:JSON.stringify(body)}),
+  ac3StudySummary:(id:string)=>request<unknown>(`/ac3/studies/${encodeURIComponent(id)}/summary`),
+  ac3StudySummaries:()=>request<{studies:Array<{study_id:string;study_role:string;summary:unknown}>}>('/ac3/studies/summaries'),
   createGeneratorComparison:(body:{creation_request_key:string;source_run_id:string;generators:import('../types/domain').GeneratorSelection[]})=>request<import('../types/domain').GeneratorComparisonBatch>('/generator-comparisons',{method:'POST',body:JSON.stringify(body)}),
   generatorComparisons:()=>request<import('../types/domain').GeneratorComparisonBatch[]>('/generator-comparisons'),
   createExtractionComparison:(body:{creation_request_key:string;source_run_id:string;extractors:import('../types/domain').GeneratorSelection[]})=>request<import('../types/domain').ExtractionComparison>('/extraction-comparisons',{method:'POST',body:JSON.stringify(body)}),
@@ -69,7 +76,7 @@ export const api = {
   signIn:(password:string)=>request<AccessStatus>('/access/sign-in',{method:'POST',body:JSON.stringify({password})}),
   signOut:()=>request<{signed_out:boolean}>('/access/sign-out',{method:'POST'}),
   auditSourceHistory:(id:string)=>request<Array<{role:string;content:string;timestamp:string}>>(`/audits/${id}/source-history`),
-  prepareReassessment:(id:string,selection?:{evaluator_provider:TargetProvider;evaluator_model?:string})=>request<AuditRun>(`/audits/${id}/reassessment`,{method:'POST',...(selection?{body:JSON.stringify(selection)}:{})}),
+  prepareReassessment:(id:string,selection?:{evaluator_provider:TargetProvider|'openrouter_taxonomy';evaluator_model?:string})=>request<AuditRun>(`/audits/${id}/reassessment`,{method:'POST',...(selection?{body:JSON.stringify(selection)}:{})}),
   getAudit:(id:string)=>request<AuditRun>(`/audits/${id}`),
   auditAgentExecutions:(id:string)=>request<AgentExecution[]>(`/audits/${id}/agent-executions`),
   auditorQuality:()=>request<import("../pages/AuditorQuality").QualityReport>("/auditor-quality"),
@@ -149,6 +156,7 @@ export const api = {
   reuseAnswers:(id:string,sourceRunId:string)=>request(`/audits/${id}/reuse-answers`,{method:'POST',body:JSON.stringify({source_run_id:sourceRunId})}),
   generate:(id:string)=>request(`/audits/${id}/generate-tests`,{method:'POST'}), execute:(id:string)=>request(`/audits/${id}/execute`,{method:'POST'}), evaluate:(id:string)=>request(`/audits/${id}/evaluate`,{method:'POST'}), cancel:(id:string)=>request<AuditRun>(`/audits/${id}/cancel`,{method:'POST'}),
   testReview:(id:string)=>request<TestReviewSuite>(`/audits/${id}/test-review`),
+  reviewQuestionScopes:(id:string)=>request<TestReviewSuite>(`/audits/${id}/tests/scope-review`,{method:'POST'}),
   continueGeneration:(id:string)=>request<TestReviewSuite>(`/audits/${id}/continue-generation`,{method:'POST'}),
   reviewTest:(runId:string,testId:string,quality_status:'accepted'|'rejected',note?:string)=>request<TestCase>(`/audits/${runId}/tests/${testId}/review`,{method:'PATCH',body:JSON.stringify({quality_status,note})}),
   reviewTestHumanValidity:(runId:string,testId:string,decision:'accepted'|'rejected',reviewer_pseudonym:string,note?:string)=>request<TestCase>(`/audits/${runId}/tests/${testId}/human-validity-review`,{method:'PATCH',body:JSON.stringify({decision,reviewer_pseudonym,note})}),

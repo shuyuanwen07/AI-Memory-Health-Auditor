@@ -1,0 +1,25 @@
+{
+  "format": "ac3-ledger-progress-v1",
+  "observed_at_utc": "2026-10-28T11:09:43.315945+00:00",
+  "primary": {
+    "expected": 120,
+    "settled": 120,
+    "dispatched": 0,
+    "unknown": 0,
+    "not_dispatched": 0,
+    "scope_observed": true
+  },
+  "repeat": {
+    "expected": 40,
+    "settled": 40,
+    "dispatched": 0,
+    "unknown": 0,
+    "not_dispatched": 0,
+    "scope_observed": true
+  },
+  "frozen_sha256": {
+    "primary": "ec20077e07ead83925fa38bb67936d81773098e0762c1e4627ae3b94d8ff0f58",
+    "repeat": "d5f88c4d118ffd0ffb941d564cf1c33cce82dd10ee78f8aaa33f91e508df2246"
+  },
+  "interpretation": "Read-only count snapshot, not correctness, grading, or AC3 acceptance. An outstanding receipt does not establish a live process."
+}

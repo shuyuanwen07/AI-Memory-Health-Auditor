@@ -69,6 +69,38 @@ def test_successful_response_keeps_reasoning_usage_in_typed_metadata(monkeypatch
     assert response.execution_metadata.model_dump()["reasoning_tokens"] == 7
 
 
+def test_openrouter_reported_cost_survives_target_response(monkeypatch):
+    monkeypatch.setenv('OPENROUTER_API_KEY', 'synthetic-secret')
+    monkeypatch.setattr(HttpTargetAIConnector, '_post', staticmethod(lambda *_: {
+        'choices': [{'finish_reason': 'stop', 'message': {'content': 'Synthetic answer.'}}],
+        'usage': {'prompt_tokens': 5, 'completion_tokens': 7, 'total_tokens': 12, 'cost': 0.000123},
+    }))
+    test = DomainTestCase(test_id='T001', run_id='RUN1', dimension=Dimension.ACCURACY,
+        prompt='Synthetic question?', expected_behavior='Private.', supporting_memory_ids=['M001'],
+        generator_version='fixture')
+    response = HttpTargetAIConnector().execute(test, run(TargetProvider.OPENROUTER, 'openai/gpt-6-luna'))
+    assert response.execution_metadata.reported_cost_usd == '0.000123'
+
+
+@pytest.mark.parametrize('cost', [None, True, -0.1, float('nan'), float('inf'), '0.1'])
+def test_unusable_reported_cost_is_not_fabricated(cost):
+    usage = HttpTargetAIConnector._usage({'usage': {'cost': cost}}, TargetProvider.OPENROUTER)
+    assert usage['reported_cost_usd'] is None
+
+
+def test_provider_error_cost_is_preserved_without_accepting_answer(monkeypatch):
+    monkeypatch.setenv('OPENROUTER_API_KEY', 'synthetic-secret')
+    monkeypatch.setattr('app.target_ai.providers.httpx.post', lambda *args, **kwargs: httpx.Response(200, json={
+        'error': {'code': 402, 'message': 'synthetic secret'}, 'usage': {'cost': 0.00005}}))
+    test = DomainTestCase(test_id='T001', run_id='RUN1', dimension=Dimension.ACCURACY,
+        prompt='Synthetic question?', expected_behavior='Private.', supporting_memory_ids=['M001'],
+        generator_version='fixture')
+    with pytest.raises(HTTPException) as error:
+        HttpTargetAIConnector().execute(test, run(TargetProvider.OPENROUTER, 'openai/gpt-6-luna'))
+    assert error.value.target_execution['reported_cost_usd'] == '0.00005'
+    assert 'synthetic secret' not in str(error.value.target_execution)
+
+
 def test_failed_provider_usage_and_completion_diagnostics_are_persisted_safely():
     from app.schemas import AgentExecution
     from app.services.agent_trace import agent_execution_schema, record_agent_execution
@@ -85,6 +117,7 @@ def test_failed_provider_usage_and_completion_diagnostics_are_persisted_safely()
         "request_attempts": 1, "last_http_status": 200,
         "provider_error_scope": "finish_reason", "provider_error_category": "capacity_limit",
         "input_tokens": 44, "output_tokens": 512, "total_tokens": 556, "reasoning_tokens": 512,
+        "reported_cost_usd": "0.00012",
         "completion_status": "truncated", "finish_reason": "length",
         "reported_model": "openai/gpt-6.1", "requested_output_token_limit": 512,
         "raw": "synthetic-secret",
@@ -100,6 +133,7 @@ def test_failed_provider_usage_and_completion_diagnostics_are_persisted_safely()
         "last_http_status": 200, "provider_error_scope": "finish_reason",
         "provider_error_category": "capacity_limit", "input_tokens": 44,
         "output_tokens": 512, "total_tokens": 556, "reasoning_tokens": 512,
+        "reported_cost_usd": "0.00012",
         "completion_status": "truncated", "requested_output_token_limit": 512,
         "reported_finish_reason": "length",
     }

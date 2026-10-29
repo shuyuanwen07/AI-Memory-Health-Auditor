@@ -1,0 +1,35 @@
+{
+  "format": "ac1-extraction-progress-v1",
+  "observed_at_utc": "2026-10-28T11:09:37.654228+00:00",
+  "expected_histories": 30,
+  "result_histories": 30,
+  "outcomes": {
+    "completed": 29,
+    "partial": 1,
+    "failed": 0,
+    "runtime_changed": 0
+  },
+  "started_without_result": 0,
+  "not_yet_observed": 0,
+  "stage_outcomes": {
+    "memory_extraction": {
+      "completed": 30,
+      "failed": 0,
+      "other": 0
+    },
+    "relationship_analysis": {
+      "completed": 29,
+      "failed": 1,
+      "other": 0
+    },
+    "independent_memory_review": {
+      "completed": 30,
+      "failed": 0,
+      "other": 0
+    }
+  },
+  "protocol_sha256": "6abefe61e40398dadff4b9e3558e6e647b6235e96dd909a5ccfbae62c90f9f1c",
+  "runtime_source_sha256": "5e3663c4acac06949bac645bfed91fb0007719f56295a50397f506a12fd55104",
+  "result_receipts_sha256": "7582310d49b82f2a455a06ee1f39ee25dde679a49f0421469157bc223023387f",
+  "interpretation": "Count-only source snapshot; an observed attempt may not be currently running. Results are not human validation or AC1 acceptance."
+}

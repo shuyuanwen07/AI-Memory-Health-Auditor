@@ -183,35 +183,27 @@ class AgentTestGenerator(LLMTestGenerator):
         self._notify_observation()
         try:
             if not generation_context:
-                self._active_coverage_plan = self._build_coverage_plan(memories, audit)
-        except Exception:
-            self._agent_observation["status"] = "failed"
-            self.last_observation = self._agent_observation
-            self._notify_observation()
-            raise
-        self._agent_observation["coverage_plan"] = deepcopy(self._active_coverage_plan)
-        self.last_observation = self._agent_observation
-        self._notify_observation()
-
-        try:
-            if not generation_context and audit.test_budget < len(Dimension):
-                self._agent_observation["coverage_gate"] = {
-                    "status": "failed",
-                    "reason": "The requested question count is too small to allocate at least one question to each ability.",
-                    "required_test_count": len(Dimension),
-                }
-                raise PipelineRequestError(
-                    f"At least {len(Dimension)} questions are required to cover all four abilities.", 422,
+                if audit.test_budget < len(Dimension):
+                    self._agent_observation["coverage_gate"] = {
+                        "status": "failed",
+                        "reason": "The requested count is too small to allocate one question to each ability.",
+                        "required_test_count": len(Dimension),
+                    }
+                    raise PipelineRequestError(
+                        f"At least {len(Dimension)} questions are required to cover all four abilities.", 422,
+                    )
+                inventory = self._coverage_seed_inventory(
+                    memories, audit.test_budget, allowed_test_types=self.allowed_test_types,
                 )
-            if not generation_context:
-                shortages = [
-                    item for item in self._agent_observation.get("dimension_coverage", [])
-                    if item.get("available_question_count", 0) < item.get("required_question_count", 0)
-                ]
+                _, quotas, available_by_dimension = inventory
+                coverage = self._coverage_report(memories, quotas, available_by_dimension)
+                self._agent_observation["dimension_coverage"] = coverage
+                shortages = [item for item in coverage
+                             if item["available_question_count"] < item["required_question_count"]]
                 if shortages:
                     self._agent_observation["coverage_gate"] = {
                         "status": "failed",
-                        "reason": "Confirmed evidence does not support the minimum number of distinct questions in every ability.",
+                        "reason": "Confirmed evidence does not support at least one question for every ability or its allocated extra slots.",
                         "shortages": [
                             {"dimension": item["dimension"], "required": item["required_question_count"],
                              "available": item["available_question_count"], "reason": item["reason"]}
@@ -223,10 +215,33 @@ class AgentTestGenerator(LLMTestGenerator):
                         for item in shortages
                     )
                     raise PipelineRequestError(
-                        "Cannot meet the per-ability minimum using confirmed, distinct evidence (" + detail + "). "
-                        "Ground truth is frozen after an audit is created; start a new audit with sufficient confirmed facts and relationship links. No partial suite was saved.",
-                        422,
+                        "Cannot meet the evidence-based question allocation (" + detail + "). "
+                        "Confirm more source evidence or reduce the requested count. No partial suite was saved.", 422,
                     )
+                planned_count = sum(item["required_question_count"] for item in coverage)
+                if planned_count < audit.test_budget:
+                    self._agent_observation["coverage_gate"] = {
+                        "status": "failed",
+                        "reason": "The requested count exceeds all distinct evidence-supported question slots.",
+                        "requested_test_count": audit.test_budget,
+                        "available_planned_question_count": planned_count,
+                    }
+                    raise PipelineRequestError(
+                        f"Confirmed evidence supports only {planned_count} distinct planned questions, below the requested "
+                        f"count of {audit.test_budget}. Confirm more distinct evidence or lower the requested count. "
+                        "No partial suite was saved.", 422,
+                    )
+                self._active_coverage_plan = self._build_coverage_plan(memories, audit, inventory=inventory)
+        except Exception:
+            self._agent_observation["status"] = "failed"
+            self.last_observation = self._agent_observation
+            self._notify_observation()
+            raise
+        self._agent_observation["coverage_plan"] = deepcopy(self._active_coverage_plan)
+        self.last_observation = self._agent_observation
+        self._notify_observation()
+
+        try:
             if generation_context:
                 candidates = self._generate_round(
                     memories, audit, "initial", generation_context=generation_context,
@@ -359,7 +374,7 @@ class AgentTestGenerator(LLMTestGenerator):
                         for item in shortages
                     )
                     raise PipelineRequestError(
-                        "The Agent could not meet the required per-ability minimum after bounded repairs (" + detail
+                        "The Agent could not fill the evidence-based question allocation after bounded repairs (" + detail
                         + "). No partial suite was saved."
                     )
                 self._agent_observation["coverage_gate"] = {
@@ -444,9 +459,12 @@ class AgentTestGenerator(LLMTestGenerator):
         }
         return prompt + "\n\nCOVERAGE PLAN (planning metadata, not question wording):\n" + json.dumps(plan, ensure_ascii=False)
 
-    def _build_coverage_plan(self, memories: list[Memory], audit: AuditRun) -> list[dict[str, Any]]:
+    def _build_coverage_plan(
+        self, memories: list[Memory], audit: AuditRun,
+        inventory: tuple[list[TestCase], dict[Dimension, int], dict[Dimension, int]] | None = None,
+    ) -> list[dict[str, Any]]:
         """Have a bounded Agent choose evidence slots; code remains the quota authority."""
-        seeds, quotas, available_by_dimension = self._coverage_seed_inventory(
+        seeds, quotas, available_by_dimension = inventory or self._coverage_seed_inventory(
             memories, audit.test_budget, allowed_test_types=self.allowed_test_types,
         )
         by_id = {memory.memory_id: memory for memory in memories}
@@ -662,12 +680,12 @@ class AgentTestGenerator(LLMTestGenerator):
                              else sorted(allowed_test_types, key=lambda item: item.value)[0])
             seeds = [test if test.test_type in allowed_test_types else
                      test.model_copy(update={"test_type": fallback_type}) for test in seeds]
-        quotas = AgentTestGenerator._dimension_quotas(test_budget)
         seeds_by_dimension = {
             dimension: [test for test in seeds if test.dimension == dimension]
             for dimension in Dimension
         }
         available_by_dimension = {dimension: len(items) for dimension, items in seeds_by_dimension.items()}
+        quotas = AgentTestGenerator._dimension_quotas(test_budget, available_by_dimension)
         return seeds, quotas, available_by_dimension
 
     @classmethod
@@ -695,12 +713,26 @@ class AgentTestGenerator(LLMTestGenerator):
         return report
 
     @staticmethod
-    def _dimension_quotas(test_budget: int) -> dict[Dimension, int]:
+    def _dimension_quotas(
+        test_budget: int, available_by_dimension: dict[Dimension, int],
+    ) -> dict[Dimension, int]:
+        """Allocate at least one question per ability, balancing within evidence capacity."""
         dimensions = list(Dimension)
         if test_budget < len(dimensions):
             return {dimension: 1 for dimension in dimensions}
-        base, remainder = divmod(test_budget, len(dimensions))
-        return {dimension: base + int(index < remainder) for index, dimension in enumerate(dimensions)}
+        quotas = {dimension: 1 for dimension in dimensions}
+        remaining = test_budget - len(dimensions)
+        while remaining:
+            eligible = [dimension for dimension in dimensions
+                        if quotas[dimension] < available_by_dimension.get(dimension, 0)]
+            if not eligible:
+                break
+            # Give the next slot to the least represented ability with another
+            # evidence-backed candidate. Dimension order makes ties reproducible.
+            selected = min(eligible, key=lambda dimension: quotas[dimension])
+            quotas[selected] += 1
+            remaining -= 1
+        return quotas
 
     @staticmethod
     def _dimension_support_reason(

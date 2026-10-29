@@ -93,7 +93,13 @@ class ControlledTargetSystemAdapter(TargetSystemAdapter):
                 self.db.flush()
             self._diagnostic_packet_id = record.id
 
-    def answer(self, test: TestCase, audit: AuditRun) -> TargetResponse:
+    def prepare_answer(self, test: TestCase, audit: AuditRun):
+        """Prepare the exact private target input through the normal memory store.
+
+        The returned test contains retrieved context but no expected answer or
+        evaluator evidence. Callers must retain the returned retrieval record
+        and must not treat preparation as an authorized model dispatch.
+        """
         try:
             validate_profile_reasoning(audit.provider.value, audit.model, audit.target_memory_profile)
         except ValueError as exc:
@@ -137,6 +143,10 @@ class ControlledTargetSystemAdapter(TargetSystemAdapter):
             self.db.flush()
         private_test = target_test.model_copy(update={"target_memory_context": retrieval.context})
         private_test, identity_metadata = self._identity_evidence(private_test, audit)
+        return private_test, retrieval, identity_metadata
+
+    def answer(self, test: TestCase, audit: AuditRun) -> TargetResponse:
+        private_test, retrieval, identity_metadata = self.prepare_answer(test, audit)
         response = HttpTargetAIConnector().execute(private_test, audit)
         response.execution_metadata.identity_analysis = identity_metadata
         receipt = response.execution_metadata.memory_input

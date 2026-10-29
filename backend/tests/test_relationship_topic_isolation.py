@@ -3,6 +3,34 @@ from app.test_generator.quality import RuleBasedTestQualityValidator
 from app.schemas import Memory, MemoryStatus, TestCase as Case, TestQualityStatus
 
 
+def test_relationship_agent_accepts_both_endpoints_from_same_message():
+    from datetime import datetime, timezone
+    from app.extraction.relationship_agent import RelationshipAnalysisAgent
+    from app.schemas import Conversation, ConversationMessage
+    now = datetime.now(timezone.utc)
+    source = 'I generally use paper notes, but this project requires encrypted notes.'
+    conversation = Conversation(conversation_id='C', created_at=now, authorised=True,
+        messages=[ConversationMessage(message_id='S001', role='user', content=source, timestamp=now)])
+    memories = [Memory(memory_id='M001',conversation_id='C',status=MemoryStatus.CANDIDATE,
+                       canonical_value='I generally use paper notes.',source_message_ids=['S001']),
+                Memory(memory_id='M002',conversation_id='C',status=MemoryStatus.CANDIDATE,
+                       canonical_value='This project requires encrypted notes.',source_message_ids=['S001'])]
+    class ReplyClient:
+        provider = 'fixture'
+        model = 'fixture'
+        last_execution = None
+        def complete_json(self, **request):
+            assert request['prompt_template_version']=='relationship-analysis-agent-v7'
+            assert 'same message ID may appear in both lists' in request['instructions']
+            return {'relationships':[{'current_memory_id':'M002','prior_memory_id':'M001',
+                'type':'CONTEXTUAL_OVERRIDE','current_evidence_message_ids':['S001'],
+                'prior_evidence_message_ids':['S001'],'confidence':0.9,
+                'rationale':'The project requirement is explicitly scoped.'}]}
+    result=RelationshipAnalysisAgent(ReplyClient()).analyze(conversation,memories)
+    assert result['relationships'][0]['evidence_message_ids']==['S001']
+    assert memories[1].relationships[0].target_memory_id=='M001'
+
+
 def test_project_prefix_facts_are_retained_and_isolated():
     from app.services.memory_entities import named_projects
     extractor = RuleBasedMemoryExtractor()
@@ -355,7 +383,7 @@ def test_relationship_agent_prompt_requires_exhaustive_pairs_and_defines_directi
     assert "without repeating or restating that preference" in client.kwargs["instructions"]
     assert "this field order does not imply priority or supersession" in client.kwargs["instructions"]
     assert "every unordered pair in candidate_pairs_to_assess" in client.kwargs["prompt"]
-    assert client.kwargs["prompt_template_version"] == "relationship-analysis-agent-v5"
+    assert client.kwargs["prompt_template_version"] == "relationship-analysis-agent-v7"
     assert client.kwargs["max_output_tokens"] == 896
     assert result == {"relationships": []}
 
@@ -408,6 +436,11 @@ def test_relationship_agent_rejects_edges_between_different_recognized_topics_at
         agent.analyze(conversation, memories)
 
     assert agent.last_observation["error_code"] == "topic_mismatch"
+    diagnostics=agent.last_observation['error_diagnostics']
+    assert diagnostics['validation_errors'][0]['field']=='relationships.0'
+    assert diagnostics['validation_errors'][0]['current_topic']=='database'
+    assert diagnostics['validation_errors'][0]['prior_topic']=='location'
+    assert 'Adelaide' not in str(diagnostics) and 'PostgreSQL' not in str(diagnostics)
     assert all(memory.relationships == [] for memory in memories)
 
 

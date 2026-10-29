@@ -8,7 +8,7 @@ class ReassessmentRequest(BaseModel):
     """Explicit assessor selection over immutable saved target answers."""
 
     model_config = {'extra': 'forbid'}
-    evaluator_provider: Literal['rule_based', 'openrouter', 'openai', 'deepseek', 'gemini', 'ollama']
+    evaluator_provider: Literal['rule_based', 'openrouter', 'openrouter_taxonomy', 'openai', 'deepseek', 'gemini', 'ollama']
     evaluator_model: str | None = Field(default=None, max_length=200)
 
     @model_validator(mode='after')
@@ -17,6 +17,8 @@ class ReassessmentRequest(BaseModel):
             self.evaluator_model = self.evaluator_model.strip()
         if self.evaluator_provider != 'rule_based' and not self.evaluator_model:
             raise ValueError('Choose a specific evaluator model for the comparison.')
+        if self.evaluator_provider == 'openrouter_taxonomy' and self.evaluator_model != 'openai/gpt-6-luna':
+            raise ValueError('The validated taxonomy evaluator requires openai/gpt-6-luna.')
         base_model = (self.evaluator_model or '').lower().split(':', 1)[0]
         if self.evaluator_model and (base_model.split('/')[-1].endswith('latest')
                                      or base_model == 'openrouter/auto'):
@@ -77,7 +79,7 @@ class MethodComparisonInventoryImport(BaseModel):
     reviewers: list[str] = Field(min_length=2, max_length=2)
     defects: list[MethodComparisonDefect] = Field(max_length=500)
     fixed_template_release_id: str = Field(min_length=1, max_length=120)
-    fixed_template_draft_generator_version: Literal['fixed-template-v2', 'fixed-template-v3']
+    fixed_template_draft_generator_version: Literal['fixed-template-v2', 'fixed-template-v3', 'fixed-template-v4', 'fixed-template-v5', 'fixed-template-v6', 'fixed-template-v7', 'fixed-template-v8', 'fixed-template-v9']
     fixed_template_draft_fingerprint_sha256: str = Field(pattern=r'^[0-9a-f]{64}$')
     fixed_template_review_confirmed: Literal[True]
     fixed_template_reviewers: list[str] = Field(min_length=1, max_length=2)
@@ -161,7 +163,7 @@ class MemoryStatus(str, Enum):
 class RelationshipType(str, Enum):
     UPDATE = "UPDATE"; CONFLICT = "CONFLICT"; CONTEXTUAL_OVERRIDE = "CONTEXTUAL_OVERRIDE"
 class AuditStatus(str, Enum):
-    CREATED="CREATED"; MEMORY_EXTRACTED="MEMORY_EXTRACTED"; GROUND_TRUTH_CONFIRMED="GROUND_TRUTH_CONFIRMED"; TESTS_GENERATED="TESTS_GENERATED"; TESTS_EXECUTED="TESTS_EXECUTED"; COMPLETED="COMPLETED"; FAILED="FAILED"; CANCELLED="CANCELLED"
+    CREATED="CREATED"; MEMORY_EXTRACTED="MEMORY_EXTRACTED"; GROUND_TRUTH_CONFIRMED="GROUND_TRUTH_CONFIRMED"; TESTS_GENERATED="TESTS_GENERATED"; TESTS_EXECUTED="TESTS_EXECUTED"; COMPLETED="COMPLETED"; FAILED="FAILED"; CANCELLED="CANCELLED"; RESEARCH_STAGED="RESEARCH_STAGED"
 class TargetConfiguration(str, Enum): WEAK="weak"; STRONG="strong"
 class MemoryStrategy(str, Enum):
     # Reference ablations make it clear whether a proposed memory policy
@@ -600,6 +602,8 @@ class ReproducibilityMetadata(BaseModel):
     generation_observations: list[dict] = Field(default_factory=list)
     shared_answer_source_run_id: str | None = None
     execution_budget: dict[str, int] = Field(default_factory=dict)
+    ac3_staged_suite: dict | None = None
+    ac3_paired_retest: dict | None = None
 
 
 class SharedAnswerRequest(BaseModel):
@@ -618,6 +622,7 @@ class ExecutionMetadata(BaseModel):
     output_tokens: int | None = None
     total_tokens: int | None = None
     reasoning_tokens: int | None = Field(default=None, ge=0, le=10_000_000)
+    reported_cost_usd: str | None = Field(default=None, max_length=64)
     sampling_control: str = 'unknown'
     sent_temperature: float | None = None
     reported_model: str | None = Field(default=None, max_length=120, pattern=r"^[A-Za-z0-9][A-Za-z0-9._:/+_-]*$")

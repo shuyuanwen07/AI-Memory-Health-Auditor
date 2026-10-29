@@ -59,6 +59,15 @@ button:not(.ant-btn), input:not([class*="ant-"]), select, textarea:not(.ant-inpu
   margin: 0 auto;
   padding: 2.5rem 2rem 5rem;
 }
+.research-results-page .page-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.research-results-page .page-heading p { max-width: 46rem; margin: 0; color: #6b6b6b; }
+.research-results-page.embedded { margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #ececec; }
 .workflow > section, .page > section {
   background: transparent;
   border: 0;

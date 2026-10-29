@@ -82,7 +82,8 @@ def prepare_reassessment(db, source_id, selection: ReassessmentRequest | None = 
     )
     # An explicit unavailable service must not silently become a rule result.
     # Historical same-assessor reassessment preserves its existing behaviour.
-    if selection and not configured(TargetProvider(provider)):
+    credential_provider = 'openrouter' if provider == 'openrouter_taxonomy' else provider
+    if selection and not configured(TargetProvider(credential_provider)):
         raise HTTPException(422, 'The selected evaluation service is unavailable. Configure it before comparing assessors.')
     runtime = audit_runtime_signature()
     input_signature = saved_answer_signature(db, source)

@@ -4,7 +4,7 @@ from datetime import datetime, timedelta, timezone
 import pytest
 
 from app.extraction.llm import PipelineRequestError
-from app.extraction.llm_extractor import LLMMemoryExtractor
+from app.extraction.llm_extractor import LLMMemoryExtractor, _memory_extraction_output_budget
 from app.memory_agent.writers import LLMTargetMemoryWriter
 from app.schemas import Conversation, ConversationMessage
 
@@ -101,6 +101,19 @@ def test_local_extraction_output_budget_scales_with_source_message_count():
     LLMMemoryExtractor(client=client).extract(conversation)
 
     assert client.request['max_output_tokens'] == 3264
+
+
+@pytest.mark.parametrize(('message_count', 'expected'), [
+    (14, 2400), (25, 2400), (34, 3264), (100, 4096),
+])
+def test_memory_extraction_output_budget_has_short_history_headroom(message_count, expected):
+    assert _memory_extraction_output_budget(message_count) == expected
+
+
+@pytest.mark.parametrize('message_count', [-1, True, 1.5, '14'])
+def test_memory_extraction_output_budget_rejects_invalid_message_counts(message_count):
+    with pytest.raises(ValueError, match='non-negative integer'):
+        _memory_extraction_output_budget(message_count)
 
 
 def test_target_writer_historical_source_without_timezone_cannot_get_guessed_zone():

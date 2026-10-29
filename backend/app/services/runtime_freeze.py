@@ -20,6 +20,8 @@ def audit_runtime_signature() -> dict[str, str]:
 
 def assert_audit_runtime_frozen(audit) -> None:
     metadata = audit.reproducibility_metadata or {}
+    if getattr(audit, 'status', None) == 'RESEARCH_STAGED' or metadata.get('ac3_staged_suite') or metadata.get('ac3_paired_retest'):
+        raise HTTPException(409, 'This research suite is staged only. Live execution is disabled until a verified budget guard and release path are implemented.')
     if "audit_runtime_signature" not in metadata:
         return  # Legacy provenance is unknown; do not invent a snapshot.
     if metadata["audit_runtime_signature"] != audit_runtime_signature():

@@ -1,0 +1,52 @@
+{
+  "format": "tutor-repair-human-review-public-v1",
+  "experiment_id": "EXP627CCD21BC1D465996A30FF0E630739B",
+  "scope": "One synthetic history, one run per condition and eight shared questions. User reports two independent human reviewers who had not seen automatic results; the original files record conflicting provenance and AI assistance. Neither account has been independently authenticated.",
+  "human_confirmation": "User confirmed two different people performed independent human reviews without seeing automatic scores before review; the original files state AI assistance and result exposure. Both records are preserved without independently resolving the conflict.",
+  "agreement": {
+    "question_validity": "24/24",
+    "answer_verdict": "24/24",
+    "note": "Agreement is not formal adjudication."
+  },
+  "conditions": [
+    {
+      "name": "Original configuration",
+      "pass": 1,
+      "fail": 7,
+      "total": 8
+    },
+    {
+      "name": "Generic instruction control",
+      "pass": 1,
+      "fail": 7,
+      "total": 8
+    },
+    {
+      "name": "Retrieval strategy candidate",
+      "pass": 5,
+      "fail": 3,
+      "total": 8
+    }
+  ],
+  "paired_original_to_target": {
+    "both_pass": 1,
+    "target_only_pass": 4,
+    "original_only_pass": 0,
+    "both_fail": 3
+  },
+  "automatic_vs_human": {
+    "decided_agree": 19,
+    "decided_disagree": 0,
+    "automatic_uncertain_human_pass": 1,
+    "automatic_uncertain_human_fail": 4
+  },
+  "source_summary_sha256": "1ecee061903b16c52761fe4287addd48df23e15dd5546225f6feeb568d661284",
+  "source_sha256": {
+    "reconciliation": "94613753b896cbf48fb71a4d9d0484ece3eb4860dd9ade5ae7d560b61862807a",
+    "confirmation": "668ca76dda835a608b311fe6aa61854cf8ed8bd241d4c562a61be43e3e132d5f",
+    "distinct_people_confirmation": "f69e61496445bb30b9b657788858cae6be75ae0f9756723d322d625876830edd",
+    "independence_confirmation": "31c1681bd29ef6c2d783d2cf5dd9221027f0cf9b71a05275644bb219cdf0ab76",
+    "key": "306371c356a07502339ec95fdec9ed85bdfc72353e0f6c6484b57006b27bd04f",
+    "bundle": "e26cca18601be85b4f174e78bfe3780f1cb7c1c5d852b11ad1da613a0e003520"
+  }
+}

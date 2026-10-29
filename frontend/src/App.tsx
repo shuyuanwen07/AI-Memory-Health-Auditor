@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { Button, Menu, Spin } from 'antd';
 import { AccessBoundary } from './components/AccessBoundary';
-import { NavLink, Route, Routes, useLocation } from 'react-router-dom';
+import { Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom';
 const NewAudit = lazy(() => import('./pages/NewAudit').then(module => ({default:module.NewAudit})));
 const AuditorComparisonPage = lazy(() => import('./pages/AuditorComparison').then(module => ({default:module.AuditorComparisonPage})));
 const AssessorComparisonPage = lazy(() => import('./pages/AssessorComparison').then(module => ({default:module.AssessorComparisonPage})));
@@ -14,10 +14,12 @@ const History = lazy(() => import('./pages/StaticPages').then(module => ({defaul
 const About = lazy(() => import('./pages/StaticPages').then(module => ({default:module.About})));
 const AuditReportPage = lazy(() => import('./pages/StaticPages').then(module => ({default:module.AuditReportPage})));
 const Experiments = lazy(() => import('./pages/StaticPages').then(module => ({default:module.Experiments})));
-
-const Dashboard = lazy(() => import('./pages/Dashboard').then(module => ({default:module.Dashboard})));
+const ExpandedCComparisonPage = lazy(() => import('./pages/ExpandedCComparison').then(module => ({default:module.ExpandedCComparisonPage})));
+const ResearchResultsPage = lazy(() => import('./pages/ResearchResults').then(module => ({default:module.ResearchResultsPage})));
+const FinalResultsDashboard = lazy(() => import('./pages/FinalResultsDashboard').then(module => ({default:module.FinalResultsDashboard})));
+const FourStrategyComparisonPage = lazy(() => import('./components/FourStrategyComparison').then(module => ({default:module.FourStrategyComparisonPage})));
 function Home() {
-  return <main className="page"><Dashboard /></main>;
+  return <FinalResultsDashboard />;
 }
 
 /** One component library and theme for the application shell and controls. */
@@ -25,8 +27,7 @@ function AppShell({signOut,signingOut}:{signOut:(()=>Promise<void>)|null;signing
   const { pathname } = useLocation();
   const [navigationOpenKeys, setNavigationOpenKeys] = useState<string[]>([]);
   useEffect(() => { setNavigationOpenKeys([]); }, [pathname]);
-  const links = [['/', 'Dashboard'], ['/new-audit', 'New audit'], ['/history', 'History'],
-    ['/compare', 'Before & after'], ['/audit-methods', 'Audit methods'], ['/assessor-models', 'AI assessors'], ['/generator-models', 'Test generators'], ['/extraction-models','Memory extractors'], ['/quality', 'Auditor reliability'], ['/experiments', 'Experiments'], ['/about', 'About']];
+  const links = [['/', 'Dashboard'], ['/new-audit', 'New audit'], ['/history', 'History']];
   return <div className="app-shell">
     <header className="app-header">
       <NavLink className="brand" to="/"><span aria-hidden="true" className="brand-mark">✦</span>Memory Auditor</NavLink>
@@ -50,6 +51,10 @@ function AppShell({signOut,signingOut}:{signOut:(()=>Promise<void>)|null;signing
       <Route path="/audits/:runId/results" element={<main className="page"><AuditReportPage /></main>} />
       <Route path="/experiments" element={<main className="page"><Experiments /></main>} />
       <Route path="/experiments/:experimentId" element={<main className="page"><Experiments /></main>} />
+      <Route path="/expanded-c" element={<ExpandedCComparisonPage/>} />
+      <Route path="/research-results" element={<ResearchResultsPage/>} />
+      <Route path="/four-strategy-comparison" element={<FourStrategyComparisonPage/>} />
+      <Route path="/audit-walkthrough" element={<Navigate to="/experiments" replace />} />
       <Route path="/blind-review/:runId" element={<BlindReviewPage/>}/>
       <Route path="/quality" element={<AuditorQualityPage/>}/>
       <Route path="/about" element={<main className="page"><About /></main>} />

@@ -33,6 +33,7 @@ const apiMocks = vi.hoisted(() => ({
   createAudit: vi.fn(),
   generate: vi.fn(),
   testReview: vi.fn(),
+  reviewQuestionScopes: vi.fn(),
   reviewTest: vi.fn(),
   regenerateTest: vi.fn(),
   execute: vi.fn(),
@@ -47,6 +48,9 @@ const apiMocks = vi.hoisted(() => ({
   targetMemoryTrace: vi.fn(),
   targetSystems: vi.fn(),
   coveragePreview: vi.fn(),
+  auditorQuality: vi.fn(),
+  experimentGroups: vi.fn(),
+  savedFormalRuns: vi.fn(),
 }));
 
 vi.mock('../services/api', () => ({ api: apiMocks }));
@@ -93,14 +97,20 @@ beforeEach(() => {
   ]);
   apiMocks.targetSystems.mockResolvedValue([{value:'controlled-memory',label:'Controlled memory',configured:true}]);
   apiMocks.coveragePreview.mockImplementation(async (_id: string, budget: number) => ({
-    requested_test_count: budget, minimum_met: true,
-    dimensions: ['accuracy','freshness','conflict_resolution','appropriate_use'].map((dimension) => ({
-      dimension, evidence_supported: true, reason: 'Synthetic workflow fixture.',
-      planned_question_count: 1, required_question_count: 1,
-      available_question_count: 1, accepted_question_count: 0,
-    })),
+    requested_test_count: budget, minimum_met: budget >= 4,
+    dimensions: ['accuracy','freshness','conflict_resolution','appropriate_use'].map((dimension, index) => {
+      const required = budget < 4 ? 1 : Math.floor(budget / 4) + Number(index < budget % 4);
+      return {
+        dimension, evidence_supported: true, reason: 'Synthetic workflow fixture.',
+        planned_question_count: required, required_question_count: required,
+        available_question_count: 8, accepted_question_count: 0,
+      };
+    }),
   }));
   apiMocks.createConversation.mockResolvedValue({ conversation_id: 'C001' });
+  apiMocks.auditorQuality.mockRejectedValue(new Error('not available in this workflow fixture'));
+  apiMocks.experimentGroups.mockResolvedValue([]);
+  apiMocks.savedFormalRuns.mockResolvedValue({ items: [] });
   apiMocks.extract.mockResolvedValue([memory]);
   apiMocks.updateMemory.mockResolvedValue(confirmedMemory);
   apiMocks.confirm.mockResolvedValue([confirmedMemory]);
@@ -108,6 +118,7 @@ beforeEach(() => {
   apiMocks.createAudit.mockResolvedValue({ run_id: 'RUN001' });
   apiMocks.generate.mockResolvedValue([pendingTest]);
   apiMocks.testReview.mockResolvedValue({ run_id: 'RUN001', canonical_run_id: 'RUN001', tests: [pendingTest] });
+  apiMocks.reviewQuestionScopes.mockResolvedValue({ run_id: 'RUN001', canonical_run_id: 'RUN001', tests: [pendingTest] });
   apiMocks.reviewTest.mockResolvedValue(acceptedTest);
   apiMocks.retryPlan.mockResolvedValue({busy:false,retryable:true,next_stage:'evaluate_responses',pending:1});
   apiMocks.execute.mockResolvedValue({ status: 'TESTS_EXECUTED' });
@@ -211,6 +222,35 @@ test('explains Agents and ground truth at setup without changing the workflow la
   await user.click(screen.getByRole('button', { name: 'Confirm Ground Truth & Continue' }));
   await screen.findByRole('heading', { name: 'Configure Memory Audit' });
   expect(screen.getByText(/Ground truth is the set of conversation-supported facts you confirmed/)).toBeInTheDocument();
+  expect(screen.getByText(/The Agent needs at least one distinct, evidence-backed question for each ability/)).toBeInTheDocument();
+  expect(screen.getByText(/Proposal Category Coverage also counts a dimension once it has at least one valid question/)).toBeInTheDocument();
+});
+
+test('allocates an eight-question budget around a single conflict evidence slot', async () => {
+  apiMocks.targetProviders.mockResolvedValue([
+    { provider: 'rule_based', label: 'Rule-Based Baseline', default_model: 'rule-based-v1', configured: true, description: 'Offline.' },
+    { provider: 'openrouter', label: 'OpenRouter', default_model: 'test/target', default_pipeline_model: 'test/pipeline', default_evaluator_model: 'test/judge', configured: true, description: 'Cloud.' },
+  ]);
+  const dimensions = ['accuracy','freshness','conflict_resolution','appropriate_use'];
+  const required = [3,2,1,2];
+  const available = [6,2,1,2];
+  apiMocks.coveragePreview.mockResolvedValue({
+    requested_test_count: 8, minimum_met: true,
+    dimensions: dimensions.map((dimension, index) => ({
+      dimension, evidence_supported: true, reason: 'Synthetic source fixture.',
+      planned_question_count: required[index], required_question_count: required[index],
+      available_question_count: available[index], accepted_question_count: 0,
+    })),
+  });
+
+  const user = userEvent.setup();
+  render(<NewAudit />);
+  await reachCreationConfiguration(user);
+
+  expect(await screen.findByText(/Evidence-based question allocation: accuracy 3 · freshness 2 · conflict resolution 1 · appropriate use 2\./)).toBeInTheDocument();
+  expect(screen.queryByText(/Insufficient coverage:/)).not.toBeInTheDocument();
+  expect(screen.getByRole('button', { name: 'Start 3-Run Comparison' })).toBeEnabled();
+  expect(apiMocks.createAudit).not.toHaveBeenCalled();
 });
 
 test('completes the local audit workflow from consent through reviewed results and target trace', async () => {
@@ -237,6 +277,10 @@ test('completes the local audit workflow from consent through reviewed results a
   await screen.findByRole('heading', { name: 'Prepare Memory Audit' });
   await user.click(screen.getByRole('button', { name: 'Generate Tests for Review' }));
   await screen.findByRole('heading', { name: 'Review Generated Test Suite' });
+
+  await user.click(screen.getByRole('button', { name: 'Check question scope against source' }));
+  await waitFor(() => expect(apiMocks.reviewQuestionScopes).toHaveBeenCalledWith('RUN001'));
+  expect(screen.getByRole('button', { name: 'Run Audit & View Results' })).toBeDisabled();
 
   await user.click(screen.getByRole('button', { name: 'Accept' }));
   await waitFor(() => expect(apiMocks.reviewTest).toHaveBeenCalledWith('RUN001', 'T001', 'accepted'));
@@ -267,7 +311,7 @@ test('cancelling a running comparison stops the browser queue before its next co
   await user.click(screen.getByRole('button', { name: 'Accept' }));
   await user.click(screen.getByRole('button', { name: 'Confirm Ground Truth & Continue' }));
   await screen.findByRole('heading', { name: 'Configure Memory Audit' });
-  await user.click(screen.getByRole('checkbox', { name: /Prioritise requirements and updates/i }));
+  await user.click(screen.getByRole('checkbox', { name: /Relationship-priority retrieval/i }));
   await user.click(screen.getByRole('button', { name: 'Start 2-Run Comparison' }));
   await user.click(screen.getByRole('button', { name: 'Generate Tests for Review' }));
   await screen.findByRole('heading', { name: 'Review Generated Test Suite' });
@@ -883,7 +927,7 @@ test('presentation preset selects two memory strategies and three repeats withou
   await screen.findByRole('heading',{name:'Review Extracted Memories'});
   await user.click(screen.getByRole('button',{name:'Accept'}));
   await user.click(screen.getByRole('button',{name:'Confirm Ground Truth & Continue'}));
-  await user.click(await screen.findByRole('button',{name:'Use presentation settings · Weak/Strong × 3'}));
+  await user.click(await screen.findByRole('button',{name:'Use presentation settings · 3 repeats per retrieval strategy'}));
   expect(screen.getByRole('checkbox',{name:/compare all three audit methods/i})).not.toBeChecked();
   expect(screen.getByLabelText(/Requested test count/)).toHaveValue('8');
   expect(screen.getByLabelText(/Repeated runs per condition/)).toHaveValue('3');

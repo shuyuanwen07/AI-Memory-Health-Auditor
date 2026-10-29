@@ -1,0 +1,50 @@
+{
+  "format": "tutor-repair-human-review-public-v1",
+  "experiment_id": "EXP627CCD21BC1D465996A30FF0E630739B",
+  "scope": "One synthetic history, one run per condition, eight shared questions; retrospective reviews with AI assistance and outcome exposure; independence unconfirmed.",
+  "human_confirmation": "User confirmed both received files were human reviewed and later said they were by different people. Independent judgments and lack of exposure have not been established.",
+  "agreement": {
+    "question_validity": "24/24",
+    "answer_verdict": "24/24",
+    "note": "Agreement is not formal adjudication."
+  },
+  "conditions": [
+    {
+      "name": "Original configuration",
+      "pass": 1,
+      "fail": 7,
+      "total": 8
+    },
+    {
+      "name": "Generic instruction control",
+      "pass": 1,
+      "fail": 7,
+      "total": 8
+    },
+    {
+      "name": "Retrieval strategy candidate",
+      "pass": 5,
+      "fail": 3,
+      "total": 8
+    }
+  ],
+  "paired_original_to_target": {
+    "both_pass": 1,
+    "target_only_pass": 4,
+    "original_only_pass": 0,
+    "both_fail": 3
+  },
+  "automatic_vs_human": {
+    "decided_agree": 19,
+    "decided_disagree": 0,
+    "automatic_uncertain_human_pass": 1,
+    "automatic_uncertain_human_fail": 4
+  },
+  "source_summary_sha256": "75637ef0f29f71e2696ac1b261b1a9b7f4316e5abf2b5153b24cce70654ad71a",
+  "source_sha256": {
+    "reconciliation": "94613753b896cbf48fb71a4d9d0484ece3eb4860dd9ade5ae7d560b61862807a",
+    "confirmation": "668ca76dda835a608b311fe6aa61854cf8ed8bd241d4c562a61be43e3e132d5f",
+    "key": "306371c356a07502339ec95fdec9ed85bdfc72353e0f6c6484b57006b27bd04f",
+    "bundle": "e26cca18601be85b4f174e78bfe3780f1cb7c1c5d852b11ad1da613a0e003520"
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "format": "ac3-taxonomy-development-public-v1",
+  "source_sha256": "b1827ca1d578d0823a20ccfaa8468672b7de0ed12e5c4a367eece2d5513b868e",
+  "source_frozen_sha256": "ec20077e07ead83925fa38bb67936d81773098e0762c1e4627ae3b94d8ff0f58",
+  "sample_size": 120,
+  "conditions": [
+    {
+      "id": "hybrid",
+      "label": "Model + rule check",
+      "metrics": {
+        "failure_recall_conservative": {
+          "numerator": 56,
+          "denominator": 80,
+          "percentage": 70.0
+        },
+        "classification_accuracy_conservative": {
+          "numerator": 46,
+          "denominator": 56,
+          "percentage": 82.1
+        },
+        "decided_coverage": {
+          "numerator": 88,
+          "denominator": 120,
+          "percentage": 73.3
+        },
+        "false_positive_rate_decided": {
+          "numerator": 0,
+          "denominator": 32,
+          "percentage": 0.0
+        }
+      }
+    },
+    {
+      "id": "provider_only",
+      "label": "Model judgment only",
+      "metrics": {
+        "failure_recall_conservative": {
+          "numerator": 66,
+          "denominator": 80,
+          "percentage": 82.5
+        },
+        "classification_accuracy_conservative": {
+          "numerator": 50,
+          "denominator": 66,
+          "percentage": 75.8
+        },
+        "decided_coverage": {
+          "numerator": 118,
+          "denominator": 120,
+          "percentage": 98.3
+        },
+        "false_positive_rate_decided": {
+          "numerator": 0,
+          "denominator": 40,
+          "percentage": 0.0
+        }
+      }
+    }
+  ],
+  "independent_retest": false,
+  "formal_acceptance_established": false,
+  "limitations": [
+    "Previously observed answers were used in development; these are not independent validation results.",
+    "Synthetic histories are related and not representative of a population.",
+    "False positive rate uses decided human-pass cases; abstentions are excluded from its denominator."
+  ]
+}

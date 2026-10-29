@@ -21,15 +21,15 @@ test('counts shared native preparation once and keeps historical costs unknown',
 
 test('requires validated source and consent before actual model calls',async()=>{
   const user=userEvent.setup();render(<LiveBenchmark/>);
-  expect(screen.getByText(/Experiment C defaults to Weak first-hit and Strong rule-based/)).toBeInTheDocument();
+  expect(screen.getByText(/Experiment C defaults to first-match retrieval and relationship-priority retrieval/)).toBeInTheDocument();
   expect(screen.getByRole('button',{name:'Run Real-Model Comparison'})).toBeDisabled();
   await upload(user);expect(calls.runLiveBenchmark).not.toHaveBeenCalled();
   await user.click(screen.getByLabelText('Live benchmark model-run authorisation'));
   await user.click(screen.getByRole('button',{name:'Run Real-Model Comparison'}));
   await screen.findByText('Real-model comparison completed');
   expect(calls.runLiveBenchmark).toHaveBeenCalledWith(expect.objectContaining({provider:'openrouter',model:'openai/gpt-6-luna',source_authorised:true,strategies:['weak_first_hit','strong_rule_based'],dataset_provenance:{dataset_version:'fixture-v1',license:'synthetic fixture',citation:'Synthetic unit-test fixture'}}),expect.any(AbortSignal));
-  expect(screen.getByText('Strong rule-based · 1/1 lexical matches')).toBeInTheDocument();
-  expect(screen.getByRole('img', {name: /Weak first-hit 0\/1 lexical matches, 0%; Strong rule-based 1\/1 lexical matches, 100%/})).toBeInTheDocument();
+  expect(screen.getByText('Relationship-priority retrieval · 1/1 lexical matches')).toBeInTheDocument();
+  expect(screen.getByRole('img', {name: /First-match retrieval 0\/1 lexical matches, 0%; Relationship-priority retrieval 1\/1 lexical matches, 100%/})).toBeInTheDocument();
   expect(screen.getByText(/Word matches are an initial check/)).toBeInTheDocument();
 });
 
@@ -94,7 +94,7 @@ test('includes native condition only when selected and keeps controlled preparat
   await user.click(screen.getByRole('button',{name:'Run Real-Model Comparison'}));
   await screen.findByText('Real-model comparison completed');
   expect(calls.runLiveBenchmark).toHaveBeenCalledWith(expect.objectContaining({include_mem0:true}),expect.any(AbortSignal));
-  await user.click(screen.getByRole('button',{name:'Inspect Strong rule-based answers and supply evidence'}));
+  await user.click(screen.getByRole('button',{name:'Inspect Relationship-priority retrieval answers and supply evidence'}));
   expect(screen.queryByText(/Mem0 OSS/)).not.toBeInTheDocument();
 });
 

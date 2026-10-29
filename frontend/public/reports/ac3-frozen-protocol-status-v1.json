@@ -1,0 +1,18 @@
+{
+  "format": "ac3-frozen-protocol-status-v1",
+  "primary_histories": 30,
+  "primary_questions": 120,
+  "repeat_histories": 10,
+  "repeat_questions": 40,
+  "thresholds": {
+    "failure_detection_recall_min": 0.8,
+    "failure_classification_accuracy_min": 0.8,
+    "test_validity_min": 0.9,
+    "false_positive_rate_max": 0.1
+  },
+  "primary_sha256": "ec20077e07ead83925fa38bb67936d81773098e0762c1e4627ae3b94d8ff0f58",
+  "repeat_sha256": "d5f88c4d118ffd0ffb941d564cf1c33cce82dd10ee78f8aaa33f91e508df2246",
+  "primary_frozen_at_utc": "2026-10-28T10:26:22.246870+00:00",
+  "repeat_frozen_at_utc": "2026-10-28T10:26:34.286398+00:00",
+  "interpretation": "Both protocol snapshots are frozen; this is not a claim that any experiment has finished or met acceptance."
+}

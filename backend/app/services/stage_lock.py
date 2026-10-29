@@ -1,5 +1,5 @@
 """Cross-process protection for long-running stages."""
-from contextlib import contextmanager
+from contextlib import contextmanager, ExitStack
 from datetime import datetime, timedelta, timezone
 import hashlib
 from threading import Event, Thread
@@ -23,6 +23,43 @@ def _utc_naive_now() -> datetime:
 
 def stage_lock_key(scope: str) -> int:
     return int.from_bytes(hashlib.sha256(('memory-auditor-stage:' + scope).encode()).digest()[:8], 'big', signed=True)
+
+
+@contextmanager
+def database_stage_locks(db: Session | None, scopes: list[str], busy_message: str):
+    """Acquire distinct stage locks with one PostgreSQL connection.
+
+    The single-connection form avoids exhausting the default connection pool
+    when a research import locks multiple audits. Locks are nonblocking and
+    share exactly the same keys as individual database_stage_lock calls.
+    """
+    ordered = sorted(set(scopes))
+    if db is None:
+        yield
+        return
+    if db.get_bind().dialect.name != 'postgresql':
+        with ExitStack() as stack:
+            for scope in ordered:
+                stack.enter_context(database_stage_lock(db, scope, busy_message))
+            yield
+        return
+    connection = db.get_bind().engine.connect().execution_options(isolation_level='AUTOCOMMIT')
+    acquired = []
+    try:
+        for scope in ordered:
+            key = stage_lock_key(scope)
+            if not connection.scalar(text('SELECT pg_try_advisory_lock(:key)'), {'key': key}):
+                raise HTTPException(409, busy_message)
+            acquired.append(key)
+        yield
+    finally:
+        try:
+            for key in reversed(acquired):
+                connection.execute(text('SELECT pg_advisory_unlock(:key)'), {'key': key})
+        except Exception:
+            connection.invalidate()
+        finally:
+            connection.close()
 
 
 @contextmanager

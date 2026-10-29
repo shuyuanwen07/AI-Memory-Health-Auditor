@@ -10,7 +10,7 @@ export type SemanticReviewResult = {
   cases:Array<{case_id:string;category:string;question:string;expected_answer:string;response_text:string;lexical_match:boolean;semantic_correct:boolean|null}>;
   categories:Array<{category:string;total:number;reviewed:number;correct:number;percentage:number|null}>;
 };
-const conditionLabel=(s:string)=>({no_memory:'No memory',full_context:'Full context',weak_first_hit:'Weak first-hit',scope_aware:'Scope-aware',strong_rule_based:'Strong rule-based',temporal_importance:'Temporal & importance',mem0_native:'Mem0 original',mem0_generic:'Mem0 + generic instruction',mem0_directed:'Mem0 + diagnosis-guided filtering'}[s]??'Saved condition');
+const conditionLabel=(s:string)=>({no_memory:'No memory',full_context:'Full context',weak_first_hit:'First-match retrieval',scope_aware:'Match the task and project',strong_rule_based:'Relationship-priority retrieval',temporal_importance:'Consider time and importance',mem0_native:'Mem0 original',mem0_generic:'Mem0 + generic instruction',mem0_directed:'Mem0 + diagnosis-guided filtering'}[s]??'Saved condition');
 const categoryLabel=(s:string)=>({'single-session-user':'User facts','single-session-assistant':'Assistant facts','single-session-preference':'Personal preferences','multi-session':'Across sessions','temporal-reasoning':'Time reasoning','knowledge-update':'Updated facts'}[s]??'Other questions');
 
 export function BenchmarkSemanticReview(){

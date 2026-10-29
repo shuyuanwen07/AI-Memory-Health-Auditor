@@ -61,7 +61,7 @@ test('uses the reviewer-selected failure dimension rather than the automated cla
   await waitFor(() => expect(screen.getByText('Blind independent label')).toBeTruthy());
   await user.type(screen.getByRole('textbox', {name:'Reviewer pseudonym'}), 'reviewer-A');
   await selectUIOption(user, 'Failure dimension 1', 'Appropriate Use');
-  await user.click(screen.getByRole('button', { name: 'Human: Fail' }));
+  await user.click(screen.getByRole('button', { name: 'Record Fail label' }));
   await waitFor(() => expect(apiMocks.reviewEvaluation).toHaveBeenCalledWith('RUN1', 'E1', expect.objectContaining({ human_failure_type: 'appropriate_use', review_role: 'independent' })));
 });
 
@@ -87,7 +87,7 @@ test('confirms a saved blind label without revealing the automated verdict', asy
   await waitFor(() => expect(screen.getByText('Blind independent label')).toBeTruthy());
   await user.type(screen.getByRole('textbox', {name:'Reviewer pseudonym'}), 'reviewer-A');
   await selectUIOption(user, 'Failure dimension 1', 'Freshness');
-  await user.click(screen.getByRole('button', { name: 'Human: Fail' }));
+  await user.click(screen.getByRole('button', { name: 'Record Fail label' }));
   expect((await screen.findByRole('status')).textContent).toContain('Your independent label was saved: Fail. It is recorded as calibration evidence.');
   expect(screen.queryByText('Automated: Fail')).toBeNull();
   expect(screen.getByText(/Saved for this reviewer in this session: 1 of 1/)).toBeTruthy();
@@ -102,7 +102,7 @@ test('explains an empty review batch without inventing completed reviews', async
   await user.click(screen.getByRole('button', {name: 'Review Evaluations'}));
   expect(await screen.findByText(/There are no assessed answers to review/)).toBeTruthy();
   expect(screen.queryByText(/Saved for this reviewer/)).toBeNull();
-  expect(screen.queryByRole('button', {name: 'Human: Pass'})).toBeNull();
+  expect(screen.queryByRole('button', {name: 'Record Pass label'})).toBeNull();
 });
 
 test('cannot collect an independent label on a report that exposed automated results', async () => {
@@ -113,7 +113,7 @@ test('cannot collect an independent label on a report that exposed automated res
   await screen.findByText('Automated: Fail');
   expect(apiMocks.blindEvaluationReview).not.toHaveBeenCalled();
   await user.type(screen.getByRole('textbox', {name: 'Reviewer pseudonym'}), 'report-reader');
-  await user.click(screen.getByRole('button', {name: 'Human: Pass'}));
+  await user.click(screen.getByRole('button', {name: 'Record Pass label'}));
   await waitFor(() => expect(apiMocks.reviewEvaluation).toHaveBeenCalledWith('RUN1', 'E1', expect.objectContaining({review_role: 'reference'})));
   expect(screen.queryByText('Blind independent label')).toBeNull();
 });
@@ -122,12 +122,12 @@ test('requires an explicit independent failure class without exposing the test d
   const user = userEvent.setup(); render(<EvaluationReview runId="RUN1" />);
   await user.click(screen.getByRole('button', { name: 'Review Evaluations' }));
   await screen.findByText('Blind independent label');
-  expect(screen.getByRole('button', { name: 'Human: Fail' })).toBeDisabled();
-  expect(screen.getByRole('button', { name: 'Human: Pass' })).toBeDisabled();
+  expect(screen.getByRole('button', { name: 'Record Fail label' })).toBeDisabled();
+  expect(screen.getByRole('button', { name: 'Record Pass label' })).toBeDisabled();
   expect(screen.queryByText('Freshness', { selector: '.evaluation-review-card .row b' })).toBeNull();
   await user.type(screen.getByRole('textbox', {name:'Reviewer pseudonym'}), 'reviewer-A');
   await selectUIOption(user, 'Failure dimension 1', 'Accuracy');
-  expect(screen.getByRole('button', { name: 'Human: Fail' })).toBeEnabled();
+  expect(screen.getByRole('button', { name: 'Record Fail label' })).toBeEnabled();
 });
 
 
@@ -246,7 +246,7 @@ test('locks the submitted reviewer, category and note while a label is being sav
   await user.type(screen.getByRole('textbox',{name:'Reviewer pseudonym'}),'reviewer-A');
   await selectUIOption(user,'Failure dimension 1','Freshness');
   await user.type(screen.getByRole('textbox',{name:'Calibration note 1'}),'The answer uses the old fact.');
-  await user.click(screen.getByRole('button',{name:'Human: Fail'}));
+  await user.click(screen.getByRole('button',{name:'Record Fail label'}));
   await waitFor(()=>expect(apiMocks.reviewEvaluation).toHaveBeenCalled());
   expect(screen.getByRole('textbox',{name:'Reviewer pseudonym'})).toBeDisabled();
   expect(screen.getByRole('combobox',{name:'Failure dimension 1'})).toBeDisabled();

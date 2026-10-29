@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from sqlalchemy import Boolean, DateTime, Float, ForeignKey, Index, Integer, JSON, String, Text, UniqueConstraint
+from sqlalchemy import BigInteger, Boolean, CheckConstraint, DateTime, Float, ForeignKey, Index, Integer, JSON, String, Text, UniqueConstraint
 from sqlalchemy.orm import Mapped, mapped_column
 from app.database.session import Base
 
@@ -7,6 +7,7 @@ from app.database.session import Base
 def utc_now() -> datetime:
     """Timezone-aware replacement for the deprecated datetime.utcnow()."""
     return datetime.now(timezone.utc)
+
 
 class ModelAvailabilityModel(Base):
     __tablename__ = 'model_availability'

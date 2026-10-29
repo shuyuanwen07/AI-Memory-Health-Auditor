@@ -6,10 +6,12 @@ export function SavedAnswerReassessment({runId, sourceId}:{runId:string;sourceId
   const [busy,setBusy]=useState(false);
   const [error,setError]=useState('');
   const [resultId,setResultId]=useState('');
-  const reassess=async()=>{
+  const reassess=async(useEvidenceBased=false)=>{
     setBusy(true);setError('');
     try {
-      let run=await api.prepareReassessment(runId);
+      let run=useEvidenceBased
+        ? await api.prepareReassessment(runId,{evaluator_provider:'openrouter_taxonomy',evaluator_model:'openai/gpt-6-luna'})
+        : await api.prepareReassessment(runId);
       if(run.status==='TESTS_EXECUTED') await api.evaluate(run.run_id);
       else if(run.status==='FAILED') run=await api.retry(run.run_id);
       const saved=await api.getAudit(run.run_id);
@@ -23,7 +25,9 @@ export function SavedAnswerReassessment({runId, sourceId}:{runId:string;sourceId
     <p><a href={`/assessor-models?source=${sourceId||runId}`}>Compare different AI assessors on these answers</a></p>
     {sourceId&&<p>This is a separate assessment of saved answers. <a href={`/audits/${sourceId}`}>View the original assessment</a>.</p>}
     <p>The original questions, answers and result stay saved. This creates a separate result using the same assessment service and model with the installed software. The target model is not called again. An AI assessor may make new review requests.</p>
-    <UIButton disabled={busy} onClick={reassess}>{busy?'Reassessing saved answers…':'Reassess saved answers'}</UIButton>
+    <UIButton disabled={busy} onClick={()=>reassess()}>{busy?'Reassessing saved answers…':'Reassess saved answers'}</UIButton>
+    <UIButton disabled={busy} onClick={()=>reassess(true)}>Reassess with evidence-based auditor</UIButton>
+    <p>Evidence-based auditor uses GPT-6 Luna to review the saved answers and may incur model charges.</p>
     {error&&<UIAlert role="alert">{error} <a href="/history">Open Audit History</a></UIAlert>}
     {resultId&&<p role="status">Reassessment saved. <a href={`/audits/${resultId}`}>View reassessment result</a>.</p>}
   </section>;

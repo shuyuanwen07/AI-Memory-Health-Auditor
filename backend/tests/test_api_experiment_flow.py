@@ -209,7 +209,7 @@ def test_experiment_can_freeze_a_direct_ground_truth_baseline(monkeypatch, tmp_p
             tests = client.post(f"/api/v1/audits/{run['run_id']}/generate-tests").json()
             assert tests
             assert {test["test_type"] for test in tests} == {"direct"}
-            assert {test["generator_version"] for test in tests} == {"direct-ground-truth-v4"}
+            assert {test["generator_version"] for test in tests} == {"direct-ground-truth-v10"}
     finally:
         app.dependency_overrides.clear()
 

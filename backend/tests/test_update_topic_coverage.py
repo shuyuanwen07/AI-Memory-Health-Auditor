@@ -31,3 +31,32 @@ def test_distinct_update_topics_produce_grounded_conflict_resolution_slots():
     assert all("recorded stored information" not in test.prompt for test in conflict_resolution)
     assert all(RuleBasedTestQualityValidator().validate(test, memories).quality_status == TestQualityStatus.ACCEPTED
                for test in conflict_resolution)
+
+
+def test_rule_generator_names_deadline_diet_and_client_authentication_topics():
+    prior = Memory(memory_id="M001", conversation_id="C",
+        canonical_value="The Harbour capstone's original deadline was 14 March 2026.",
+        status=MemoryStatus.CONFIRMED)
+    current = Memory(memory_id="M002", conversation_id="C",
+        canonical_value="The current confirmed deadline for the Harbour capstone is 21 March 2026.",
+        status=MemoryStatus.CONFIRMED,
+        relationships=[MemoryRelationship(type=RelationshipType.UPDATE, target_memory_id="M001")])
+    diet = Memory(memory_id="M003", conversation_id="C",
+        canonical_value="I follow a vegetarian diet.", status=MemoryStatus.CONFIRMED)
+    authentication = Memory(memory_id="M004", conversation_id="C",
+        canonical_value=("For Harbour's client-facing integration authentication, the active security brief "
+                         "requires OAuth and the active integration handoff requires API keys."),
+        status=MemoryStatus.CONFIRMED)
+
+    tests = RuleBasedTestGenerator().generate(
+        [prior, current, diet, authentication],
+        SimpleNamespace(run_id="R", test_budget=8),
+    )
+
+    prompts = "\n".join(test.prompt.lower() for test in tests)
+    assert "recorded stored information" not in prompts
+    assert "delivery deadline" in prompts
+    assert "dietary preference" in prompts
+    assert "client authentication method" in prompts
+    assert all(RuleBasedTestQualityValidator().validate(test, [prior, current, diet, authentication]).quality_status
+               == TestQualityStatus.ACCEPTED for test in tests)

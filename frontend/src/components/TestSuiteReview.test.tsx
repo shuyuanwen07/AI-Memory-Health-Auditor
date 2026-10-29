@@ -3,6 +3,25 @@ import userEvent from '@testing-library/user-event';
 import { TestSuiteReview, hasDuplicateQuestions } from './TestSuiteReview';
 import type { TestCase } from '../types/domain';
 
+test('source-scope warning is readable and does not claim sources were checked', () => {
+  const test: TestCase = {test_id:'scope', run_id:'run', dimension:'accuracy', prompt:'Which fact?',
+    expected_behavior:'Recorded fact', supporting_memory_ids:['M1'], generator_version:'preview',
+    quality_status:'pending', grounding_status:'grounded',
+    validation_notes:'source-scope-review-v1: Original source messages are missing; review them.'};
+  render(<TestSuiteReview tests={[test]} busy={false} onReview={vi.fn()} onRegenerate={vi.fn()} />);
+  expect(screen.getByText(/Source evidence needs review/)).toHaveTextContent('Original source messages are missing');
+  expect(screen.queryByText(/source-scope-review-v1/)).toBeNull();
+});
+
+test('grounding metadata does not claim that source meaning was checked', () => {
+  const test: TestCase = {test_id:'grounded', run_id:'run', dimension:'accuracy', prompt:'Which fact?',
+    expected_behavior:'Recorded fact', supporting_memory_ids:['M1'], generator_version:'preview',
+    quality_status:'accepted', grounding_status:'grounded', validation_notes:'Evidence identifiers available.'};
+  render(<TestSuiteReview tests={[test]} busy={false} onReview={vi.fn()} onRegenerate={vi.fn()} />);
+  expect(screen.getByText(/Evidence references recorded/)).toBeInTheDocument();
+  expect(screen.queryByText(/Source evidence checked/)).toBeNull();
+});
+
 test('keeps unreviewed legacy questions pending and updates feedback after acceptance', async () => {
   const test: TestCase = { test_id: 'test', run_id: 'run', dimension: 'accuracy', prompt: 'Which database is used?', expected_behavior: 'PostgreSQL', supporting_memory_ids: [], generator_version: 'preview' };
   const review = vi.fn();

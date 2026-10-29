@@ -23,6 +23,7 @@ import presentationDemoUrl from '../data/presentationDemo.json?url';
 import presentationDemoRaw from '../data/presentationDemo.json?raw';
 import presentationSettings from '../data/presentationSettings.json';
 import { saveBlob } from '../services/download';
+import { ResearchResultsPage } from './ResearchResults';
 
 const ComparisonVisualizations = lazy(() => import('../components/ResultVisualizations').then((module) => ({ default: module.ComparisonVisualizations })));
 
@@ -329,15 +330,17 @@ export function NewAudit() {
   const effectiveJudgeProvider = pipelineProvider;
   const effectiveJudge = selectedPipeline;
   const dimensionQuotas = Object.fromEntries(auditDimensions.map((dimension,index) => [
-    dimension, budget < auditDimensions.length
-      ? 1
-      : Math.floor(budget / auditDimensions.length) + Number(index < budget % auditDimensions.length),
+    dimension, coveragePreview?.dimensions.find(item => item.dimension === dimension)?.required_question_count
+      ?? (budget < auditDimensions.length
+        ? 1
+        : Math.floor(budget / auditDimensions.length) + Number(index < budget % auditDimensions.length)),
   ])) as Record<Dimension,number>;
   const coverageRequired = pipelineProvider !== 'rule_based' && (compareAuditors || suiteMode === 'behavioural');
   const dimensionSlots = Object.fromEntries(auditDimensions.map(dimension => [
     dimension,
     coveragePreview?.dimensions.find(item => item.dimension === dimension)?.available_question_count ?? 0,
   ])) as Record<Dimension,number>;
+  const totalDimensionSlots = Object.values(dimensionSlots).reduce((total, count) => total + count, 0);
   const dimensionShortages = coveragePreviewStatus === 'ready'
     ? coveragePreview?.dimensions.filter(item => item.available_question_count < item.required_question_count) ?? []
     : [];
@@ -536,6 +539,14 @@ export function NewAudit() {
     setRunningLabel('');
   });
 
+  const reviewQuestionScopes = (runId: string) => act(async () => {
+    setRunningLabel('Checking questions against the source');
+    const suite = await api.reviewQuestionScopes(runId);
+    setReviewTests((items) => [...(items ?? []).filter(test => test.run_id !== suite.canonical_run_id), ...suite.tests]);
+    setDimensionCoverage((items) => ({...items, [suite.canonical_run_id]: suite.dimension_coverage ?? []}));
+    setRunningLabel('');
+  });
+
   const reviewTest = (test: TestCase, decision: 'accepted' | 'rejected', note?:string) => act(async () => {
     if (!runs[0]) return;
     const changed = await (note?api.reviewTest(test.run_id,test.test_id,decision,note):api.reviewTest(test.run_id,test.test_id,decision));
@@ -719,7 +730,7 @@ export function NewAudit() {
           setMaintenancePolicy('update_aware_consolidation'); setTargetMemoryCapacity(presentationSettings.target_memory_capacity);
           setTargetMemoryWriter('rule_based'); setTargetSystem('controlled-memory'); setSuiteMode('behavioural');
           setTargetProfile({...defaultTargetProfile,...presentationSettings.target_memory_profile} as TargetMemoryProfile);
-        }}>Use presentation settings · Weak/Strong × 3</UIButton>
+        }}>Use presentation settings · 3 repeats per retrieval strategy</UIButton>
         <p>GPT-6 Luna · 8 shared questions · 3 runs per strategy · 48 answers in total. Applies settings only; model calls start when you run the audit. Freshly generated questions may differ from the saved presentation experiment.</p>
       </aside>
       <UIButton type="button" className="secondary" disabled={busy} onClick={() => setStep(1)}>Back to Ground Truth Review</UIButton>
@@ -736,21 +747,25 @@ export function NewAudit() {
       {(selectedTargets.length===0 || (retrievalMode === 'fixed' && selectedStrategies.length===0))&&<UIAlert role="status">Choose at least one target service{retrievalMode === 'fixed' ? ' and one memory strategy' : ''} before starting.</UIAlert>}
       <div className="form-grid">
         {!compareAuditors && <label>Test suite design<UISelect aria-label={["Test suite design"].join(' ')} value={suiteMode} onChange={(event) => setSuiteMode(event.target.value as TestSuiteMode)}><UIOption value="paired_contextual">Paired recall &amp; task probes</UIOption><UIOption value="contextual_indirect">Contextual/indirect tests</UIOption><UIOption value="behavioural">Behavioural tests</UIOption><UIOption value="direct_ground_truth">Direct Ground-Truth baseline</UIOption><UIOption value="fixed_template">Fixed-Template baseline</UIOption></UISelect><small>Frozen once and shared by every condition. Paired probes need at least two calls; an odd budget leaves one call unused. Contextual/indirect suites contain no direct-recall items.</small></label>}
-        <label>Requested test count<UIInput preserveValueOnClear type="number" min="1" max="100" value={budget} onChange={(event) => setBudget(Math.max(1, Math.min(100, Math.trunc(Number(event.target.value)) || 1)))} /><small>For the model-backed Agent, the count is split as evenly as possible across all four abilities: 20 questions means at least 5 per ability. It stops if confirmed, distinct evidence cannot support the quota. Link UPDATE, CONFLICT and CONTEXTUAL_OVERRIDE records in Ground Truth Review before creating the audit.</small></label>
+        <label>Requested test count<UIInput preserveValueOnClear type="number" min="1" max="100" value={budget} onChange={(event) => setBudget(Math.max(1, Math.min(100, Math.trunc(Number(event.target.value)) || 1)))} /><small>The Agent needs at least one distinct, evidence-backed question for each ability. It distributes the remaining questions as evenly as confirmed evidence allows; if one ability has only one slot, extra questions go to abilities with more supported slots. A dimension score based on one question is less stable, and results show the actual question count. Proposal Category Coverage also counts a dimension once it has at least one valid question. The full requested count still needs enough distinct evidence overall. Add a source-backed example if needed, and link UPDATE, CONFLICT and CONTEXTUAL_OVERRIDE records in Ground Truth Review before creating the audit.</small></label>
         <label>Repeated runs per condition<UIInput preserveValueOnClear type="number" min="1" max="10" value={repetitions} onChange={(event) => setRepetitions(Math.max(1, Math.min(10, Math.trunc(Number(event.target.value)) || 1)))} /></label>
       </div>
       {coverageRequired && <UIAlert role={coveragePreviewStatus === 'ready' && !coveragePreview?.minimum_met ? 'alert' : 'status'}>
         <b>{budget < 4
           ? 'All four abilities need at least one question, so request at least 4 questions.'
-          : `Required minimum per ability: ${auditDimensions.map(dimension=>`${dimension.replaceAll('_',' ')} ${dimensionQuotas[dimension]}`).join(' · ')}.`}</b>
+          : coveragePreviewStatus === 'ready'
+            ? `Evidence-based question allocation: ${auditDimensions.map(dimension=>`${dimension.replaceAll('_',' ')} ${dimensionQuotas[dimension]}`).join(' · ')}.`
+            : 'At least one question per ability; additional questions are allocated to remaining supported evidence.'}</b>
         {coveragePreviewStatus === 'loading' && <p>Checking confirmed evidence and relationship links for all four abilities…</p>}
         {coveragePreviewStatus === 'error' && <p>Could not check coverage: {coveragePreviewError} The audit is blocked until the evidence check succeeds.</p>}
         {coveragePreviewStatus === 'ready' && <>
           <p>Distinct evidence-supported question slots: {auditDimensions.map(dimension=>`${dimension.replaceAll('_',' ')} ${dimensionSlots[dimension]}`).join(' · ')}.</p>
           {dimensionShortages.length > 0
             ? <><p>Insufficient coverage: {dimensionShortages.map(item=>`${item.dimension.replaceAll('_',' ')} needs ${item.required_question_count}, currently ${item.available_question_count}`).join('; ')}.</p><p>{dimensionShortages.map(item=>item.reason).join(' ') } Go back to Ground Truth Review to confirm evidence and add the required links before creating the audit.</p></>
+            : totalDimensionSlots < budget
+              ? <p>Confirmed evidence supports {totalDimensionSlots} distinct question slots in total, fewer than the requested {budget}. Add source-backed evidence or lower the requested count.</p>
             : coveragePreview?.minimum_met
-              ? <p>All four minimums have evidence support. The Agent will still validate every generated question and retry unsupported or duplicate slots before saving.</p>
+              ? <p>All four abilities have at least one supported question, and the requested count fits the available distinct evidence. The Agent will still validate each question and retry unsupported or duplicate slots before saving.</p>
               : <p>The requested count is too small to allocate at least one question to each ability. Increase it to 4 or more.</p>}
         </>}
       </UIAlert>}
@@ -786,7 +801,7 @@ export function NewAudit() {
       {questionCountNote && <UIAlert role="status">{questionCountNote}</UIAlert>}
       {busy && runningLabel && <p className="running-model">Currently working: <b>{runningLabel}</b>{runningRunId && <> <UIButton type="button" className="secondary" onClick={cancelCurrentRun}>Cancel current run &amp; stop queue</UIButton>{runs.length > 1 && <UIButton type="button" className="secondary" onClick={cancelExperiment}>Cancel entire comparison</UIButton>}</>}</p>}
       <ul className="progress"><li>Preparing confirmed ground truth <b>Complete</b></li><li>Preparing reviewed test suites <b>{reviewTests ? 'Complete' : busy ? 'In progress' : 'Waiting'}</b></li><li>Test-suite quality checks <b>{readyForExecution ? 'Complete' : reviewTests ? 'Action required' : 'Waiting'}</b></li><li>Initialising target AI <b>{readyForExecution ? 'Ready' : 'Waiting'}</b></li><li>Executing memory tests <b>{runningStage === 'execute' ? 'In progress' : runningStage === 'evaluate' ? 'Complete' : runningStage === 'recover' ? 'Recovering' : 'Waiting'}</b></li><li>Evaluating responses <b>{runningStage === 'evaluate' ? 'In progress' : runningStage === 'recover' ? 'Recovering' : 'Waiting'}</b></li></ul>
-      {!reviewTests ? <UIButton disabled={busy} onClick={prepareTests}>{busy ? 'Generating Shared Test Suite…' : 'Generate Tests for Review'}</UIButton> : <>{[...new Set(reviewTests.map(test => test.run_id))].map(id => <div key={id}><h2>{runs.find(run => run.runId === id)?.generationGroup === 'rules' ? 'Rule-generated questions' : compareAuditors ? 'Model-generated questions · shared by both reviewers' : 'Questions for review'}</h2>{continueGenerationRuns.includes(id) && <UIButton type="button" className="secondary" disabled={busy} onClick={() => continueGeneration(id)}>Regenerate the suite toward the requested count</UIButton>}<TestSuiteReview tests={reviewTests.filter(test => test.run_id === id)} dimensionCoverage={dimensionCoverage[id]} busy={busy || completedRunIds.current.size > 0 || cancelledRunIds.current.size > 0} onReview={reviewTest} onRegenerate={regenerateTest} onAcceptAll={acceptAllTests} /></div>)}<UIButton disabled={busy || !readyForExecution || queueStopped} onClick={() => runAudit()}>{queueStopped ? 'Execution Queue Cancelled' : busy ? runningLabel ? `Running ${runningLabel}…` : 'Updating question review…' : runs.length > 1 ? 'Run Comparison & View Results' : 'Run Audit & View Results'}</UIButton>{queueStopped && <div className="provider-note"><p>{entireExperimentCancelled ? 'This comparison is terminal. Start a new audit for a fresh controlled comparison.' : remainingConditions.length ? 'The current condition was cancelled. Remaining conditions still use the same frozen suite.' : 'No conditions remain to run. Saved evidence is available in Audit History.'}</p>{!entireExperimentCancelled && remainingConditions.length > 0 && <><UIButton type="button" className="secondary" onClick={() => runAudit(true)}>Continue Remaining Conditions</UIButton><UIButton type="button" className="secondary" onClick={cancelExperiment}>Cancel Remaining Conditions</UIButton></>}{remainingConditions.length === 0 && <a href="/history">Open Audit History</a>}</div>}{!readyForExecution && <p className="provider-note">Accept pending questions, and accept or regenerate rejected questions before execution. Duplicate questions must be regenerated.</p>}</>}
+      {!reviewTests ? <UIButton disabled={busy} onClick={prepareTests}>{busy ? 'Generating Shared Test Suite…' : 'Generate Tests for Review'}</UIButton> : <>{[...new Set(reviewTests.map(test => test.run_id))].map(id => <div key={id}><h2>{runs.find(run => run.runId === id)?.generationGroup === 'rules' ? 'Rule-generated questions' : compareAuditors ? 'Model-generated questions · shared by both reviewers' : 'Questions for review'}</h2>{continueGenerationRuns.includes(id) && <UIButton type="button" className="secondary" disabled={busy} onClick={() => continueGeneration(id)}>Regenerate the suite toward the requested count</UIButton>}<UIButton type="button" className="secondary" disabled={busy || completedRunIds.current.size > 0 || cancelledRunIds.current.size > 0} onClick={() => reviewQuestionScopes(id)}>Check question scope against source</UIButton><p className="provider-note">Flagged questions need your review. No warning does not guarantee a question is valid.</p><TestSuiteReview tests={reviewTests.filter(test => test.run_id === id)} dimensionCoverage={dimensionCoverage[id]} busy={busy || completedRunIds.current.size > 0 || cancelledRunIds.current.size > 0} onReview={reviewTest} onRegenerate={regenerateTest} onAcceptAll={acceptAllTests} /></div>)}<UIButton disabled={busy || !readyForExecution || queueStopped} onClick={() => runAudit()}>{queueStopped ? 'Execution Queue Cancelled' : busy ? runningLabel ? `Running ${runningLabel}…` : 'Updating question review…' : runs.length > 1 ? 'Run Comparison & View Results' : 'Run Audit & View Results'}</UIButton>{queueStopped && <div className="provider-note"><p>{entireExperimentCancelled ? 'This comparison is terminal. Start a new audit for a fresh controlled comparison.' : remainingConditions.length ? 'The current condition was cancelled. Remaining conditions still use the same frozen suite.' : 'No conditions remain to run. Saved evidence is available in Audit History.'}</p>{!entireExperimentCancelled && remainingConditions.length > 0 && <><UIButton type="button" className="secondary" onClick={() => runAudit(true)}>Continue Remaining Conditions</UIButton><UIButton type="button" className="secondary" onClick={cancelExperiment}>Cancel Remaining Conditions</UIButton></>}{remainingConditions.length === 0 && <a href="/history">Open Audit History</a>}</div>}{!readyForExecution && <p className="provider-note">Accept pending questions, and accept or regenerate rejected questions before execution. Duplicate questions must be regenerated.</p>}</>}
     </section>}
     {step === 4 && <section>
       {compareAuditors && <a href={`/audit-methods?groups=${encodeURIComponent(experimentIds.join(','))}`}>Open saved three-method comparison</a>}
@@ -796,6 +811,7 @@ export function NewAudit() {
       {results.length > 1 && <><>{compareAuditors ? <ReviewedMethodComparison runs={results} /> : <Suspense fallback={<p className="chart-loading" role="status">Loading visual comparison charts…</p>}><ComparisonVisualizations runs={results} /></Suspense>}</>{!compareAuditors && <><ModelComparison runs={results} /><ExperimentStatistics runs={results} /></>}</>}
       {results.map((item) => <UIPanel className="individual-report" key={item.result.run_id} open={results.length === 1}><UISummary>{item.label} detailed report</UISummary><ResultDashboard result={item.result} run={item.run} /><TargetMemoryTrace runId={item.result.run_id} /></UIPanel>)}
       <UIButton className="secondary" onClick={() => window.location.reload()}>Start New Audit</UIButton>
+      <ResearchResultsPage embedded />
     </section>}
   </main>;
 }

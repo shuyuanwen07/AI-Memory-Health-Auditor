@@ -1,0 +1,15 @@
+# Rubric evidence status
+
+This is a working evidence map, not a predicted mark. The supplied rubric is embedded as seven images in `rubic.docx`. Status is based on the current local implementation and saved evidence; any item requiring a human return or final presentation remains open.
+
+| Rubric focus | Available evidence | Work still needed |
+| --- | --- | --- |
+| Functional and coherent prototype, assessed source matches demo | Guided audit flow, saved audit reports, targeted repair/retest, and the new evidence-based reassessment run `RUN675CD1BFDC63481BBB5031392DDB972D` | Re-run a clean end-to-end demonstration on the final source and freeze a matching source package. |
+| Justified GenAI role and coherent architecture | Extraction, relationship analysis, contextual generation, target interaction and semantic scoring are separated; AC3 study records scorer settings and source versions | Document the final selected components and explain fallback, human confirmation and fixed model settings without treating model output as gold. |
+| Baselines, metrics, reproducibility, limitations and evidence | Proposal A/B/C collections; four-strategy source-bound judgments; AC3 120-answer paired retest with two user-confirmed independent blind reviews and history-cluster analysis | A's two user-confirmed independent blind reviews are imported; some failed answers fall outside the frozen defect inventory. AC1, AC2 and the newly completed four-strategy B collection await human reviews. Keep selected synthetic/benchmark subsets, uncertainty and repeated measurements explicit. |
+| Related work, products and credible contribution | Proposal cites LongMemEval, LoCoMo, BEAM and discusses Zep and Mem0; experiment report identifies the personalised auditing workflow | Verify final report citations and describe supported differences without claiming exhaustive product comparisons. |
+| Track B alignment and nontrivial contribution | Workflow creates user-confirmed references, tests the controlled target, preserves evidence and supports diagnosis and reassessment | Show the source-to-failure-to-retest chain with final evidence; do not claim a general solution to memory reliability. |
+| Clear workflow and meaningful outputs | Saved results, evidence views and four-strategy and AC3 analyses exist | After experiment returns, update and visually inspect the requested compact Dashboard so it shows the final audited A/B/C outcomes with denominators and limitations. |
+| Professional report, matching source package and contribution documentation | Experiment report, configuration and draft evidence catalog | Finalise report and source package against the demonstrated revision; collect truthful team contribution information rather than inventing it. Presentation and speaker notes are postponed until experiments are complete, per user instruction. |
+
+The 2026-10-29 AC3 candidate met the prespecified four descriptive thresholds on the selected synthetic retest. This is not a claim that all proposal acceptance criteria, every rubric element, or full marks have already been achieved.

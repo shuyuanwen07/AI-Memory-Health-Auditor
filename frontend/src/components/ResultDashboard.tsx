@@ -324,7 +324,7 @@ function ReviewRequiredAnswers({ result }: { result: AuditResult }) {
   if (!count) return null;
   return <section aria-label="Answers needing review" className="review-required-answers">
     <h2>Why these answers need review</h2>
-    <p>These automated assessments could not decide Pass or Fail, so they are excluded from the score. Inspect the saved evidence and use Review Evaluations below to record your judgment. Human reviews are saved separately from the original automated result.</p>
+    <p>These automated assessments could not decide Pass or Fail, so they are excluded from the score. Inspect the saved evidence and use Review Evaluations below to record a separate reference label. Review labels never replace the original automated result.</p>
     {!answers.length ? <p>Individual explanations are unavailable in this report. Open Review Evaluations below to inspect the saved assessments.</p> : answers.map((answer, index) => <ReviewRequiredCard key={answer.evaluation.evaluation_id} answer={answer} position={index + 1}/>)}
   </section>;
 }

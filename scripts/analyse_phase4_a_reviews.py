@@ -25,19 +25,20 @@ def analyse(manifest,key,reviews):
   tables.append(table)
  grouped={}
  for ident in manifest['item_ids']:
-  provenance=key[ident];group=(provenance['scenario_id'],provenance['condition_label']);g=grouped.setdefault(group,{'response_count':0,'resolved_responses':0,'disagreements':[],'human_uncertain':[],'tp':0,'fn':0,'fp':0,'tn':0,'automated_uncertain':0,'human_failures':0,'discovered_defect_ids':set(),'known_defect_ids':{d['defect_id'] for d in items[ident]['frozen_defects']}});g['response_count']+=1
+  provenance=key[ident];group=(provenance['scenario_id'],provenance['condition_label']);g=grouped.setdefault(group,{'response_count':0,'resolved_responses':0,'disagreements':[],'human_uncertain':[],'tp':0,'fn':0,'fp':0,'tn':0,'automated_uncertain':0,'human_failures':0,'discovered_defect_ids':set(),'auditor_detected_defect_ids':set(),'known_defect_ids':{d['defect_id'] for d in items[ident]['frozen_defects']}});g['response_count']+=1
   left,right=(t[ident] for t in tables)
   if (left['verdict'],left['failure_dimension'],set(left['defect_ids']))!=(right['verdict'],right['failure_dimension'],set(right['defect_ids'])):g['disagreements'].append(ident);continue
   if left['verdict']=='uncertain':g['human_uncertain'].append(ident);continue
   g['resolved_responses']+=1;failure=left['verdict']=='fail';pred=provenance['evaluation']['passed'];g['human_failures']+=int(failure)
   if failure:g['discovered_defect_ids'].update(left['defect_ids'])
+  if failure and pred is False:g['auditor_detected_defect_ids'].update(left['defect_ids'])
   if pred is None:g['automated_uncertain']+=1
   else:g[{(True,False):'tp',(True,True):'fn',(False,False):'fp',(False,True):'tn'}[(failure,pred)]]+=1
  result=[]
  for (scenario,method),g in grouped.items():
-  complete=g['resolved_responses']==g['response_count'];g.update(scenario_id=scenario,method=method,complete_resolved_labels=complete,failure_detection_recall_decided=ratio(g['tp'],g['tp']+g['fn']),failure_detection_recall_all_resolved_human_failures=ratio(g['tp'],g['human_failures']),false_positive_rate_decided=ratio(g['fp'],g['fp']+g['tn']),failure_discovery_rate=ratio(len(g['discovered_defect_ids']),len(g['known_defect_ids'])) if complete else None)
-  g['discovered_defect_ids']=sorted(g['discovered_defect_ids']);g['known_defect_ids']=sorted(g['known_defect_ids']);result.append(g)
- return {'scope':'Human-return analysis; self-declared identities and independence are not authenticated','blind_review_declared':all(r['has_seen_automated_A_results'] is False for r in reviews),'conditions':result,'server_import_performed':False,'notice':'Disagreements require actual adjudication. No automated verdict or missing label was substituted for human gold. This read-only draft does not freeze a server discovery mapping.'}
+  complete=g['resolved_responses']==g['response_count'];g.update(scenario_id=scenario,method=method,complete_resolved_labels=complete,failure_detection_recall_decided=ratio(g['tp'],g['tp']+g['fn']),failure_detection_recall_all_resolved_human_failures=ratio(g['tp'],g['human_failures']),false_positive_rate_decided=ratio(g['fp'],g['fp']+g['tn']),failure_discovery_rate=ratio(len(g['discovered_defect_ids']),len(g['known_defect_ids'])) if complete else None,auditor_detected_failure_discovery_rate=ratio(len(g['auditor_detected_defect_ids']),len(g['known_defect_ids'])) if complete else None)
+  g['discovered_defect_ids']=sorted(g['discovered_defect_ids']);g['auditor_detected_defect_ids']=sorted(g['auditor_detected_defect_ids']);g['known_defect_ids']=sorted(g['known_defect_ids']);result.append(g)
+ return {'scope':'Human-return analysis; self-declared identities and independence are not authenticated','blind_review_declared':all(r['has_seen_automated_A_results'] is False for r in reviews),'conditions':result,'server_import_performed':False,'notice':'Human-observed discovery includes all reviewer-confirmed failure mappings; auditor-detected discovery additionally requires an automatic failure verdict. Disagreements require actual adjudication. No automated verdict or missing label was substituted for human gold. This read-only draft does not freeze a server discovery mapping.'}
 def main():
  p=argparse.ArgumentParser();p.add_argument('private_directory',type=Path);p.add_argument('reviewer1',type=Path);p.add_argument('reviewer2',type=Path);p.add_argument('output',type=Path);a=p.parse_args()
  report=analyse(json.loads((a.private_directory/'A-review-manifest.json').read_text()),json.loads((a.private_directory/'A-identity-key.json').read_text()),[json.loads(x.read_text()) for x in [a.reviewer1,a.reviewer2]])

@@ -1,0 +1,328 @@
+{
+  "format": "compact-final-dashboard-v1",
+  "sources": {
+    "a": {
+      "path": "output/proposal-delivery/experiment-a-human-return-20261029-v1/analysis.json",
+      "sha256": "d8b84bd8e28b9580d9b8e59ea2576edebef258b33c56982a2d2b0394cdcba6fc"
+    },
+    "b": {
+      "path": "output/proposal-delivery/ac1-ac2-b-return-20261029-v1/b-consensus-summary.json",
+      "sha256": "bec4b71cc77ef7a8ec397ad4bbb9a1d391ee3e7a6bf2b36f40374d2c06a2f2f6"
+    },
+    "c": {
+      "path": "output/proposal-delivery/four-strategy-adjudicated-bounds-2026-10-29.json",
+      "sha256": "3cfd101b56401dbe8928e7ae9118ab4dbc2f9798a553cecf395eb3a712151640"
+    },
+    "ac1": {
+      "path": "output/proposal-delivery/ac1-ac2-b-return-20261029-v1/ac1-paired-comparison.json",
+      "sha256": "1696d0e8fa5f55d88a4c374f1f4dee06e716e50da9b383df88c8b8290df81781"
+    },
+    "ac2": {
+      "path": "output/proposal-delivery/ac1-ac2-b-return-20261029-v1/ac2-adjudicated-paired-summary.json",
+      "sha256": "84dffe4e7581d8e4f00b5773f7590b704b4090b260b9ec7ad627ff70ee03a961"
+    },
+    "ac2_scope": {
+      "path": "output/proposal-delivery/ac1-ac2-b-return-20261029-v1/product-scope-retrospective-replay-v3.json",
+      "sha256": "06a9950162a7c583f625b16539798d06641dcc52a9f379354be388a569c70f5c"
+    },
+    "ac2_pilot": {
+      "path": "output/proposal-delivery/ac2-source-supplement-review-return-20261029-v1/product-v3-pilot-reconstruction-v2.json",
+      "sha256": "dec49a62d7a413339b765d1c50fa15852a864b3d76904e39623446100018ed9c"
+    },
+    "ac2_semantic": {
+      "path": "output/ac3-generated/semantic-scope-pilot-20261029-v1/analysis.json",
+      "sha256": "742364a6a20b5af3b489e533d61cee0dd561234463ea457cecd48be0d8fe1094"
+    },
+    "ac3": {
+      "path": "output/ac3-generated/paired-authorized-retest-20261029-v1/paired-analysis.json",
+      "sha256": "4f048cb55cc3a8c2c155e839c8e635b7cdbacd77a16ad861d3a8b06db5c5a433"
+    },
+    "archived": {
+      "path": "frontend/public/reports/proposal-final-results-v1.json",
+      "sha256": "3792700e24d7847f755fd334709cc818fc7741218bdaf5a3b6ab93d0208dc841"
+    }
+  },
+  "a": {
+    "histories": 3,
+    "answers": 36,
+    "methods": [
+      {
+        "label": "Direct questions",
+        "detected": 3,
+        "known": 9
+      },
+      {
+        "label": "Fixed templates",
+        "detected": 3,
+        "known": 9
+      },
+      {
+        "label": "Contextual/indirect Auditor tests",
+        "detected": 3,
+        "known": 9
+      }
+    ]
+  },
+  "strategies": [
+    {
+      "id": "weak_first_hit",
+      "label": "First-match retrieval",
+      "b_pass": 9,
+      "b_decided": 36,
+      "b_total": 36,
+      "c_pass": 17,
+      "c_decided": 87,
+      "c_total": 90,
+      "c_uncertain": 3
+    },
+    {
+      "id": "strong_rule_based",
+      "label": "Relationship-priority retrieval",
+      "b_pass": 27,
+      "b_decided": 36,
+      "b_total": 36,
+      "c_pass": 57,
+      "c_decided": 81,
+      "c_total": 90,
+      "c_uncertain": 9
+    },
+    {
+      "id": "scope_aware",
+      "label": "Match the task and project",
+      "b_pass": 18,
+      "b_decided": 36,
+      "b_total": 36,
+      "c_pass": 47,
+      "c_decided": 84,
+      "c_total": 90,
+      "c_uncertain": 6
+    },
+    {
+      "id": "temporal_importance",
+      "label": "Consider time and importance",
+      "b_pass": 27,
+      "b_decided": 36,
+      "b_total": 36,
+      "c_pass": 50,
+      "c_decided": 84,
+      "c_total": 90,
+      "c_uncertain": 6
+    }
+  ],
+  "c_reference": {
+    "cases": 14,
+    "available_cases": 500,
+    "agreement": {
+      "agreed_repetitions": 3,
+      "total_repetitions": 3,
+      "scope": "Direction-of-ranking agreement only between B's dimension macro and this archived C subset; no absolute cross-dataset scores are compared."
+    }
+  },
+  "ac1": {
+    "histories": 27,
+    "old": {
+      "supported_candidate_precision_decided": {
+        "numerator": 173,
+        "denominator": 173,
+        "value": 1.0
+      },
+      "reference_fact_id_matched_coverage": {
+        "numerator": 212,
+        "denominator": 215,
+        "value": 0.986046511627907
+      },
+      "relationship_precision_decided": {
+        "numerator": 58,
+        "denominator": 59,
+        "value": 0.9830508474576272
+      },
+      "reference_relationship_coverage": {
+        "numerator": 58,
+        "denominator": 80,
+        "value": 0.725
+      },
+      "undecided_candidates": 0,
+      "undecided_relationships": 0
+    },
+    "new": {
+      "supported_candidate_precision_decided": {
+        "numerator": 201,
+        "denominator": 201,
+        "value": 1.0
+      },
+      "reference_fact_id_matched_coverage": {
+        "numerator": 205,
+        "denominator": 215,
+        "value": 0.9534883720930233
+      },
+      "relationship_precision_decided": {
+        "numerator": 80,
+        "denominator": 81,
+        "value": 0.9876543209876543
+      },
+      "reference_relationship_coverage": {
+        "numerator": 79,
+        "denominator": 80,
+        "value": 0.9875
+      },
+      "undecided_candidates": 1,
+      "undecided_relationships": 1
+    },
+    "partial": 3
+  },
+  "ac2": {
+    "histories": 30,
+    "baseline": {
+      "generated": 111,
+      "invalid": 60,
+      "grounded_valid": 107,
+      "structural_invalid": 60,
+      "gate_accepted_human_invalid": 34,
+      "valid": 51,
+      "structural_valid": 51,
+      "grounded_invalid": 4,
+      "missing_slots": 9,
+      "scheduled_slots": 120
+    },
+    "candidate": {
+      "generated": 117,
+      "valid": 63,
+      "grounded_valid": 113,
+      "structural_valid": 63,
+      "invalid": 54,
+      "structural_invalid": 54,
+      "gate_accepted_human_invalid": 37,
+      "grounded_invalid": 4,
+      "missing_slots": 3,
+      "scheduled_slots": 120
+    },
+    "slots": 120,
+    "scope_replay": {
+      "matched": 117,
+      "human_valid": 63,
+      "valid_old_rejected": 9,
+      "valid_after_rejected": 9,
+      "valid_old_accepted": 54,
+      "valid_after_pending": 53,
+      "valid_newly_pending": 53,
+      "human_invalid": 54,
+      "invalid_old_rejected": 17,
+      "invalid_after_rejected": 17,
+      "invalid_old_accepted": 37,
+      "invalid_after_pending": 37,
+      "invalid_newly_pending": 37,
+      "valid_after_accepted": 1,
+      "invalid_after_accepted": 0
+    },
+    "scope_pilot": {
+      "histories": 10,
+      "total": 33,
+      "valid": 14,
+      "valid_pending": 13,
+      "invalid": 14,
+      "invalid_rule_rejected": 14,
+      "unresolved": 5
+    },
+    "semantic_pilot": {
+      "total": 33,
+      "unresolved": 5,
+      "parse_errors": 4,
+      "invalid_invalid": 2,
+      "invalid_uncertain": 12,
+      "invalid_valid": 0,
+      "valid_invalid": 3,
+      "valid_uncertain": 1,
+      "valid_valid": 10
+    }
+  },
+  "ac3": {
+    "answers": 120,
+    "histories": 30,
+    "human_consensus": 118,
+    "human_unresolved": 2,
+    "old": {
+      "decided_coverage": {
+        "numerator": 118,
+        "denominator": 118,
+        "value": 1.0
+      },
+      "failure_recall_conservative": {
+        "numerator": 55,
+        "denominator": 68,
+        "value": 0.8088235294117647
+      },
+      "failure_recall_decided": {
+        "numerator": 55,
+        "denominator": 68,
+        "value": 0.8088235294117647
+      },
+      "false_positive_rate_decided": {
+        "numerator": 18,
+        "denominator": 50,
+        "value": 0.36
+      },
+      "false_positive_rate_lower_bound": {
+        "numerator": 18,
+        "denominator": 50,
+        "value": 0.36
+      },
+      "false_positive_rate_upper_bound": {
+        "numerator": 18,
+        "denominator": 50,
+        "value": 0.36
+      },
+      "classification_accuracy_conservative": {
+        "numerator": 0,
+        "denominator": 55,
+        "value": 0.0
+      },
+      "classification_accuracy_decided": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      }
+    },
+    "new": {
+      "decided_coverage": {
+        "numerator": 118,
+        "denominator": 118,
+        "value": 1.0
+      },
+      "failure_recall_conservative": {
+        "numerator": 61,
+        "denominator": 68,
+        "value": 0.8970588235294118
+      },
+      "failure_recall_decided": {
+        "numerator": 61,
+        "denominator": 68,
+        "value": 0.8970588235294118
+      },
+      "false_positive_rate_decided": {
+        "numerator": 0,
+        "denominator": 50,
+        "value": 0.0
+      },
+      "false_positive_rate_lower_bound": {
+        "numerator": 0,
+        "denominator": 50,
+        "value": 0.0
+      },
+      "false_positive_rate_upper_bound": {
+        "numerator": 0,
+        "denominator": 50,
+        "value": 0.0
+      },
+      "classification_accuracy_conservative": {
+        "numerator": 54,
+        "denominator": 61,
+        "value": 0.8852459016393442
+      },
+      "classification_accuracy_decided": {
+        "numerator": 54,
+        "denominator": 58,
+        "value": 0.9310344827586207
+      }
+    }
+  }
+}

@@ -17,12 +17,12 @@ test('does not pair different target conditions, questions, or repeated ambiguou
   expect(judgmentDifferencePairs([runs[0],{...runs[1],label:'Other model · Weak · Model tests + hybrid review'}],{rule:[row(false,'x')],hybrid:[row(true,'y')]})).toEqual([]);
   expect(judgmentDifferencePairs(runs,{rule:[row(false,'x')],hybrid:[{...row(true,'x'),test:{...row(true,'x').test,expected_behavior:'Different reference'}}]})).toEqual([]);
 });
-test('human reference labels do not rewrite the original distribution or imply independent accuracy',()=>{
+test('saved reference labels do not rewrite the original distribution or imply independent accuracy',()=>{
   const label={review_id:'h',evaluation_id:'e',human_passed:true,reviewer_label:'A',review_role:'reference' as const,based_on_review_ids:[],created_at:'',updated_at:''};
   render(<JudgmentDifferences runs={runs} reviews={{rule:[{...row(false,'x'),human_review:label}],hybrid:[row(null,'x')]}} ready />);
   expect(screen.getByRole('img',{name:/rule review: 0 pass, 1 fail/})).toBeTruthy();
   expect(screen.getByText(/Answer text matches, but these are separate executions/)).toBeTruthy();
-  expect(screen.getByRole('button',{name:'Human Review Cross-check'})).toBeTruthy();
+  expect(screen.getByRole('button',{name:'Reference-label cross-check'})).toBeTruthy();
 });
 
 test('repeated trials pair by immutable source receipt rather than question text',()=>{

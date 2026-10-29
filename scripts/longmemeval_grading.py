@@ -11,6 +11,18 @@ UPSTREAM_INSTRUCTIONS = (
 )
 
 
+def build_openrouter_grader_payload(model, prompt):
+    """Build a short, low-reasoning scorer request with default OpenRouter routing."""
+    return {
+        'model': model,
+        'messages': [{'role': 'user', 'content': prompt}],
+        'n': 1,
+        'temperature': 0,
+        'max_tokens': 128,
+        'reasoning_effort': 'none',
+    }
+
+
 def load_upstream_prompt(directory):
     binding = json.loads((directory / 'source-binding.json').read_text())
     source = (directory / 'evaluate_qa.py').read_bytes()

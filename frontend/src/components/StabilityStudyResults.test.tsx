@@ -200,7 +200,7 @@ describe('StabilityStudyResults local import panel', () => {
     else expect(screen.queryByText(/This protocol does not apply an auxiliary validation gate to this pilot/)).not.toBeInTheDocument();
     expect(screen.getByText(/1 planned cases · 2 planned result cells · 2 with an original semantic grade · 0 errors · 0 missing/)).toBeInTheDocument();
     await user.click(screen.getByText('EVAL-1 · knowledge-update'));
-    const summary=screen.getByText('Round 1 · Strong · rule-based memory · completed · incorrect');await user.click(summary);
+    const summary=screen.getByText('Round 1 · Relationship-priority retrieval · completed · incorrect');await user.click(summary);
     const details=within(summary.closest('details')!);
     expect(details.getByText('Auxiliary suggestions not used')).toBeInTheDocument();
     expect(details.getByText(/Synthetic critical source mismatch preserved from the review/)).toBeInTheDocument();
@@ -235,7 +235,7 @@ describe('StabilityStudyResults local import panel', () => {
     await user.click(screen.getByRole('button', { name: 'Restore saved package' }));
     expect(await screen.findByText('Imported study package')).toBeInTheDocument();
     await user.click(screen.getByText('EVAL-SYNTHETIC-1 · synthetic-preparation'));
-    const runSummary = screen.getByText('Round 1 · Weak · first matching memory · error · error');
+    const runSummary = screen.getByText('Round 1 · First-match retrieval · error · error');
     await user.click(runSummary);
     const runDetails = within(runSummary.closest('details')!);
     expect(runDetails.getByText('Recorded execution failure diagnostics')).toBeInTheDocument();
@@ -261,7 +261,7 @@ describe('StabilityStudyResults local import panel', () => {
     expect(await screen.findByText('Imported study package')).toBeInTheDocument();
     expect(screen.getByText(/12 planned cases · 72 planned result cells · 0 with an original semantic grade · 1 error · 71 missing/)).toBeInTheDocument();
     await user.click(screen.getByText('EVAL-SYNTHETIC-1 · synthetic-preparation'));
-    const runSummary = screen.getByText('Round 1 · Weak · first matching memory · error · error');
+    const runSummary = screen.getByText('Round 1 · First-match retrieval · error · error');
     await user.click(runSummary);
     const runDetails = within(runSummary.closest('details')!);
     expect(runDetails.getByText('Original grading attempt (separate from valid semantic grades)')).toBeInTheDocument();
@@ -318,7 +318,7 @@ describe('StabilityStudyResults local import panel', () => {
     expect(screen.getByText(/not pooled with the development or evaluation split/i)).toBeInTheDocument();
 
     await user.click(screen.getByText(/EVAL-1 · knowledge-update/));
-    const runSummary = screen.getByText(/Round 1 · Weak · first matching memory · completed · correct/);
+    const runSummary = screen.getByText(/Round 1 · First-match retrieval · completed · correct/);
     await user.click(runSummary);
     const expandedRun = runSummary.closest('details')!;
     expect(within(expandedRun).getByText('fixture-target → fixture-target-v1')).toBeInTheDocument();
@@ -396,7 +396,7 @@ describe('StabilityStudyResults local import panel', () => {
 });
 
 
-test('shows the 24-cell repeat pilot separately from six previously used Strong regression cells',async()=>{
+test('shows the 24-cell repeat pilot separately from six previously used target-policy regression cells',async()=>{
   const payload=makeThreeRoundPilotPayload(true);
   storageMocks.hasSaved.mockResolvedValue(true);storageMocks.readSaved.mockResolvedValue(await makeEnvelope(payload));
   const user=userEvent.setup();render(<StabilityStudyResults/>);await authorize(user);
@@ -442,7 +442,7 @@ test.each(['low','medium'] as const)('shows requested %s and a recorded grader o
   storageMocks.hasSaved.mockResolvedValue(true);storageMocks.readSaved.mockResolvedValue(await makeEnvelope(payload));
   const user=userEvent.setup();render(<StabilityStudyResults/>);await authorize(user);await user.click(screen.getByRole('button',{name:'Restore saved package'}));
   await screen.findByText('Imported study package');await user.click(screen.getByText('EVAL-1 · knowledge-update'));
-  const summary=screen.getByText('Round 1 · Weak · first matching memory · completed · correct');await user.click(summary);
+  const summary=screen.getByText('Round 1 · First-match retrieval · completed · correct');await user.click(summary);
   const details=within(summary.closest('details')!);
   expect(details.getByText(`${effort==='medium'?'Medium':'Low'} requested; the saved request contract includes ${effort}. Actual reasoning effort is not reported.`)).toBeInTheDocument();
   expect(details.getByText(/No reasoning setting sent in the saved request contract \(provider default\)/)).toBeInTheDocument();
@@ -458,7 +458,7 @@ describe('ordinary final source-review gate scope', () => {
     const user=userEvent.setup();render(<StabilityStudyResults/>);await authorize(user);
     await user.click(screen.getByRole('button',{name:'Restore saved package'}));
     const row=(await screen.findByText('All benchmark replies source review')).closest('tr')!;
-    expect(within(row).getByText(/Zero critical errors is required for: Strong · rule-based memory/)).toHaveTextContent('Recorded findings in required conditions: 0; findings across all conditions: 2');
+    expect(within(row).getByText(/Zero critical errors is required for: Relationship-priority retrieval/)).toHaveTextContent('Recorded findings in required conditions: 0; findings across all conditions: 2');
     expect(within(row).getByText(/Findings in comparison conditions remain reported/)).toBeInTheDocument();
   });
   test.each([120,18])('uses the recorded %i reply denominator separately from guard review', async planned => {

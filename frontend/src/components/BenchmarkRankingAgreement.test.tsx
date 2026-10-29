@@ -17,8 +17,8 @@ test('gates missing evidence, calls saved-result check and separates scores acro
   expect(screen.getByLabelText('Ranking candidate assessments')).toBeDisabled();
   expect(screen.getByRole('button',{name:'Check ranking agreement'})).toBeDisabled();
   await user.click(screen.getByLabelText('Ranking benchmark source authorisation'));
-  await selectUIOption(user,'Ranking reference audit',/First matching memory/);
-  await selectUIOption(user,'Ranking candidate audit',/Prioritise requirements and updates/);
+  await selectUIOption(user,'Ranking reference audit',/First-match retrieval/);
+  await selectUIOption(user,'Ranking candidate audit',/Relationship-priority retrieval/);
   await upload('reference','first.json');await upload('candidate','second.json');
   mocks.compareBenchmarkRankings.mockResolvedValue({version:'fixture',provider:'ollama',model:'fixture-model',reference_strategy:'weak_first_hit',candidate_strategy:'strong_rule_based',agreement:'consistent',notice:'Independent validation required.',suites:[{label:'Audit questions',total:4,reference_correct:1,candidate_correct:2,reference_percentage:25,candidate_percentage:50,ordering:'candidate_higher'},{label:'Benchmark questions',total:10,reference_correct:6,candidate_correct:7,reference_percentage:60,candidate_percentage:70,ordering:'candidate_higher'}]});
   await user.click(screen.getByRole('button',{name:'Check ranking agreement'}));
@@ -32,7 +32,7 @@ test('gates missing evidence, calls saved-result check and separates scores acro
 test('shows incompatible evidence errors without a ranking chart',async()=>{
   const user=userEvent.setup();render(<UIProvider><BenchmarkRankingAgreement/></UIProvider>);
   await user.click(screen.getByLabelText('Ranking benchmark source authorisation'));
-  await selectUIOption(user,'Ranking reference audit',/First matching memory/);await selectUIOption(user,'Ranking candidate audit',/Prioritise requirements and updates/);
+  await selectUIOption(user,'Ranking reference audit',/First-match retrieval/);await selectUIOption(user,'Ranking candidate audit',/Relationship-priority retrieval/);
   await upload('reference','first.json');await upload('candidate','second.json');
   mocks.compareBenchmarkRankings.mockRejectedValue(new Error('Frozen context budgets differ between suites.'));
   await user.click(screen.getByRole('button',{name:'Check ranking agreement'}));
@@ -57,8 +57,8 @@ test('ignores a late ranking file read after source authorisation is revoked',as
 test('shows Auditor macro-average separately from pooled passed-answer counts',async()=>{
   const user=userEvent.setup();render(<UIProvider><BenchmarkRankingAgreement/></UIProvider>);
   await user.click(screen.getByLabelText('Ranking benchmark source authorisation'));
-  await selectUIOption(user,'Ranking reference audit',/First matching memory/);
-  await selectUIOption(user,'Ranking candidate audit',/Prioritise requirements and updates/);
+  await selectUIOption(user,'Ranking reference audit',/First-match retrieval/);
+  await selectUIOption(user,'Ranking candidate audit',/Relationship-priority retrieval/);
   await upload('reference','macro-before.json');await upload('candidate','macro-after.json');
   mocks.compareBenchmarkRankings.mockResolvedValue({agreement:'consistent',reference_strategy:'weak_first_hit',candidate_strategy:'strong_rule_based',notice:'Fixture only.',
     suites:[{label:'Audit questions',total:12,reference_correct:9,candidate_correct:3,reference_percentage:25,candidate_percentage:75,score_basis:'dimension_macro_average',ordering:'candidate_higher',
@@ -72,8 +72,8 @@ test('shows Auditor macro-average separately from pooled passed-answer counts',a
 test('missing Auditor dimensions show no zero-score ranking',async()=>{
   const user=userEvent.setup();render(<UIProvider><BenchmarkRankingAgreement/></UIProvider>);
   await user.click(screen.getByLabelText('Ranking benchmark source authorisation'));
-  await selectUIOption(user,'Ranking reference audit',/First matching memory/);
-  await selectUIOption(user,'Ranking candidate audit',/Prioritise requirements and updates/);
+  await selectUIOption(user,'Ranking reference audit',/First-match retrieval/);
+  await selectUIOption(user,'Ranking candidate audit',/Relationship-priority retrieval/);
   await upload('reference','missing-before.json');await upload('candidate','missing-after.json');
   mocks.compareBenchmarkRankings.mockResolvedValue({agreement:'inconclusive_missing_dimensions',reference_strategy:'weak_first_hit',candidate_strategy:'strong_rule_based',notice:'Fixture only.',
     suites:[{label:'Audit questions',total:2,reference_correct:1,candidate_correct:2,reference_percentage:null,candidate_percentage:null,score_basis:'dimension_macro_average',ordering:'unmeasured'}]});

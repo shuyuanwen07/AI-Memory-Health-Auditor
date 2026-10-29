@@ -30,6 +30,10 @@ class FormalReviewTests(unittest.TestCase):
     reviews=copy.deepcopy(self.r);reviews[0][field]=True;self.assertFalse(analyse(self.m,self.k,reviews)['formal_ready'])
  def test_known_prior_exposure_is_not_erased_by_an_unexposed_checkbox(self):
   self.r[0]['reviewer_id']='exposed';self.assertFalse(analyse(self.m,self.k,self.r)['formal_ready'])
+ def test_recheck_exposure_can_be_recorded_without_rewriting_the_review_packet(self):
+  x=analyse(self.m,self.k,self.r,known_exposed_reviewers=[' ONE '])
+  self.assertFalse(x['independent_blind_declarations_eligible'])
+  self.assertFalse(x['formal_ready'])
  def test_undefined_category_does_not_discard_detection_agreement(self):
   self.r[1]['labels']['R']['failure_dimension']='freshness';x=analyse(self.m,self.k,self.r);self.assertEqual(x['failure_detection']['A']['counts']['tp'],1);self.assertFalse(x['formal_ready'])
  def test_uncertain_answer_cannot_produce_full_discovery(self):
@@ -37,9 +41,13 @@ class FormalReviewTests(unittest.TestCase):
   x=analyse(self.m,self.k,self.r);self.assertIsNone(x['conditions'][0]['failure_discovery_rate']);self.assertFalse(x['formal_ready'])
  def test_mapping_disagreement_blocks_discovery(self):
   self.r[1]['labels']['R']['defect_ids']=[];x=analyse(self.m,self.k,self.r);self.assertIsNone(x['formal_failure_discovery_rates'][0]['failure_discovery_rate'])
- def test_full_recall_cannot_cite_a_rejected_candidate(self):
+ def test_full_recall_with_unconfirmed_candidate_is_preserved_as_unresolved(self):
   self.r[0]['labels']['C']['valid']=False
-  with self.assertRaises(ValueError):analyse(self.m,self.k,self.r)
+  self.r[1]['labels']['C']['valid']='uncertain'
+  x=analyse(self.m,self.k,self.r)
+  self.assertIn('G:coverage',x['unresolved_item_ids'])
+  self.assertIsNone(x['memory_reference_unit_recall'])
+  self.assertFalse(x['formal_ready'])
  def test_new_missing_gold_units_require_actual_reconciliation(self):
   self.r[0]['additional_missing_facts']['H']='A source fact is missing.';x=analyse(self.m,self.k,self.r);self.assertIsNone(x['memory_reference_unit_recall']);self.assertFalse(x['formal_ready'])
  def test_packet_tampering_rejected(self):

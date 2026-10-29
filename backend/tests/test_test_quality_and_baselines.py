@@ -96,6 +96,84 @@ def _confirmed_memory() -> Memory:
     )
 
 
+def test_rule_based_generator_drops_repeated_question_wording_before_budgeting():
+    memories = [
+        Memory(memory_id='M101', conversation_id='C-QUALITY', canonical_value='I like green notebooks.', status=MemoryStatus.CONFIRMED),
+        Memory(memory_id='M102', conversation_id='C-QUALITY', canonical_value='I like blue folders.', status=MemoryStatus.CONFIRMED),
+    ]
+
+    tests = RuleBasedTestGenerator().generate(memories, _audit(2))
+
+    assert len(tests) == 1
+    assert RuleBasedTestQualityValidator.validate_suite(tests) is None
+
+
+def test_rule_generator_names_project_scope_instead_of_generic_stored_information():
+    memory = Memory(
+        memory_id='M103', conversation_id='C-QUALITY',
+        canonical_value='This semester I am keeping notes on two separate software projects, Harbour and Orchard, alongside ordinary personal plans.',
+        status=MemoryStatus.CONFIRMED,
+    )
+
+    tests = RuleBasedTestGenerator().generate([memory], _audit())
+
+    assert tests[0].prompt == "What is the user's recorded project separation rule? State the relevant fact only."
+    assert RuleBasedTestQualityValidator().validate(tests[0], [memory]).quality_status == TestQualityStatus.ACCEPTED
+
+
+def test_rule_generator_names_pending_course_coordinator_follow_up():
+    memory = Memory(
+        memory_id='M104', conversation_id='C-QUALITY',
+        canonical_value='I expect to hear from the course coordinator before the next planning meeting.',
+        status=MemoryStatus.CONFIRMED,
+    )
+
+    tests = RuleBasedTestGenerator().generate([memory], _audit())
+
+    assert 'course-coordinator follow-up' in tests[0].prompt
+    assert RuleBasedTestQualityValidator().validate(tests[0], [memory]).quality_status == TestQualityStatus.ACCEPTED
+
+
+def test_rule_generator_names_interface_review_plan_instead_of_generic_information():
+    memory = Memory(
+        memory_id='M105', conversation_id='C-QUALITY',
+        canonical_value='We have a small review session planned for the interface.',
+        status=MemoryStatus.CONFIRMED,
+    )
+
+    tests = RuleBasedTestGenerator().generate([memory], _audit())
+
+    assert 'interface review plan' in tests[0].prompt
+    assert RuleBasedTestQualityValidator().validate(tests[0], [memory]).quality_status == TestQualityStatus.ACCEPTED
+
+
+def test_rule_generator_keeps_an_unadopted_suggestion_distinct_from_a_requirement():
+    memory = Memory(
+        memory_id='M106', conversation_id='C-QUALITY',
+        canonical_value='I have not adopted your suggestion to move Harbour to Go.',
+        status=MemoryStatus.CONFIRMED,
+    )
+
+    tests = RuleBasedTestGenerator().generate([memory], _audit())
+
+    assert 'not adopted' in tests[0].prompt
+    assert 'not an accepted requirement' in tests[0].prompt
+    assert RuleBasedTestQualityValidator().validate(tests[0], [memory]).quality_status == TestQualityStatus.ACCEPTED
+
+
+def test_rule_generator_keeps_suggestion_handling_instruction_specific():
+    memory = Memory(
+        memory_id='M107', conversation_id='C-QUALITY',
+        canonical_value='Please do not treat the earlier suggestion as our implementation plan.',
+        status=MemoryStatus.CONFIRMED,
+    )
+
+    tests = RuleBasedTestGenerator().generate([memory], _audit())
+
+    assert 'treat a project suggestion' in tests[0].prompt
+    assert RuleBasedTestQualityValidator().validate(tests[0], [memory]).quality_status == TestQualityStatus.ACCEPTED
+
+
 def test_unresolved_conflict_cannot_select_a_policy_by_recency():
     memories = [
         Memory(memory_id='M1', conversation_id='C', canonical_value='Secrets must be in environment variables.', status=MemoryStatus.CONFIRMED),
@@ -181,7 +259,7 @@ def test_baselines_are_deterministic_and_selectable_without_a_route():
     assert len(direct) == 1
     assert direct[0].dimension == Dimension.ACCURACY
     assert direct[0].test_type == TestType.DIRECT
-    assert direct[0].generator_version == "direct-ground-truth-v4"
+    assert direct[0].generator_version == "direct-ground-truth-v10"
     assert isinstance(get_suite_generator(TestSuiteMode.DIRECT_GROUND_TRUTH), DirectGroundTruthTestGenerator)
     assert isinstance(get_suite_generator(TestSuiteMode.FIXED_TEMPLATE), FixedTemplateTestGenerator)
     assert isinstance(get_suite_generator(TestSuiteMode.BEHAVIOURAL), RuleBasedTestGenerator)
@@ -213,7 +291,7 @@ def test_fixed_template_baseline_preserves_templates_but_records_its_method():
     regular = RuleBasedTestGenerator().generate(memories, _audit())
 
     assert [test.prompt for test in fixed] == [test.prompt for test in regular]
-    assert {test.generator_version for test in fixed} == {"fixed-template-v3"}
+    assert {test.generator_version for test in fixed} == {"fixed-template-v9"}
 
 
 def test_location_leak_detection_handles_cities_outside_the_builtin_examples():

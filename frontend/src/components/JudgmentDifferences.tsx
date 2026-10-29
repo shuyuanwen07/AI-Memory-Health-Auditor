@@ -42,7 +42,7 @@ export function JudgmentDifferences({runs,reviews,ready}: {runs:ExperimentStatis
     return {run,rows,counts,total:counts.reduce((sum,value)=>sum+value,0)};
   });
   return <section className="judgment-differences" aria-label="Audit judgment differences">
-    <UICard className="visual-report-card"><h2>Automated Judgment Distribution</h2><p>What did each method decide? Original automated judgments stay visible here after human review.</p>
+    <UICard className="visual-report-card"><h2>Automated Judgment Distribution</h2><p>What did each method decide? Original automated judgments stay visible here alongside saved reference labels.</p>
       <div className="chart-legend">{outcomes.map(outcome=><span key={outcome.label}><i style={{backgroundColor:outcome.colour}} />{outcome.label}</span>)}</div>
       {summaries.map(({run,counts,total})=><div className="judgment-distribution-row" key={run.result.run_id}>
         <b title={run.label}>{shortLabel(run)}</b>
@@ -56,11 +56,11 @@ export function JudgmentDifferences({runs,reviews,ready}: {runs:ExperimentStatis
       {!ready?<p>Load review records to see comparable cases.</p>:!pairs.length?<p>No unambiguous matching questions have different automated judgments in this batch.</p>:pairs.map(({rule,hybrid,condition},index)=><UIPanel key={rule.automated.evaluation_id} open={index===0}><UISummary>{rule.test.prompt} · {verdict(rule.automated.passed)} → {verdict(hybrid.automated.passed)}</UISummary>
         <p>{condition}</p><p><b>Expected behaviour:</b> {rule.test.expected_behavior}</p>
         <p className="judgment-limit">{hybrid.response.execution_metadata?.shared_source_response_id===rule.response.response_id && hybrid.response.execution_metadata?.shared_source_run_id===rule.response.run_id ? 'Controlled same-answer comparison: both evaluators scored the same saved target reply.' : rule.response.response_text===hybrid.response.response_text?'Answer text matches, but these are separate executions.':'Answer text differs; this case is not a controlled same-answer judge comparison.'}</p>
-        <div className="judgment-case-grid">{[{label:'Rule review',item:rule},{label:'Hybrid review',item:hybrid}].map(({label,item})=><div key={label}><h3>{label} · {verdict(item.automated.passed)}</h3><p><b>Answer:</b> {item.response.response_text}</p><p><b>Reason:</b> {friendlyText(item.automated.reason)}</p><p><b>Human reference:</b> {item.human_review?verdict(item.human_review.human_passed):'Not reviewed'}{item.human_review?.note&&` · ${item.human_review.note}`}</p></div>)}</div>
+        <div className="judgment-case-grid">{[{label:'Rule review',item:rule},{label:'Hybrid review',item:hybrid}].map(({label,item})=><div key={label}><h3>{label} · {verdict(item.automated.passed)}</h3><p><b>Answer:</b> {item.response.response_text}</p><p><b>Reason:</b> {friendlyText(item.automated.reason)}</p><p><b>Saved reference label:</b> {item.human_review?verdict(item.human_review.human_passed):'Not reviewed'}{item.human_review?.note&&` · ${item.human_review.note}`}</p>{item.human_review&&<p><b>Recorded reviewer label:</b> {item.human_review.reviewer_label} · {item.human_review.review_role}</p>}</div>)}</div>
       </UIPanel>)}
     </UICard>
-    <UIPanel><UISummary>Human Review Cross-check</UISummary>
-      <p>These figures use saved reference/adjudication labels, not independent blind validation. Agreement and failure precision exclude automated abstentions; failure recall includes human-confirmed failures missed through abstention. Unreviewed answers cannot establish evaluator accuracy.</p>
+    <UIPanel><UISummary>Reference-label cross-check</UISummary>
+      <p>These figures use saved reference/adjudication labels, not independent blind validation. The application cannot verify who or what supplied a label. Agreement and failure precision exclude automated abstentions; failure detection uses reference-labelled failures and includes cases where the automated result was uncertain. Unreviewed answers cannot establish evaluator accuracy.</p>
       {summaries.map(({run,rows})=>{
         const reviewed=(rows??[]).filter(item=>item.human_review);
         const decided=reviewed.filter(item=>item.automated.passed!==null);
@@ -68,7 +68,7 @@ export function JudgmentDifferences({runs,reviews,ready}: {runs:ExperimentStatis
         const flagged=decided.filter(item=>item.automated.passed===false);
         const trueFailures=flagged.filter(item=>item.human_review!.human_passed===false).length;
         const humanFailures=reviewed.filter(item=>item.human_review!.human_passed===false).length;
-        return <div className="judgment-distribution-row" key={run.result.run_id}><b>{shortLabel(run)}</b><p>{reviewed.length} human-reviewed · {decided.length} with a definitive automatic judgment</p><p>Agreement: {pct(agreements,decided.length)} · Failure precision: {pct(trueFailures,flagged.length)} · Failure recall: {pct(trueFailures,humanFailures)} · False positives: {reviewed.length ? `${flagged.length-trueFailures} among reviewed answers` : 'Not measured'}</p></div>;
+        return <div className="judgment-distribution-row" key={run.result.run_id}><b>{shortLabel(run)}</b><p>{reviewed.length} answers with saved reference labels · {decided.length} with a definitive automatic judgment</p><p>Agreement: {pct(agreements,decided.length)} · Failure precision: {pct(trueFailures,flagged.length)} · Failure detection: {pct(trueFailures,humanFailures)} · False positives: {reviewed.length ? `${flagged.length-trueFailures} among labelled answers` : 'Not measured'}</p></div>;
       })}
     </UIPanel>
   </section>;

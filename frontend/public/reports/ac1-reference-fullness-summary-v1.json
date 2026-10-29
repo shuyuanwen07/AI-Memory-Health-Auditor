@@ -1,0 +1,30 @@
+{
+  "format": "ac1-fullness-public-summary-v1",
+  "complete_29_histories": {
+    "matched_references": 228,
+    "full": 210,
+    "partial": 17,
+    "none": 0,
+    "unresolved": 1,
+    "unmatched_prior_references": 3,
+    "unmatched_note": "No mutual prior mapping; not independently adjudicated as absent."
+  },
+  "including_partial_observed_output": {
+    "matched_references": 236,
+    "full": 214,
+    "partial": 21,
+    "none": 0,
+    "unresolved": 1,
+    "unmatched_prior_references": 3,
+    "unmatched_note": "No mutual prior mapping; not independently adjudicated as absent."
+  },
+  "limitations": [
+    "Reviewed references are not exhaustive.",
+    "Unmatched prior references were not re-reviewed; no mutual mapping is not a definitive omission.",
+    "H04 missing output is unknown, not a confirmed omission.",
+    "Uncertain judgments and disagreements remain unresolved."
+  ],
+  "review_provenance": "User reports two independent human reviews; AI assisted; identities and independence not independently authenticated.",
+  "source_sha256": "29380c8077649d34e5d5f1b7f9f45c5f23618aacdbb3cf8c33ede0411140c3c8",
+  "confirmation_sha256": "dba321122b6096eda9f0d70e5d22b3a26ab337ec234b853b425f0f794fe9045a"
+}

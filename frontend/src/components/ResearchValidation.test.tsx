@@ -193,7 +193,7 @@ test('creates two models under one selected memory strategy with identical froze
   const models = screen.getByLabelText('Formal matrix target model');
   await user.clear(models);
   await user.type(models, 'qwen/small\nqwen/large');
-  for (const label of ['Supply no memories','Replay all retained memories','First matching memory','Prioritise requirements and updates','Rank memories by relevance','Consider time and importance']) {
+  for (const label of ['Supply no memories','Replay all retained memories','First-match retrieval','Relationship-priority retrieval','Rank memories by relevance','Consider time and importance']) {
     await user.click(screen.getByRole('checkbox',{name:label}));
   }
   await fillSuccessCriteria(user);

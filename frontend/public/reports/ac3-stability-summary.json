@@ -1,0 +1,12 @@
+{
+  "format": "ac3-stability-descriptive-v1",
+  "history_count": 10,
+  "pairs": 40,
+  "same_exact_answer_count": 13,
+  "same_automatic_verdict_count": 39,
+  "both_decided_pairs": 40,
+  "same_decided_verdict_count": 39,
+  "human_reviewed_repeat_answers": false,
+  "limitations": "Automatic-score stability only; repeated answers are not independent cases or human gold. Histories are authored synthetic data; provider randomness and external provenance are not independently authenticated.",
+  "evidence_file_sha256": "b543cde30b56e9e5244aecfb5e4ed7bfa1c362f62119b790694a47170e55f3d3"
+}

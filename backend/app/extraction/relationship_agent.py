@@ -94,7 +94,8 @@ RELATIONSHIP_INSTRUCTIONS = (
     "timestamps allow; this field order does not imply priority or supersession. Conflicting facts are not updates "
     "just because one was said later. For each link, put at least one supporting message ID from the current memory "
     "in current_evidence_message_ids and at least one supporting message ID from the prior memory in "
-    "prior_evidence_message_ids. Never put both sides in one citation list. Cite only messages that support that "
+    "prior_evidence_message_ids. The same message ID may appear in both lists if that message explicitly supports "
+    "both separate facts; still supply both lists. Cite only messages that support that "
     "endpoint and the proposed relationship. Do not infer a relationship from topic similarity alone. "
     "When uncertain, leave the relationship out, but still assess every pair. "
     "Do not change, merge, or delete the supplied memory candidates. Return the requested JSON only."
@@ -102,13 +103,41 @@ RELATIONSHIP_INSTRUCTIONS = (
 
 
 class RelationshipAnalysisAgent:
-    VERSION = "relationship-analysis-agent-v5"
+    VERSION = "relationship-analysis-agent-v7"
 
     def __init__(self, client: PipelineLLMClient):
         self.client = client
         self.last_observation: dict | None = None
+        self.attempt_observations: list[dict] = []
 
     def analyze(self, conversation: Conversation, memories: list[Memory]) -> dict:
+        """Retry one source-evidence rejection with its bounded diagnostic.
+
+        Each attempt is validated atomically and saved independently. A second
+        invalid answer fails closed; no edge from the first answer is attached.
+        """
+        self.attempt_observations = []
+        try:
+            return self._analyze_once(conversation, memories)
+        except _RelationshipStageError as exc:
+            if exc.failure_code not in {"topic_mismatch", "endpoint_evidence_mismatch"}:
+                raise
+            if self.last_observation:
+                self.attempt_observations.append(self.last_observation)
+            feedback = (
+                "The previous relationship list was rejected by local validation. "
+                "Review every pair again using only the cited endpoint sources. "
+                "The local validation error was: " + exc.failure_code + ". "
+                "Only return edges for the same subject and property; current and prior "
+                "evidence IDs must separately belong to their respective memory candidates. "
+                "Do not guess or transfer evidence between endpoints. If uncertain, omit the edge."
+            )
+            return self._analyze_once(conversation, memories, feedback=feedback)
+        finally:
+            if self.last_observation and (not self.attempt_observations or self.attempt_observations[-1] is not self.last_observation):
+                self.attempt_observations.append(self.last_observation)
+
+    def _analyze_once(self, conversation: Conversation, memories: list[Memory], *, feedback: str = "") -> dict:
         messages = [message for message in conversation.messages if message.role.strip().lower() == "user"]
         input_payload = {
             "messages": [{"message_id": item.message_id, "timestamp": item.timestamp.isoformat(), "content": item.content} for item in messages],
@@ -138,6 +167,7 @@ class RelationshipAnalysisAgent:
             "A scoped requirement can override a general preference even when the requirement does not restate the "
             "preference. Do not connect unrelated projects merely because both facts are current requirements. "
             "If no pair is supported, return an empty relationships array.\n\n"
+            + (feedback + "\n\n" if feedback else "")
             + json.dumps(input_payload, ensure_ascii=False)
         )
         try:
@@ -169,6 +199,15 @@ class RelationshipAnalysisAgent:
                     raise _RelationshipStageError(
                         "topic_mismatch",
                         "The relationship Agent linked candidates from different recognized topics.",
+                        diagnostics={
+                            'validation_errors': [{
+                                'field': f'relationships.{relation_index}',
+                                'type': 'topic_mismatch',
+                                'current_topic': current_topic,
+                                'prior_topic': prior_topic,
+                            }],
+                            'error_count': 1,
+                        },
                     )
                 if _timestamp_precedes(current.timestamp, prior.timestamp):
                     raise _RelationshipStageError(

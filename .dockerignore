@@ -1,0 +1,27 @@
+# Local data, generated results, and reviewer handoff files are mounted only
+# where needed at runtime and must not be sent to the application image build.
+.git
+.DS_Store
+.ruff_cache
+.pytest_cache
+frontend/node_modules
+frontend/dist
+frontend/.pytest_cache
+frontend/tsconfig.tsbuildinfo
+.env
+.venv
+__pycache__
+*.py[cod]
+.pytest_cache
+.ruff_cache
+.mypy_cache
+.DS_Store
+output
+experiments
+backend/.engineering-smoke
+backend/.ruff_cache
+backend/.pytest_cache
+backend/tests
+reviewer-*/
+reviewer-*.zip
+

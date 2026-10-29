@@ -19,7 +19,7 @@ test('renders missing Experiment A metrics as unmeasured, without a zero bar',()
 
 test('explains that discovery uses researcher-mapped frozen defect IDs',()=>{
   render(<ExperimentAMethodChart conditions={[condition('Fixed templates',0.5)]}/>);
-  const chart = screen.getByRole('img', {name:/Failure Discovery Rate by test method.*frozen defect IDs explicitly mapped by a researcher/});
+  const chart = screen.getByRole('img', {name:/Failure Discovery Rate by test method.*frozen defect IDs mapped by a researcher to responses marked Fail/});
   expect(chart).toBeInTheDocument();
   expect(chart.closest('figure')?.querySelector('figcaption')).toHaveTextContent(/mapping and reviewer identity are self-declared/);
 });

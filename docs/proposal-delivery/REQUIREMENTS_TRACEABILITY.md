@@ -1,0 +1,54 @@
+# Proposal requirements and acceptance traceability
+
+Status is deliberately conservative. A code location is evidence of implementation only; it does not by itself prove a successful current-version run.
+
+## Functional requirements
+
+| ID | Approved requirement | Implementation entry point | Evidence status and remaining check |
+|---|---|---|---|
+| FR1 | Upload authorised conversation history. | `frontend/src/components/ConversationStep.tsx`; `backend/app/api/routes.py` | Implemented. Focused `test_conversation_import_fidelity.py` and `test_conversation_data_lifecycle.py` passed against isolated test fixtures. A final release walkthrough and source-bound import/export check remain pending. |
+| FR2 | Extract persistent memory candidates and update/conflict relationships. | `backend/app/extraction/`; `backend/app/services/relationship_bindings.py` | Implemented. Independent source-backed inclusion/relationship labels and complete recall remain pending. |
+| FR3 | Accept, edit, reject, add memories, and establish confirmed ground truth. | `frontend/src/components/GroundTruthReview.tsx`; memory routes in `backend/app/api/routes.py` | Implemented. Focused audit-flow and conversation lifecycle tests passed; final version walkthrough evidence and human review provenance require confirmation. |
+| FR4 | Generate behavioural tests across four dimensions. | `backend/app/test_generator/`; `frontend/src/pages/NewAudit.tsx` | Implemented with evidence-aware allocation: at least one supported question per ability, then balanced distribution within available slots. A sparse ability no longer forces a two-question minimum; an ability with zero valid slots or too few total slots still blocks. Independent test grounding/validity review remains pending. |
+| FR5 | Initialise the controlled target AI from authorised history. | `backend/app/target_systems/`; `backend/app/memory_agent/` | Implemented. Bind any reported execution to the actual target, runtime, and configuration. |
+| FR6 | Execute tests and record prompts, responses, model settings, and run settings. | `backend/app/api/routes.py`; audit execution services | Implemented. One focused API flow and history/export tests passed with rule-based providers and a temporary SQLite database. Confirm one current-version run's saved settings and source/export fingerprints. |
+| FR7 | Evaluate outcomes and classify memory failures. | `backend/app/evaluator/`; `backend/app/metrics/` | Implemented. Focused score/evidence consistency and analytics tests passed. Formal accuracy requires independently labelled held-out responses and pre-frozen criteria. |
+| FR8 | Present dimension scores and traceable evidence. | `frontend/src/components/ResultDashboard.tsx`; result and export services | Implemented. Trace/review, evidence-correspondence, CSV-export, and experiment-history tests passed. Confirm exact correspondence among the current UI, saved run, and JSON/CSV exports in a final source-bound walkthrough. |
+| FR9 | Store confirmed ground truth and source evidence. | memory/conversation models and Alembic migrations under `backend/` | Implemented. Clean-database migration reached `0038_benchmark_plans`; focused evidence-correspondence and conversation lifecycle tests passed. Final release evidence persistence remains to be checked. |
+| FR10 | Configure target and audit settings before execution. | `frontend/src/pages/NewAudit.tsx`; audit configuration schemas | Implemented. Verify recorded and effective settings, including provider seed limitations. |
+| FR11 | Calculate dimension scores and overall Memory Health. | `backend/app/metrics/`; `frontend/src/components/` | Implemented. Focused experiment analytics and score/evidence consistency tests passed. Keep unmeasured dimensions unmeasured; verify denominators and pending judgments in final exports. |
+| FR12 | Inspect a failure with ground truth, source, test, expected behaviour, response, and category. | audit report/evidence components in `frontend/src/`; API schemas/routes | Implemented. Confirm evidence navigation on the final build and a real saved synthetic run. |
+
+## Non-functional requirements
+
+| ID | Requirement | Existing implementation/evidence | Remaining check |
+|---|---|---|---|
+| NFR1 | Do not process source conversations before explicit authorisation. | Import permission flow and server-side permission checks. | Focused operator-access, conversation lifecycle, and complete-audit API tests passed with isolated test fixtures. Verify the final release workflow and exact permission state; consent declarations do not authenticate ownership. |
+| NFR2 | Protect histories, ground truth, tests, results, and server-side credentials. | Credential configuration, access controls, request limits, and isolation checks. | Complete release-package scan and team review; existing tests are not a penetration test or production certification. |
+| NFR3 | Show source-backed evidence for detected failures. | Evidence links and audit report views. | Focused trace/test-review, evidence-correspondence, and score/evidence consistency tests passed. Verify source, question, expected behaviour, answer, and category on the same final run. |
+| NFR4 | Guide the user and explain invalid inputs. | Guided screens, validation, and recovery states. | A real novice walkthrough has not been recorded in this working set. |
+| NFR5 | Record reproducibility metadata and reuse frozen tests. | Run configuration, suite identities, and repeat-analysis infrastructure. | Historical six-run comparison and targeted experiment-history/export checks provide engineering evidence. Verify the frozen release and distinguish a recorded seed from an effective provider seed. |
+
+## Engineering verification receipts (current working tree)
+
+The isolated clean-start check, quota-change follow-up (40 frontend workflow tests and 71 tests across two backend modules), focused package/evidence and Phase 4 review-gate run (46 tests), targeted backend checks (2 API integration tests plus 88 tests across eight modules), and the 28 October full `scripts/tests` suite (**73 passed**) are documented in `CLEAN_START_VERIFICATION.md` and `docs/proposal-experiment-audit.md`. The assessed-source ZIP was also freshly installed from its lockfile; its production frontend build passed and full frontend suite reported **581 passed, 1 skipped across 62 files**. Backend tests used temporary test databases, rule-based or mocked providers, and blank cloud keys. A 27 October live availability check returned API `status: ok` and database `ready`, while the UI showed the synthetic example with authorisation unchecked. These are implementation checks; they do not establish research accuracy, proposal experiment completion, independent human validation, or full backend regression coverage. The quota change remains an uncommitted local working-tree change.
+
+## Acceptance criteria
+
+| ID | Proposal criterion | Current claim boundary |
+|---|---|---|
+| AC1 | Validate extraction and UPDATE/CONFLICT classification against labelled scenarios. | **Not established formally.** The recovered retrospective analysis has 21/27 candidate memories decided valid, 6 disputed, 24 proposed reference units, and 6/9 relationship pairs matching the intended class. Three “full coverage” calls rely on candidates not confirmed valid, so reference-unit recall is null. Original review metadata conflicts with the user's later correction; preserve the provenance caveat. |
+| AC2 | Generated tests are executable and introduce no unsupported facts. | **Partially evidenced.** A/B questions executed, but only 35/48 validity labels are agreed valid and 13 are uncertain. Grounding controls and execution do not prove all generated questions are supported. |
+| AC3 | Held-out failure detection/classification meets pilot thresholds. | **Not established formally.** Retrospective A review resolves 30/36 answers; B resolves 71/72 (TP=27, FP=1, FN=8, TN=34, one unresolved). Thirty-two review items remain unresolved, A defect discovery is null, reviewer provenance declarations conflict, and no supported frozen pilot-threshold result is available. These conditional metrics are not a complete held-out validity estimate. |
+| AC4 | Results include dimension scores, failures, and traceable evidence. | **Current-source target/export path partly verified; extraction budget corrected separately.** The synthetic workflow reaches Results under comparison `EXP1FBCD4858ABC48B69E296BC41BFB170A`; a separate current-source group records six runs and reconciles 48 JSON/CSV evaluation rows. Its first extraction request hit the 1,800-token limit and the offline verifier correctly failed because all extraction roles were not observed. A distinct post-fix intake on a 28-message synthetic conversation with 14 user source messages completed extraction, relationship analysis, and second-source review, producing 14 candidates and two advisory items. All candidates remain unreviewed; no target tests ran on that conversation, so full intake-to-report acceptance remains outstanding. |
+| AC5 | Repeated controlled evaluations reuse frozen inputs and preserve run metadata. | **Supported for the archived collections with limits.** A/B/C preserve shared inputs, repeated runs, configuration and failed/recovery receipts. Provider-default sampling, some reconstructed requests, related histories and the 14-case C subset limit exact replication and generalisation. |
+
+## Proposal experiments
+
+| Experiment | Proposal design | Required evidence before stating a conclusion |
+|---|---|---|
+| A | Equal-budget direct ground-truth questions, fixed manually authored patterns, and contextual/indirect tests. | Raw execution exists: 36 answers across 3 histories × 3 methods × 4 questions. Review agrees on 30 (27 failure, 3 pass), with 6 uncertain; formal response-level discovery rate remains null because mappings/validity are incomplete. |
+| B | Same model, histories, budget, and evaluation for Weak and Strong retrieval/update policies. | Raw execution exists: 72 included answers, three repeats and four dimensions. Target-memory macro averages are 25.00% Weak and 97.22% Strong. Retrospective auditor comparison is 27 TP, 1 FP, 8 FN, 34 TN and one unresolved; retain the correlated-history and reviewer-provenance limits. |
+| C | Compare Weak/Strong relative ranking on a technically compatible LongMemEval subset. | Archived Phase 4 collection exists: Oracle 14/500, 84 answers/judgements, Weak 15/42, Strong 30/42; a separate candidate v5 run reports 12/42 vs 35/42. Keep both runs separate, label them local compatibility results, not official full-benchmark scores. |
+
+Before final submission, reconcile every table against original run evidence and the actual source revision. If evidence is missing, retain `Pending` or `Not established` rather than deriving a value from a narrative summary.

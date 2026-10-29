@@ -13,7 +13,7 @@ from app.services.interfaces import BehaviourEvaluator
 def configured_evaluator(provider: str | None = None, model: str | None = None) -> tuple[str, str]:
     """Return the evaluator identity recorded on a new audit run."""
     choice = (provider if provider is not None else os.getenv("EVALUATOR_PROVIDER", "rule_based")).strip().lower()
-    defaults = {"ollama": os.getenv("OLLAMA_DEFAULT_MODEL", "qwen3:1.7b").strip() or "qwen3:1.7b", "openrouter": default_model(), "openai": "gpt-5.6-luna", "deepseek": "deepseek-flash", "gemini": "gemini-2.5-flash-lite"}
+    defaults = {"ollama": os.getenv("OLLAMA_DEFAULT_MODEL", "qwen3:1.7b").strip() or "qwen3:1.7b", "openrouter": default_model(), "openrouter_taxonomy": "openai/gpt-6-luna", "openai": "gpt-5.6-luna", "deepseek": "deepseek-flash", "gemini": "gemini-2.5-flash-lite"}
     if choice not in defaults:
         return "rule_based", RuleBasedBehaviourEvaluator.VERSION
     return choice, (model or "").strip() or (os.getenv("EVALUATOR_MODEL", "").strip() if provider is None else "") or defaults[choice]
@@ -27,6 +27,9 @@ def get_behaviour_evaluator(provider: str | None = None, model: str | None = Non
     audit; they use the reproducible local evaluator instead.
     """
     choice = (provider if provider is not None else configured_evaluator()[0]).strip().lower()
+    if choice == 'openrouter_taxonomy':
+        from app.evaluator.taxonomy_evaluator import TaxonomyEvidenceEvaluator
+        return TaxonomyEvidenceEvaluator(model=model or 'openai/gpt-6-luna')
     if choice in {"openrouter", "openai", "deepseek", "gemini", "ollama"}:
         return LLMBehaviourEvaluator(choice, model=model)
     return RuleBasedBehaviourEvaluator()

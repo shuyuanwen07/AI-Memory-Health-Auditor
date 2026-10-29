@@ -29,18 +29,23 @@ services:
       timeout: 5s
       retries: 10
   backend:
-    build: ./backend
-    command: sh -c "alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --reload-dir /app/app"
+    # Keep the development image small; runtime dependencies are installed
+    # from the mounted backend manifest without sending local experiment data.
+    image: python:3.12-slim
+    working_dir: /app
     # The backend's research-contract tests resolve versioned local fixtures
     # from the repository root.  Mount them read-only for the development
     # container without copying datasets into its writable application volume.
-    volumes: [./backend:/app, ./datasets:/datasets:ro, ./scripts:/scripts:ro, ./backend:/backend:ro]
+    volumes: [./backend:/app, ./datasets:/datasets:ro, ./scripts:/scripts:ro, ./backend:/backend:ro, ./output:/output:ro, ./output/ac3-generated:/ac3-results, ./frontend/public:/frontend/public:ro]
+    command: sh -c "pip install --no-cache-dir -r requirements.txt && alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload --reload-dir /app/app"
     env_file: .env
     environment:
       MEM0_TARGET_URL: ${MEM0_TARGET_URL:-http://mem0-target:8011}
       PYTHONPATH: /app:/
       WATCHFILES_FORCE_POLLING: "true"
       AUDITOR_CODE_REVISION: ${AUDITOR_CODE_REVISION:-development}
+      AC3_HOST_PROJECT_ROOT: ${PWD}
+      AC3_OUTPUT_ROOT: /output
     ports: ["127.0.0.1:8000:8000"]
     depends_on: {db: {condition: service_healthy}}
   frontend:

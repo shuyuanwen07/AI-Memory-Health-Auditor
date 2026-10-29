@@ -1,0 +1,16 @@
+{
+  "format": "ac2-generation-summary-v1",
+  "histories": 30,
+  "questions": 120,
+  "automatic_question_gate": {
+    "accepted": 96,
+    "rejected": 24
+  },
+  "automatic_suite_gate": {
+    "accepted": 7,
+    "rejected": 23
+  },
+  "reviewers_declared_complete": 2,
+  "source_sha256": "8e6b0e9b23b78d32bdba7a51574307436956879946e7d65ac4ab26cbf0486e3e",
+  "corrected_offline": true
+}

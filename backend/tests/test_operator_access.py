@@ -55,6 +55,15 @@ def test_unauthenticated_body_is_not_parsed_and_cannot_create_data(client):
     with client.sessions() as db:assert db.query(ConversationModel).count()==0
 
 
+def test_ac3_study_and_blind_download_require_operator_and_csrf(client):
+    digest='a'*64
+    assert client.get('/api/v1/ac3/studies/frozen').status_code==401
+    assert client.get(f'/api/v1/ac3/studies/{digest}/review/blind-packet.json').status_code==401
+    assert client.post('/api/v1/ac3/studies/start',json={'frozen_file':'x','frozen_sha256':digest}).status_code==401
+    sign_in(client)
+    assert client.post('/api/v1/ac3/studies/start',json={'frozen_file':'x','frozen_sha256':digest}).status_code==403
+
+
 def test_login_never_exposes_password_bearer_or_hash_in_json_and_rotates_session(client):
     csrf=sign_in(client)
     old=client.cookies.get(access.COOKIE_NAME)

@@ -5,7 +5,7 @@ import zipfile
 from pathlib import Path
 from unittest.mock import patch
 
-from scripts.package_assessment_source import allowed, package
+from scripts.package_assessment_source import allowed, candidate_files, package
 
 
 class AssessmentSourceTests(unittest.TestCase):
@@ -18,6 +18,8 @@ class AssessmentSourceTests(unittest.TestCase):
             self.assertIsNone(result['base_revision'])
             self.assertEqual(result['working_tree_status'], 'unknown')
             self.assertEqual(result['file_count'], 1)
+            self.assertTrue(any('No credential-pattern scan is performed' in note
+                                for note in result['review_notes']))
 
     def test_secret_database_outputs_and_caches_are_excluded(self):
         for name in ('.env', 'backend/.env', 'backend/.env.secret.json', 'output/reviewer.json', 'frontend/public/reports/private.json',
@@ -26,6 +28,48 @@ class AssessmentSourceTests(unittest.TestCase):
             self.assertFalse(allowed(Path(name)), name)
         self.assertTrue(allowed(Path('.env.example')))
         self.assertTrue(allowed(Path('backend/app/main.py')))
+        self.assertTrue(allowed(Path('handoff/owner-b/engineering_checks/check.py')))
+        self.assertTrue(allowed(Path('datasets/demo/presentation-memory-v1/conversation.json')))
+        for name in ('handoff/owner-a/reviewer.zip', 'handoff/owner-c/chart.png',
+                     'datasets/demo/presentation-memory-v1/export.pdf',
+                     'datasets/phase4-candidate-v1/archive.zip',
+                     'datasets/annotation/v1/review.key'):
+            self.assertFalse(allowed(Path(name)), name)
+
+    def test_symlinked_source_and_data_roots_are_rejected(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / 'source'
+            external = Path(directory) / 'external'
+            root.mkdir()
+            external.mkdir()
+            (external / 'outside.py').write_text('must not be packaged\n')
+            try:
+                (root / 'backend').symlink_to(external, target_is_directory=True)
+            except OSError as exc:
+                self.skipTest(f'directory symlinks unavailable: {exc}')
+            with self.assertRaisesRegex(ValueError, 'symlinked package source/data directory'):
+                list(candidate_files(root))
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / 'source'
+            external = Path(directory) / 'external'
+            root.mkdir()
+            external.mkdir()
+            (external / 'outside.json').write_text('{}\n')
+            (root / 'datasets').mkdir()
+            (root / 'datasets/assessment-candidates-v1').symlink_to(external, target_is_directory=True)
+            with self.assertRaisesRegex(ValueError, 'symlinked package source/data directory'):
+                list(candidate_files(root))
+
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory) / 'source'
+            external = Path(directory) / 'external'
+            (root / 'datasets/assessment-candidates-v1').mkdir(parents=True)
+            external.mkdir()
+            (external / 'outside.json').write_text('{}\n')
+            (root / 'datasets/assessment-candidates-v1/attachments').symlink_to(external, target_is_directory=True)
+            with self.assertRaisesRegex(ValueError, 'symlinked package source/data directory'):
+                list(candidate_files(root))
 
     def test_archive_hashes_contents_and_does_not_follow_symlinks(self):
         with tempfile.TemporaryDirectory() as directory:

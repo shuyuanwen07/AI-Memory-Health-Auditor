@@ -1,8 +1,26 @@
-# Frozen formal experiment protocol
+# Formal experiment protocol template and freeze procedure
 
-**Protocol ID:** `mha-formal-v1`  
-**Status:** template to freeze before collecting formal results  
+**Protocol ID:** `mha-formal-v1`
+**Status:** prospective template, not a frozen acceptance protocol
 **Scope:** controlled memory-policy evaluation; this document does not report results.
+
+## Current readiness status — 28 October 2026
+
+The archived Proposal A/B/C collections have already been run and inspected.
+Their outputs remain historical evidence; adding thresholds now cannot convert
+them into a prospective held-out evaluation. The saved Phase 4 protocol at
+`artifacts/local/phase4-20261027/protocol.json` has
+`B.success_threshold: null`, and the current review package has no eligible
+independent human returns. Therefore, no frozen threshold-based Auditor
+acceptance result exists yet.
+
+The non-human parts of the next evaluation can be prepared now: retain this
+protocol, version the source and annotation release, assign disjoint pilot and
+held-out sets, define exact metric denominators, and keep answer/report exports
+with their hashes. Numerical thresholds must be derived from the resolved
+pilot labels and timestamped before any held-out matrix is created or viewed.
+Do not fill those values from model-only or post-exposure labels, and do not
+claim AC3 is met until the held-out evidence passes the frozen gates.
 
 ## Added auditor-method ablation (development workflow)
 

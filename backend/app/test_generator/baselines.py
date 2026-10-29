@@ -9,12 +9,13 @@ from __future__ import annotations
 from app.schemas import AuditRun, Dimension, Memory, MemoryStatus, RelationshipType, TestCase, TestSuiteMode, TestType
 from app.services.interfaces import TestGenerator
 from app.test_generator.rule_based import RuleBasedTestGenerator
+from app.test_generator.quality import RuleBasedTestQualityValidator
 
 
 class DirectGroundTruthTestGenerator(TestGenerator):
     """Baseline A: ask a direct question for each confirmed memory."""
 
-    VERSION = "direct-ground-truth-v4"
+    VERSION = "direct-ground-truth-v10"
 
     def generate(self, memories: list[Memory], audit: AuditRun) -> list[TestCase]:
         # Match the current facts/relationships used by other suite methods.
@@ -25,15 +26,21 @@ class DirectGroundTruthTestGenerator(TestGenerator):
         base = RuleBasedTestGenerator().generate(confirmed, audit)
         tests = []
         seen = set()
+        seen_prompts = set()
         for case in base:
             family = tuple(sorted(case.supporting_memory_ids))
             if family in seen:
                 continue
-            seen.add(family)
             support = [by_id[key] for key in case.supporting_memory_ids]
             topic = RuleBasedTestGenerator._scoped_topic(*support)
+            prompt = case.prompt if case.dimension == Dimension.ACCURACY else f"For {'the current task requirement' if case.dimension == Dimension.APPROPRIATE_USE else 'the latest applicable record'}, what is the user's {topic}? If conflicting constraints are unresolved, state them and request clarification."
+            prompt_key = RuleBasedTestQualityValidator.normalize_prompt(prompt)
+            if not prompt_key or prompt_key in seen_prompts:
+                continue
+            seen.add(family)
+            seen_prompts.add(prompt_key)
             tests.append(case.model_copy(update={"test_id": f"T{len(tests)+1:03d}",
-                "prompt": case.prompt if case.dimension == Dimension.ACCURACY else f"For {'the current task requirement' if case.dimension == Dimension.APPROPRIATE_USE else 'the latest applicable record'}, what is the user's {topic}? If conflicting constraints are unresolved, state them and request clarification.",
+                "prompt": prompt,
                 "generator_version": self.VERSION, "test_type": TestType.DIRECT, "target_memory_context": []}))
         return tests
 
@@ -42,7 +49,7 @@ class DirectGroundTruthTestGenerator(TestGenerator):
 class FixedTemplateTestGenerator(RuleBasedTestGenerator):
     """Baseline B: standard deterministic templates with explicit provenance."""
 
-    VERSION = "fixed-template-v3"
+    VERSION = "fixed-template-v9"
 
     def generate(self, memories: list[Memory], audit: AuditRun) -> list[TestCase]:
         tests = super().generate(memories, audit)
@@ -57,7 +64,7 @@ class ContextualIndirectTestGenerator(TestGenerator):
     evidence-grounded slots into task prompts without exposing fact values.
     """
 
-    VERSION = "contextual-indirect-auditor-v2"
+    VERSION = "contextual-indirect-auditor-v8"
     ALLOWED_TEST_TYPES = frozenset({TestType.CONTEXTUAL, TestType.INDIRECT})
 
     def __init__(self, generator: TestGenerator | None = None) -> None:
@@ -67,6 +74,7 @@ class ContextualIndirectTestGenerator(TestGenerator):
         generated = self.generator.generate(memories, audit)
         by_id = {memory.memory_id: memory for memory in memories}
         result = []
+        seen_prompts = set()
         for test in generated[:audit.test_budget]:
             supporting = [by_id[memory_id] for memory_id in test.supporting_memory_ids if memory_id in by_id]
             topic = RuleBasedTestGenerator._scoped_topic(*supporting)
@@ -80,8 +88,13 @@ class ContextualIndirectTestGenerator(TestGenerator):
             if test.dimension == Dimension.ACCURACY and any(
                     edge.type == RelationshipType.UPDATE for memory in supporting for edge in memory.relationships):
                 prompt = f"Prepare an up-to-date profile for the user. Include the current {topic} as a concrete fact."
+            prompt_key = RuleBasedTestQualityValidator.normalize_prompt(prompt)
+            if not prompt_key or prompt_key in seen_prompts:
+                continue
+            seen_prompts.add(prompt_key)
             kind = TestType.CONTEXTUAL if test.dimension == Dimension.ACCURACY else TestType.INDIRECT
             result.append(test.model_copy(update={
+                "test_id": f"T{len(result)+1:03d}",
                 "prompt": prompt,
                 "generator_version": self.VERSION,
                 "test_type": kind,

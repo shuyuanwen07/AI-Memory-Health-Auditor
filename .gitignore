@@ -21,6 +21,7 @@ output/*
 
 # Disposable, approved-synthetic engineering evidence is copied to docs/evidence.
 backend/.engineering-smoke/
+backend/.v7-stage/
 
 # Owner A source archives and held-out answers stay with the local custodian.
 /datasets/annotation/owner-a-pilot-v1/

@@ -1,0 +1,279 @@
+{
+  "format": "phase4-c-expanded-v6",
+  "study_id": "phase4-c-expanded-study-v6",
+  "generated_at": "2026-10-27T22:56:27.259332+00:00",
+  "source": {
+    "revision": "98d7416c24c778c2fee6e6f3006e7a073259d48f",
+    "license": "MIT per official dataset card",
+    "source_sha256": "821a2034d219ab45846873dd14c14f12cfe7776e73527a483f9dac095d38620c",
+    "dataset": "LongMemEval cleaned Oracle",
+    "citation": "Wu et al. (2025), LongMemEval: Benchmarking chat assistants on long-term interactive memory. ICLR. https://openreview.net/forum?id=pZiyCaVuti"
+  },
+  "baseline_v5": {
+    "case_count": 14,
+    "repetitions": 3,
+    "per_repetition": [
+      {
+        "repetition": 1,
+        "weak_correct": 4,
+        "strong_correct": 12,
+        "total": 14
+      },
+      {
+        "repetition": 2,
+        "weak_correct": 4,
+        "strong_correct": 11,
+        "total": 14
+      },
+      {
+        "repetition": 3,
+        "weak_correct": 4,
+        "strong_correct": 12,
+        "total": 14
+      }
+    ],
+    "aggregate": {
+      "weak": {
+        "correct": 12,
+        "total": 42,
+        "accuracy_percent": 28.5714
+      },
+      "strong": {
+        "correct": 35,
+        "total": 42,
+        "accuracy_percent": 83.3333
+      }
+    },
+    "protocol_sha256": "736ae69610eca51aac30ea4cc5d0e49e32d26dbc0dbc8ce5460ecdd67f34af80",
+    "run_sha256": "23f428e60c9aa35f8cdb38dac4b92792ed4303dcc7e77ae40d90db57e0b874d2",
+    "winner": "strong_rule_based",
+    "interpretation": "Preserved 14-case v5 cohort; separate collection from v6."
+  },
+  "extension_v6": {
+    "case_count": 30,
+    "repetitions": 3,
+    "per_repetition": [
+      {
+        "repetition": 1,
+        "weak_correct": 6,
+        "strong_correct": 22,
+        "total": 30
+      },
+      {
+        "repetition": 2,
+        "weak_correct": 6,
+        "strong_correct": 19,
+        "total": 30
+      },
+      {
+        "repetition": 3,
+        "weak_correct": 7,
+        "strong_correct": 20,
+        "total": 30
+      }
+    ],
+    "aggregate": {
+      "weak": {
+        "correct": 19,
+        "total": 90,
+        "accuracy_percent": 21.1111
+      },
+      "strong": {
+        "correct": 61,
+        "total": 90,
+        "accuracy_percent": 67.7778
+      }
+    },
+    "protocol_sha256": "5e2d11cf94337ae49fb141d5f1d2327408a3a9b96d82648f4d31493270831f50",
+    "run_sha256": "6a6615db2deee591ff6a1bacf43fc46c552493842266a89468824b39b67d6662",
+    "winner": "strong_rule_based",
+    "interpretation": "Primary decision uses only the 30 new v6 cases and its predeclared three-repeat rule.",
+    "category_results": [
+      {
+        "category": "abstention",
+        "case_count": 4,
+        "repetitions": 3,
+        "weak": {
+          "correct": 12,
+          "total": 12,
+          "accuracy_percent": 100.0
+        },
+        "strong": {
+          "correct": 12,
+          "total": 12,
+          "accuracy_percent": 100.0
+        }
+      },
+      {
+        "category": "knowledge-update",
+        "case_count": 4,
+        "repetitions": 3,
+        "weak": {
+          "correct": 3,
+          "total": 12,
+          "accuracy_percent": 25.0
+        },
+        "strong": {
+          "correct": 12,
+          "total": 12,
+          "accuracy_percent": 100.0
+        }
+      },
+      {
+        "category": "multi-session",
+        "case_count": 5,
+        "repetitions": 3,
+        "weak": {
+          "correct": 0,
+          "total": 15,
+          "accuracy_percent": 0.0
+        },
+        "strong": {
+          "correct": 0,
+          "total": 15,
+          "accuracy_percent": 0.0
+        }
+      },
+      {
+        "category": "single-session-assistant",
+        "case_count": 4,
+        "repetitions": 3,
+        "weak": {
+          "correct": 0,
+          "total": 12,
+          "accuracy_percent": 0.0
+        },
+        "strong": {
+          "correct": 10,
+          "total": 12,
+          "accuracy_percent": 83.3333
+        }
+      },
+      {
+        "category": "single-session-preference",
+        "case_count": 4,
+        "repetitions": 3,
+        "weak": {
+          "correct": 1,
+          "total": 12,
+          "accuracy_percent": 8.3333
+        },
+        "strong": {
+          "correct": 10,
+          "total": 12,
+          "accuracy_percent": 83.3333
+        }
+      },
+      {
+        "category": "single-session-user",
+        "case_count": 4,
+        "repetitions": 3,
+        "weak": {
+          "correct": 3,
+          "total": 12,
+          "accuracy_percent": 25.0
+        },
+        "strong": {
+          "correct": 12,
+          "total": 12,
+          "accuracy_percent": 100.0
+        }
+      },
+      {
+        "category": "temporal-reasoning",
+        "case_count": 5,
+        "repetitions": 3,
+        "weak": {
+          "correct": 0,
+          "total": 15,
+          "accuracy_percent": 0.0
+        },
+        "strong": {
+          "correct": 5,
+          "total": 15,
+          "accuracy_percent": 33.3333
+        }
+      }
+    ],
+    "coverage": {
+      "target_answers": 180,
+      "usable_grades": 180,
+      "complete": true
+    },
+    "operational_diagnostics": {
+      "target_latency_ms_mean": {
+        "weak": 4035.113,
+        "strong": 6800.2431
+      },
+      "target_input_tokens": {
+        "weak": 168849,
+        "strong": 388620
+      },
+      "estimated_cost_usd": 0.1783034,
+      "billing_uncertain": true,
+      "recovered_http_429_attempts": 3,
+      "unresolved_requests": 0,
+      "note": "Token-rate cost estimate, not a provider invoice; three explicit grader 429 responses were recovered under the saved operational addendum."
+    },
+    "human_review": {
+      "status": "pending",
+      "review_items": 180,
+      "independent_histories": 30
+    }
+  },
+  "combined": {
+    "case_count": 44,
+    "repetitions": 3,
+    "per_repetition": [
+      {
+        "repetition": 1,
+        "weak_correct": 10,
+        "strong_correct": 34,
+        "total": 44
+      },
+      {
+        "repetition": 2,
+        "weak_correct": 10,
+        "strong_correct": 30,
+        "total": 44
+      },
+      {
+        "repetition": 3,
+        "weak_correct": 11,
+        "strong_correct": 32,
+        "total": 44
+      }
+    ],
+    "aggregate": {
+      "weak": {
+        "correct": 31,
+        "total": 132,
+        "accuracy_percent": 23.4848
+      },
+      "strong": {
+        "correct": 96,
+        "total": 132,
+        "accuracy_percent": 72.7273
+      }
+    },
+    "protocol_sha256": null,
+    "run_sha256": null,
+    "winner": "strong_rule_based",
+    "interpretation": "Secondary descriptive sum of separate v5 and v6 collections; not the primary decision.",
+    "source_snapshots_match": false
+  },
+  "decision": {
+    "selected_strategy": "strong_rule_based",
+    "rule": "Choose Strong only when its pooled v6 pass rate exceeds Weak and it wins at least 2 of 3 repetition-level paired comparisons.",
+    "reason": "Strong scored 61/90 (67.8%) versus Weak 19/90 (21.1%) and ranked higher in all three paired repetitions; the frozen rule passed.",
+    "repeat_wins": 3
+  },
+  "limitations": [
+    "v6 is a local compatibility experiment on 30 newly selected cases from a 500-case source, not the full official benchmark or its official score.",
+    "The automatic GPT-6 Luna grader shares the target model family; the 180 saved decisions have not yet received independent human review.",
+    "Three repetitions reuse the same 30 source histories; 90 answers per strategy are not 90 independent histories.",
+    "Category results are small descriptive subgroups; multi-session performance remains weak and temporal reasoning remains limited.",
+    "The combined 44-case row is secondary: v5 and v6 were collected on different days and different frozen code snapshots.",
+    "This page measures target retrieval-strategy outcomes. It does not by itself establish the Auditor's independent validity, extraction recall, or generalisation."
+  ]
+}

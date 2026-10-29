@@ -112,7 +112,7 @@ it('shows review-first advice and preserves existing target instructions and str
   await userEvent.click(screen.getByRole('button',{name:'Inspect diagnosis'}));
   expect(await screen.findByText('Review the evidence before choosing a repair')).toBeInTheDocument();
   expect(screen.getByRole('textbox',{name:'Additional target instructions'})).toHaveValue('Keep existing customer boundaries.');
-  expect(screen.getByText('First matching memory')).toBeInTheDocument();
+  expect(screen.getByText('First-match retrieval')).toBeInTheDocument();
   expect(screen.queryByRole('spinbutton',{name:'Candidate memory capacity'})).not.toBeInTheDocument();
 });
 it('requires a repair rationale and sends general settings separately from test answers',async()=>{

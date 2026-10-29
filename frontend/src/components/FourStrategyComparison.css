@@ -1,0 +1,14 @@
+.four-strategy-result-row {
+  display: grid;
+  grid-template-columns: minmax(150px, 280px) minmax(100px, 1fr) minmax(125px, auto);
+}
+
+@media (max-width: 650px) {
+  .four-strategy-result-row {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .four-strategy-result-row > div {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}

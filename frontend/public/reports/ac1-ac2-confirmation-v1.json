@@ -1,0 +1,21 @@
+{
+  "format": "ac1-ac2-confirmation-v1",
+  "scope": "User-confirmed AI-assisted adjudication of previously reviewed items",
+  "human_confirmation_user_reported": true,
+  "ai_assisted": true,
+  "prior_reviewer_judgments_exposed": true,
+  "independent_blind_adjudication": false,
+  "items": 22,
+  "ac1_candidate_valid": 6,
+  "ac1_reference_partial": 3,
+  "ac2_question_uncertain": 13,
+  "additional_fact_empty_suggestions": 3,
+  "confirmation_sha256": "7420b2fb895e659098724849cffbbe70cf99cab37368040a62f87470ccfdf739",
+  "suggestion_sha256": "36b6d7d74c2831015560ab609c45ea1159cb5b971b5bce802a39c893fb9eeefc",
+  "original_packet_sha256": "a5c7469699019ea67acad60828d5963bc10ef379dbb0ce42871b4bcfc305a38f",
+  "limitations": [
+    "13 original questions remain uncertain and are not counted as passed.",
+    "An empty additional-facts judgment does not establish complete candidate coverage.",
+    "The AI-assisted review was exposed to prior judgments and is not an independent blind adjudication."
+  ]
+}

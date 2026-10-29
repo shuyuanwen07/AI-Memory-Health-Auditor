@@ -31,7 +31,7 @@ from app.services.runtime_freeze import (
     audit_runtime_signature, assert_audit_runtime_frozen,
     refresh_failed_preexecution_generation, inherit_preexecution_runtime_refresh,
 )
-from app.services.stage_lock import database_stage_lock, database_stage_busy
+from app.services.stage_lock import database_stage_lock, database_stage_locks, database_stage_busy
 from app.services.generation_coverage import assert_generation_coverage, saved_suite_observation
 from app.services.reviewer_identity import reviewer_identity, distinct_reviewers, unique_independent_reviews
 from app.models import AgentExecutionModel, AssessorComparisonModel, AuditRunModel, ConversationModel, EvaluationHumanReviewModel, EvaluationResultModel, ExperimentModel, MemoryModel, MemoryRelationshipModel, MessageModel, TargetAgentMemoryEventModel, TargetAgentMemoryModel, TargetAgentMemoryRelationshipModel, TargetAgentRetrievalModel, TargetResponseModel, TestCaseModel
@@ -49,6 +49,8 @@ from app.target_systems.controlled import ControlledTargetSystemAdapter
 from app.test_generator.factory import get_test_generator
 from app.test_generator.baselines import get_suite_generator, HumanReviewedFixedTemplateGenerator
 from app.test_generator.quality import RuleBasedTestQualityValidator
+from app.test_generator.rule_based import RuleBasedTestGenerator
+from app.test_generator.scope_review import VERSION as SCOPE_REVIEW_VERSION, scope_warning
 
 router = APIRouter(prefix="/api/v1")
 _RUN_LOCKS: dict[str, Lock] = {}
@@ -66,6 +68,25 @@ def audit_run_lock(run_id: str, busy_message: str = "This audit stage is already
             yield
     finally:
         lock.release()
+
+
+@contextmanager
+def audit_run_locks(scopes: list[str], busy_message: str = "An audit stage is already running.", *, db: Session | None = None):
+    """Acquire several existing local/DB stage keys without a connection per key."""
+    ordered = sorted(set(scopes))
+    acquired = []
+    try:
+        for scope in ordered:
+            with _RUN_LOCKS_GUARD:
+                lock = _RUN_LOCKS.setdefault(scope, Lock())
+            if not lock.acquire(blocking=False):
+                raise HTTPException(409, busy_message)
+            acquired.append(lock)
+        with database_stage_locks(db, ordered, busy_message):
+            yield
+    finally:
+        for lock in reversed(acquired):
+            lock.release()
 
 @contextmanager
 def audit_suite_lock(db: Session, run_id: str):
@@ -725,7 +746,7 @@ def test_coverage_preview(conversation_id: str, test_budget: int = 20, db: Sessi
     minimum_met = test_budget >= len(Dimension) and all(
         item["available_question_count"] >= item["required_question_count"]
         for item in coverage
-    )
+    ) and sum(item["required_question_count"] for item in coverage) == test_budget
     return TestCoveragePreview(
         requested_test_count=test_budget,
         minimum_met=minimum_met,
@@ -1346,6 +1367,67 @@ def test_review_suite(run_id: str, db: Session = Depends(get_db)):
     )
 
 
+@router.post('/audits/{run_id}/tests/scope-review', response_model=TestReviewSuite)
+def review_test_scopes(run_id: str, db: Session = Depends(get_db)):
+    """Optionally flag a saved, unexecuted suite for source-based human review.
+
+    This does not rewrite prior experiments, infer that missing relationships
+    are absent, or claim that questions without warnings are valid.
+    """
+    with audit_suite_lock(db, run_id):
+        audit = db.get(AuditRunModel, run_id)
+        if not audit:
+            missing('Audit')
+        from app.services.reassessment import assert_saved_assessment_inputs
+        assert_saved_assessment_inputs(db, audit)
+        require_state(audit, {AuditStatus.TESTS_GENERATED})
+        ensure_suite_editable(db, audit)
+        experiment = db.get(ExperimentModel, audit.experiment_id) if audit.experiment_id else None
+        source_id = experiment.test_suite_source_run_id if experiment and experiment.test_suite_source_run_id else run_id
+        source_run = db.get(AuditRunModel, source_id)
+        if not source_run or source_run.conversation_id != audit.conversation_id:
+            raise HTTPException(409, 'The source suite is unavailable.')
+        ensure_suite_editable(db, source_run)
+        tests = db.scalars(select(TestCaseModel).where(TestCaseModel.run_id == source_id).order_by(TestCaseModel.id)).all()
+        if not tests:
+            raise HTTPException(409, 'No questions are available for review.')
+        messages = db.scalars(select(MessageModel).where(
+            MessageModel.conversation_id == audit.conversation_id, MessageModel.role == 'user'
+        )).all()
+        source_by_id = {message.source_message_id: message.content for message in messages}
+        memories = db.scalars(select(MemoryModel).where(
+            MemoryModel.conversation_id == audit.conversation_id,
+            MemoryModel.status.in_(['confirmed', 'edited']),
+        )).all()
+        memory_by_id = {memory.id: memory for memory in memories}
+        # Topic matching is a conservative warning heuristic, not a claim that
+        # facts conflict or that the relationship set is complete.
+        topics = {memory.id: RuleBasedTestGenerator._topic(memory) for memory in memories}
+        for test in tests:
+            # Existing explicit human decisions are not silently overwritten.
+            if test.validation_notes and test.validation_notes.startswith('Review decision:'):
+                continue
+            if test.quality_status == TestQualityStatus.REJECTED.value:
+                continue
+            support = [memory_by_id.get(mid) for mid in test.supporting_memory_ids]
+            source_complete = bool(support) and all(
+                memory is not None and memory.source_message_ids
+                and all(mid in source_by_id for mid in memory.source_message_ids)
+                for memory in support
+            )
+            support_topics = {topics[memory.id] for memory in support if memory is not None}
+            related_topic_count = max((sum(topic == other for other in topics.values())
+                                       for topic in support_topics), default=1)
+            warning = scope_warning(test.prompt, test.dimension, list(source_by_id.values()),
+                                    source_complete=source_complete, related_topic_count=related_topic_count)
+            if warning:
+                test.quality_status = TestQualityStatus.PENDING.value
+                test.validation_notes = f'{SCOPE_REVIEW_VERSION}: {warning}'
+                sync_canonical_test(db, test)
+        db.commit()
+        return test_review_suite(run_id, db)
+
+
 def _dimension_coverage_for_review(observation: dict, tests: list) -> list[TestDimensionCoverage]:
     """Return evidence eligibility plus the number of currently accepted tests."""
     saved_report = observation.get("dimension_coverage") or []
@@ -1619,6 +1701,21 @@ def assert_test_evidence_available(db: Session, conversation_id: str, tests: lis
             raise HTTPException(status_code, f"Question {index} has missing, unconfirmed, or unrelated supporting memories. Review the source memories and regenerate this question before testing.")
 
 
+def scope_sources_available(db: Session, conversation_id: str, test: TestCaseModel) -> bool:
+    """Check that each supporting memory still points to same-conversation user messages."""
+    memories = db.scalars(select(MemoryModel).where(
+        MemoryModel.conversation_id == conversation_id,
+        MemoryModel.id.in_(test.supporting_memory_ids),
+        MemoryModel.status.in_(['confirmed', 'edited']),
+    )).all()
+    if not test.supporting_memory_ids or len(memories) != len(set(test.supporting_memory_ids)):
+        return False
+    source_ids = {message.source_message_id for message in db.scalars(select(MessageModel).where(
+        MessageModel.conversation_id == conversation_id, MessageModel.role == 'user'
+    )).all() if message.content and message.content.strip()}
+    return all(memory.source_message_ids and all(mid in source_ids for mid in memory.source_message_ids) for memory in memories)
+
+
 def _review_test(run_id: str, test_id: str, payload: TestReviewUpdate, db: Session):
     """Accept or reject a canonical test and synchronise every peer copy."""
     audit = db.get(AuditRunModel, run_id)
@@ -1632,9 +1729,15 @@ def _review_test(run_id: str, test_id: str, payload: TestReviewUpdate, db: Sessi
     source = canonical_test_for_review(db, audit, test_id)
     if payload.quality_status == TestQualityStatus.ACCEPTED:
         assert_test_evidence_available(db, audit.conversation_id, [source], 422)
+        if (re.search(r'source-scope-review-v\d+: Original source messages are missing;', source.validation_notes or '')
+                and not scope_sources_available(db, audit.conversation_id, source)):
+            raise HTTPException(422, 'Original source messages are unavailable. Restore the source or regenerate the question before accepting it.')
     source.quality_status = payload.quality_status.value
     review_note = payload.note.strip() if payload.note else "No reviewer note provided."
-    source.validation_notes = f"Review decision: {payload.quality_status.value}. {review_note}"
+    prior_missing_source = (f'{SCOPE_REVIEW_VERSION}: Original source messages are missing; check this question against its source before use.'
+                            if payload.quality_status == TestQualityStatus.REJECTED
+                            and re.search(r'source-scope-review-v\d+: Original source messages are missing;', source.validation_notes or '') else '')
+    source.validation_notes = f"Review decision: {payload.quality_status.value}. {review_note}" + (f" {prior_missing_source}" if prior_missing_source else '')
     sync_canonical_test(db, source)
     db.commit(); db.refresh(source)
     return public_test_schema(source)

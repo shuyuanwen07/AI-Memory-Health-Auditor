@@ -3,7 +3,7 @@ import {PairedOutcomeOverview} from './PairedOutcomeOverview';
 import type {PairedComparison} from '../types/domain';
 
 const pair:PairedComparison={reference_run_id:'PRIVATE-WEAK',candidate_run_id:'PRIVATE-STRONG',reference_label:'weak',candidate_label:'strong',shared_tests:4,shared_question_count:4,both_passed:0,both_failed:1,reference_only_passed:0,candidate_only_passed:3,candidate_delta_percentage_points:75,candidate_delta_confidence_interval_low:null,candidate_delta_confidence_interval_high:null,two_sided_sign_test_p_value:null};
-const name=(_id:string,fallback:string)=>fallback==='weak'?'First matching memory · Rule review':'Match the task and project · Rule review';
+const name=(_id:string,fallback:string)=>fallback==='weak'?'First-match retrieval · Rule review':'Match the task and project · Rule review';
 
 test('shows compatible strategy changes without presenting incompatible judge comparisons as improvement',()=>{
  render(<PairedOutcomeOverview comparisons={[pair,{...pair,candidate_run_id:'OTHER-JUDGE',shared_tests:0,candidate_only_passed:0,both_failed:0,excluded_assessment_count:4,candidate_delta_percentage_points:null}]} labelForRun={name}/>);

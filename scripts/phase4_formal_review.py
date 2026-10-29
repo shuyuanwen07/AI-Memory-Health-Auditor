@@ -38,7 +38,6 @@ def validate(material,key,review):
    if row.get('coverage') not in {'full','partial','none','uncertain'}:raise ValueError('Reference coverage decision required')
    ids=row.get('candidate_ids')
    if not isinstance(ids,list) or len(set(ids))!=len(ids) or not set(ids).issubset(item['candidate_ids']):raise ValueError('Invalid reference-to-candidate links')
-   if row['coverage']=='full' and (not ids or any(labels[i].get('valid') is not True for i in ids)):raise ValueError('Full recall requires cited valid extracted candidates')
   elif kind=='relationship':
    if row.get('relationship_type') not in RELATIONS:raise ValueError('Relationship classification required')
   else:raise ValueError('Unknown item kind')
@@ -47,13 +46,14 @@ def validate(material,key,review):
  if not isinstance(extras,dict) or set(extras)!=set(material['histories']) or any(not isinstance(v,str) for v in extras.values()):raise ValueError('Review complete source inventories and record missing-fact notes')
  return labels
 
-def analyse(material,key,reviews):
+def analyse(material,key,reviews,known_exposed_reviewers=()):
  if len(reviews)!=2:raise ValueError('Exactly two actual independent returns required')
  names=[str(r.get('reviewer_id') or '').strip().casefold() for r in reviews]
  if len(set(names))!=2:raise ValueError('Two different reviewers required')
  tables=[validate(material,key,r) for r in reviews]
  exposed=any(r['has_seen_automated_results'] or r['used_ai_assistance'] for r in reviews)
- known_exposed=any(name in key.get('known_result_exposed_reviewer_ids',[]) for name in names)
+ known_exposed_names={str(name).strip().casefold() for name in [*key.get('known_result_exposed_reviewer_ids',[]),*known_exposed_reviewers]}
+ known_exposed=any(name in known_exposed_names for name in names)
  unresolved=[];reference_disagreements=[];counts=collections.defaultdict(collections.Counter);groups={};class_counts=collections.Counter();crit=collections.Counter()
  for ident,item in material['items'].items():
   left,right=(t[ident] for t in tables);kind=item['kind']
@@ -82,7 +82,14 @@ def analyse(material,key,reviews):
    elif kind=='relationship':counts[kind]['resolved']+=1;counts[kind]['correct']+=int(left[field]==key['items'][ident]['predicted_type'])
    elif left['valid']:
     counts[kind]['gold_units']+=1
-    if left['coverage']==right['coverage'] and left['coverage']!='uncertain':counts[kind]['coverage_resolved']+=1;counts[kind]['covered']+=int(left['coverage']=='full')
+    # A reviewer may call a reference unit fully covered while citing a
+    # candidate they or the other reviewer did not confirm as valid. Preserve
+    # both source labels and leave only this coverage decision unresolved.
+    cited=set(left['candidate_ids'])|set(right['candidate_ids'])
+    full_has_confirmed_candidates=(left['coverage']!='full' or all(
+     table[candidate].get('valid') is True for table in tables for candidate in cited
+    ))
+    if left['coverage']==right['coverage'] and left['coverage']!='uncertain' and full_has_confirmed_candidates:counts[kind]['coverage_resolved']+=1;counts[kind]['covered']+=int(left['coverage']=='full')
     else:unresolved.append(ident+':coverage')
  missing_notes=any(v.strip() for r in reviews for v in r['additional_missing_facts'].values())
  detection={}
@@ -100,8 +107,8 @@ def analyse(material,key,reviews):
  return {'scope':'Two-return retrospective reference calibration; not proof of identities, preregistration, representativeness or generalisation','reviewer_ids':[r['reviewer_id'] for r in reviews],'independent_blind_declarations_eligible':not(exposed or known_exposed),'formal_ready':formal_ready,'unresolved_item_ids':unresolved,'reference_or_mapping_disagreements':reference_disagreements,'additional_fact_reconciliation_required':missing_notes,'invalid_or_uncertain_question_review':question_issues,'failure_detection':detection,'failure_classification':{'counts':dict(class_counts),'accuracy_on_classified':fraction(class_counts['correct'],class_counts['classified']),'joint_detection_classification_recall':fraction(class_counts['correct'],class_counts['typed_reference'])},'test_validity':fraction(counts['question']['valid'],counts['question']['resolved']),'memory_extraction_precision':fraction(counts['candidate']['valid'],counts['candidate']['resolved']),'memory_reference_unit_recall':fraction(counts['reference']['covered'],counts['reference']['gold_units']) if not missing_notes and counts['reference']['coverage_resolved']==counts['reference']['gold_units'] else None,'relationship_accuracy_on_declared_pairs':fraction(counts['relationship']['correct'],counts['relationship']['resolved']),'critical_errors':dict(crit),'conditions':conditions,'formal_failure_discovery_rates':[{**x,'failure_discovery_rate':x['failure_discovery_rate'] if not(exposed or known_exposed) else None} for x in conditions if x['study']=='A'],'server_import_performed':False}
 
 def main():
- p=argparse.ArgumentParser();p.add_argument('bundle',type=Path);p.add_argument('reviewer1',type=Path);p.add_argument('reviewer2',type=Path);p.add_argument('output',type=Path);a=p.parse_args()
- key=json.loads((a.bundle/'private/key.json').read_text());material=json.loads((a.bundle/'private/material.json').read_text());reviews=[json.loads(x.read_text()) for x in [a.reviewer1,a.reviewer2]];result=analyse(material,key,reviews)
+ p=argparse.ArgumentParser();p.add_argument('bundle',type=Path);p.add_argument('reviewer1',type=Path);p.add_argument('reviewer2',type=Path);p.add_argument('output',type=Path);p.add_argument('--known-exposed-reviewer',action='append',default=[],help='Reviewer known to have seen outcomes or earlier labels in this review phase; repeat for each person.');a=p.parse_args()
+ key=json.loads((a.bundle/'private/key.json').read_text());material=json.loads((a.bundle/'private/material.json').read_text());reviews=[json.loads(x.read_text()) for x in [a.reviewer1,a.reviewer2]];result=analyse(material,key,reviews,a.known_exposed_reviewer)
  if a.output.exists():raise SystemExit('Refuse to overwrite existing analysis')
  a.output.write_text(json.dumps(result,indent=2));print('Analysis saved; formal_ready='+str(result['formal_ready']))
 if __name__=='__main__':main()

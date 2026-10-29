@@ -1,0 +1,22 @@
+{
+  "format": "ac2-joint-review-summary-v1",
+  "revised_questions": 13,
+  "valid_judgments": 39,
+  "judgments_per_question": 3,
+  "user_confirmed_human_review": true,
+  "both_reviewers_participated": true,
+  "independent_separate_label_sets_established": false,
+  "ai_assisted": true,
+  "original_question_adjudication": {
+    "valid": 6,
+    "invalid": 7,
+    "previous_judgment": "uncertain",
+    "retrospective": true
+  },
+  "historical_original_data_modified": false,
+  "source_sha256": {
+    "intake": "f4bc8be46949c050a49a50315bc5a1b1ff59e5b2632bfce8260e71c2c5748203",
+    "confirmation": "87532da59f8588ad66bb4665d435ff7be6a66ab0d39471020c00a72f977cb448",
+    "original_update_confirmation": "21677a69dc00e707a3fe77ff75d0af636781e9bb56feadad4c5a818e3a89dee6"
+  }
+}

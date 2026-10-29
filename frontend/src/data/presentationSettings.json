@@ -64,7 +64,7 @@
   "additional_target_identity_calls": 0,
   "quality_retries": 0,
   "transport_retries": "Existing bounded connectors only; save all attempts and technical failures. No silent model fallback.",
-  "comparison_scope": "Same requested base target model, profile limits, source, writer and shared eight-question suite; weak_first_hit uses the weak target condition and strong_rule_based uses strong, matching ordinary UI condition semantics. Strategies/conditions may supply different actual evidence. This one authored example does not establish general ranking or superiority.",
+  "comparison_scope": "Same requested base target model, profile limits, source, writer and shared eight-question suite; first-match retrieval and relationship-priority retrieval use distinct memory-selection policies. Strategies/conditions may supply different actual evidence. This one authored example does not establish general ranking or superiority.",
   "reference_review_policy": "Use the exact curated inventory only as a disclosed engineering-authored synthetic reference; preserve actual extractor candidates, edits, source citations and confirmation provenance. Never claim independent human approval.",
   "output_requirements": [
     "Exact source/settings/reference hashes",

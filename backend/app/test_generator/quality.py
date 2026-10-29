@@ -32,12 +32,20 @@ class RuleBasedTestQualityValidator(TestQualityValidator):
     _STOP_WORDS = {"a", "an", "the", "is", "are", "was", "were", "to", "of", "in", "on", "for", "that"}
 
     @staticmethod
+    def normalize_prompt(prompt: str) -> str:
+        """Return the same Unicode-aware key used by the suite duplicate gate."""
+        return "".join(
+            char for char in unicodedata.normalize("NFKC", prompt).lower()
+            if unicodedata.category(char)[0] in {"L", "N"}
+        )
+
+    @staticmethod
     def validate_suite(tests: list[TestCase]) -> str | None:
         seen: set[str] = set()
         for test in tests:
             # Preserve non-Latin text; ASCII-only normalisation collapsed every
             # Chinese-only question to the same empty key.
-            prompt = "".join(char for char in unicodedata.normalize("NFKC", test.prompt).lower() if unicodedata.category(char)[0] in {"L", "N"})
+            prompt = RuleBasedTestQualityValidator.normalize_prompt(test.prompt)
             if not prompt:
                 return "Question wording must contain readable letters or numbers."
             if prompt in seen:

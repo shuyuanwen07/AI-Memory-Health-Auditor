@@ -148,6 +148,10 @@ class AuditExecutionService:
         API routes use this same method after loading persisted artifacts, so
         browser-visible recovery and in-process orchestration cannot diverge.
         """
+        provenance = getattr(snapshot.audit, 'reproducibility', None)
+        staged_marker = (provenance.get('ac3_staged_suite') or provenance.get('ac3_paired_retest')) if isinstance(provenance, dict) else (getattr(provenance, 'ac3_staged_suite', None) or getattr(provenance, 'ac3_paired_retest', None))
+        if snapshot.audit.status == AuditStatus.RESEARCH_STAGED or staged_marker:
+            return cls._plan(snapshot, None, (), set(), 'This research suite is staged only; live execution is disabled.')
         if snapshot.audit.status == AuditStatus.CANCELLED:
             return cls._plan(snapshot, None, (), set(), "This audit was cancelled and is terminal.")
         if snapshot.audit.status == AuditStatus.COMPLETED:
@@ -175,6 +179,12 @@ class AuditExecutionService:
 
     def resume(self, snapshot: AuditExecutionSnapshot) -> AuditExecutionResult:
         """Resume from the first missing artifact without repeating prior work."""
+        provenance = getattr(snapshot.audit, 'reproducibility', None)
+        staged_marker = (provenance.get('ac3_staged_suite') or provenance.get('ac3_paired_retest')) if isinstance(provenance, dict) else (getattr(provenance, 'ac3_staged_suite', None) or getattr(provenance, 'ac3_paired_retest', None))
+        if snapshot.audit.status == AuditStatus.RESEARCH_STAGED or staged_marker:
+            # A blocked plan is not completion. Preserve the staged state and
+            # never invoke generator, connector, evaluator or completion logic.
+            return AuditExecutionResult(snapshot=snapshot, retry_plan=self.retry_plan(snapshot))
         while True:
             plan = self.retry_plan(snapshot)
             if plan.next_stage is None:

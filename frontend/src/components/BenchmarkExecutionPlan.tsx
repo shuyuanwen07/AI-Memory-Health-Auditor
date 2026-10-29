@@ -62,7 +62,7 @@ export function BenchmarkExecutionPlan({onPlanReady}:{onPlanReady:(id:string)=>v
   });}
   return <section aria-labelledby="benchmark-execution-plan-title">
     <h4 id="benchmark-execution-plan-title">Plan and run the benchmark comparison</h4>
-    <p>1. Prepare at least three Weak/Strong audit pairs with reviewed questions and no target answers. 2. Save this plan before running those audits. 3. Run each benchmark repeat below and save its original answers. 4. Import the scored answers under Compare repeated results.</p>
+    <p>1. Prepare at least three paired audit runs for first-match retrieval and relationship-priority retrieval, using reviewed questions with no target answers. 2. Save this plan before running those audits. 3. Run each benchmark repeat below and save its original answers. 4. Import the scored answers under Compare repeated results.</p>
     <Checkbox aria-label="Planned benchmark source authorisation" checked={authorised} onChange={event=>consent(event.target.checked)}>I am authorised to process the benchmark source with the selected model service.</Checkbox>
     <label>Execution plan file<UIInput aria-label="Benchmark execution plan file" type="file" accept=".json,application/json" disabled={!authorised||busy} onChange={event=>{const file=event.target.files?.[0];if(file)load(file);}}/><small>{name}</small></label>
     <Checkbox aria-label="Benchmark plan metadata permission" checked={storage} disabled={busy} onChange={event=>setStorage(event.target.checked)}>I permit saving the plan settings, source fingerprints, licence/citation and execution status on this server.</Checkbox>

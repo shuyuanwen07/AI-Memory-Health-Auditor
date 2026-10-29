@@ -1,0 +1,69 @@
+{
+  "format": "four-strategy-human-public-summary-v1",
+  "source_run_sha256": "a38edc5dfd7459163ff7a6fa3182be1598fab8c8aee4379679510ad162dbc15b",
+  "review_sha256": [
+    "48997205f369dd9774700c5eec19b11fb18206575343b4a59a6503c486a047c5",
+    "93c293d1e697ce48c0255f7342b475867e6ee2ebc014b39a8045ab47b689a7fc"
+  ],
+  "overall_counts": {
+    "agreed_pass": 179,
+    "agreed_fail": 168,
+    "uncertain": 12,
+    "disagreement": 1
+  },
+  "strategies": {
+    "scope_aware": {
+      "agreed_pass": 50,
+      "agreed_fail": 37,
+      "uncertain": 3,
+      "disagreement": 0,
+      "distinct_questions": 30,
+      "total": 90
+    },
+    "temporal_importance": {
+      "agreed_pass": 53,
+      "agreed_fail": 34,
+      "uncertain": 3,
+      "disagreement": 0,
+      "distinct_questions": 30,
+      "total": 90
+    },
+    "weak_first_hit": {
+      "agreed_pass": 16,
+      "agreed_fail": 73,
+      "uncertain": 0,
+      "disagreement": 1,
+      "distinct_questions": 30,
+      "total": 90
+    },
+    "strong_rule_based": {
+      "agreed_pass": 60,
+      "agreed_fail": 24,
+      "uncertain": 6,
+      "disagreement": 0,
+      "distinct_questions": 30,
+      "total": 90
+    }
+  },
+  "adjudicated": false,
+  "automatic_scores_replaced": false,
+  "reviewer_procedure": [
+    {
+      "completed_by_human": true,
+      "completed_independently": true,
+      "has_seen_automated_or_aggregate_results": false,
+      "used_ai_assistance": true
+    },
+    {
+      "completed_by_human": true,
+      "completed_independently": true,
+      "has_seen_automated_or_aggregate_results": false,
+      "used_ai_assistance": true
+    }
+  ],
+  "limitations": [
+    "Repeated answers share 30 histories; do not treat them as 90 independent histories.",
+    "Uncertain and disagreement are not failures or passes.",
+    "Reviewer identities and declared independence are not externally authenticated."
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "format": "ac4-intake-confirmation-v1",
+  "scope": "Saved synthetic intake; status at confirmation time",
+  "candidate_count": 14,
+  "human_confirmed_count": 14,
+  "reviewer_count_reported": 2,
+  "independence_user_reported": true,
+  "original_declaration_conflict": true,
+  "relationships_reviewed": 4,
+  "target_audit_at_confirmation": false,
+  "model_calls_for_confirmation": 0,
+  "source_manifest_sha256": "ec25a1753d7d7a2fdb0f79fc72392ce96f7db83c9278d4ac35fbaae47fe430f0",
+  "independence_confirmation_sha256": "31c1681bd29ef6c2d783d2cf5dd9221027f0cf9b71a05275644bb219cdf0ab76",
+  "limitations": [
+    "User reports two independent reviewers with no prior automatic-score exposure; original file declarations contain conflicting statements.",
+    "Confirmation does not establish extraction accuracy or held-out Auditor validity.",
+    "No target audit existed for this intake at the time of confirmation."
+  ]
+}
