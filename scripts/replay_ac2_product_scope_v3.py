@@ -4,6 +4,7 @@ Do not treat this same-sample comparison as independent validation.  Inputs,
 version and the original v2 source are pinned; previous results are preserved.
 """
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 
@@ -12,6 +13,7 @@ from scripts import replay_ac2_product_scope_gate as original
 ROOT = Path(__file__).resolve().parents[1]
 DIR = ROOT / 'output/proposal-delivery/ac1-ac2-b-return-20261029-v1'
 FROZEN_V2 = ROOT / 'output/proposal-delivery/ac2-product-scope-v3-development-20261029/scope_review_v2_frozen.py'
+FROZEN_V3 = ROOT / 'backend/app/test_generator/frozen_scope_review_v3.py'
 
 
 def digest(path):
@@ -19,8 +21,13 @@ def digest(path):
 
 
 def main():
-    if original.VERSION != 'source-scope-review-v3':
-        raise ValueError('Product implementation is not v3')
+    spec = importlib.util.spec_from_file_location('frozen_ac2_scope_v3', FROZEN_V3)
+    frozen = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(frozen)
+    if frozen.VERSION != 'source-scope-review-v3':
+        raise ValueError('Frozen implementation is not v3')
+    original.VERSION = frozen.VERSION
+    original.scope_warning = frozen.scope_warning
     old = json.loads((DIR / 'product-scope-retrospective-replay-v2.json').read_bytes())
     if digest(FROZEN_V2) != old['scope_implementation_sha256']:
         raise ValueError('Original v2 scope source does not match prior evidence')
@@ -36,7 +43,7 @@ def main():
     if result['unmatched'] or result['matched'] != 228:
         raise ValueError('Not every frozen question could be verified')
     result['source_sha256'] = {key: digest(ROOT / path) for key, path in original.FILES.items()}
-    result['scope_implementation_sha256'] = digest(ROOT / 'backend/app/test_generator/scope_review.py')
+    result['scope_implementation_sha256'] = digest(FROZEN_V3)
     result['previous_scope_implementation_sha256'] = digest(FROZEN_V2)
     result['replay_implementation_sha256'] = digest(Path(__file__).resolve())
     result['limitations'].insert(0, 'Product v3 was designed with these adjudicated labels available; this replay is development evidence, not an independent test.')

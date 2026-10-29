@@ -5,7 +5,7 @@ must be the original, same-conversation user messages, not generated memories.
 """
 import re
 
-VERSION = 'source-scope-review-v3'
+VERSION = 'source-scope-review-v4'
 _GENERIC = re.compile(r"^What is the user's recorded stored information(?:\s+[^?]+)?\?", re.I)
 _PROJECT = re.compile(r'\bfor the\s+([A-Z][A-Za-z0-9-]*)\s+project\b')
 _BROAD_REQUIREMENT = re.compile(r'^For the current task, what is the recorded requirement about [^?]+\?', re.I)

@@ -4,6 +4,10 @@
 **Report date:** 28 October 2026  
 **Scope:** System demonstration, controlled memory-policy comparison, auditor check, and diagnosis-guided repair evidence.
 
+### Source-scope correction — 29 October 2026
+
+The optional product source-scope review now checks a named project against the original user messages referenced by the question's supporting memories, instead of accepting a matching project name anywhere in the conversation. A targeted API regression case confirms that a project mentioned only in an unrelated message is flagged for review. This is an advisory warning, not a validity decision; the change has not yet been evaluated on an independently reviewed, prospectively frozen set. Existing v3 replay evidence and its frozen implementation are retained separately.
+
 ### User confirmation of the full evidence review — 29 October 2026
 
 The user has confirmed that all data were individually checked by humans, including the latest full-evidence review. This later statement is recorded separately from the original files and their AI-review declarations. It does not specify the number of human reviewers, independence or score exposure for this final evidence-reconciliation batch; it does not replace the earlier batch-specific confirmations of independent blind review. No new item-specific adjudications were supplied, so prior human judgments, AI-raised concerns, uncertain judgments and disagreements remain unchanged. The six AC1 relationship questions below are preserved as a semantic disagreement, not automatically reclassified. [User confirmation and source hashes](../output/proposal-delivery/final-evidence-human-review-confirmation-20261029.json).

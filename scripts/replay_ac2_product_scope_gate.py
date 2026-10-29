@@ -14,7 +14,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 from app.test_generator.rule_based import RuleBasedTestGenerator
-from app.test_generator.scope_review import VERSION, scope_warning
+from app.test_generator.frozen_scope_review_v3 import VERSION, scope_warning
 
 
 ROOT = Path(__file__).resolve().parents[1]

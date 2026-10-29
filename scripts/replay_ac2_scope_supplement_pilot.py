@@ -18,7 +18,7 @@ from app.extraction.rule_based import RuleBasedMemoryExtractor
 from app.schemas import AuditRun, Conversation, MemoryStatus
 from app.test_generator.quality import RuleBasedTestQualityValidator
 from app.test_generator.rule_based import RuleBasedTestGenerator
-from app.test_generator.scope_review import VERSION, scope_warning
+from app.test_generator.frozen_scope_review_v3 import VERSION, scope_warning
 from scripts.analyze_ac2_source_supplement_paired import analyze, canonical
 from scripts.replay_ac2_product_scope_gate import apply_gate
 
@@ -165,7 +165,7 @@ def main():
     result = replay(values['protocol'], values['material'], values['key'],
                     [values['review_1'], values['review_2']], values['confirmation'])
     result['source_sha256'] = {k: sha(p.read_bytes()) for k,p in in_paths.items()}
-    result['scope_source_sha256'] = sha((ROOT/'backend/app/test_generator/scope_review.py').read_bytes())
+    result['scope_source_sha256'] = sha((ROOT/'backend/app/test_generator/frozen_scope_review_v3.py').read_bytes())
     result['quality_source_sha256'] = sha((ROOT/'backend/app/test_generator/quality.py').read_bytes())
     result['replay_source_sha256'] = sha(Path(__file__).read_bytes())
     with args.output.open('x', encoding='utf-8') as stream:

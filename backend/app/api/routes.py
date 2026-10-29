@@ -1418,7 +1418,9 @@ def review_test_scopes(run_id: str, db: Session = Depends(get_db)):
             support_topics = {topics[memory.id] for memory in support if memory is not None}
             related_topic_count = max((sum(topic == other for other in topics.values())
                                        for topic in support_topics), default=1)
-            warning = scope_warning(test.prompt, test.dimension, list(source_by_id.values()),
+            supporting_sources = [source_by_id[mid] for memory in support if memory is not None
+                                  for mid in (memory.source_message_ids or []) if mid in source_by_id]
+            warning = scope_warning(test.prompt, test.dimension, supporting_sources,
                                     source_complete=source_complete, related_topic_count=related_topic_count)
             if warning:
                 test.quality_status = TestQualityStatus.PENDING.value

@@ -2,7 +2,7 @@
 from sqlalchemy import delete, select
 
 from app.models import AuditRunModel, MemoryModel, MessageModel, TestCaseModel
-from app.test_generator.scope_review import scope_warning
+from app.test_generator.scope_review import VERSION, scope_warning
 
 
 def test_scope_advice_fails_closed_without_original_sources():
@@ -48,6 +48,37 @@ def test_multiple_same_topic_facts_flag_direct_accuracy_and_preserve_question(sa
     assert client.post(f'/api/v1/audits/{runs[0]}/execute').status_code == 409
 
 
+def test_project_name_in_unrelated_message_does_not_ground_question(saved_suite, monkeypatch):
+    from app.api import routes
+    monkeypatch.setattr(routes.RuleBasedTestGenerator, '_topic', staticmethod(lambda memory: memory.id))
+    client, sessions, runs, _ = saved_suite
+    with sessions() as db:
+        audit = db.get(AuditRunModel, runs[0])
+        message = db.scalar(select(MessageModel).where(MessageModel.conversation_id == audit.conversation_id))
+        message.content = 'The backend uses PostgreSQL.'
+        db.add(MessageModel(id='unrelated-message', conversation_id=audit.conversation_id,
+                            source_message_id='unrelated-source', sequence=99, role='user',
+                            content='The Cedar project uses Python.', timestamp=message.timestamp,
+                            original_timestamp=message.original_timestamp))
+        memories = db.scalars(select(MemoryModel).where(MemoryModel.conversation_id == audit.conversation_id)).all()
+        for index, memory in enumerate(memories):
+            memory.canonical_value = f'unique subject {index} value'
+        supporting = memories[0]
+        supporting.source_message_ids = [message.source_message_id]
+        question = db.scalar(select(TestCaseModel).where(TestCaseModel.run_id == runs[0], TestCaseModel.dimension == 'accuracy'))
+        question.prompt = 'What is the database for the Cedar project?'
+        question.supporting_memory_ids = [supporting.id]
+        question.quality_status = 'accepted'
+        question.validation_notes = 'Generated.'
+        question_id = question.id
+        db.commit()
+    response = client.post(f'/api/v1/audits/{runs[0]}/tests/scope-review')
+    assert response.status_code == 200, response.text
+    question = next(q for q in response.json()['tests'] if q['test_id'] == question_id)
+    assert question['quality_status'] == 'pending'
+    assert 'named project is not explicit' in question['validation_notes']
+
+
 def test_v1_missing_source_warning_remains_protected_after_v2_upgrade(saved_suite):
     client, sessions, runs, _ = saved_suite
     with sessions() as db:
@@ -89,7 +120,7 @@ def test_broad_requirement_is_kept_pending_and_syncs_to_shared_suite(saved_suite
     assert response.status_code == 200, response.text
     question = next(q for q in response.json()['tests'] if q['test_id'] == question_id)
     assert question['quality_status'] == 'pending'
-    assert 'source-scope-review-v3:' in question['validation_notes']
+    assert VERSION + ':' in question['validation_notes']
     assert client.post(f'/api/v1/audits/{runs[1]}/execute').status_code == 409
 
 
@@ -102,7 +133,7 @@ def test_opt_in_scope_review_keeps_questions_and_blocks_execution(saved_suite):
     after = response.json()['tests']
     assert {t['test_id'] for t in after} == {t['test_id'] for t in before}
     pending = [t for t in after if t['quality_status'] == 'pending']
-    assert pending and all('source-scope-review-v3' in t['validation_notes'] for t in pending)
+    assert pending and all(VERSION in t['validation_notes'] for t in pending)
     with sessions() as db:
         peer = list(db.scalars(select(TestCaseModel).where(TestCaseModel.run_id == runs[1])).all())
         assert sum(t.quality_status == 'pending' for t in peer) == len(pending)
