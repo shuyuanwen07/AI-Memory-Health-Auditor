@@ -125,7 +125,7 @@ def main():
             raise ValueError(f'{name} is not the source of the confirmed adjudication summary')
     result = replay(values)
     result['source_sha256'] = hashes
-    result['scope_implementation_sha256'] = hashlib.sha256((ROOT / 'backend/app/test_generator/scope_review.py').read_bytes()).hexdigest()
+    result['scope_implementation_sha256'] = hashlib.sha256((ROOT / 'backend/app/test_generator/frozen_scope_review_v3.py').read_bytes()).hexdigest()
     result['topic_implementation_sha256'] = hashlib.sha256((ROOT / 'backend/app/test_generator/rule_based.py').read_bytes()).hexdigest()
     result['replay_implementation_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
     out = ROOT / 'output/proposal-delivery/ac1-ac2-b-return-20261029-v1/product-scope-retrospective-replay-v2.json'
