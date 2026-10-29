@@ -27,3 +27,6 @@ backend/.v7-stage/
 /datasets/annotation/owner-a-pilot-v1/
 /datasets/annotation/owner-a-pilot-v2-ai-reviewed/
 /handoff/owner-a-custodian/
+
+# Local full research backups are retained locally; only selected evidence is published.
+research/full-project-backup-20261029/*.tar.gz.part-*
