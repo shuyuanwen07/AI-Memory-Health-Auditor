@@ -79,6 +79,33 @@ def test_project_name_in_unrelated_message_does_not_ground_question(saved_suite,
     assert 'named project is not explicit' in question['validation_notes']
 
 
+def test_project_name_in_any_cited_source_is_considered(saved_suite, monkeypatch):
+    from app.api import routes
+    monkeypatch.setattr(routes.RuleBasedTestGenerator, '_topic', staticmethod(lambda memory: memory.id))
+    client, sessions, runs, _ = saved_suite
+    with sessions() as db:
+        audit = db.get(AuditRunModel, runs[0])
+        message = db.scalar(select(MessageModel).where(MessageModel.conversation_id == audit.conversation_id))
+        message.content = 'The backend uses PostgreSQL.'
+        db.add(MessageModel(id='cited-message', conversation_id=audit.conversation_id,
+                            source_message_id='cited-source', sequence=99, role='user',
+                            content='The Cedar project uses PostgreSQL.', timestamp=message.timestamp,
+                            original_timestamp=message.original_timestamp))
+        supporting = db.scalar(select(MemoryModel).where(MemoryModel.conversation_id == audit.conversation_id))
+        supporting.source_message_ids = [message.source_message_id, 'cited-source']
+        question = db.scalar(select(TestCaseModel).where(TestCaseModel.run_id == runs[0], TestCaseModel.dimension == 'accuracy'))
+        question.prompt = 'What is the database for the Cedar project?'
+        question.supporting_memory_ids = [supporting.id]
+        question.quality_status = 'accepted'
+        question.validation_notes = 'Generated.'
+        question_id = question.id
+        db.commit()
+    response = client.post(f'/api/v1/audits/{runs[0]}/tests/scope-review')
+    assert response.status_code == 200, response.text
+    question = next(q for q in response.json()['tests'] if q['test_id'] == question_id)
+    assert question['quality_status'] == 'accepted'
+
+
 def test_v1_missing_source_warning_remains_protected_after_v2_upgrade(saved_suite):
     client, sessions, runs, _ = saved_suite
     with sessions() as db:

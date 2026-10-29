@@ -1412,14 +1412,16 @@ def review_test_scopes(run_id: str, db: Session = Depends(get_db)):
             support = [memory_by_id.get(mid) for mid in test.supporting_memory_ids]
             source_complete = bool(support) and all(
                 memory is not None and memory.source_message_ids
-                and all(mid in source_by_id for mid in memory.source_message_ids)
+                and all(isinstance(mid, str) and mid.strip() and mid in source_by_id
+                        for mid in memory.source_message_ids)
                 for memory in support
             )
             support_topics = {topics[memory.id] for memory in support if memory is not None}
             related_topic_count = max((sum(topic == other for other in topics.values())
                                        for topic in support_topics), default=1)
             supporting_sources = [source_by_id[mid] for memory in support if memory is not None
-                                  for mid in (memory.source_message_ids or []) if mid in source_by_id]
+                                  for mid in (memory.source_message_ids or [])
+                                  if isinstance(mid, str) and mid in source_by_id]
             warning = scope_warning(test.prompt, test.dimension, supporting_sources,
                                     source_complete=source_complete, related_topic_count=related_topic_count)
             if warning:
