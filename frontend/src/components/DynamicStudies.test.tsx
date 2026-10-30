@@ -12,7 +12,7 @@ it('reads A, B and C separately and refreshes saved evidence without mixing stud
   const a={...group,experiment_id:'A1',test_suite_metadata:{study_role:'audit_method_comparison',method_comparison_id:'CMP',diagnostic_source_run_id:'AUD'}};
   mocks.experimentGroups.mockResolvedValue([a,group]);
   mocks.methodComparisonResults.mockResolvedValue({source_run_id:'AUD',conditions:[1,2,3].map(n=>({run_id:String(n),label:`method ${n}`,status:'COMPLETED',failure_discovery_rate:{discovered_distinct_failures:n,known_distinct_failures:5,status:'measured'}}))});
-  const names=['weak_first_hit','strong_rule_based','strong_score_based','scope_aware'];
+  const names=['weak_first_hit','strong_rule_based','scope_aware','temporal_importance'];
   mocks.experimentResults.mockResolvedValue({experiment:group,conditions:names.map((name,i)=>({condition_id:name,memory_strategy:name,provider:'openrouter',model:'gpt',completed_runs:1,planned_runs:1,run_ids:[name],tests_passed:i+1,tests_total:5,dimensions:[]}))});
   const review=(reviewer_label:string,human_passed:boolean)=>({reviewer_label,review_role:'independent',human_passed,updated_at:'2026-10-30',review_id:reviewer_label});
   mocks.evaluationReview.mockResolvedValue([{human_reviews:[review('one',true),review('two',true)]},{human_reviews:[review('one',true),review('two',false)]}]);

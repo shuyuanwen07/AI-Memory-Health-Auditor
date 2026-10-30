@@ -9,7 +9,7 @@ type Analysis = Awaited<ReturnType<typeof api.listBenchmarkAnalyses>>[number];
 type HumanCount = {passed:number;decided:number;reviewed:number;unresolved:number};
 type DynamicData = {a: MethodResult | null; b: ExperimentAnalytics | null; bHuman:Record<string,HumanCount>; c: BenchmarkPlan | null; analysis:Analysis|null; errors: string[]};
 const initial: DynamicData = {a:null,b:null,bHuman:{},c:null,analysis:null,errors:[]};
-const strategies = ['weak_first_hit','strong_rule_based','strong_score_based','scope_aware'];
+const strategies = ['weak_first_hit','strong_rule_based','scope_aware','temporal_importance'];
 
 export function useDynamicStudies() {
   const [data,setData] = useState<DynamicData>(initial);

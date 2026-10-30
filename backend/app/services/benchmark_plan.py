@@ -28,8 +28,9 @@ def benchmark_identity(request):
         raise ValueError('Confirm source authorisation before processing the benchmark.')
     if request.include_mem0 or request.native_repair_comparison or request.provider.value not in {'ollama', 'openrouter'}:
         raise ValueError('Experiment C requires the controlled real-model Weak/Strong pair.')
-    if [s.value for s in request.strategies] != ['weak_first_hit', 'strong_rule_based']:
-        raise ValueError('Freeze Weak first-hit then Strong rule-based as the two benchmark conditions.')
+    strategies = [s.value for s in request.strategies]
+    if strategies[:2] != ['weak_first_hit', 'strong_rule_based'] or len(set(strategies)) != len(strategies):
+        raise ValueError('Freeze first-match then relationship-priority; additional strategies must be distinct.')
     if request.target_memory_profile.output_token_limit is None:
         raise ValueError('Freeze an explicit output token limit for both suites.')
     cases, report = LongMemEvalAdapter().adapt(request.payload)
@@ -120,7 +121,7 @@ class BenchmarkPlanService:
             protocol = {'version':self.VERSION,'benchmark':identity,'trials':[t.model_dump() for t in request.trials],
                         'sampling_rule':request.sampling_rule.strip(),'evaluator_model':request.evaluator_model.strip(),
                         'evaluator_revision':request.evaluator_revision,'audit_input_fingerprints':snapshots,
-                        'planned_target_calls':len(request.trials)*2*len(identity['case_ids'])}
+                        'planned_target_calls':len(request.trials)*len(identity['configuration']['strategies'])*len(identity['case_ids'])}
             plan=BenchmarkPlanModel(id='CP'+uuid4().hex,created_at=datetime.now(timezone.utc),
                 fingerprint_sha256=fingerprint(protocol),protocol=protocol,executions={})
             db.add(plan)

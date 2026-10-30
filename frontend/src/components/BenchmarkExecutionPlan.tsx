@@ -12,7 +12,7 @@ export interface BenchmarkPlan {
   executions:Record<string,{status:string;error_code?:string;benchmark_run_id?:string;evidence_fingerprint_sha256?:string;dashboard_summary?:{metric:'lexical_match';conditions:Array<{strategy:string;matched:number;total:number;case_ids?:string[]}>};human_reviews?:Array<{review_id:string;reviewers:Array<{reviewer:string;judgments:Array<{strategy:string;case_id:string;verdict:'pass'|'fail'|'uncertain'}>}>}>}>;
 }
 interface PlanInput {benchmark:Record<string,unknown>;trials:unknown[];sampling_rule:string;evaluator_model:string;evaluator_revision:string}
-const template={benchmark:{payload:[],source_authorised:false,dataset_provenance:{dataset_version:'',license:'',citation:''},provider:'openrouter',model:'openai/gpt-6-luna',strategies:['weak_first_hit','strong_rule_based'],target_memory_profile:{output_token_limit:192}},trials:[1,2,3].map(i=>({trial_id:`repeat-${i}`,reference_run_id:'',candidate_run_id:''})),sampling_rule:'',evaluator_model:'',evaluator_revision:'',metadata_storage_authorised:false};
+const template={benchmark:{payload:[],source_authorised:false,dataset_provenance:{dataset_version:'',license:'',citation:''},provider:'openrouter',model:'openai/gpt-6-luna',strategies:['weak_first_hit','strong_rule_based','scope_aware','temporal_importance'],target_memory_profile:{output_token_limit:1024}},trials:[1,2,3].map(i=>({trial_id:`repeat-${i}`,reference_run_id:'',candidate_run_id:''})),sampling_rule:'',evaluator_model:'',evaluator_revision:'',metadata_storage_authorised:false};
 
 export function BenchmarkExecutionPlan({onPlanReady}:{onPlanReady:(id:string)=>void}){
   const [authorised,setAuthorised]=useState(false),[storage,setStorage]=useState(false),[busy,setBusy]=useState(false);
@@ -74,7 +74,7 @@ export function BenchmarkExecutionPlan({onPlanReady}:{onPlanReady:(id:string)=>v
   });}
   return <section aria-labelledby="benchmark-execution-plan-title">
     <h4 id="benchmark-execution-plan-title">Plan and run the benchmark comparison</h4>
-    <p>1. Prepare at least three paired audit runs for first-match retrieval and relationship-priority retrieval, using reviewed questions with no target answers. 2. Save this plan before running those audits. 3. Run each benchmark repeat below and save its original answers. 4. Import the scored answers under Compare repeated results.</p>
+    <p>1. Prepare at least three paired audit runs for first-match and relationship-priority retrieval, using reviewed questions with no target answers. 2. Save this plan before running those audits. 3. Run each benchmark repeat and save its original answers. The template also runs task/project and time/importance strategies; ranking agreement uses the first two strategies. 4. Import scored answers under Compare repeated results.</p>
     <Checkbox aria-label="Planned benchmark source authorisation" checked={authorised} onChange={event=>consent(event.target.checked)}>I am authorised to process the benchmark source with the selected model service.</Checkbox>
     <label>Execution plan file<UIInput aria-label="Benchmark execution plan file" type="file" accept=".json,application/json" disabled={!authorised||busy} onChange={event=>{const file=event.target.files?.[0];if(file)load(file);}}/><small>{name}</small></label>
     <Checkbox aria-label="Benchmark plan metadata permission" checked={storage} disabled={busy} onChange={event=>setStorage(event.target.checked)}>I permit saving the plan settings, source fingerprints, licence/citation and execution status on this server.</Checkbox>

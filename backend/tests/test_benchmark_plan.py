@@ -235,3 +235,12 @@ def test_plan_listing_recovers_metadata_without_dispatching_or_returning_sources
         assert response.json()[0]['plan_id']==plan.plan_id
         assert response.json()[0]['executions']=={}
         assert 'The backend now uses PostgreSQL.' not in response.text
+
+
+def test_plan_freezes_four_distinct_strategies_and_counts_all_calls(pending):
+    from app.schemas.domain import MemoryStrategy
+    db,request=pending
+    request.benchmark.strategies=[MemoryStrategy.WEAK_FIRST_HIT,MemoryStrategy.STRONG_RULE_BASED,MemoryStrategy.SCOPE_AWARE,MemoryStrategy.TEMPORAL_IMPORTANCE]
+    plan=BenchmarkPlanService().create(db,request)
+    assert plan.protocol['planned_target_calls']==12
+    assert len(plan.protocol['benchmark']['configuration']['strategies'])==4
