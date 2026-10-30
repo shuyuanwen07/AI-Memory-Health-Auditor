@@ -1,0 +1,77 @@
+{
+  "archive_sha256": "1d1c4ab224f1ce9d3a3cb5f5e6981d9dcf80555064dadcdad8434b0f88b997d4",
+  "groups": {
+    "B-1024完整实验-48回答": {
+      "packets": 12,
+      "answers": 48,
+      "ai_counts": [
+        {
+          "pass": 27,
+          "fail": 21
+        },
+        {
+          "pass": 27,
+          "fail": 21
+        }
+      ],
+      "disagreements": []
+    },
+    "B-192先前实验-28回答": {
+      "packets": 7,
+      "answers": 28,
+      "ai_counts": [
+        {
+          "fail": 16,
+          "pass": 12
+        },
+        {
+          "fail": 16,
+          "pass": 12
+        }
+      ],
+      "disagreements": []
+    },
+    "C-repeat-1": {
+      "answers": 8,
+      "ai_counts": [
+        {
+          "fail": 6,
+          "pass": 2
+        },
+        {
+          "fail": 6,
+          "pass": 2
+        }
+      ],
+      "disagreements": []
+    },
+    "C-repeat-2": {
+      "answers": 8,
+      "ai_counts": [
+        {
+          "fail": 7,
+          "pass": 1
+        },
+        {
+          "fail": 7,
+          "pass": 1
+        }
+      ],
+      "disagreements": []
+    },
+    "C-repeat-3": {
+      "answers": 8,
+      "ai_counts": [
+        {
+          "fail": 7,
+          "pass": 1
+        },
+        {
+          "fail": 7,
+          "pass": 1
+        }
+      ],
+      "disagreements": []
+    }
+  }
+}

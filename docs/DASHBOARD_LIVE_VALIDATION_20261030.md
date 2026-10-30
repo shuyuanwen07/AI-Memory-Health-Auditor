@@ -18,3 +18,11 @@ For C, two previously used LongMemEval Oracle knowledge-update cases were select
 The initial 192-token collection retained 7 completed and 5 failed audit runs; all three C trials failed and remain recorded, not scored as incorrect. The team must still review the new answers. A new A method-comparison package was created from the same synthetic source, but its source inventory and fixed questions await human review; no new A outcomes are claimed.
 
 The live Dashboard was checked after refresh: it selected the new B group and displayed all three C repeats while retaining the prior reviewed studies. C and B show automatic measurements separately from pending independent human review.
+
+## Human-confirmed return
+
+The user subsequently reported that two different people independently checked each AI-assisted judgment and approved the A inventory and fixed templates. The [user confirmation](../research/dashboard-validation-20261030/review-confirmation.json) and [source-bound reconciliation](../research/dashboard-validation-20261030/reconciliation.json) preserve that report and the original archive fingerprint. Reviewer identities were not authenticated, score exposure was not established, and C strategy names were visible. The two original AI judgments agreed on all 100 responses; neither the AI labels nor the earlier files were rewritten.
+
+For the 1024-token B group, two-reviewer consensus pass counts, in the strategy order above, were **3/12, 9/12, 6/12 and 9/12**. The 192-token group had 12 passes and 16 failures across its 28 completed answers; five failed audit runs remain missing. For C, the consensus pass counts were **0/6, 3/6, 0/6 and 1/6**, respectively. These differ from the lexical proxy above, which is not a substitute for human review. Repetitions share one synthetic history or two benchmark cases and are not independent population samples.
+
+The frozen A fixed-template arm subsequently ran four questions, with 4/4 automatically judged passed. Its answers await independent human review. The two other A methods generated eight new questions after the user confirmed the fixed templates; those new questions await explicit human validity review before target execution, and no outcome is inferred for them.

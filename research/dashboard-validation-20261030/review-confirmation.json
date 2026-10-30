@@ -1,0 +1,10 @@
+{
+  "confirmation_source": "User reply in this conversation",
+  "statement": "本批材料都由两位不同的人独立逐项核对，A 的缺陷清单和四道题可以冻结。请继续运行实验并更新 Dashboard。",
+  "scope": "A 3 proposed defects and 4 fixed questions; B 1024 and 192 answer reviews; C three benchmark repeats",
+  "review_type": "user-reported independent human itemwise review of AI-assisted judgments",
+  "reviewer_identity": "Not independently authenticated; system pseudonyms are reviewer-1-ai-assisted and reviewer-2-ai-assisted",
+  "score_exposure": "Not established for this batch",
+  "C_strategy_visibility": "Strategy labels were visible; this is not strategy-blind review",
+  "source_archive_sha256": "1d1c4ab224f1ce9d3a3cb5f5e6981d9dcf80555064dadcdad8434b0f88b997d4"
+}
