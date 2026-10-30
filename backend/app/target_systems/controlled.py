@@ -116,6 +116,8 @@ class ControlledTargetSystemAdapter(TargetSystemAdapter):
         )
         self._last_retrieval_id = retrieval.evidence.retrieval_id
         intervention = audit.reproducibility.intervention
+        if intervention and audit.memory_strategy == MemoryStrategy.RELATIONSHIP_PACKET:
+            raise HTTPException(422, 'Relationship packet is not supported with diagnostic source interventions.')
         if intervention == "remove_memory":
             retrieval.context = []
             retrieval.evidence.selected_memory_ids = []
@@ -153,10 +155,14 @@ class ControlledTargetSystemAdapter(TargetSystemAdapter):
         if receipt is not None:
             # Preserve the same first occurrence and whitespace normalisation
             # as the final provider instruction, including Weak's last trim.
-            by_value = {}
-            for value, memory_id in zip(retrieval.context, retrieval.evidence.selected_memory_ids, strict=True):
-                by_value.setdefault(value.strip(), memory_id)
-            receipt.sent_memory_ids = [by_value[value] for value in selected_memory_context(private_test, audit.target_configuration)]
+            if audit.memory_strategy == MemoryStrategy.RELATIONSHIP_PACKET:
+                # One delivered packet contains all these private record IDs.
+                receipt.sent_memory_ids = list(retrieval.evidence.selected_memory_ids)
+            else:
+                by_value = {}
+                for value, memory_id in zip(retrieval.context, retrieval.evidence.selected_memory_ids, strict=True):
+                    by_value.setdefault(value.strip(), memory_id)
+                receipt.sent_memory_ids = [by_value[value] for value in selected_memory_context(private_test, audit.target_configuration)]
         if audit.target_memory_profile.answer_validation != "off":
             response = self._validate_answer(private_test, audit, response, retrieval)
         return response

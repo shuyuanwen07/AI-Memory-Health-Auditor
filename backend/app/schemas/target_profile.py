@@ -56,7 +56,7 @@ class TargetMemoryProfile(BaseModel):
 class RepairExperimentRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
     targeted_profile: TargetMemoryProfile
-    targeted_memory_strategy: Literal['no_memory', 'full_context', 'weak_first_hit', 'strong_rule_based', 'strong_score_based', 'scope_aware', 'temporal_importance'] | None = None
+    targeted_memory_strategy: Literal['no_memory', 'full_context', 'weak_first_hit', 'strong_rule_based', 'strong_score_based', 'scope_aware', 'temporal_importance', 'relationship_packet'] | None = None
     targeted_memory_capacity: int | None = Field(default=None, ge=1, le=500, strict=True)
     diagnosis_note: str = Field(min_length=10, max_length=2000)
     validation_conversation_id: str | None = Field(default=None, min_length=1, max_length=40)

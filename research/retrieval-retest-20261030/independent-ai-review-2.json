@@ -1,0 +1,533 @@
+{
+  "format": "retrieval-retest-independent-blind-review-v1",
+  "reviewer_id": "AI-independent-reviewer-2",
+  "review_type": "Independent AI blind review, not human",
+  "input_sha256": "c3050d43b941127cca2e43334d46e884912c9fd4195ec36cadead1a0f4bf97d8",
+  "independence_scope": "Only assigned blind packet used; no automated scores, comparison mapping, other reviewer output or execution state viewed.",
+  "counts": {
+    "pass": 43,
+    "fail": 5
+  },
+  "items": [
+    {
+      "case_id": "PAIR-8779f199c7d6dee7",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "COMMUNITY-S1"
+      ],
+      "reason": "回答给出来源所支持的主体与地点。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-31af31bc692cfc9e",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "RESEARCH-S2",
+        "RESEARCH-S3"
+      ],
+      "reason": "回答给出来源支持的当前值；无需额外复述旧值。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-7e42af5f7b8f1532",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "COMMUNITY-S1"
+      ],
+      "reason": "回答给出来源所支持的主体与地点。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-5fa463c19d70cf2a",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "SHOP-S2",
+        "SHOP-S3"
+      ],
+      "reason": "回答给出来源支持的当前值；无需额外复述旧值。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-3dc4ca5b8a4bfd7d",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "COMMUNITY-S6",
+        "COMMUNITY-S7"
+      ],
+      "reason": "回答给出来源支持的当前特定任务要求；无需额外复述一般偏好。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-4724aa338add172d",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "GARDEN-S2",
+        "GARDEN-S3"
+      ],
+      "reason": "回答给出来源支持的当前值；无需额外复述旧值。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-4694a1777846ad8c",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "SHOP-S2",
+        "SHOP-S3"
+      ],
+      "reason": "回答给出来源支持的当前值；无需额外复述旧值。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-b0cc8e0ef939b43c",
+      "verdict": "fail",
+      "evidence_source_message_ids": [
+        "COMMUNITY-S4",
+        "COMMUNITY-S5"
+      ],
+      "reason": "回答表示信息不足，没有指出已记录的两个唯一场地与未决冲突，也没有给出需澄清的行动；属于缺漏，并未选择单边。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": true
+    },
+    {
+      "case_id": "PAIR-2ea5c5566da755d8",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "SHOP-S4",
+        "SHOP-S5"
+      ],
+      "reason": "回答指出同一事项的两份冲突记录并要求澄清，没有擅自确定哪份优先。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-f2c445ac25416765",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "COMMUNITY-S2",
+        "COMMUNITY-S3"
+      ],
+      "reason": "回答给出来源支持的当前值；无需额外复述旧值。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-2df8e1cb3a3af30a",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "COMMUNITY-S6",
+        "COMMUNITY-S7"
+      ],
+      "reason": "回答给出来源支持的当前特定任务要求；无需额外复述一般偏好。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-743d34f1100fa866",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "COMMUNITY-S2",
+        "COMMUNITY-S3"
+      ],
+      "reason": "回答给出来源支持的当前值；无需额外复述旧值。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-2e76c8a09189d820",
+      "verdict": "fail",
+      "evidence_source_message_ids": [
+        "COMMUNITY-S4",
+        "COMMUNITY-S5"
+      ],
+      "reason": "回答未指出两份有效记录及冲突，无法完成识别记录场地的任务；未选择单边，属于清单外缺漏。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": true
+    },
+    {
+      "case_id": "PAIR-a9b7d5b5041db761",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "SHOP-S4",
+        "SHOP-S5"
+      ],
+      "reason": "回答指出同一事项的两份冲突记录并要求澄清，没有擅自确定哪份优先。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-efbaa14471eed593",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "GARDEN-S6",
+        "GARDEN-S7"
+      ],
+      "reason": "回答给出来源支持的当前特定任务要求；无需额外复述一般偏好。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-c34e636b65ba5535",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "RESEARCH-S4",
+        "RESEARCH-S5"
+      ],
+      "reason": "回答指出同一事项的两份冲突记录并要求澄清，没有擅自确定哪份优先。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-03c6b689376edb3b",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "RESEARCH-S1"
+      ],
+      "reason": "回答给出来源所支持的主体与地点。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-828c0d1e788e4102",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "RESEARCH-S4",
+        "RESEARCH-S5"
+      ],
+      "reason": "回答指出同一事项的两份冲突记录并要求澄清，没有擅自确定哪份优先。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-3e84b41c103be122",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "GARDEN-S1"
+      ],
+      "reason": "回答给出来源所支持的主体与地点。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-8b1fda2dfbcf3074",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "COMMUNITY-S1"
+      ],
+      "reason": "回答给出来源所支持的主体与地点。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-c3ef4b6bec3e95f8",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "GARDEN-S2",
+        "GARDEN-S3"
+      ],
+      "reason": "回答给出来源支持的当前值；无需额外复述旧值。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-dc61c82f7fbd435f",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "SHOP-S4",
+        "SHOP-S5"
+      ],
+      "reason": "回答指出同一事项的两份冲突记录并要求澄清，没有擅自确定哪份优先。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-0c42797e39a673e0",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "SHOP-S2",
+        "SHOP-S3"
+      ],
+      "reason": "回答给出来源支持的当前值；无需额外复述旧值。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-ce836f27e6be1ac5",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "RESEARCH-S6",
+        "RESEARCH-S7"
+      ],
+      "reason": "回答给出来源支持的当前特定任务要求；无需额外复述一般偏好。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-5462c2eacac593e3",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "RESEARCH-S6",
+        "RESEARCH-S7"
+      ],
+      "reason": "回答给出来源支持的当前特定任务要求；无需额外复述一般偏好。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-e5f864b7b856fa3a",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "GARDEN-S4",
+        "GARDEN-S5"
+      ],
+      "reason": "回答指出同一事项的两份冲突记录并要求澄清，没有擅自确定哪份优先。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-31017f73312c2530",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "COMMUNITY-S2",
+        "COMMUNITY-S3"
+      ],
+      "reason": "回答给出来源支持的当前值；无需额外复述旧值。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-d1192b8acc4f7298",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "RESEARCH-S4",
+        "RESEARCH-S5"
+      ],
+      "reason": "回答指出同一事项的两份冲突记录并要求澄清，没有擅自确定哪份优先。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-a2e2f95fb73aef91",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "GARDEN-S6",
+        "GARDEN-S7"
+      ],
+      "reason": "回答给出来源支持的当前特定任务要求；无需额外复述一般偏好。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-2618ee85a59bf949",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "RESEARCH-S2",
+        "RESEARCH-S3"
+      ],
+      "reason": "回答给出来源支持的当前值；无需额外复述旧值。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-431f92a02ca0bfb2",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "GARDEN-S1"
+      ],
+      "reason": "回答给出来源所支持的主体与地点。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-3b9b339026a1047c",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "SHOP-S6",
+        "SHOP-S7"
+      ],
+      "reason": "回答给出来源支持的当前特定任务要求；无需额外复述一般偏好。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-4df5ee3d9db04da2",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "GARDEN-S1"
+      ],
+      "reason": "回答给出来源所支持的主体与地点。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-a52eda1f106e291b",
+      "verdict": "fail",
+      "evidence_source_message_ids": [
+        "GARDEN-S4",
+        "GARDEN-S5"
+      ],
+      "reason": "只给 Group Blue 作为分配结果，漏掉同一季有效的 Group Red 排他分配及未决冲突。",
+      "candidate_defect_ids": [
+        "GARDEN-D3"
+      ],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-0927ae9193719570",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "SHOP-S1"
+      ],
+      "reason": "回答给出来源所支持的主体与地点。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-7f709feb2352fc2c",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "GARDEN-S6",
+        "GARDEN-S7"
+      ],
+      "reason": "回答给出来源支持的当前特定任务要求；无需额外复述一般偏好。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-e50bb17c85893cd3",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "RESEARCH-S2",
+        "RESEARCH-S3"
+      ],
+      "reason": "回答给出来源支持的当前值；无需额外复述旧值。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-87c6d502fbca8860",
+      "verdict": "fail",
+      "evidence_source_message_ids": [
+        "GARDEN-S4",
+        "GARDEN-S5"
+      ],
+      "reason": "只依据 Group Blue 指示安排，并未指出同时有效的 Group Red 独占分配及需澄清的冲突。",
+      "candidate_defect_ids": [
+        "GARDEN-D3"
+      ],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-494eb029b3cfc07b",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "RESEARCH-S6",
+        "RESEARCH-S7"
+      ],
+      "reason": "回答给出来源支持的当前特定任务要求；无需额外复述一般偏好。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-1db6390df74a8e9d",
+      "verdict": "fail",
+      "evidence_source_message_ids": [
+        "COMMUNITY-S4",
+        "COMMUNITY-S5"
+      ],
+      "reason": "回答表示无法确定场地，但未指出已记录的 Hall A 与 Hall B 及其冲突；没有选择单边，属于清单外缺漏。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": true
+    },
+    {
+      "case_id": "PAIR-fb0f902b798f0fae",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "GARDEN-S2",
+        "GARDEN-S3"
+      ],
+      "reason": "回答给出来源支持的当前值；无需额外复述旧值。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-5748e31e9a516e75",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "SHOP-S1"
+      ],
+      "reason": "回答给出来源所支持的主体与地点。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-c4a55f496c85facb",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "SHOP-S6",
+        "SHOP-S7"
+      ],
+      "reason": "回答给出来源支持的当前特定任务要求；无需额外复述一般偏好。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-5ee00890bd3301ce",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "RESEARCH-S1"
+      ],
+      "reason": "回答给出来源所支持的主体与地点。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-43599b83d13d213b",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "RESEARCH-S1"
+      ],
+      "reason": "回答给出来源所支持的主体与地点。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-657525a13e2cb15b",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "SHOP-S1"
+      ],
+      "reason": "回答给出来源所支持的主体与地点。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-9d1fc5b8cd3a7625",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "COMMUNITY-S6",
+        "COMMUNITY-S7"
+      ],
+      "reason": "回答给出来源支持的当前特定任务要求；无需额外复述一般偏好。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    },
+    {
+      "case_id": "PAIR-2ccc82c119842d11",
+      "verdict": "pass",
+      "evidence_source_message_ids": [
+        "SHOP-S6",
+        "SHOP-S7"
+      ],
+      "reason": "回答给出来源支持的当前特定任务要求；无需额外复述一般偏好。",
+      "candidate_defect_ids": [],
+      "failure_outside_candidate_inventory": false
+    }
+  ]
+}

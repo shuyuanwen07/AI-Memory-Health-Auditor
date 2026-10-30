@@ -395,8 +395,39 @@ class SqlTargetMemoryStore(TargetMemoryStore):
                 if scope_intent_fallback and item["relevance"] == 0:
                     item["reason"] = f"{item['reason']}, scope_intent_fallback"
                 eligible.append(item)
+        if strategy == MemoryStrategy.RELATIONSHIP_PACKET:
+            # Expand one hop from query-matched private records only.  The
+            # stored target graph—not auditor answers or source ground truth—
+            # supplies UPDATE, CONFLICT and contextual neighbours.
+            anchors = {item['record'].id for item in eligible}
+            neighbors = set()
+            for edge in relations:
+                if edge.memory_id in anchors:
+                    neighbors.add(edge.target_memory_id)
+                if edge.target_memory_id in anchors:
+                    neighbors.add(edge.memory_id)
+            for item in candidates:
+                if item['record'].id in neighbors and item['eligible'] and item['record'].id not in anchors:
+                    item['reason'] += ', packet_relation_neighbor'
+                    eligible.append(item)
         eligible = self._filter_profile_candidates(eligible, test)
         selected = self._apply_profile(self._select(eligible, strategy), test, strategy)
+        if strategy == MemoryStrategy.RELATIONSHIP_PACKET:
+            # The weak reader accepts one record.  Its single record is a JSON
+            # packet of selected target-owned facts, rather than hidden extra
+            # text outside the existing output budget.  Preserve relationship
+            # pairs together if JSON overhead makes the packet too large.
+            def packet(items):
+                return json.dumps({'memory_packet':[{'memory_id':item['record'].id,
+                    'source_message_ids':item['record'].source_message_ids,
+                    'content':self._render_context(item)} for item in items]}, ensure_ascii=False, separators=(',', ':'))
+            while selected and len(packet(selected)) > self.profile.context_character_budget:
+                removed=selected.pop(0)
+                removed_ids={removed['record'].id}
+                for edge in relations:
+                    if edge.relationship_type == 'CONFLICT' and (edge.memory_id in removed_ids or edge.target_memory_id in removed_ids):
+                        removed_ids.update((edge.memory_id,edge.target_memory_id))
+                selected=[item for item in selected if item['record'].id not in removed_ids]
         selected_ids = {choice["record"].id for choice in selected}
         evidence_rows = [
             {
@@ -440,7 +471,8 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         )
         self.db.flush()
         return TargetMemoryRetrievalResult(
-            context=[self._render_context(item) for item in selected],
+            context=([packet(selected)] if selected and strategy == MemoryStrategy.RELATIONSHIP_PACKET
+                     else [self._render_context(item) for item in selected]),
             evidence=TargetMemoryRetrievalEvidence(
                 retrieval_id=retrieval.id, run_id=run_id, test_id=test.test_id,
                 strategy=strategy, selected_memory_ids=list(retrieval.selected_memory_ids),
@@ -789,7 +821,7 @@ class SqlTargetMemoryStore(TargetMemoryStore):
         # exceed either budget when a pair cannot fit; preserve an evidence gap.
         peers = {item["record"].id: item for item in retained}
         conflict_peers: dict[str, set[str]] = {}
-        if strategy == MemoryStrategy.STRONG_RULE_BASED:
+        if strategy in {MemoryStrategy.STRONG_RULE_BASED, MemoryStrategy.RELATIONSHIP_PACKET}:
             for item in retained:
                 for target in item.get("conflict_targets", []):
                     if target in peers:
@@ -1102,7 +1134,7 @@ class SqlTargetMemoryStore(TargetMemoryStore):
             # The weak baseline persists every write but returns its first
             # relevant record, deliberately lacking update reconciliation.
             return [min(candidates, key=lambda item: item["record"].write_order)]
-        if strategy == MemoryStrategy.STRONG_RULE_BASED:
+        if strategy in {MemoryStrategy.STRONG_RULE_BASED, MemoryStrategy.RELATIONSHIP_PACKET}:
             return sorted(candidates, key=lambda item: (
                 bool(item.get("temporal_window_match")) if self.profile.retrieve_message_context else False,
                 # A requirement in an unrelated typed domain must not displace

@@ -1,0 +1,338 @@
+{
+  "CASE-db122f8aa5a5ccd1": {
+    "history_id": "COMMUNITY",
+    "method": "Direct questions",
+    "run_id": "RUN847CF0D39F21409F807666C05C9D43A5",
+    "test_id": "TE31C338714594E14A9A3836D7CA71FE4",
+    "response_id": "RE31C338714594E14A9A3836D7CA71FE4"
+  },
+  "CASE-56e35b18060c716d": {
+    "history_id": "COMMUNITY",
+    "method": "Direct questions",
+    "run_id": "RUN847CF0D39F21409F807666C05C9D43A5",
+    "test_id": "TCE58B2B84FB4427FB8F8C8EBD0E5687E",
+    "response_id": "RCE58B2B84FB4427FB8F8C8EBD0E5687E"
+  },
+  "CASE-5ef99a1047123646": {
+    "history_id": "COMMUNITY",
+    "method": "Direct questions",
+    "run_id": "RUN847CF0D39F21409F807666C05C9D43A5",
+    "test_id": "TF38385D18C424A8E935B2F5537046BD7",
+    "response_id": "RF38385D18C424A8E935B2F5537046BD7"
+  },
+  "CASE-ecc58776ca2ee8e3": {
+    "history_id": "COMMUNITY",
+    "method": "Direct questions",
+    "run_id": "RUN847CF0D39F21409F807666C05C9D43A5",
+    "test_id": "T5284CEAFEC4140B990B7E032A3137723",
+    "response_id": "R5284CEAFEC4140B990B7E032A3137723"
+  },
+  "CASE-824fab9f07e449ee": {
+    "history_id": "COMMUNITY",
+    "method": "Fixed templates",
+    "run_id": "RUN144FCEFE10AF45C2821F6EBFCA4C1F42",
+    "test_id": "T340F9AE8522646869967519387B22016",
+    "response_id": "R340F9AE8522646869967519387B22016"
+  },
+  "CASE-501653d8ff2dad21": {
+    "history_id": "COMMUNITY",
+    "method": "Fixed templates",
+    "run_id": "RUN144FCEFE10AF45C2821F6EBFCA4C1F42",
+    "test_id": "T4F7732D1347D4093BE1578A32A5E775B",
+    "response_id": "R4F7732D1347D4093BE1578A32A5E775B"
+  },
+  "CASE-83bf8614d887ef29": {
+    "history_id": "COMMUNITY",
+    "method": "Fixed templates",
+    "run_id": "RUN144FCEFE10AF45C2821F6EBFCA4C1F42",
+    "test_id": "TBB559FCFA56A4329A256F961D6E32F3F",
+    "response_id": "RBB559FCFA56A4329A256F961D6E32F3F"
+  },
+  "CASE-12a38d0ed91f34be": {
+    "history_id": "COMMUNITY",
+    "method": "Fixed templates",
+    "run_id": "RUN144FCEFE10AF45C2821F6EBFCA4C1F42",
+    "test_id": "T5582857C02B444AF9BBBD3A50CEE8022",
+    "response_id": "R5582857C02B444AF9BBBD3A50CEE8022"
+  },
+  "CASE-762bf96f190109a1": {
+    "history_id": "COMMUNITY",
+    "method": "Contextual/indirect Auditor tests",
+    "run_id": "RUNC256CDBAE41E490984EC9FFBF5552194",
+    "test_id": "T7BBAD263EA834CCB8A45DC56B827F785",
+    "response_id": "R7BBAD263EA834CCB8A45DC56B827F785"
+  },
+  "CASE-4932a12aa3c37b01": {
+    "history_id": "COMMUNITY",
+    "method": "Contextual/indirect Auditor tests",
+    "run_id": "RUNC256CDBAE41E490984EC9FFBF5552194",
+    "test_id": "T5545F906A9DC448B9F480F0A0E92715B",
+    "response_id": "R5545F906A9DC448B9F480F0A0E92715B"
+  },
+  "CASE-5b3759391bfc1051": {
+    "history_id": "COMMUNITY",
+    "method": "Contextual/indirect Auditor tests",
+    "run_id": "RUNC256CDBAE41E490984EC9FFBF5552194",
+    "test_id": "T9DA0E11C78CD4E2992B4C940E7AF5F6B",
+    "response_id": "R9DA0E11C78CD4E2992B4C940E7AF5F6B"
+  },
+  "CASE-d2f0227e37bb31cf": {
+    "history_id": "COMMUNITY",
+    "method": "Contextual/indirect Auditor tests",
+    "run_id": "RUNC256CDBAE41E490984EC9FFBF5552194",
+    "test_id": "T41A7B8E9AD0249EDBE102BB975E6AC6A",
+    "response_id": "R41A7B8E9AD0249EDBE102BB975E6AC6A"
+  },
+  "CASE-165eb8948912998a": {
+    "history_id": "RESEARCH",
+    "method": "Direct questions",
+    "run_id": "RUN7D7BCD1E5ED441549EE374AE0BFBCD71",
+    "test_id": "T08322CC7202548D8827A577A8737E751",
+    "response_id": "R08322CC7202548D8827A577A8737E751"
+  },
+  "CASE-bc29a27665abcb1a": {
+    "history_id": "RESEARCH",
+    "method": "Direct questions",
+    "run_id": "RUN7D7BCD1E5ED441549EE374AE0BFBCD71",
+    "test_id": "TC9096B5F80E64CD88AD1CB1A53137D20",
+    "response_id": "RC9096B5F80E64CD88AD1CB1A53137D20"
+  },
+  "CASE-050d4424c119f761": {
+    "history_id": "RESEARCH",
+    "method": "Direct questions",
+    "run_id": "RUN7D7BCD1E5ED441549EE374AE0BFBCD71",
+    "test_id": "TDBF84D5D922E4716A37770068433FA82",
+    "response_id": "RDBF84D5D922E4716A37770068433FA82"
+  },
+  "CASE-3743eec73a0e82e7": {
+    "history_id": "RESEARCH",
+    "method": "Direct questions",
+    "run_id": "RUN7D7BCD1E5ED441549EE374AE0BFBCD71",
+    "test_id": "T41BF1B43E3464A989A371D751E70314E",
+    "response_id": "R41BF1B43E3464A989A371D751E70314E"
+  },
+  "CASE-7d64c04505ff5971": {
+    "history_id": "RESEARCH",
+    "method": "Fixed templates",
+    "run_id": "RUN18826BCBF52547FF9F51799C46DA5C92",
+    "test_id": "T7AEAF7351F7F44EAB231C716A9A633CF",
+    "response_id": "R7AEAF7351F7F44EAB231C716A9A633CF"
+  },
+  "CASE-38dd0520a9701586": {
+    "history_id": "RESEARCH",
+    "method": "Fixed templates",
+    "run_id": "RUN18826BCBF52547FF9F51799C46DA5C92",
+    "test_id": "TADB3E28C8BC649618B2029300B7D1308",
+    "response_id": "RADB3E28C8BC649618B2029300B7D1308"
+  },
+  "CASE-a5944b2da179cfdf": {
+    "history_id": "RESEARCH",
+    "method": "Fixed templates",
+    "run_id": "RUN18826BCBF52547FF9F51799C46DA5C92",
+    "test_id": "TA8FD94004A9C4166B643B4FC607D8432",
+    "response_id": "RA8FD94004A9C4166B643B4FC607D8432"
+  },
+  "CASE-5da016d4f9655859": {
+    "history_id": "RESEARCH",
+    "method": "Fixed templates",
+    "run_id": "RUN18826BCBF52547FF9F51799C46DA5C92",
+    "test_id": "T38DA1FB061BC441D994597274D77BBB9",
+    "response_id": "R38DA1FB061BC441D994597274D77BBB9"
+  },
+  "CASE-3e2421e78ce22127": {
+    "history_id": "RESEARCH",
+    "method": "Contextual/indirect Auditor tests",
+    "run_id": "RUN05E4E2074EF040FAAE6FE8FE244E8CC1",
+    "test_id": "TB64197C9A00B4CFEB817DF986FB7FEC5",
+    "response_id": "RB64197C9A00B4CFEB817DF986FB7FEC5"
+  },
+  "CASE-f940982e9f66968e": {
+    "history_id": "RESEARCH",
+    "method": "Contextual/indirect Auditor tests",
+    "run_id": "RUN05E4E2074EF040FAAE6FE8FE244E8CC1",
+    "test_id": "T4E3EB0CD1AFB41858A02354C653BD873",
+    "response_id": "R4E3EB0CD1AFB41858A02354C653BD873"
+  },
+  "CASE-1d4ff7f05fd4d6e7": {
+    "history_id": "RESEARCH",
+    "method": "Contextual/indirect Auditor tests",
+    "run_id": "RUN05E4E2074EF040FAAE6FE8FE244E8CC1",
+    "test_id": "TFF89BC3F9D0347CA8D6CF058A2518DE8",
+    "response_id": "RFF89BC3F9D0347CA8D6CF058A2518DE8"
+  },
+  "CASE-24edcd7c843819f4": {
+    "history_id": "RESEARCH",
+    "method": "Contextual/indirect Auditor tests",
+    "run_id": "RUN05E4E2074EF040FAAE6FE8FE244E8CC1",
+    "test_id": "TF185AD98F19D4A919C87CA4ADFDFB73E",
+    "response_id": "RF185AD98F19D4A919C87CA4ADFDFB73E"
+  },
+  "CASE-fcc01f1981cd7628": {
+    "history_id": "GARDEN",
+    "method": "Direct questions",
+    "run_id": "RUNE251E34625D9497C977387376E3E3961",
+    "test_id": "TB5F91347343D4A0781786F1CDE5E5D3F",
+    "response_id": "RB5F91347343D4A0781786F1CDE5E5D3F"
+  },
+  "CASE-4cac5725f54b91f6": {
+    "history_id": "GARDEN",
+    "method": "Direct questions",
+    "run_id": "RUNE251E34625D9497C977387376E3E3961",
+    "test_id": "T215721F03C474A3FA5011578C5D1D422",
+    "response_id": "R215721F03C474A3FA5011578C5D1D422"
+  },
+  "CASE-edc9bb52a284d2dd": {
+    "history_id": "GARDEN",
+    "method": "Direct questions",
+    "run_id": "RUNE251E34625D9497C977387376E3E3961",
+    "test_id": "T58A4B24A728141A0B69B23C2EE47F001",
+    "response_id": "R58A4B24A728141A0B69B23C2EE47F001"
+  },
+  "CASE-5c0334ed8d1f2d37": {
+    "history_id": "GARDEN",
+    "method": "Direct questions",
+    "run_id": "RUNE251E34625D9497C977387376E3E3961",
+    "test_id": "T7EAEB9C6BF4541C49BEBFF4065749B4B",
+    "response_id": "R7EAEB9C6BF4541C49BEBFF4065749B4B"
+  },
+  "CASE-c3fcf4a73845c4e0": {
+    "history_id": "GARDEN",
+    "method": "Fixed templates",
+    "run_id": "RUN1546B451D81F4BB994E6F7D607925280",
+    "test_id": "TED9A47A1032542EB9BC98B48D671A2D9",
+    "response_id": "RED9A47A1032542EB9BC98B48D671A2D9"
+  },
+  "CASE-523a9be952554b91": {
+    "history_id": "GARDEN",
+    "method": "Fixed templates",
+    "run_id": "RUN1546B451D81F4BB994E6F7D607925280",
+    "test_id": "T90C60FC654EB49099659DF9CD6447AE0",
+    "response_id": "R90C60FC654EB49099659DF9CD6447AE0"
+  },
+  "CASE-d4013c98c7e76bd6": {
+    "history_id": "GARDEN",
+    "method": "Fixed templates",
+    "run_id": "RUN1546B451D81F4BB994E6F7D607925280",
+    "test_id": "T3250BAAB4F5A41CA8206A15063C13A12",
+    "response_id": "R3250BAAB4F5A41CA8206A15063C13A12"
+  },
+  "CASE-87641b03244205bf": {
+    "history_id": "GARDEN",
+    "method": "Fixed templates",
+    "run_id": "RUN1546B451D81F4BB994E6F7D607925280",
+    "test_id": "T61A62B3EFCBC44F496AD4D0D9F0F8E9F",
+    "response_id": "R61A62B3EFCBC44F496AD4D0D9F0F8E9F"
+  },
+  "CASE-e9934e43bac58b97": {
+    "history_id": "GARDEN",
+    "method": "Contextual/indirect Auditor tests",
+    "run_id": "RUN9625443D58304DDBA1DAF98611F4D47D",
+    "test_id": "T8DF08AD1E55A403C8EB1F3A856044EE8",
+    "response_id": "R8DF08AD1E55A403C8EB1F3A856044EE8"
+  },
+  "CASE-c7fffe7862bf16ef": {
+    "history_id": "GARDEN",
+    "method": "Contextual/indirect Auditor tests",
+    "run_id": "RUN9625443D58304DDBA1DAF98611F4D47D",
+    "test_id": "T6DD6A1B24F954068B8DED7D87A5651DA",
+    "response_id": "R6DD6A1B24F954068B8DED7D87A5651DA"
+  },
+  "CASE-1828ef9c3d7cc0f5": {
+    "history_id": "GARDEN",
+    "method": "Contextual/indirect Auditor tests",
+    "run_id": "RUN9625443D58304DDBA1DAF98611F4D47D",
+    "test_id": "T539B9306035F41BF88EAA22353F411C6",
+    "response_id": "R539B9306035F41BF88EAA22353F411C6"
+  },
+  "CASE-6b11182e86387c9f": {
+    "history_id": "GARDEN",
+    "method": "Contextual/indirect Auditor tests",
+    "run_id": "RUN9625443D58304DDBA1DAF98611F4D47D",
+    "test_id": "TE6A8CBDCABE44281A21D60013EB34123",
+    "response_id": "RE6A8CBDCABE44281A21D60013EB34123"
+  },
+  "CASE-2edc885a78e4adac": {
+    "history_id": "SHOP",
+    "method": "Direct questions",
+    "run_id": "RUND453D713FD5D47AAAE2113686E03CB82",
+    "test_id": "TB9878817E21C4C9583D005EECEB7D293",
+    "response_id": "RB9878817E21C4C9583D005EECEB7D293"
+  },
+  "CASE-0eca703f4054d8e9": {
+    "history_id": "SHOP",
+    "method": "Direct questions",
+    "run_id": "RUND453D713FD5D47AAAE2113686E03CB82",
+    "test_id": "TB0E454D4EEC94A818AFBF4CC188196FF",
+    "response_id": "RB0E454D4EEC94A818AFBF4CC188196FF"
+  },
+  "CASE-f32f7ad39c3fdf12": {
+    "history_id": "SHOP",
+    "method": "Direct questions",
+    "run_id": "RUND453D713FD5D47AAAE2113686E03CB82",
+    "test_id": "TDE1CF9EE2ED24AF0A1529F5EE32207FF",
+    "response_id": "RDE1CF9EE2ED24AF0A1529F5EE32207FF"
+  },
+  "CASE-27deb1e16ebfc4a8": {
+    "history_id": "SHOP",
+    "method": "Direct questions",
+    "run_id": "RUND453D713FD5D47AAAE2113686E03CB82",
+    "test_id": "T98F5D9B59B9E4C8CA081D026ADC8658F",
+    "response_id": "R98F5D9B59B9E4C8CA081D026ADC8658F"
+  },
+  "CASE-d0de6f607264a7d5": {
+    "history_id": "SHOP",
+    "method": "Fixed templates",
+    "run_id": "RUN0B55371AAD9E4C328ADC4ADE6A13E370",
+    "test_id": "TD8A5E358DEFC4B5DAFADD893B2A244F0",
+    "response_id": "RD8A5E358DEFC4B5DAFADD893B2A244F0"
+  },
+  "CASE-9b9c426a03eb80a2": {
+    "history_id": "SHOP",
+    "method": "Fixed templates",
+    "run_id": "RUN0B55371AAD9E4C328ADC4ADE6A13E370",
+    "test_id": "TB3D0B212E9234CB8B07D877153DEE173",
+    "response_id": "RB3D0B212E9234CB8B07D877153DEE173"
+  },
+  "CASE-98c67b4dd22f259d": {
+    "history_id": "SHOP",
+    "method": "Fixed templates",
+    "run_id": "RUN0B55371AAD9E4C328ADC4ADE6A13E370",
+    "test_id": "T78FD9B80264144E58349E5558A917CD1",
+    "response_id": "R78FD9B80264144E58349E5558A917CD1"
+  },
+  "CASE-6cc448e77e889233": {
+    "history_id": "SHOP",
+    "method": "Fixed templates",
+    "run_id": "RUN0B55371AAD9E4C328ADC4ADE6A13E370",
+    "test_id": "T32D40ED9D9E14D25BE2B4F5519E47F36",
+    "response_id": "R32D40ED9D9E14D25BE2B4F5519E47F36"
+  },
+  "CASE-c2c31d7d6ef587bc": {
+    "history_id": "SHOP",
+    "method": "Contextual/indirect Auditor tests",
+    "run_id": "RUNC4EC877E06424E019FD2BBDC67E113EA",
+    "test_id": "T3F326D6720614C0696C606762E20F2DB",
+    "response_id": "R3F326D6720614C0696C606762E20F2DB"
+  },
+  "CASE-355c93f7f73d016c": {
+    "history_id": "SHOP",
+    "method": "Contextual/indirect Auditor tests",
+    "run_id": "RUNC4EC877E06424E019FD2BBDC67E113EA",
+    "test_id": "TEE81902B19744CAD9CF534D6F5505534",
+    "response_id": "REE81902B19744CAD9CF534D6F5505534"
+  },
+  "CASE-056522f703a521db": {
+    "history_id": "SHOP",
+    "method": "Contextual/indirect Auditor tests",
+    "run_id": "RUNC4EC877E06424E019FD2BBDC67E113EA",
+    "test_id": "T12CF1B7513F54B1986BB4700BDAC87B7",
+    "response_id": "R12CF1B7513F54B1986BB4700BDAC87B7"
+  },
+  "CASE-849b3254a70ed39a": {
+    "history_id": "SHOP",
+    "method": "Contextual/indirect Auditor tests",
+    "run_id": "RUNC4EC877E06424E019FD2BBDC67E113EA",
+    "test_id": "TBB09A36B40214C2FB2B3E62CF54A29D2",
+    "response_id": "RBB09A36B40214C2FB2B3E62CF54A29D2"
+  }
+}

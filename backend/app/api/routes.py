@@ -1352,6 +1352,11 @@ def _generate(run_id: str, db: Session):
             raise HTTPException(409, "This comparison was cancelled during test generation.")
     if not generated:
         raise HTTPException(422, "The test generator produced no executable tests for the confirmed ground truth.")
+    if experiment and (experiment.test_suite_metadata or {}).get('study_role') == 'audit_method_comparison':
+        counts = {dim: sum(test.dimension == dim for test in generated) for dim in Dimension}
+        minimum = a.test_budget // len(Dimension) if a.test_budget >= len(Dimension) else 0
+        if len(generated) != a.test_budget or any(count < minimum for count in counts.values()):
+            raise HTTPException(422, "Experiment A needs the full frozen question budget and balanced dimension coverage. Generated evidence was retained in the observation; no incomplete suite was saved.")
     validator = RuleBasedTestQualityValidator()
     suite_problem = validator.validate_suite(generated)
     if suite_problem:
@@ -1375,6 +1380,9 @@ def _generate(run_id: str, db: Session):
             study_role=(experiment.test_suite_metadata or {}).get("study_role"),
             diagnostic_source_run_id=(experiment.test_suite_metadata or {}).get("diagnostic_source_run_id"),
             method_comparison_id=(experiment.test_suite_metadata or {}).get("method_comparison_id"),
+            method_campaign_id=(experiment.test_suite_metadata or {}).get("method_campaign_id"),
+            method_scenario_id=(experiment.test_suite_metadata or {}).get("method_scenario_id"),
+            method_campaign_planned_scenarios=(experiment.test_suite_metadata or {}).get("method_campaign_planned_scenarios"),
             failure_inventory_fingerprint_sha256=(experiment.test_suite_metadata or {}).get("failure_inventory_fingerprint_sha256"),
             failure_inventory_release_id=(experiment.test_suite_metadata or {}).get("failure_inventory_release_id"),
             failure_inventory_defect_count=(experiment.test_suite_metadata or {}).get("failure_inventory_defect_count"),
@@ -1555,7 +1563,7 @@ def _dimension_coverage_for_review(observation: dict, tests: list) -> list[TestD
             planned = planned_counts[dimension]
             required = 0
             available = planned_counts[dimension]
-        elif observation.get('agent_version') in {'rule-based-v37', 'rule-based-v38', 'rule-based-v39', 'rule-based-v40'}:
+        elif observation.get('agent_version') in {'rule-based-v37', 'rule-based-v38', 'rule-based-v39', 'rule-based-v40', 'rule-based-v41'}:
             supported = None
             reason = 'Local candidate counts do not establish source support or question validity.'
             planned = accepted_counts[dimension]

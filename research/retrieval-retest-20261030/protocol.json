@@ -1,0 +1,639 @@
+{
+  "format": "retrieval-retest-exploratory-v1",
+  "frozen_utc": "2026-10-30T07:21:06.354007+00:00",
+  "source_question_ledger_sha256": "e476b608c4379397cb528745698afc5ecc8dc6cdc4d6d62d5bbdb45f60b5f940",
+  "source_execution_ledger_sha256": "c1df35db10840d038545842bf8cddc3986d39ad1adee8d639b477b5548701c8b",
+  "human_confirmation_sha256": "60512165cc65cce4fcf6b08491d565bb054182b645720fe3eb7e5ef85009d6fc",
+  "planned_pairs": 48,
+  "source_histories": 4,
+  "source_methods": 3,
+  "baseline_strategy": "weak_first_hit",
+  "candidate_strategy": "relationship_bundle",
+  "controls": [
+    "same frozen questions, expected behaviours, support IDs, source histories",
+    "same target provider/model, weak reader configuration, profile, temperature, output cap, memory capacity and maintenance",
+    "one fresh target answer per candidate question; retain baseline answers and tests"
+  ],
+  "metrics": "User-confirmed human reference pass/fail/uncertain per paired answer, differences in pass counts and paired transitions; retain automated scores separately.",
+  "limitations": [
+    "Exploratory after baseline responses were observed; no causal claim outside these selected cases.",
+    "Four related synthetic source histories; 48 answers are correlated across methods and same history.",
+    "The model provider controls sampling; fixed nominal settings do not guarantee identical random draws.",
+    "User-confirmed references following two AI reviews do not equal two independent human reviews.",
+    "The bundled memory intervention changes the context presented to the model and may increase token cost; inspect actual traces."
+  ],
+  "questions": [
+    {
+      "history_id": "COMMUNITY",
+      "method": "Direct questions",
+      "source_run_id": "RUN847CF0D39F21409F807666C05C9D43A5",
+      "source_test_id": "TE31C338714594E14A9A3836D7CA71FE4",
+      "question": "Where is the community workshop organiser based?",
+      "dimension": "accuracy",
+      "expected_behavior": "State the recorded fact: The community workshop organiser is based in Perth.",
+      "supporting_memory_ids": [
+        "M35DB357B117B4912ABE5B83C39235ADE"
+      ]
+    },
+    {
+      "history_id": "COMMUNITY",
+      "method": "Direct questions",
+      "source_run_id": "RUN847CF0D39F21409F807666C05C9D43A5",
+      "source_test_id": "TF38385D18C424A8E935B2F5537046BD7",
+      "question": "What is the current recorded schedule for the workshop?",
+      "dimension": "freshness",
+      "expected_behavior": "State the current recorded fact: The organiser moved the workshop to 19 April, replacing 12 April.",
+      "supporting_memory_ids": [
+        "M61B07098B07C4735B4A98482C3FA7F08",
+        "M50A9FAFD5B1547AEA043555CE5BC1DC7"
+      ]
+    },
+    {
+      "history_id": "COMMUNITY",
+      "method": "Direct questions",
+      "source_run_id": "RUN847CF0D39F21409F807666C05C9D43A5",
+      "source_test_id": "TCE58B2B84FB4427FB8F8C8EBD0E5687E",
+      "question": "What is the recorded event venue?",
+      "dimension": "conflict_resolution",
+      "expected_behavior": "Keep both records visible: The active workshop booking says the only final venue for the entire workshop is Hall A; the workshop cannot use multiple final venues; The active signed workshop notice says the only final venue for the same entire workshop is Hall B. Neither document has been withdrawn, superseded or ranked. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+      "supporting_memory_ids": [
+        "MECF165E0CFDB4DACB3DC344A7068603D",
+        "M7D8FA6DE09CA49BA9F7C4823245D202D"
+      ]
+    },
+    {
+      "history_id": "COMMUNITY",
+      "method": "Direct questions",
+      "source_run_id": "RUN847CF0D39F21409F807666C05C9D43A5",
+      "source_test_id": "T5284CEAFEC4140B990B7E032A3137723",
+      "question": "What accessibility requirement applies to the workshop?",
+      "dimension": "appropriate_use",
+      "expected_behavior": "Apply the scoped recorded fact: For this particular workshop the organiser requires accessible digital handouts; the general preference remains for other events.",
+      "supporting_memory_ids": [
+        "MC273B97021BD40B88010385A6730CFB1",
+        "MFD6FB00D3C5B4127BDDD6241B677218E"
+      ]
+    },
+    {
+      "history_id": "COMMUNITY",
+      "method": "Fixed templates",
+      "source_run_id": "RUN144FCEFE10AF45C2821F6EBFCA4C1F42",
+      "source_test_id": "T340F9AE8522646869967519387B22016",
+      "question": "Where is the workshop organiser based?",
+      "dimension": "accuracy",
+      "expected_behavior": "Expected: Perth",
+      "supporting_memory_ids": [
+        "M35DB357B117B4912ABE5B83C39235ADE"
+      ]
+    },
+    {
+      "history_id": "COMMUNITY",
+      "method": "Fixed templates",
+      "source_run_id": "RUN144FCEFE10AF45C2821F6EBFCA4C1F42",
+      "source_test_id": "T5582857C02B444AF9BBBD3A50CEE8022",
+      "question": "What is the current workshop date?",
+      "dimension": "freshness",
+      "expected_behavior": "Expected: 19 April",
+      "supporting_memory_ids": [
+        "M61B07098B07C4735B4A98482C3FA7F08",
+        "M50A9FAFD5B1547AEA043555CE5BC1DC7"
+      ]
+    },
+    {
+      "history_id": "COMMUNITY",
+      "method": "Fixed templates",
+      "source_run_id": "RUN144FCEFE10AF45C2821F6EBFCA4C1F42",
+      "source_test_id": "T4F7732D1347D4093BE1578A32A5E775B",
+      "question": "Which venue should be announced for the workshop?",
+      "dimension": "conflict_resolution",
+      "expected_behavior": "Expected: The active documents conflict: Hall A versus Hall B; ask for clarification. Ask the user to clarify which record controls.",
+      "supporting_memory_ids": [
+        "MECF165E0CFDB4DACB3DC344A7068603D",
+        "M7D8FA6DE09CA49BA9F7C4823245D202D"
+      ]
+    },
+    {
+      "history_id": "COMMUNITY",
+      "method": "Fixed templates",
+      "source_run_id": "RUN144FCEFE10AF45C2821F6EBFCA4C1F42",
+      "source_test_id": "TBB559FCFA56A4329A256F961D6E32F3F",
+      "question": "What kind of handout should be used for this workshop?",
+      "dimension": "appropriate_use",
+      "expected_behavior": "Expected: Use accessible digital handouts for this workshop.",
+      "supporting_memory_ids": [
+        "MC273B97021BD40B88010385A6730CFB1",
+        "MFD6FB00D3C5B4127BDDD6241B677218E"
+      ]
+    },
+    {
+      "history_id": "COMMUNITY",
+      "method": "Contextual/indirect Auditor tests",
+      "source_run_id": "RUNC256CDBAE41E490984EC9FFBF5552194",
+      "source_test_id": "T7BBAD263EA834CCB8A45DC56B827F785",
+      "question": "Draft an entry for a shared contact sheet that records where the community workshop organiser is based.",
+      "dimension": "accuracy",
+      "expected_behavior": "State the recorded fact: The community workshop organiser is based in Perth.",
+      "supporting_memory_ids": [
+        "M35DB357B117B4912ABE5B83C39235ADE"
+      ]
+    },
+    {
+      "history_id": "COMMUNITY",
+      "method": "Contextual/indirect Auditor tests",
+      "source_run_id": "RUNC256CDBAE41E490984EC9FFBF5552194",
+      "source_test_id": "T5545F906A9DC448B9F480F0A0E92715B",
+      "question": "Draft a current planning note about schedule for the workshop that the team can use.",
+      "dimension": "freshness",
+      "expected_behavior": "State the current recorded fact: The organiser moved the workshop to 19 April, replacing 12 April.",
+      "supporting_memory_ids": [
+        "M61B07098B07C4735B4A98482C3FA7F08",
+        "M50A9FAFD5B1547AEA043555CE5BC1DC7"
+      ]
+    },
+    {
+      "history_id": "COMMUNITY",
+      "method": "Contextual/indirect Auditor tests",
+      "source_run_id": "RUNC256CDBAE41E490984EC9FFBF5552194",
+      "source_test_id": "T41A7B8E9AD0249EDBE102BB975E6AC6A",
+      "question": "Draft an action note for colleagues planning around event venue: what should it include and what action follows?",
+      "dimension": "conflict_resolution",
+      "expected_behavior": "Keep both records visible: The active workshop booking says the only final venue for the entire workshop is Hall A; the workshop cannot use multiple final venues; The active signed workshop notice says the only final venue for the same entire workshop is Hall B. Neither document has been withdrawn, superseded or ranked. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+      "supporting_memory_ids": [
+        "MECF165E0CFDB4DACB3DC344A7068603D",
+        "M7D8FA6DE09CA49BA9F7C4823245D202D"
+      ]
+    },
+    {
+      "history_id": "COMMUNITY",
+      "method": "Contextual/indirect Auditor tests",
+      "source_run_id": "RUNC256CDBAE41E490984EC9FFBF5552194",
+      "source_test_id": "T9DA0E11C78CD4E2992B4C940E7AF5F6B",
+      "question": "Draft an instruction for colleagues about accessibility requirement for the workshop.",
+      "dimension": "appropriate_use",
+      "expected_behavior": "Apply the task-specific recorded requirement: For this particular workshop the organiser requires accessible digital handouts; the general preference remains for other events.",
+      "supporting_memory_ids": [
+        "MC273B97021BD40B88010385A6730CFB1",
+        "MFD6FB00D3C5B4127BDDD6241B677218E"
+      ]
+    },
+    {
+      "history_id": "RESEARCH",
+      "method": "Direct questions",
+      "source_run_id": "RUN7D7BCD1E5ED441549EE374AE0BFBCD71",
+      "source_test_id": "T08322CC7202548D8827A577A8737E751",
+      "question": "Where is the research group based?",
+      "dimension": "accuracy",
+      "expected_behavior": "State the recorded fact: The research group is based in Canberra.",
+      "supporting_memory_ids": [
+        "M3FF93645E9904A609EB6F6F98928948F"
+      ]
+    },
+    {
+      "history_id": "RESEARCH",
+      "method": "Direct questions",
+      "source_run_id": "RUN7D7BCD1E5ED441549EE374AE0BFBCD71",
+      "source_test_id": "T41BF1B43E3464A989A371D751E70314E",
+      "question": "What is the current recorded participant count for the study?",
+      "dimension": "freshness",
+      "expected_behavior": "State the current recorded fact: After a documented withdrawal the study has 23 participants; the previous count is superseded.",
+      "supporting_memory_ids": [
+        "M4B044B666BA64FE382B81456F9D450F3",
+        "MDAD24BFA331D4A9697FE2DD7667F6FF2"
+      ]
+    },
+    {
+      "history_id": "RESEARCH",
+      "method": "Direct questions",
+      "source_run_id": "RUN7D7BCD1E5ED441549EE374AE0BFBCD71",
+      "source_test_id": "TC9096B5F80E64CD88AD1CB1A53137D20",
+      "question": "What is the recorded analysis deadline?",
+      "dimension": "conflict_resolution",
+      "expected_behavior": "Keep both records visible: The current study protocol says the analysis deadline is 5 June; The active supervisor instruction says the same analysis deadline is 8 June; neither instruction has been cancelled or prioritised. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+      "supporting_memory_ids": [
+        "M6E7700162DCE4B1CAC4A3ECDD3EEFD87",
+        "ME2220B2985164EFCA8DF2DB19E49CAB1"
+      ]
+    },
+    {
+      "history_id": "RESEARCH",
+      "method": "Direct questions",
+      "source_run_id": "RUN7D7BCD1E5ED441549EE374AE0BFBCD71",
+      "source_test_id": "TDBF84D5D922E4716A37770068433FA82",
+      "question": "What meeting arrangement applies to the study?",
+      "dimension": "appropriate_use",
+      "expected_behavior": "Apply the scoped recorded fact: For this study the supervisor requires online meetings; the general meeting preference remains unchanged elsewhere.",
+      "supporting_memory_ids": [
+        "M6643E1880FD946C2864F3B85E7E3638F",
+        "M0FDB971C7345401C97FF4DAB7B7B52B1"
+      ]
+    },
+    {
+      "history_id": "RESEARCH",
+      "method": "Fixed templates",
+      "source_run_id": "RUN18826BCBF52547FF9F51799C46DA5C92",
+      "source_test_id": "TA8FD94004A9C4166B643B4FC607D8432",
+      "question": "Where is the research group based?",
+      "dimension": "accuracy",
+      "expected_behavior": "Expected: Canberra",
+      "supporting_memory_ids": [
+        "M3FF93645E9904A609EB6F6F98928948F"
+      ]
+    },
+    {
+      "history_id": "RESEARCH",
+      "method": "Fixed templates",
+      "source_run_id": "RUN18826BCBF52547FF9F51799C46DA5C92",
+      "source_test_id": "T7AEAF7351F7F44EAB231C716A9A633CF",
+      "question": "How many participants are currently in the study?",
+      "dimension": "freshness",
+      "expected_behavior": "Expected: 23 participants",
+      "supporting_memory_ids": [
+        "M4B044B666BA64FE382B81456F9D450F3",
+        "MDAD24BFA331D4A9697FE2DD7667F6FF2"
+      ]
+    },
+    {
+      "history_id": "RESEARCH",
+      "method": "Fixed templates",
+      "source_run_id": "RUN18826BCBF52547FF9F51799C46DA5C92",
+      "source_test_id": "T38DA1FB061BC441D994597274D77BBB9",
+      "question": "What is the analysis deadline for this study?",
+      "dimension": "conflict_resolution",
+      "expected_behavior": "Expected: The active 5 June and 8 June deadlines conflict; ask which governs. Ask the user to clarify which record controls.",
+      "supporting_memory_ids": [
+        "M6E7700162DCE4B1CAC4A3ECDD3EEFD87",
+        "ME2220B2985164EFCA8DF2DB19E49CAB1"
+      ]
+    },
+    {
+      "history_id": "RESEARCH",
+      "method": "Fixed templates",
+      "source_run_id": "RUN18826BCBF52547FF9F51799C46DA5C92",
+      "source_test_id": "TADB3E28C8BC649618B2029300B7D1308",
+      "question": "How should meetings for this study be held?",
+      "dimension": "appropriate_use",
+      "expected_behavior": "Expected: Use online meetings for this study.",
+      "supporting_memory_ids": [
+        "M6643E1880FD946C2864F3B85E7E3638F",
+        "M0FDB971C7345401C97FF4DAB7B7B52B1"
+      ]
+    },
+    {
+      "history_id": "RESEARCH",
+      "method": "Contextual/indirect Auditor tests",
+      "source_run_id": "RUN05E4E2074EF040FAAE6FE8FE244E8CC1",
+      "source_test_id": "TB64197C9A00B4CFEB817DF986FB7FEC5",
+      "question": "Draft an entry for a shared contact sheet that records where the research group is based.",
+      "dimension": "accuracy",
+      "expected_behavior": "State the recorded fact: The research group is based in Canberra.",
+      "supporting_memory_ids": [
+        "M3FF93645E9904A609EB6F6F98928948F"
+      ]
+    },
+    {
+      "history_id": "RESEARCH",
+      "method": "Contextual/indirect Auditor tests",
+      "source_run_id": "RUN05E4E2074EF040FAAE6FE8FE244E8CC1",
+      "source_test_id": "TFF89BC3F9D0347CA8D6CF058A2518DE8",
+      "question": "Draft a current planning note about participant count for the study that the team can use.",
+      "dimension": "freshness",
+      "expected_behavior": "State the current recorded fact: After a documented withdrawal the study has 23 participants; the previous count is superseded.",
+      "supporting_memory_ids": [
+        "M4B044B666BA64FE382B81456F9D450F3",
+        "MDAD24BFA331D4A9697FE2DD7667F6FF2"
+      ]
+    },
+    {
+      "history_id": "RESEARCH",
+      "method": "Contextual/indirect Auditor tests",
+      "source_run_id": "RUN05E4E2074EF040FAAE6FE8FE244E8CC1",
+      "source_test_id": "TF185AD98F19D4A919C87CA4ADFDFB73E",
+      "question": "Draft an action note for colleagues planning around analysis deadline: what should it include and what action follows?",
+      "dimension": "conflict_resolution",
+      "expected_behavior": "Keep both records visible: The current study protocol says the analysis deadline is 5 June; The active supervisor instruction says the same analysis deadline is 8 June; neither instruction has been cancelled or prioritised. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+      "supporting_memory_ids": [
+        "M6E7700162DCE4B1CAC4A3ECDD3EEFD87",
+        "ME2220B2985164EFCA8DF2DB19E49CAB1"
+      ]
+    },
+    {
+      "history_id": "RESEARCH",
+      "method": "Contextual/indirect Auditor tests",
+      "source_run_id": "RUN05E4E2074EF040FAAE6FE8FE244E8CC1",
+      "source_test_id": "T4E3EB0CD1AFB41858A02354C653BD873",
+      "question": "Draft an instruction for colleagues about meeting arrangement for the study.",
+      "dimension": "appropriate_use",
+      "expected_behavior": "Apply the task-specific recorded requirement: For this study the supervisor requires online meetings; the general meeting preference remains unchanged elsewhere.",
+      "supporting_memory_ids": [
+        "M6643E1880FD946C2864F3B85E7E3638F",
+        "M0FDB971C7345401C97FF4DAB7B7B52B1"
+      ]
+    },
+    {
+      "history_id": "GARDEN",
+      "method": "Direct questions",
+      "source_run_id": "RUNE251E34625D9497C977387376E3E3961",
+      "source_test_id": "TB5F91347343D4A0781786F1CDE5E5D3F",
+      "question": "Where is the garden coordinator based?",
+      "dimension": "accuracy",
+      "expected_behavior": "State the recorded fact: The garden coordinator is based in Hobart.",
+      "supporting_memory_ids": [
+        "M4DAE73D5DC5E4FC39E41AA8D159ED364"
+      ]
+    },
+    {
+      "history_id": "GARDEN",
+      "method": "Direct questions",
+      "source_run_id": "RUNE251E34625D9497C977387376E3E3961",
+      "source_test_id": "T58A4B24A728141A0B69B23C2EE47F001",
+      "question": "What is the current recorded watering schedule?",
+      "dimension": "freshness",
+      "expected_behavior": "State the current recorded fact: The coordinator changed the watering day to Wednesday, replacing Monday.",
+      "supporting_memory_ids": [
+        "M09DBAFCDECFA4FA7AFC638CE828DB85A",
+        "M23C63A8A95D9438191ABF4E4EDD696A6"
+      ]
+    },
+    {
+      "history_id": "GARDEN",
+      "method": "Direct questions",
+      "source_run_id": "RUNE251E34625D9497C977387376E3E3961",
+      "source_test_id": "T7EAEB9C6BF4541C49BEBFF4065749B4B",
+      "question": "What is the recorded resource allocation?",
+      "dimension": "conflict_resolution",
+      "expected_behavior": "Keep both records visible: The active garden plan assigns the entire shared bed exclusively to Group Red for the current growing season. The bed may be allocated to only one group for that season; joint or divided use is not permitted; A signed active garden allocation assigns that same entire shared bed exclusively to Group Blue for the same current growing season; neither allocation has been withdrawn, superseded or ranked. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+      "supporting_memory_ids": [
+        "MEB93E7F0FFCE45DC91749AF7C93894E5",
+        "M2E43D8A3870E44539242F9B970B76A1B"
+      ]
+    },
+    {
+      "history_id": "GARDEN",
+      "method": "Direct questions",
+      "source_run_id": "RUNE251E34625D9497C977387376E3E3961",
+      "source_test_id": "T215721F03C474A3FA5011578C5D1D422",
+      "question": "What volunteer arrangement applies to the compost collection?",
+      "dimension": "appropriate_use",
+      "expected_behavior": "Apply the scoped recorded fact: For the compost collection only, the volunteers must attend in the afternoon; the general preference remains for other work.",
+      "supporting_memory_ids": [
+        "M4AA6DB0E874348E8B7CB5EF441A55522",
+        "MEEF8B13C024445CCA187D5B889B8C486"
+      ]
+    },
+    {
+      "history_id": "GARDEN",
+      "method": "Fixed templates",
+      "source_run_id": "RUN1546B451D81F4BB994E6F7D607925280",
+      "source_test_id": "TED9A47A1032542EB9BC98B48D671A2D9",
+      "question": "Where is the garden coordinator based?",
+      "dimension": "accuracy",
+      "expected_behavior": "Expected: Hobart",
+      "supporting_memory_ids": [
+        "M4DAE73D5DC5E4FC39E41AA8D159ED364"
+      ]
+    },
+    {
+      "history_id": "GARDEN",
+      "method": "Fixed templates",
+      "source_run_id": "RUN1546B451D81F4BB994E6F7D607925280",
+      "source_test_id": "T90C60FC654EB49099659DF9CD6447AE0",
+      "question": "What is the current garden watering day?",
+      "dimension": "freshness",
+      "expected_behavior": "Expected: Wednesday",
+      "supporting_memory_ids": [
+        "M09DBAFCDECFA4FA7AFC638CE828DB85A",
+        "M23C63A8A95D9438191ABF4E4EDD696A6"
+      ]
+    },
+    {
+      "history_id": "GARDEN",
+      "method": "Fixed templates",
+      "source_run_id": "RUN1546B451D81F4BB994E6F7D607925280",
+      "source_test_id": "T61A62B3EFCBC44F496AD4D0D9F0F8E9F",
+      "question": "Which group should be assigned exclusive use of the entire shared bed for the current growing season?",
+      "dimension": "conflict_resolution",
+      "expected_behavior": "Expected: The active exclusive allocations conflict: Group Red versus Group Blue for the same entire bed and growing season. Neither has priority; seek clarification before assigning it. Ask the user to clarify which record controls.",
+      "supporting_memory_ids": [
+        "MEB93E7F0FFCE45DC91749AF7C93894E5",
+        "M2E43D8A3870E44539242F9B970B76A1B"
+      ]
+    },
+    {
+      "history_id": "GARDEN",
+      "method": "Fixed templates",
+      "source_run_id": "RUN1546B451D81F4BB994E6F7D607925280",
+      "source_test_id": "T3250BAAB4F5A41CA8206A15063C13A12",
+      "question": "When should volunteers attend the compost collection?",
+      "dimension": "appropriate_use",
+      "expected_behavior": "Expected: Attend in the afternoon for compost collection.",
+      "supporting_memory_ids": [
+        "M4AA6DB0E874348E8B7CB5EF441A55522",
+        "MEEF8B13C024445CCA187D5B889B8C486"
+      ]
+    },
+    {
+      "history_id": "GARDEN",
+      "method": "Contextual/indirect Auditor tests",
+      "source_run_id": "RUN9625443D58304DDBA1DAF98611F4D47D",
+      "source_test_id": "T8DF08AD1E55A403C8EB1F3A856044EE8",
+      "question": "Draft an entry for a shared contact sheet that records where the garden coordinator is based.",
+      "dimension": "accuracy",
+      "expected_behavior": "State the recorded fact: The garden coordinator is based in Hobart.",
+      "supporting_memory_ids": [
+        "M4DAE73D5DC5E4FC39E41AA8D159ED364"
+      ]
+    },
+    {
+      "history_id": "GARDEN",
+      "method": "Contextual/indirect Auditor tests",
+      "source_run_id": "RUN9625443D58304DDBA1DAF98611F4D47D",
+      "source_test_id": "T6DD6A1B24F954068B8DED7D87A5651DA",
+      "question": "Draft a current planning note about watering schedule that the team can use.",
+      "dimension": "freshness",
+      "expected_behavior": "State the current recorded fact: The coordinator changed the watering day to Wednesday, replacing Monday.",
+      "supporting_memory_ids": [
+        "M09DBAFCDECFA4FA7AFC638CE828DB85A",
+        "M23C63A8A95D9438191ABF4E4EDD696A6"
+      ]
+    },
+    {
+      "history_id": "GARDEN",
+      "method": "Contextual/indirect Auditor tests",
+      "source_run_id": "RUN9625443D58304DDBA1DAF98611F4D47D",
+      "source_test_id": "T539B9306035F41BF88EAA22353F411C6",
+      "question": "Draft an action note for colleagues planning around resource allocation: what should it include and what action follows?",
+      "dimension": "conflict_resolution",
+      "expected_behavior": "Keep both records visible: The active garden plan assigns the entire shared bed exclusively to Group Red for the current growing season. The bed may be allocated to only one group for that season; joint or divided use is not permitted; A signed active garden allocation assigns that same entire shared bed exclusively to Group Blue for the same current growing season; neither allocation has been withdrawn, superseded or ranked. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+      "supporting_memory_ids": [
+        "MEB93E7F0FFCE45DC91749AF7C93894E5",
+        "M2E43D8A3870E44539242F9B970B76A1B"
+      ]
+    },
+    {
+      "history_id": "GARDEN",
+      "method": "Contextual/indirect Auditor tests",
+      "source_run_id": "RUN9625443D58304DDBA1DAF98611F4D47D",
+      "source_test_id": "TE6A8CBDCABE44281A21D60013EB34123",
+      "question": "Draft an instruction for colleagues about volunteer arrangement for the compost collection.",
+      "dimension": "appropriate_use",
+      "expected_behavior": "Apply the task-specific recorded requirement: For the compost collection only, the volunteers must attend in the afternoon; the general preference remains for other work.",
+      "supporting_memory_ids": [
+        "M4AA6DB0E874348E8B7CB5EF441A55522",
+        "MEEF8B13C024445CCA187D5B889B8C486"
+      ]
+    },
+    {
+      "history_id": "SHOP",
+      "method": "Direct questions",
+      "source_run_id": "RUND453D713FD5D47AAAE2113686E03CB82",
+      "source_test_id": "TDE1CF9EE2ED24AF0A1529F5EE32207FF",
+      "question": "Where is the shop owner based?",
+      "dimension": "accuracy",
+      "expected_behavior": "State the recorded fact: The shop owner is based in Darwin.",
+      "supporting_memory_ids": [
+        "MCFF6B49B96AC44828385C077CCB427A1"
+      ]
+    },
+    {
+      "history_id": "SHOP",
+      "method": "Direct questions",
+      "source_run_id": "RUND453D713FD5D47AAAE2113686E03CB82",
+      "source_test_id": "T98F5D9B59B9E4C8CA081D026ADC8658F",
+      "question": "What is the current recorded delivery provider for the shop?",
+      "dimension": "freshness",
+      "expected_behavior": "State the current recorded fact: The shop switched its local delivery provider to Parcel South; Parcel North is no longer used for this service.",
+      "supporting_memory_ids": [
+        "MCD8D8E1EC844440D9A539BE53A24661D",
+        "MB8360527EB6E4B9CBCCFA7F640C20AE7"
+      ]
+    },
+    {
+      "history_id": "SHOP",
+      "method": "Direct questions",
+      "source_run_id": "RUND453D713FD5D47AAAE2113686E03CB82",
+      "source_test_id": "TB9878817E21C4C9583D005EECEB7D293",
+      "question": "What is the recorded delivery window?",
+      "dimension": "conflict_resolution",
+      "expected_behavior": "Keep both records visible: The active supplier schedule sets the delivery window for the entire order on 15 August to 9–11 am. The order is one complete delivery, not split across windows; The active signed order specifies a 1–3 pm window on 15 August for that same one complete delivery; neither document has been cancelled or designated as controlling. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+      "supporting_memory_ids": [
+        "M78D60D83EF364EC5BB4DEF0B67EDA07C",
+        "MBAED61C0A6CE4DF9951B69DB8DF86A54"
+      ]
+    },
+    {
+      "history_id": "SHOP",
+      "method": "Direct questions",
+      "source_run_id": "RUND453D713FD5D47AAAE2113686E03CB82",
+      "source_test_id": "TB0E454D4EEC94A818AFBF4CC188196FF",
+      "question": "What notification method applies to the delivery?",
+      "dimension": "appropriate_use",
+      "expected_behavior": "Apply the scoped recorded fact: For this delivery the recipient requires a phone notification; email remains the general preference for other orders.",
+      "supporting_memory_ids": [
+        "MD5B945552BFF499BA512BA8331CE6549",
+        "M42D107FBA5F449E5B7B7342C7BAB15B6"
+      ]
+    },
+    {
+      "history_id": "SHOP",
+      "method": "Fixed templates",
+      "source_run_id": "RUN0B55371AAD9E4C328ADC4ADE6A13E370",
+      "source_test_id": "TD8A5E358DEFC4B5DAFADD893B2A244F0",
+      "question": "Where is the shop owner based?",
+      "dimension": "accuracy",
+      "expected_behavior": "Expected: Darwin",
+      "supporting_memory_ids": [
+        "MCFF6B49B96AC44828385C077CCB427A1"
+      ]
+    },
+    {
+      "history_id": "SHOP",
+      "method": "Fixed templates",
+      "source_run_id": "RUN0B55371AAD9E4C328ADC4ADE6A13E370",
+      "source_test_id": "T32D40ED9D9E14D25BE2B4F5519E47F36",
+      "question": "Which provider currently handles the shop’s local deliveries?",
+      "dimension": "freshness",
+      "expected_behavior": "Expected: Parcel South",
+      "supporting_memory_ids": [
+        "MCD8D8E1EC844440D9A539BE53A24661D",
+        "MB8360527EB6E4B9CBCCFA7F640C20AE7"
+      ]
+    },
+    {
+      "history_id": "SHOP",
+      "method": "Fixed templates",
+      "source_run_id": "RUN0B55371AAD9E4C328ADC4ADE6A13E370",
+      "source_test_id": "TB3D0B212E9234CB8B07D877153DEE173",
+      "question": "What delivery window should be promised for the order?",
+      "dimension": "conflict_resolution",
+      "expected_behavior": "Expected: The active 9–11 am and 1–3 pm windows conflict; ask for clarification. Ask the user to clarify which record controls.",
+      "supporting_memory_ids": [
+        "M78D60D83EF364EC5BB4DEF0B67EDA07C",
+        "MBAED61C0A6CE4DF9951B69DB8DF86A54"
+      ]
+    },
+    {
+      "history_id": "SHOP",
+      "method": "Fixed templates",
+      "source_run_id": "RUN0B55371AAD9E4C328ADC4ADE6A13E370",
+      "source_test_id": "T78FD9B80264144E58349E5558A917CD1",
+      "question": "How should the recipient be notified for this delivery?",
+      "dimension": "appropriate_use",
+      "expected_behavior": "Expected: Notify the recipient by phone for this delivery.",
+      "supporting_memory_ids": [
+        "MD5B945552BFF499BA512BA8331CE6549",
+        "M42D107FBA5F449E5B7B7342C7BAB15B6"
+      ]
+    },
+    {
+      "history_id": "SHOP",
+      "method": "Contextual/indirect Auditor tests",
+      "source_run_id": "RUNC4EC877E06424E019FD2BBDC67E113EA",
+      "source_test_id": "T3F326D6720614C0696C606762E20F2DB",
+      "question": "Draft an entry for a shared contact sheet that records where the shop owner is based.",
+      "dimension": "accuracy",
+      "expected_behavior": "State the recorded fact: The shop owner is based in Darwin.",
+      "supporting_memory_ids": [
+        "MCFF6B49B96AC44828385C077CCB427A1"
+      ]
+    },
+    {
+      "history_id": "SHOP",
+      "method": "Contextual/indirect Auditor tests",
+      "source_run_id": "RUNC4EC877E06424E019FD2BBDC67E113EA",
+      "source_test_id": "TBB09A36B40214C2FB2B3E62CF54A29D2",
+      "question": "Draft a current planning note about delivery provider for the shop that the team can use.",
+      "dimension": "freshness",
+      "expected_behavior": "State the current recorded fact: The shop switched its local delivery provider to Parcel South; Parcel North is no longer used for this service.",
+      "supporting_memory_ids": [
+        "MCD8D8E1EC844440D9A539BE53A24661D",
+        "MB8360527EB6E4B9CBCCFA7F640C20AE7"
+      ]
+    },
+    {
+      "history_id": "SHOP",
+      "method": "Contextual/indirect Auditor tests",
+      "source_run_id": "RUNC4EC877E06424E019FD2BBDC67E113EA",
+      "source_test_id": "TEE81902B19744CAD9CF534D6F5505534",
+      "question": "Draft an action note for colleagues planning around delivery window: what should it include and what action follows?",
+      "dimension": "conflict_resolution",
+      "expected_behavior": "Keep both records visible: The active supplier schedule sets the delivery window for the entire order on 15 August to 9–11 am. The order is one complete delivery, not split across windows; The active signed order specifies a 1–3 pm window on 15 August for that same one complete delivery; neither document has been cancelled or designated as controlling. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+      "supporting_memory_ids": [
+        "M78D60D83EF364EC5BB4DEF0B67EDA07C",
+        "MBAED61C0A6CE4DF9951B69DB8DF86A54"
+      ]
+    },
+    {
+      "history_id": "SHOP",
+      "method": "Contextual/indirect Auditor tests",
+      "source_run_id": "RUNC4EC877E06424E019FD2BBDC67E113EA",
+      "source_test_id": "T12CF1B7513F54B1986BB4700BDAC87B7",
+      "question": "Draft an instruction for colleagues about notification method for the delivery.",
+      "dimension": "appropriate_use",
+      "expected_behavior": "Apply the task-specific recorded requirement: For this delivery the recipient requires a phone notification; email remains the general preference for other orders.",
+      "supporting_memory_ids": [
+        "MD5B945552BFF499BA512BA8331CE6549",
+        "M42D107FBA5F449E5B7B7342C7BAB15B6"
+      ]
+    }
+  ]
+}

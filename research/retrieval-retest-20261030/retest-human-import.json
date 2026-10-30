@@ -1,0 +1,725 @@
+{
+  "packet_sha256": "5134520ad3edc831a1797003b36d607ddf621b21db9849e20cb6dcb5e6a29249",
+  "operations": {
+    "reference-E2E46F220FCCC4F87B26D2128E836A57D": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR155785D21E28401FA9AB536A923095B1",
+        "evaluation_id": "E2E46F220FCCC4F87B26D2128E836A57D",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.124501",
+        "updated_at": "2026-10-30T07:33:29.124531"
+      }
+    },
+    "reference-ED1F7840CD38646F2B56E2E9C8C469293": {
+      "status": "returned",
+      "response": {
+        "review_id": "HRB6F985F5D314421B8E34C96E953B55EA",
+        "evaluation_id": "ED1F7840CD38646F2B56E2E9C8C469293",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.142679",
+        "updated_at": "2026-10-30T07:33:29.142693"
+      }
+    },
+    "reference-E04E5E71926EB4B3AAB89501CEA5526F9": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR5F4F05DF03A7456B8CD0AE097DC32330",
+        "evaluation_id": "E04E5E71926EB4B3AAB89501CEA5526F9",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.156272",
+        "updated_at": "2026-10-30T07:33:29.156275"
+      }
+    },
+    "reference-E478C562E65604AF38E134ECA70B12C87": {
+      "status": "returned",
+      "response": {
+        "review_id": "HRA6DB58EB299F4C01819421430CB7BD8B",
+        "evaluation_id": "E478C562E65604AF38E134ECA70B12C87",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.167481",
+        "updated_at": "2026-10-30T07:33:29.167484"
+      }
+    },
+    "reference-E4A8A50685D6F4A06B214929AAEFB347B": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR41E489FA3A4940399B8BCD5C63D84A87",
+        "evaluation_id": "E4A8A50685D6F4A06B214929AAEFB347B",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.195597",
+        "updated_at": "2026-10-30T07:33:29.195601"
+      }
+    },
+    "reference-E8B1F84B1ABEB40DEA9FDE25B3AF96C8F": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR657A98F3D31E42DDBDD3FCFE2B75E93D",
+        "evaluation_id": "E8B1F84B1ABEB40DEA9FDE25B3AF96C8F",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.214758",
+        "updated_at": "2026-10-30T07:33:29.214761"
+      }
+    },
+    "reference-EC45CB123AF9E4001BC517E6FE8F08C6E": {
+      "status": "returned",
+      "response": {
+        "review_id": "HRC97DBB2F3EEA4F7E9CF8847104F101B0",
+        "evaluation_id": "EC45CB123AF9E4001BC517E6FE8F08C6E",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.226899",
+        "updated_at": "2026-10-30T07:33:29.226903"
+      }
+    },
+    "reference-E0AB556C3C7824A4DAD40F1A754C7541F": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR53FBEAFAD34A4B15A3E3754FFFDDB8A0",
+        "evaluation_id": "E0AB556C3C7824A4DAD40F1A754C7541F",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.243772",
+        "updated_at": "2026-10-30T07:33:29.243776"
+      }
+    },
+    "reference-EAA611D0BAB2049D5B8D06CE31CE390A5": {
+      "status": "returned",
+      "response": {
+        "review_id": "HRE38407008D524760B46A7535912352DA",
+        "evaluation_id": "EAA611D0BAB2049D5B8D06CE31CE390A5",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.272662",
+        "updated_at": "2026-10-30T07:33:29.272665"
+      }
+    },
+    "reference-E45F6D74ADDA04D269085B29E224B8C06": {
+      "status": "returned",
+      "response": {
+        "review_id": "HRE98B73809A884BFB82E1D5E7BF6DAD82",
+        "evaluation_id": "E45F6D74ADDA04D269085B29E224B8C06",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.282980",
+        "updated_at": "2026-10-30T07:33:29.282983"
+      }
+    },
+    "reference-E0A2B2761E47D463E89A768535052993E": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR80D21CD8F563410585ABB80924141119",
+        "evaluation_id": "E0A2B2761E47D463E89A768535052993E",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.291279",
+        "updated_at": "2026-10-30T07:33:29.291282"
+      }
+    },
+    "reference-E08BE1367EEF94D658AD9BD4D62DBFDC0": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR9A9F53A786AA4D07B37152F817205641",
+        "evaluation_id": "E08BE1367EEF94D658AD9BD4D62DBFDC0",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.303249",
+        "updated_at": "2026-10-30T07:33:29.303252"
+      }
+    },
+    "reference-E64565C7EE7A64B89BDAF762A7C2B1E5A": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR6DBB256807424167B2554207F89E12F5",
+        "evaluation_id": "E64565C7EE7A64B89BDAF762A7C2B1E5A",
+        "human_passed": false,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.327465",
+        "updated_at": "2026-10-30T07:33:29.327468"
+      }
+    },
+    "reference-E6D27180A054F4B8CB89B0EAD635CF367": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR564CC09180A140DF95C7E770BFB3500A",
+        "evaluation_id": "E6D27180A054F4B8CB89B0EAD635CF367",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.336220",
+        "updated_at": "2026-10-30T07:33:29.336223"
+      }
+    },
+    "reference-E6CFAEE4C72174CE790AD1C9F605B9534": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR9C077D0FDD5146F597DCECBB272C6A1D",
+        "evaluation_id": "E6CFAEE4C72174CE790AD1C9F605B9534",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.344923",
+        "updated_at": "2026-10-30T07:33:29.344926"
+      }
+    },
+    "reference-ED61DBF4586CD47D99DF7FCD85D1A1D36": {
+      "status": "returned",
+      "response": {
+        "review_id": "HRA742CFF092B4457388B64253F40BD898",
+        "evaluation_id": "ED61DBF4586CD47D99DF7FCD85D1A1D36",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.355309",
+        "updated_at": "2026-10-30T07:33:29.355312"
+      }
+    },
+    "reference-EF14BF7C9F16F42568D964D88CF291CD5": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR92F31F4C09B4427586C4D89889997DED",
+        "evaluation_id": "EF14BF7C9F16F42568D964D88CF291CD5",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.375164",
+        "updated_at": "2026-10-30T07:33:29.375168"
+      }
+    },
+    "reference-E4C462B3832424BD892A6EBD3AD18DC2B": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR0A2305D798F3497F85D58D675F036590",
+        "evaluation_id": "E4C462B3832424BD892A6EBD3AD18DC2B",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.386944",
+        "updated_at": "2026-10-30T07:33:29.386949"
+      }
+    },
+    "reference-EB75C55985B8D437BA11916F47C4AD666": {
+      "status": "returned",
+      "response": {
+        "review_id": "HRA9690643E41C48A8BDC5D143B7929DF2",
+        "evaluation_id": "EB75C55985B8D437BA11916F47C4AD666",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.396321",
+        "updated_at": "2026-10-30T07:33:29.396324"
+      }
+    },
+    "reference-E836A647E846F49388FDB6922D4A40061": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR9A5180978EFD4DAC8979996006A9A74E",
+        "evaluation_id": "E836A647E846F49388FDB6922D4A40061",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.404429",
+        "updated_at": "2026-10-30T07:33:29.404433"
+      }
+    },
+    "reference-E539CF3651FC24AC5A20603DA90F5DE3F": {
+      "status": "returned",
+      "response": {
+        "review_id": "HRE063F7898B6444B0B382373D786E042E",
+        "evaluation_id": "E539CF3651FC24AC5A20603DA90F5DE3F",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.422333",
+        "updated_at": "2026-10-30T07:33:29.422337"
+      }
+    },
+    "reference-E6A5FFE0BB96D4DB1B253765A15A8EB5C": {
+      "status": "returned",
+      "response": {
+        "review_id": "HRA3022A8150D048768162D13AB59D299A",
+        "evaluation_id": "E6A5FFE0BB96D4DB1B253765A15A8EB5C",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.434498",
+        "updated_at": "2026-10-30T07:33:29.434502"
+      }
+    },
+    "reference-EAB97BEDD757C48C092B6D36899AE3C19": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR41D6CC276C784E079945A837225D944A",
+        "evaluation_id": "EAB97BEDD757C48C092B6D36899AE3C19",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.445398",
+        "updated_at": "2026-10-30T07:33:29.445403"
+      }
+    },
+    "reference-E4FAD8BEDFA664AA78FF5635492383866": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR119A6D5A69134AA9A94F55964763FE75",
+        "evaluation_id": "E4FAD8BEDFA664AA78FF5635492383866",
+        "human_passed": false,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.455233",
+        "updated_at": "2026-10-30T07:33:29.455236"
+      }
+    },
+    "reference-E7B78000B8DB74BEFB213ECA6D108DD91": {
+      "status": "returned",
+      "response": {
+        "review_id": "HRFA123F2C58FD4D7EB22AA594B3E930CC",
+        "evaluation_id": "E7B78000B8DB74BEFB213ECA6D108DD91",
+        "human_passed": false,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.474149",
+        "updated_at": "2026-10-30T07:33:29.474152"
+      }
+    },
+    "reference-E29614320CB814C0E94974305CD8175A7": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR5119F16BDF05484389B2A282380E260C",
+        "evaluation_id": "E29614320CB814C0E94974305CD8175A7",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.483668",
+        "updated_at": "2026-10-30T07:33:29.483671"
+      }
+    },
+    "reference-E53B4EA9C9DD04AAB87E50DE63FF5FD59": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR0EA080A70E594994B7197A2ABC72AFF9",
+        "evaluation_id": "E53B4EA9C9DD04AAB87E50DE63FF5FD59",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.492558",
+        "updated_at": "2026-10-30T07:33:29.492562"
+      }
+    },
+    "reference-E2A816E0265414FFEBA7298C0E3810622": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR3E34B300A7B249C59B4A5C76B8765BE6",
+        "evaluation_id": "E2A816E0265414FFEBA7298C0E3810622",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.505001",
+        "updated_at": "2026-10-30T07:33:29.505009"
+      }
+    },
+    "reference-E1CB0CC0050AC41B79826C9754D2DAC65": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR6EF7C08DACB84BEE8EDC49A9B40091D4",
+        "evaluation_id": "E1CB0CC0050AC41B79826C9754D2DAC65",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.535022",
+        "updated_at": "2026-10-30T07:33:29.535026"
+      }
+    },
+    "reference-E630DA2B3E0F84767B37D24A485C98213": {
+      "status": "returned",
+      "response": {
+        "review_id": "HRD416E18E7AEF4913B4CEAB27AAF2CBAC",
+        "evaluation_id": "E630DA2B3E0F84767B37D24A485C98213",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.548404",
+        "updated_at": "2026-10-30T07:33:29.548408"
+      }
+    },
+    "reference-E4FE0E0CE2E4F41538CC71077D04CBB73": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR68612A8E45914C95A1D5BC96971E04F9",
+        "evaluation_id": "E4FE0E0CE2E4F41538CC71077D04CBB73",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.559010",
+        "updated_at": "2026-10-30T07:33:29.559014"
+      }
+    },
+    "reference-EADCA41AE9D3E45C7983FD06F3D635B30": {
+      "status": "returned",
+      "response": {
+        "review_id": "HRD0EAEB47610C42CEA8E25B100BA50C79",
+        "evaluation_id": "EADCA41AE9D3E45C7983FD06F3D635B30",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.570745",
+        "updated_at": "2026-10-30T07:33:29.570748"
+      }
+    },
+    "reference-EA9945358C56847B4A3A63CA3DCF7B153": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR3A758D27F3604FCD8350AD981048A4A6",
+        "evaluation_id": "EA9945358C56847B4A3A63CA3DCF7B153",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.590272",
+        "updated_at": "2026-10-30T07:33:29.590274"
+      }
+    },
+    "reference-E23660B3C5A20444EB3197295394BF3AC": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR8289E79F68994B608D460F780384769D",
+        "evaluation_id": "E23660B3C5A20444EB3197295394BF3AC",
+        "human_passed": false,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.602138",
+        "updated_at": "2026-10-30T07:33:29.602142"
+      }
+    },
+    "reference-E48D5CD533BB94E7FAC8EF2C3AEF6E7D3": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR9B39910D02AC4C5F906898C2089B1753",
+        "evaluation_id": "E48D5CD533BB94E7FAC8EF2C3AEF6E7D3",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.613581",
+        "updated_at": "2026-10-30T07:33:29.613585"
+      }
+    },
+    "reference-E0A163A98848F4E4AB0D7D8F69F249FB5": {
+      "status": "returned",
+      "response": {
+        "review_id": "HRFBC15B2EE4B347BD84D1D22D054A7E82",
+        "evaluation_id": "E0A163A98848F4E4AB0D7D8F69F249FB5",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.623706",
+        "updated_at": "2026-10-30T07:33:29.623709"
+      }
+    },
+    "reference-EABC7A51101EF4B4DA1CCD4AEEA5FE3A4": {
+      "status": "returned",
+      "response": {
+        "review_id": "HRDDD843545B7944729B87ADB251DD39E5",
+        "evaluation_id": "EABC7A51101EF4B4DA1CCD4AEEA5FE3A4",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.646491",
+        "updated_at": "2026-10-30T07:33:29.646494"
+      }
+    },
+    "reference-E39318705A31E4E7CBD3848C5F718E461": {
+      "status": "returned",
+      "response": {
+        "review_id": "HRB10F8015E2A1406988F0B362C536E6D3",
+        "evaluation_id": "E39318705A31E4E7CBD3848C5F718E461",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.657107",
+        "updated_at": "2026-10-30T07:33:29.657110"
+      }
+    },
+    "reference-E0C99E7EA869443A0B998A63C44E7F2B8": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR2CBA50C817D34BB481C0C0ACE3D3F422",
+        "evaluation_id": "E0C99E7EA869443A0B998A63C44E7F2B8",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.667902",
+        "updated_at": "2026-10-30T07:33:29.667905"
+      }
+    },
+    "reference-ED0D15EF6344C4C17BDC4357F3FF9F8A4": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR540BCC51A3004BD4A3FBE24C9A14597C",
+        "evaluation_id": "ED0D15EF6344C4C17BDC4357F3FF9F8A4",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.678993",
+        "updated_at": "2026-10-30T07:33:29.678996"
+      }
+    },
+    "reference-ED5482EA4A5FC46CF914C48F31248051E": {
+      "status": "returned",
+      "response": {
+        "review_id": "HRBD50273613324259A2395C65D226D546",
+        "evaluation_id": "ED5482EA4A5FC46CF914C48F31248051E",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.697065",
+        "updated_at": "2026-10-30T07:33:29.697067"
+      }
+    },
+    "reference-EC3DB874A062146538448B104533460A2": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR941A300C9E2E44479BB9FEFC80C1D9BD",
+        "evaluation_id": "EC3DB874A062146538448B104533460A2",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.711667",
+        "updated_at": "2026-10-30T07:33:29.711670"
+      }
+    },
+    "reference-E7BD0EC1012FF44FD91681E39D2C21C7C": {
+      "status": "returned",
+      "response": {
+        "review_id": "HRA3ACAFE3237045179BE1DA8B4610FE00",
+        "evaluation_id": "E7BD0EC1012FF44FD91681E39D2C21C7C",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.732400",
+        "updated_at": "2026-10-30T07:33:29.732404"
+      }
+    },
+    "reference-E3030C99DCBD742AE8E196FF805D0718E": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR6836CD6F0543488F9FA1F11414E051A3",
+        "evaluation_id": "E3030C99DCBD742AE8E196FF805D0718E",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.748738",
+        "updated_at": "2026-10-30T07:33:29.748745"
+      }
+    },
+    "reference-EA03E64863B4142E0B90EE44DCE2336AE": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR22BE4A50877840A4A375D0E1E7CE102D",
+        "evaluation_id": "EA03E64863B4142E0B90EE44DCE2336AE",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.799982",
+        "updated_at": "2026-10-30T07:33:29.799991"
+      }
+    },
+    "reference-ED6DB5049AB644078964E5D77FE651CB0": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR0C85C61DC0D349D390475CA64EB1930A",
+        "evaluation_id": "ED6DB5049AB644078964E5D77FE651CB0",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.811740",
+        "updated_at": "2026-10-30T07:33:29.811743"
+      }
+    },
+    "reference-E4B8677B60F2E428E95EB60ACA42330D4": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR7C458B76CD4A46DEB34C896EA3ED1815",
+        "evaluation_id": "E4B8677B60F2E428E95EB60ACA42330D4",
+        "human_passed": false,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.835784",
+        "updated_at": "2026-10-30T07:33:29.835836"
+      }
+    },
+    "reference-EE663F090D6824D15A496A27D9E9910C2": {
+      "status": "returned",
+      "response": {
+        "review_id": "HR72ED52DEEE2E488EBAAA4972C609B3F6",
+        "evaluation_id": "EE663F090D6824D15A496A27D9E9910C2",
+        "human_passed": true,
+        "human_failure_type": null,
+        "reviewer_label": "user-confirmed",
+        "review_role": "reference",
+        "based_on_review_ids": [],
+        "note": "User confirmed this answer following two independent AI blind reviews. This is one human reference, not two independent human reviews.",
+        "created_at": "2026-10-30T07:33:29.861812",
+        "updated_at": "2026-10-30T07:33:29.861817"
+      }
+    }
+  }
+}

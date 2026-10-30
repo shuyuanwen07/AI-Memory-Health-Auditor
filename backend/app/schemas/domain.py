@@ -174,6 +174,7 @@ class MemoryStrategy(str, Enum):
     STRONG_RULE_BASED = "strong_rule_based"
     STRONG_SCORE_BASED = "strong_score_based"
     SCOPE_AWARE = "scope_aware"
+    RELATIONSHIP_PACKET = "relationship_packet"
     # A reproducible ablation that ranks source-message recency together with
     # transparent record importance.  It intentionally uses relative message
     # order, never the wall-clock time at which an audit happens.
@@ -492,6 +493,16 @@ class TestSuiteMetadata(BaseModel):
     study_role: str | None = None
     diagnostic_source_run_id: str | None = None
     method_comparison_id: str | None = None
+    method_campaign_id: str | None = None
+    method_scenario_id: str | None = None
+    method_campaign_planned_scenarios: int | None = Field(default=None, ge=1, le=100)
+    retrieval_study_id: str | None = None
+    retrieval_source_campaign_id: str | None = None
+    retrieval_source_run_id: str | None = None
+    retrieval_scenario_id: str | None = None
+    retrieval_scenarios_planned: int | None = Field(default=None, ge=1, le=100)
+    retrieval_method_mode: str | None = None
+    retrieval_question_sha256: str | None = None
     failure_inventory_fingerprint_sha256: str | None = None
     failure_inventory_release_id: str | None = None
     failure_inventory_defect_count: int | None = Field(default=None, ge=0)
@@ -557,6 +568,11 @@ class AuditCreate(BaseModel):
 
     @model_validator(mode='after')
     def validate_answer_validation_target(self):
+        if self.memory_strategy == MemoryStrategy.RELATIONSHIP_PACKET:
+            if self.target_configuration != TargetConfiguration.WEAK or self.retrieval_mode != TargetMemoryRetrievalMode.FIXED or self.target_system_adapter != TargetSystemAdapterKind.CONTROLLED_MEMORY:
+                raise ValueError('Relationship packet requires the fixed controlled-memory weak-reader configuration.')
+            if self.target_memory_profile.answer_validation != 'off' or self.target_memory_profile.identity_analysis != 'off':
+                raise ValueError('Relationship packet does not yet support auxiliary identity or answer-validation agents.')
         if self.target_memory_profile.answer_validation != 'off':
             if self.target_system_adapter != TargetSystemAdapterKind.CONTROLLED_MEMORY:
                 raise ValueError('Answer source validation requires the controlled memory target.')

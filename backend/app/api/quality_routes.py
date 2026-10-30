@@ -7,6 +7,7 @@ from datetime import datetime, timezone
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.orm import Session
+from pydantic import BaseModel, Field, ValidationError
 from app.database.session import get_db
 from app.models import AuditRunModel, ConversationModel, ExperimentModel, TestCaseModel, MemoryModel, MemoryRelationshipModel, MessageModel, AgentExecutionModel
 from app.schemas import (AuditCreate, AuditStatus, Dimension, TestSuiteConfiguration, TestSuiteMode, TestCase,
@@ -14,7 +15,7 @@ from app.schemas import (AuditCreate, AuditStatus, Dimension, TestSuiteConfigura
                          MethodComparisonDiscoveryMappingImport)
 from app.schemas.target_profile import RepairExperimentRequest, TargetMemoryProfile, FollowUpRequest
 from app.api.routes import (audit_schema, build_audit, evaluation_review_items_for, evaluation_review_batches_for, target_memory_trace_payload,
-                            ident, memory_schema, persist_generated_tests, public_test_schema)
+                            ident, memory_schema, persist_generated_tests, public_test_schema, audit_run_lock)
 from app.services.generation_coverage import saved_suite_observation, assert_generation_coverage
 from app.services.auditor_quality import reliability_summary, paired_probe_summary, scenario_reliability, apply_evidence_integrity
 from app.test_generator.quality import RuleBasedTestQualityValidator
@@ -326,7 +327,7 @@ def run_post_diagnostic_agent(run_id: str, db: Session = Depends(get_db)):
             "reported_model": row.reported_model, "diagnostic_agent": output}
 
 
-def fork_conditions(source: AuditRunModel, db: Session, profiles: list[TargetMemoryProfile], *, role: str, note: str, same_suite: bool = True, conversation_id: str | None = None, commit: bool = True, targeted_memory_strategy: str | None = None, targeted_memory_capacity: int | None = None) -> dict:
+def fork_conditions(source: AuditRunModel, db: Session, profiles: list[TargetMemoryProfile], *, role: str, note: str, same_suite: bool = True, conversation_id: str | None = None, commit: bool = True, targeted_memory_strategy: str | None = None, targeted_memory_capacity: int | None = None, preserve_target_configuration: bool = False) -> dict:
     original = audit_schema(source)
     experiment = db.get(ExperimentModel, source.experiment_id) if source.experiment_id else None
     source_policy = (source.reproducibility_metadata or {}).get("coverage_policy", "strict_full_v1")
@@ -365,7 +366,7 @@ def fork_conditions(source: AuditRunModel, db: Session, profiles: list[TargetMem
     local_canonical = {}
     for condition_index, profile in enumerate(profiles):
         candidate_strategy = targeted_memory_strategy if targeted_memory_strategy and condition_index == len(profiles)-1 else None
-        target_configuration = ("weak" if candidate_strategy == "weak_first_hit" else "strong") if candidate_strategy and candidate_strategy!=original.memory_strategy else original.target_configuration
+        target_configuration = ("weak" if candidate_strategy == "weak_first_hit" else "strong") if candidate_strategy and candidate_strategy!=original.memory_strategy and not preserve_target_configuration else original.target_configuration
         retrieval_mode = ("fixed" if candidate_strategy and candidate_strategy != original.memory_strategy
                          else original.retrieval_mode)
         candidate_capacity = targeted_memory_capacity if targeted_memory_capacity is not None and condition_index==len(profiles)-1 else original.target_memory_capacity
@@ -502,12 +503,47 @@ def create_interventions(run_id: str, db: Session = Depends(get_db)):
     return {**package, "notice": "Exploratory causal probes only. Supplemental evidence replays the original authorised user messages as one source packet. This changes supplied context and is not a production repair, proof of failure cause, or a held-out performance score."}
 
 
+class MethodCampaignRequest(BaseModel):
+    model_config = {'extra': 'forbid'}
+    campaign_id: str = Field(min_length=1, max_length=100, pattern=r'^[A-Za-z0-9_-]+$')
+    scenario_id: str = Field(min_length=1, max_length=100, pattern=r'^[A-Za-z0-9_-]+$')
+    planned_scenarios: int = Field(ge=1, le=100)
+
+
 @quality_router.post("/audits/{run_id}/method-comparison", status_code=201)
-def create_method_comparison(run_id: str, db: Session = Depends(get_db)):
+def create_method_comparison(run_id: str, payload: dict | None = None, db: Session = Depends(get_db)):
     """Fixed target configuration, equal maximum calls, separately frozen suites."""
     source = completed(run_id, db)
     if (source.reproducibility_metadata or {}).get("coverage_policy", "strict_full_v1") != "strict_full_v1":
         raise HTTPException(409, "Formal method comparisons require strict coverage; create a new audit.")
+    try:
+        campaign_request = MethodCampaignRequest.model_validate(payload) if payload else None
+    except ValidationError as exc:
+        raise HTTPException(422, 'Invalid campaign identifier, scenario or planned count.') from exc
+    payload = campaign_request
+    if payload:
+        existing = [g for g in db.scalars(select(ExperimentModel)).all()
+                    if (g.test_suite_metadata or {}).get('method_campaign_id') == payload.campaign_id]
+        for group in existing:
+            meta = group.test_suite_metadata or {}
+            if meta.get('method_campaign_planned_scenarios') != payload.planned_scenarios:
+                raise HTTPException(409, 'Campaign planned scenario count must remain fixed.')
+            if meta.get('method_scenario_id') == payload.scenario_id or group.conversation_id == source.conversation_id:
+                raise HTTPException(409, 'Campaign scenario IDs and source conversations must be unique.')
+            previous = db.get(AuditRunModel, meta.get('diagnostic_source_run_id'))
+            fields = ('target_configuration', 'provider', 'model', 'temperature', 'random_seed', 'test_budget', 'prompt_template_version', 'pipeline_provider', 'pipeline_model',
+                      'semantic_review_provider', 'semantic_review_model', 'evaluator_provider', 'evaluator_model',
+                      'memory_strategy', 'memory_maintenance_policy', 'target_memory_capacity', 'target_memory_writer',
+                      'target_memory_writer_version', 'target_system_adapter', 'target_system_adapter_version',
+                      'retrieval_mode', 'retrieval_provider', 'retrieval_model')
+            if not previous or any(getattr(previous, key, None) != getattr(source, key, None) for key in fields):
+                raise HTTPException(409, 'Campaign source settings must match across scenarios.')
+            left = audit_schema(previous).target_memory_profile.model_dump(exclude={'label'})
+            right = audit_schema(source).target_memory_profile.model_dump(exclude={'label'})
+            if left != right:
+                raise HTTPException(409, 'Campaign target profiles must match across scenarios.')
+        if len({(g.test_suite_metadata or {}).get('method_scenario_id') for g in existing}) >= payload.planned_scenarios:
+            raise HTTPException(409, 'All planned campaign scenarios are already registered.')
     base = audit_schema(source).target_memory_profile
     comparison_id = ident("MCA")
     source_fingerprint = method_comparison_source_fingerprint(source, db)
@@ -521,7 +557,9 @@ def create_method_comparison(run_id: str, db: Session = Depends(get_db)):
         configuration = dict(group.test_suite_configuration)
         configuration["suite_mode"] = mode.value
         group.test_suite_configuration = configuration
-        group.test_suite_metadata = {**(group.test_suite_metadata or {}), "method_comparison_id": comparison_id}
+        campaign = ({'method_campaign_id': payload.campaign_id, 'method_scenario_id': payload.scenario_id,
+                     'method_campaign_planned_scenarios': payload.planned_scenarios} if payload else {})
+        group.test_suite_metadata = {**(group.test_suite_metadata or {}), "method_comparison_id": comparison_id, **campaign}
         child = db.get(AuditRunModel, package["runs"][0]["run_id"])
         child.reproducibility_metadata = {**(child.reproducibility_metadata or {}), "method_comparison_id": comparison_id}
         packages.append(package)
@@ -539,6 +577,205 @@ def create_method_comparison(run_id: str, db: Session = Depends(get_db)):
                 "fixed_template_questions": draft_questions},
             "runs": [run for package in packages for run in package["runs"]],
             "notice": "Three durable conditions share the reviewed source, target settings and test cap. The fixed-template arm starts from a deterministic rule-generated draft; researchers must review and edit it as needed, fill any missing budget or dimension coverage, and explicitly confirm the final release before freezing. Then review every suite, run and blind-label every response. Target pass rates alone do not establish Auditor effectiveness."}
+
+
+class RetrievalImprovementRequest(BaseModel):
+    model_config = {'extra': 'forbid'}
+    study_id: str = Field(min_length=1, max_length=100, pattern=r'^[A-Za-z0-9_-]+$')
+
+
+def _paired_question_fingerprint(tests):
+    values = [{'dimension': t.dimension, 'prompt': t.prompt, 'expected_behavior': t.expected_behavior,
+               'supporting_memory_ids': list(t.supporting_memory_ids or []), 'test_type': t.test_type,
+               'generator_version': t.generator_version} for t in tests]
+    values.sort(key=lambda value: json.dumps(value, sort_keys=True, ensure_ascii=False))
+    return hashlib.sha256(json.dumps(values, sort_keys=True, ensure_ascii=False, separators=(',', ':')).encode()).hexdigest()
+
+
+@quality_router.post('/audits/{run_id}/retrieval-improvement', status_code=201)
+def create_retrieval_improvement(run_id: str, payload: RetrievalImprovementRequest, db: Session = Depends(get_db)):
+    """Fork one immutable source suite, changing only its target retrieval strategy.
+
+    A retry for the same study/source returns the previously created child. No
+    source answer, automated evaluation or human verdict is copied.
+    """
+    with audit_run_lock(f'retrieval-study:{payload.study_id}', db=db):
+        return _create_retrieval_improvement(run_id, payload, db)
+
+
+def _create_retrieval_improvement(run_id: str, payload: RetrievalImprovementRequest, db: Session):
+    from app.models import TargetResponseModel
+    source = completed(run_id, db)
+    original_group = db.get(ExperimentModel, source.experiment_id) if source.experiment_id else None
+    meta = (original_group.test_suite_metadata or {}) if original_group else {}
+    if (meta.get('study_role') != 'audit_method_comparison' or not meta.get('method_campaign_id')
+            or not meta.get('method_scenario_id') or not meta.get('method_campaign_planned_scenarios')):
+        raise HTTPException(422, 'Source must be a registered multi-scenario Experiment A condition.')
+    if source.memory_strategy != 'weak_first_hit' or source.target_configuration != 'weak' or source.retrieval_mode != 'fixed':
+        raise HTTPException(422, 'This paired study requires the recorded fixed first-match baseline and unchanged weak reader.')
+    tests = db.scalars(select(TestCaseModel).where(TestCaseModel.run_id == source.id).order_by(TestCaseModel.id)).all()
+    replies = db.scalars(select(TargetResponseModel).where(TargetResponseModel.run_id == source.id)).all()
+    if (len(tests) != source.test_budget or len(replies) != len(tests)
+            or {r.test_id for r in replies} != {t.id for t in tests}
+            or any(t.human_validity_status != 'accepted' for t in tests)):
+        raise HTTPException(409, 'The baseline suite, answers, or confirmed question validity is incomplete.')
+    relevant = [g for g in db.scalars(select(ExperimentModel)).all()
+                if (g.test_suite_metadata or {}).get('retrieval_study_id') == payload.study_id]
+    if any((g.test_suite_metadata or {}).get('retrieval_source_campaign_id') != meta['method_campaign_id'] for g in relevant):
+        raise HTTPException(409, 'A retrieval study cannot mix source campaigns.')
+    prior = [g for g in relevant if (g.test_suite_metadata or {}).get('retrieval_source_run_id') == run_id]
+    if len(prior) > 1:
+        raise HTTPException(409, 'Duplicate paired retest records require reconciliation.')
+    if prior:
+        child = db.scalars(select(AuditRunModel).where(AuditRunModel.experiment_id == prior[0].id)).all()
+        if len(child) != 1:
+            raise HTTPException(409, 'Existing paired retest is incomplete.')
+        return {'study_id': payload.study_id, 'source_run_id': run_id, 'experiment_id': prior[0].id,
+                'run_id': child[0].id, 'status': 'already_registered'}
+    package = fork_conditions(source, db, [audit_schema(source).target_memory_profile], role='retrieval_improvement',
+        note='Paired same-question retest: first-match vs relationship packet, reader unchanged.', same_suite=True,
+        commit=False, targeted_memory_strategy='relationship_packet', preserve_target_configuration=True)
+    group = db.get(ExperimentModel, package['experiment_id']); child = db.get(AuditRunModel, package['runs'][0]['run_id'])
+    copies = db.scalars(select(TestCaseModel).where(TestCaseModel.run_id == child.id).order_by(TestCaseModel.id)).all()
+    # The fork creates its own IDs. Resolve by the existing immutable identity,
+    # not by list order or wording, then rebind explicitly to the source test.
+    source_by_identity = {(t.comparison_test_id or t.suite_test_id or t.id): t for t in tests}
+    if len(copies) != len(tests) or len(source_by_identity) != len(tests):
+        raise HTTPException(409, 'Source questions cannot be paired uniquely.')
+    for test in copies:
+        origin = source_by_identity.get(test.comparison_test_id)
+        if not origin:
+            raise HTTPException(409, 'Question lineage is unavailable.')
+        test.comparison_test_id = origin.id
+    fingerprint = _paired_question_fingerprint(tests)
+    if _paired_question_fingerprint(copies) != fingerprint:
+        raise HTTPException(409, 'Copied question evidence differs from the source.')
+    group.test_suite_metadata = {**(group.test_suite_metadata or {}),
+        'retrieval_study_id': payload.study_id, 'retrieval_source_campaign_id': meta['method_campaign_id'],
+        'retrieval_source_run_id': source.id, 'retrieval_scenario_id': meta['method_scenario_id'],
+        'retrieval_scenarios_planned': meta['method_campaign_planned_scenarios'],
+        'retrieval_method_mode': original_group.test_suite_configuration.get('suite_mode'),
+        'retrieval_question_sha256': fingerprint}
+    db.commit()
+    return {'study_id': payload.study_id, 'source_run_id': source.id, 'experiment_id': group.id,
+            'run_id': child.id, 'question_sha256': fingerprint, 'status': 'registered',
+            'notice': 'Same saved questions and reader settings; relationship_packet changes retrieval and packages source records. New answers and human labels are required.'}
+
+
+def _paired_human_verdict(item):
+    independent = [r for r in item.human_reviews if r.review_role == 'independent']
+    if item.independent_reviewer_count >= 2:
+        if item.human_review and item.human_review.review_role == 'adjudication':
+            return item.human_review.human_passed, 'independent_human_consensus'
+        verdicts = {r.human_passed for r in independent}
+        if len(verdicts) == 1:
+            return next(iter(verdicts)), 'independent_human_consensus'
+        return None, 'pending'
+    if item.human_review and item.human_review.review_role == 'reference':
+        return item.human_review.human_passed, 'single_human_reference'
+    return None, 'pending'
+
+
+@quality_router.get('/research/retrieval-improvements/latest')
+def latest_retrieval_improvement(db: Session = Depends(get_db)):
+    """Aggregate only source-linked, identical-question and human-reviewed pairs."""
+    groups = db.scalars(select(ExperimentModel).order_by(ExperimentModel.created_at.desc(), ExperimentModel.id.desc())).all()
+    retests = [g for g in groups if (g.test_suite_metadata or {}).get('study_role') == 'retrieval_improvement'
+               and (g.test_suite_metadata or {}).get('retrieval_study_id')]
+    if not retests:
+        return None
+    study_id = retests[0].test_suite_metadata['retrieval_study_id']
+    selected = [g for g in retests if g.test_suite_metadata['retrieval_study_id'] == study_id]
+    campaigns = {g.test_suite_metadata.get('retrieval_source_campaign_id') for g in selected}
+    if len(campaigns) != 1 or None in campaigns:
+        raise HTTPException(409, 'Retrieval study has inconsistent source campaign identities.')
+    campaign = next(iter(campaigns))
+    sources = [g for g in groups if (g.test_suite_metadata or {}).get('study_role') == 'audit_method_comparison'
+               and (g.test_suite_metadata or {}).get('method_campaign_id') == campaign]
+    planned_values = {(g.test_suite_metadata or {}).get('method_campaign_planned_scenarios') for g in sources}
+    if len(planned_values) != 1 or None in planned_values:
+        raise HTTPException(409, 'Source campaign planned scenario count is inconsistent.')
+    modes = [('direct_ground_truth', 'Direct questions'), ('fixed_template', 'Fixed templates'),
+             ('contextual_indirect', 'Contextual/indirect Auditor tests')]
+    totals = {mode: {'mode': mode, 'label': label, 'before': {'passed': 0, 'decided': 0, 'review_basis': 'pending'},
+                     'after': {'passed': 0, 'decided': 0, 'review_basis': 'pending'},
+                     'matched': 0, 'improved': None, 'regressed': None, 'unresolved': 0,
+                     '_before_bases': set(), '_after_bases': set(), '_improved': 0, '_regressed': 0}
+              for mode, label in modes}
+    by_source = {}
+    for group in selected:
+        source_id = group.test_suite_metadata.get('retrieval_source_run_id')
+        if not source_id or source_id in by_source:
+            raise HTTPException(409, 'Retrieval study contains duplicate source runs.')
+        by_source[source_id] = group
+    mode_scenarios = set()
+    count_fields = ('conversation_id', 'target_configuration', 'provider', 'model', 'temperature', 'random_seed',
+                    'test_budget', 'prompt_template_version', 'pipeline_provider', 'pipeline_model',
+                    'semantic_review_provider', 'semantic_review_model', 'evaluator_provider', 'evaluator_model',
+                    'retrieval_mode', 'retrieval_provider', 'retrieval_model', 'target_memory_capacity',
+                    'target_memory_writer', 'target_memory_writer_version', 'target_system_adapter',
+                    'target_system_adapter_version', 'memory_maintenance_policy')
+    for source_group in sources:
+        mode = source_group.test_suite_configuration.get('suite_mode')
+        if mode not in totals:
+            continue
+        source_runs = db.scalars(select(AuditRunModel).where(AuditRunModel.experiment_id == source_group.id)).all()
+        if len(source_runs) != 1:
+            raise HTTPException(409, 'A source comparison condition has an ambiguous run.')
+        source = source_runs[0]; out = totals[mode]
+        source_tests = db.scalars(select(TestCaseModel).where(TestCaseModel.run_id == source.id)).all()
+        out['unresolved'] += len(source_tests)
+        baseline = {i.test.test_id: _paired_human_verdict(i) for i in evaluation_review_items_for(source.id, db)} if source.status == 'COMPLETED' else {}
+        group = by_source.get(source.id)
+        after = {}; paired = {}
+        if group:
+            children = db.scalars(select(AuditRunModel).where(AuditRunModel.experiment_id == group.id)).all()
+            if len(children) != 1:
+                raise HTTPException(409, 'A retrieval retest has an ambiguous run.')
+            child = children[0]
+            child_tests = db.scalars(select(TestCaseModel).where(TestCaseModel.run_id == child.id)).all()
+            correct = (all(getattr(source, f, None) == getattr(child, f, None) for f in count_fields)
+                       and source.memory_strategy == 'weak_first_hit' and child.memory_strategy == 'relationship_packet'
+                       and audit_schema(source).target_memory_profile == audit_schema(child).target_memory_profile
+                       and len(source_tests) == len(child_tests)
+                       and _paired_question_fingerprint(source_tests) == _paired_question_fingerprint(child_tests)
+                       == group.test_suite_metadata.get('retrieval_question_sha256')
+                       and {t.id for t in source_tests} == {t.comparison_test_id for t in child_tests})
+            if not correct:
+                raise HTTPException(409, 'A paired retest differs from its recorded source settings or questions.')
+            paired = {t.comparison_test_id: t.id for t in child_tests}
+            if child.status == 'COMPLETED':
+                mode_scenarios.add((source_group.test_suite_metadata['method_scenario_id'], mode))
+                after = {i.test.test_id: _paired_human_verdict(i) for i in evaluation_review_items_for(child.id, db)}
+        for test in source_tests:
+            left, lb = baseline.get(test.id, (None, 'pending'))
+            right, rb = after.get(paired.get(test.id), (None, 'pending'))
+            for side, verdict, basis in (('before', left, lb), ('after', right, rb)):
+                if verdict is not None:
+                    out[side]['decided'] += 1
+                    out[side]['passed'] += int(verdict)
+                    out[f'_{side}_bases'].add(basis)
+            # Same-basis pairs only: a single human reference must not be
+            # represented as two-human independent consensus.
+            if left is not None and right is not None and lb == rb:
+                out['matched'] += 1; out['unresolved'] -= 1
+                out['_improved'] += int(not left and right)
+                out['_regressed'] += int(left and not right)
+    planned_pairs = sum(out['unresolved'] + out['matched'] for out in totals.values())
+    for out in totals.values():
+        for side in ('before', 'after'):
+            bases = out.pop(f'_{side}_bases')
+            out[side]['review_basis'] = next(iter(bases)) if len(bases) == 1 else 'mixed_human_review' if bases else 'pending'
+        improvements, regressions = out.pop('_improved'), out.pop('_regressed')
+        if out['matched']:
+            out['improved'], out['regressed'] = improvements, regressions
+    scenarios_completed = sum(all((scenario, mode) in mode_scenarios for mode, _ in modes)
+                              for scenario in {g.test_suite_metadata['method_scenario_id'] for g in sources})
+    matched = sum(out['matched'] for out in totals.values())
+    return {'study_id': study_id, 'status': 'reviewed' if planned_pairs and matched == planned_pairs else 'awaiting_review' if scenarios_completed == next(iter(planned_values)) else 'collecting',
+            'planned_pairs': planned_pairs, 'scenarios_completed': scenarios_completed, 'scenarios_planned': next(iter(planned_values)),
+            'methods': list(totals.values()),
+            'notice': 'Same source questions and weak reader; the candidate retrieves and packages multiple source records. AI labels are not human reviews. Pairs require matching human review basis; related synthetic answers do not estimate population performance.'}
 
 
 def method_comparison_fixed_template_draft(source: AuditRunModel, db: Session) -> tuple[list[dict], str]:

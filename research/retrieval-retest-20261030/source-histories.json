@@ -1,0 +1,726 @@
+{
+  "format": "a-diverse-synthetic-source-review-v1",
+  "status": "User-confirmed source revisions; new generated questions and answers still pending independent review",
+  "instructions": [
+    "Independently examine each source and each source-question-answer link.",
+    "For each history, candidate and question, record accept / revise / reject and explain concerns in the note.",
+    "Candidates are possible errors, not evidence that a target model committed them.",
+    "Keep disagreements and AI assistance visible."
+  ],
+  "design": {
+    "new_histories": 4,
+    "questions_per_method_per_history": 4,
+    "methods": 3,
+    "planned_target_answers": 48,
+    "sampling": "Four purposively authored domains; not a random or representative sample.",
+    "limitations": [
+      "One question per dimension per source; results within a source are correlated.",
+      "Sources share the same broad audit dimensions despite different domains.",
+      "The earlier 16-question single-history packet remains separate; no data are overwritten.",
+      "Question wording and defect inventory must be finalised before target execution; answer review happens afterwards."
+    ]
+  },
+  "reviewer_id": null,
+  "independently_completed": null,
+  "histories": [
+    {
+      "history_id": "COMMUNITY",
+      "domain": "Community event planning",
+      "source_origin": "synthetic",
+      "messages": [
+        {
+          "message_id": "COMMUNITY-S1",
+          "role": "user",
+          "content": "The community workshop organiser is based in Perth."
+        },
+        {
+          "message_id": "COMMUNITY-S2",
+          "role": "user",
+          "content": "The workshop was originally scheduled for 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S3",
+          "role": "user",
+          "content": "The organiser moved the workshop to 19 April, replacing 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S4",
+          "role": "user",
+          "content": "The active workshop booking says the only final venue for the entire workshop is Hall A; the workshop cannot use multiple final venues."
+        },
+        {
+          "message_id": "COMMUNITY-S5",
+          "role": "user",
+          "content": "The active signed workshop notice says the only final venue for the same entire workshop is Hall B. Neither document has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "COMMUNITY-S6",
+          "role": "user",
+          "content": "The organiser generally prefers printed handouts."
+        },
+        {
+          "message_id": "COMMUNITY-S7",
+          "role": "user",
+          "content": "For this particular workshop the organiser requires accessible digital handouts; the general preference remains for other events."
+        }
+      ],
+      "fixed_question_draft": [
+        {
+          "question_id": "COMMUNITY-Q1",
+          "dimension": "accuracy",
+          "prompt": "Where is the workshop organiser based?",
+          "expected_behavior": "Perth",
+          "source_message_ids": [
+            "COMMUNITY-S1"
+          ]
+        },
+        {
+          "question_id": "COMMUNITY-Q2",
+          "dimension": "freshness",
+          "prompt": "What is the current workshop date?",
+          "expected_behavior": "19 April",
+          "source_message_ids": [
+            "COMMUNITY-S2",
+            "COMMUNITY-S3"
+          ]
+        },
+        {
+          "question_id": "COMMUNITY-Q3",
+          "dimension": "conflict_resolution",
+          "prompt": "Which venue should be announced for the workshop?",
+          "expected_behavior": "The active documents conflict: Hall A versus Hall B; ask for clarification.",
+          "source_message_ids": [
+            "COMMUNITY-S4",
+            "COMMUNITY-S5"
+          ]
+        },
+        {
+          "question_id": "COMMUNITY-Q4",
+          "dimension": "appropriate_use",
+          "prompt": "What kind of handout should be used for this workshop?",
+          "expected_behavior": "Use accessible digital handouts for this workshop.",
+          "source_message_ids": [
+            "COMMUNITY-S6",
+            "COMMUNITY-S7"
+          ]
+        }
+      ],
+      "candidate_failure_patterns": [
+        {
+          "defect_id": "COMMUNITY-D1",
+          "dimension": "accuracy",
+          "description": "Give an incorrect or unsupported value for the stated location.",
+          "source_message_ids": [
+            "COMMUNITY-S1"
+          ]
+        },
+        {
+          "defect_id": "COMMUNITY-D2",
+          "dimension": "freshness",
+          "description": "Use the superseded value as the current state.",
+          "source_message_ids": [
+            "COMMUNITY-S2",
+            "COMMUNITY-S3"
+          ]
+        },
+        {
+          "defect_id": "COMMUNITY-D3",
+          "dimension": "conflict_resolution",
+          "description": "Choose one active incompatible record without acknowledging the unresolved conflict.",
+          "source_message_ids": [
+            "COMMUNITY-S4",
+            "COMMUNITY-S5"
+          ]
+        },
+        {
+          "defect_id": "COMMUNITY-D4",
+          "dimension": "appropriate_use",
+          "description": "Apply the general preference instead of the task-specific requirement.",
+          "source_message_ids": [
+            "COMMUNITY-S6",
+            "COMMUNITY-S7"
+          ]
+        }
+      ]
+    },
+    {
+      "history_id": "RESEARCH",
+      "domain": "University research project",
+      "source_origin": "synthetic",
+      "messages": [
+        {
+          "message_id": "RESEARCH-S1",
+          "role": "user",
+          "content": "The research group is based in Canberra."
+        },
+        {
+          "message_id": "RESEARCH-S2",
+          "role": "user",
+          "content": "The study originally had 24 participants."
+        },
+        {
+          "message_id": "RESEARCH-S3",
+          "role": "user",
+          "content": "After a documented withdrawal the study has 23 participants; the previous count is superseded."
+        },
+        {
+          "message_id": "RESEARCH-S4",
+          "role": "user",
+          "content": "The current study protocol says the analysis deadline is 5 June."
+        },
+        {
+          "message_id": "RESEARCH-S5",
+          "role": "user",
+          "content": "The active supervisor instruction says the same analysis deadline is 8 June; neither instruction has been cancelled or prioritised."
+        },
+        {
+          "message_id": "RESEARCH-S6",
+          "role": "user",
+          "content": "The researcher generally prefers in-person meetings."
+        },
+        {
+          "message_id": "RESEARCH-S7",
+          "role": "user",
+          "content": "For this study the supervisor requires online meetings; the general meeting preference remains unchanged elsewhere."
+        }
+      ],
+      "fixed_question_draft": [
+        {
+          "question_id": "RESEARCH-Q1",
+          "dimension": "accuracy",
+          "prompt": "Where is the research group based?",
+          "expected_behavior": "Canberra",
+          "source_message_ids": [
+            "RESEARCH-S1"
+          ]
+        },
+        {
+          "question_id": "RESEARCH-Q2",
+          "dimension": "freshness",
+          "prompt": "How many participants are currently in the study?",
+          "expected_behavior": "23 participants",
+          "source_message_ids": [
+            "RESEARCH-S2",
+            "RESEARCH-S3"
+          ]
+        },
+        {
+          "question_id": "RESEARCH-Q3",
+          "dimension": "conflict_resolution",
+          "prompt": "What is the analysis deadline for this study?",
+          "expected_behavior": "The active 5 June and 8 June deadlines conflict; ask which governs.",
+          "source_message_ids": [
+            "RESEARCH-S4",
+            "RESEARCH-S5"
+          ]
+        },
+        {
+          "question_id": "RESEARCH-Q4",
+          "dimension": "appropriate_use",
+          "prompt": "How should meetings for this study be held?",
+          "expected_behavior": "Use online meetings for this study.",
+          "source_message_ids": [
+            "RESEARCH-S6",
+            "RESEARCH-S7"
+          ]
+        }
+      ],
+      "candidate_failure_patterns": [
+        {
+          "defect_id": "RESEARCH-D1",
+          "dimension": "accuracy",
+          "description": "Give an incorrect or unsupported value for the stated location.",
+          "source_message_ids": [
+            "RESEARCH-S1"
+          ]
+        },
+        {
+          "defect_id": "RESEARCH-D2",
+          "dimension": "freshness",
+          "description": "Use the superseded value as the current state.",
+          "source_message_ids": [
+            "RESEARCH-S2",
+            "RESEARCH-S3"
+          ]
+        },
+        {
+          "defect_id": "RESEARCH-D3",
+          "dimension": "conflict_resolution",
+          "description": "Choose one active incompatible record without acknowledging the unresolved conflict.",
+          "source_message_ids": [
+            "RESEARCH-S4",
+            "RESEARCH-S5"
+          ]
+        },
+        {
+          "defect_id": "RESEARCH-D4",
+          "dimension": "appropriate_use",
+          "description": "Apply the general preference instead of the task-specific requirement.",
+          "source_message_ids": [
+            "RESEARCH-S6",
+            "RESEARCH-S7"
+          ]
+        }
+      ]
+    },
+    {
+      "history_id": "GARDEN",
+      "domain": "Shared garden coordination",
+      "source_origin": "synthetic",
+      "messages": [
+        {
+          "message_id": "GARDEN-S1",
+          "role": "user",
+          "content": "The garden coordinator is based in Hobart."
+        },
+        {
+          "message_id": "GARDEN-S2",
+          "role": "user",
+          "content": "The garden watering rota initially named Monday."
+        },
+        {
+          "message_id": "GARDEN-S3",
+          "role": "user",
+          "content": "The coordinator changed the watering day to Wednesday, replacing Monday."
+        },
+        {
+          "message_id": "GARDEN-S4",
+          "role": "user",
+          "content": "The active garden plan assigns the entire shared bed exclusively to Group Red for the current growing season. The bed may be allocated to only one group for that season; joint or divided use is not permitted."
+        },
+        {
+          "message_id": "GARDEN-S5",
+          "role": "user",
+          "content": "A signed active garden allocation assigns that same entire shared bed exclusively to Group Blue for the same current growing season; neither allocation has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "GARDEN-S6",
+          "role": "user",
+          "content": "The coordinator usually prefers morning volunteer sessions."
+        },
+        {
+          "message_id": "GARDEN-S7",
+          "role": "user",
+          "content": "For the compost collection only, the volunteers must attend in the afternoon; the general preference remains for other work."
+        }
+      ],
+      "fixed_question_draft": [
+        {
+          "question_id": "GARDEN-Q1",
+          "dimension": "accuracy",
+          "prompt": "Where is the garden coordinator based?",
+          "expected_behavior": "Hobart",
+          "source_message_ids": [
+            "GARDEN-S1"
+          ]
+        },
+        {
+          "question_id": "GARDEN-Q2",
+          "dimension": "freshness",
+          "prompt": "What is the current garden watering day?",
+          "expected_behavior": "Wednesday",
+          "source_message_ids": [
+            "GARDEN-S2",
+            "GARDEN-S3"
+          ]
+        },
+        {
+          "question_id": "GARDEN-Q3",
+          "dimension": "conflict_resolution",
+          "prompt": "Which group should be assigned exclusive use of the entire shared bed for the current growing season?",
+          "expected_behavior": "The active exclusive allocations conflict: Group Red versus Group Blue for the same entire bed and growing season. Neither has priority; seek clarification before assigning it.",
+          "source_message_ids": [
+            "GARDEN-S4",
+            "GARDEN-S5"
+          ]
+        },
+        {
+          "question_id": "GARDEN-Q4",
+          "dimension": "appropriate_use",
+          "prompt": "When should volunteers attend the compost collection?",
+          "expected_behavior": "Attend in the afternoon for compost collection.",
+          "source_message_ids": [
+            "GARDEN-S6",
+            "GARDEN-S7"
+          ]
+        }
+      ],
+      "candidate_failure_patterns": [
+        {
+          "defect_id": "GARDEN-D1",
+          "dimension": "accuracy",
+          "description": "Give an incorrect or unsupported value for the stated location.",
+          "source_message_ids": [
+            "GARDEN-S1"
+          ]
+        },
+        {
+          "defect_id": "GARDEN-D2",
+          "dimension": "freshness",
+          "description": "Use the superseded value as the current state.",
+          "source_message_ids": [
+            "GARDEN-S2",
+            "GARDEN-S3"
+          ]
+        },
+        {
+          "defect_id": "GARDEN-D3",
+          "dimension": "conflict_resolution",
+          "description": "Choose Group Red or Group Blue as the exclusive assignee of the same entire bed for the same growing season without acknowledging the unresolved conflict between active allocations.",
+          "source_message_ids": [
+            "GARDEN-S4",
+            "GARDEN-S5"
+          ]
+        },
+        {
+          "defect_id": "GARDEN-D4",
+          "dimension": "appropriate_use",
+          "description": "Apply the general preference instead of the task-specific requirement.",
+          "source_message_ids": [
+            "GARDEN-S6",
+            "GARDEN-S7"
+          ]
+        }
+      ]
+    },
+    {
+      "history_id": "SHOP",
+      "domain": "Small business delivery planning",
+      "source_origin": "synthetic",
+      "messages": [
+        {
+          "message_id": "SHOP-S1",
+          "role": "user",
+          "content": "The shop owner is based in Darwin."
+        },
+        {
+          "message_id": "SHOP-S2",
+          "role": "user",
+          "content": "The shop initially used Parcel North for local deliveries."
+        },
+        {
+          "message_id": "SHOP-S3",
+          "role": "user",
+          "content": "The shop switched its local delivery provider to Parcel South; Parcel North is no longer used for this service."
+        },
+        {
+          "message_id": "SHOP-S4",
+          "role": "user",
+          "content": "The active supplier schedule sets the delivery window for the entire order on 15 August to 9–11 am. The order is one complete delivery, not split across windows."
+        },
+        {
+          "message_id": "SHOP-S5",
+          "role": "user",
+          "content": "The active signed order specifies a 1–3 pm window on 15 August for that same one complete delivery; neither document has been cancelled or designated as controlling."
+        },
+        {
+          "message_id": "SHOP-S6",
+          "role": "user",
+          "content": "The owner usually prefers email notifications."
+        },
+        {
+          "message_id": "SHOP-S7",
+          "role": "user",
+          "content": "For this delivery the recipient requires a phone notification; email remains the general preference for other orders."
+        }
+      ],
+      "fixed_question_draft": [
+        {
+          "question_id": "SHOP-Q1",
+          "dimension": "accuracy",
+          "prompt": "Where is the shop owner based?",
+          "expected_behavior": "Darwin",
+          "source_message_ids": [
+            "SHOP-S1"
+          ]
+        },
+        {
+          "question_id": "SHOP-Q2",
+          "dimension": "freshness",
+          "prompt": "Which provider currently handles the shop’s local deliveries?",
+          "expected_behavior": "Parcel South",
+          "source_message_ids": [
+            "SHOP-S2",
+            "SHOP-S3"
+          ]
+        },
+        {
+          "question_id": "SHOP-Q3",
+          "dimension": "conflict_resolution",
+          "prompt": "What delivery window should be promised for the order?",
+          "expected_behavior": "The active 9–11 am and 1–3 pm windows conflict; ask for clarification.",
+          "source_message_ids": [
+            "SHOP-S4",
+            "SHOP-S5"
+          ]
+        },
+        {
+          "question_id": "SHOP-Q4",
+          "dimension": "appropriate_use",
+          "prompt": "How should the recipient be notified for this delivery?",
+          "expected_behavior": "Notify the recipient by phone for this delivery.",
+          "source_message_ids": [
+            "SHOP-S6",
+            "SHOP-S7"
+          ]
+        }
+      ],
+      "candidate_failure_patterns": [
+        {
+          "defect_id": "SHOP-D1",
+          "dimension": "accuracy",
+          "description": "Give an incorrect or unsupported value for the stated location.",
+          "source_message_ids": [
+            "SHOP-S1"
+          ]
+        },
+        {
+          "defect_id": "SHOP-D2",
+          "dimension": "freshness",
+          "description": "Use the superseded value as the current state.",
+          "source_message_ids": [
+            "SHOP-S2",
+            "SHOP-S3"
+          ]
+        },
+        {
+          "defect_id": "SHOP-D3",
+          "dimension": "conflict_resolution",
+          "description": "Choose one active incompatible record without acknowledging the unresolved conflict.",
+          "source_message_ids": [
+            "SHOP-S4",
+            "SHOP-S5"
+          ]
+        },
+        {
+          "defect_id": "SHOP-D4",
+          "dimension": "appropriate_use",
+          "description": "Apply the general preference instead of the task-specific requirement.",
+          "source_message_ids": [
+            "SHOP-S6",
+            "SHOP-S7"
+          ]
+        }
+      ]
+    }
+  ],
+  "history_review": [
+    {
+      "history_id": "COMMUNITY",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "history_id": "RESEARCH",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "history_id": "GARDEN",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "history_id": "SHOP",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    }
+  ],
+  "candidate_review": [
+    {
+      "defect_id": "COMMUNITY-D1",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "defect_id": "COMMUNITY-D2",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "defect_id": "COMMUNITY-D3",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "defect_id": "COMMUNITY-D4",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "defect_id": "RESEARCH-D1",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "defect_id": "RESEARCH-D2",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "defect_id": "RESEARCH-D3",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "defect_id": "RESEARCH-D4",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "defect_id": "GARDEN-D1",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "defect_id": "GARDEN-D2",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "defect_id": "GARDEN-D3",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "defect_id": "GARDEN-D4",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "defect_id": "SHOP-D1",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "defect_id": "SHOP-D2",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "defect_id": "SHOP-D3",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "defect_id": "SHOP-D4",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    }
+  ],
+  "question_review": [
+    {
+      "question_id": "COMMUNITY-Q1",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "question_id": "COMMUNITY-Q2",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "question_id": "COMMUNITY-Q3",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "question_id": "COMMUNITY-Q4",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "question_id": "RESEARCH-Q1",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "question_id": "RESEARCH-Q2",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "question_id": "RESEARCH-Q3",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "question_id": "RESEARCH-Q4",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "question_id": "GARDEN-Q1",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "question_id": "GARDEN-Q2",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "question_id": "GARDEN-Q3",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "question_id": "GARDEN-Q4",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "question_id": "SHOP-Q1",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "question_id": "SHOP-Q2",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "question_id": "SHOP-Q3",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    },
+    {
+      "question_id": "SHOP-Q4",
+      "decision": "accept",
+      "note": "Final adjudication: user confirmed unchanged content; specified revisions implemented under user authorisation. Original independent AI judgments retained separately."
+    }
+  ],
+  "human_confirmation": {
+    "date": "2026-10-30",
+    "statement": "按建议修改GARDEN互斥条件和RESEARCH Q3措辞；其他内容人工已逐项复核没问题。",
+    "scope": "其他内容逐项确认；指定修改由AI依用户授权落实。",
+    "revision_independent_human_recheck": "not_claimed"
+  },
+  "revision": {
+    "changes": [
+      {
+        "id": "COMMUNITY-S4",
+        "before": "The active workshop booking says the venue is Hall A.",
+        "after": "The active workshop booking says the only final venue for the entire workshop is Hall A; the workshop cannot use multiple final venues."
+      },
+      {
+        "id": "COMMUNITY-S5",
+        "before": "The active signed workshop notice says the same event is in Hall B. Neither document has been withdrawn or resolved.",
+        "after": "The active signed workshop notice says the only final venue for the same entire workshop is Hall B. Neither document has been withdrawn, superseded or ranked."
+      },
+      {
+        "id": "SHOP-S4",
+        "before": "The active supplier schedule sets a delivery window of 9–11 am for the same order.",
+        "after": "The active supplier schedule sets the delivery window for the entire order on 15 August to 9–11 am. The order is one complete delivery, not split across windows."
+      },
+      {
+        "id": "SHOP-S5",
+        "before": "The active signed order specifies 1–3 pm for that order; neither document has been cancelled or designated as controlling.",
+        "after": "The active signed order specifies a 1–3 pm window on 15 August for that same one complete delivery; neither document has been cancelled or designated as controlling."
+      }
+    ],
+    "provenance": "Two independent AI reviewers identified the issues. User agreed to corrections and said they would confirm the revisions. This is not a declaration of completed human review.",
+    "human_confirmed": true,
+    "confirmation": "User explicitly confirmed both final revisions and approved freezing in conversation; no additional reviewer independence claimed."
+  }
+}

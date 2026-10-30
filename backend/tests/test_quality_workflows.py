@@ -48,6 +48,67 @@ def confirm_method_test_validity(client, run_id, reviewer='Synthetic method revi
     return tests
 
 
+def test_retrieval_improvement_keeps_reader_and_questions_without_copying_human_labels(client):
+    from app.models import ExperimentModel
+    baseline,_=run(client)
+    rid=baseline['run_id']
+    with client.sessions() as db:
+        source=db.get(AuditRunModel,rid); group=db.get(ExperimentModel,source.experiment_id)
+        group.test_suite_metadata={**(group.test_suite_metadata or {}),'study_role':'audit_method_comparison',
+            'method_campaign_id':'synthetic-campaign','method_scenario_id':'case-one','method_campaign_planned_scenarios':1}
+        group.test_suite_configuration={**group.test_suite_configuration,'suite_mode':'direct_ground_truth'}
+        for t in db.scalars(select(TestCaseModel).where(TestCaseModel.run_id==rid)).all():
+            t.human_validity_status='accepted';t.human_validity_reviewer='synthetic fixture'
+        db.commit()
+    before=client.get(f'/api/v1/audits/{rid}/evaluation-review').json()
+    first=before[0]
+    ref=client.patch(f"/api/v1/audits/{rid}/evaluations/{first['automated']['evaluation_id']}/review",
+        json={'review_role':'reference','reviewer_label':'one human','human_passed':True,'human_failure_type':None})
+    assert ref.status_code==200,ref.text
+    url=f'/api/v1/audits/{rid}/retrieval-improvement'
+    response=client.post(url,json={'study_id':'synthetic-study'})
+    assert response.status_code==201,response.text
+    child=response.json()['run_id']
+    again=client.post(url,json={'study_id':'synthetic-study'})
+    assert again.status_code==201 and again.json()['run_id']==child and again.json()['status']=='already_registered'
+    a=client.get(f'/api/v1/audits/{rid}').json();b=client.get(f'/api/v1/audits/{child}').json()
+    assert a['target_configuration']==b['target_configuration']=='weak'
+    assert a['model']==b['model'] and a['temperature']==b['temperature']
+    assert a['memory_strategy']=='weak_first_hit' and b['memory_strategy']=='relationship_packet'
+    source_tests=client.get(f'/api/v1/audits/{rid}/tests').json()
+    child_tests=client.get(f'/api/v1/audits/{child}/tests').json()
+    fields=('prompt','dimension','expected_behavior','supporting_memory_ids','test_type')
+    assert sorted(tuple(str(t[k]) for k in fields) for t in source_tests)==sorted(tuple(str(t[k]) for k in fields) for t in child_tests)
+    assert all(t['human_validity_status']=='pending' for t in child_tests)
+    summary=client.get('/api/v1/research/retrieval-improvements/latest')
+    assert summary.status_code==200,summary.text
+    report=summary.json();assert report['study_id']=='synthetic-study'
+    direct=next(m for m in report['methods'] if m['mode']=='direct_ground_truth')
+    assert direct['before']=={'passed':1,'decided':1,'review_basis':'single_human_reference'}
+    assert direct['after']=={'passed':0,'decided':0,'review_basis':'pending'}
+    assert direct['matched']==0 and direct['improved'] is None and direct['regressed'] is None
+    # A completed response is not a human verdict, and a single-reference
+    # answer is paired only with the corresponding original question.
+    executed=client.post(f'/api/v1/audits/{child}/execute')
+    assert executed.status_code==200,executed.text
+    evaluated=client.post(f'/api/v1/audits/{child}/evaluate')
+    assert evaluated.status_code==200,evaluated.text
+    pending=client.get('/api/v1/research/retrieval-improvements/latest').json()['methods'][0]
+    assert pending['after']['decided']==0 and pending['matched']==0
+    with client.sessions() as db:
+        copied=db.scalars(select(TestCaseModel).where(TestCaseModel.run_id==child,TestCaseModel.comparison_test_id==first['test']['test_id'])).one()
+        copied_id=copied.id
+    child_review=client.get(f'/api/v1/audits/{child}/evaluation-review').json()
+    pair=next(x for x in child_review if x['test']['test_id']==copied_id)
+    assert pair['human_reviews']==[]
+    reviewed=client.patch(f"/api/v1/audits/{child}/evaluations/{pair['automated']['evaluation_id']}/review",
+        json={'review_role':'reference','reviewer_label':'one human','human_passed':False,'human_failure_type':None})
+    assert reviewed.status_code==200,reviewed.text
+    pair_summary=client.get('/api/v1/research/retrieval-improvements/latest').json()['methods'][0]
+    assert pair_summary['matched']==1 and pair_summary['improved']==0 and pair_summary['regressed']==1
+    assert pair_summary['after']['review_basis']=='single_human_reference'
+
+
 def test_manual_fact_uses_its_authorised_source_timestamp(client):
     source=client.post('/api/v1/conversations',json={'authorised':True,'messages':[{'message_id':'dated-source','role':'user','content':'我在家办公。','timestamp':'2025-02-03T10:20:00Z'}]}).json()
     result=client.post('/api/v1/memories',json={'conversation_id':source['conversation_id'],'canonical_value':'I work from home.','source_message_ids':['dated-source']})
@@ -57,9 +118,12 @@ def test_manual_fact_uses_its_authorised_source_timestamp(client):
     assert invalid.status_code==422
 
 
-def run(client, *, paired=False, profile=None, capacity=50, strategy="weak_first_hit"):
-    identity=history(client,"[User] Atlas project used MySQL before.\n[User] Atlas project now uses PostgreSQL.\n[User] Birch project uses MongoDB.\n[User] I prefer Python.\n[User] The assignment requires Java.")
-    group=client.post('/api/v1/experiments',json={'conversation_id':identity,'label':'Unit fixture only','test_suite_configuration':{'suite_mode':'paired_contextual' if paired else 'behavioural','test_budget':6}}).json()
+def run(client, *, paired=False, profile=None, capacity=50, strategy="weak_first_hit", budget=6, conflict=False):
+    text="[User] Atlas project used MySQL before.\n[User] Atlas project now uses PostgreSQL.\n[User] Birch project uses MongoDB.\n[User] I prefer Python.\n[User] The assignment requires Java."
+    if conflict:
+        text+="\n[User] The Atlas project deployment region is North.\n[User] The Atlas project deployment region is South, but both plans are active."
+    identity=history(client,text)
+    group=client.post('/api/v1/experiments',json={'conversation_id':identity,'label':'Unit fixture only','test_suite_configuration':{'suite_mode':'paired_contextual' if paired else 'behavioural','test_budget':budget}}).json()
     body={'conversation_id':identity,'experiment_id':group['experiment_id'],'target_configuration':'weak','provider':'rule_based','memory_strategy':strategy,'target_memory_capacity':capacity}
     if profile:
         body['target_memory_profile']=profile
@@ -182,8 +246,31 @@ def test_three_intervention_conditions_keep_separate_evidence(client):
             assert all(not entry['eligible'] for retrieval in trace['retrievals'] for entry in retrieval['ranking_evidence'] if entry['memory_id'] in packets)
 
 
-def test_method_comparison_has_distinct_suites_equal_caps(client):
-    audit,source_tests=run(client)
+def test_method_campaign_requires_distinct_scenarios_and_preserves_metadata(client):
+    audit,_=run(client)
+    path=f"/api/v1/audits/{audit['run_id']}/method-comparison"
+    body={'campaign_id':'campaign-1','scenario_id':'scenario-1','planned_scenarios':4}
+    response=client.post(path,json=body)
+    assert response.status_code==201,response.text
+    plan=response.json()
+    groups=client.get('/api/v1/experiments').json()
+    linked=[g for g in groups if g['test_suite_metadata'].get('method_comparison_id')==plan['comparison_id']]
+    assert len(linked)==3
+    assert all(g['test_suite_metadata']['method_campaign_id']=='campaign-1' for g in linked)
+    assert all(g['test_suite_metadata']['method_scenario_id']=='scenario-1' for g in linked)
+    assert client.post(path,json=body).status_code==409
+    assert client.post(path,json={**body,'scenario_id':'scenario-2','planned_scenarios':3}).status_code==409
+    assert client.post(path,json={**body,'scenario_id':'scenario-2'}).status_code==409
+    assert client.post(path,json={}).status_code==201
+    other,_=run(client)
+    other_path=f"/api/v1/audits/{other['run_id']}/method-comparison"
+    registered=client.post(other_path,json={**body,'scenario_id':'scenario-2'})
+    assert registered.status_code==201,registered.text
+    assert client.post(other_path,json={**body,'scenario_id':'scenario-3'}).status_code==409
+
+
+def test_method_comparison_has_distinct_suites_equal_caps(client,monkeypatch):
+    audit,source_tests=run(client,budget=4,conflict=True)
     response=client.post(f"/api/v1/audits/{audit['run_id']}/method-comparison")
     assert response.status_code==201,response.text
     plan=response.json()
@@ -235,10 +322,23 @@ def test_method_comparison_has_distinct_suites_equal_caps(client):
     with client.sessions() as db:
         db.get(MemoryModel,supporting_ids[0]).confidence=original_confidence
         db.commit()
+    # A short generated method suite must never be persisted as if comparable.
+    from app.api import routes
+    from app.schemas import TestCase
+    class ShortSuite:
+        def generate(self, memories, audit_run):
+            return [TestCase.model_validate(test) for test in source_tests[:3]]
+    short_id=plan['runs'][0]['run_id']
+    with monkeypatch.context() as temporary:
+        temporary.setattr(routes,'get_suite_generator',lambda *_args,**_kwargs:ShortSuite())
+        short=client.post(f'/api/v1/audits/{short_id}/generate-tests')
+        assert short.status_code==422,short.text
+        assert 'full frozen question budget' in short.text
+        assert client.get(f'/api/v1/audits/{short_id}/tests').json()==[]
     suites=[]
     for condition in plan['runs']:
         generated=client.post(f"/api/v1/audits/{condition['run_id']}/generate-tests")
-        assert generated.status_code==200,generated.text
+        assert generated.status_code==200,(condition['label'],generated.text)
         suites.append(generated.json())
         if condition['label']=='Fixed templates':
             assert len(generated.json())==audit['test_budget']

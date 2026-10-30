@@ -259,7 +259,7 @@ def test_baselines_are_deterministic_and_selectable_without_a_route():
     assert len(direct) == 1
     assert direct[0].dimension == Dimension.ACCURACY
     assert direct[0].test_type == TestType.DIRECT
-    assert direct[0].generator_version == "direct-ground-truth-v10"
+    assert direct[0].generator_version == "direct-ground-truth-v13"
     assert isinstance(get_suite_generator(TestSuiteMode.DIRECT_GROUND_TRUTH), DirectGroundTruthTestGenerator)
     assert isinstance(get_suite_generator(TestSuiteMode.FIXED_TEMPLATE), FixedTemplateTestGenerator)
     assert isinstance(get_suite_generator(TestSuiteMode.BEHAVIOURAL), RuleBasedTestGenerator)

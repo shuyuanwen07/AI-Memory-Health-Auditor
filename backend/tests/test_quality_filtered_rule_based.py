@@ -52,7 +52,7 @@ def test_product_generator_uses_project_prefix_without_leaking_the_answer():
     generator = get_test_generator('rule_based')
     selected = generator.generate([cedar], audit(1))
     assert len(selected) == 1
-    assert selected[0].generator_version == 'rule-based-v40'
+    assert selected[0].generator_version == 'rule-based-v41'
     assert 'Cedar project' in selected[0].prompt
     assert 'Java' not in selected[0].prompt
     assert RuleBasedTestQualityValidator().validate(selected[0], [cedar]).quality_status == TestQualityStatus.ACCEPTED

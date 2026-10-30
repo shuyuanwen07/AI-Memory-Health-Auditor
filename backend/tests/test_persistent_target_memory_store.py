@@ -1,5 +1,6 @@
 """Contract tests for the private, persistent controlled-target memory store."""
 from datetime import datetime, timedelta, timezone
+import json
 
 from sqlalchemy import create_engine, select
 from sqlalchemy.orm import sessionmaker
@@ -24,6 +25,8 @@ from app.schemas import (
     RelationshipType,
     TargetMemoryEventType,
     TargetMemoryLifecycleState,
+    TargetMemoryProfile,
+    TargetConfiguration,
     TestCase,
 )
 
@@ -118,6 +121,18 @@ class _ConflictExtractor:
         ]
 
 
+class _AsymmetricConflictExtractor:
+    def extract(self, conversation: Conversation):
+        moment=conversation.messages[0].timestamp
+        return [Memory(memory_id='M1',conversation_id=conversation.conversation_id,
+                    canonical_value='The archive note says the destination is South.',status=MemoryStatus.CANDIDATE,
+                    source_message_ids=['MSG001'],timestamp=moment),
+                Memory(memory_id='M2',conversation_id=conversation.conversation_id,
+                    canonical_value='The signed authorization requires deployment in the North region.',status=MemoryStatus.CANDIDATE,
+                    source_message_ids=['MSG001'],timestamp=moment+timedelta(seconds=1),
+                    relationships=[MemoryRelationship(type=RelationshipType.CONFLICT,target_memory_id='M1')])]
+
+
 def test_conflicts_are_retained_as_two_records_with_lifecycle_evidence():
     db = _db()
     _run(db)
@@ -125,3 +140,73 @@ def test_conflicts_are_retained_as_two_records_with_lifecycle_evidence():
 
     assert {record.lifecycle_state for record in result.records} == {TargetMemoryLifecycleState.CONFLICTED}
     assert any(event.event_type == TargetMemoryEventType.CONFLICT_RECORDED for event in result.write_evidence)
+
+
+def test_relationship_packet_keeps_conflict_pair_and_does_not_expose_evaluator_evidence():
+    db=_db();_run(db)
+    store=SqlTargetMemoryStore(db,extractor=_ConflictExtractor())
+    question=TestCase(test_id='T-PACKET',run_id='RUN-TARGET',dimension=Dimension.CONFLICT_RESOLUTION,
+        prompt='What is the deployment region?',expected_behavior='SECRET-GOLD',
+        supporting_memory_ids=['SECRET-ID'],generator_version='fixture')
+    result=store.retrieve('RUN-TARGET',_conversation(),question,MemoryStrategy.RELATIONSHIP_PACKET)
+    assert len(result.context)==1
+    entries=json.loads(result.context[0])['memory_packet']
+    assert len(entries)==2
+    assert {e['memory_id'] for e in entries}==set(result.evidence.selected_memory_ids)
+    assert {'The deployment must use region A.','The deployment must use region B.'}=={e['content'] for e in entries}
+    assert 'SECRET-GOLD' not in result.context[0] and 'SECRET-ID' not in result.context[0]
+    assert all(e['source_message_ids']==['MSG001'] for e in entries)
+
+
+def test_relationship_packet_never_splits_conflicts_or_exceeds_budget():
+    db=_db();_run(db)
+    question=TestCase(test_id='T-BUDGET',run_id='RUN-TARGET',dimension=Dimension.CONFLICT_RESOLUTION,
+        prompt='What is the deployment region?',expected_behavior='EXTERNAL-REFERENCE',supporting_memory_ids=[],generator_version='fixture')
+    record_limited=SqlTargetMemoryStore(db,extractor=_ConflictExtractor(),profile=TargetMemoryProfile(max_retrieved_records=1))
+    result=record_limited.retrieve('RUN-TARGET',_conversation(),question,MemoryStrategy.RELATIONSHIP_PACKET)
+    assert result.context==[] and result.evidence.selected_memory_ids==[]
+    char_limited=SqlTargetMemoryStore(db,extractor=_ConflictExtractor(),profile=TargetMemoryProfile(context_character_budget=100))
+    result=char_limited.retrieve('RUN-TARGET',_conversation(),question,MemoryStrategy.RELATIONSHIP_PACKET)
+    assert result.context==[] and result.evidence.selected_memory_ids==[]
+
+
+def test_packet_expands_private_conflict_neighbor_without_lexical_overlap():
+    db=_db();_run(db);store=SqlTargetMemoryStore(db,extractor=_AsymmetricConflictExtractor())
+    q=TestCase(test_id='T-NEIGHBOR',run_id='RUN-TARGET',dimension=Dimension.CONFLICT_RESOLUTION,
+        prompt='What is in the signed authorization?',expected_behavior='REFERENCE-SECRET',supporting_memory_ids=[],generator_version='fixture')
+    result=store.retrieve('RUN-TARGET',_conversation(),q,MemoryStrategy.RELATIONSHIP_PACKET)
+    entries=json.loads(result.context[0])['memory_packet']
+    assert len(entries)==2 and any('South' in e['content'] for e in entries)
+
+
+def test_packet_uses_unchanged_weak_reader_instruction():
+    from app.target_ai.rule_based import private_context_instruction
+    db=_db();_run(db)
+    store=SqlTargetMemoryStore(db,extractor=_ConflictExtractor())
+    q=TestCase(test_id='T-READER',run_id='RUN-TARGET',dimension=Dimension.CONFLICT_RESOLUTION,
+        prompt='What is the deployment region?',expected_behavior='SECRET',supporting_memory_ids=[],generator_version='fixture')
+    bundle=store.retrieve('RUN-TARGET',_conversation(),q,MemoryStrategy.RELATIONSHIP_PACKET)
+    baseline=store.retrieve('RUN-TARGET',_conversation(),q,MemoryStrategy.WEAK_FIRST_HIT)
+    before=private_context_instruction(q.model_copy(update={'target_memory_context':baseline.context}),TargetConfiguration.WEAK)
+    after=private_context_instruction(q.model_copy(update={'target_memory_context':bundle.context}),TargetConfiguration.WEAK)
+    assert 'Use only the single retrieved record below. Do not reconcile records that were not retrieved.' in before
+    assert 'Use only the single retrieved record below. Do not reconcile records that were not retrieved.' in after
+    assert 'SECRET' not in after
+
+
+def test_packet_adapter_records_constituent_ids_and_one_delivered_packet():
+    from app.schemas import AuditRun
+    from app.target_systems.controlled import ControlledTargetSystemAdapter
+    db=_db();_run(db)
+    audit=AuditRun(run_id='RUN-TARGET',conversation_id='C-TARGET',status='CREATED',target_configuration='weak',
+        provider='rule_based',model='rule-based-target-ai',temperature=0,random_seed=42,test_budget=4,
+        prompt_template_version='rule-based-v4',memory_strategy=MemoryStrategy.RELATIONSHIP_PACKET,
+        created_at=datetime.now(timezone.utc))
+    adapter=ControlledTargetSystemAdapter(db,audit);adapter.store.extractor=_ConflictExtractor();adapter.ingest(_conversation())
+    q=TestCase(test_id='T-RECEIPT',run_id='RUN-TARGET',dimension=Dimension.CONFLICT_RESOLUTION,
+        prompt='What is the deployment region?',expected_behavior='SECRET',supporting_memory_ids=['SECRET-ID'],generator_version='fixture')
+    response=adapter.answer(q,audit)
+    receipt=response.execution_metadata.memory_input
+    assert receipt.record_count==1
+    assert len(receipt.sent_memory_ids)==2
+    assert 'SECRET' not in response.response_text

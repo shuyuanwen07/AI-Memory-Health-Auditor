@@ -25,6 +25,8 @@ The interactive OpenAPI contract is available at `/api/v1/docs` when the backend
 | GET | `/experiments/{id}/artifact.zip` | Download a byte-stable frozen artifact with manifest hashes, suite, per-run responses/evaluations and post-run retrieval traces |
 | POST | `/audits` | Create a reproducible audit run |
 | POST | `/audits/{id}/method-comparison` | Prepare three Experiment A conditions and a source-bound defect inventory plus rule-generated fixed-template draft |
+| POST | `/audits/{id}/retrieval-improvement` | Idempotently fork an approved, completed A condition into a same-question, same-reader paired retest using `relationship_packet` |
+| GET | `/research/retrieval-improvements/latest` | Report source-bound, same-question paired outcomes with human-review basis and unresolved counts |
 | POST | `/audits/{id}/method-comparison-inventory` | Freeze the independently reviewed source-defect inventory and researcher-reviewed, rule-seeded fixed-template release before any question generation |
 | POST | `/audits/{id}/method-comparison-discovery-mapping` | Freeze the researcher-confirmed mapping from every saved response in one Experiment A condition to zero or more IDs in the frozen defect inventory |
 | GET | `/audits/{id}/method-comparison-results?comparison_id=...` | Report Experiment A validity, category coverage, response-level recall/FPR, distinct-failure discovery, budgets and recorded attempts |
@@ -60,6 +62,10 @@ The interactive OpenAPI contract is available at `/api/v1/docs` when the backend
 | POST | `/research/benchmarks/longmemeval/run` | Execute a locally supplied compatible source in isolated in-memory target-memory simulations; does not download, retain, or call an LLM |
 | POST | `/research/benchmarks/locomo/validate`, `/research/benchmarks/beam/validate` | Validate caller-supplied local-compatible LoCoMo/BEAM JSON; no download, persistence, or official-loader claim |
 | POST | `/research/benchmarks/locomo/run`, `/research/benchmarks/beam/run` | Run caller-supplied compatible cases in isolated in-memory simulations; never official LoCoMo/BEAM scores |
+
+To register a multi-scenario A campaign, pass `{"campaign_id":"study-id","scenario_id":"scenario-id","planned_scenarios":4}` to the method-comparison creation endpoint for each completed source audit. All scenarios must use different source conversations and scenario IDs, the same planned count, and matching target, generator, evaluator, memory and test-budget settings. Registration precedes question generation. Existing empty-body calls remain standalone comparisons. The Dashboard counts only completed scenarios in the campaign; human labels, unresolved responses and per-scenario links remain separate from automatic judgments. Registration alone does not create or approve source material, questions, or human reviews.
+
+For a source condition within a registered A campaign, `POST /audits/{id}/retrieval-improvement` accepts `{"study_id":"study-id"}`. It clones the exact saved question suite with source test lineage, preserves the weak reader and other target settings, and selects `relationship_packet`; target answers, evaluations and human review are never copied. The operation is idempotent for the same source and study. `/research/retrieval-improvements/latest` returns `null` until a study exists. Matched improvements and regressions require both sides to have a human verdict with the same review basis; single-human references and independent-human consensus remain distinct. This is a paired diagnostic replay on already observed synthetic histories, not an independent held-out evaluation.
 
 The API returns `409 Conflict` for an invalid audit lifecycle action and `422 Unprocessable Entity` when consent or required review data is absent.
 

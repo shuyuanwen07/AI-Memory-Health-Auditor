@@ -1,0 +1,2897 @@
+{
+  "source_sha256": "1598a036c51f3cb6d021bb158f2f69f81ef497ef05b61a4eef4ec4eb77164d58",
+  "histories": {
+    "COMMUNITY": {
+      "history_id": "COMMUNITY",
+      "operations": {
+        "inventory": {
+          "method": "POST",
+          "path": "/audits/RUN5827495032864E53AD072E792C4A9C37/method-comparison-inventory",
+          "body": {
+            "schema_version": "mha-experiment-a-inventory-v1",
+            "comparison_id": "MCAD0C3EA205BA94ED78E048436CB3254B4",
+            "release_id": "COMMUNITY-user-confirmed-v1",
+            "source_fingerprint_sha256": "a9c9cf4a4a372029432e89047bcd2be0ad5d40c1a003763b0eb92cadfb7b2218",
+            "annotation_mode": "two_independent_reviewers_with_adjudication",
+            "reviewers": [
+              "AI-independent-reviewer-1",
+              "AI-independent-reviewer-2"
+            ],
+            "defects": [
+              {
+                "defect_id": "COMMUNITY-D1",
+                "dimension": "accuracy",
+                "explanation": "Give an incorrect or unsupported value for the stated location.",
+                "source_message_ids": [
+                  "COMMUNITY-S1"
+                ],
+                "supporting_memory_ids": [
+                  "M35DB357B117B4912ABE5B83C39235ADE"
+                ]
+              },
+              {
+                "defect_id": "COMMUNITY-D2",
+                "dimension": "freshness",
+                "explanation": "Use the superseded value as the current state.",
+                "source_message_ids": [
+                  "COMMUNITY-S2",
+                  "COMMUNITY-S3"
+                ],
+                "supporting_memory_ids": [
+                  "M61B07098B07C4735B4A98482C3FA7F08",
+                  "M50A9FAFD5B1547AEA043555CE5BC1DC7"
+                ]
+              },
+              {
+                "defect_id": "COMMUNITY-D3",
+                "dimension": "conflict_resolution",
+                "explanation": "Choose one active incompatible record without acknowledging the unresolved conflict.",
+                "source_message_ids": [
+                  "COMMUNITY-S4",
+                  "COMMUNITY-S5"
+                ],
+                "supporting_memory_ids": [
+                  "MECF165E0CFDB4DACB3DC344A7068603D",
+                  "M7D8FA6DE09CA49BA9F7C4823245D202D"
+                ]
+              },
+              {
+                "defect_id": "COMMUNITY-D4",
+                "dimension": "appropriate_use",
+                "explanation": "Apply the general preference instead of the task-specific requirement.",
+                "source_message_ids": [
+                  "COMMUNITY-S6",
+                  "COMMUNITY-S7"
+                ],
+                "supporting_memory_ids": [
+                  "MC273B97021BD40B88010385A6730CFB1",
+                  "MFD6FB00D3C5B4127BDDD6241B677218E"
+                ]
+              }
+            ],
+            "fixed_template_release_id": "COMMUNITY-user-confirmed-v1",
+            "fixed_template_reviewers": [
+              "user-confirmed"
+            ],
+            "fixed_template_draft_generator_version": "fixed-template-v9",
+            "fixed_template_draft_fingerprint_sha256": "31042f10e9d413cdec5e14abab100d70f3721db0e16f0a6459829898c9e8abc7",
+            "fixed_template_review_confirmed": true,
+            "fixed_template_questions": [
+              {
+                "template_id": "COMMUNITY-Q1",
+                "dimension": "accuracy",
+                "prompt": "Where is the workshop organiser based?",
+                "expected_behavior": "Expected: Perth",
+                "test_type": "contextual",
+                "source_message_ids": [
+                  "COMMUNITY-S1"
+                ],
+                "supporting_memory_ids": [
+                  "M35DB357B117B4912ABE5B83C39235ADE"
+                ]
+              },
+              {
+                "template_id": "COMMUNITY-Q2",
+                "dimension": "freshness",
+                "prompt": "What is the current workshop date?",
+                "expected_behavior": "Expected: 19 April",
+                "test_type": "contextual",
+                "source_message_ids": [
+                  "COMMUNITY-S2",
+                  "COMMUNITY-S3"
+                ],
+                "supporting_memory_ids": [
+                  "M61B07098B07C4735B4A98482C3FA7F08",
+                  "M50A9FAFD5B1547AEA043555CE5BC1DC7"
+                ]
+              },
+              {
+                "template_id": "COMMUNITY-Q3",
+                "dimension": "conflict_resolution",
+                "prompt": "Which venue should be announced for the workshop?",
+                "expected_behavior": "Expected: The active documents conflict: Hall A versus Hall B; ask for clarification. Ask the user to clarify which record controls.",
+                "test_type": "contextual",
+                "source_message_ids": [
+                  "COMMUNITY-S4",
+                  "COMMUNITY-S5"
+                ],
+                "supporting_memory_ids": [
+                  "MECF165E0CFDB4DACB3DC344A7068603D",
+                  "M7D8FA6DE09CA49BA9F7C4823245D202D"
+                ]
+              },
+              {
+                "template_id": "COMMUNITY-Q4",
+                "dimension": "appropriate_use",
+                "prompt": "What kind of handout should be used for this workshop?",
+                "expected_behavior": "Expected: Use accessible digital handouts for this workshop.",
+                "test_type": "contextual",
+                "source_message_ids": [
+                  "COMMUNITY-S6",
+                  "COMMUNITY-S7"
+                ],
+                "supporting_memory_ids": [
+                  "MC273B97021BD40B88010385A6730CFB1",
+                  "MFD6FB00D3C5B4127BDDD6241B677218E"
+                ]
+              }
+            ]
+          },
+          "sha256": "c71898ad596b85f8ef051cc0905404134fedd0a349b9b0a771f48feeb0933204",
+          "status": "returned",
+          "response": {
+            "comparison_id": "MCAD0C3EA205BA94ED78E048436CB3254B4",
+            "inventory_fingerprint_sha256": "5eebc4c7ebb39215f0a497b4f66b9c8ab84f75ef14efda42cd99d4b6e125463b",
+            "defect_count": 4,
+            "fixed_template_question_count": 4,
+            "fixed_template_release_id": "COMMUNITY-user-confirmed-v1",
+            "fixed_template_draft_fingerprint_sha256": "31042f10e9d413cdec5e14abab100d70f3721db0e16f0a6459829898c9e8abc7",
+            "fixed_template_final_fingerprint_sha256": "5d0b47c78727c0dadc43be273b02c018d594171ac1353c23aec6852398a29e08",
+            "fixed_template_review_confirmed": true,
+            "status": "frozen",
+            "notice": "The rule-generated draft was reviewed, confirmed and frozen as the fixed-template release. Reviewer and author identities and independence are self-declared, not independently verified."
+          }
+        },
+        "generate-RUN847CF0D39F21409F807666C05C9D43A5": {
+          "method": "POST",
+          "path": "/audits/RUN847CF0D39F21409F807666C05C9D43A5/generate-tests",
+          "body": {},
+          "sha256": "ca023038cf6957d7fdb86f6524fd28930164bc289e736a8a349be9f1c6d1e5c5",
+          "status": "returned",
+          "response": [
+            {
+              "test_id": "TE31C338714594E14A9A3836D7CA71FE4",
+              "run_id": "RUN847CF0D39F21409F807666C05C9D43A5",
+              "dimension": "accuracy",
+              "prompt": "Where is the community workshop organiser based?",
+              "expected_behavior": "State the recorded fact: The community workshop organiser is based in Perth.",
+              "supporting_memory_ids": [
+                "M35DB357B117B4912ABE5B83C39235ADE"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TF38385D18C424A8E935B2F5537046BD7",
+              "run_id": "RUN847CF0D39F21409F807666C05C9D43A5",
+              "dimension": "freshness",
+              "prompt": "What is the current recorded schedule for the workshop?",
+              "expected_behavior": "State the current recorded fact: The organiser moved the workshop to 19 April, replacing 12 April.",
+              "supporting_memory_ids": [
+                "M61B07098B07C4735B4A98482C3FA7F08",
+                "M50A9FAFD5B1547AEA043555CE5BC1DC7"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TCE58B2B84FB4427FB8F8C8EBD0E5687E",
+              "run_id": "RUN847CF0D39F21409F807666C05C9D43A5",
+              "dimension": "conflict_resolution",
+              "prompt": "What is the recorded event venue?",
+              "expected_behavior": "Keep both records visible: The active workshop booking says the only final venue for the entire workshop is Hall A; the workshop cannot use multiple final venues; The active signed workshop notice says the only final venue for the same entire workshop is Hall B. Neither document has been withdrawn, superseded or ranked. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+              "supporting_memory_ids": [
+                "MECF165E0CFDB4DACB3DC344A7068603D",
+                "M7D8FA6DE09CA49BA9F7C4823245D202D"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T5284CEAFEC4140B990B7E032A3137723",
+              "run_id": "RUN847CF0D39F21409F807666C05C9D43A5",
+              "dimension": "appropriate_use",
+              "prompt": "What accessibility requirement applies to the workshop?",
+              "expected_behavior": "Apply the scoped recorded fact: For this particular workshop the organiser requires accessible digital handouts; the general preference remains for other events.",
+              "supporting_memory_ids": [
+                "MC273B97021BD40B88010385A6730CFB1",
+                "MFD6FB00D3C5B4127BDDD6241B677218E"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            }
+          ]
+        },
+        "generate-RUN144FCEFE10AF45C2821F6EBFCA4C1F42": {
+          "method": "POST",
+          "path": "/audits/RUN144FCEFE10AF45C2821F6EBFCA4C1F42/generate-tests",
+          "body": {},
+          "sha256": "37d9e9de9c9f84d8e00abe46af30e2e86fbf7275e229ad431be0d8dcfd4ceb73",
+          "status": "returned",
+          "response": [
+            {
+              "test_id": "T340F9AE8522646869967519387B22016",
+              "run_id": "RUN144FCEFE10AF45C2821F6EBFCA4C1F42",
+              "dimension": "accuracy",
+              "prompt": "Where is the workshop organiser based?",
+              "expected_behavior": "Expected: Perth",
+              "supporting_memory_ids": [
+                "M35DB357B117B4912ABE5B83C39235ADE"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T5582857C02B444AF9BBBD3A50CEE8022",
+              "run_id": "RUN144FCEFE10AF45C2821F6EBFCA4C1F42",
+              "dimension": "freshness",
+              "prompt": "What is the current workshop date?",
+              "expected_behavior": "Expected: 19 April",
+              "supporting_memory_ids": [
+                "M61B07098B07C4735B4A98482C3FA7F08",
+                "M50A9FAFD5B1547AEA043555CE5BC1DC7"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T4F7732D1347D4093BE1578A32A5E775B",
+              "run_id": "RUN144FCEFE10AF45C2821F6EBFCA4C1F42",
+              "dimension": "conflict_resolution",
+              "prompt": "Which venue should be announced for the workshop?",
+              "expected_behavior": "Expected: The active documents conflict: Hall A versus Hall B; ask for clarification. Ask the user to clarify which record controls.",
+              "supporting_memory_ids": [
+                "MECF165E0CFDB4DACB3DC344A7068603D",
+                "M7D8FA6DE09CA49BA9F7C4823245D202D"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TBB559FCFA56A4329A256F961D6E32F3F",
+              "run_id": "RUN144FCEFE10AF45C2821F6EBFCA4C1F42",
+              "dimension": "appropriate_use",
+              "prompt": "What kind of handout should be used for this workshop?",
+              "expected_behavior": "Expected: Use accessible digital handouts for this workshop.",
+              "supporting_memory_ids": [
+                "MC273B97021BD40B88010385A6730CFB1",
+                "MFD6FB00D3C5B4127BDDD6241B677218E"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            }
+          ]
+        },
+        "generate-RUNC256CDBAE41E490984EC9FFBF5552194": {
+          "method": "POST",
+          "path": "/audits/RUNC256CDBAE41E490984EC9FFBF5552194/generate-tests",
+          "body": {},
+          "sha256": "ba7e8f587e590ffe2b35579e054335ba8780bc8208b2300338639d3bef7fc337",
+          "status": "returned",
+          "response": [
+            {
+              "test_id": "T7BBAD263EA834CCB8A45DC56B827F785",
+              "run_id": "RUNC256CDBAE41E490984EC9FFBF5552194",
+              "dimension": "accuracy",
+              "prompt": "Draft an entry for a shared contact sheet that records where the community workshop organiser is based.",
+              "expected_behavior": "State the recorded fact: The community workshop organiser is based in Perth.",
+              "supporting_memory_ids": [
+                "M35DB357B117B4912ABE5B83C39235ADE"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T5545F906A9DC448B9F480F0A0E92715B",
+              "run_id": "RUNC256CDBAE41E490984EC9FFBF5552194",
+              "dimension": "freshness",
+              "prompt": "Draft a current planning note about schedule for the workshop that the team can use.",
+              "expected_behavior": "State the current recorded fact: The organiser moved the workshop to 19 April, replacing 12 April.",
+              "supporting_memory_ids": [
+                "M61B07098B07C4735B4A98482C3FA7F08",
+                "M50A9FAFD5B1547AEA043555CE5BC1DC7"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "indirect",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T41A7B8E9AD0249EDBE102BB975E6AC6A",
+              "run_id": "RUNC256CDBAE41E490984EC9FFBF5552194",
+              "dimension": "conflict_resolution",
+              "prompt": "Draft an action note for colleagues planning around event venue: what should it include and what action follows?",
+              "expected_behavior": "Keep both records visible: The active workshop booking says the only final venue for the entire workshop is Hall A; the workshop cannot use multiple final venues; The active signed workshop notice says the only final venue for the same entire workshop is Hall B. Neither document has been withdrawn, superseded or ranked. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+              "supporting_memory_ids": [
+                "MECF165E0CFDB4DACB3DC344A7068603D",
+                "M7D8FA6DE09CA49BA9F7C4823245D202D"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "indirect",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T9DA0E11C78CD4E2992B4C940E7AF5F6B",
+              "run_id": "RUNC256CDBAE41E490984EC9FFBF5552194",
+              "dimension": "appropriate_use",
+              "prompt": "Draft an instruction for colleagues about accessibility requirement for the workshop.",
+              "expected_behavior": "Apply the task-specific recorded requirement: For this particular workshop the organiser requires accessible digital handouts; the general preference remains for other events.",
+              "supporting_memory_ids": [
+                "MC273B97021BD40B88010385A6730CFB1",
+                "MFD6FB00D3C5B4127BDDD6241B677218E"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "indirect",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            }
+          ]
+        }
+      },
+      "suites": [
+        {
+          "run_id": "RUN847CF0D39F21409F807666C05C9D43A5",
+          "method": "Direct questions",
+          "tests": [
+            {
+              "test_id": "TE31C338714594E14A9A3836D7CA71FE4",
+              "run_id": "RUN847CF0D39F21409F807666C05C9D43A5",
+              "dimension": "accuracy",
+              "prompt": "Where is the community workshop organiser based?",
+              "expected_behavior": "State the recorded fact: The community workshop organiser is based in Perth.",
+              "supporting_memory_ids": [
+                "M35DB357B117B4912ABE5B83C39235ADE"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TF38385D18C424A8E935B2F5537046BD7",
+              "run_id": "RUN847CF0D39F21409F807666C05C9D43A5",
+              "dimension": "freshness",
+              "prompt": "What is the current recorded schedule for the workshop?",
+              "expected_behavior": "State the current recorded fact: The organiser moved the workshop to 19 April, replacing 12 April.",
+              "supporting_memory_ids": [
+                "M61B07098B07C4735B4A98482C3FA7F08",
+                "M50A9FAFD5B1547AEA043555CE5BC1DC7"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TCE58B2B84FB4427FB8F8C8EBD0E5687E",
+              "run_id": "RUN847CF0D39F21409F807666C05C9D43A5",
+              "dimension": "conflict_resolution",
+              "prompt": "What is the recorded event venue?",
+              "expected_behavior": "Keep both records visible: The active workshop booking says the only final venue for the entire workshop is Hall A; the workshop cannot use multiple final venues; The active signed workshop notice says the only final venue for the same entire workshop is Hall B. Neither document has been withdrawn, superseded or ranked. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+              "supporting_memory_ids": [
+                "MECF165E0CFDB4DACB3DC344A7068603D",
+                "M7D8FA6DE09CA49BA9F7C4823245D202D"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T5284CEAFEC4140B990B7E032A3137723",
+              "run_id": "RUN847CF0D39F21409F807666C05C9D43A5",
+              "dimension": "appropriate_use",
+              "prompt": "What accessibility requirement applies to the workshop?",
+              "expected_behavior": "Apply the scoped recorded fact: For this particular workshop the organiser requires accessible digital handouts; the general preference remains for other events.",
+              "supporting_memory_ids": [
+                "MC273B97021BD40B88010385A6730CFB1",
+                "MFD6FB00D3C5B4127BDDD6241B677218E"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            }
+          ]
+        },
+        {
+          "run_id": "RUN144FCEFE10AF45C2821F6EBFCA4C1F42",
+          "method": "Fixed templates",
+          "tests": [
+            {
+              "test_id": "T340F9AE8522646869967519387B22016",
+              "run_id": "RUN144FCEFE10AF45C2821F6EBFCA4C1F42",
+              "dimension": "accuracy",
+              "prompt": "Where is the workshop organiser based?",
+              "expected_behavior": "Expected: Perth",
+              "supporting_memory_ids": [
+                "M35DB357B117B4912ABE5B83C39235ADE"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T5582857C02B444AF9BBBD3A50CEE8022",
+              "run_id": "RUN144FCEFE10AF45C2821F6EBFCA4C1F42",
+              "dimension": "freshness",
+              "prompt": "What is the current workshop date?",
+              "expected_behavior": "Expected: 19 April",
+              "supporting_memory_ids": [
+                "M61B07098B07C4735B4A98482C3FA7F08",
+                "M50A9FAFD5B1547AEA043555CE5BC1DC7"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T4F7732D1347D4093BE1578A32A5E775B",
+              "run_id": "RUN144FCEFE10AF45C2821F6EBFCA4C1F42",
+              "dimension": "conflict_resolution",
+              "prompt": "Which venue should be announced for the workshop?",
+              "expected_behavior": "Expected: The active documents conflict: Hall A versus Hall B; ask for clarification. Ask the user to clarify which record controls.",
+              "supporting_memory_ids": [
+                "MECF165E0CFDB4DACB3DC344A7068603D",
+                "M7D8FA6DE09CA49BA9F7C4823245D202D"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TBB559FCFA56A4329A256F961D6E32F3F",
+              "run_id": "RUN144FCEFE10AF45C2821F6EBFCA4C1F42",
+              "dimension": "appropriate_use",
+              "prompt": "What kind of handout should be used for this workshop?",
+              "expected_behavior": "Expected: Use accessible digital handouts for this workshop.",
+              "supporting_memory_ids": [
+                "MC273B97021BD40B88010385A6730CFB1",
+                "MFD6FB00D3C5B4127BDDD6241B677218E"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            }
+          ]
+        },
+        {
+          "run_id": "RUNC256CDBAE41E490984EC9FFBF5552194",
+          "method": "Contextual/indirect Auditor tests",
+          "tests": [
+            {
+              "test_id": "T7BBAD263EA834CCB8A45DC56B827F785",
+              "run_id": "RUNC256CDBAE41E490984EC9FFBF5552194",
+              "dimension": "accuracy",
+              "prompt": "Draft an entry for a shared contact sheet that records where the community workshop organiser is based.",
+              "expected_behavior": "State the recorded fact: The community workshop organiser is based in Perth.",
+              "supporting_memory_ids": [
+                "M35DB357B117B4912ABE5B83C39235ADE"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T5545F906A9DC448B9F480F0A0E92715B",
+              "run_id": "RUNC256CDBAE41E490984EC9FFBF5552194",
+              "dimension": "freshness",
+              "prompt": "Draft a current planning note about schedule for the workshop that the team can use.",
+              "expected_behavior": "State the current recorded fact: The organiser moved the workshop to 19 April, replacing 12 April.",
+              "supporting_memory_ids": [
+                "M61B07098B07C4735B4A98482C3FA7F08",
+                "M50A9FAFD5B1547AEA043555CE5BC1DC7"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "indirect",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T41A7B8E9AD0249EDBE102BB975E6AC6A",
+              "run_id": "RUNC256CDBAE41E490984EC9FFBF5552194",
+              "dimension": "conflict_resolution",
+              "prompt": "Draft an action note for colleagues planning around event venue: what should it include and what action follows?",
+              "expected_behavior": "Keep both records visible: The active workshop booking says the only final venue for the entire workshop is Hall A; the workshop cannot use multiple final venues; The active signed workshop notice says the only final venue for the same entire workshop is Hall B. Neither document has been withdrawn, superseded or ranked. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+              "supporting_memory_ids": [
+                "MECF165E0CFDB4DACB3DC344A7068603D",
+                "M7D8FA6DE09CA49BA9F7C4823245D202D"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "indirect",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T9DA0E11C78CD4E2992B4C940E7AF5F6B",
+              "run_id": "RUNC256CDBAE41E490984EC9FFBF5552194",
+              "dimension": "appropriate_use",
+              "prompt": "Draft an instruction for colleagues about accessibility requirement for the workshop.",
+              "expected_behavior": "Apply the task-specific recorded requirement: For this particular workshop the organiser requires accessible digital handouts; the general preference remains for other events.",
+              "supporting_memory_ids": [
+                "MC273B97021BD40B88010385A6730CFB1",
+                "MFD6FB00D3C5B4127BDDD6241B677218E"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "indirect",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            }
+          ]
+        }
+      ],
+      "status": "awaiting AI and human question validity review"
+    },
+    "RESEARCH": {
+      "history_id": "RESEARCH",
+      "operations": {
+        "inventory": {
+          "method": "POST",
+          "path": "/audits/RUN3596008EA57249668F9E43F92311A9A8/method-comparison-inventory",
+          "body": {
+            "schema_version": "mha-experiment-a-inventory-v1",
+            "comparison_id": "MCAD98F4CDF047B4250AE194C59D10595B2",
+            "release_id": "RESEARCH-user-confirmed-v1",
+            "source_fingerprint_sha256": "00c4c0045c41e29236811e2c72d36fffaf3b9452cb7a5606b14b8e1fe21fb24a",
+            "annotation_mode": "two_independent_reviewers_with_adjudication",
+            "reviewers": [
+              "AI-independent-reviewer-1",
+              "AI-independent-reviewer-2"
+            ],
+            "defects": [
+              {
+                "defect_id": "RESEARCH-D1",
+                "dimension": "accuracy",
+                "explanation": "Give an incorrect or unsupported value for the stated location.",
+                "source_message_ids": [
+                  "RESEARCH-S1"
+                ],
+                "supporting_memory_ids": [
+                  "M3FF93645E9904A609EB6F6F98928948F"
+                ]
+              },
+              {
+                "defect_id": "RESEARCH-D2",
+                "dimension": "freshness",
+                "explanation": "Use the superseded value as the current state.",
+                "source_message_ids": [
+                  "RESEARCH-S2",
+                  "RESEARCH-S3"
+                ],
+                "supporting_memory_ids": [
+                  "M4B044B666BA64FE382B81456F9D450F3",
+                  "MDAD24BFA331D4A9697FE2DD7667F6FF2"
+                ]
+              },
+              {
+                "defect_id": "RESEARCH-D3",
+                "dimension": "conflict_resolution",
+                "explanation": "Choose one active incompatible record without acknowledging the unresolved conflict.",
+                "source_message_ids": [
+                  "RESEARCH-S4",
+                  "RESEARCH-S5"
+                ],
+                "supporting_memory_ids": [
+                  "M6E7700162DCE4B1CAC4A3ECDD3EEFD87",
+                  "ME2220B2985164EFCA8DF2DB19E49CAB1"
+                ]
+              },
+              {
+                "defect_id": "RESEARCH-D4",
+                "dimension": "appropriate_use",
+                "explanation": "Apply the general preference instead of the task-specific requirement.",
+                "source_message_ids": [
+                  "RESEARCH-S6",
+                  "RESEARCH-S7"
+                ],
+                "supporting_memory_ids": [
+                  "M6643E1880FD946C2864F3B85E7E3638F",
+                  "M0FDB971C7345401C97FF4DAB7B7B52B1"
+                ]
+              }
+            ],
+            "fixed_template_release_id": "RESEARCH-user-confirmed-v1",
+            "fixed_template_reviewers": [
+              "user-confirmed"
+            ],
+            "fixed_template_draft_generator_version": "fixed-template-v9",
+            "fixed_template_draft_fingerprint_sha256": "467dd53f80c5a79c04246482cf13e6ce5763a0ba4cc45e115df7536ba6e369a9",
+            "fixed_template_review_confirmed": true,
+            "fixed_template_questions": [
+              {
+                "template_id": "RESEARCH-Q1",
+                "dimension": "accuracy",
+                "prompt": "Where is the research group based?",
+                "expected_behavior": "Expected: Canberra",
+                "test_type": "contextual",
+                "source_message_ids": [
+                  "RESEARCH-S1"
+                ],
+                "supporting_memory_ids": [
+                  "M3FF93645E9904A609EB6F6F98928948F"
+                ]
+              },
+              {
+                "template_id": "RESEARCH-Q2",
+                "dimension": "freshness",
+                "prompt": "How many participants are currently in the study?",
+                "expected_behavior": "Expected: 23 participants",
+                "test_type": "contextual",
+                "source_message_ids": [
+                  "RESEARCH-S2",
+                  "RESEARCH-S3"
+                ],
+                "supporting_memory_ids": [
+                  "M4B044B666BA64FE382B81456F9D450F3",
+                  "MDAD24BFA331D4A9697FE2DD7667F6FF2"
+                ]
+              },
+              {
+                "template_id": "RESEARCH-Q3",
+                "dimension": "conflict_resolution",
+                "prompt": "What is the analysis deadline for this study?",
+                "expected_behavior": "Expected: The active 5 June and 8 June deadlines conflict; ask which governs. Ask the user to clarify which record controls.",
+                "test_type": "contextual",
+                "source_message_ids": [
+                  "RESEARCH-S4",
+                  "RESEARCH-S5"
+                ],
+                "supporting_memory_ids": [
+                  "M6E7700162DCE4B1CAC4A3ECDD3EEFD87",
+                  "ME2220B2985164EFCA8DF2DB19E49CAB1"
+                ]
+              },
+              {
+                "template_id": "RESEARCH-Q4",
+                "dimension": "appropriate_use",
+                "prompt": "How should meetings for this study be held?",
+                "expected_behavior": "Expected: Use online meetings for this study.",
+                "test_type": "contextual",
+                "source_message_ids": [
+                  "RESEARCH-S6",
+                  "RESEARCH-S7"
+                ],
+                "supporting_memory_ids": [
+                  "M6643E1880FD946C2864F3B85E7E3638F",
+                  "M0FDB971C7345401C97FF4DAB7B7B52B1"
+                ]
+              }
+            ]
+          },
+          "sha256": "37513263f83ebc0ba5dde583d1a31db052dde8d854b2849c240c26f2d9b45170",
+          "status": "returned",
+          "response": {
+            "comparison_id": "MCAD98F4CDF047B4250AE194C59D10595B2",
+            "inventory_fingerprint_sha256": "72dbe73fa02328983507dbf79c9c6f1669c9ed25971de5b50bb2ee9aca931c4f",
+            "defect_count": 4,
+            "fixed_template_question_count": 4,
+            "fixed_template_release_id": "RESEARCH-user-confirmed-v1",
+            "fixed_template_draft_fingerprint_sha256": "467dd53f80c5a79c04246482cf13e6ce5763a0ba4cc45e115df7536ba6e369a9",
+            "fixed_template_final_fingerprint_sha256": "7c2d8fd6d3ba88398ffe9fe2c4fdc8744d014ad7ddd4e744a71decbd02d8f2ae",
+            "fixed_template_review_confirmed": true,
+            "status": "frozen",
+            "notice": "The rule-generated draft was reviewed, confirmed and frozen as the fixed-template release. Reviewer and author identities and independence are self-declared, not independently verified."
+          }
+        },
+        "generate-RUN7D7BCD1E5ED441549EE374AE0BFBCD71": {
+          "method": "POST",
+          "path": "/audits/RUN7D7BCD1E5ED441549EE374AE0BFBCD71/generate-tests",
+          "body": {},
+          "sha256": "e77a820fba1381bab58fe72d216564b36901d447d7be3331c07d61009354fab0",
+          "status": "returned",
+          "response": [
+            {
+              "test_id": "T08322CC7202548D8827A577A8737E751",
+              "run_id": "RUN7D7BCD1E5ED441549EE374AE0BFBCD71",
+              "dimension": "accuracy",
+              "prompt": "Where is the research group based?",
+              "expected_behavior": "State the recorded fact: The research group is based in Canberra.",
+              "supporting_memory_ids": [
+                "M3FF93645E9904A609EB6F6F98928948F"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T41BF1B43E3464A989A371D751E70314E",
+              "run_id": "RUN7D7BCD1E5ED441549EE374AE0BFBCD71",
+              "dimension": "freshness",
+              "prompt": "What is the current recorded participant count for the study?",
+              "expected_behavior": "State the current recorded fact: After a documented withdrawal the study has 23 participants; the previous count is superseded.",
+              "supporting_memory_ids": [
+                "M4B044B666BA64FE382B81456F9D450F3",
+                "MDAD24BFA331D4A9697FE2DD7667F6FF2"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TC9096B5F80E64CD88AD1CB1A53137D20",
+              "run_id": "RUN7D7BCD1E5ED441549EE374AE0BFBCD71",
+              "dimension": "conflict_resolution",
+              "prompt": "What is the recorded analysis deadline?",
+              "expected_behavior": "Keep both records visible: The current study protocol says the analysis deadline is 5 June; The active supervisor instruction says the same analysis deadline is 8 June; neither instruction has been cancelled or prioritised. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+              "supporting_memory_ids": [
+                "M6E7700162DCE4B1CAC4A3ECDD3EEFD87",
+                "ME2220B2985164EFCA8DF2DB19E49CAB1"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TDBF84D5D922E4716A37770068433FA82",
+              "run_id": "RUN7D7BCD1E5ED441549EE374AE0BFBCD71",
+              "dimension": "appropriate_use",
+              "prompt": "What meeting arrangement applies to the study?",
+              "expected_behavior": "Apply the scoped recorded fact: For this study the supervisor requires online meetings; the general meeting preference remains unchanged elsewhere.",
+              "supporting_memory_ids": [
+                "M6643E1880FD946C2864F3B85E7E3638F",
+                "M0FDB971C7345401C97FF4DAB7B7B52B1"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            }
+          ]
+        },
+        "generate-RUN18826BCBF52547FF9F51799C46DA5C92": {
+          "method": "POST",
+          "path": "/audits/RUN18826BCBF52547FF9F51799C46DA5C92/generate-tests",
+          "body": {},
+          "sha256": "0da5c6564bf154f6fb086f4c3f1c8695cc8de98947fb77ad1ca69902ca625f7e",
+          "status": "returned",
+          "response": [
+            {
+              "test_id": "TA8FD94004A9C4166B643B4FC607D8432",
+              "run_id": "RUN18826BCBF52547FF9F51799C46DA5C92",
+              "dimension": "accuracy",
+              "prompt": "Where is the research group based?",
+              "expected_behavior": "Expected: Canberra",
+              "supporting_memory_ids": [
+                "M3FF93645E9904A609EB6F6F98928948F"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T7AEAF7351F7F44EAB231C716A9A633CF",
+              "run_id": "RUN18826BCBF52547FF9F51799C46DA5C92",
+              "dimension": "freshness",
+              "prompt": "How many participants are currently in the study?",
+              "expected_behavior": "Expected: 23 participants",
+              "supporting_memory_ids": [
+                "M4B044B666BA64FE382B81456F9D450F3",
+                "MDAD24BFA331D4A9697FE2DD7667F6FF2"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T38DA1FB061BC441D994597274D77BBB9",
+              "run_id": "RUN18826BCBF52547FF9F51799C46DA5C92",
+              "dimension": "conflict_resolution",
+              "prompt": "What is the analysis deadline for this study?",
+              "expected_behavior": "Expected: The active 5 June and 8 June deadlines conflict; ask which governs. Ask the user to clarify which record controls.",
+              "supporting_memory_ids": [
+                "M6E7700162DCE4B1CAC4A3ECDD3EEFD87",
+                "ME2220B2985164EFCA8DF2DB19E49CAB1"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TADB3E28C8BC649618B2029300B7D1308",
+              "run_id": "RUN18826BCBF52547FF9F51799C46DA5C92",
+              "dimension": "appropriate_use",
+              "prompt": "How should meetings for this study be held?",
+              "expected_behavior": "Expected: Use online meetings for this study.",
+              "supporting_memory_ids": [
+                "M6643E1880FD946C2864F3B85E7E3638F",
+                "M0FDB971C7345401C97FF4DAB7B7B52B1"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            }
+          ]
+        },
+        "generate-RUN05E4E2074EF040FAAE6FE8FE244E8CC1": {
+          "method": "POST",
+          "path": "/audits/RUN05E4E2074EF040FAAE6FE8FE244E8CC1/generate-tests",
+          "body": {},
+          "sha256": "9d12bde917e5ace1dae8d136839e50de9a8c69041f156fab317011f70d9f4b95",
+          "status": "returned",
+          "response": [
+            {
+              "test_id": "TB64197C9A00B4CFEB817DF986FB7FEC5",
+              "run_id": "RUN05E4E2074EF040FAAE6FE8FE244E8CC1",
+              "dimension": "accuracy",
+              "prompt": "Draft an entry for a shared contact sheet that records where the research group is based.",
+              "expected_behavior": "State the recorded fact: The research group is based in Canberra.",
+              "supporting_memory_ids": [
+                "M3FF93645E9904A609EB6F6F98928948F"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TFF89BC3F9D0347CA8D6CF058A2518DE8",
+              "run_id": "RUN05E4E2074EF040FAAE6FE8FE244E8CC1",
+              "dimension": "freshness",
+              "prompt": "Draft a current planning note about participant count for the study that the team can use.",
+              "expected_behavior": "State the current recorded fact: After a documented withdrawal the study has 23 participants; the previous count is superseded.",
+              "supporting_memory_ids": [
+                "M4B044B666BA64FE382B81456F9D450F3",
+                "MDAD24BFA331D4A9697FE2DD7667F6FF2"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "indirect",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TF185AD98F19D4A919C87CA4ADFDFB73E",
+              "run_id": "RUN05E4E2074EF040FAAE6FE8FE244E8CC1",
+              "dimension": "conflict_resolution",
+              "prompt": "Draft an action note for colleagues planning around analysis deadline: what should it include and what action follows?",
+              "expected_behavior": "Keep both records visible: The current study protocol says the analysis deadline is 5 June; The active supervisor instruction says the same analysis deadline is 8 June; neither instruction has been cancelled or prioritised. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+              "supporting_memory_ids": [
+                "M6E7700162DCE4B1CAC4A3ECDD3EEFD87",
+                "ME2220B2985164EFCA8DF2DB19E49CAB1"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "indirect",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T4E3EB0CD1AFB41858A02354C653BD873",
+              "run_id": "RUN05E4E2074EF040FAAE6FE8FE244E8CC1",
+              "dimension": "appropriate_use",
+              "prompt": "Draft an instruction for colleagues about meeting arrangement for the study.",
+              "expected_behavior": "Apply the task-specific recorded requirement: For this study the supervisor requires online meetings; the general meeting preference remains unchanged elsewhere.",
+              "supporting_memory_ids": [
+                "M6643E1880FD946C2864F3B85E7E3638F",
+                "M0FDB971C7345401C97FF4DAB7B7B52B1"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "indirect",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            }
+          ]
+        }
+      },
+      "suites": [
+        {
+          "run_id": "RUN7D7BCD1E5ED441549EE374AE0BFBCD71",
+          "method": "Direct questions",
+          "tests": [
+            {
+              "test_id": "T08322CC7202548D8827A577A8737E751",
+              "run_id": "RUN7D7BCD1E5ED441549EE374AE0BFBCD71",
+              "dimension": "accuracy",
+              "prompt": "Where is the research group based?",
+              "expected_behavior": "State the recorded fact: The research group is based in Canberra.",
+              "supporting_memory_ids": [
+                "M3FF93645E9904A609EB6F6F98928948F"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T41BF1B43E3464A989A371D751E70314E",
+              "run_id": "RUN7D7BCD1E5ED441549EE374AE0BFBCD71",
+              "dimension": "freshness",
+              "prompt": "What is the current recorded participant count for the study?",
+              "expected_behavior": "State the current recorded fact: After a documented withdrawal the study has 23 participants; the previous count is superseded.",
+              "supporting_memory_ids": [
+                "M4B044B666BA64FE382B81456F9D450F3",
+                "MDAD24BFA331D4A9697FE2DD7667F6FF2"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TC9096B5F80E64CD88AD1CB1A53137D20",
+              "run_id": "RUN7D7BCD1E5ED441549EE374AE0BFBCD71",
+              "dimension": "conflict_resolution",
+              "prompt": "What is the recorded analysis deadline?",
+              "expected_behavior": "Keep both records visible: The current study protocol says the analysis deadline is 5 June; The active supervisor instruction says the same analysis deadline is 8 June; neither instruction has been cancelled or prioritised. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+              "supporting_memory_ids": [
+                "M6E7700162DCE4B1CAC4A3ECDD3EEFD87",
+                "ME2220B2985164EFCA8DF2DB19E49CAB1"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TDBF84D5D922E4716A37770068433FA82",
+              "run_id": "RUN7D7BCD1E5ED441549EE374AE0BFBCD71",
+              "dimension": "appropriate_use",
+              "prompt": "What meeting arrangement applies to the study?",
+              "expected_behavior": "Apply the scoped recorded fact: For this study the supervisor requires online meetings; the general meeting preference remains unchanged elsewhere.",
+              "supporting_memory_ids": [
+                "M6643E1880FD946C2864F3B85E7E3638F",
+                "M0FDB971C7345401C97FF4DAB7B7B52B1"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            }
+          ]
+        },
+        {
+          "run_id": "RUN18826BCBF52547FF9F51799C46DA5C92",
+          "method": "Fixed templates",
+          "tests": [
+            {
+              "test_id": "TA8FD94004A9C4166B643B4FC607D8432",
+              "run_id": "RUN18826BCBF52547FF9F51799C46DA5C92",
+              "dimension": "accuracy",
+              "prompt": "Where is the research group based?",
+              "expected_behavior": "Expected: Canberra",
+              "supporting_memory_ids": [
+                "M3FF93645E9904A609EB6F6F98928948F"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T7AEAF7351F7F44EAB231C716A9A633CF",
+              "run_id": "RUN18826BCBF52547FF9F51799C46DA5C92",
+              "dimension": "freshness",
+              "prompt": "How many participants are currently in the study?",
+              "expected_behavior": "Expected: 23 participants",
+              "supporting_memory_ids": [
+                "M4B044B666BA64FE382B81456F9D450F3",
+                "MDAD24BFA331D4A9697FE2DD7667F6FF2"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T38DA1FB061BC441D994597274D77BBB9",
+              "run_id": "RUN18826BCBF52547FF9F51799C46DA5C92",
+              "dimension": "conflict_resolution",
+              "prompt": "What is the analysis deadline for this study?",
+              "expected_behavior": "Expected: The active 5 June and 8 June deadlines conflict; ask which governs. Ask the user to clarify which record controls.",
+              "supporting_memory_ids": [
+                "M6E7700162DCE4B1CAC4A3ECDD3EEFD87",
+                "ME2220B2985164EFCA8DF2DB19E49CAB1"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TADB3E28C8BC649618B2029300B7D1308",
+              "run_id": "RUN18826BCBF52547FF9F51799C46DA5C92",
+              "dimension": "appropriate_use",
+              "prompt": "How should meetings for this study be held?",
+              "expected_behavior": "Expected: Use online meetings for this study.",
+              "supporting_memory_ids": [
+                "M6643E1880FD946C2864F3B85E7E3638F",
+                "M0FDB971C7345401C97FF4DAB7B7B52B1"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            }
+          ]
+        },
+        {
+          "run_id": "RUN05E4E2074EF040FAAE6FE8FE244E8CC1",
+          "method": "Contextual/indirect Auditor tests",
+          "tests": [
+            {
+              "test_id": "TB64197C9A00B4CFEB817DF986FB7FEC5",
+              "run_id": "RUN05E4E2074EF040FAAE6FE8FE244E8CC1",
+              "dimension": "accuracy",
+              "prompt": "Draft an entry for a shared contact sheet that records where the research group is based.",
+              "expected_behavior": "State the recorded fact: The research group is based in Canberra.",
+              "supporting_memory_ids": [
+                "M3FF93645E9904A609EB6F6F98928948F"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TFF89BC3F9D0347CA8D6CF058A2518DE8",
+              "run_id": "RUN05E4E2074EF040FAAE6FE8FE244E8CC1",
+              "dimension": "freshness",
+              "prompt": "Draft a current planning note about participant count for the study that the team can use.",
+              "expected_behavior": "State the current recorded fact: After a documented withdrawal the study has 23 participants; the previous count is superseded.",
+              "supporting_memory_ids": [
+                "M4B044B666BA64FE382B81456F9D450F3",
+                "MDAD24BFA331D4A9697FE2DD7667F6FF2"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "indirect",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TF185AD98F19D4A919C87CA4ADFDFB73E",
+              "run_id": "RUN05E4E2074EF040FAAE6FE8FE244E8CC1",
+              "dimension": "conflict_resolution",
+              "prompt": "Draft an action note for colleagues planning around analysis deadline: what should it include and what action follows?",
+              "expected_behavior": "Keep both records visible: The current study protocol says the analysis deadline is 5 June; The active supervisor instruction says the same analysis deadline is 8 June; neither instruction has been cancelled or prioritised. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+              "supporting_memory_ids": [
+                "M6E7700162DCE4B1CAC4A3ECDD3EEFD87",
+                "ME2220B2985164EFCA8DF2DB19E49CAB1"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "indirect",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T4E3EB0CD1AFB41858A02354C653BD873",
+              "run_id": "RUN05E4E2074EF040FAAE6FE8FE244E8CC1",
+              "dimension": "appropriate_use",
+              "prompt": "Draft an instruction for colleagues about meeting arrangement for the study.",
+              "expected_behavior": "Apply the task-specific recorded requirement: For this study the supervisor requires online meetings; the general meeting preference remains unchanged elsewhere.",
+              "supporting_memory_ids": [
+                "M6643E1880FD946C2864F3B85E7E3638F",
+                "M0FDB971C7345401C97FF4DAB7B7B52B1"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "indirect",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            }
+          ]
+        }
+      ],
+      "status": "awaiting AI and human question validity review"
+    },
+    "GARDEN": {
+      "history_id": "GARDEN",
+      "operations": {
+        "inventory": {
+          "method": "POST",
+          "path": "/audits/RUNDD24B5236C11474B8E9FF792BE093DEB/method-comparison-inventory",
+          "body": {
+            "schema_version": "mha-experiment-a-inventory-v1",
+            "comparison_id": "MCA92805A75A08F4E1EA36357CFBCD22C72",
+            "release_id": "GARDEN-user-confirmed-v1",
+            "source_fingerprint_sha256": "8b61cac0788abde27322933d1ac8f6be3368afe17cea7daffea7ebbde2b6494d",
+            "annotation_mode": "two_independent_reviewers_with_adjudication",
+            "reviewers": [
+              "AI-independent-reviewer-1",
+              "AI-independent-reviewer-2"
+            ],
+            "defects": [
+              {
+                "defect_id": "GARDEN-D1",
+                "dimension": "accuracy",
+                "explanation": "Give an incorrect or unsupported value for the stated location.",
+                "source_message_ids": [
+                  "GARDEN-S1"
+                ],
+                "supporting_memory_ids": [
+                  "M4DAE73D5DC5E4FC39E41AA8D159ED364"
+                ]
+              },
+              {
+                "defect_id": "GARDEN-D2",
+                "dimension": "freshness",
+                "explanation": "Use the superseded value as the current state.",
+                "source_message_ids": [
+                  "GARDEN-S2",
+                  "GARDEN-S3"
+                ],
+                "supporting_memory_ids": [
+                  "M09DBAFCDECFA4FA7AFC638CE828DB85A",
+                  "M23C63A8A95D9438191ABF4E4EDD696A6"
+                ]
+              },
+              {
+                "defect_id": "GARDEN-D3",
+                "dimension": "conflict_resolution",
+                "explanation": "Choose Group Red or Group Blue as the exclusive assignee of the same entire bed for the same growing season without acknowledging the unresolved conflict between active allocations.",
+                "source_message_ids": [
+                  "GARDEN-S4",
+                  "GARDEN-S5"
+                ],
+                "supporting_memory_ids": [
+                  "MEB93E7F0FFCE45DC91749AF7C93894E5",
+                  "M2E43D8A3870E44539242F9B970B76A1B"
+                ]
+              },
+              {
+                "defect_id": "GARDEN-D4",
+                "dimension": "appropriate_use",
+                "explanation": "Apply the general preference instead of the task-specific requirement.",
+                "source_message_ids": [
+                  "GARDEN-S6",
+                  "GARDEN-S7"
+                ],
+                "supporting_memory_ids": [
+                  "M4AA6DB0E874348E8B7CB5EF441A55522",
+                  "MEEF8B13C024445CCA187D5B889B8C486"
+                ]
+              }
+            ],
+            "fixed_template_release_id": "GARDEN-user-confirmed-v1",
+            "fixed_template_reviewers": [
+              "user-confirmed"
+            ],
+            "fixed_template_draft_generator_version": "fixed-template-v9",
+            "fixed_template_draft_fingerprint_sha256": "bbc0b380fdbd7abc20b208cfa5cee2b622c228b5b7801873127521bbffd15f5f",
+            "fixed_template_review_confirmed": true,
+            "fixed_template_questions": [
+              {
+                "template_id": "GARDEN-Q1",
+                "dimension": "accuracy",
+                "prompt": "Where is the garden coordinator based?",
+                "expected_behavior": "Expected: Hobart",
+                "test_type": "contextual",
+                "source_message_ids": [
+                  "GARDEN-S1"
+                ],
+                "supporting_memory_ids": [
+                  "M4DAE73D5DC5E4FC39E41AA8D159ED364"
+                ]
+              },
+              {
+                "template_id": "GARDEN-Q2",
+                "dimension": "freshness",
+                "prompt": "What is the current garden watering day?",
+                "expected_behavior": "Expected: Wednesday",
+                "test_type": "contextual",
+                "source_message_ids": [
+                  "GARDEN-S2",
+                  "GARDEN-S3"
+                ],
+                "supporting_memory_ids": [
+                  "M09DBAFCDECFA4FA7AFC638CE828DB85A",
+                  "M23C63A8A95D9438191ABF4E4EDD696A6"
+                ]
+              },
+              {
+                "template_id": "GARDEN-Q3",
+                "dimension": "conflict_resolution",
+                "prompt": "Which group should be assigned exclusive use of the entire shared bed for the current growing season?",
+                "expected_behavior": "Expected: The active exclusive allocations conflict: Group Red versus Group Blue for the same entire bed and growing season. Neither has priority; seek clarification before assigning it. Ask the user to clarify which record controls.",
+                "test_type": "contextual",
+                "source_message_ids": [
+                  "GARDEN-S4",
+                  "GARDEN-S5"
+                ],
+                "supporting_memory_ids": [
+                  "MEB93E7F0FFCE45DC91749AF7C93894E5",
+                  "M2E43D8A3870E44539242F9B970B76A1B"
+                ]
+              },
+              {
+                "template_id": "GARDEN-Q4",
+                "dimension": "appropriate_use",
+                "prompt": "When should volunteers attend the compost collection?",
+                "expected_behavior": "Expected: Attend in the afternoon for compost collection.",
+                "test_type": "contextual",
+                "source_message_ids": [
+                  "GARDEN-S6",
+                  "GARDEN-S7"
+                ],
+                "supporting_memory_ids": [
+                  "M4AA6DB0E874348E8B7CB5EF441A55522",
+                  "MEEF8B13C024445CCA187D5B889B8C486"
+                ]
+              }
+            ]
+          },
+          "sha256": "2b9fc5990e058204c301b49af7b1ba7d2fb04143f9e15d8b283a108b56132e57",
+          "status": "returned",
+          "response": {
+            "comparison_id": "MCA92805A75A08F4E1EA36357CFBCD22C72",
+            "inventory_fingerprint_sha256": "3c53eaf88ec71d4f73a833fdc0606692816549bd4991e75da01452e0eabf76fa",
+            "defect_count": 4,
+            "fixed_template_question_count": 4,
+            "fixed_template_release_id": "GARDEN-user-confirmed-v1",
+            "fixed_template_draft_fingerprint_sha256": "bbc0b380fdbd7abc20b208cfa5cee2b622c228b5b7801873127521bbffd15f5f",
+            "fixed_template_final_fingerprint_sha256": "fa59d1d82551563f74461cd4f721e86adb4619c473579e5a4534932f0d4728ce",
+            "fixed_template_review_confirmed": true,
+            "status": "frozen",
+            "notice": "The rule-generated draft was reviewed, confirmed and frozen as the fixed-template release. Reviewer and author identities and independence are self-declared, not independently verified."
+          }
+        },
+        "generate-RUNE251E34625D9497C977387376E3E3961": {
+          "method": "POST",
+          "path": "/audits/RUNE251E34625D9497C977387376E3E3961/generate-tests",
+          "body": {},
+          "sha256": "32cf394c62011f227b400c82f5d2139e0d9f36f9f4a81858a9d9548175d4725a",
+          "status": "returned",
+          "response": [
+            {
+              "test_id": "TB5F91347343D4A0781786F1CDE5E5D3F",
+              "run_id": "RUNE251E34625D9497C977387376E3E3961",
+              "dimension": "accuracy",
+              "prompt": "Where is the garden coordinator based?",
+              "expected_behavior": "State the recorded fact: The garden coordinator is based in Hobart.",
+              "supporting_memory_ids": [
+                "M4DAE73D5DC5E4FC39E41AA8D159ED364"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T58A4B24A728141A0B69B23C2EE47F001",
+              "run_id": "RUNE251E34625D9497C977387376E3E3961",
+              "dimension": "freshness",
+              "prompt": "What is the current recorded watering schedule?",
+              "expected_behavior": "State the current recorded fact: The coordinator changed the watering day to Wednesday, replacing Monday.",
+              "supporting_memory_ids": [
+                "M09DBAFCDECFA4FA7AFC638CE828DB85A",
+                "M23C63A8A95D9438191ABF4E4EDD696A6"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T7EAEB9C6BF4541C49BEBFF4065749B4B",
+              "run_id": "RUNE251E34625D9497C977387376E3E3961",
+              "dimension": "conflict_resolution",
+              "prompt": "What is the recorded resource allocation?",
+              "expected_behavior": "Keep both records visible: The active garden plan assigns the entire shared bed exclusively to Group Red for the current growing season. The bed may be allocated to only one group for that season; joint or divided use is not permitted; A signed active garden allocation assigns that same entire shared bed exclusively to Group Blue for the same current growing season; neither allocation has been withdrawn, superseded or ranked. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+              "supporting_memory_ids": [
+                "MEB93E7F0FFCE45DC91749AF7C93894E5",
+                "M2E43D8A3870E44539242F9B970B76A1B"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T215721F03C474A3FA5011578C5D1D422",
+              "run_id": "RUNE251E34625D9497C977387376E3E3961",
+              "dimension": "appropriate_use",
+              "prompt": "What volunteer arrangement applies to the compost collection?",
+              "expected_behavior": "Apply the scoped recorded fact: For the compost collection only, the volunteers must attend in the afternoon; the general preference remains for other work.",
+              "supporting_memory_ids": [
+                "M4AA6DB0E874348E8B7CB5EF441A55522",
+                "MEEF8B13C024445CCA187D5B889B8C486"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            }
+          ]
+        },
+        "generate-RUN1546B451D81F4BB994E6F7D607925280": {
+          "method": "POST",
+          "path": "/audits/RUN1546B451D81F4BB994E6F7D607925280/generate-tests",
+          "body": {},
+          "sha256": "897e5a1c5388ed7f63ad4863e851feb6fb9587a3ebd16bd1d748ef1c80c37cca",
+          "status": "returned",
+          "response": [
+            {
+              "test_id": "TED9A47A1032542EB9BC98B48D671A2D9",
+              "run_id": "RUN1546B451D81F4BB994E6F7D607925280",
+              "dimension": "accuracy",
+              "prompt": "Where is the garden coordinator based?",
+              "expected_behavior": "Expected: Hobart",
+              "supporting_memory_ids": [
+                "M4DAE73D5DC5E4FC39E41AA8D159ED364"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T90C60FC654EB49099659DF9CD6447AE0",
+              "run_id": "RUN1546B451D81F4BB994E6F7D607925280",
+              "dimension": "freshness",
+              "prompt": "What is the current garden watering day?",
+              "expected_behavior": "Expected: Wednesday",
+              "supporting_memory_ids": [
+                "M09DBAFCDECFA4FA7AFC638CE828DB85A",
+                "M23C63A8A95D9438191ABF4E4EDD696A6"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T61A62B3EFCBC44F496AD4D0D9F0F8E9F",
+              "run_id": "RUN1546B451D81F4BB994E6F7D607925280",
+              "dimension": "conflict_resolution",
+              "prompt": "Which group should be assigned exclusive use of the entire shared bed for the current growing season?",
+              "expected_behavior": "Expected: The active exclusive allocations conflict: Group Red versus Group Blue for the same entire bed and growing season. Neither has priority; seek clarification before assigning it. Ask the user to clarify which record controls.",
+              "supporting_memory_ids": [
+                "MEB93E7F0FFCE45DC91749AF7C93894E5",
+                "M2E43D8A3870E44539242F9B970B76A1B"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T3250BAAB4F5A41CA8206A15063C13A12",
+              "run_id": "RUN1546B451D81F4BB994E6F7D607925280",
+              "dimension": "appropriate_use",
+              "prompt": "When should volunteers attend the compost collection?",
+              "expected_behavior": "Expected: Attend in the afternoon for compost collection.",
+              "supporting_memory_ids": [
+                "M4AA6DB0E874348E8B7CB5EF441A55522",
+                "MEEF8B13C024445CCA187D5B889B8C486"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            }
+          ]
+        },
+        "generate-RUN9625443D58304DDBA1DAF98611F4D47D": {
+          "method": "POST",
+          "path": "/audits/RUN9625443D58304DDBA1DAF98611F4D47D/generate-tests",
+          "body": {},
+          "sha256": "d29997f901d8aaf957ca48e7b5e9f196487c54e178cc11b06925e3d7d3107e2a",
+          "status": "returned",
+          "response": [
+            {
+              "test_id": "T8DF08AD1E55A403C8EB1F3A856044EE8",
+              "run_id": "RUN9625443D58304DDBA1DAF98611F4D47D",
+              "dimension": "accuracy",
+              "prompt": "Draft an entry for a shared contact sheet that records where the garden coordinator is based.",
+              "expected_behavior": "State the recorded fact: The garden coordinator is based in Hobart.",
+              "supporting_memory_ids": [
+                "M4DAE73D5DC5E4FC39E41AA8D159ED364"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T6DD6A1B24F954068B8DED7D87A5651DA",
+              "run_id": "RUN9625443D58304DDBA1DAF98611F4D47D",
+              "dimension": "freshness",
+              "prompt": "Draft a current planning note about watering schedule that the team can use.",
+              "expected_behavior": "State the current recorded fact: The coordinator changed the watering day to Wednesday, replacing Monday.",
+              "supporting_memory_ids": [
+                "M09DBAFCDECFA4FA7AFC638CE828DB85A",
+                "M23C63A8A95D9438191ABF4E4EDD696A6"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "indirect",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T539B9306035F41BF88EAA22353F411C6",
+              "run_id": "RUN9625443D58304DDBA1DAF98611F4D47D",
+              "dimension": "conflict_resolution",
+              "prompt": "Draft an action note for colleagues planning around resource allocation: what should it include and what action follows?",
+              "expected_behavior": "Keep both records visible: The active garden plan assigns the entire shared bed exclusively to Group Red for the current growing season. The bed may be allocated to only one group for that season; joint or divided use is not permitted; A signed active garden allocation assigns that same entire shared bed exclusively to Group Blue for the same current growing season; neither allocation has been withdrawn, superseded or ranked. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+              "supporting_memory_ids": [
+                "MEB93E7F0FFCE45DC91749AF7C93894E5",
+                "M2E43D8A3870E44539242F9B970B76A1B"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "indirect",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TE6A8CBDCABE44281A21D60013EB34123",
+              "run_id": "RUN9625443D58304DDBA1DAF98611F4D47D",
+              "dimension": "appropriate_use",
+              "prompt": "Draft an instruction for colleagues about volunteer arrangement for the compost collection.",
+              "expected_behavior": "Apply the task-specific recorded requirement: For the compost collection only, the volunteers must attend in the afternoon; the general preference remains for other work.",
+              "supporting_memory_ids": [
+                "M4AA6DB0E874348E8B7CB5EF441A55522",
+                "MEEF8B13C024445CCA187D5B889B8C486"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "indirect",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            }
+          ]
+        }
+      },
+      "suites": [
+        {
+          "run_id": "RUNE251E34625D9497C977387376E3E3961",
+          "method": "Direct questions",
+          "tests": [
+            {
+              "test_id": "TB5F91347343D4A0781786F1CDE5E5D3F",
+              "run_id": "RUNE251E34625D9497C977387376E3E3961",
+              "dimension": "accuracy",
+              "prompt": "Where is the garden coordinator based?",
+              "expected_behavior": "State the recorded fact: The garden coordinator is based in Hobart.",
+              "supporting_memory_ids": [
+                "M4DAE73D5DC5E4FC39E41AA8D159ED364"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T58A4B24A728141A0B69B23C2EE47F001",
+              "run_id": "RUNE251E34625D9497C977387376E3E3961",
+              "dimension": "freshness",
+              "prompt": "What is the current recorded watering schedule?",
+              "expected_behavior": "State the current recorded fact: The coordinator changed the watering day to Wednesday, replacing Monday.",
+              "supporting_memory_ids": [
+                "M09DBAFCDECFA4FA7AFC638CE828DB85A",
+                "M23C63A8A95D9438191ABF4E4EDD696A6"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T7EAEB9C6BF4541C49BEBFF4065749B4B",
+              "run_id": "RUNE251E34625D9497C977387376E3E3961",
+              "dimension": "conflict_resolution",
+              "prompt": "What is the recorded resource allocation?",
+              "expected_behavior": "Keep both records visible: The active garden plan assigns the entire shared bed exclusively to Group Red for the current growing season. The bed may be allocated to only one group for that season; joint or divided use is not permitted; A signed active garden allocation assigns that same entire shared bed exclusively to Group Blue for the same current growing season; neither allocation has been withdrawn, superseded or ranked. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+              "supporting_memory_ids": [
+                "MEB93E7F0FFCE45DC91749AF7C93894E5",
+                "M2E43D8A3870E44539242F9B970B76A1B"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T215721F03C474A3FA5011578C5D1D422",
+              "run_id": "RUNE251E34625D9497C977387376E3E3961",
+              "dimension": "appropriate_use",
+              "prompt": "What volunteer arrangement applies to the compost collection?",
+              "expected_behavior": "Apply the scoped recorded fact: For the compost collection only, the volunteers must attend in the afternoon; the general preference remains for other work.",
+              "supporting_memory_ids": [
+                "M4AA6DB0E874348E8B7CB5EF441A55522",
+                "MEEF8B13C024445CCA187D5B889B8C486"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            }
+          ]
+        },
+        {
+          "run_id": "RUN1546B451D81F4BB994E6F7D607925280",
+          "method": "Fixed templates",
+          "tests": [
+            {
+              "test_id": "TED9A47A1032542EB9BC98B48D671A2D9",
+              "run_id": "RUN1546B451D81F4BB994E6F7D607925280",
+              "dimension": "accuracy",
+              "prompt": "Where is the garden coordinator based?",
+              "expected_behavior": "Expected: Hobart",
+              "supporting_memory_ids": [
+                "M4DAE73D5DC5E4FC39E41AA8D159ED364"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T90C60FC654EB49099659DF9CD6447AE0",
+              "run_id": "RUN1546B451D81F4BB994E6F7D607925280",
+              "dimension": "freshness",
+              "prompt": "What is the current garden watering day?",
+              "expected_behavior": "Expected: Wednesday",
+              "supporting_memory_ids": [
+                "M09DBAFCDECFA4FA7AFC638CE828DB85A",
+                "M23C63A8A95D9438191ABF4E4EDD696A6"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T61A62B3EFCBC44F496AD4D0D9F0F8E9F",
+              "run_id": "RUN1546B451D81F4BB994E6F7D607925280",
+              "dimension": "conflict_resolution",
+              "prompt": "Which group should be assigned exclusive use of the entire shared bed for the current growing season?",
+              "expected_behavior": "Expected: The active exclusive allocations conflict: Group Red versus Group Blue for the same entire bed and growing season. Neither has priority; seek clarification before assigning it. Ask the user to clarify which record controls.",
+              "supporting_memory_ids": [
+                "MEB93E7F0FFCE45DC91749AF7C93894E5",
+                "M2E43D8A3870E44539242F9B970B76A1B"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T3250BAAB4F5A41CA8206A15063C13A12",
+              "run_id": "RUN1546B451D81F4BB994E6F7D607925280",
+              "dimension": "appropriate_use",
+              "prompt": "When should volunteers attend the compost collection?",
+              "expected_behavior": "Expected: Attend in the afternoon for compost collection.",
+              "supporting_memory_ids": [
+                "M4AA6DB0E874348E8B7CB5EF441A55522",
+                "MEEF8B13C024445CCA187D5B889B8C486"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            }
+          ]
+        },
+        {
+          "run_id": "RUN9625443D58304DDBA1DAF98611F4D47D",
+          "method": "Contextual/indirect Auditor tests",
+          "tests": [
+            {
+              "test_id": "T8DF08AD1E55A403C8EB1F3A856044EE8",
+              "run_id": "RUN9625443D58304DDBA1DAF98611F4D47D",
+              "dimension": "accuracy",
+              "prompt": "Draft an entry for a shared contact sheet that records where the garden coordinator is based.",
+              "expected_behavior": "State the recorded fact: The garden coordinator is based in Hobart.",
+              "supporting_memory_ids": [
+                "M4DAE73D5DC5E4FC39E41AA8D159ED364"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T6DD6A1B24F954068B8DED7D87A5651DA",
+              "run_id": "RUN9625443D58304DDBA1DAF98611F4D47D",
+              "dimension": "freshness",
+              "prompt": "Draft a current planning note about watering schedule that the team can use.",
+              "expected_behavior": "State the current recorded fact: The coordinator changed the watering day to Wednesday, replacing Monday.",
+              "supporting_memory_ids": [
+                "M09DBAFCDECFA4FA7AFC638CE828DB85A",
+                "M23C63A8A95D9438191ABF4E4EDD696A6"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "indirect",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T539B9306035F41BF88EAA22353F411C6",
+              "run_id": "RUN9625443D58304DDBA1DAF98611F4D47D",
+              "dimension": "conflict_resolution",
+              "prompt": "Draft an action note for colleagues planning around resource allocation: what should it include and what action follows?",
+              "expected_behavior": "Keep both records visible: The active garden plan assigns the entire shared bed exclusively to Group Red for the current growing season. The bed may be allocated to only one group for that season; joint or divided use is not permitted; A signed active garden allocation assigns that same entire shared bed exclusively to Group Blue for the same current growing season; neither allocation has been withdrawn, superseded or ranked. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+              "supporting_memory_ids": [
+                "MEB93E7F0FFCE45DC91749AF7C93894E5",
+                "M2E43D8A3870E44539242F9B970B76A1B"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "indirect",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TE6A8CBDCABE44281A21D60013EB34123",
+              "run_id": "RUN9625443D58304DDBA1DAF98611F4D47D",
+              "dimension": "appropriate_use",
+              "prompt": "Draft an instruction for colleagues about volunteer arrangement for the compost collection.",
+              "expected_behavior": "Apply the task-specific recorded requirement: For the compost collection only, the volunteers must attend in the afternoon; the general preference remains for other work.",
+              "supporting_memory_ids": [
+                "M4AA6DB0E874348E8B7CB5EF441A55522",
+                "MEEF8B13C024445CCA187D5B889B8C486"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "indirect",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            }
+          ]
+        }
+      ],
+      "status": "awaiting AI and human question validity review"
+    },
+    "SHOP": {
+      "history_id": "SHOP",
+      "operations": {
+        "inventory": {
+          "method": "POST",
+          "path": "/audits/RUNBA7AA2F6C11F41E39B69753AA1207676/method-comparison-inventory",
+          "body": {
+            "schema_version": "mha-experiment-a-inventory-v1",
+            "comparison_id": "MCA559C657152614B8DAADA903E58278794",
+            "release_id": "SHOP-user-confirmed-v1",
+            "source_fingerprint_sha256": "2c3b2ebd8cf7a73f289763865698084c5a10bc447fc938fd2468939209a72eb4",
+            "annotation_mode": "two_independent_reviewers_with_adjudication",
+            "reviewers": [
+              "AI-independent-reviewer-1",
+              "AI-independent-reviewer-2"
+            ],
+            "defects": [
+              {
+                "defect_id": "SHOP-D1",
+                "dimension": "accuracy",
+                "explanation": "Give an incorrect or unsupported value for the stated location.",
+                "source_message_ids": [
+                  "SHOP-S1"
+                ],
+                "supporting_memory_ids": [
+                  "MCFF6B49B96AC44828385C077CCB427A1"
+                ]
+              },
+              {
+                "defect_id": "SHOP-D2",
+                "dimension": "freshness",
+                "explanation": "Use the superseded value as the current state.",
+                "source_message_ids": [
+                  "SHOP-S2",
+                  "SHOP-S3"
+                ],
+                "supporting_memory_ids": [
+                  "MCD8D8E1EC844440D9A539BE53A24661D",
+                  "MB8360527EB6E4B9CBCCFA7F640C20AE7"
+                ]
+              },
+              {
+                "defect_id": "SHOP-D3",
+                "dimension": "conflict_resolution",
+                "explanation": "Choose one active incompatible record without acknowledging the unresolved conflict.",
+                "source_message_ids": [
+                  "SHOP-S4",
+                  "SHOP-S5"
+                ],
+                "supporting_memory_ids": [
+                  "M78D60D83EF364EC5BB4DEF0B67EDA07C",
+                  "MBAED61C0A6CE4DF9951B69DB8DF86A54"
+                ]
+              },
+              {
+                "defect_id": "SHOP-D4",
+                "dimension": "appropriate_use",
+                "explanation": "Apply the general preference instead of the task-specific requirement.",
+                "source_message_ids": [
+                  "SHOP-S6",
+                  "SHOP-S7"
+                ],
+                "supporting_memory_ids": [
+                  "MD5B945552BFF499BA512BA8331CE6549",
+                  "M42D107FBA5F449E5B7B7342C7BAB15B6"
+                ]
+              }
+            ],
+            "fixed_template_release_id": "SHOP-user-confirmed-v1",
+            "fixed_template_reviewers": [
+              "user-confirmed"
+            ],
+            "fixed_template_draft_generator_version": "fixed-template-v9",
+            "fixed_template_draft_fingerprint_sha256": "20cc8d30f91a6a0f3a9a56ea94093d33068934a75e4fa2b038032700a9308ecd",
+            "fixed_template_review_confirmed": true,
+            "fixed_template_questions": [
+              {
+                "template_id": "SHOP-Q1",
+                "dimension": "accuracy",
+                "prompt": "Where is the shop owner based?",
+                "expected_behavior": "Expected: Darwin",
+                "test_type": "contextual",
+                "source_message_ids": [
+                  "SHOP-S1"
+                ],
+                "supporting_memory_ids": [
+                  "MCFF6B49B96AC44828385C077CCB427A1"
+                ]
+              },
+              {
+                "template_id": "SHOP-Q2",
+                "dimension": "freshness",
+                "prompt": "Which provider currently handles the shop’s local deliveries?",
+                "expected_behavior": "Expected: Parcel South",
+                "test_type": "contextual",
+                "source_message_ids": [
+                  "SHOP-S2",
+                  "SHOP-S3"
+                ],
+                "supporting_memory_ids": [
+                  "MCD8D8E1EC844440D9A539BE53A24661D",
+                  "MB8360527EB6E4B9CBCCFA7F640C20AE7"
+                ]
+              },
+              {
+                "template_id": "SHOP-Q3",
+                "dimension": "conflict_resolution",
+                "prompt": "What delivery window should be promised for the order?",
+                "expected_behavior": "Expected: The active 9–11 am and 1–3 pm windows conflict; ask for clarification. Ask the user to clarify which record controls.",
+                "test_type": "contextual",
+                "source_message_ids": [
+                  "SHOP-S4",
+                  "SHOP-S5"
+                ],
+                "supporting_memory_ids": [
+                  "M78D60D83EF364EC5BB4DEF0B67EDA07C",
+                  "MBAED61C0A6CE4DF9951B69DB8DF86A54"
+                ]
+              },
+              {
+                "template_id": "SHOP-Q4",
+                "dimension": "appropriate_use",
+                "prompt": "How should the recipient be notified for this delivery?",
+                "expected_behavior": "Expected: Notify the recipient by phone for this delivery.",
+                "test_type": "contextual",
+                "source_message_ids": [
+                  "SHOP-S6",
+                  "SHOP-S7"
+                ],
+                "supporting_memory_ids": [
+                  "MD5B945552BFF499BA512BA8331CE6549",
+                  "M42D107FBA5F449E5B7B7342C7BAB15B6"
+                ]
+              }
+            ]
+          },
+          "sha256": "f25a2fab27a8b0ab276d8e9648fe27d548deae1a81e49a3f573dcb7a7036338a",
+          "status": "returned",
+          "response": {
+            "comparison_id": "MCA559C657152614B8DAADA903E58278794",
+            "inventory_fingerprint_sha256": "87918f17d0a0306ac14c5ff56abb9d34901a32dfc130a63fb70fdcbb2600504f",
+            "defect_count": 4,
+            "fixed_template_question_count": 4,
+            "fixed_template_release_id": "SHOP-user-confirmed-v1",
+            "fixed_template_draft_fingerprint_sha256": "20cc8d30f91a6a0f3a9a56ea94093d33068934a75e4fa2b038032700a9308ecd",
+            "fixed_template_final_fingerprint_sha256": "2ea9edcf99588c4d5343f59b4b74e14b3dd9bac4a239fc9331d2973c0a426e3a",
+            "fixed_template_review_confirmed": true,
+            "status": "frozen",
+            "notice": "The rule-generated draft was reviewed, confirmed and frozen as the fixed-template release. Reviewer and author identities and independence are self-declared, not independently verified."
+          }
+        },
+        "generate-RUND453D713FD5D47AAAE2113686E03CB82": {
+          "method": "POST",
+          "path": "/audits/RUND453D713FD5D47AAAE2113686E03CB82/generate-tests",
+          "body": {},
+          "sha256": "fb30cdb822d9632337c7d4efbf855e8a68b7bb7576181e4647c8248c2f9d7636",
+          "status": "returned",
+          "response": [
+            {
+              "test_id": "TDE1CF9EE2ED24AF0A1529F5EE32207FF",
+              "run_id": "RUND453D713FD5D47AAAE2113686E03CB82",
+              "dimension": "accuracy",
+              "prompt": "Where is the shop owner based?",
+              "expected_behavior": "State the recorded fact: The shop owner is based in Darwin.",
+              "supporting_memory_ids": [
+                "MCFF6B49B96AC44828385C077CCB427A1"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T98F5D9B59B9E4C8CA081D026ADC8658F",
+              "run_id": "RUND453D713FD5D47AAAE2113686E03CB82",
+              "dimension": "freshness",
+              "prompt": "What is the current recorded delivery provider for the shop?",
+              "expected_behavior": "State the current recorded fact: The shop switched its local delivery provider to Parcel South; Parcel North is no longer used for this service.",
+              "supporting_memory_ids": [
+                "MCD8D8E1EC844440D9A539BE53A24661D",
+                "MB8360527EB6E4B9CBCCFA7F640C20AE7"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TB9878817E21C4C9583D005EECEB7D293",
+              "run_id": "RUND453D713FD5D47AAAE2113686E03CB82",
+              "dimension": "conflict_resolution",
+              "prompt": "What is the recorded delivery window?",
+              "expected_behavior": "Keep both records visible: The active supplier schedule sets the delivery window for the entire order on 15 August to 9–11 am. The order is one complete delivery, not split across windows; The active signed order specifies a 1–3 pm window on 15 August for that same one complete delivery; neither document has been cancelled or designated as controlling. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+              "supporting_memory_ids": [
+                "M78D60D83EF364EC5BB4DEF0B67EDA07C",
+                "MBAED61C0A6CE4DF9951B69DB8DF86A54"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TB0E454D4EEC94A818AFBF4CC188196FF",
+              "run_id": "RUND453D713FD5D47AAAE2113686E03CB82",
+              "dimension": "appropriate_use",
+              "prompt": "What notification method applies to the delivery?",
+              "expected_behavior": "Apply the scoped recorded fact: For this delivery the recipient requires a phone notification; email remains the general preference for other orders.",
+              "supporting_memory_ids": [
+                "MD5B945552BFF499BA512BA8331CE6549",
+                "M42D107FBA5F449E5B7B7342C7BAB15B6"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            }
+          ]
+        },
+        "generate-RUN0B55371AAD9E4C328ADC4ADE6A13E370": {
+          "method": "POST",
+          "path": "/audits/RUN0B55371AAD9E4C328ADC4ADE6A13E370/generate-tests",
+          "body": {},
+          "sha256": "21ba891963969f517bc1d63da322e5d9990585f8ce0be0964d260b67ba71cd0b",
+          "status": "returned",
+          "response": [
+            {
+              "test_id": "TD8A5E358DEFC4B5DAFADD893B2A244F0",
+              "run_id": "RUN0B55371AAD9E4C328ADC4ADE6A13E370",
+              "dimension": "accuracy",
+              "prompt": "Where is the shop owner based?",
+              "expected_behavior": "Expected: Darwin",
+              "supporting_memory_ids": [
+                "MCFF6B49B96AC44828385C077CCB427A1"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T32D40ED9D9E14D25BE2B4F5519E47F36",
+              "run_id": "RUN0B55371AAD9E4C328ADC4ADE6A13E370",
+              "dimension": "freshness",
+              "prompt": "Which provider currently handles the shop’s local deliveries?",
+              "expected_behavior": "Expected: Parcel South",
+              "supporting_memory_ids": [
+                "MCD8D8E1EC844440D9A539BE53A24661D",
+                "MB8360527EB6E4B9CBCCFA7F640C20AE7"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TB3D0B212E9234CB8B07D877153DEE173",
+              "run_id": "RUN0B55371AAD9E4C328ADC4ADE6A13E370",
+              "dimension": "conflict_resolution",
+              "prompt": "What delivery window should be promised for the order?",
+              "expected_behavior": "Expected: The active 9–11 am and 1–3 pm windows conflict; ask for clarification. Ask the user to clarify which record controls.",
+              "supporting_memory_ids": [
+                "M78D60D83EF364EC5BB4DEF0B67EDA07C",
+                "MBAED61C0A6CE4DF9951B69DB8DF86A54"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T78FD9B80264144E58349E5558A917CD1",
+              "run_id": "RUN0B55371AAD9E4C328ADC4ADE6A13E370",
+              "dimension": "appropriate_use",
+              "prompt": "How should the recipient be notified for this delivery?",
+              "expected_behavior": "Expected: Notify the recipient by phone for this delivery.",
+              "supporting_memory_ids": [
+                "MD5B945552BFF499BA512BA8331CE6549",
+                "M42D107FBA5F449E5B7B7342C7BAB15B6"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            }
+          ]
+        },
+        "generate-RUNC4EC877E06424E019FD2BBDC67E113EA": {
+          "method": "POST",
+          "path": "/audits/RUNC4EC877E06424E019FD2BBDC67E113EA/generate-tests",
+          "body": {},
+          "sha256": "6ebe1e0a18b3e27b4c631133e2eeb48ecdc3279fb1c3030a00f6fbd169903429",
+          "status": "returned",
+          "response": [
+            {
+              "test_id": "T3F326D6720614C0696C606762E20F2DB",
+              "run_id": "RUNC4EC877E06424E019FD2BBDC67E113EA",
+              "dimension": "accuracy",
+              "prompt": "Draft an entry for a shared contact sheet that records where the shop owner is based.",
+              "expected_behavior": "State the recorded fact: The shop owner is based in Darwin.",
+              "supporting_memory_ids": [
+                "MCFF6B49B96AC44828385C077CCB427A1"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TBB09A36B40214C2FB2B3E62CF54A29D2",
+              "run_id": "RUNC4EC877E06424E019FD2BBDC67E113EA",
+              "dimension": "freshness",
+              "prompt": "Draft a current planning note about delivery provider for the shop that the team can use.",
+              "expected_behavior": "State the current recorded fact: The shop switched its local delivery provider to Parcel South; Parcel North is no longer used for this service.",
+              "supporting_memory_ids": [
+                "MCD8D8E1EC844440D9A539BE53A24661D",
+                "MB8360527EB6E4B9CBCCFA7F640C20AE7"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "indirect",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TEE81902B19744CAD9CF534D6F5505534",
+              "run_id": "RUNC4EC877E06424E019FD2BBDC67E113EA",
+              "dimension": "conflict_resolution",
+              "prompt": "Draft an action note for colleagues planning around delivery window: what should it include and what action follows?",
+              "expected_behavior": "Keep both records visible: The active supplier schedule sets the delivery window for the entire order on 15 August to 9–11 am. The order is one complete delivery, not split across windows; The active signed order specifies a 1–3 pm window on 15 August for that same one complete delivery; neither document has been cancelled or designated as controlling. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+              "supporting_memory_ids": [
+                "M78D60D83EF364EC5BB4DEF0B67EDA07C",
+                "MBAED61C0A6CE4DF9951B69DB8DF86A54"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "indirect",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T12CF1B7513F54B1986BB4700BDAC87B7",
+              "run_id": "RUNC4EC877E06424E019FD2BBDC67E113EA",
+              "dimension": "appropriate_use",
+              "prompt": "Draft an instruction for colleagues about notification method for the delivery.",
+              "expected_behavior": "Apply the task-specific recorded requirement: For this delivery the recipient requires a phone notification; email remains the general preference for other orders.",
+              "supporting_memory_ids": [
+                "MD5B945552BFF499BA512BA8331CE6549",
+                "M42D107FBA5F449E5B7B7342C7BAB15B6"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "indirect",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            }
+          ]
+        }
+      },
+      "suites": [
+        {
+          "run_id": "RUND453D713FD5D47AAAE2113686E03CB82",
+          "method": "Direct questions",
+          "tests": [
+            {
+              "test_id": "TDE1CF9EE2ED24AF0A1529F5EE32207FF",
+              "run_id": "RUND453D713FD5D47AAAE2113686E03CB82",
+              "dimension": "accuracy",
+              "prompt": "Where is the shop owner based?",
+              "expected_behavior": "State the recorded fact: The shop owner is based in Darwin.",
+              "supporting_memory_ids": [
+                "MCFF6B49B96AC44828385C077CCB427A1"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T98F5D9B59B9E4C8CA081D026ADC8658F",
+              "run_id": "RUND453D713FD5D47AAAE2113686E03CB82",
+              "dimension": "freshness",
+              "prompt": "What is the current recorded delivery provider for the shop?",
+              "expected_behavior": "State the current recorded fact: The shop switched its local delivery provider to Parcel South; Parcel North is no longer used for this service.",
+              "supporting_memory_ids": [
+                "MCD8D8E1EC844440D9A539BE53A24661D",
+                "MB8360527EB6E4B9CBCCFA7F640C20AE7"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TB9878817E21C4C9583D005EECEB7D293",
+              "run_id": "RUND453D713FD5D47AAAE2113686E03CB82",
+              "dimension": "conflict_resolution",
+              "prompt": "What is the recorded delivery window?",
+              "expected_behavior": "Keep both records visible: The active supplier schedule sets the delivery window for the entire order on 15 August to 9–11 am. The order is one complete delivery, not split across windows; The active signed order specifies a 1–3 pm window on 15 August for that same one complete delivery; neither document has been cancelled or designated as controlling. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+              "supporting_memory_ids": [
+                "M78D60D83EF364EC5BB4DEF0B67EDA07C",
+                "MBAED61C0A6CE4DF9951B69DB8DF86A54"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TB0E454D4EEC94A818AFBF4CC188196FF",
+              "run_id": "RUND453D713FD5D47AAAE2113686E03CB82",
+              "dimension": "appropriate_use",
+              "prompt": "What notification method applies to the delivery?",
+              "expected_behavior": "Apply the scoped recorded fact: For this delivery the recipient requires a phone notification; email remains the general preference for other orders.",
+              "supporting_memory_ids": [
+                "MD5B945552BFF499BA512BA8331CE6549",
+                "M42D107FBA5F449E5B7B7342C7BAB15B6"
+              ],
+              "generator_version": "direct-ground-truth-v13",
+              "test_type": "direct",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            }
+          ]
+        },
+        {
+          "run_id": "RUN0B55371AAD9E4C328ADC4ADE6A13E370",
+          "method": "Fixed templates",
+          "tests": [
+            {
+              "test_id": "TD8A5E358DEFC4B5DAFADD893B2A244F0",
+              "run_id": "RUN0B55371AAD9E4C328ADC4ADE6A13E370",
+              "dimension": "accuracy",
+              "prompt": "Where is the shop owner based?",
+              "expected_behavior": "Expected: Darwin",
+              "supporting_memory_ids": [
+                "MCFF6B49B96AC44828385C077CCB427A1"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T32D40ED9D9E14D25BE2B4F5519E47F36",
+              "run_id": "RUN0B55371AAD9E4C328ADC4ADE6A13E370",
+              "dimension": "freshness",
+              "prompt": "Which provider currently handles the shop’s local deliveries?",
+              "expected_behavior": "Expected: Parcel South",
+              "supporting_memory_ids": [
+                "MCD8D8E1EC844440D9A539BE53A24661D",
+                "MB8360527EB6E4B9CBCCFA7F640C20AE7"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TB3D0B212E9234CB8B07D877153DEE173",
+              "run_id": "RUN0B55371AAD9E4C328ADC4ADE6A13E370",
+              "dimension": "conflict_resolution",
+              "prompt": "What delivery window should be promised for the order?",
+              "expected_behavior": "Expected: The active 9–11 am and 1–3 pm windows conflict; ask for clarification. Ask the user to clarify which record controls.",
+              "supporting_memory_ids": [
+                "M78D60D83EF364EC5BB4DEF0B67EDA07C",
+                "MBAED61C0A6CE4DF9951B69DB8DF86A54"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T78FD9B80264144E58349E5558A917CD1",
+              "run_id": "RUN0B55371AAD9E4C328ADC4ADE6A13E370",
+              "dimension": "appropriate_use",
+              "prompt": "How should the recipient be notified for this delivery?",
+              "expected_behavior": "Expected: Notify the recipient by phone for this delivery.",
+              "supporting_memory_ids": [
+                "MD5B945552BFF499BA512BA8331CE6549",
+                "M42D107FBA5F449E5B7B7342C7BAB15B6"
+              ],
+              "generator_version": "human-reviewed-fixed-template-v1",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            }
+          ]
+        },
+        {
+          "run_id": "RUNC4EC877E06424E019FD2BBDC67E113EA",
+          "method": "Contextual/indirect Auditor tests",
+          "tests": [
+            {
+              "test_id": "T3F326D6720614C0696C606762E20F2DB",
+              "run_id": "RUNC4EC877E06424E019FD2BBDC67E113EA",
+              "dimension": "accuracy",
+              "prompt": "Draft an entry for a shared contact sheet that records where the shop owner is based.",
+              "expected_behavior": "State the recorded fact: The shop owner is based in Darwin.",
+              "supporting_memory_ids": [
+                "MCFF6B49B96AC44828385C077CCB427A1"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "contextual",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TBB09A36B40214C2FB2B3E62CF54A29D2",
+              "run_id": "RUNC4EC877E06424E019FD2BBDC67E113EA",
+              "dimension": "freshness",
+              "prompt": "Draft a current planning note about delivery provider for the shop that the team can use.",
+              "expected_behavior": "State the current recorded fact: The shop switched its local delivery provider to Parcel South; Parcel North is no longer used for this service.",
+              "supporting_memory_ids": [
+                "MCD8D8E1EC844440D9A539BE53A24661D",
+                "MB8360527EB6E4B9CBCCFA7F640C20AE7"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "indirect",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "TEE81902B19744CAD9CF534D6F5505534",
+              "run_id": "RUNC4EC877E06424E019FD2BBDC67E113EA",
+              "dimension": "conflict_resolution",
+              "prompt": "Draft an action note for colleagues planning around delivery window: what should it include and what action follows?",
+              "expected_behavior": "Keep both records visible: The active supplier schedule sets the delivery window for the entire order on 15 August to 9–11 am. The order is one complete delivery, not split across windows; The active signed order specifies a 1–3 pm window on 15 August for that same one complete delivery; neither document has been cancelled or designated as controlling. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+              "supporting_memory_ids": [
+                "M78D60D83EF364EC5BB4DEF0B67EDA07C",
+                "MBAED61C0A6CE4DF9951B69DB8DF86A54"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "indirect",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            },
+            {
+              "test_id": "T12CF1B7513F54B1986BB4700BDAC87B7",
+              "run_id": "RUNC4EC877E06424E019FD2BBDC67E113EA",
+              "dimension": "appropriate_use",
+              "prompt": "Draft an instruction for colleagues about notification method for the delivery.",
+              "expected_behavior": "Apply the task-specific recorded requirement: For this delivery the recipient requires a phone notification; email remains the general preference for other orders.",
+              "supporting_memory_ids": [
+                "MD5B945552BFF499BA512BA8331CE6549",
+                "M42D107FBA5F449E5B7B7342C7BAB15B6"
+              ],
+              "generator_version": "contextual-indirect-auditor-v13",
+              "test_type": "indirect",
+              "quality_status": "accepted",
+              "grounding_status": "grounded",
+              "validation_notes": "rule-based-quality-v24: Declared evidence is confirmed and the prompt is answer-independent.",
+              "human_validity_status": "pending",
+              "human_validity_reviewer": null,
+              "human_validity_note": null,
+              "human_validity_reviewed_at": null,
+              "probe_group_id": null,
+              "probe_variant": null
+            }
+          ]
+        }
+      ],
+      "status": "awaiting AI and human question validity review"
+    }
+  }
+}

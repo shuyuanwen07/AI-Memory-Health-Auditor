@@ -1,0 +1,20 @@
+{
+  "description": "Exploratory synthetic four-history same-question retrieval retest; one user-confirmed human reference after two independent AI blinded reviews. Existing source outcomes were known before candidate design.",
+  "files": {
+    "baseline-answer-key.json": "a7b9caafa58d5aa72f226797593e8197260efd42b7ac6b0af2c4f037aa027af9",
+    "baseline-answer-review.json": "68c04d51dbaa40aad9a207f90c0600a0188b955d1e176f63748132e32721906d",
+    "baseline-execution.json": "c1df35db10840d038545842bf8cddc3986d39ad1adee8d639b477b5548701c8b",
+    "baseline-questions.json": "e476b608c4379397cb528745698afc5ecc8dc6cdc4d6d62d5bbdb45f60b5f940",
+    "baseline-user-confirmation.json": "60512165cc65cce4fcf6b08491d565bb054182b645720fe3eb7e5ef85009d6fc",
+    "independent-ai-review-1.json": "c2ab24bf3bde312cb401e3431bc844e247c25ccb9ead9d67204388b19055ff72",
+    "independent-ai-review-2.json": "7ad11cfbf86642e36f8783a5bc95b84399b6fad5e41b822dc28d2ea79718669b",
+    "paired-answer-key.json": "3dd6655257015466709357c81e654830f2ed658cc714912131ceff78f73dc756",
+    "paired-answer-review.json": "5134520ad3edc831a1797003b36d607ddf621b21db9849e20cb6dcb5e6a29249",
+    "protocol-amendment.json": "ee8c8cfd587760cfa41fce00efc4e0c9ee7b3fdfff08edba5e14df98b1c99975",
+    "protocol.json": "4c434c319993dbc20a0e591d2564f710d44d88bfee8c8efe968ee5baa4af853f",
+    "retest-execution.json": "e64181bcb1814a8eef44c1ad9cb0be6d547df682620e2c9251a39d7b288abf41",
+    "retest-human-import.json": "e9b75090a27729aa32f609adaa5e3a0b518a5a2e5bec0baedb9ae1c3a3fc5813",
+    "retest-user-confirmation.json": "6f42753bfd57041fb0d55963b8858d173cfb32e7eaa3f333587738cbfb18820c",
+    "source-histories.json": "1598a036c51f3cb6d021bb158f2f69f81ef497ef05b61a4eef4ec4eb77164d58"
+  }
+}

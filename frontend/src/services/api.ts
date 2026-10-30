@@ -4,6 +4,12 @@ import { friendlyText } from './display';
 import type { AgentExecution, SceneEvidenceVerification, FormalStudySummary, SavedFormalRunPage, ReviewedSavedAcceptanceReport, AcceptanceCheckReport, TargetProvider, AnnotationImportReport, AuditResult, AuditRetryPlan, AuditRun, BenchmarkFamily, BenchmarkRunResponse, BenchmarkValidationResponse, CancelledAuditEvidence, Conversation, ConversationDeletionReceipt, ConversationInputMessage, DimensionCoveragePreview, EvaluationCalibrationSummary, EvaluationHumanReview, EvaluationReviewItem, Experiment, ExperimentAnalytics, ExperimentResult, FormalMatrixCreateResponse, LongMemEvalRunResponse, LongMemEvalValidationResponse, Memory, MemoryStrategy, PilotReadinessReport, ProviderOption, ResearchValidityReport, TargetMemoryTrace, TestCase, TestReviewSuite } from '../types/domain';
 const BASE = import.meta.env.VITE_API_URL?.trim() || '/api/v1';
 import type { AuditComparison } from '../types/domain';
+export type RetrievalImprovementBasis = 'single_human_reference' | 'independent_human_consensus' | 'mixed_human_review' | 'pending';
+export type RetrievalImprovementSummary = {
+  study_id:string; status:string; planned_pairs:number; scenarios_completed:number; scenarios_planned:number;
+  methods:Array<{mode:string;label:string; before:{passed:number;decided:number;review_basis:RetrievalImprovementBasis}; after:{passed:number;decided:number;review_basis:RetrievalImprovementBasis}; matched:number; improved:number|null; regressed:number|null; unresolved:number}>;
+  notice:string;
+};
 export function apiErrorMessage(detail: unknown): string {
   if (typeof detail === 'string') return friendlyText(detail);
   if (Array.isArray(detail)) {
@@ -44,6 +50,7 @@ async function request<T>(path:string, options?:RequestInit):Promise<T> {
   return r.status===204 ? undefined as T : r.json();
 }
 export const api = {
+  retrievalImprovementLatest:()=>request<RetrievalImprovementSummary|null>('/research/retrieval-improvements/latest'),
   ac3FrozenStudies:()=>request<{studies:Array<{file:string;sha256:string;questions:number;histories:number;reservation_usd:string;executable?:boolean}>}>('/ac3/studies/frozen'),
   ac3StartStudy:(body:{frozen_file:string;frozen_sha256:string})=>request<{study_id:string;status:string;completed?:number;total?:number}>('/ac3/studies/start',{method:'POST',body:JSON.stringify(body)}),
   ac3StudyStatus:(id:string)=>request<{study_id:string;status:string;completed?:number;total?:number;failed_test_id?:string}>(`/ac3/studies/${encodeURIComponent(id)}/status`),
@@ -100,7 +107,7 @@ export const api = {
       discovery_mapping:{status:string;release_id:string|null;reviewer_pseudonym:string|null;fingerprint_sha256:string|null;mapped_response_count:number;total_response_count:number;entries:Array<{response_id:string;test_id:string;question:string;response:string;human_passed:boolean|null;defect_ids:string[]}>}}>
     notice:string;
   }>(`/audits/${id}/method-comparison-results${comparisonId?`?comparison_id=${encodeURIComponent(comparisonId)}`:''}`),
-  methodComparison:(id:string)=>request<import("../components/ValidationWorkbench").Package>(`/audits/${id}/method-comparison`,{method:"POST"}),
+  methodComparison:(id:string,campaign?:{campaign_id:string;scenario_id:string;planned_scenarios:number})=>request<import("../components/ValidationWorkbench").Package>(`/audits/${id}/method-comparison`,{method:"POST",...(campaign?{body:JSON.stringify(campaign)}:{})}),
   freezeMethodComparisonInventory:(id:string,body:object)=>request<{comparison_id:string;inventory_fingerprint_sha256:string;defect_count:number;fixed_template_question_count:number;fixed_template_release_id:string;status:string;notice?:string}>(`/audits/${id}/method-comparison-inventory`,{method:"POST",body:JSON.stringify(body)}),
   freezeMethodComparisonDiscoveryMapping:(id:string,body:object)=>request<{comparison_id:string;run_id:string;mapping_fingerprint_sha256:string;status:string;mapped_response_count:number;reviewer_pseudonym?:string;notice?:string}>(`/audits/${id}/method-comparison-discovery-mapping`,{method:"POST",body:JSON.stringify(body)}),
   interventions:(id:string)=>request<import("../components/ValidationWorkbench").Package>(`/audits/${id}/interventions`,{method:"POST"}),

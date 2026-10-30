@@ -1,0 +1,6 @@
+{
+  "prior_protocol_sha256": "4c434c319993dbc20a0e591d2564f710d44d88bfee8c8efe968ee5baa4af853f",
+  "amended_utc": "2026-10-30T07:21:15.049622+00:00",
+  "change": "Correct candidate strategy identifier from planning placeholder relationship_bundle to implemented relationship_packet; the design is unchanged.",
+  "before_any_retest_target_calls": true
+}

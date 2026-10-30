@@ -1,0 +1,2466 @@
+{
+  "instructions": "逐项核对来源、问题和回答。若认可 AI 结论，human_decision 可填 pass / fail / uncertain；如有修改填写最终判断和备注。AI盲审不等于人审，未决项请保留 uncertain。",
+  "provenance": "两名独立 AI agent 在不看系统评分、方法身份或彼此判断的情况下完成复核；身份、独立性依代理执行记录。",
+  "items": [
+    {
+      "case_id": "CASE-050d4424c119f761",
+      "history_id": "RESEARCH",
+      "method": "Direct questions",
+      "source_messages": [
+        {
+          "message_id": "RESEARCH-S1",
+          "role": "user",
+          "content": "The research group is based in Canberra."
+        },
+        {
+          "message_id": "RESEARCH-S2",
+          "role": "user",
+          "content": "The study originally had 24 participants."
+        },
+        {
+          "message_id": "RESEARCH-S3",
+          "role": "user",
+          "content": "After a documented withdrawal the study has 23 participants; the previous count is superseded."
+        },
+        {
+          "message_id": "RESEARCH-S4",
+          "role": "user",
+          "content": "The current study protocol says the analysis deadline is 5 June."
+        },
+        {
+          "message_id": "RESEARCH-S5",
+          "role": "user",
+          "content": "The active supervisor instruction says the same analysis deadline is 8 June; neither instruction has been cancelled or prioritised."
+        },
+        {
+          "message_id": "RESEARCH-S6",
+          "role": "user",
+          "content": "The researcher generally prefers in-person meetings."
+        },
+        {
+          "message_id": "RESEARCH-S7",
+          "role": "user",
+          "content": "For this study the supervisor requires online meetings; the general meeting preference remains unchanged elsewhere."
+        }
+      ],
+      "question": "What meeting arrangement applies to the study?",
+      "expected_behavior": "Apply the scoped recorded fact: For this study the supervisor requires online meetings; the general meeting preference remains unchanged elsewhere.",
+      "answer": "I don’t have enough remembered information to say what meeting arrangement applies to the study. The supplied record only says it originally had 24 participants.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "未给出该研究需要在线会议。",
+      "reviewer_2_reason": "The answer does not provide the task-specific requirement supported by the source; it does not apply the general preference, so the omission is outside the listed pattern.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-056522f703a521db",
+      "history_id": "SHOP",
+      "method": "Contextual/indirect Auditor tests",
+      "source_messages": [
+        {
+          "message_id": "SHOP-S1",
+          "role": "user",
+          "content": "The shop owner is based in Darwin."
+        },
+        {
+          "message_id": "SHOP-S2",
+          "role": "user",
+          "content": "The shop initially used Parcel North for local deliveries."
+        },
+        {
+          "message_id": "SHOP-S3",
+          "role": "user",
+          "content": "The shop switched its local delivery provider to Parcel South; Parcel North is no longer used for this service."
+        },
+        {
+          "message_id": "SHOP-S4",
+          "role": "user",
+          "content": "The active supplier schedule sets the delivery window for the entire order on 15 August to 9–11 am. The order is one complete delivery, not split across windows."
+        },
+        {
+          "message_id": "SHOP-S5",
+          "role": "user",
+          "content": "The active signed order specifies a 1–3 pm window on 15 August for that same one complete delivery; neither document has been cancelled or designated as controlling."
+        },
+        {
+          "message_id": "SHOP-S6",
+          "role": "user",
+          "content": "The owner usually prefers email notifications."
+        },
+        {
+          "message_id": "SHOP-S7",
+          "role": "user",
+          "content": "For this delivery the recipient requires a phone notification; email remains the general preference for other orders."
+        }
+      ],
+      "question": "Draft an instruction for colleagues about notification method for the delivery.",
+      "expected_behavior": "Apply the task-specific recorded requirement: For this delivery the recipient requires a phone notification; email remains the general preference for other orders.",
+      "answer": "Please notify colleagues about the delivery via **[confirmed notification method]**. I don’t have enough remembered information to fill in the method; the available record only says the shop switched its local delivery provider to Parcel South.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "以占位符代替电话通知，未给出此次配送具体要求。",
+      "reviewer_2_reason": "The answer does not provide the task-specific requirement supported by the source; it does not apply the general preference, so the omission is outside the listed pattern.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-0eca703f4054d8e9",
+      "history_id": "SHOP",
+      "method": "Direct questions",
+      "source_messages": [
+        {
+          "message_id": "SHOP-S1",
+          "role": "user",
+          "content": "The shop owner is based in Darwin."
+        },
+        {
+          "message_id": "SHOP-S2",
+          "role": "user",
+          "content": "The shop initially used Parcel North for local deliveries."
+        },
+        {
+          "message_id": "SHOP-S3",
+          "role": "user",
+          "content": "The shop switched its local delivery provider to Parcel South; Parcel North is no longer used for this service."
+        },
+        {
+          "message_id": "SHOP-S4",
+          "role": "user",
+          "content": "The active supplier schedule sets the delivery window for the entire order on 15 August to 9–11 am. The order is one complete delivery, not split across windows."
+        },
+        {
+          "message_id": "SHOP-S5",
+          "role": "user",
+          "content": "The active signed order specifies a 1–3 pm window on 15 August for that same one complete delivery; neither document has been cancelled or designated as controlling."
+        },
+        {
+          "message_id": "SHOP-S6",
+          "role": "user",
+          "content": "The owner usually prefers email notifications."
+        },
+        {
+          "message_id": "SHOP-S7",
+          "role": "user",
+          "content": "For this delivery the recipient requires a phone notification; email remains the general preference for other orders."
+        }
+      ],
+      "question": "What notification method applies to the delivery?",
+      "expected_behavior": "Apply the scoped recorded fact: For this delivery the recipient requires a phone notification; email remains the general preference for other orders.",
+      "answer": "I don’t have enough remembered information to determine the delivery notification method. The supplied record only says the shop switched its local delivery provider to Parcel South.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "未给出此次配送要求的电话通知。",
+      "reviewer_2_reason": "The answer does not provide the task-specific requirement supported by the source; it does not apply the general preference, so the omission is outside the listed pattern.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-12a38d0ed91f34be",
+      "history_id": "COMMUNITY",
+      "method": "Fixed templates",
+      "source_messages": [
+        {
+          "message_id": "COMMUNITY-S1",
+          "role": "user",
+          "content": "The community workshop organiser is based in Perth."
+        },
+        {
+          "message_id": "COMMUNITY-S2",
+          "role": "user",
+          "content": "The workshop was originally scheduled for 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S3",
+          "role": "user",
+          "content": "The organiser moved the workshop to 19 April, replacing 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S4",
+          "role": "user",
+          "content": "The active workshop booking says the only final venue for the entire workshop is Hall A; the workshop cannot use multiple final venues."
+        },
+        {
+          "message_id": "COMMUNITY-S5",
+          "role": "user",
+          "content": "The active signed workshop notice says the only final venue for the same entire workshop is Hall B. Neither document has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "COMMUNITY-S6",
+          "role": "user",
+          "content": "The organiser generally prefers printed handouts."
+        },
+        {
+          "message_id": "COMMUNITY-S7",
+          "role": "user",
+          "content": "For this particular workshop the organiser requires accessible digital handouts; the general preference remains for other events."
+        }
+      ],
+      "question": "What is the current workshop date?",
+      "expected_behavior": "Expected: 19 April",
+      "answer": "I don’t have enough remembered information to identify the current workshop date. The supplied record only says the workshop organiser is based in Perth.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "未给出活动当前日期 19 April。",
+      "reviewer_2_reason": "The answer does not provide the current value supported by the source; abstaining or saying only the earlier record is available does not satisfy this test.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-165eb8948912998a",
+      "history_id": "RESEARCH",
+      "method": "Direct questions",
+      "source_messages": [
+        {
+          "message_id": "RESEARCH-S1",
+          "role": "user",
+          "content": "The research group is based in Canberra."
+        },
+        {
+          "message_id": "RESEARCH-S2",
+          "role": "user",
+          "content": "The study originally had 24 participants."
+        },
+        {
+          "message_id": "RESEARCH-S3",
+          "role": "user",
+          "content": "After a documented withdrawal the study has 23 participants; the previous count is superseded."
+        },
+        {
+          "message_id": "RESEARCH-S4",
+          "role": "user",
+          "content": "The current study protocol says the analysis deadline is 5 June."
+        },
+        {
+          "message_id": "RESEARCH-S5",
+          "role": "user",
+          "content": "The active supervisor instruction says the same analysis deadline is 8 June; neither instruction has been cancelled or prioritised."
+        },
+        {
+          "message_id": "RESEARCH-S6",
+          "role": "user",
+          "content": "The researcher generally prefers in-person meetings."
+        },
+        {
+          "message_id": "RESEARCH-S7",
+          "role": "user",
+          "content": "For this study the supervisor requires online meetings; the general meeting preference remains unchanged elsewhere."
+        }
+      ],
+      "question": "Where is the research group based?",
+      "expected_behavior": "State the recorded fact: The research group is based in Canberra.",
+      "answer": "The research group is based in Canberra.",
+      "ai_consensus": "pass",
+      "reviewer_1_reason": "正确指出研究组位于 Canberra。",
+      "reviewer_2_reason": "The stated location matches the relevant source.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-1828ef9c3d7cc0f5",
+      "history_id": "GARDEN",
+      "method": "Contextual/indirect Auditor tests",
+      "source_messages": [
+        {
+          "message_id": "GARDEN-S1",
+          "role": "user",
+          "content": "The garden coordinator is based in Hobart."
+        },
+        {
+          "message_id": "GARDEN-S2",
+          "role": "user",
+          "content": "The garden watering rota initially named Monday."
+        },
+        {
+          "message_id": "GARDEN-S3",
+          "role": "user",
+          "content": "The coordinator changed the watering day to Wednesday, replacing Monday."
+        },
+        {
+          "message_id": "GARDEN-S4",
+          "role": "user",
+          "content": "The active garden plan assigns the entire shared bed exclusively to Group Red for the current growing season. The bed may be allocated to only one group for that season; joint or divided use is not permitted."
+        },
+        {
+          "message_id": "GARDEN-S5",
+          "role": "user",
+          "content": "A signed active garden allocation assigns that same entire shared bed exclusively to Group Blue for the same current growing season; neither allocation has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "GARDEN-S6",
+          "role": "user",
+          "content": "The coordinator usually prefers morning volunteer sessions."
+        },
+        {
+          "message_id": "GARDEN-S7",
+          "role": "user",
+          "content": "For the compost collection only, the volunteers must attend in the afternoon; the general preference remains for other work."
+        }
+      ],
+      "question": "Draft an action note for colleagues planning around resource allocation: what should it include and what action follows?",
+      "expected_behavior": "Keep both records visible: The active garden plan assigns the entire shared bed exclusively to Group Red for the current growing season. The bed may be allocated to only one group for that season; joint or divided use is not permitted; A signed active garden allocation assigns that same entire shared bed exclusively to Group Blue for the same current growing season; neither allocation has been withdrawn, superseded or ranked. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+      "answer": "The note should state that a signed, active allocation assigns the entire shared bed exclusively to Group Blue for the current growing season. Action: plan on that basis and don’t assign the bed elsewhere during that season; check the allocation before making any change.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "建议按 Group Blue 独占安排，未披露 Group Red 的有效互斥分配。",
+      "reviewer_2_reason": "The answer presents one active record without recognising the other incompatible active record or asking which controls.",
+      "candidate_defect_ids": [
+        "GARDEN-D3"
+      ],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-1d4ff7f05fd4d6e7",
+      "history_id": "RESEARCH",
+      "method": "Contextual/indirect Auditor tests",
+      "source_messages": [
+        {
+          "message_id": "RESEARCH-S1",
+          "role": "user",
+          "content": "The research group is based in Canberra."
+        },
+        {
+          "message_id": "RESEARCH-S2",
+          "role": "user",
+          "content": "The study originally had 24 participants."
+        },
+        {
+          "message_id": "RESEARCH-S3",
+          "role": "user",
+          "content": "After a documented withdrawal the study has 23 participants; the previous count is superseded."
+        },
+        {
+          "message_id": "RESEARCH-S4",
+          "role": "user",
+          "content": "The current study protocol says the analysis deadline is 5 June."
+        },
+        {
+          "message_id": "RESEARCH-S5",
+          "role": "user",
+          "content": "The active supervisor instruction says the same analysis deadline is 8 June; neither instruction has been cancelled or prioritised."
+        },
+        {
+          "message_id": "RESEARCH-S6",
+          "role": "user",
+          "content": "The researcher generally prefers in-person meetings."
+        },
+        {
+          "message_id": "RESEARCH-S7",
+          "role": "user",
+          "content": "For this study the supervisor requires online meetings; the general meeting preference remains unchanged elsewhere."
+        }
+      ],
+      "question": "Draft a current planning note about participant count for the study that the team can use.",
+      "expected_behavior": "State the current recorded fact: After a documented withdrawal the study has 23 participants; the previous count is superseded.",
+      "answer": "**Planning note:** The study originally had 24 participants. The supplied record does not establish the current count, so verify it before using a current figure.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "只提原 24 人并未给出现有 23 人；没有声称 24 是当前人数。",
+      "reviewer_2_reason": "The answer does not provide the current value supported by the source; abstaining or saying only the earlier record is available does not satisfy this test.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-24edcd7c843819f4",
+      "history_id": "RESEARCH",
+      "method": "Contextual/indirect Auditor tests",
+      "source_messages": [
+        {
+          "message_id": "RESEARCH-S1",
+          "role": "user",
+          "content": "The research group is based in Canberra."
+        },
+        {
+          "message_id": "RESEARCH-S2",
+          "role": "user",
+          "content": "The study originally had 24 participants."
+        },
+        {
+          "message_id": "RESEARCH-S3",
+          "role": "user",
+          "content": "After a documented withdrawal the study has 23 participants; the previous count is superseded."
+        },
+        {
+          "message_id": "RESEARCH-S4",
+          "role": "user",
+          "content": "The current study protocol says the analysis deadline is 5 June."
+        },
+        {
+          "message_id": "RESEARCH-S5",
+          "role": "user",
+          "content": "The active supervisor instruction says the same analysis deadline is 8 June; neither instruction has been cancelled or prioritised."
+        },
+        {
+          "message_id": "RESEARCH-S6",
+          "role": "user",
+          "content": "The researcher generally prefers in-person meetings."
+        },
+        {
+          "message_id": "RESEARCH-S7",
+          "role": "user",
+          "content": "For this study the supervisor requires online meetings; the general meeting preference remains unchanged elsewhere."
+        }
+      ],
+      "question": "Draft an action note for colleagues planning around analysis deadline: what should it include and what action follows?",
+      "expected_behavior": "Keep both records visible: The current study protocol says the analysis deadline is 5 June; The active supervisor instruction says the same analysis deadline is 8 June; neither instruction has been cancelled or prioritised. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+      "answer": "**Action note:** The current study protocol sets the analysis deadline as **5 June**. **Suggested next step:** colleagues should confirm the milestones and owners needed to meet it; the supplied record doesn’t specify a follow-up action.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "仅给 5 June 并安排执行，未披露同样有效的 8 June 冲突。",
+      "reviewer_2_reason": "The answer presents one active record without recognising the other incompatible active record or asking which controls.",
+      "candidate_defect_ids": [
+        "RESEARCH-D3"
+      ],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-27deb1e16ebfc4a8",
+      "history_id": "SHOP",
+      "method": "Direct questions",
+      "source_messages": [
+        {
+          "message_id": "SHOP-S1",
+          "role": "user",
+          "content": "The shop owner is based in Darwin."
+        },
+        {
+          "message_id": "SHOP-S2",
+          "role": "user",
+          "content": "The shop initially used Parcel North for local deliveries."
+        },
+        {
+          "message_id": "SHOP-S3",
+          "role": "user",
+          "content": "The shop switched its local delivery provider to Parcel South; Parcel North is no longer used for this service."
+        },
+        {
+          "message_id": "SHOP-S4",
+          "role": "user",
+          "content": "The active supplier schedule sets the delivery window for the entire order on 15 August to 9–11 am. The order is one complete delivery, not split across windows."
+        },
+        {
+          "message_id": "SHOP-S5",
+          "role": "user",
+          "content": "The active signed order specifies a 1–3 pm window on 15 August for that same one complete delivery; neither document has been cancelled or designated as controlling."
+        },
+        {
+          "message_id": "SHOP-S6",
+          "role": "user",
+          "content": "The owner usually prefers email notifications."
+        },
+        {
+          "message_id": "SHOP-S7",
+          "role": "user",
+          "content": "For this delivery the recipient requires a phone notification; email remains the general preference for other orders."
+        }
+      ],
+      "question": "What is the current recorded delivery provider for the shop?",
+      "expected_behavior": "State the current recorded fact: The shop switched its local delivery provider to Parcel South; Parcel North is no longer used for this service.",
+      "answer": "I don’t have enough remembered information to identify the shop’s current delivery provider. The supplied record only says the shop owner is based in Darwin.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "未给出当前配送商 Parcel South。",
+      "reviewer_2_reason": "The answer does not provide the current value supported by the source; abstaining or saying only the earlier record is available does not satisfy this test.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-2edc885a78e4adac",
+      "history_id": "SHOP",
+      "method": "Direct questions",
+      "source_messages": [
+        {
+          "message_id": "SHOP-S1",
+          "role": "user",
+          "content": "The shop owner is based in Darwin."
+        },
+        {
+          "message_id": "SHOP-S2",
+          "role": "user",
+          "content": "The shop initially used Parcel North for local deliveries."
+        },
+        {
+          "message_id": "SHOP-S3",
+          "role": "user",
+          "content": "The shop switched its local delivery provider to Parcel South; Parcel North is no longer used for this service."
+        },
+        {
+          "message_id": "SHOP-S4",
+          "role": "user",
+          "content": "The active supplier schedule sets the delivery window for the entire order on 15 August to 9–11 am. The order is one complete delivery, not split across windows."
+        },
+        {
+          "message_id": "SHOP-S5",
+          "role": "user",
+          "content": "The active signed order specifies a 1–3 pm window on 15 August for that same one complete delivery; neither document has been cancelled or designated as controlling."
+        },
+        {
+          "message_id": "SHOP-S6",
+          "role": "user",
+          "content": "The owner usually prefers email notifications."
+        },
+        {
+          "message_id": "SHOP-S7",
+          "role": "user",
+          "content": "For this delivery the recipient requires a phone notification; email remains the general preference for other orders."
+        }
+      ],
+      "question": "What is the recorded delivery window?",
+      "expected_behavior": "Keep both records visible: The active supplier schedule sets the delivery window for the entire order on 15 August to 9–11 am. The order is one complete delivery, not split across windows; The active signed order specifies a 1–3 pm window on 15 August for that same one complete delivery; neither document has been cancelled or designated as controlling. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+      "answer": "I don’t have enough remembered information to say. The record only says the shop switched its local delivery provider to Parcel South.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "未给出两份互相冲突的送货窗口，也未说明冲突；回答无相关结果。",
+      "reviewer_2_reason": "The answer does not identify the two source-supported conflicting records; it does not choose either candidate value, so it is a separate omission.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-355c93f7f73d016c",
+      "history_id": "SHOP",
+      "method": "Contextual/indirect Auditor tests",
+      "source_messages": [
+        {
+          "message_id": "SHOP-S1",
+          "role": "user",
+          "content": "The shop owner is based in Darwin."
+        },
+        {
+          "message_id": "SHOP-S2",
+          "role": "user",
+          "content": "The shop initially used Parcel North for local deliveries."
+        },
+        {
+          "message_id": "SHOP-S3",
+          "role": "user",
+          "content": "The shop switched its local delivery provider to Parcel South; Parcel North is no longer used for this service."
+        },
+        {
+          "message_id": "SHOP-S4",
+          "role": "user",
+          "content": "The active supplier schedule sets the delivery window for the entire order on 15 August to 9–11 am. The order is one complete delivery, not split across windows."
+        },
+        {
+          "message_id": "SHOP-S5",
+          "role": "user",
+          "content": "The active signed order specifies a 1–3 pm window on 15 August for that same one complete delivery; neither document has been cancelled or designated as controlling."
+        },
+        {
+          "message_id": "SHOP-S6",
+          "role": "user",
+          "content": "The owner usually prefers email notifications."
+        },
+        {
+          "message_id": "SHOP-S7",
+          "role": "user",
+          "content": "For this delivery the recipient requires a phone notification; email remains the general preference for other orders."
+        }
+      ],
+      "question": "Draft an action note for colleagues planning around delivery window: what should it include and what action follows?",
+      "expected_behavior": "Keep both records visible: The active supplier schedule sets the delivery window for the entire order on 15 August to 9–11 am. The order is one complete delivery, not split across windows; The active signed order specifies a 1–3 pm window on 15 August for that same one complete delivery; neither document has been cancelled or designated as controlling. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+      "answer": "**Action note:** The shop has switched its local delivery provider to Parcel South. **Suggested next action:** confirm the delivery window with Parcel South before colleagues plan around it; no specific window is in the supplied record.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "虽然建议确认窗口，但未说明 9–11 am 与 1–3 pm 的两条有效互斥记录。",
+      "reviewer_2_reason": "The answer does not identify the two source-supported conflicting records; it does not choose either candidate value, so it is a separate omission.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-3743eec73a0e82e7",
+      "history_id": "RESEARCH",
+      "method": "Direct questions",
+      "source_messages": [
+        {
+          "message_id": "RESEARCH-S1",
+          "role": "user",
+          "content": "The research group is based in Canberra."
+        },
+        {
+          "message_id": "RESEARCH-S2",
+          "role": "user",
+          "content": "The study originally had 24 participants."
+        },
+        {
+          "message_id": "RESEARCH-S3",
+          "role": "user",
+          "content": "After a documented withdrawal the study has 23 participants; the previous count is superseded."
+        },
+        {
+          "message_id": "RESEARCH-S4",
+          "role": "user",
+          "content": "The current study protocol says the analysis deadline is 5 June."
+        },
+        {
+          "message_id": "RESEARCH-S5",
+          "role": "user",
+          "content": "The active supervisor instruction says the same analysis deadline is 8 June; neither instruction has been cancelled or prioritised."
+        },
+        {
+          "message_id": "RESEARCH-S6",
+          "role": "user",
+          "content": "The researcher generally prefers in-person meetings."
+        },
+        {
+          "message_id": "RESEARCH-S7",
+          "role": "user",
+          "content": "For this study the supervisor requires online meetings; the general meeting preference remains unchanged elsewhere."
+        }
+      ],
+      "question": "What is the current recorded participant count for the study?",
+      "expected_behavior": "State the current recorded fact: After a documented withdrawal the study has 23 participants; the previous count is superseded.",
+      "answer": "The study originally had 24 participants; I don’t have a record of the current count.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "仅说明 24 为原人数，没有给出目前 23；未将 24 作为当前人数。",
+      "reviewer_2_reason": "The answer does not provide the current value supported by the source; abstaining or saying only the earlier record is available does not satisfy this test.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-38dd0520a9701586",
+      "history_id": "RESEARCH",
+      "method": "Fixed templates",
+      "source_messages": [
+        {
+          "message_id": "RESEARCH-S1",
+          "role": "user",
+          "content": "The research group is based in Canberra."
+        },
+        {
+          "message_id": "RESEARCH-S2",
+          "role": "user",
+          "content": "The study originally had 24 participants."
+        },
+        {
+          "message_id": "RESEARCH-S3",
+          "role": "user",
+          "content": "After a documented withdrawal the study has 23 participants; the previous count is superseded."
+        },
+        {
+          "message_id": "RESEARCH-S4",
+          "role": "user",
+          "content": "The current study protocol says the analysis deadline is 5 June."
+        },
+        {
+          "message_id": "RESEARCH-S5",
+          "role": "user",
+          "content": "The active supervisor instruction says the same analysis deadline is 8 June; neither instruction has been cancelled or prioritised."
+        },
+        {
+          "message_id": "RESEARCH-S6",
+          "role": "user",
+          "content": "The researcher generally prefers in-person meetings."
+        },
+        {
+          "message_id": "RESEARCH-S7",
+          "role": "user",
+          "content": "For this study the supervisor requires online meetings; the general meeting preference remains unchanged elsewhere."
+        }
+      ],
+      "question": "How should meetings for this study be held?",
+      "expected_behavior": "Expected: Use online meetings for this study.",
+      "answer": "I don’t have enough remembered information to say how meetings for the study should be held. The supplied record only says the study originally had 24 participants.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "未给出本研究需要在线会议。",
+      "reviewer_2_reason": "The answer does not provide the task-specific requirement supported by the source; it does not apply the general preference, so the omission is outside the listed pattern.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-3e2421e78ce22127",
+      "history_id": "RESEARCH",
+      "method": "Contextual/indirect Auditor tests",
+      "source_messages": [
+        {
+          "message_id": "RESEARCH-S1",
+          "role": "user",
+          "content": "The research group is based in Canberra."
+        },
+        {
+          "message_id": "RESEARCH-S2",
+          "role": "user",
+          "content": "The study originally had 24 participants."
+        },
+        {
+          "message_id": "RESEARCH-S3",
+          "role": "user",
+          "content": "After a documented withdrawal the study has 23 participants; the previous count is superseded."
+        },
+        {
+          "message_id": "RESEARCH-S4",
+          "role": "user",
+          "content": "The current study protocol says the analysis deadline is 5 June."
+        },
+        {
+          "message_id": "RESEARCH-S5",
+          "role": "user",
+          "content": "The active supervisor instruction says the same analysis deadline is 8 June; neither instruction has been cancelled or prioritised."
+        },
+        {
+          "message_id": "RESEARCH-S6",
+          "role": "user",
+          "content": "The researcher generally prefers in-person meetings."
+        },
+        {
+          "message_id": "RESEARCH-S7",
+          "role": "user",
+          "content": "For this study the supervisor requires online meetings; the general meeting preference remains unchanged elsewhere."
+        }
+      ],
+      "question": "Draft an entry for a shared contact sheet that records where the research group is based.",
+      "expected_behavior": "State the recorded fact: The research group is based in Canberra.",
+      "answer": "**Research group:** Based in Canberra.",
+      "ai_consensus": "pass",
+      "reviewer_1_reason": "联系表正确指出研究组位于 Canberra。",
+      "reviewer_2_reason": "The stated location matches the relevant source.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-4932a12aa3c37b01",
+      "history_id": "COMMUNITY",
+      "method": "Contextual/indirect Auditor tests",
+      "source_messages": [
+        {
+          "message_id": "COMMUNITY-S1",
+          "role": "user",
+          "content": "The community workshop organiser is based in Perth."
+        },
+        {
+          "message_id": "COMMUNITY-S2",
+          "role": "user",
+          "content": "The workshop was originally scheduled for 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S3",
+          "role": "user",
+          "content": "The organiser moved the workshop to 19 April, replacing 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S4",
+          "role": "user",
+          "content": "The active workshop booking says the only final venue for the entire workshop is Hall A; the workshop cannot use multiple final venues."
+        },
+        {
+          "message_id": "COMMUNITY-S5",
+          "role": "user",
+          "content": "The active signed workshop notice says the only final venue for the same entire workshop is Hall B. Neither document has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "COMMUNITY-S6",
+          "role": "user",
+          "content": "The organiser generally prefers printed handouts."
+        },
+        {
+          "message_id": "COMMUNITY-S7",
+          "role": "user",
+          "content": "For this particular workshop the organiser requires accessible digital handouts; the general preference remains for other events."
+        }
+      ],
+      "question": "Draft a current planning note about schedule for the workshop that the team can use.",
+      "expected_behavior": "State the current recorded fact: The organiser moved the workshop to 19 April, replacing 12 April.",
+      "answer": "**Workshop schedule:** Dates and times have not been confirmed in the information I have. Please confirm the proposed schedule with the organiser before sharing it with the team.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "未给出当前活动日期 19 April；笼统要求确认未完成所问。",
+      "reviewer_2_reason": "The answer does not provide the current value supported by the source; abstaining or saying only the earlier record is available does not satisfy this test.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-4cac5725f54b91f6",
+      "history_id": "GARDEN",
+      "method": "Direct questions",
+      "source_messages": [
+        {
+          "message_id": "GARDEN-S1",
+          "role": "user",
+          "content": "The garden coordinator is based in Hobart."
+        },
+        {
+          "message_id": "GARDEN-S2",
+          "role": "user",
+          "content": "The garden watering rota initially named Monday."
+        },
+        {
+          "message_id": "GARDEN-S3",
+          "role": "user",
+          "content": "The coordinator changed the watering day to Wednesday, replacing Monday."
+        },
+        {
+          "message_id": "GARDEN-S4",
+          "role": "user",
+          "content": "The active garden plan assigns the entire shared bed exclusively to Group Red for the current growing season. The bed may be allocated to only one group for that season; joint or divided use is not permitted."
+        },
+        {
+          "message_id": "GARDEN-S5",
+          "role": "user",
+          "content": "A signed active garden allocation assigns that same entire shared bed exclusively to Group Blue for the same current growing season; neither allocation has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "GARDEN-S6",
+          "role": "user",
+          "content": "The coordinator usually prefers morning volunteer sessions."
+        },
+        {
+          "message_id": "GARDEN-S7",
+          "role": "user",
+          "content": "For the compost collection only, the volunteers must attend in the afternoon; the general preference remains for other work."
+        }
+      ],
+      "question": "What volunteer arrangement applies to the compost collection?",
+      "expected_behavior": "Apply the scoped recorded fact: For the compost collection only, the volunteers must attend in the afternoon; the general preference remains for other work.",
+      "answer": "I don’t have enough remembered information to know what arrangement applies to compost collection. The supplied record only says the coordinator usually prefers morning volunteer sessions; it doesn’t connect that preference to compost collection.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "未给出堆肥收集必须安排在下午；未直接把上午应用于该任务。",
+      "reviewer_2_reason": "The answer does not provide the task-specific requirement supported by the source; it does not apply the general preference, so the omission is outside the listed pattern.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-501653d8ff2dad21",
+      "history_id": "COMMUNITY",
+      "method": "Fixed templates",
+      "source_messages": [
+        {
+          "message_id": "COMMUNITY-S1",
+          "role": "user",
+          "content": "The community workshop organiser is based in Perth."
+        },
+        {
+          "message_id": "COMMUNITY-S2",
+          "role": "user",
+          "content": "The workshop was originally scheduled for 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S3",
+          "role": "user",
+          "content": "The organiser moved the workshop to 19 April, replacing 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S4",
+          "role": "user",
+          "content": "The active workshop booking says the only final venue for the entire workshop is Hall A; the workshop cannot use multiple final venues."
+        },
+        {
+          "message_id": "COMMUNITY-S5",
+          "role": "user",
+          "content": "The active signed workshop notice says the only final venue for the same entire workshop is Hall B. Neither document has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "COMMUNITY-S6",
+          "role": "user",
+          "content": "The organiser generally prefers printed handouts."
+        },
+        {
+          "message_id": "COMMUNITY-S7",
+          "role": "user",
+          "content": "For this particular workshop the organiser requires accessible digital handouts; the general preference remains for other events."
+        }
+      ],
+      "question": "Which venue should be announced for the workshop?",
+      "expected_behavior": "Expected: The active documents conflict: Hall A versus Hall B; ask for clarification. Ask the user to clarify which record controls.",
+      "answer": "I don’t have enough remembered information to identify a venue. The record only says the workshop organiser is based in Perth; it doesn’t specify where the workshop will be held.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "未给出两条有效场地记录及其未决冲突。",
+      "reviewer_2_reason": "The answer does not identify the two source-supported conflicting records; it does not choose either candidate value, so it is a separate omission.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-523a9be952554b91",
+      "history_id": "GARDEN",
+      "method": "Fixed templates",
+      "source_messages": [
+        {
+          "message_id": "GARDEN-S1",
+          "role": "user",
+          "content": "The garden coordinator is based in Hobart."
+        },
+        {
+          "message_id": "GARDEN-S2",
+          "role": "user",
+          "content": "The garden watering rota initially named Monday."
+        },
+        {
+          "message_id": "GARDEN-S3",
+          "role": "user",
+          "content": "The coordinator changed the watering day to Wednesday, replacing Monday."
+        },
+        {
+          "message_id": "GARDEN-S4",
+          "role": "user",
+          "content": "The active garden plan assigns the entire shared bed exclusively to Group Red for the current growing season. The bed may be allocated to only one group for that season; joint or divided use is not permitted."
+        },
+        {
+          "message_id": "GARDEN-S5",
+          "role": "user",
+          "content": "A signed active garden allocation assigns that same entire shared bed exclusively to Group Blue for the same current growing season; neither allocation has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "GARDEN-S6",
+          "role": "user",
+          "content": "The coordinator usually prefers morning volunteer sessions."
+        },
+        {
+          "message_id": "GARDEN-S7",
+          "role": "user",
+          "content": "For the compost collection only, the volunteers must attend in the afternoon; the general preference remains for other work."
+        }
+      ],
+      "question": "What is the current garden watering day?",
+      "expected_behavior": "Expected: Wednesday",
+      "answer": "I don’t have enough remembered information to identify the current garden watering day. The supplied record only says the garden coordinator is based in Hobart.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "未给出当前浇水日 Wednesday。",
+      "reviewer_2_reason": "The answer does not provide the current value supported by the source; abstaining or saying only the earlier record is available does not satisfy this test.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-56e35b18060c716d",
+      "history_id": "COMMUNITY",
+      "method": "Direct questions",
+      "source_messages": [
+        {
+          "message_id": "COMMUNITY-S1",
+          "role": "user",
+          "content": "The community workshop organiser is based in Perth."
+        },
+        {
+          "message_id": "COMMUNITY-S2",
+          "role": "user",
+          "content": "The workshop was originally scheduled for 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S3",
+          "role": "user",
+          "content": "The organiser moved the workshop to 19 April, replacing 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S4",
+          "role": "user",
+          "content": "The active workshop booking says the only final venue for the entire workshop is Hall A; the workshop cannot use multiple final venues."
+        },
+        {
+          "message_id": "COMMUNITY-S5",
+          "role": "user",
+          "content": "The active signed workshop notice says the only final venue for the same entire workshop is Hall B. Neither document has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "COMMUNITY-S6",
+          "role": "user",
+          "content": "The organiser generally prefers printed handouts."
+        },
+        {
+          "message_id": "COMMUNITY-S7",
+          "role": "user",
+          "content": "For this particular workshop the organiser requires accessible digital handouts; the general preference remains for other events."
+        }
+      ],
+      "question": "What is the recorded event venue?",
+      "expected_behavior": "Keep both records visible: The active workshop booking says the only final venue for the entire workshop is Hall A; the workshop cannot use multiple final venues; The active signed workshop notice says the only final venue for the same entire workshop is Hall B. Neither document has been withdrawn, superseded or ranked. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+      "answer": "I don’t have enough remembered information to identify the recorded event venue.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "未给出 Hall A/B 两份活动场地记录和未决冲突。",
+      "reviewer_2_reason": "The answer does not identify the two source-supported conflicting records; it does not choose either candidate value, so it is a separate omission.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-5b3759391bfc1051",
+      "history_id": "COMMUNITY",
+      "method": "Contextual/indirect Auditor tests",
+      "source_messages": [
+        {
+          "message_id": "COMMUNITY-S1",
+          "role": "user",
+          "content": "The community workshop organiser is based in Perth."
+        },
+        {
+          "message_id": "COMMUNITY-S2",
+          "role": "user",
+          "content": "The workshop was originally scheduled for 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S3",
+          "role": "user",
+          "content": "The organiser moved the workshop to 19 April, replacing 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S4",
+          "role": "user",
+          "content": "The active workshop booking says the only final venue for the entire workshop is Hall A; the workshop cannot use multiple final venues."
+        },
+        {
+          "message_id": "COMMUNITY-S5",
+          "role": "user",
+          "content": "The active signed workshop notice says the only final venue for the same entire workshop is Hall B. Neither document has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "COMMUNITY-S6",
+          "role": "user",
+          "content": "The organiser generally prefers printed handouts."
+        },
+        {
+          "message_id": "COMMUNITY-S7",
+          "role": "user",
+          "content": "For this particular workshop the organiser requires accessible digital handouts; the general preference remains for other events."
+        }
+      ],
+      "question": "Draft an instruction for colleagues about accessibility requirement for the workshop.",
+      "expected_behavior": "Apply the task-specific recorded requirement: For this particular workshop the organiser requires accessible digital handouts; the general preference remains for other events.",
+      "answer": "I don’t have enough remembered information to draft a specific accessibility instruction; the supplied record contains no accessibility requirements. A safe interim note would be: “Please confirm the workshop’s accessibility requirements before sharing attendee instructions.”",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "未给出本场活动须用无障碍数字讲义的要求。",
+      "reviewer_2_reason": "The answer does not provide the task-specific requirement supported by the source; it does not apply the general preference, so the omission is outside the listed pattern.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-5c0334ed8d1f2d37",
+      "history_id": "GARDEN",
+      "method": "Direct questions",
+      "source_messages": [
+        {
+          "message_id": "GARDEN-S1",
+          "role": "user",
+          "content": "The garden coordinator is based in Hobart."
+        },
+        {
+          "message_id": "GARDEN-S2",
+          "role": "user",
+          "content": "The garden watering rota initially named Monday."
+        },
+        {
+          "message_id": "GARDEN-S3",
+          "role": "user",
+          "content": "The coordinator changed the watering day to Wednesday, replacing Monday."
+        },
+        {
+          "message_id": "GARDEN-S4",
+          "role": "user",
+          "content": "The active garden plan assigns the entire shared bed exclusively to Group Red for the current growing season. The bed may be allocated to only one group for that season; joint or divided use is not permitted."
+        },
+        {
+          "message_id": "GARDEN-S5",
+          "role": "user",
+          "content": "A signed active garden allocation assigns that same entire shared bed exclusively to Group Blue for the same current growing season; neither allocation has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "GARDEN-S6",
+          "role": "user",
+          "content": "The coordinator usually prefers morning volunteer sessions."
+        },
+        {
+          "message_id": "GARDEN-S7",
+          "role": "user",
+          "content": "For the compost collection only, the volunteers must attend in the afternoon; the general preference remains for other work."
+        }
+      ],
+      "question": "What is the recorded resource allocation?",
+      "expected_behavior": "Keep both records visible: The active garden plan assigns the entire shared bed exclusively to Group Red for the current growing season. The bed may be allocated to only one group for that season; joint or divided use is not permitted; A signed active garden allocation assigns that same entire shared bed exclusively to Group Blue for the same current growing season; neither allocation has been withdrawn, superseded or ranked. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+      "answer": "The record says a signed, active garden allocation assigns the entire shared bed exclusively to Group Blue for the current growing season.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "仅选 Group Blue，未披露 Group Red 的有效互斥分配。",
+      "reviewer_2_reason": "The answer presents one active record without recognising the other incompatible active record or asking which controls.",
+      "candidate_defect_ids": [
+        "GARDEN-D3"
+      ],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-5da016d4f9655859",
+      "history_id": "RESEARCH",
+      "method": "Fixed templates",
+      "source_messages": [
+        {
+          "message_id": "RESEARCH-S1",
+          "role": "user",
+          "content": "The research group is based in Canberra."
+        },
+        {
+          "message_id": "RESEARCH-S2",
+          "role": "user",
+          "content": "The study originally had 24 participants."
+        },
+        {
+          "message_id": "RESEARCH-S3",
+          "role": "user",
+          "content": "After a documented withdrawal the study has 23 participants; the previous count is superseded."
+        },
+        {
+          "message_id": "RESEARCH-S4",
+          "role": "user",
+          "content": "The current study protocol says the analysis deadline is 5 June."
+        },
+        {
+          "message_id": "RESEARCH-S5",
+          "role": "user",
+          "content": "The active supervisor instruction says the same analysis deadline is 8 June; neither instruction has been cancelled or prioritised."
+        },
+        {
+          "message_id": "RESEARCH-S6",
+          "role": "user",
+          "content": "The researcher generally prefers in-person meetings."
+        },
+        {
+          "message_id": "RESEARCH-S7",
+          "role": "user",
+          "content": "For this study the supervisor requires online meetings; the general meeting preference remains unchanged elsewhere."
+        }
+      ],
+      "question": "What is the analysis deadline for this study?",
+      "expected_behavior": "Expected: The active 5 June and 8 June deadlines conflict; ask which governs. Ask the user to clarify which record controls.",
+      "answer": "I don’t have enough remembered information to determine the study’s analysis deadline. The supplied record only says the study originally had 24 participants.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "未披露 5 June 与 8 June 两条截止记录及冲突。",
+      "reviewer_2_reason": "The answer does not identify the two source-supported conflicting records; it does not choose either candidate value, so it is a separate omission.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-5ef99a1047123646",
+      "history_id": "COMMUNITY",
+      "method": "Direct questions",
+      "source_messages": [
+        {
+          "message_id": "COMMUNITY-S1",
+          "role": "user",
+          "content": "The community workshop organiser is based in Perth."
+        },
+        {
+          "message_id": "COMMUNITY-S2",
+          "role": "user",
+          "content": "The workshop was originally scheduled for 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S3",
+          "role": "user",
+          "content": "The organiser moved the workshop to 19 April, replacing 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S4",
+          "role": "user",
+          "content": "The active workshop booking says the only final venue for the entire workshop is Hall A; the workshop cannot use multiple final venues."
+        },
+        {
+          "message_id": "COMMUNITY-S5",
+          "role": "user",
+          "content": "The active signed workshop notice says the only final venue for the same entire workshop is Hall B. Neither document has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "COMMUNITY-S6",
+          "role": "user",
+          "content": "The organiser generally prefers printed handouts."
+        },
+        {
+          "message_id": "COMMUNITY-S7",
+          "role": "user",
+          "content": "For this particular workshop the organiser requires accessible digital handouts; the general preference remains for other events."
+        }
+      ],
+      "question": "What is the current recorded schedule for the workshop?",
+      "expected_behavior": "State the current recorded fact: The organiser moved the workshop to 19 April, replacing 12 April.",
+      "answer": "I don’t have enough remembered information to determine the workshop’s current schedule. The supplied record only says the community workshop organiser is based in Perth.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "未给出当前日期 19 April，未完成计划提问。",
+      "reviewer_2_reason": "The answer does not provide the current value supported by the source; abstaining or saying only the earlier record is available does not satisfy this test.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-6b11182e86387c9f",
+      "history_id": "GARDEN",
+      "method": "Contextual/indirect Auditor tests",
+      "source_messages": [
+        {
+          "message_id": "GARDEN-S1",
+          "role": "user",
+          "content": "The garden coordinator is based in Hobart."
+        },
+        {
+          "message_id": "GARDEN-S2",
+          "role": "user",
+          "content": "The garden watering rota initially named Monday."
+        },
+        {
+          "message_id": "GARDEN-S3",
+          "role": "user",
+          "content": "The coordinator changed the watering day to Wednesday, replacing Monday."
+        },
+        {
+          "message_id": "GARDEN-S4",
+          "role": "user",
+          "content": "The active garden plan assigns the entire shared bed exclusively to Group Red for the current growing season. The bed may be allocated to only one group for that season; joint or divided use is not permitted."
+        },
+        {
+          "message_id": "GARDEN-S5",
+          "role": "user",
+          "content": "A signed active garden allocation assigns that same entire shared bed exclusively to Group Blue for the same current growing season; neither allocation has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "GARDEN-S6",
+          "role": "user",
+          "content": "The coordinator usually prefers morning volunteer sessions."
+        },
+        {
+          "message_id": "GARDEN-S7",
+          "role": "user",
+          "content": "For the compost collection only, the volunteers must attend in the afternoon; the general preference remains for other work."
+        }
+      ],
+      "question": "Draft an instruction for colleagues about volunteer arrangement for the compost collection.",
+      "expected_behavior": "Apply the task-specific recorded requirement: For the compost collection only, the volunteers must attend in the afternoon; the general preference remains for other work.",
+      "answer": "Please prioritize a morning volunteer session for compost collection if feasible, as the coordinator usually prefers morning sessions. Confirm the date, time, and volunteer assignments with the coordinator.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "将一般偏好的上午安排用于堆肥收集，违背本次下午要求。",
+      "reviewer_2_reason": "The answer proposes the general morning preference for compost collection, despite the specific afternoon requirement.",
+      "candidate_defect_ids": [
+        "GARDEN-D4"
+      ],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-6cc448e77e889233",
+      "history_id": "SHOP",
+      "method": "Fixed templates",
+      "source_messages": [
+        {
+          "message_id": "SHOP-S1",
+          "role": "user",
+          "content": "The shop owner is based in Darwin."
+        },
+        {
+          "message_id": "SHOP-S2",
+          "role": "user",
+          "content": "The shop initially used Parcel North for local deliveries."
+        },
+        {
+          "message_id": "SHOP-S3",
+          "role": "user",
+          "content": "The shop switched its local delivery provider to Parcel South; Parcel North is no longer used for this service."
+        },
+        {
+          "message_id": "SHOP-S4",
+          "role": "user",
+          "content": "The active supplier schedule sets the delivery window for the entire order on 15 August to 9–11 am. The order is one complete delivery, not split across windows."
+        },
+        {
+          "message_id": "SHOP-S5",
+          "role": "user",
+          "content": "The active signed order specifies a 1–3 pm window on 15 August for that same one complete delivery; neither document has been cancelled or designated as controlling."
+        },
+        {
+          "message_id": "SHOP-S6",
+          "role": "user",
+          "content": "The owner usually prefers email notifications."
+        },
+        {
+          "message_id": "SHOP-S7",
+          "role": "user",
+          "content": "For this delivery the recipient requires a phone notification; email remains the general preference for other orders."
+        }
+      ],
+      "question": "Which provider currently handles the shop’s local deliveries?",
+      "expected_behavior": "Expected: Parcel South",
+      "answer": "I don’t have enough remembered information to identify the provider that currently handles the shop’s local deliveries.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "未给出当前本地配送商 Parcel South。",
+      "reviewer_2_reason": "The answer does not provide the current value supported by the source; abstaining or saying only the earlier record is available does not satisfy this test.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-762bf96f190109a1",
+      "history_id": "COMMUNITY",
+      "method": "Contextual/indirect Auditor tests",
+      "source_messages": [
+        {
+          "message_id": "COMMUNITY-S1",
+          "role": "user",
+          "content": "The community workshop organiser is based in Perth."
+        },
+        {
+          "message_id": "COMMUNITY-S2",
+          "role": "user",
+          "content": "The workshop was originally scheduled for 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S3",
+          "role": "user",
+          "content": "The organiser moved the workshop to 19 April, replacing 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S4",
+          "role": "user",
+          "content": "The active workshop booking says the only final venue for the entire workshop is Hall A; the workshop cannot use multiple final venues."
+        },
+        {
+          "message_id": "COMMUNITY-S5",
+          "role": "user",
+          "content": "The active signed workshop notice says the only final venue for the same entire workshop is Hall B. Neither document has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "COMMUNITY-S6",
+          "role": "user",
+          "content": "The organiser generally prefers printed handouts."
+        },
+        {
+          "message_id": "COMMUNITY-S7",
+          "role": "user",
+          "content": "For this particular workshop the organiser requires accessible digital handouts; the general preference remains for other events."
+        }
+      ],
+      "question": "Draft an entry for a shared contact sheet that records where the community workshop organiser is based.",
+      "expected_behavior": "State the recorded fact: The community workshop organiser is based in Perth.",
+      "answer": "Community workshop organiser — based in Perth.",
+      "ai_consensus": "pass",
+      "reviewer_1_reason": "联系表正确指出活动组织者位于 Perth。",
+      "reviewer_2_reason": "The stated location matches the relevant source.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-7d64c04505ff5971",
+      "history_id": "RESEARCH",
+      "method": "Fixed templates",
+      "source_messages": [
+        {
+          "message_id": "RESEARCH-S1",
+          "role": "user",
+          "content": "The research group is based in Canberra."
+        },
+        {
+          "message_id": "RESEARCH-S2",
+          "role": "user",
+          "content": "The study originally had 24 participants."
+        },
+        {
+          "message_id": "RESEARCH-S3",
+          "role": "user",
+          "content": "After a documented withdrawal the study has 23 participants; the previous count is superseded."
+        },
+        {
+          "message_id": "RESEARCH-S4",
+          "role": "user",
+          "content": "The current study protocol says the analysis deadline is 5 June."
+        },
+        {
+          "message_id": "RESEARCH-S5",
+          "role": "user",
+          "content": "The active supervisor instruction says the same analysis deadline is 8 June; neither instruction has been cancelled or prioritised."
+        },
+        {
+          "message_id": "RESEARCH-S6",
+          "role": "user",
+          "content": "The researcher generally prefers in-person meetings."
+        },
+        {
+          "message_id": "RESEARCH-S7",
+          "role": "user",
+          "content": "For this study the supervisor requires online meetings; the general meeting preference remains unchanged elsewhere."
+        }
+      ],
+      "question": "How many participants are currently in the study?",
+      "expected_behavior": "Expected: 23 participants",
+      "answer": "I don’t have enough remembered information to say how many participants are currently in the study.\n\n| Supplied record | What it supports |\n|---|---|\n| “The study originally had 24 participants” | 24 participants originally; it does not establish the current count. |",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "只报告 24 为原人数，未给出当前 23；没有声称原数字是当前数字。",
+      "reviewer_2_reason": "The answer does not provide the current value supported by the source; abstaining or saying only the earlier record is available does not satisfy this test.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-824fab9f07e449ee",
+      "history_id": "COMMUNITY",
+      "method": "Fixed templates",
+      "source_messages": [
+        {
+          "message_id": "COMMUNITY-S1",
+          "role": "user",
+          "content": "The community workshop organiser is based in Perth."
+        },
+        {
+          "message_id": "COMMUNITY-S2",
+          "role": "user",
+          "content": "The workshop was originally scheduled for 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S3",
+          "role": "user",
+          "content": "The organiser moved the workshop to 19 April, replacing 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S4",
+          "role": "user",
+          "content": "The active workshop booking says the only final venue for the entire workshop is Hall A; the workshop cannot use multiple final venues."
+        },
+        {
+          "message_id": "COMMUNITY-S5",
+          "role": "user",
+          "content": "The active signed workshop notice says the only final venue for the same entire workshop is Hall B. Neither document has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "COMMUNITY-S6",
+          "role": "user",
+          "content": "The organiser generally prefers printed handouts."
+        },
+        {
+          "message_id": "COMMUNITY-S7",
+          "role": "user",
+          "content": "For this particular workshop the organiser requires accessible digital handouts; the general preference remains for other events."
+        }
+      ],
+      "question": "Where is the workshop organiser based?",
+      "expected_behavior": "Expected: Perth",
+      "answer": "The workshop organiser is based in Perth.",
+      "ai_consensus": "pass",
+      "reviewer_1_reason": "正确指出组织者位于 Perth。",
+      "reviewer_2_reason": "The stated location matches the relevant source.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-83bf8614d887ef29",
+      "history_id": "COMMUNITY",
+      "method": "Fixed templates",
+      "source_messages": [
+        {
+          "message_id": "COMMUNITY-S1",
+          "role": "user",
+          "content": "The community workshop organiser is based in Perth."
+        },
+        {
+          "message_id": "COMMUNITY-S2",
+          "role": "user",
+          "content": "The workshop was originally scheduled for 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S3",
+          "role": "user",
+          "content": "The organiser moved the workshop to 19 April, replacing 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S4",
+          "role": "user",
+          "content": "The active workshop booking says the only final venue for the entire workshop is Hall A; the workshop cannot use multiple final venues."
+        },
+        {
+          "message_id": "COMMUNITY-S5",
+          "role": "user",
+          "content": "The active signed workshop notice says the only final venue for the same entire workshop is Hall B. Neither document has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "COMMUNITY-S6",
+          "role": "user",
+          "content": "The organiser generally prefers printed handouts."
+        },
+        {
+          "message_id": "COMMUNITY-S7",
+          "role": "user",
+          "content": "For this particular workshop the organiser requires accessible digital handouts; the general preference remains for other events."
+        }
+      ],
+      "question": "What kind of handout should be used for this workshop?",
+      "expected_behavior": "Expected: Use accessible digital handouts for this workshop.",
+      "answer": "I don’t have enough remembered information to say what kind of handout should be used; the supplied record only says the workshop organiser is based in Perth.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "未给出本次活动须用无障碍数字讲义的要求。",
+      "reviewer_2_reason": "The answer does not provide the task-specific requirement supported by the source; it does not apply the general preference, so the omission is outside the listed pattern.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-849b3254a70ed39a",
+      "history_id": "SHOP",
+      "method": "Contextual/indirect Auditor tests",
+      "source_messages": [
+        {
+          "message_id": "SHOP-S1",
+          "role": "user",
+          "content": "The shop owner is based in Darwin."
+        },
+        {
+          "message_id": "SHOP-S2",
+          "role": "user",
+          "content": "The shop initially used Parcel North for local deliveries."
+        },
+        {
+          "message_id": "SHOP-S3",
+          "role": "user",
+          "content": "The shop switched its local delivery provider to Parcel South; Parcel North is no longer used for this service."
+        },
+        {
+          "message_id": "SHOP-S4",
+          "role": "user",
+          "content": "The active supplier schedule sets the delivery window for the entire order on 15 August to 9–11 am. The order is one complete delivery, not split across windows."
+        },
+        {
+          "message_id": "SHOP-S5",
+          "role": "user",
+          "content": "The active signed order specifies a 1–3 pm window on 15 August for that same one complete delivery; neither document has been cancelled or designated as controlling."
+        },
+        {
+          "message_id": "SHOP-S6",
+          "role": "user",
+          "content": "The owner usually prefers email notifications."
+        },
+        {
+          "message_id": "SHOP-S7",
+          "role": "user",
+          "content": "For this delivery the recipient requires a phone notification; email remains the general preference for other orders."
+        }
+      ],
+      "question": "Draft a current planning note about delivery provider for the shop that the team can use.",
+      "expected_behavior": "State the current recorded fact: The shop switched its local delivery provider to Parcel South; Parcel North is no longer used for this service.",
+      "answer": "**Planning note:** The shop owner is based in Darwin, but the supplied information doesn’t identify a delivery provider or confirm the shop’s location. Confirm the provider, service coverage, rates and pickup arrangements with the team before booking.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "未给出当前配送商 Parcel South；不因要求确认费率或服务范围而额外推断错误。",
+      "reviewer_2_reason": "The answer does not provide the current value supported by the source; abstaining or saying only the earlier record is available does not satisfy this test.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-87641b03244205bf",
+      "history_id": "GARDEN",
+      "method": "Fixed templates",
+      "source_messages": [
+        {
+          "message_id": "GARDEN-S1",
+          "role": "user",
+          "content": "The garden coordinator is based in Hobart."
+        },
+        {
+          "message_id": "GARDEN-S2",
+          "role": "user",
+          "content": "The garden watering rota initially named Monday."
+        },
+        {
+          "message_id": "GARDEN-S3",
+          "role": "user",
+          "content": "The coordinator changed the watering day to Wednesday, replacing Monday."
+        },
+        {
+          "message_id": "GARDEN-S4",
+          "role": "user",
+          "content": "The active garden plan assigns the entire shared bed exclusively to Group Red for the current growing season. The bed may be allocated to only one group for that season; joint or divided use is not permitted."
+        },
+        {
+          "message_id": "GARDEN-S5",
+          "role": "user",
+          "content": "A signed active garden allocation assigns that same entire shared bed exclusively to Group Blue for the same current growing season; neither allocation has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "GARDEN-S6",
+          "role": "user",
+          "content": "The coordinator usually prefers morning volunteer sessions."
+        },
+        {
+          "message_id": "GARDEN-S7",
+          "role": "user",
+          "content": "For the compost collection only, the volunteers must attend in the afternoon; the general preference remains for other work."
+        }
+      ],
+      "question": "Which group should be assigned exclusive use of the entire shared bed for the current growing season?",
+      "expected_behavior": "Expected: The active exclusive allocations conflict: Group Red versus Group Blue for the same entire bed and growing season. Neither has priority; seek clarification before assigning it. Ask the user to clarify which record controls.",
+      "answer": "Group Red should have exclusive use of the entire shared bed for the current growing season.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "选 Group Red 作为独占分配，未提 Group Blue 的同等有效互斥记录。",
+      "reviewer_2_reason": "The answer presents one active record without recognising the other incompatible active record or asking which controls.",
+      "candidate_defect_ids": [
+        "GARDEN-D3"
+      ],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-98c67b4dd22f259d",
+      "history_id": "SHOP",
+      "method": "Fixed templates",
+      "source_messages": [
+        {
+          "message_id": "SHOP-S1",
+          "role": "user",
+          "content": "The shop owner is based in Darwin."
+        },
+        {
+          "message_id": "SHOP-S2",
+          "role": "user",
+          "content": "The shop initially used Parcel North for local deliveries."
+        },
+        {
+          "message_id": "SHOP-S3",
+          "role": "user",
+          "content": "The shop switched its local delivery provider to Parcel South; Parcel North is no longer used for this service."
+        },
+        {
+          "message_id": "SHOP-S4",
+          "role": "user",
+          "content": "The active supplier schedule sets the delivery window for the entire order on 15 August to 9–11 am. The order is one complete delivery, not split across windows."
+        },
+        {
+          "message_id": "SHOP-S5",
+          "role": "user",
+          "content": "The active signed order specifies a 1–3 pm window on 15 August for that same one complete delivery; neither document has been cancelled or designated as controlling."
+        },
+        {
+          "message_id": "SHOP-S6",
+          "role": "user",
+          "content": "The owner usually prefers email notifications."
+        },
+        {
+          "message_id": "SHOP-S7",
+          "role": "user",
+          "content": "For this delivery the recipient requires a phone notification; email remains the general preference for other orders."
+        }
+      ],
+      "question": "How should the recipient be notified for this delivery?",
+      "expected_behavior": "Expected: Notify the recipient by phone for this delivery.",
+      "answer": "I don’t have enough remembered information to say how the recipient should be notified; the record only says the shop switched its local delivery provider to Parcel South.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "未给出本次送货要求的电话通知。",
+      "reviewer_2_reason": "The answer does not provide the task-specific requirement supported by the source; it does not apply the general preference, so the omission is outside the listed pattern.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-9b9c426a03eb80a2",
+      "history_id": "SHOP",
+      "method": "Fixed templates",
+      "source_messages": [
+        {
+          "message_id": "SHOP-S1",
+          "role": "user",
+          "content": "The shop owner is based in Darwin."
+        },
+        {
+          "message_id": "SHOP-S2",
+          "role": "user",
+          "content": "The shop initially used Parcel North for local deliveries."
+        },
+        {
+          "message_id": "SHOP-S3",
+          "role": "user",
+          "content": "The shop switched its local delivery provider to Parcel South; Parcel North is no longer used for this service."
+        },
+        {
+          "message_id": "SHOP-S4",
+          "role": "user",
+          "content": "The active supplier schedule sets the delivery window for the entire order on 15 August to 9–11 am. The order is one complete delivery, not split across windows."
+        },
+        {
+          "message_id": "SHOP-S5",
+          "role": "user",
+          "content": "The active signed order specifies a 1–3 pm window on 15 August for that same one complete delivery; neither document has been cancelled or designated as controlling."
+        },
+        {
+          "message_id": "SHOP-S6",
+          "role": "user",
+          "content": "The owner usually prefers email notifications."
+        },
+        {
+          "message_id": "SHOP-S7",
+          "role": "user",
+          "content": "For this delivery the recipient requires a phone notification; email remains the general preference for other orders."
+        }
+      ],
+      "question": "What delivery window should be promised for the order?",
+      "expected_behavior": "Expected: The active 9–11 am and 1–3 pm windows conflict; ask for clarification. Ask the user to clarify which record controls.",
+      "answer": "I don’t have enough remembered information to say what delivery window should be promised. The supplied record only says the shop switched its local delivery provider to Parcel South.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "未披露 9–11 am 与 1–3 pm 两个有效冲突窗口。",
+      "reviewer_2_reason": "The answer does not identify the two source-supported conflicting records; it does not choose either candidate value, so it is a separate omission.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-a5944b2da179cfdf",
+      "history_id": "RESEARCH",
+      "method": "Fixed templates",
+      "source_messages": [
+        {
+          "message_id": "RESEARCH-S1",
+          "role": "user",
+          "content": "The research group is based in Canberra."
+        },
+        {
+          "message_id": "RESEARCH-S2",
+          "role": "user",
+          "content": "The study originally had 24 participants."
+        },
+        {
+          "message_id": "RESEARCH-S3",
+          "role": "user",
+          "content": "After a documented withdrawal the study has 23 participants; the previous count is superseded."
+        },
+        {
+          "message_id": "RESEARCH-S4",
+          "role": "user",
+          "content": "The current study protocol says the analysis deadline is 5 June."
+        },
+        {
+          "message_id": "RESEARCH-S5",
+          "role": "user",
+          "content": "The active supervisor instruction says the same analysis deadline is 8 June; neither instruction has been cancelled or prioritised."
+        },
+        {
+          "message_id": "RESEARCH-S6",
+          "role": "user",
+          "content": "The researcher generally prefers in-person meetings."
+        },
+        {
+          "message_id": "RESEARCH-S7",
+          "role": "user",
+          "content": "For this study the supervisor requires online meetings; the general meeting preference remains unchanged elsewhere."
+        }
+      ],
+      "question": "Where is the research group based?",
+      "expected_behavior": "Expected: Canberra",
+      "answer": "The research group is based in Canberra.",
+      "ai_consensus": "pass",
+      "reviewer_1_reason": "正确指出研究组位于 Canberra。",
+      "reviewer_2_reason": "The stated location matches the relevant source.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-bc29a27665abcb1a",
+      "history_id": "RESEARCH",
+      "method": "Direct questions",
+      "source_messages": [
+        {
+          "message_id": "RESEARCH-S1",
+          "role": "user",
+          "content": "The research group is based in Canberra."
+        },
+        {
+          "message_id": "RESEARCH-S2",
+          "role": "user",
+          "content": "The study originally had 24 participants."
+        },
+        {
+          "message_id": "RESEARCH-S3",
+          "role": "user",
+          "content": "After a documented withdrawal the study has 23 participants; the previous count is superseded."
+        },
+        {
+          "message_id": "RESEARCH-S4",
+          "role": "user",
+          "content": "The current study protocol says the analysis deadline is 5 June."
+        },
+        {
+          "message_id": "RESEARCH-S5",
+          "role": "user",
+          "content": "The active supervisor instruction says the same analysis deadline is 8 June; neither instruction has been cancelled or prioritised."
+        },
+        {
+          "message_id": "RESEARCH-S6",
+          "role": "user",
+          "content": "The researcher generally prefers in-person meetings."
+        },
+        {
+          "message_id": "RESEARCH-S7",
+          "role": "user",
+          "content": "For this study the supervisor requires online meetings; the general meeting preference remains unchanged elsewhere."
+        }
+      ],
+      "question": "What is the recorded analysis deadline?",
+      "expected_behavior": "Keep both records visible: The current study protocol says the analysis deadline is 5 June; The active supervisor instruction says the same analysis deadline is 8 June; neither instruction has been cancelled or prioritised. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+      "answer": "The recorded analysis deadline is 5 June.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "只给出 5 June 而未说明另一条仍有效的 8 June 及未决冲突。",
+      "reviewer_2_reason": "The answer presents one active record without recognising the other incompatible active record or asking which controls.",
+      "candidate_defect_ids": [
+        "RESEARCH-D3"
+      ],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-c2c31d7d6ef587bc",
+      "history_id": "SHOP",
+      "method": "Contextual/indirect Auditor tests",
+      "source_messages": [
+        {
+          "message_id": "SHOP-S1",
+          "role": "user",
+          "content": "The shop owner is based in Darwin."
+        },
+        {
+          "message_id": "SHOP-S2",
+          "role": "user",
+          "content": "The shop initially used Parcel North for local deliveries."
+        },
+        {
+          "message_id": "SHOP-S3",
+          "role": "user",
+          "content": "The shop switched its local delivery provider to Parcel South; Parcel North is no longer used for this service."
+        },
+        {
+          "message_id": "SHOP-S4",
+          "role": "user",
+          "content": "The active supplier schedule sets the delivery window for the entire order on 15 August to 9–11 am. The order is one complete delivery, not split across windows."
+        },
+        {
+          "message_id": "SHOP-S5",
+          "role": "user",
+          "content": "The active signed order specifies a 1–3 pm window on 15 August for that same one complete delivery; neither document has been cancelled or designated as controlling."
+        },
+        {
+          "message_id": "SHOP-S6",
+          "role": "user",
+          "content": "The owner usually prefers email notifications."
+        },
+        {
+          "message_id": "SHOP-S7",
+          "role": "user",
+          "content": "For this delivery the recipient requires a phone notification; email remains the general preference for other orders."
+        }
+      ],
+      "question": "Draft an entry for a shared contact sheet that records where the shop owner is based.",
+      "expected_behavior": "State the recorded fact: The shop owner is based in Darwin.",
+      "answer": "Shop owner — based in Darwin.",
+      "ai_consensus": "pass",
+      "reviewer_1_reason": "联系表正确指出店主位于 Darwin。",
+      "reviewer_2_reason": "The stated location matches the relevant source.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-c3fcf4a73845c4e0",
+      "history_id": "GARDEN",
+      "method": "Fixed templates",
+      "source_messages": [
+        {
+          "message_id": "GARDEN-S1",
+          "role": "user",
+          "content": "The garden coordinator is based in Hobart."
+        },
+        {
+          "message_id": "GARDEN-S2",
+          "role": "user",
+          "content": "The garden watering rota initially named Monday."
+        },
+        {
+          "message_id": "GARDEN-S3",
+          "role": "user",
+          "content": "The coordinator changed the watering day to Wednesday, replacing Monday."
+        },
+        {
+          "message_id": "GARDEN-S4",
+          "role": "user",
+          "content": "The active garden plan assigns the entire shared bed exclusively to Group Red for the current growing season. The bed may be allocated to only one group for that season; joint or divided use is not permitted."
+        },
+        {
+          "message_id": "GARDEN-S5",
+          "role": "user",
+          "content": "A signed active garden allocation assigns that same entire shared bed exclusively to Group Blue for the same current growing season; neither allocation has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "GARDEN-S6",
+          "role": "user",
+          "content": "The coordinator usually prefers morning volunteer sessions."
+        },
+        {
+          "message_id": "GARDEN-S7",
+          "role": "user",
+          "content": "For the compost collection only, the volunteers must attend in the afternoon; the general preference remains for other work."
+        }
+      ],
+      "question": "Where is the garden coordinator based?",
+      "expected_behavior": "Expected: Hobart",
+      "answer": "The garden coordinator is based in Hobart.",
+      "ai_consensus": "pass",
+      "reviewer_1_reason": "正确指出花园协调者位于 Hobart。",
+      "reviewer_2_reason": "The stated location matches the relevant source.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-c7fffe7862bf16ef",
+      "history_id": "GARDEN",
+      "method": "Contextual/indirect Auditor tests",
+      "source_messages": [
+        {
+          "message_id": "GARDEN-S1",
+          "role": "user",
+          "content": "The garden coordinator is based in Hobart."
+        },
+        {
+          "message_id": "GARDEN-S2",
+          "role": "user",
+          "content": "The garden watering rota initially named Monday."
+        },
+        {
+          "message_id": "GARDEN-S3",
+          "role": "user",
+          "content": "The coordinator changed the watering day to Wednesday, replacing Monday."
+        },
+        {
+          "message_id": "GARDEN-S4",
+          "role": "user",
+          "content": "The active garden plan assigns the entire shared bed exclusively to Group Red for the current growing season. The bed may be allocated to only one group for that season; joint or divided use is not permitted."
+        },
+        {
+          "message_id": "GARDEN-S5",
+          "role": "user",
+          "content": "A signed active garden allocation assigns that same entire shared bed exclusively to Group Blue for the same current growing season; neither allocation has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "GARDEN-S6",
+          "role": "user",
+          "content": "The coordinator usually prefers morning volunteer sessions."
+        },
+        {
+          "message_id": "GARDEN-S7",
+          "role": "user",
+          "content": "For the compost collection only, the volunteers must attend in the afternoon; the general preference remains for other work."
+        }
+      ],
+      "question": "Draft a current planning note about watering schedule that the team can use.",
+      "expected_behavior": "State the current recorded fact: The coordinator changed the watering day to Wednesday, replacing Monday.",
+      "answer": "**Watering plan:** The coordinator changed the watering day from Monday to Wednesday. Please confirm this change is still current before relying on the schedule.",
+      "ai_consensus": "pass",
+      "reviewer_1_reason": "正确说明当前周三及从周一的变化；建议确认不否定当前事实。",
+      "reviewer_2_reason": "The current watering day matches Wednesday; the extra request to verify does not alter it.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-d0de6f607264a7d5",
+      "history_id": "SHOP",
+      "method": "Fixed templates",
+      "source_messages": [
+        {
+          "message_id": "SHOP-S1",
+          "role": "user",
+          "content": "The shop owner is based in Darwin."
+        },
+        {
+          "message_id": "SHOP-S2",
+          "role": "user",
+          "content": "The shop initially used Parcel North for local deliveries."
+        },
+        {
+          "message_id": "SHOP-S3",
+          "role": "user",
+          "content": "The shop switched its local delivery provider to Parcel South; Parcel North is no longer used for this service."
+        },
+        {
+          "message_id": "SHOP-S4",
+          "role": "user",
+          "content": "The active supplier schedule sets the delivery window for the entire order on 15 August to 9–11 am. The order is one complete delivery, not split across windows."
+        },
+        {
+          "message_id": "SHOP-S5",
+          "role": "user",
+          "content": "The active signed order specifies a 1–3 pm window on 15 August for that same one complete delivery; neither document has been cancelled or designated as controlling."
+        },
+        {
+          "message_id": "SHOP-S6",
+          "role": "user",
+          "content": "The owner usually prefers email notifications."
+        },
+        {
+          "message_id": "SHOP-S7",
+          "role": "user",
+          "content": "For this delivery the recipient requires a phone notification; email remains the general preference for other orders."
+        }
+      ],
+      "question": "Where is the shop owner based?",
+      "expected_behavior": "Expected: Darwin",
+      "answer": "The shop owner is based in Darwin.",
+      "ai_consensus": "pass",
+      "reviewer_1_reason": "正确指出店主位于 Darwin。",
+      "reviewer_2_reason": "The stated location matches the relevant source.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-d2f0227e37bb31cf",
+      "history_id": "COMMUNITY",
+      "method": "Contextual/indirect Auditor tests",
+      "source_messages": [
+        {
+          "message_id": "COMMUNITY-S1",
+          "role": "user",
+          "content": "The community workshop organiser is based in Perth."
+        },
+        {
+          "message_id": "COMMUNITY-S2",
+          "role": "user",
+          "content": "The workshop was originally scheduled for 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S3",
+          "role": "user",
+          "content": "The organiser moved the workshop to 19 April, replacing 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S4",
+          "role": "user",
+          "content": "The active workshop booking says the only final venue for the entire workshop is Hall A; the workshop cannot use multiple final venues."
+        },
+        {
+          "message_id": "COMMUNITY-S5",
+          "role": "user",
+          "content": "The active signed workshop notice says the only final venue for the same entire workshop is Hall B. Neither document has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "COMMUNITY-S6",
+          "role": "user",
+          "content": "The organiser generally prefers printed handouts."
+        },
+        {
+          "message_id": "COMMUNITY-S7",
+          "role": "user",
+          "content": "For this particular workshop the organiser requires accessible digital handouts; the general preference remains for other events."
+        }
+      ],
+      "question": "Draft an action note for colleagues planning around event venue: what should it include and what action follows?",
+      "expected_behavior": "Keep both records visible: The active workshop booking says the only final venue for the entire workshop is Hall A; the workshop cannot use multiple final venues; The active signed workshop notice says the only final venue for the same entire workshop is Hall B. Neither document has been withdrawn, superseded or ranked. The conflict relation does not establish which one controls, so ask the user for clarification before acting.",
+      "answer": "I don’t have enough remembered information to say what the venue-planning action note should include or what action follows.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "未识别两份互斥场地记录或给出基于该冲突的行动。",
+      "reviewer_2_reason": "The answer does not identify the two source-supported conflicting records; it does not choose either candidate value, so it is a separate omission.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-d4013c98c7e76bd6",
+      "history_id": "GARDEN",
+      "method": "Fixed templates",
+      "source_messages": [
+        {
+          "message_id": "GARDEN-S1",
+          "role": "user",
+          "content": "The garden coordinator is based in Hobart."
+        },
+        {
+          "message_id": "GARDEN-S2",
+          "role": "user",
+          "content": "The garden watering rota initially named Monday."
+        },
+        {
+          "message_id": "GARDEN-S3",
+          "role": "user",
+          "content": "The coordinator changed the watering day to Wednesday, replacing Monday."
+        },
+        {
+          "message_id": "GARDEN-S4",
+          "role": "user",
+          "content": "The active garden plan assigns the entire shared bed exclusively to Group Red for the current growing season. The bed may be allocated to only one group for that season; joint or divided use is not permitted."
+        },
+        {
+          "message_id": "GARDEN-S5",
+          "role": "user",
+          "content": "A signed active garden allocation assigns that same entire shared bed exclusively to Group Blue for the same current growing season; neither allocation has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "GARDEN-S6",
+          "role": "user",
+          "content": "The coordinator usually prefers morning volunteer sessions."
+        },
+        {
+          "message_id": "GARDEN-S7",
+          "role": "user",
+          "content": "For the compost collection only, the volunteers must attend in the afternoon; the general preference remains for other work."
+        }
+      ],
+      "question": "When should volunteers attend the compost collection?",
+      "expected_behavior": "Expected: Attend in the afternoon for compost collection.",
+      "answer": "Volunteers should attend the compost collection in the afternoon.",
+      "ai_consensus": "pass",
+      "reviewer_1_reason": "正确指出本次堆肥收集安排在下午。",
+      "reviewer_2_reason": "The answer correctly specifies the task-specific afternoon arrangement.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-db122f8aa5a5ccd1",
+      "history_id": "COMMUNITY",
+      "method": "Direct questions",
+      "source_messages": [
+        {
+          "message_id": "COMMUNITY-S1",
+          "role": "user",
+          "content": "The community workshop organiser is based in Perth."
+        },
+        {
+          "message_id": "COMMUNITY-S2",
+          "role": "user",
+          "content": "The workshop was originally scheduled for 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S3",
+          "role": "user",
+          "content": "The organiser moved the workshop to 19 April, replacing 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S4",
+          "role": "user",
+          "content": "The active workshop booking says the only final venue for the entire workshop is Hall A; the workshop cannot use multiple final venues."
+        },
+        {
+          "message_id": "COMMUNITY-S5",
+          "role": "user",
+          "content": "The active signed workshop notice says the only final venue for the same entire workshop is Hall B. Neither document has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "COMMUNITY-S6",
+          "role": "user",
+          "content": "The organiser generally prefers printed handouts."
+        },
+        {
+          "message_id": "COMMUNITY-S7",
+          "role": "user",
+          "content": "For this particular workshop the organiser requires accessible digital handouts; the general preference remains for other events."
+        }
+      ],
+      "question": "Where is the community workshop organiser based?",
+      "expected_behavior": "State the recorded fact: The community workshop organiser is based in Perth.",
+      "answer": "The community workshop organiser is based in Perth.",
+      "ai_consensus": "pass",
+      "reviewer_1_reason": "正确指出活动组织者位于 Perth。",
+      "reviewer_2_reason": "The stated location matches the relevant source.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-e9934e43bac58b97",
+      "history_id": "GARDEN",
+      "method": "Contextual/indirect Auditor tests",
+      "source_messages": [
+        {
+          "message_id": "GARDEN-S1",
+          "role": "user",
+          "content": "The garden coordinator is based in Hobart."
+        },
+        {
+          "message_id": "GARDEN-S2",
+          "role": "user",
+          "content": "The garden watering rota initially named Monday."
+        },
+        {
+          "message_id": "GARDEN-S3",
+          "role": "user",
+          "content": "The coordinator changed the watering day to Wednesday, replacing Monday."
+        },
+        {
+          "message_id": "GARDEN-S4",
+          "role": "user",
+          "content": "The active garden plan assigns the entire shared bed exclusively to Group Red for the current growing season. The bed may be allocated to only one group for that season; joint or divided use is not permitted."
+        },
+        {
+          "message_id": "GARDEN-S5",
+          "role": "user",
+          "content": "A signed active garden allocation assigns that same entire shared bed exclusively to Group Blue for the same current growing season; neither allocation has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "GARDEN-S6",
+          "role": "user",
+          "content": "The coordinator usually prefers morning volunteer sessions."
+        },
+        {
+          "message_id": "GARDEN-S7",
+          "role": "user",
+          "content": "For the compost collection only, the volunteers must attend in the afternoon; the general preference remains for other work."
+        }
+      ],
+      "question": "Draft an entry for a shared contact sheet that records where the garden coordinator is based.",
+      "expected_behavior": "State the recorded fact: The garden coordinator is based in Hobart.",
+      "answer": "**Garden coordinator:** Based in Hobart.",
+      "ai_consensus": "pass",
+      "reviewer_1_reason": "联系表正确记录协调者位于 Hobart。",
+      "reviewer_2_reason": "The stated location matches the relevant source.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-ecc58776ca2ee8e3",
+      "history_id": "COMMUNITY",
+      "method": "Direct questions",
+      "source_messages": [
+        {
+          "message_id": "COMMUNITY-S1",
+          "role": "user",
+          "content": "The community workshop organiser is based in Perth."
+        },
+        {
+          "message_id": "COMMUNITY-S2",
+          "role": "user",
+          "content": "The workshop was originally scheduled for 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S3",
+          "role": "user",
+          "content": "The organiser moved the workshop to 19 April, replacing 12 April."
+        },
+        {
+          "message_id": "COMMUNITY-S4",
+          "role": "user",
+          "content": "The active workshop booking says the only final venue for the entire workshop is Hall A; the workshop cannot use multiple final venues."
+        },
+        {
+          "message_id": "COMMUNITY-S5",
+          "role": "user",
+          "content": "The active signed workshop notice says the only final venue for the same entire workshop is Hall B. Neither document has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "COMMUNITY-S6",
+          "role": "user",
+          "content": "The organiser generally prefers printed handouts."
+        },
+        {
+          "message_id": "COMMUNITY-S7",
+          "role": "user",
+          "content": "For this particular workshop the organiser requires accessible digital handouts; the general preference remains for other events."
+        }
+      ],
+      "question": "What accessibility requirement applies to the workshop?",
+      "expected_behavior": "Apply the scoped recorded fact: For this particular workshop the organiser requires accessible digital handouts; the general preference remains for other events.",
+      "answer": "I don’t have enough remembered information to say what accessibility requirement applies to the workshop. The supplied record only says the organiser is based in Perth.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "未说明本场活动需要无障碍数字讲义。",
+      "reviewer_2_reason": "The answer does not provide the task-specific requirement supported by the source; it does not apply the general preference, so the omission is outside the listed pattern.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-edc9bb52a284d2dd",
+      "history_id": "GARDEN",
+      "method": "Direct questions",
+      "source_messages": [
+        {
+          "message_id": "GARDEN-S1",
+          "role": "user",
+          "content": "The garden coordinator is based in Hobart."
+        },
+        {
+          "message_id": "GARDEN-S2",
+          "role": "user",
+          "content": "The garden watering rota initially named Monday."
+        },
+        {
+          "message_id": "GARDEN-S3",
+          "role": "user",
+          "content": "The coordinator changed the watering day to Wednesday, replacing Monday."
+        },
+        {
+          "message_id": "GARDEN-S4",
+          "role": "user",
+          "content": "The active garden plan assigns the entire shared bed exclusively to Group Red for the current growing season. The bed may be allocated to only one group for that season; joint or divided use is not permitted."
+        },
+        {
+          "message_id": "GARDEN-S5",
+          "role": "user",
+          "content": "A signed active garden allocation assigns that same entire shared bed exclusively to Group Blue for the same current growing season; neither allocation has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "GARDEN-S6",
+          "role": "user",
+          "content": "The coordinator usually prefers morning volunteer sessions."
+        },
+        {
+          "message_id": "GARDEN-S7",
+          "role": "user",
+          "content": "For the compost collection only, the volunteers must attend in the afternoon; the general preference remains for other work."
+        }
+      ],
+      "question": "What is the current recorded watering schedule?",
+      "expected_behavior": "State the current recorded fact: The coordinator changed the watering day to Wednesday, replacing Monday.",
+      "answer": "The recorded watering day is Wednesday; it replaced Monday. The record does not specify a time or other schedule details.",
+      "ai_consensus": "pass",
+      "reviewer_1_reason": "正确指出当前浇水日 Wednesday，附带提及原周一和未记录的时间。",
+      "reviewer_2_reason": "The current watering day matches Wednesday; the extra request to verify does not alter it.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-f32f7ad39c3fdf12",
+      "history_id": "SHOP",
+      "method": "Direct questions",
+      "source_messages": [
+        {
+          "message_id": "SHOP-S1",
+          "role": "user",
+          "content": "The shop owner is based in Darwin."
+        },
+        {
+          "message_id": "SHOP-S2",
+          "role": "user",
+          "content": "The shop initially used Parcel North for local deliveries."
+        },
+        {
+          "message_id": "SHOP-S3",
+          "role": "user",
+          "content": "The shop switched its local delivery provider to Parcel South; Parcel North is no longer used for this service."
+        },
+        {
+          "message_id": "SHOP-S4",
+          "role": "user",
+          "content": "The active supplier schedule sets the delivery window for the entire order on 15 August to 9–11 am. The order is one complete delivery, not split across windows."
+        },
+        {
+          "message_id": "SHOP-S5",
+          "role": "user",
+          "content": "The active signed order specifies a 1–3 pm window on 15 August for that same one complete delivery; neither document has been cancelled or designated as controlling."
+        },
+        {
+          "message_id": "SHOP-S6",
+          "role": "user",
+          "content": "The owner usually prefers email notifications."
+        },
+        {
+          "message_id": "SHOP-S7",
+          "role": "user",
+          "content": "For this delivery the recipient requires a phone notification; email remains the general preference for other orders."
+        }
+      ],
+      "question": "Where is the shop owner based?",
+      "expected_behavior": "State the recorded fact: The shop owner is based in Darwin.",
+      "answer": "The shop owner is based in Darwin.",
+      "ai_consensus": "pass",
+      "reviewer_1_reason": "正确指出店主位于 Darwin。",
+      "reviewer_2_reason": "The stated location matches the relevant source.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-f940982e9f66968e",
+      "history_id": "RESEARCH",
+      "method": "Contextual/indirect Auditor tests",
+      "source_messages": [
+        {
+          "message_id": "RESEARCH-S1",
+          "role": "user",
+          "content": "The research group is based in Canberra."
+        },
+        {
+          "message_id": "RESEARCH-S2",
+          "role": "user",
+          "content": "The study originally had 24 participants."
+        },
+        {
+          "message_id": "RESEARCH-S3",
+          "role": "user",
+          "content": "After a documented withdrawal the study has 23 participants; the previous count is superseded."
+        },
+        {
+          "message_id": "RESEARCH-S4",
+          "role": "user",
+          "content": "The current study protocol says the analysis deadline is 5 June."
+        },
+        {
+          "message_id": "RESEARCH-S5",
+          "role": "user",
+          "content": "The active supervisor instruction says the same analysis deadline is 8 June; neither instruction has been cancelled or prioritised."
+        },
+        {
+          "message_id": "RESEARCH-S6",
+          "role": "user",
+          "content": "The researcher generally prefers in-person meetings."
+        },
+        {
+          "message_id": "RESEARCH-S7",
+          "role": "user",
+          "content": "For this study the supervisor requires online meetings; the general meeting preference remains unchanged elsewhere."
+        }
+      ],
+      "question": "Draft an instruction for colleagues about meeting arrangement for the study.",
+      "expected_behavior": "Apply the task-specific recorded requirement: For this study the supervisor requires online meetings; the general meeting preference remains unchanged elsewhere.",
+      "answer": "I don’t have enough remembered information to draft meeting instructions: the only study detail I have is that it originally had 24 participants. Please share the meeting time, location or link, and any attendance or preparation requirements.",
+      "ai_consensus": "fail",
+      "reviewer_1_reason": "未给出研究会议需要在线进行；要求更多会议信息无法替代这一已有要求。",
+      "reviewer_2_reason": "The answer does not provide the task-specific requirement supported by the source; it does not apply the general preference, so the omission is outside the listed pattern.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    },
+    {
+      "case_id": "CASE-fcc01f1981cd7628",
+      "history_id": "GARDEN",
+      "method": "Direct questions",
+      "source_messages": [
+        {
+          "message_id": "GARDEN-S1",
+          "role": "user",
+          "content": "The garden coordinator is based in Hobart."
+        },
+        {
+          "message_id": "GARDEN-S2",
+          "role": "user",
+          "content": "The garden watering rota initially named Monday."
+        },
+        {
+          "message_id": "GARDEN-S3",
+          "role": "user",
+          "content": "The coordinator changed the watering day to Wednesday, replacing Monday."
+        },
+        {
+          "message_id": "GARDEN-S4",
+          "role": "user",
+          "content": "The active garden plan assigns the entire shared bed exclusively to Group Red for the current growing season. The bed may be allocated to only one group for that season; joint or divided use is not permitted."
+        },
+        {
+          "message_id": "GARDEN-S5",
+          "role": "user",
+          "content": "A signed active garden allocation assigns that same entire shared bed exclusively to Group Blue for the same current growing season; neither allocation has been withdrawn, superseded or ranked."
+        },
+        {
+          "message_id": "GARDEN-S6",
+          "role": "user",
+          "content": "The coordinator usually prefers morning volunteer sessions."
+        },
+        {
+          "message_id": "GARDEN-S7",
+          "role": "user",
+          "content": "For the compost collection only, the volunteers must attend in the afternoon; the general preference remains for other work."
+        }
+      ],
+      "question": "Where is the garden coordinator based?",
+      "expected_behavior": "State the recorded fact: The garden coordinator is based in Hobart.",
+      "answer": "The garden coordinator is based in Hobart.",
+      "ai_consensus": "pass",
+      "reviewer_1_reason": "正确指出花园协调者位于 Hobart。",
+      "reviewer_2_reason": "The stated location matches the relevant source.",
+      "candidate_defect_ids": [],
+      "human_decision": null,
+      "human_note": ""
+    }
+  ]
+}

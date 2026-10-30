@@ -1,0 +1,7 @@
+{
+  "human_confirmed": true,
+  "review_packet_sha256": "5134520ad3edc831a1797003b36d607ddf621b21db9849e20cb6dcb5e6a29249",
+  "confirmation": "User explicitly stated: 已逐项核对，全部认可",
+  "scope": "48 candidate response judgments, reviewed after two AI independent blinded reviews",
+  "review_basis": "one user reference; two AI reviewers are not human reviewers"
+}

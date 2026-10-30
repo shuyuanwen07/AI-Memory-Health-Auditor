@@ -65,7 +65,7 @@ def test_api_persists_suppression_without_changing_old_audit(saved_suite):
     data=result.json(); assert not any(t['dimension']=='freshness' and set(t['supporting_memory_ids'])=={old.id,current.id} for t in data)
     with sessions() as db:
         run=db.get(AuditRunModel,rid);obs=run.reproducibility_metadata['generation_observations'][-1]
-        assert obs['agent_version']=='rule-based-v40' and obs['known_conflict_suppressed_count']==2
+        assert obs['agent_version']=='rule-based-v41' and obs['known_conflict_suppressed_count']==2
     assert client.get(f'/api/v1/audits/{runs[0]}/tests').json()==before
 
 def test_same_pair_has_conflict_and_update_conflict_probe_remains():
