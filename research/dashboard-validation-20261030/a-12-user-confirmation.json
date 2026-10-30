@@ -1,0 +1,8 @@
+{
+  "confirmation_source": "User replies in this conversation on 2026-10-30",
+  "review_statement": "两位不同的人分别独立逐条核对，并认可文件中的 10 通过、2 失败，以及冻结的三项缺陷均未命中的判断。",
+  "mapping_decision": "接受，保留原清单与清单外错误。直接数据库题的正确简答判通过，另两条历史信息错误不计为 STALE。",
+  "scope": "12 responses and frozen-candidate defect mappings across three A methods",
+  "review_provenance": "User-reported independent human checks of AI-assisted judgments; human identity and score exposure not independently authenticated.",
+  "original_archive_sha256": "b1b084d338d50aea67ae890a9c1a8c9348a2b71c8ba1c78458407588c2a14d3b"
+}

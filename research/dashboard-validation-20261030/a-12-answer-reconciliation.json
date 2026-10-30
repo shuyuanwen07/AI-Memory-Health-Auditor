@@ -1,0 +1,24 @@
+{
+  "source_archive_sha256": "b1b084d338d50aea67ae890a9c1a8c9348a2b71c8ba1c78458407588c2a14d3b",
+  "runs": {
+    "RUN8809E58D907244E1A79D347F8A75439B": {
+      "answers": 4,
+      "pass": 3,
+      "fail": 1,
+      "defect_hits": 0
+    },
+    "RUNEAB7B2CD9B584E40B89D9D64DC308035": {
+      "answers": 4,
+      "pass": 3,
+      "fail": 1,
+      "defect_hits": 0
+    },
+    "RUNF6487F3C45EE42AC96D750F81C2E9816": {
+      "answers": 4,
+      "pass": 4,
+      "fail": 0,
+      "defect_hits": 0
+    }
+  },
+  "total": 12
+}

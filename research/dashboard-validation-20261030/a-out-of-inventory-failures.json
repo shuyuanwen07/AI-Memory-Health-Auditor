@@ -1,0 +1,14 @@
+[
+  {
+    "run_id": "RUN8809E58D907244E1A79D347F8A75439B",
+    "test_id": "TCBBA05DA74354F1F92CB470CD497ABF1",
+    "reason": "虽正确识别当前 PostgreSQL，却错误声称记录未指明被替代数据库；来源明确写明此前 MySQL 且迁移后不再使用。迁移原因未提供，不能编造。",
+    "status": "human-confirmed failure outside frozen candidate inventory"
+  },
+  {
+    "run_id": "RUNEAB7B2CD9B584E40B89D9D64DC308035",
+    "test_id": "TA3A6258AF3F94C0A81F84FF071A06546",
+    "reason": "当前 PostgreSQL 正确，但回答把先前状态称为 unspecified；来源明确记录此前 MySQL。题目明确要求解释当前如何替代历史状态，故失败。",
+    "status": "human-confirmed failure outside frozen candidate inventory"
+  }
+]

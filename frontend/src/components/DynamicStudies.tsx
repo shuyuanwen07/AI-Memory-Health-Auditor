@@ -89,7 +89,7 @@ export function DynamicA({data}:{data:DynamicData}) {
   if(!data.a) return null;
   return <div><h3>Latest saved A comparison</h3>
     {data.a.conditions.map(c=><Bar key={c.run_id} label={c.label} value={c.failure_discovery_rate.discovered_distinct_failures} total={c.failure_discovery_rate.known_distinct_failures} tag={c.failure_discovery_rate.status}/>)}
-    <p className="compact-note">Distinct frozen defects found, with saved human mapping. Unmeasured stays unmeasured. <a href={`/audits/${data.a.source_run_id}`}>Source audit →</a></p>
+    <p className="compact-note">Frozen candidate failure patterns matched by human review. Candidates are potential problems, not proof they occurred; other failures may fall outside the list. Unmeasured stays unmeasured. <a href={`/audits/${data.a.source_run_id}`}>Source audit →</a></p>
   </div>;
 }
 export function DynamicBC({data}:{data:DynamicData}) {
