@@ -7,7 +7,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import App from './App';
 
-const mocks = vi.hoisted(() => ({ audits: vi.fn(), results: vi.fn(), ac3StudySummaries: vi.fn() }));
+const mocks = vi.hoisted(() => ({ audits: vi.fn(), results: vi.fn(), experimentGroups: vi.fn().mockResolvedValue([]), experimentResults: vi.fn(), ac3StudySummaries: vi.fn() }));
 class TestResizeObserver { observe() {} unobserve() {} disconnect() {} }
 vi.mock('./services/api', () => ({ api: mocks }));
 vi.mock('./components/AccessBoundary', () => ({
