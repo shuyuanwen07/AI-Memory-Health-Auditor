@@ -1,0 +1,19 @@
+{
+  "archive_sha256": "4aa5d8fe4e3cf9987abfd3fa07fd0dc69b90bc4c355b50319c6e3c15bac36d60",
+  "reviewers": [
+    {
+      "reviewer_slot": 1,
+      "accepted": 8,
+      "rejected": 0,
+      "uncertain": 0
+    },
+    {
+      "reviewer_slot": 2,
+      "accepted": 8,
+      "rejected": 0,
+      "uncertain": 0
+    }
+  ],
+  "disagreements": [],
+  "user_confirmation": "User states all were checked itemwise by humans separately; AI assistance retained. Score exposure and human identities not independently verified."
+}
