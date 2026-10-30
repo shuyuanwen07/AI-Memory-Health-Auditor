@@ -150,7 +150,8 @@ class BenchmarkPlanService:
                 state={**state,'status':'COMPLETED','completed_at':datetime.now(timezone.utc).isoformat(),
                        'benchmark_run_id':result.run_id,'evidence_fingerprint_sha256':fingerprint(result.model_dump(mode='json')),
                        'dashboard_summary': {'metric':'lexical_match', 'conditions': [
-                           {'strategy': row.strategy, 'matched': row.lexical_matches, 'total': row.total}
+                           {'strategy': row.strategy, 'matched': row.lexical_matches, 'total': row.total,
+                            'case_ids': [case.case_id for case in row.cases]}
                            for row in result.conditions]}}
             except Exception as exc:
                 plan.executions={**plan.executions,request.trial_id:{**state,'status':'FAILED','error_code':type(exc).__name__}}

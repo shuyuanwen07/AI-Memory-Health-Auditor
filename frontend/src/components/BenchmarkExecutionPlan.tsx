@@ -9,7 +9,7 @@ export interface BenchmarkPlan {
   protocol:{trials:Array<{trial_id:string;reference_run_id:string;candidate_run_id:string}>;
     sampling_rule:string;evaluator_model:string;evaluator_revision:string;planned_target_calls:number;
     benchmark:{case_ids:string[];configuration:Record<string,unknown>}};
-  executions:Record<string,{status:string;error_code?:string;benchmark_run_id?:string;dashboard_summary?:{metric:'lexical_match';conditions:Array<{strategy:string;matched:number;total:number}>}}>;
+  executions:Record<string,{status:string;error_code?:string;benchmark_run_id?:string;evidence_fingerprint_sha256?:string;dashboard_summary?:{metric:'lexical_match';conditions:Array<{strategy:string;matched:number;total:number;case_ids?:string[]}>};human_reviews?:Array<{review_id:string;reviewers:Array<{reviewer:string;judgments:Array<{strategy:string;case_id:string;verdict:'pass'|'fail'|'uncertain'}>}>}>}>;
 }
 interface PlanInput {benchmark:Record<string,unknown>;trials:unknown[];sampling_rule:string;evaluator_model:string;evaluator_revision:string}
 const template={benchmark:{payload:[],source_authorised:false,dataset_provenance:{dataset_version:'',license:'',citation:''},provider:'openrouter',model:'openai/gpt-6-luna',strategies:['weak_first_hit','strong_rule_based'],target_memory_profile:{output_token_limit:192}},trials:[1,2,3].map(i=>({trial_id:`repeat-${i}`,reference_run_id:'',candidate_run_id:''})),sampling_rule:'',evaluator_model:'',evaluator_revision:'',metadata_storage_authorised:false};
@@ -44,6 +44,18 @@ export function BenchmarkExecutionPlan({onPlanReady}:{onPlanReady:(id:string)=>v
     const value=await api.restoreBenchmarkPlan(planId.trim());if(current())adopt(value);
   });}
   function find(){void operation(async current=>{const values=await api.listBenchmarkPlans();if(current()){setSavedPlans(values);setListed(true);}});}
+  function reviewTemplate(trial:string){
+    if(!plan)return;
+    const execution=plan.executions[trial];
+    const judgments=(execution.dashboard_summary?.conditions??[]).flatMap(row=>(row.case_ids??[]).map(case_id=>({strategy:row.strategy,case_id,verdict:'uncertain'})));
+    saveBlob(new Blob([JSON.stringify({evidence_fingerprint_sha256:execution.evidence_fingerprint_sha256,independent_review_confirmed:false,reviewers:[{reviewer:'',judgments},{reviewer:'',judgments}]},null,2)],{type:'application/json'}),`benchmark-human-review-${trial}.json`);
+  }
+  function importReview(trial:string,file:File){if(!plan||active.current)return;void operation(async current=>{
+    if(file.size>1_000_000)throw new Error('Choose a review file smaller than 1 MB.');
+    const value=JSON.parse(await file.text());
+    await api.importBenchmarkHumanReview(plan.plan_id,trial,value);
+    const refreshed=await api.restoreBenchmarkPlan(plan.plan_id);if(current())adopt(refreshed);
+  });}
   function execute(trial:string){if(!authorised||!input||!plan)return;void operation(async current=>{
     setPlan({...plan,executions:{...plan.executions,[trial]:{status:'Status pending'}}});
     try {
@@ -81,6 +93,8 @@ export function BenchmarkExecutionPlan({onPlanReady}:{onPlanReady:(id:string)=>v
         {title:'Saved execution status',render:(_,row)=>plan.executions[row.trial_id]?.status??'Not started'},
         {title:'Action',render:(_,row)=><Button aria-label={`Run benchmark ${row.trial_id}`} disabled={busy||!authorised||!input||!!plan.executions[row.trial_id]} onClick={()=>execute(row.trial_id)}>Run this repeat</Button>},
       ]}/>
+      <h5>Independent human review</h5><p>Use the original downloaded benchmark answers and source evidence to review each case. Download a trial template, enter both reviewer pseudonyms and each verdict, confirm independence in the file, then import it. Review versions are retained; unresolved disagreements remain separate.</p>
+      {plan.protocol.trials.filter(t=>plan.executions[t.trial_id]?.dashboard_summary?.conditions.some(c=>c.case_ids?.length)).map(t=><div key={`review-${t.trial_id}`}><b>{t.trial_id}</b> <Button disabled={busy} onClick={()=>reviewTemplate(t.trial_id)}>Download review JSON</Button> <label>Import completed review <input type="file" accept=".json,application/json" disabled={busy} onChange={e=>{const file=e.target.files?.[0];if(file)importReview(t.trial_id,file);e.currentTarget.value='';}}/></label> · {plan.executions[t.trial_id].human_reviews?.length??0} saved versions</div>)}
       <Button onClick={()=>saveBlob(new Blob([JSON.stringify(plan,null,2)],{type:'application/json'}),'frozen-benchmark-plan.json')}>Download frozen execution plan</Button>
       <Collapse items={[{key:'plan',label:'Inspect frozen settings and limits',children:<><p>{plan.notice}</p><pre style={{maxHeight:350,overflow:'auto'}}>{JSON.stringify(plan,null,2)}</pre></>}]} />
     </div>}

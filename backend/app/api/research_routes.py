@@ -57,7 +57,7 @@ from app.schemas.acceptance import AcceptanceCheckRequest, AcceptanceCheckReport
 from app.research.acceptance import AcceptanceCheckService
 
 
-from app.schemas.benchmark_plan import BenchmarkPlanCreate, BenchmarkPlanResponse, PlannedBenchmarkRun, PlannedRankingAnalysis
+from app.schemas.benchmark_plan import BenchmarkPlanCreate, BenchmarkPlanResponse, PlannedBenchmarkRun, PlannedRankingAnalysis, BenchmarkHumanReviewImport
 from app.services.benchmark_plan import BenchmarkPlanService
 
 research_router = APIRouter(prefix="/api/v1/research", tags=["research-validation"])
@@ -116,6 +116,32 @@ def list_benchmark_analyses(db: Session = Depends(get_db)):
     from app.models import BenchmarkAnalysisModel
     rows = db.scalars(select(BenchmarkAnalysisModel).order_by(BenchmarkAnalysisModel.created_at.desc(), BenchmarkAnalysisModel.id.desc()).limit(100)).all()
     return [{'id': row.id, 'plan_id': row.plan_id, 'created_at': row.created_at.isoformat(), 'report': row.report} for row in rows]
+
+
+@research_router.post('/benchmarks/longmemeval/plans/{plan_id}/trials/{trial_id}/human-review', status_code=201)
+def import_benchmark_human_review(plan_id: str, trial_id: str, payload: BenchmarkHumanReviewImport, db: Session = Depends(get_db)):
+    """Bind independently declared human judgments to a saved benchmark receipt."""
+    from uuid import uuid4
+    from datetime import datetime, timezone
+    from app.services.benchmark_plan import checked_plan
+    from app.services.stage_lock import database_stage_lock
+    with database_stage_lock(db, 'benchmark-plan:' + plan_id, 'This benchmark plan is already in use.'):
+        plan = checked_plan(db, plan_id)
+        execution = plan.executions.get(trial_id)
+        if not execution or execution.get('status') != 'COMPLETED' or not execution.get('dashboard_summary'):
+            raise HTTPException(409, 'This trial has no saved case-bound dashboard summary.')
+        if execution.get('evidence_fingerprint_sha256') != payload.evidence_fingerprint_sha256:
+            raise HTTPException(409, 'Review evidence fingerprint does not match the saved trial.')
+        allowed = {(row['strategy'], case_id) for row in execution['dashboard_summary']['conditions'] for case_id in row.get('case_ids', [])}
+        if any((j.strategy, j.case_id) not in allowed for reviewer in payload.reviewers for j in reviewer.judgments):
+            raise HTTPException(422, 'A review refers to a case or strategy outside this trial.')
+        version = {'review_id': 'HR' + uuid4().hex.upper(), 'created_at': datetime.now(timezone.utc).isoformat(),
+                   **payload.model_dump(mode='json')}
+        updated = {**execution, 'human_reviews': [*execution.get('human_reviews', []), version]}
+        plan.executions = {**plan.executions, trial_id: updated}
+        db.commit()
+        return {'review_id': version['review_id'], 'plan_id': plan_id, 'trial_id': trial_id,
+                'notice': 'Reviewer independence is declared, not authenticated; prior versions remain saved.'}
 
 
 @research_router.post("/benchmarks/longmemeval/ranking-agreement", response_model=RankingAgreementReport)

@@ -207,6 +207,22 @@ def test_complete_frozen_execution_and_analysis_path(pending):
         assert analyses[0]['plan_id']==plan.plan_id
         assert analyses[0]['report']['measured_trials']==3
         assert 'PostgreSQL' not in str(analyses)
+        receipt=restored['executions']['repeat-1']
+        judgments=[{'strategy':row['strategy'],'case_id':case_id,'verdict':'pass'} for row in summary['conditions'] for case_id in row['case_ids']]
+        payload={'evidence_fingerprint_sha256':receipt['evidence_fingerprint_sha256'],'independent_review_confirmed':True,
+                 'reviewers':[{'reviewer':'one','judgments':judgments},{'reviewer':'two','judgments':judgments}]}
+        url=f'/api/v1/research/benchmarks/longmemeval/plans/{plan.plan_id}/trials/repeat-1/human-review'
+        wrong={**payload,'evidence_fingerprint_sha256':'0'*64}
+        assert client.post(url,json=wrong).status_code==409
+        wrong=deepcopy(payload);wrong['reviewers'][1]['reviewer']=' ONE '
+        assert client.post(url,json=wrong).status_code==422
+        wrong=deepcopy(payload);wrong['reviewers'][0]['judgments'][0]['case_id']='other-case'
+        assert client.post(url,json=wrong).status_code==422
+        assert client.post(url,json=payload).status_code==201
+        assert client.post(url,json=payload).status_code==201
+        updated=client.get(f'/api/v1/research/benchmarks/longmemeval/plans/{plan.plan_id}').json()
+        assert len(updated['executions']['repeat-1']['human_reviews'])==2
+        assert 'PostgreSQL' not in str(updated['executions']['repeat-1']['human_reviews'])
 
 
 def test_plan_listing_recovers_metadata_without_dispatching_or_returning_sources(pending):

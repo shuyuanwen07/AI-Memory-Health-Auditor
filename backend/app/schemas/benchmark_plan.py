@@ -1,6 +1,7 @@
 """Server-frozen execution plans; benchmark source stays request-scoped."""
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, model_validator
+from typing import Literal
 from app.schemas.benchmark import LiveBenchmarkRequest
 from app.schemas.ranking_agreement import RepeatedRankingRequest
 
@@ -50,3 +51,33 @@ class PlannedBenchmarkRun(BaseModel):
 class PlannedRankingAnalysis(BaseModel):
     model_config = ConfigDict(extra='forbid')
     analysis: RepeatedRankingRequest
+
+
+class BenchmarkHumanJudgment(BaseModel):
+    model_config = ConfigDict(extra='forbid', str_strip_whitespace=True)
+    strategy: str = Field(min_length=1, max_length=100)
+    case_id: str = Field(min_length=1, max_length=200)
+    verdict: Literal['pass', 'fail', 'uncertain']
+
+
+class BenchmarkHumanReviewer(BaseModel):
+    model_config = ConfigDict(extra='forbid', str_strip_whitespace=True)
+    reviewer: str = Field(min_length=1, max_length=100)
+    judgments: list[BenchmarkHumanJudgment] = Field(min_length=1, max_length=80)
+
+
+class BenchmarkHumanReviewImport(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    evidence_fingerprint_sha256: str = Field(pattern=r'^[0-9a-f]{64}$')
+    independent_review_confirmed: Literal[True]
+    reviewers: list[BenchmarkHumanReviewer] = Field(min_length=2, max_length=2)
+
+    @model_validator(mode='after')
+    def distinct(self):
+        if self.reviewers[0].reviewer.casefold() == self.reviewers[1].reviewer.casefold():
+            raise ValueError('Supply two distinct reviewer pseudonyms.')
+        for reviewer in self.reviewers:
+            keys = [(j.strategy, j.case_id) for j in reviewer.judgments]
+            if len(keys) != len(set(keys)):
+                raise ValueError('Each reviewer may judge a case once per strategy.')
+        return self

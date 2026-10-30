@@ -25,7 +25,17 @@ it('reads A, B and C separately and refreshes saved evidence without mixing stud
   expect(screen.getByText('Independent human-review consensus')).toBeInTheDocument();
   expect(screen.getAllByText('2 reviewed by at least two · 1 disagreements excluded')).toHaveLength(4);
   expect(screen.getByText('C · r1 · lexical match')).toBeInTheDocument();
-  expect(screen.getByText(/automatic lexical match, not human-validated accuracy/)).toBeInTheDocument();
+  expect(screen.getByText(/lexical match is automatic/)).toBeInTheDocument();
   fireEvent.click(screen.getByRole('button',{name:'Update'}));
   await waitFor(()=>expect(screen.getAllByText('4/5 · 80.0%')).toHaveLength(2));
+});
+
+it('keeps C human disagreements unresolved and separate from lexical results',()=>{
+  const rows=[{strategy:'weak_first_hit',case_id:'one',verdict:'pass'},{strategy:'weak_first_hit',case_id:'two',verdict:'fail'}];
+  const changed=[rows[0],{...rows[1],verdict:'pass'}];
+  const data={a:null,b:null,bHuman:{},analysis:null,errors:[],c:{plan_id:'P',executions:{r1:{status:'COMPLETED',dashboard_summary:{metric:'lexical_match',conditions:[{strategy:'weak_first_hit',matched:2,total:2,case_ids:['one','two']}]},human_reviews:[{review_id:'H',reviewers:[{reviewer:'one',judgments:rows},{reviewer:'two',judgments:changed}]}]}}}};
+  render(<DynamicBC data={data as never}/>);
+  expect(screen.getByText('2/2 · 100.0%')).toBeInTheDocument();
+  expect(screen.getByText('1/1 · 100.0%')).toBeInTheDocument();
+  expect(screen.getByText('1/2 agreed pass or fail; remaining cases unresolved or unreviewed')).toBeInTheDocument();
 });
