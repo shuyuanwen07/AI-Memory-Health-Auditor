@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, Button, Card, Progress, Select, Skeleton, Tag } from 'antd';
 import { FourStrategyComparisonSection } from '../components/FourStrategyComparison';
 import { CompactExperimentResults } from '../components/CompactExperimentResults';
+import { LiveExperimentResults } from '../components/LiveExperimentResults';
 import { FourStrategyHumanResults } from '../components/FourStrategyHumanResults';
 import { Ac3GroundingSummary } from '../components/Ac3GroundingSummary';
 import { Ac3HeldoutResults } from '../components/Ac3HeldoutResults';
@@ -618,6 +619,7 @@ export function FinalResultsDashboard() {
     <div className="page-heading">
       <div><h1>Audit and experiment results</h1><p>See the studies and your completed audits in one place.</p></div>
     </div>
+    <LiveExperimentResults />
     <CompactExperimentResults />
     <section aria-label="Selected completed audit results" className="dashboard-section"><h2>Completed audits</h2><CompletedAuditResults /></section>
     <p className="dashboard-links"><a href="/research-results">Research details</a> · <a href="/experiments">Experiments</a> · <a href="/history">Audit history</a></p>
