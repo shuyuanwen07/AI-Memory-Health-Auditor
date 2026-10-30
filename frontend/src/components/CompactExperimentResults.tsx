@@ -1,6 +1,7 @@
 import { Alert, Card } from 'antd';
 import compactData from '../data/compactFinalDashboard.json';
 import { Bar, BarChart, CartesianGrid, LabelList, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import { DynamicA, DynamicBC, useDynamicStudies } from './DynamicStudies';
 
 type Ratio = { numerator: number; denominator: number; value: number | null };
 type AMethod = { label: string; detected: number; known: number };
@@ -112,6 +113,7 @@ function ProspectiveChart({data}:{data:Prospective}) {
 }
 
 export function CompactExperimentResults() {
+  const dynamic = useDynamicStudies();
   if(!isCompactData(compactData))
     return <Alert role="alert" type="warning" showIcon title="Research results are unavailable" description="The source-bound dashboard data is invalid. Individual saved audits are still available below."/>;
   const data=compactData;
@@ -136,9 +138,10 @@ export function CompactExperimentResults() {
   const measuresChart=measures.map(x=>({name:x.name,old:pct(x.old.numerator,x.old.denominator),current:pct(x.current.numerator,x.current.denominator)}));
   return <>
     <section aria-label="Final experiment results" className="compact-results">
-      <div className="compact-intro"><h2>Experiment results</h2><p>Three studies show what was found, how strategies compare, and whether the Auditor improves.</p></div>
+      <div className="compact-intro"><h2>Experiment results</h2><p>Reviewed historical results and the latest compatible saved comparisons.</p><button type="button" onClick={dynamic.refresh}>Refresh experiment results</button>{dynamic.data.errors.length>0 && <p role="alert">Some new results could not be loaded: {dynamic.data.errors.join('; ')}. Reviewed historical results remain available.</p>}</div>
       <div className="compact-grid">
         <Card title="A · Which audit method finds problems?" className="compact-a">
+          <DynamicA data={dynamic.data}/><h3>Reviewed historical study</h3>
           <div className="compact-methods" role="img" aria-label="Predefined defects found by each audit method">
             {data.a.methods.map(m=><div className="compact-method" key={m.label}><span>{m.label}</span><div className="compact-track"><i style={{width:`${pct(m.detected,m.known)}%`}}/></div><strong>{m.detected}/{m.known}</strong></div>)}
           </div>
@@ -174,6 +177,7 @@ export function CompactExperimentResults() {
           <ProspectiveChart data={data.ac2.prospective}/>
         </Card>
         <Card title="B & C · Four memory strategies" className="compact-policies">
+          <DynamicBC data={dynamic.data}/><h3>Reviewed historical study</h3>
           <PairedChart data={policy} oldName="B · synthetic" newName="C · LongMemEval" labelWidth={162} height={230}/>
           <div className="compact-values"><div className="compact-value-header"><span>Strategy</span><b>B · synthetic</b><b>C · benchmark</b></div>{data.strategies.map(s=><div key={s.id}><span>{s.label}</span><b>{display(s.b_pass,s.b_decided)}</b><b>{display(s.c_pass,s.c_decided)}</b></div>)}</div>
           <p className="compact-note">B: 3 histories × 3 repeats, {data.strategies[0].b_total} answers per strategy. C: 30 selected cases × 3 repeats, {data.strategies[0].c_total} per strategy; {data.strategies.reduce((a,s)=>a+s.c_uncertain,0)} unresolved answers excluded from decided rates. Repeats are not independent cases.</p>

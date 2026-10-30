@@ -148,7 +148,10 @@ class BenchmarkPlanService:
             try:
                 result=LiveBenchmarkRunner().run(request.benchmark)
                 state={**state,'status':'COMPLETED','completed_at':datetime.now(timezone.utc).isoformat(),
-                       'benchmark_run_id':result.run_id,'evidence_fingerprint_sha256':fingerprint(result.model_dump(mode='json'))}
+                       'benchmark_run_id':result.run_id,'evidence_fingerprint_sha256':fingerprint(result.model_dump(mode='json')),
+                       'dashboard_summary': {'metric':'lexical_match', 'conditions': [
+                           {'strategy': row.strategy, 'matched': row.lexical_matches, 'total': row.total}
+                           for row in result.conditions]}}
             except Exception as exc:
                 plan.executions={**plan.executions,request.trial_id:{**state,'status':'FAILED','error_code':type(exc).__name__}}
                 db.commit()

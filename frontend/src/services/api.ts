@@ -66,6 +66,7 @@ export const api = {
   compareBenchmarkRankings:(body:object)=>request<import('../components/BenchmarkRankingAgreement').RankingAgreementResult>('/research/benchmarks/longmemeval/ranking-agreement',{method:'POST',body:JSON.stringify(body)}),
   createBenchmarkPlan:(body:object)=>request<import('../components/BenchmarkExecutionPlan').BenchmarkPlan>('/research/benchmarks/longmemeval/plans',{method:'POST',body:JSON.stringify(body)}),
   listBenchmarkPlans:()=>request<import('../components/BenchmarkExecutionPlan').BenchmarkPlan[]>('/research/benchmarks/longmemeval/plans'),
+  listBenchmarkAnalyses:()=>request<Array<{id:string;plan_id:string;created_at:string;report:{status:string;planned_trials:number;measured_trials:number;reference_strategy:string|null;candidate_strategy:string|null;ranking_agreement_percentage:number|null;notice:string}}>>('/research/benchmarks/longmemeval/analyses'),
   restoreBenchmarkPlan:(id:string)=>request<import('../components/BenchmarkExecutionPlan').BenchmarkPlan>(`/research/benchmarks/longmemeval/plans/${encodeURIComponent(id)}`),
   executeBenchmarkPlan:(id:string,body:object)=>request<unknown>(`/research/benchmarks/longmemeval/plans/${encodeURIComponent(id)}/execute`,{method:'POST',body:JSON.stringify(body)}),
   analyseBenchmarkPlan:(id:string,analysis:object)=>request<import('../components/RepeatedBenchmarkRanking').RepeatedRankingResult>(`/research/benchmarks/longmemeval/plans/${encodeURIComponent(id)}/analyse`,{method:'POST',body:JSON.stringify({analysis})}),

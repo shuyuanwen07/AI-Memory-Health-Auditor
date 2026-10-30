@@ -9,7 +9,7 @@ export interface BenchmarkPlan {
   protocol:{trials:Array<{trial_id:string;reference_run_id:string;candidate_run_id:string}>;
     sampling_rule:string;evaluator_model:string;evaluator_revision:string;planned_target_calls:number;
     benchmark:{case_ids:string[];configuration:Record<string,unknown>}};
-  executions:Record<string,{status:string;error_code?:string;benchmark_run_id?:string}>;
+  executions:Record<string,{status:string;error_code?:string;benchmark_run_id?:string;dashboard_summary?:{metric:'lexical_match';conditions:Array<{strategy:string;matched:number;total:number}>}}>;
 }
 interface PlanInput {benchmark:Record<string,unknown>;trials:unknown[];sampling_rule:string;evaluator_model:string;evaluator_revision:string}
 const template={benchmark:{payload:[],source_authorised:false,dataset_provenance:{dataset_version:'',license:'',citation:''},provider:'openrouter',model:'openai/gpt-6-luna',strategies:['weak_first_hit','strong_rule_based'],target_memory_profile:{output_token_limit:192}},trials:[1,2,3].map(i=>({trial_id:`repeat-${i}`,reference_run_id:'',candidate_run_id:''})),sampling_rule:'',evaluator_model:'',evaluator_revision:'',metadata_storage_authorised:false};

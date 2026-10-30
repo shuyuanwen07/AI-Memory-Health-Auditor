@@ -7,7 +7,7 @@ import { completedAuditOptionLabel, defaultCompletedAuditId, FinalResultsDashboa
 import { auditDisplayNames } from '../services/display';
 import type { AuditResult, AuditRun } from '../types/domain';
 
-const mocks = vi.hoisted(() => ({ audits: vi.fn(), results: vi.fn(), experimentGroups: vi.fn().mockResolvedValue([]), experimentResults: vi.fn(), ac3StudySummaries: vi.fn().mockResolvedValue({ studies: [] }) }));
+const mocks = vi.hoisted(() => ({ audits: vi.fn(), results: vi.fn(), experimentGroups: vi.fn().mockResolvedValue([]), experimentResults: vi.fn(), methodComparisonResults: vi.fn(), listBenchmarkPlans: vi.fn().mockResolvedValue([]), listBenchmarkAnalyses: vi.fn().mockResolvedValue([]), ac3StudySummaries: vi.fn().mockResolvedValue({ studies: [] }) }));
 class TestResizeObserver { observe() {} unobserve() {} disconnect() {} }
 vi.mock('../services/api', () => ({ api: mocks }));
 

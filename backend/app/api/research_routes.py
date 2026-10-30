@@ -97,9 +97,25 @@ def execute_planned_benchmark(plan_id: str, payload: PlannedBenchmarkRun, db: Se
 @research_router.post('/benchmarks/longmemeval/plans/{plan_id}/analyse', response_model=RepeatedRankingReport)
 def analyse_planned_rankings(plan_id: str, payload: PlannedRankingAnalysis, db: Session = Depends(get_db)):
     try:
-        return BenchmarkPlanService().analyse(db, plan_id, payload)
+        from uuid import uuid4
+        from app.models import BenchmarkAnalysisModel
+        report = BenchmarkPlanService().analyse(db, plan_id, payload)
+        report.notice = report.notice.replace('This analysis creates no model calls, database records or human labels.', 'This analysis makes no model calls or human labels; its derived summary is saved for the dashboard.')
+        db.add(BenchmarkAnalysisModel(id='BA' + uuid4().hex.upper(), plan_id=plan_id,
+            report=report.model_dump(mode='json')))
+        db.commit()
+        return report
     except ValueError as error:
         raise HTTPException(422, detail=str(error)) from error
+
+
+@research_router.get('/benchmarks/longmemeval/analyses')
+def list_benchmark_analyses(db: Session = Depends(get_db)):
+    """Saved derived analyses; source text and raw benchmark replies are not retained."""
+    from sqlalchemy import select
+    from app.models import BenchmarkAnalysisModel
+    rows = db.scalars(select(BenchmarkAnalysisModel).order_by(BenchmarkAnalysisModel.created_at.desc(), BenchmarkAnalysisModel.id.desc()).limit(100)).all()
+    return [{'id': row.id, 'plan_id': row.plan_id, 'created_at': row.created_at.isoformat(), 'report': row.report} for row in rows]
 
 
 @research_router.post("/benchmarks/longmemeval/ranking-agreement", response_model=RankingAgreementReport)

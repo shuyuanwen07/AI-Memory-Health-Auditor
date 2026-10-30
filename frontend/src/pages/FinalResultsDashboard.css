@@ -181,6 +181,7 @@
 .final-results-dashboard .compact-methods { display:grid; gap:10px; margin:5px 0; }
 .final-results-dashboard .compact-method { display:grid; grid-template-columns:minmax(0,1fr) minmax(65px,1.1fr) auto; gap:10px; align-items:center; }
 .final-results-dashboard .compact-method span { overflow-wrap:anywhere; }
+.final-results-dashboard .compact-method small { grid-column: 1 / -1; color: #586777; }
 .final-results-dashboard .compact-track { height:10px; border-radius:6px; background:#e8edf2; overflow:hidden; }
 .final-results-dashboard .compact-track i { display:block; height:100%; border-radius:6px; background:#147e87; }
 .final-results-dashboard .compact-values { display:grid; gap:3px; font-size:.78rem; }

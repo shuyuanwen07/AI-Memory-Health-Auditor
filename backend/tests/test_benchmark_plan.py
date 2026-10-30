@@ -197,6 +197,16 @@ def test_complete_frozen_execution_and_analysis_path(pending):
         assert report['measured_trials']==3
         assert report['plan_provenance']=='server_frozen_preexecution_plan'
         assert report['plan_fingerprint_sha256']==plan.plan_fingerprint_sha256
+        restored=client.get(f'/api/v1/research/benchmarks/longmemeval/plans/{plan.plan_id}').json()
+        summary=restored['executions']['repeat-1']['dashboard_summary']
+        assert summary['metric']=='lexical_match'
+        assert len(summary['conditions'])==2
+        assert all(row['total']==1 for row in summary['conditions'])
+        assert 'PostgreSQL' not in str(summary)
+        analyses=client.get('/api/v1/research/benchmarks/longmemeval/analyses').json()
+        assert analyses[0]['plan_id']==plan.plan_id
+        assert analyses[0]['report']['measured_trials']==3
+        assert 'PostgreSQL' not in str(analyses)
 
 
 def test_plan_listing_recovers_metadata_without_dispatching_or_returning_sources(pending):

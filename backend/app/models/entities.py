@@ -9,6 +9,15 @@ def utc_now() -> datetime:
     return datetime.now(timezone.utc)
 
 
+class BenchmarkAnalysisModel(Base):
+    """Append-only derived benchmark analyses; raw benchmark sources remain external."""
+    __tablename__ = 'benchmark_analyses'
+    id: Mapped[str] = mapped_column(String(40), primary_key=True)
+    plan_id: Mapped[str] = mapped_column(ForeignKey('benchmark_plans.id', ondelete='RESTRICT'), index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=utc_now, nullable=False)
+    report: Mapped[dict] = mapped_column(JSON, nullable=False)
+
+
 class ModelAvailabilityModel(Base):
     __tablename__ = 'model_availability'
     id: Mapped[str] = mapped_column(String(64), primary_key=True)
