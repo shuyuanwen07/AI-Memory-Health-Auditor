@@ -843,8 +843,13 @@ def test_method_budget_counts_recorded_attempts_not_saved_answers(client, attemp
             "test_type":test['test_type']} for index,test in enumerate(package['inventory_template']['fixed_template_questions'])]})
     frozen=client.post(f"/api/v1/audits/{source['run_id']}/method-comparison-inventory",json=inventory)
     assert frozen.status_code==201,frozen.text
-    key=package['runs'][0]['run_id']
-    assert client.post(f'/api/v1/audits/{key}/generate-tests').status_code==200
+    # This test exercises attempt accounting, not generated baseline coverage.
+    # The researcher's balanced frozen template has the full budget; the
+    # direct generator can legitimately provide fewer distinct evidence
+    # families from this small synthetic source and is correctly blocked.
+    key=next(item['run_id'] for item in package['runs'] if item['label']=='Fixed templates')
+    generated=client.post(f'/api/v1/audits/{key}/generate-tests')
+    assert generated.status_code==200,generated.text
     confirm_method_test_validity(client, key)
     assert client.post(f'/api/v1/audits/{key}/execute').status_code==200
     assert client.post(f'/api/v1/audits/{key}/evaluate').status_code==200
