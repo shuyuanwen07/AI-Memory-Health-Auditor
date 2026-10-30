@@ -6,8 +6,9 @@ import type { BenchmarkPlan } from './BenchmarkExecutionPlan';
 
 type MethodResult = Awaited<ReturnType<typeof api.methodComparisonResults>>;
 type Analysis = Awaited<ReturnType<typeof api.listBenchmarkAnalyses>>[number];
-type DynamicData = {a: MethodResult | null; b: ExperimentAnalytics | null; c: BenchmarkPlan | null; analysis:Analysis|null; errors: string[]};
-const initial: DynamicData = {a:null,b:null,c:null,analysis:null,errors:[]};
+type HumanCount = {passed:number;decided:number;reviewed:number;unresolved:number};
+type DynamicData = {a: MethodResult | null; b: ExperimentAnalytics | null; bHuman:Record<string,HumanCount>; c: BenchmarkPlan | null; analysis:Analysis|null; errors: string[]};
+const initial: DynamicData = {a:null,b:null,bHuman:{},c:null,analysis:null,errors:[]};
 const strategies = ['weak_first_hit','strong_rule_based','strong_score_based','scope_aware'];
 
 export function useDynamicStudies() {
@@ -45,9 +46,35 @@ export function useDynamicStudies() {
           if(new Set(matching.map(c=>c.memory_strategy)).size===4 && matching.length===4 && matching.every(c=>c.completed_runs>0) && new Set(matching.map(c=>`${c.provider}:${c.model}`)).size===1) {b=report;break;}
         } catch {errors.push(`Experiment ${group.experiment_id} could not be loaded`);}
       }
+      const bHuman:Record<string,HumanCount>={};
+      if(b) {
+        for(const condition of b.conditions.filter(c=>strategies.includes(c.memory_strategy))) {
+          const count:HumanCount={passed:0,decided:0,reviewed:0,unresolved:0};
+          try {
+            for(const runId of condition.run_ids) {
+              const items=await api.evaluationReview(runId);
+              for(const item of items) {
+                const latest=new Map<string,typeof item.human_reviews[number]>();
+                for(const review of item.human_reviews) {
+                  if(review.review_role!=='independent') continue;
+                  const id=review.reviewer_label.trim().toLocaleLowerCase();
+                  const old=latest.get(id);
+                  if(id && (!old || `${review.updated_at}:${review.review_id}` > `${old.updated_at}:${old.review_id}`)) latest.set(id,review);
+                }
+                const reviews=[...latest.values()];
+                if(reviews.length<2) continue;
+                count.reviewed++;
+                if(reviews.every(r=>r.human_passed===reviews[0].human_passed)) { count.decided++; if(reviews[0].human_passed) count.passed++; }
+                else count.unresolved++;
+              }
+            }
+            bHuman[condition.condition_id]=count;
+          } catch { errors.push(`Human reviews for ${condition.label} could not be loaded`); }
+        }
+      }
       const plans=plansResult.status==='fulfilled' ? plansResult.value : [];
       const c=plans.find(p=>Object.values(p.executions).some(v=>v.status==='COMPLETED' && v.dashboard_summary)) ?? null;
-      if(active) setData({a,b,c,analysis:analysisResult.status==='fulfilled' ? analysisResult.value[0] ?? null : null,errors});
+      if(active) setData({a,b,bHuman,c,analysis:analysisResult.status==='fulfilled' ? analysisResult.value[0] ?? null : null,errors});
     }
     void load(); return ()=>{active=false;};
   },[revision]);
@@ -70,7 +97,8 @@ export function DynamicBC({data}:{data:DynamicData}) {
   if(!data.b && !summaries.length && !data.analysis) return null;
   return <div><h3>Latest saved comparisons</h3>
     {data.b && <><b>B · saved four-strategy group</b>{data.b.conditions.filter(c=>strategies.includes(c.memory_strategy)).map(c=><Bar key={c.condition_id} label={memoryStrategyLabel(c.memory_strategy)} value={c.tests_passed} total={c.tests_total} tag={`${c.completed_runs}/${c.planned_runs} runs · ${c.dimensions.reduce((n,d)=>n+(d.uncertain_count??0),0)} uncertain · automatic scoring`}/>)}
-      <p className="compact-note">{data.b.experiment.label} · model {data.b.conditions[0]?.model}. One experiment group; repeated answers are not independent. <a href={`/experiments/${data.b.experiment.experiment_id}`}>View group →</a></p></>}
+      {data.b.conditions.some(c=>data.bHuman[c.condition_id]?.reviewed>0) && <><b>Independent human-review consensus</b>{data.b.conditions.filter(c=>strategies.includes(c.memory_strategy)).map(c=><Bar key={`human-${c.condition_id}`} label={memoryStrategyLabel(c.memory_strategy)} value={data.bHuman[c.condition_id]?.passed??null} total={data.bHuman[c.condition_id]?.decided??null} tag={data.bHuman[c.condition_id] ? `${data.bHuman[c.condition_id].reviewed} reviewed by at least two · ${data.bHuman[c.condition_id].unresolved} disagreements excluded` : 'Review data unavailable'}/>)}</>}
+      <p className="compact-note">{data.b.experiment.label} · model {data.b.conditions[0]?.model}. One experiment group; repeated answers are not independent. Reviewer pseudonyms and independence are not authenticated. <a href={`/experiments/${data.b.experiment.experiment_id}`}>View group →</a></p></>}
     {data.c && summaries.map(([trial,entry])=><div key={trial}><b>C · {trial} · lexical match</b>{entry.dashboard_summary!.conditions.map(row=><Bar key={row.strategy} label={memoryStrategyLabel(row.strategy as MemoryStrategy)} value={row.matched} total={row.total}/>)}
       <p className="compact-note">Plan {data.c!.plan_id} · automatic lexical match, not human-validated accuracy. Raw replies are not saved here.</p></div>)}
     {data.analysis && <p className="compact-note">Latest C ranking analysis · {data.analysis.report.measured_trials}/{data.analysis.report.planned_trials} trials measured · agreement {data.analysis.report.ranking_agreement_percentage === null ? 'not measured' : `${data.analysis.report.ranking_agreement_percentage.toFixed(1)}%`} · {data.analysis.report.status} · plan {data.analysis.plan_id}. The analysis uses the supplied evaluations; human review is not inferred.</p>}
