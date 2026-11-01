@@ -21,6 +21,7 @@ from app.extraction.llm import PipelineRequestError
 from app.schemas import AuditRun, Dimension, Memory, TestCase, TestType
 from app.test_generator.llm_generator import LLMTestGenerator
 from app.test_generator.quality import RuleBasedTestQualityValidator
+from app.test_generator.evidence_slot_inventory import PlanningEvidenceSlot, planning_evidence_slots
 
 
 class _DuplicatePair(BaseModel):
@@ -136,7 +137,7 @@ def coverage_plan_output_budget(requested_test_count: int) -> int:
 class AgentTestGenerator(LLMTestGenerator):
     """Generate a planned suite, semantically review it, and repair duplicates."""
 
-    VERSION = "agent-coverage-semantic-v24"
+    VERSION = "agent-coverage-semantic-v25"
     REVIEWER_VERSION = "semantic-intent-review-v9"
     MAX_QUANTITY_FILL_ROUNDS = 4
     MAX_SEMANTIC_REPAIR_ROUNDS = 2
@@ -473,9 +474,12 @@ class AgentTestGenerator(LLMTestGenerator):
 
     def _build_coverage_plan(
         self, memories: list[Memory], audit: AuditRun,
-        inventory: tuple[list[TestCase], dict[Dimension, int], dict[Dimension, int]] | None = None,
+        inventory: tuple[list[TestCase | PlanningEvidenceSlot], dict[Dimension, int], dict[Dimension, int]] | None = None,
     ) -> list[dict[str, Any]]:
         """Have a bounded Agent choose evidence slots; code remains the quota authority."""
+        planner_version = ("coverage-planner-agent-v4"
+                           if audit.reproducibility.coverage_policy == "strict_full_v1"
+                           else "coverage-planner-agent-v3")
         seeds, quotas, available_by_dimension = inventory or self._coverage_seed_inventory(
             memories, audit.test_budget, allowed_test_types=self.allowed_test_types,
         )
@@ -485,7 +489,7 @@ class AgentTestGenerator(LLMTestGenerator):
             for dimension in Dimension
         }
         inventory: list[dict[str, Any]] = []
-        seed_by_candidate: dict[str, TestCase] = {}
+        seed_by_candidate: dict[str, TestCase | PlanningEvidenceSlot] = {}
         for test in [test for dimension in Dimension for test in capped_by_dimension[dimension]]:
             candidate_id = f"S{len(inventory) + 1:03d}"
             support = [by_id[item] for item in test.supporting_memory_ids if item in by_id]
@@ -558,7 +562,7 @@ class AgentTestGenerator(LLMTestGenerator):
             "role": "coverage_planning", "version": self.VERSION,
             "provider": getattr(self.planner_client, "provider", "unknown"),
             "model": getattr(self.planner_client, "model", "unknown"),
-            "prompt_template_version": "coverage-planner-agent-v3",
+            "prompt_template_version": planner_version,
             "instructions": instructions, "prompt": prompt, "schema": planner_schema,
             "input_payload": input_payload,
             "input_refs": {"memory_ids": list(by_id), "candidate_ids": list(seed_by_candidate)},
@@ -586,7 +590,7 @@ class AgentTestGenerator(LLMTestGenerator):
                 instructions=instructions, prompt=prompt, schema_name="coverage_plan",
                 schema=planner_schema,
                 max_output_tokens=coverage_plan_output_budget(audit.test_budget),
-                agent_role="coverage_planning", prompt_template_version="coverage-planner-agent-v3",
+                agent_role="coverage_planning", prompt_template_version=planner_version,
             )
             parsed = _CoveragePlan.model_validate(payload)
             selected_ids = [candidate_id for dimension in Dimension
@@ -701,7 +705,7 @@ class AgentTestGenerator(LLMTestGenerator):
         memories: list[Memory], test_budget: int,
         allowed_test_types: frozenset[TestType] | None = None,
         coverage_policy: str = "strict_full_v1",
-    ) -> tuple[list[TestCase], dict[Dimension, int], dict[Dimension, int]]:
+    ) -> tuple[list[TestCase | PlanningEvidenceSlot], dict[Dimension, int], dict[Dimension, int]]:
         maximum_seed_count = max(1, len(memories) + 2 * sum(len(memory.relationships) for memory in memories))
         if coverage_policy == "evidence_supported_only_v1":
             from app.test_generator.conflict_aware import ConflictAwareRuleBasedTestGenerator
@@ -720,11 +724,22 @@ class AgentTestGenerator(LLMTestGenerator):
             raw_seeds = ConflictPreservingTestGenerator().generate(memories, planning_audit)
         validator = RuleBasedTestQualityValidator()
         seeds = [test for test in raw_seeds if validator.validate(test, memories).quality_status.value == "accepted"]
+        if coverage_policy == "strict_full_v1":
+            # Evidence eligibility is not a prewritten question's quality.
+            # Keep accepted legacy seeds, then let the model express unfamiliar
+            # confirmed topics. Evidence slots have no prompt or answer fields.
+            seeds = [*seeds, *planning_evidence_slots(memories)]
         if allowed_test_types is not None:
             fallback_type = (TestType.CONTEXTUAL if TestType.CONTEXTUAL in allowed_test_types
                              else sorted(allowed_test_types, key=lambda item: item.value)[0])
             seeds = [test if test.test_type in allowed_test_types else
                      test.model_copy(update={"test_type": fallback_type}) for test in seeds]
+        if coverage_policy == "strict_full_v1":
+            unique_strict = {}
+            for slot in seeds:
+                key = (slot.dimension.value, slot.test_type.value, tuple(sorted(slot.supporting_memory_ids)))
+                unique_strict.setdefault(key, slot)
+            seeds = list(unique_strict.values())
         if coverage_policy == "evidence_supported_only_v1":
             # Slots are identity-bound by dimension, type and evidence: never
             # promise two indistinguishable commitments in the frozen plan.
@@ -817,8 +832,8 @@ class AgentTestGenerator(LLMTestGenerator):
     ) -> str:
         if supported:
             if available < required:
-                return f"Confirmed evidence supports {available} distinct question slot(s), below the required minimum of {required}."
-            return f"Confirmed evidence supports at least {required} distinct question slot(s)."
+                return f"Confirmed source records provide {available} eligible evidence slot(s), below the required minimum of {required}. Generated question validity still requires review."
+            return f"Confirmed source records provide at least {required} eligible evidence slot(s). Generated question validity still requires review."
         confirmed_ids = {memory.memory_id for memory in memories}
         relationships = [
             relation.type for memory in memories for relation in memory.relationships

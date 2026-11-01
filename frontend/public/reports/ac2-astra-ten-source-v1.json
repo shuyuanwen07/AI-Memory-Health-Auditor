@@ -44,5 +44,40 @@
     "run_id": "RUNDE450783551E4CCAB305DA125DF72E6C",
     "scope": "Revised source; same saved memories as preceding timeout run, repaired planning intent and transport timeout. Post-discovery development result; not independent or a single-change comparison.",
     "human_confirmation_sha256": "96ca8c13aaa2a4ac5b92b25d38b125ae6f52c9bcd4566329aa57847db0fe09ad"
+  },
+  "ten_scene_retest": {
+    "histories": 10,
+    "planned_slots": 40,
+    "saved": 40,
+    "valid": 40,
+    "invalid": 0,
+    "unresolved": 0,
+    "missing": 0,
+    "review_status": "human_confirmed",
+    "source_unchanged": true,
+    "evidence_path": "/experiments",
+    "revised_questions": 2,
+    "confirmed_relationships": 26,
+    "unresolved_relationships": 6,
+    "baseline": {
+      "planned_slots": 40,
+      "saved": 28,
+      "valid": 14,
+      "invalid": 14,
+      "unresolved": 0,
+      "missing": 12
+    },
+    "ai_review_summary_sha256": "835698cc8df662947970205933102d968443e8847ef89a98973f1c9cd1a394f2",
+    "human_confirmation_sha256": "44b89f53c0b30f59a7af66ef3dcb0589f6eb21ea7d7d125248e4d1386807ccb1",
+    "execution_check": {
+      "planned": 40,
+      "answers": 40,
+      "assessments": 40,
+      "status": "complete",
+      "basis": "automatic",
+      "source_summary_sha256": "3d84c9949207f4a3230a7285f25492c1c3855c3b6ad77c5c9924d5e0ad463427",
+      "protocol_sha256": "f9d19df42ac362de8f76d414a5110035fbc9ff179e938daf73dc26c299abe458",
+      "interpretation": "Technical execution availability; not human answer accuracy or question validity."
+    }
   }
 }

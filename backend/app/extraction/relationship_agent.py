@@ -103,7 +103,7 @@ RELATIONSHIP_INSTRUCTIONS = (
 
 
 class RelationshipAnalysisAgent:
-    VERSION = "relationship-analysis-agent-v7"
+    VERSION = "relationship-analysis-agent-v8"
 
     def __init__(self, client: PipelineLLMClient):
         self.client = client
@@ -209,10 +209,18 @@ class RelationshipAnalysisAgent:
                             'error_count': 1,
                         },
                     )
-                if _timestamp_precedes(current.timestamp, prior.timestamp):
+                # A scoped rule can be observed before a general preference;
+                # override direction describes scope, not observation recency.
+                if (relation.type != RelationshipType.CONTEXTUAL_OVERRIDE
+                        and _timestamp_precedes(current.timestamp, prior.timestamp)):
                     raise _RelationshipStageError(
                         "temporal_direction_mismatch",
                         "The relationship Agent placed an earlier source observation in the current endpoint.",
+                        diagnostics={'validation_errors': [{
+                            'field': f'relationships.{relation_index}',
+                            'type': 'temporal_direction_mismatch',
+                            'relationship_type': relation.type.value,
+                        }], 'error_count': 1},
                     )
                 cited_current = set(relation.current_evidence_message_ids)
                 cited_prior = set(relation.prior_evidence_message_ids)

@@ -10,7 +10,7 @@ Earlier results remain in [the experimental report](EXPERIMENT_REPORT_2026-10-28
 | FR1–FR12: authorised input, memory review, question generation, controlled target, scoring and evidence | The [product review](proposal-product-acceptance.md) maps each requirement to implementation. A new Astra `max` synthetic integration run saved four questions, answers and assessments; details and run ID are in the [Astra retest](AC2_ASTRA_PRODUCT_RETEST_20261101.md). | This one source uses simulated operator confirmation; it is not a complete independent acceptance of every input and provider. |
 | NFR1–NFR5: consent, access protection, explanations, guided workflow, reproducibility | The same product review maps implemented controls and prior engineering checks. Saved runs retain model and settings; Astra receipts distinguish model-controlled sampling from a fixed temperature. | Consent and authorisation are declarations. Local prototype controls and old test results do not establish production security, usability for all users, or deterministic output. |
 | AC1: memories and relationships validated against labelled scenarios | On 27 complete histories, the selected reviewed reference has 204 fully covered, 9 partial and 3 missing facts, and 53 correct-type / 1 partial selected relationships. A separate [four-history Astra source-only pilot](../research/astra-ac2-20261101/ac1-astra-four-source-evidence.zip) yielded 30/30 source-supported candidates, 32/32 reference records fully covered, and 12/12 correct extracted relationships, according to two AI reviews later independently checked by two people as reported by the user. | Selected references are not exhaustive; partial matches are not full recall. Three incomplete histories are separately retained. The four-history pilot uses related, previously studied synthetic sources; reference records may combine facts and multiple candidates may cover a record, so coverage is not strict atomic recall. Human identities and exposure to AI judgments are not independently authenticated. |
-| AC2: executable and supported questions | On 30 previously studied histories the original candidate had 62/120 scheduled slots valid; a direct Astra condition had 120/120 under the user-reported human-checked AI review. A four-history product-flow follow-up produced 16 reviewed-valid questions. A separate [ten-history product-flow study](../research/astra-ac2-20261101/ac2-astra-ten-source-product-evidence.zip) exposed a material failure: 14 valid, 14 invalid, and 12 ungenerated out of 40 planned slots. Two AI reviewers agreed, then two people independently checked their judgments according to the user. | The 30-history conditions differ in generator input and review procedure and are not held out. The ten histories share a synthetic conflict pattern; the operator confirmation was simulated. A new conflict guard rejects all 14 invalid questions in a post-discovery replay without rejecting the 14 valid ones. A [separate four-source guard retest](../research/astra-ac2-20261101/ac2-conflict-guard-four-source-retest.zip) produced no complete suites; extraction and planning failures also contributed, so this is not an isolated guard effect. Later generation repairs require their own reviewed retest. Reviewer identity and AI exposure were not independently authenticated. |
+| AC2: executable and supported questions | The original 30-history candidate had 62/120 valid scheduled slots; a separate direct Astra condition had 120/120 with different inputs/review procedure. The original ten-history product study retains 14 valid, 14 invalid and 12 ungenerated of 40 planned slots. The [same-ten repaired retest](AC2_TEN_SCENE_RETEST_20261101.md) now has 40 effective questions after two post-review regenerations through the real product APIs. Two new independent Astra high reviews agree on all 40 across four question-validity criteria; the user reports two independent people checked and accepted the AI-assisted judgments, facts/source checks and conservative relation handling. | This is post-feedback development on the exact ten unchanged, related and previously observed sources, not a held-out or model-only causal result. The initial repaired review was 38 valid and two uncertain and remains preserved. Of 32 extracted links, 26 are agreed valid and six remain uncertain; question validity does not certify every relationship. Human reviewers saw AI opinions. The effective suite has now completed 40 target answers and 40 automatic assessments, with verified Astra max receipts and exports. This confirms technical execution, not independently labelled answer accuracy. |
 | AC3: failure detection and classification on held-out data | A recorded 118-answer consensus subset of the earlier frozen retest gives 61/68 detected failures, 54/61 classified detected failures, and 0/50 false positives; those descriptive thresholds were met on that selected sample. | Two answers were disputed; reference review was AI-assisted and reviewer identity/independence is user-reported. Related synthetic histories, pilot threshold caveats, and a detection difference interval including zero limit generalisation. The candidate is not the default evaluator. |
 | AC4: dimension scores, failures, traceable evidence | Saved reports, exports and source links exist. A [read-only API evidence check](../research/astra-ac2-20261101/ac4-ac5-readonly-check.zip) cross-checked one failure's IDs, source, question, expected behaviour and response against its report and exports. | The checked run predates the latest code changes. In the Astra end-to-end smoke one failure category remains unclassified. A successful export is not proof of judgment validity. |
 | AC5: repeated frozen inputs and recorded settings | Existing paired and repeated comparison receipts and export checks are preserved. The same read-only check confirmed identical frozen questions and recorded settings in two paired runs, except for their intentionally different writer. | This pair is not an identical-configuration repeat. Repetitions share cases; real model sampling is provider-controlled. Historical reports and new runs must not be pooled as independent samples. |
@@ -76,3 +76,33 @@ with two implementation changes and a previously approved source revision;
 it does not establish that the ten-history failures are all repaired.
 Some prompts disclose the existence of a conflict, so their validity does not
 demonstrate independent conflict-discovery sensitivity.
+
+## Latest AC2 original-ten development retest
+
+The [new full-cohort retest](AC2_TEN_SCENE_RETEST_20261101.md) uses the exact
+original ten histories, not that revised single-history pilot. All 60 source
+messages remain unchanged. The original human-checked outcome of 14 valid,
+14 invalid and 12 ungenerated questions remains preserved. A first rerun on the
+released code saved only eight questions, also retained without an independent
+validity claim. After planner and scoped-relationship validation repairs, the
+full generation saved 40 questions. Its first independent high review found
+38 valid and two uncertain questions, so the current result is not first-pass
+automatic 40/40 validity.
+
+Exactly the two questioned items were regenerated through real product APIs
+using OpenAI Astra max, without editing the sources. Two new independent Astra
+high reviews of the effective suite agree on 40 valid questions across source
+grounding, executability, reference validity and dimension alignment, 60 valid
+facts and ten valid source-coverage checks. Of 32 relationships, 26 are agreed
+valid and six are uncertain. The user explicitly confirmed that two people
+independently checked and accepted these AI-assisted judgments and conservative
+handling of the six links. The humans saw AI opinions; this is not claimed as
+blind human annotation, and the uncertain links remain uncertain.
+
+The separate technical execution check has now completed all ten histories:
+40 returned answers, 40 automatic assessments, verified direct OpenAI Astra
+max writer/reader/judge receipts, and successful CSV and ZIP exports for each
+history. Automatic target outcomes are 9 pass, 12 fail and 19 uncertain; these
+are not independent human answer labels or a new AC3 result. They do not
+establish target accuracy, universal AC2 reliability or a causal model effect.
+The earlier A/B/C and Tutor conclusions above are unchanged.

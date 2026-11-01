@@ -1,0 +1,26 @@
+{
+  "original": "research/astra-ac2-20261101/Memory-Auditor-Presentation-20261101.pptx",
+  "original_sha256": "201973c2395d3e65290435dabe9da9b45a964a9be67a87cc6f2d8c3816da2fdf",
+  "output": "research/astra-ac2-ten-completion-20261101/Memory-Auditor-Presentation-20261101-AC2-Ten-Scenes.pptx",
+  "output_sha256": "959b63612c2ffddc7db1834399d8da4443c542eb2f1a1087ae830d1f39b03de4",
+  "source_files": {
+    "output/proposal-delivery/ac2-original-ten-effective-review-analysis-20261101-v1/summary.json": "835698cc8df662947970205933102d968443e8847ef89a98973f1c9cd1a394f2",
+    "output/proposal-delivery/ac2-original-ten-effective-review-analysis-20261101-v1/human-confirmation.json": "44b89f53c0b30f59a7af66ef3dcb0589f6eb21ea7d7d125248e4d1386807ccb1",
+    "output/proposal-delivery/ac2-original-ten-repaired-review-analysis-20261101-v1/summary.json": "7ccf4582e775f7c7a649cde138a43b119325565aff322275689b9a5b7c5ad66f",
+    "output/proposal-delivery/ac2-original-ten-question-revisions-20261101-v1/summary.json": "db4bd1598aa28769f7bf4f183e9fcbca9e004d39bf906676b7762e07b62f30d6",
+    "output/proposal-delivery/ac2-original-ten-effective-cohort-20261101-v1/protocol.json": "aa1fee7c163841cf19ab0f600bae2ff34eb2e91dbd87cd1056e9443f3ef010c2"
+  },
+  "slide_count": 13,
+  "speaker_scripts": "Embedded in slide notes, Speaker 1–4; no separate Word script",
+  "changed_visible_slides": [
+    11,
+    13
+  ],
+  "changed_notes_slides": [
+    10,
+    11,
+    13
+  ],
+  "authoring_source": "research/astra-ac2-ten-completion-20261101/update-presentation-ac2-ten-20261101.mjs",
+  "limitations": "Forty current valid questions after two actual regenerations, not first-pass automatic success. Related development sources. Six relationship labels remain outside the confirmed-correct count. Human verification is user-reported, AI-assisted, and not an independently authenticated blind human study. AC2 validity is separate from target answer accuracy."
+}

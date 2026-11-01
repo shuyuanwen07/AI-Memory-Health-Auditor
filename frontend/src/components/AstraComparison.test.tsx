@@ -17,6 +17,7 @@ it('keeps the complete paired policy denominator and missing outcomes visible', 
 
 it('shows invalid and missing question slots in the diverse product-flow check', async () => {
   const report=JSON.parse(readFileSync(resolve(process.cwd(),'public/reports/ac2-astra-ten-source-v1.json'),'utf8'));
+  delete report.ten_scene_retest;
   vi.stubGlobal('fetch',vi.fn(async()=>({ok:true,json:async()=>report})));
   render(<AstraDiverseQuestions/>);
   expect(await screen.findByText('14 valid · 14 invalid · 0 unresolved · 12 not generated')).toBeInTheDocument();

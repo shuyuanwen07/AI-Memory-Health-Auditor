@@ -17,6 +17,7 @@ records their provenance and remaining gaps.
 | AC1 source-only Astra extraction | Four related previously studied histories: 30/30 source-supported candidates, 32/32 reference records covered, 12/12 extracted relationships correct. Two independent human checks of AI-assisted judgments are user-reported. | Reference records can combine facts and be covered jointly by candidates; this is record coverage, not strict atomic recall. [Evidence](../research/astra-ac2-20261101/ac1-astra-four-source-evidence.zip). |
 | AC2 direct generation comparison | Same 30 selected histories: original 62/120 valid slots; direct Astra condition 120/120 under user-confirmed AI-assisted review. | Inputs and review procedure differ; not a model-only or held-out comparison. [Details](AC2_ASTRA_PRODUCT_RETEST_20261101.md). |
 | AC2 ten-history product-flow study | Of 40 planned slots, 28 questions were saved; 14 valid and 14 invalid after user-reported independent human checks. Twelve slots were not generated. | The invalid references resolved known conflicts without support. This negative result prevents claiming general AC2 success from the direct 120-question result. [Evidence](../research/astra-ac2-20261101/ac2-astra-ten-source-product-evidence.zip). |
+| AC2 original-ten repaired development retest | The same ten sources, unchanged, now provide 40 current question slots. The first independent Astra high review of the repaired generation gave 38 valid and two uncertain; exactly those two questions were regenerated through the product APIs using Astra max. Two new independent high reviews agree on all 40 current questions across grounding, executability, reference validity and dimension alignment. The user reports two people independently checked and accepted these AI-assisted judgments, 60 facts and source checks, and conservative handling of six uncertain links. | This is a reviewed development result after feedback, not first-pass automatic 40/40 success, a held-out evaluation or a model-only causal comparison. Of 32 links, 26 are agreed valid and six remain uncertain. Human reviewers saw AI opinions; no blind human study is claimed. The subsequent technical check completed 40 target answers and 40 automatic assessments with Astra max receipts; automatic outcomes are 9 pass, 12 fail and 19 uncertain, separate from human question-validity labels. [Detailed ledger and review boundaries](AC2_TEN_SCENE_RETEST_20261101.md). |
 | Tutor writer repair | Same 16 questions on four related histories: 12/16 → 16/16 pass, four improved and none worsened, user-reported independent human checks of AI-assisted judgments. | A concrete diagnosis and retest; not a population estimate. [Evidence](../research/astra-ac2-20261101/four-writer-prospective-evidence.zip). |
 | B Astra four-strategy supplement | 52/64 answers saved; three histories provide 48 complete paired answers. Two later Astra high reviews reproduce 3/12 First-match, 3/12 Relationship-priority, 0/12 Scope-aware, 0/12 Time/importance; the user reports independent two-person acceptance. | One repetition and related sources do not establish stable ranking. FS04 First-match is 0/4; an earlier verbal 3/4 was erroneous. [Run evidence](../research/astra-ac2-20261101/b-astra-four-strategy-run-evidence.zip), [later confirmation](../research/astra-ac2-20261101/astra-high-human-confirmation-and-capacity-review.zip). |
 | C current Dashboard plan | The latest saved plan has two previously used knowledge-update cases and three completed repeats. Human-review consensus gives 0/6 First-match, 3/6 Relationship-priority, 0/6 Scope-aware and 1/6 Time/importance; no unresolved answers. | Luna via OpenRouter; six answers per strategy reuse two cases. This exploratory UI verification is separate from the historical 30-case study and the Astra development check. [Frozen plan and recorded reviews](../research/astra-ac2-20261101/dashboard-latest-c-plan.json). |
@@ -41,6 +42,26 @@ therefore do not measure independent discovery of that conflict.
 None of the earlier unsaved candidates is counted as a successful saved suite.
 [Run and frozen implementation](../research/astra-ac2-20261101/ac2-intent-timeout-product-retest.zip),
 [separate later human confirmation](../research/astra-ac2-20261101/ac2-intent-timeout-human-confirmation.zip).
+
+The later original-ten retest is distinct from that revised single-source
+pilot. It preserves all 60 original source messages and the original four
+planned questions per history. An initial rerun on the released code saved
+only eight questions; the subsequent repaired full collection saved 40.
+Its independent AI review retained two uncertain questions, which were revised
+through actual review/regeneration APIs before the effective 40-question suite
+received new independent reviews and the user-reported two-person human
+confirmation. The original 14-valid/14-invalid/12-missing study, the eight-question
+rerun, the first 38-valid/two-uncertain review and both original question
+versions remain preserved. The final question result does not certify every
+relationship: six CONTEXTUAL_OVERRIDE links remain conservatively uncertain.
+It does not update A/B/C or the separate Tutor writer-repair result. The
+subsequent technical check completed all ten histories: 40 returned target
+answers and 40 automatic assessments, with verified direct OpenAI Astra max
+writer, reader and judge receipts and twenty successful CSV/ZIP exports.
+Automatic outcomes were 9 pass, 12 fail and 19 uncertain. These are not
+independently human-labelled target outcomes, a new policy comparison or an
+AC3 reliability estimate. The [detailed retest report](AC2_TEN_SCENE_RETEST_20261101.md)
+keeps question validity, technical availability and target outcomes separate.
 
 A capacity-only C development retest retained up to 500 records instead of 50,
 with the same two cases, strategies and reader profile. Three new calls

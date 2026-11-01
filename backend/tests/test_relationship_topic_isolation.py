@@ -20,7 +20,7 @@ def test_relationship_agent_accepts_both_endpoints_from_same_message():
         model = 'fixture'
         last_execution = None
         def complete_json(self, **request):
-            assert request['prompt_template_version']=='relationship-analysis-agent-v7'
+            assert request['prompt_template_version']=='relationship-analysis-agent-v8'
             assert 'same message ID may appear in both lists' in request['instructions']
             return {'relationships':[{'current_memory_id':'M002','prior_memory_id':'M001',
                 'type':'CONTEXTUAL_OVERRIDE','current_evidence_message_ids':['S001'],
@@ -401,7 +401,7 @@ def test_relationship_agent_prompt_requires_exhaustive_pairs_and_defines_directi
     assert "without repeating or restating that preference" in client.kwargs["instructions"]
     assert "this field order does not imply priority or supersession" in client.kwargs["instructions"]
     assert "every unordered pair in candidate_pairs_to_assess" in client.kwargs["prompt"]
-    assert client.kwargs["prompt_template_version"] == "relationship-analysis-agent-v7"
+    assert client.kwargs["prompt_template_version"] == "relationship-analysis-agent-v8"
     assert client.kwargs["max_output_tokens"] == 896
     assert result == {"relationships": []}
 

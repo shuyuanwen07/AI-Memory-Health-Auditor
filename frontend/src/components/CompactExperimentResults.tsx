@@ -34,6 +34,56 @@ const PAIRED_OLD='#9aaec2', PAIRED_NEW='#147e87';
 const ratio=(x:Ratio)=>display(x.numerator,x.denominator);
 const percentAxis = (v:number) => `${v}%`;
 const object=(v:unknown):v is Record<string,unknown> => typeof v==='object' && v!==null && !Array.isArray(v);
+type QuestionSlotCounts = {planned_slots:number;saved:number;valid:number;invalid:number;unresolved:number;missing:number};
+type QuestionExecutionCheck = {planned:40;answers:number;assessments:number;status:'complete'|'partial';basis:'automatic'};
+type TenSceneRetest = QuestionSlotCounts & {histories:10;review_status:'ai_preliminary'|'human_confirmed';source_unchanged:true;baseline:QuestionSlotCounts;evidence_path:string;revised_questions?:number;execution_check?:unknown;confirmed_relationships?:unknown;unresolved_relationships?:unknown};
+function tenSceneRelationships(value:TenSceneRetest) {
+  const {confirmed_relationships:confirmed,unresolved_relationships:unresolved}=value;
+  if(typeof confirmed!=='number' || typeof unresolved!=='number'
+    || !Number.isInteger(confirmed) || !Number.isInteger(unresolved)
+    || confirmed<0 || unresolved<0 || confirmed+unresolved!==32)return null;
+  return {confirmed,unresolved};
+}
+function isQuestionExecutionCheck(value:unknown):value is QuestionExecutionCheck {
+  if(!object(value))return false;
+  const {planned,answers,assessments,status,basis}=value;
+  return planned===40 && basis==='automatic' && (status==='complete' || status==='partial')
+    && typeof answers==='number' && Number.isInteger(answers) && answers>=0 && answers<=planned
+    && typeof assessments==='number' && Number.isInteger(assessments) && assessments>=0 && assessments<=answers
+    && (status!=='complete' || (answers===planned && assessments===planned));
+}
+function isQuestionSlotCounts(value:unknown):value is QuestionSlotCounts {
+  if(!object(value))return false;
+  const keys=['planned_slots','saved','valid','invalid','unresolved','missing'] as const;
+  if(!keys.every(k=>Number.isInteger(value[k]) && (value[k] as number)>=0))return false;
+  const v=value as unknown as QuestionSlotCounts;
+  return v.valid+v.invalid+v.unresolved===v.saved && v.saved+v.missing===v.planned_slots;
+}
+function isTenSceneRetest(value:unknown):value is TenSceneRetest {
+  if(!object(value))return false;
+  const {baseline,histories,source_unchanged,review_status,evidence_path,revised_questions}=value;
+  if(!isQuestionSlotCounts(value) || !isQuestionSlotCounts(baseline))return false;
+  return histories===10 && value.planned_slots===40 && source_unchanged===true
+    && (review_status==='ai_preliminary' || review_status==='human_confirmed')
+    && typeof evidence_path==='string' && evidence_path.trim().length>0
+    && (revised_questions===undefined || (typeof revised_questions==='number' && Number.isInteger(revised_questions) && revised_questions>=0 && revised_questions<=value.saved))
+    && baseline.planned_slots===40 && baseline.saved===28 && baseline.valid===14
+    && baseline.invalid===14 && baseline.unresolved===0 && baseline.missing===12;
+}
+function tenSceneEvidenceHref(value:string) {
+  return (/^\/(?!\/)/.test(value) && !value.includes('\\')) || /^https:\/\//i.test(value) ? value : '/research-results';
+}
+function QuestionSlotBar({label,counts}:{label:string;counts:QuestionSlotCounts}) {
+  return <div className="scope-replay-row"><span>{label}</span>
+    <div className="scope-replay-track" role="img" aria-label={`${label}: ${counts.valid} valid, ${counts.invalid} invalid, ${counts.unresolved} unresolved, ${counts.missing} not generated, out of ${counts.planned_slots} planned`}>
+      <i className="scope-accepted" style={{width:`${pct(counts.valid,counts.planned_slots)}%`}}/>
+      <i className="scope-rejected" style={{width:`${pct(counts.invalid,counts.planned_slots)}%`}}/>
+      <i className="scope-pending" style={{width:`${pct(counts.unresolved,counts.planned_slots)}%`}}/>
+      <i style={{width:`${pct(counts.missing,counts.planned_slots)}%`,background:'#e8edf2'}}/>
+    </div>
+    <small><b>{counts.valid}/{counts.planned_slots} valid</b> · {counts.invalid} invalid · {counts.unresolved} unresolved · {counts.missing} not generated</small>
+  </div>;
+}
 export function AstraCapacitySummary({refreshToken=0}:{refreshToken?:number}) {
   const [r,setResult]=useState<{cases:number;before:{passed:number;answered:number;planned:number};after:{passed:number;answered:number;planned:number;missing:number}}|null>(null);
   useEffect(()=>{let active=true;const refresh=()=>fetch('/reports/c-astra-capacity-development-v1.json',{cache:'no-store'}).then(v=>v.ok?v.json():null).then(v=>{
@@ -57,14 +107,28 @@ export function AstraExtractionReview({refreshToken=0}:{refreshToken?:number}) {
   </figure>;
 }
 export function AstraDiverseQuestions({refreshToken=0}:{refreshToken?:number}) {
-  const [r,setResult]=useState<{planned_histories:number;completed_histories:number;planned_question_slots:number;saved_questions:number;all_valid:number;invalid:number;uncertain:number;guard_development?:{invalid_rejected:number;total_invalid:number;valid_accepted:number;total_valid:number};guard_retest?:{histories:number;completed:number;planned_slots:number;generated:number};repair_retest?:{histories:number;completed:number;planned_slots:number;generated:number;review_call_failed_histories:number};latest_repair_retest?:{histories:number;planned_slots:number;generated:number;ai_valid:number;human_review:string}}|null>(null);
+  const [r,setResult]=useState<{planned_histories:number;completed_histories:number;planned_question_slots:number;saved_questions:number;all_valid:number;invalid:number;uncertain:number;guard_development?:{invalid_rejected:number;total_invalid:number;valid_accepted:number;total_valid:number};guard_retest?:{histories:number;completed:number;planned_slots:number;generated:number};repair_retest?:{histories:number;completed:number;planned_slots:number;generated:number;review_call_failed_histories:number};latest_repair_retest?:{histories:number;planned_slots:number;generated:number;ai_valid:number;human_review:string};ten_scene_retest?:unknown}|null>(null);
   useEffect(()=>{let active=true;const refresh=()=>fetch('/reports/ac2-astra-ten-source-v1.json',{cache:'no-store'}).then(v=>v.ok?v.json():null).then(v=>{
     const keys=['planned_histories','completed_histories','planned_question_slots','saved_questions','all_valid','invalid','uncertain'];
     if(active && v?.review_status==='human_confirmed' && keys.every(k=>Number.isInteger(v[k]) && v[k]>=0) && v.all_valid+v.invalid+v.uncertain===v.saved_questions && v.saved_questions<=v.planned_question_slots && v.completed_histories<=v.planned_histories) setResult(v);
   }).catch(()=>{});void refresh();const timer=window.setInterval(()=>void refresh(),30000);return ()=>{active=false;window.clearInterval(timer);};},[refreshToken]);
   if(!r)return null;
+  if(isTenSceneRetest(r.ten_scene_retest)) {
+    const latest=r.ten_scene_retest;
+    const human=latest.review_status==='human_confirmed';
+    const relationships=tenSceneRelationships(latest);
+    return <figure className="scope-replay" aria-label="AC2 ten-scene product-flow retest"><figcaption>AC2 · Ten-scene retest</figcaption>
+      <div className="scope-replay-legend"><span><i className="scope-accepted"/>Valid</span><span><i className="scope-rejected"/>Invalid</span><span><i className="scope-pending"/>Unresolved</span><span><i style={{background:'#e8edf2'}}/>Not generated</span></div>
+      <QuestionSlotBar label="Original · human checked" counts={latest.baseline}/>
+      <QuestionSlotBar label={human?'Latest · human checked':'Latest · AI preliminary'} counts={latest}/>
+      <p className="compact-note">10 unchanged histories · 40 planned questions per arm. {human?'Human-confirmed AI-assisted reviews.':'Two independent AI reviews; human confirmation pending.'}{latest.revised_questions===2?' Includes two post-review regenerations.':latest.revised_questions?` Includes ${latest.revised_questions} post-review regenerations.`:''} Related development histories. <a href={tenSceneEvidenceHref(latest.evidence_path)}>Retest evidence →</a></p>
+      {relationships && <p className="compact-note" aria-label="AC2 relationship review counts">Relationships: {relationships.confirmed} confirmed · {relationships.unresolved} unresolved.</p>}
+      {isQuestionExecutionCheck(latest.execution_check) && <p className="compact-note" aria-label="AC2 question execution check">Execution check: {latest.execution_check.answers}/{latest.execution_check.planned} answered · {latest.execution_check.assessments}/{latest.execution_check.planned} automatically assessed.</p>}
+    </figure>;
+  }
   const missing=r.planned_question_slots-r.saved_questions;
   return <figure className="scope-replay" aria-label="Astra diverse-history product question review"><figcaption>AC2 · Diverse-history product-flow check</figcaption>
+    {r.ten_scene_retest!==undefined && <p className="compact-note" role="alert">Latest ten-scene comparison unavailable: counts or study metadata do not match. Showing the retained earlier study.</p>}
     <div className="scope-replay-row"><span>Planned questions <b>{r.planned_question_slots}</b></span><div className="scope-replay-track" role="img" aria-label={`${r.all_valid} valid, ${r.invalid} invalid, ${r.uncertain} unresolved, ${missing} not generated`}><i className="scope-accepted" style={{width:`${pct(r.all_valid,r.planned_question_slots)}%`}}/><i className="scope-rejected" style={{width:`${pct(r.invalid,r.planned_question_slots)}%`}}/><i className="scope-pending" style={{width:`${pct(r.uncertain,r.planned_question_slots)}%`}}/></div><small>{r.all_valid} valid · {r.invalid} invalid · {r.uncertain} unresolved · {missing} not generated</small></div>
     <p className="compact-note">{r.completed_histories}/{r.planned_histories} histories produced questions. Human-checked AI reviews · related synthetic sources; operator confirmation was simulated.</p>
     {r.latest_repair_retest && <p className="compact-note" aria-label="Latest generation repair retest">Latest revised-source retest: {r.latest_repair_retest.generated}/{r.latest_repair_retest.planned_slots} saved · two AI reviews: {r.latest_repair_retest.ai_valid} valid · {r.latest_repair_retest.human_review==='confirmed'?'human confirmed':'human confirmation pending'}. {r.latest_repair_retest.histories} development history; not a repeat of the ten-history study.</p>}

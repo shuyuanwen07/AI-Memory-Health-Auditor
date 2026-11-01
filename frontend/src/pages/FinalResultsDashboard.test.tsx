@@ -74,7 +74,7 @@ it('loads one saved completed repair audit with ability scores, issues, and evid
   expect(screen.getByText('C · LongMemEval · GPT-6 Luna')).toBeInTheDocument();
   expect(await screen.findByLabelText('Four-history writer repair results')).toHaveTextContent('12/16 · 75.0% passed');
   expect(screen.getByLabelText('Four-history writer repair results')).toHaveTextContent('16/16 · 100.0% passed');
-  expect(await screen.findByText('14 valid · 14 invalid · 0 unresolved · 12 not generated')).toBeInTheDocument();
+  expect(await screen.findByText(/AC2 · (Diverse-history product-flow check|Ten-scene retest)/)).toBeInTheDocument();
   expect(screen.queryByText('120/120 · 100.0% valid')).not.toBeInTheDocument();
   expect(screen.queryByRole('figure',{name:'Latest AC2 development question review'})).not.toBeInTheDocument();
   expect(screen.getByText('AC3 · Auditor before and after')).toBeInTheDocument();

@@ -12,7 +12,7 @@ afterEach(()=>vi.unstubAllGlobals());
 
 it('shows the latest quality, paired policies and repair without duplicate historical quality studies',async()=>{
   vi.stubGlobal('fetch',vi.fn(async(path:string)=>{
-    try { const report=JSON.parse(readFileSync(resolve(process.cwd(),`public${path}`),'utf8'));if(path.includes('b-astra-four-strategy'))report.status='ai_only_human_confirmation_pending';if(path.includes('ac2-astra-ten-source') && report.latest_repair_retest)report.latest_repair_retest.human_review='pending';return {ok:true,json:async()=>report}; }
+    try { const report=JSON.parse(readFileSync(resolve(process.cwd(),`public${path}`),'utf8'));if(path.includes('b-astra-four-strategy'))report.status='ai_only_human_confirmation_pending';if(path.includes('ac2-astra-ten-source')){delete report.ten_scene_retest;if(report.latest_repair_retest)report.latest_repair_retest.human_review='pending';}return {ok:true,json:async()=>report}; }
     catch { return {ok:false}; }
   }));
   render(<CompactExperimentResults/>);

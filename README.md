@@ -34,10 +34,21 @@ See the [architecture](docs/ARCHITECTURE.md) and
 
 ## Assessment evidence and handoff
 
+For the latest evidence checkpoint, start with the
+[proposal status](docs/PROPOSAL_STATUS_20261101.md) and
+[original ten-scenario AC2 retest](docs/AC2_TEN_SCENE_RETEST_20261101.md).
+The current AC2 suite contains 40 human-checked valid questions after two
+post-review regenerations, compared with 14 valid, 14 invalid and 12 missing
+original slots. These are related development sources, not a held-out test.
+The [retained experiment materials](research/astra-ac2-ten-completion-20261101/)
+include source-bound reviews, explicit user-reported human confirmation,
+original failures and frozen implementation snapshots. Dated pilot instructions
+below describe their own earlier checkpoints.
+
 See [requirements and evidence](docs/REQUIREMENTS_TRACEABILITY.txt),
 [the experiment report](docs/EXPERIMENT_REPORT_2026-10-28.md), and
 [the remaining human tasks](docs/HUMAN_EVIDENCE_HANDOFF.txt).
-The [final presentation](output/presentation/ELEC5623_AI_Memory_Health_Auditor_Presentation_Final.pptx)
+The [latest presentation](research/astra-ac2-ten-completion-20261101/Memory-Auditor-Presentation-20261101-AC2-Ten-Scenes.pptx)
 includes the four-speaker script in its slide notes.
 The research workspace guides proposal A/B/C and general repair validation.
 Independent blind review offers a complete blank source-and-answer download.

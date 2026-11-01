@@ -23,4 +23,4 @@ def test_real_planner_call_uses_2048_for_eight_questions():
     generator._agent_observation={'semantic_reviews':[]}
     generator._build_coverage_plan(_coverage_memories(),_audit().model_copy(update={'test_budget':8}))
     assert len(captured)==1 and captured[0]['max_output_tokens']==2048
-    assert captured[0]['prompt_template_version']=='coverage-planner-agent-v3'
+    assert captured[0]['prompt_template_version']=='coverage-planner-agent-v4'
