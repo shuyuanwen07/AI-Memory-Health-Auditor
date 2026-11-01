@@ -9,12 +9,14 @@ from app.services.ac3_staging import stage_reviewed_suite
 from app.services.ac3_run_export import build_heldout_run, export_heldout_run
 from scripts.ac3_fixed_suite_adapter import sha
 from test_ac3_database_mapping import saved_histories as saved_histories, fake_compile, add_fixture_audits
+from app.evaluator.rule_based import RuleBasedBehaviourEvaluator
+from app.test_generator.rule_based import RuleBasedTestGenerator
 
 
 def fake_export_compile(path, expected, reservation, snapshot=None):
     result = fake_compile(path, expected, reservation, snapshot)
-    result['model_configuration']['evaluator_implementation_version'] = 'rule-based-v65'
-    result['model_configuration']['pipeline_implementation_version'] = 'rule-based-v36'
+    result['model_configuration']['evaluator_implementation_version'] = RuleBasedBehaviourEvaluator.VERSION
+    result['model_configuration']['pipeline_implementation_version'] = RuleBasedTestGenerator.VERSION
     return result
 
 
@@ -42,7 +44,7 @@ def prepared(saved_histories, tmp_path):
             db.add(TargetResponseModel(id=response_id, test_id=local_id, run_id=run,
                                        response_text=answer, model='fixture', temperature=0))
             db.add(EvaluationResultModel(id=f'E{n}-{q}', test_id=local_id, response_id=response_id,
-                                         passed=True, failure_type=None, reason='synthetic', evaluator='rule-based-v65'))
+                                         passed=True, failure_type=None, reason='synthetic', evaluator=RuleBasedBehaviourEvaluator.VERSION))
             receipts.append({'test_id': remote_id, 'response_text': answer, 'request_key': remote_id,
                              'contract_sha256': 'a' * 64, 'reported_cost_usd':'0.001',
                              'dispatched_at_utc': now.isoformat()})

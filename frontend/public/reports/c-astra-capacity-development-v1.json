@@ -1,0 +1,18 @@
+{
+  "format": "c-astra-capacity-development-v1",
+  "review_status": "human_confirmed",
+  "cases": 2,
+  "before": {
+    "passed": 0,
+    "answered": 4,
+    "planned": 4
+  },
+  "after": {
+    "passed": 0,
+    "answered": 3,
+    "planned": 4,
+    "missing": 1
+  },
+  "source_summary_sha256": "f06c84f577230d0be504deca63ac043376d372ad72e4362c7c2b9976cc8d0723",
+  "scope": "Two development cases; related repeated answers. Only capacity changed,50 to500. No observed improvement among completed answers; missing result is not a failure label."
+}

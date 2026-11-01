@@ -58,6 +58,14 @@ def record_agent_execution(
     # request text or credentials. Preserve exact failed and successful attempts.
     from app.schemas.request_contracts import wire_metadata
     diagnostics.update(wire_metadata(receipt))
+    timeout = receipt.get('transport_timeout_seconds')
+    if isinstance(timeout, (int, float)) and not isinstance(timeout, bool) and 0 < timeout <= 600:
+        diagnostics['transport_timeout_seconds'] = timeout
+    attempts_limit = receipt.get('max_http_attempts')
+    if type(attempts_limit) is int and 1 <= attempts_limit <= 3:
+        diagnostics['max_http_attempts'] = attempts_limit
+    if receipt.get('requested_reasoning_effort') == 'max' and provider == 'openai' and model == 'gpt-6-astra':
+        diagnostics['requested_reasoning_effort'] = 'max'
     if receipt.get("response_format_fallback"):
         diagnostics["response_format_fallback"] = receipt["response_format_fallback"]
     rejected_status = receipt.get("schema_rejection_http_status")

@@ -266,10 +266,16 @@ class HttpTargetAIConnector(TargetAIConnector):
             self._capture_usage(usage)
             return self._chat_completion_text(data, "OpenRouter")
         if audit.provider == TargetProvider.OPENAI:
-            data = self._post("https://api.openai.com/v1/responses", {"Authorization": f"Bearer {credential}"}, {
-                "model": audit.model, "instructions": instructions, "input": target_question_input(test.prompt), "temperature": audit.temperature,
+            payload = {
+                "model": audit.model, "instructions": instructions, "input": target_question_input(test.prompt),
                 **({"max_output_tokens": output_limit} if output_limit is not None else {}),
-            })
+            }
+            if audit.model == 'gpt-6-astra':
+                payload['reasoning'] = {'effort': 'max'}
+                _USAGE.set({**_USAGE.get(), 'requested_reasoning_effort': 'max', 'sampling_control': 'model_default', 'sent_temperature': None})
+            else:
+                payload['temperature'] = audit.temperature
+            data = self._post("https://api.openai.com/v1/responses", {"Authorization": f"Bearer {credential}"}, payload)
             self._capture_usage(data, audit.provider)
             return self._openai_text(data)
         if audit.provider == TargetProvider.DEEPSEEK:

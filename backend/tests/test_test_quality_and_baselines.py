@@ -30,6 +30,70 @@ from app.test_generator.baselines import (
     get_suite_generator,
 )
 from app.test_generator.quality import RuleBasedTestQualityValidator
+from app.test_generator.conflict_preserving import ConflictPreservingTestGenerator
+
+
+@pytest.mark.parametrize('dimension', [Dimension.FRESHNESS, Dimension.APPROPRIATE_USE])
+def test_question_must_account_for_known_conflict_outside_its_evidence(dimension):
+    prior = Memory(memory_id='old', conversation_id='C', canonical_value='The user previously used a paper planner.', status=MemoryStatus.CONFIRMED)
+    current = Memory(memory_id='current', conversation_id='C', canonical_value='The user now uses an online planner.', status=MemoryStatus.CONFIRMED,
+                     relationships=[MemoryRelationship(type=RelationshipType.UPDATE, target_memory_id='old')])
+    scoped = Memory(memory_id='scoped', conversation_id='C', canonical_value='For the workshop use a printed planner.', status=MemoryStatus.CONFIRMED,
+                    relationships=[MemoryRelationship(type=RelationshipType.CONTEXTUAL_OVERRIDE, target_memory_id='current')])
+    disputed = Memory(memory_id='disputed', conversation_id='C', canonical_value='The user now uses only a paper planner.', status=MemoryStatus.CONFIRMED,
+                      relationships=[MemoryRelationship(type=RelationshipType.CONFLICT, target_memory_id='current')])
+    ids = ['old', 'current'] if dimension == Dimension.FRESHNESS else ['current', 'scoped']
+    test = TestCase(test_id='T', run_id='R', dimension=dimension,
+                    prompt='How should the user plan this task?', expected_behavior='Use the online planner for the usual task.',
+                    supporting_memory_ids=ids, generator_version='fixture')
+    validator = RuleBasedTestQualityValidator()
+    assert validator.validate(test, [prior,current,scoped]).quality_status == TestQualityStatus.ACCEPTED
+    result = validator.validate(test, [prior,current,scoped,disputed])
+    assert result.quality_status == TestQualityStatus.REJECTED
+    assert 'unresolved conflict outside' in result.reason
+    all_evidence = test.model_copy(update={'supporting_memory_ids':ids+['disputed']})
+    assert validator.validate(all_evidence, [prior,current,scoped,disputed]).quality_status == TestQualityStatus.REJECTED
+    clarified = all_evidence.model_copy(update={'expected_behavior':'Identify the conflicting records and ask the user to clarify.'})
+    assert validator.validate(clarified, [prior,current,scoped,disputed]).quality_status == TestQualityStatus.ACCEPTED
+
+
+def test_generated_update_and_scope_questions_preserve_conflicting_current_record():
+    old = Memory(memory_id='old',conversation_id='C',canonical_value='The database originally used MySQL.',status=MemoryStatus.CONFIRMED)
+    current = Memory(memory_id='current',conversation_id='C',canonical_value='The database now uses PostgreSQL.',status=MemoryStatus.CONFIRMED,
+                     relationships=[MemoryRelationship(type=RelationshipType.UPDATE,target_memory_id='old')])
+    conflict = Memory(memory_id='conflict',conversation_id='C',canonical_value='The database now uses only SQLite.',status=MemoryStatus.CONFIRMED,
+                      relationships=[MemoryRelationship(type=RelationshipType.CONFLICT,target_memory_id='current')])
+    scope = Memory(memory_id='scope',conversation_id='C',canonical_value='For the workshop use a local database.',status=MemoryStatus.CONFIRMED,
+                   relationships=[MemoryRelationship(type=RelationshipType.CONTEXTUAL_OVERRIDE,target_memory_id='current')])
+    memories=[old,current,conflict,scope]
+    tests=ConflictPreservingTestGenerator().generate(memories,_audit(20))
+    for dimension in (Dimension.FRESHNESS,Dimension.APPROPRIATE_USE):
+        selected=[x for x in tests if x.dimension==dimension]
+        assert selected
+        assert {'current','conflict'}.issubset(selected[0].supporting_memory_ids)
+        assert 'clarif' in selected[0].expected_behavior.lower()
+        assert RuleBasedTestQualityValidator().validate(selected[0],memories).quality_status == TestQualityStatus.ACCEPTED
+    from app.test_generator.agent import AgentTestGenerator
+    seeds, _, available = AgentTestGenerator._coverage_seed_inventory(memories,4)
+    assert available[Dimension.FRESHNESS] >= 1
+    assert available[Dimension.APPROPRIATE_USE] >= 1
+    for dimension in (Dimension.FRESHNESS,Dimension.APPROPRIATE_USE):
+        planned = next(test for test in seeds if test.dimension == dimension)
+        assert planned.generator_version == ConflictPreservingTestGenerator.VERSION
+        assert {'current','conflict'}.issubset(planned.supporting_memory_ids)
+
+
+def test_user_possessive_subject_provides_safe_topic_without_copying_value():
+    old=Memory(memory_id='old',conversation_id='C',canonical_value="The user's regular workout is swimming.",status=MemoryStatus.CONFIRMED)
+    current=Memory(memory_id='current',conversation_id='C',canonical_value="As of May 3, the user's regular workout is running, not swimming.",status=MemoryStatus.CONFIRMED,
+                   relationships=[MemoryRelationship(type=RelationshipType.UPDATE,target_memory_id='old')])
+    conflicting=Memory(memory_id='conflict',conversation_id='C',canonical_value="The user's regular workout is exclusively swimming, not running.",status=MemoryStatus.CONFIRMED,
+                       relationships=[MemoryRelationship(type=RelationshipType.CONFLICT,target_memory_id='current')])
+    tests=ConflictPreservingTestGenerator().generate([old,current,conflicting],_audit(10))
+    fresh=next(x for x in tests if x.dimension==Dimension.FRESHNESS)
+    assert "regular workout" in fresh.prompt.lower()
+    assert 'running' not in fresh.prompt.lower() and 'swimming' not in fresh.prompt.lower()
+    assert RuleBasedTestQualityValidator().validate(fresh,[old,current,conflicting]).quality_status == TestQualityStatus.ACCEPTED
 
 
 @pytest.mark.parametrize('relationship_type', [RelationshipType.UPDATE, RelationshipType.CONTEXTUAL_OVERRIDE, RelationshipType.CONFLICT])

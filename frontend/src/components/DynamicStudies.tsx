@@ -67,7 +67,7 @@ export function useDynamicStudies() {
         catch {errors.push(`A comparison ${id} could not be loaded`);}
       }
       let b:ExperimentAnalytics|null=null;
-      for(const group of ordered.filter((g:Experiment)=>g.status==='COMPLETED' && g.test_suite_metadata?.study_role!=='audit_method_comparison')) {
+      for(const group of [...ordered].sort((a,b)=>b.created_at.localeCompare(a.created_at)).filter((g:Experiment)=>g.status==='COMPLETED' && g.test_suite_metadata?.study_role!=='audit_method_comparison')) {
         try {const report=await api.experimentResults(group.experiment_id);
           const matching=report.conditions.filter(c=>strategies.includes(c.memory_strategy));
           if(new Set(matching.map(c=>c.memory_strategy)).size===4 && matching.length===4 && matching.every(c=>c.completed_runs>0) && new Set(matching.map(c=>`${c.provider}:${c.model}`)).size===1) {b=report;break;}
@@ -100,7 +100,7 @@ export function useDynamicStudies() {
         }
       }
       const plans=plansResult.status==='fulfilled' ? plansResult.value : [];
-      const c=plans.find(p=>Object.values(p.executions).some(v=>v.status==='COMPLETED' && v.dashboard_summary)) ?? null;
+      const c=[...plans].sort((a,b)=>(b.created_at??'').localeCompare(a.created_at??'')).find(p=>Object.values(p.executions).some(v=>v.status==='COMPLETED' && v.dashboard_summary)) ?? null;
       if(active) setData({a,campaign,b,bHuman,c,analysis:analysisResult.status==='fulfilled' ? analysisResult.value[0] ?? null : null,errors});
     }
     void load(); return ()=>{active=false;};

@@ -6,6 +6,48 @@
 
 Evidence links under `output/` refer to the original local research workspace. For a fresh checkout, use the [evidence availability index](../research/full-project-backup-20261029/report-evidence-availability.json) and [archive guide](../research/full-project-backup-20261029/README.md) to locate the preserved files; extract archives into an empty separate directory. A directory link in the index may be represented by selected files, not a complete historical folder.
 
+## 1 November Astra supplement — current evidence
+
+These are separate studies, not additional independent observations for the
+earlier denominators. The [current requirement map](PROPOSAL_STATUS_20261101.md)
+records their provenance and remaining gaps.
+
+| Study | Observed result | Interpretation |
+|---|---|---|
+| AC1 source-only Astra extraction | Four related previously studied histories: 30/30 source-supported candidates, 32/32 reference records covered, 12/12 extracted relationships correct. Two independent human checks of AI-assisted judgments are user-reported. | Reference records can combine facts and be covered jointly by candidates; this is record coverage, not strict atomic recall. [Evidence](../research/astra-ac2-20261101/ac1-astra-four-source-evidence.zip). |
+| AC2 direct generation comparison | Same 30 selected histories: original 62/120 valid slots; direct Astra condition 120/120 under user-confirmed AI-assisted review. | Inputs and review procedure differ; not a model-only or held-out comparison. [Details](AC2_ASTRA_PRODUCT_RETEST_20261101.md). |
+| AC2 ten-history product-flow study | Of 40 planned slots, 28 questions were saved; 14 valid and 14 invalid after user-reported independent human checks. Twelve slots were not generated. | The invalid references resolved known conflicts without support. This negative result prevents claiming general AC2 success from the direct 120-question result. [Evidence](../research/astra-ac2-20261101/ac2-astra-ten-source-product-evidence.zip). |
+| Tutor writer repair | Same 16 questions on four related histories: 12/16 → 16/16 pass, four improved and none worsened, user-reported independent human checks of AI-assisted judgments. | A concrete diagnosis and retest; not a population estimate. [Evidence](../research/astra-ac2-20261101/four-writer-prospective-evidence.zip). |
+| B Astra four-strategy supplement | 52/64 answers saved; three histories provide 48 complete paired answers. Two later Astra high reviews reproduce 3/12 First-match, 3/12 Relationship-priority, 0/12 Scope-aware, 0/12 Time/importance; the user reports independent two-person acceptance. | One repetition and related sources do not establish stable ranking. FS04 First-match is 0/4; an earlier verbal 3/4 was erroneous. [Run evidence](../research/astra-ac2-20261101/b-astra-four-strategy-run-evidence.zip), [later confirmation](../research/astra-ac2-20261101/astra-high-human-confirmation-and-capacity-review.zip). |
+| C current Dashboard plan | The latest saved plan has two previously used knowledge-update cases and three completed repeats. Human-review consensus gives 0/6 First-match, 3/6 Relationship-priority, 0/6 Scope-aware and 1/6 Time/importance; no unresolved answers. | Luna via OpenRouter; six answers per strategy reuse two cases. This exploratory UI verification is separate from the historical 30-case study and the Astra development check. [Frozen plan and recorded reviews](../research/astra-ac2-20261101/dashboard-latest-c-plan.json). |
+| C Astra development preflight | Two official development cases, two policies, four calls completed; both AI reviews judged all four responses incorrect. The user reports two independent people checked and accepted those judgments and the reference answers. | Full histories were imported, but only 50 records retained and one retrieved per answer. Not an official score or policy-ranking validation. [Run evidence](../research/astra-ac2-20261101/longmemeval-astra-isolated-development-preflight.zip), [separate human confirmation](../research/astra-ac2-20261101/c-astra-development-human-confirmation.zip). |
+
+The first conflict guard rejected the 14 invalid saved questions and retained
+the 14 valid questions in a post-discovery offline replay. Its four-source
+product retest produced no complete suites. A later generation repair still
+saved no suite: three sources failed planning and one reached generation but
+the model reviewer failed. Four unsaved candidates were subsequently reviewed;
+Accuracy and Conflict Resolution were accepted, Freshness needs a clearer
+update question, and Appropriate Use remains uncertain. A proposed source and
+question revision has since been accepted by two independent people according
+to the user, following two Astra high reviews. A subsequent real product-flow
+attempt saved 4/4 questions after repairing the planning intent and transport
+timeout. Two independent Astra high reviews judged all four valid, followed
+by user-reported independent checks and acceptance by two people.
+This is one previously studied development history with revised source
+wording and multiple implementation changes; it is not a repeat of the
+ten-history study. Some questions disclose the existence of conflict and
+therefore do not measure independent discovery of that conflict.
+None of the earlier unsaved candidates is counted as a successful saved suite.
+[Run and frozen implementation](../research/astra-ac2-20261101/ac2-intent-timeout-product-retest.zip),
+[separate later human confirmation](../research/astra-ac2-20261101/ac2-intent-timeout-human-confirmation.zip).
+
+A capacity-only C development retest retained up to 500 records instead of 50,
+with the same two cases, strategies and reader profile. Three new calls
+completed, all failed the human-checked high-review judgments, and one failed
+request remains missing. This small comparison shows no observed improvement;
+it does not isolate retrieval quality or establish population performance.
+
 **30 October wording recheck:** The two returned AI-assisted reviews agree on 8 valid and 2 invalid questions out of 10. The user reports that two people independently checked every judgment; original AI-review declarations and the later confirmation are preserved separately, and human exposure to previous AI or automatic judgments is not established. The two invalid items repeat a question that asks about a working arrangement even though the selected source concerns a mobile-library route. These ten selected questions share three synthetic histories, so the counts are not a population estimate. A separate earlier three-repeat model assessment disagreed with this returned consensus on 6 items, agreed on 2, and was unstable on 2; repeated model outputs are not independent human judgments. [Source-bound return and comparison](../output/proposal-delivery/ac2-wording-return-20261030-v1/).
 
 Applying the later two invalid judgments as a transparent sensitivity update to the paired study changes the valid counts from 51/120 to 50/120 scheduled baseline slots and from 63/120 to 62/120 candidate slots. One affected question belongs to each arm and both were accepted by the original gate. For generated candidate questions, this gives 55/117 invalid and 38 accepted invalid; the original paired adjudication and its 54/117 and 37 counts remain preserved. Other earlier per-field classifications have not been recomputed. The Dashboard displays this updated overall view and notes the later recheck.

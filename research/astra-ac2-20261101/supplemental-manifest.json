@@ -1,0 +1,41 @@
+{
+  "archive": "supplemental-evidence.zip",
+  "sha256": "66051459a0ea2cea7e6be59f336df29d404df65b8d5d482813f0820fb91d1589",
+  "items": [
+    {
+      "path": "ac2-astra-product-four-source-20261101-v1/ai-review-summary.json",
+      "sha256": "ce624120fe26ff2c534ef25920e5a35706d33eb6f6f100435e2867f308c8c992",
+      "bytes": 322
+    },
+    {
+      "path": "ac2-astra-product-four-source-20261101-v1/ai-reviewer-1.json",
+      "sha256": "3683557d1d2d71523d68397fdf5afab95ba03f9b944e4dd9b4758f93f95f17ee",
+      "bytes": 40068
+    },
+    {
+      "path": "ac2-astra-product-four-source-20261101-v1/ai-reviewer-2.json",
+      "sha256": "3fdff8d670b4b6875063b77106d96b796e39d42194a55148c153276652f431c3",
+      "bytes": 41062
+    },
+    {
+      "path": "astra-product-end-to-end-20261101-v1/ledger.json",
+      "sha256": "df78bc8109130c34295dbc4443583b5cc77e1f4cd865cd4cfe48d854b3fe69c1",
+      "bytes": 333669
+    },
+    {
+      "path": "astra-product-end-to-end-20261101-v1/protocol.json",
+      "sha256": "7d493303930a8b0d01b148134ea27466b9dc35941e5810af6437ced68764caf8",
+      "bytes": 25176
+    },
+    {
+      "path": "astra-product-end-to-end-20261101-v1/sources.json",
+      "sha256": "88e749195671d6d1f5b0ec7b8629e5eaf7c10ebf683c8368158dbb93877ac3a3",
+      "bytes": 1161
+    },
+    {
+      "path": "astra-product-end-to-end-20261101-v1/summary.json",
+      "sha256": "96cf09c9f8c8ff633d977e8dc1eea04483ea4fdae5b42adb6979a0bf29d249a3",
+      "bytes": 730
+    }
+  ]
+}

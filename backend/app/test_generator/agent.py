@@ -20,7 +20,6 @@ from pydantic import BaseModel, ConfigDict, Field, ValidationError
 from app.extraction.llm import PipelineRequestError
 from app.schemas import AuditRun, Dimension, Memory, TestCase, TestType
 from app.test_generator.llm_generator import LLMTestGenerator
-from app.test_generator.rule_based import RuleBasedTestGenerator
 from app.test_generator.quality import RuleBasedTestQualityValidator
 
 
@@ -137,8 +136,8 @@ def coverage_plan_output_budget(requested_test_count: int) -> int:
 class AgentTestGenerator(LLMTestGenerator):
     """Generate a planned suite, semantically review it, and repair duplicates."""
 
-    VERSION = "agent-coverage-semantic-v23"
-    REVIEWER_VERSION = "semantic-intent-review-v8"
+    VERSION = "agent-coverage-semantic-v24"
+    REVIEWER_VERSION = "semantic-intent-review-v9"
     MAX_QUANTITY_FILL_ROUNDS = 4
     MAX_SEMANTIC_REPAIR_ROUNDS = 2
     MAX_COVERAGE_REPAIR_ROUNDS = 3
@@ -716,8 +715,9 @@ class AgentTestGenerator(LLMTestGenerator):
                                             conversation_id=next(iter(conversation_ids), ""))
             raw_seeds = ConflictAwareRuleBasedTestGenerator().generate(memories, planning_audit)
         else:
+            from app.test_generator.conflict_preserving import ConflictPreservingTestGenerator
             planning_audit = SimpleNamespace(run_id="COVERAGE_PREVIEW", test_budget=maximum_seed_count)
-            raw_seeds = RuleBasedTestGenerator().generate(memories, planning_audit)
+            raw_seeds = ConflictPreservingTestGenerator().generate(memories, planning_audit)
         validator = RuleBasedTestQualityValidator()
         seeds = [test for test in raw_seeds if validator.validate(test, memories).quality_status.value == "accepted"]
         if allowed_test_types is not None:
@@ -855,8 +855,12 @@ class AgentTestGenerator(LLMTestGenerator):
         if dimension == Dimension.ACCURACY:
             return "Recall one confirmed fact accurately."
         if dimension == Dimension.FRESHNESS:
+            if "CONFLICT" in relationships:
+                return "Explain the historical update from the earlier value to its replacement, preserve the conflicting current records and request clarification before deciding what applies now."
             return "Apply the current record over its explicitly replaced historical record."
         if dimension == Dimension.APPROPRIATE_USE:
+            if "CONFLICT" in relationships:
+                return "Apply any unambiguous scoped instruction only within its context; preserve conflicting records and seek clarification before selecting a disputed scoped or general value."
             return "Apply a contextual requirement only in its scope while retaining the general preference elsewhere."
         if "CONFLICT" in relationships:
             return "Recognise incompatible unresolved constraints and ask for clarification."
@@ -1505,6 +1509,10 @@ class AgentTestGenerator(LLMTestGenerator):
             )
         joined = "; ".join(descriptions)
         types = {item.get("type") for item in signatures}
+        if dimension == Dimension.FRESHNESS.value and "CONFLICT" in types:
+            return f"Validated historical update with unresolved current conflict: {joined}. Test the earlier-to-replacement historical change and the incompatible current records. Preserve both current claims and ask the user which applies; the update alone does not resolve that conflict."
+        if dimension == Dimension.APPROPRIATE_USE.value and "CONFLICT" in types:
+            return f"Validated scoped instruction with unresolved conflict: {joined}. Apply an unambiguous instruction only in its stated scope. Preserve conflicting records and ask the user to clarify a disputed scoped or general value before selecting one."
         if dimension == Dimension.FRESHNESS.value:
             return f"Validated Freshness relation: {joined}. Test that the current record replaces the historical record."
         if "CONFLICT" in types:

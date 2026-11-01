@@ -1,0 +1,34 @@
+{
+  "archive": "end-to-end-review-evidence.zip",
+  "sha256": "5b31c15d3ac2bd56abec59324ddc294fd22295186ea470a490ee15b1d0fb0196",
+  "files": [
+    {
+      "name": "answer-ai-reviewer-1-blank.json",
+      "sha256": "80794953c412d91381997b53a170a0d5114ee6cd63991dbe741126268ec10dda"
+    },
+    {
+      "name": "answer-ai-reviewer-2-blank.json",
+      "sha256": "26704021c286cb48f9d6f40c55e872a4193c862a631747970cf9c40b0568fe57"
+    },
+    {
+      "name": "answer-ai-reviewer-1.json",
+      "sha256": "3f6ae8523aec19a8471e237cd37e114d5a8f5e5d508f22844bfcc117c6db2446"
+    },
+    {
+      "name": "answer-ai-reviewer-2.json",
+      "sha256": "c9b912c3a3b69ec773f657b1db8436273087df814cb530c8ff3de310c536747a"
+    },
+    {
+      "name": "answer-ai-review-summary.json",
+      "sha256": "e6bc6fa9f9b3d77dd6d1812ea15ca543dc5cf3e89046a3e8b733a5bf29dfc9c3"
+    },
+    {
+      "name": "system-vs-ai-comparison.json",
+      "sha256": "045713c6b05b29369f5a93e79dc5f505afe2484971af78222339da8b2be2d63c"
+    },
+    {
+      "name": "人工复核说明.txt",
+      "sha256": "4dcc94271a7b35e175f679a5d45f9ccddf2793e7730d6ffcbb1f104314982789"
+    }
+  ]
+}

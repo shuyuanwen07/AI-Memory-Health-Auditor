@@ -233,13 +233,33 @@ class PipelineLLMClient:
                 data = self._post(CHAT_COMPLETIONS_URL, {"Authorization": f"Bearer {credential}"}, payload)
             text = self._deepseek_text(data)
         elif self.provider == "openai":
+            openai_schema = schema
+            if self.model == "gpt-6-astra":
+                # Strict OpenAI schemas require every declared property in
+                # `required`; the test schema historically allowed this one
+                # locally defaulted field to be omitted.
+                from copy import deepcopy
+                openai_schema = deepcopy(schema)
+                item = openai_schema.get('properties', {}).get('tests', {}).get('items', {})
+                if isinstance(item, dict) and 'test_type' in item.get('properties', {}):
+                    item['required'] = list(dict.fromkeys([*item.get('required', []), 'test_type']))
             payload = {
                 "model": self.model,
                 "instructions": instructions,
                 "input": prompt,
-                "temperature": 0,
-                "text": {"format": {"type": "json_schema", "name": schema_name, "strict": True, "schema": schema}},
+                "text": {"format": {"type": "json_schema", "name": schema_name, "strict": True, "schema": openai_schema}},
             }
+            if self.model == "gpt-6-astra":
+                # Reasoning models do not accept temperature; record the
+                # explicitly selected effort rather than implying a seed.
+                payload["reasoning"] = {"effort": "max"}
+                meter = _PIPELINE_METER.get()
+                if meter is not None:
+                    meter["requested_reasoning_effort"] = "max"
+                    # This Responses request does not transmit an output cap.
+                    meter["requested_output_token_limit"] = None
+            else:
+                payload["temperature"] = 0
             data = self._post("https://api.openai.com/v1/responses", {"Authorization": f"Bearer {credential}"}, payload)
             text = self._openai_text(data)
         elif self.provider == "deepseek":
@@ -286,11 +306,20 @@ class PipelineLLMClient:
         last_transport_error: httpx.TransportError | None = None
         meter = _PIPELINE_METER.get()
         local_model = bool(meter and meter.get("provider") == "ollama")
-        max_attempts = 1 if local_model else _MAX_ATTEMPTS
+        long_reasoning = bool(meter and meter.get('provider') == 'openai'
+                              and payload.get('model') == 'gpt-6-astra'
+                              and payload.get('reasoning', {}).get('effort') == 'max')
+        # Astra max review calls exceeded the ordinary 60-second window.
+        # Allow one longer request: a timeout must not silently duplicate
+        # expensive reasoning that may still be running at the provider.
+        max_attempts = 1 if local_model or long_reasoning else _MAX_ATTEMPTS
         # Local inference latency scales with the requested JSON budget and can
         # exceed cloud API timeouts even when Ollama is healthy. Keep one local
         # attempt, but allow enough time for the configured small model to finish.
-        timeout_seconds = 240.0 if local_model else _REQUEST_TIMEOUT_SECONDS
+        timeout_seconds = 240.0 if local_model or long_reasoning else _REQUEST_TIMEOUT_SECONDS
+        if meter is not None:
+            meter['transport_timeout_seconds'] = timeout_seconds
+            meter['max_http_attempts'] = max_attempts
         for attempt in range(max_attempts):
             meter=_PIPELINE_METER.get()
             if meter is not None:

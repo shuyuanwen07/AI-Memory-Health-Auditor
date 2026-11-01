@@ -31,13 +31,13 @@ LONGMEMEVAL_COMPATIBILITY_LIMITATIONS = [
 
 
 class LiveBenchmarkRunner:
-    VERSION = "shared-reader-live-benchmark-v25"
+    VERSION = "shared-reader-live-benchmark-v26"
 
     def run(self, request: LiveBenchmarkRequest, cancelled: Event | None = None) -> LiveBenchmarkResponse:
         if not request.source_authorised:
             raise ValueError("Confirm that you are authorised to process this benchmark source.")
-        if request.provider not in {TargetProvider.OLLAMA, TargetProvider.OPENROUTER}:
-            raise ValueError("Real-model benchmark execution supports Ollama or OpenRouter; use the separate rule baseline for simulation.")
+        if request.provider not in {TargetProvider.OLLAMA, TargetProvider.OPENROUTER, TargetProvider.OPENAI}:
+            raise ValueError("Real-model benchmark execution supports Ollama, OpenRouter or OpenAI; use the separate rule baseline for simulation.")
         if len(set(request.strategies)) != len(request.strategies):
             raise ValueError("Choose each memory strategy only once.")
         cases, report = LongMemEvalAdapter().adapt(request.payload)

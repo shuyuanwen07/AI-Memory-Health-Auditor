@@ -79,6 +79,36 @@ def test_live_calls_use_controlled_policy_without_reference_leakage(monkeypatch)
     assert changed_provenance.configuration_fingerprint_sha256!=first.configuration_fingerprint_sha256
 
 
+def test_openai_astra_live_runner_preserves_gold_isolation_and_max_reasoning(monkeypatch):
+    seen=[]
+    monkeypatch.setenv('OPENAI_API_KEY','synthetic-openai-key')
+    def fake_post(url,headers,payload):
+        assert headers['Authorization']=='Bearer synthetic-openai-key'
+        assert url=='https://api.openai.com/v1/responses'
+        assert payload['model']=='gpt-6-astra'
+        assert payload['reasoning']=={'effort':'max'}
+        assert 'temperature' not in payload
+        visible=payload['instructions']+'\n'+str(payload['input'])
+        assert 'GOLD_SECRET' not in visible and 'DIFFERENT_GOLD' not in visible
+        assert 'GOLD_SESSION_SECRET' not in visible and 'OTHER_SECRET' not in visible
+        seen.append(visible)
+        return {'model':'gpt-6-astra','status':'completed','output_text':'PostgreSQL'}
+    monkeypatch.setattr(HttpTargetAIConnector,'_post',staticmethod(fake_post))
+    request=LiveBenchmarkRequest(payload=source(),source_authorised=True,dataset_provenance=PROVENANCE,
+                                 provider='openai',model='gpt-6-astra')
+    first=LiveBenchmarkRunner().run(request)
+    altered=deepcopy(source());altered[0]['answer']='DIFFERENT_GOLD';altered[0]['answer_session_ids']=['OTHER_SECRET']
+    altered[0]['haystack_sessions'][0][0]['has_answer']=False
+    second=LiveBenchmarkRunner().run(request.model_copy(update={'payload':altered}))
+    assert seen[:2]==seen[2:]
+    assert len(first.conditions)==len(second.conditions)==2
+    for condition in first.conditions:
+        receipt=condition.cases[0].execution_metadata
+        assert receipt.reported_model=='gpt-6-astra'
+        assert receipt.requested_reasoning_effort=='max'
+        assert receipt.sampling_control=='model_default'
+
+
 def test_rejects_no_consent_duplicates_or_oversize_before_model_calls(monkeypatch):
     def forbidden(*args,**kwargs):raise AssertionError('No upstream call allowed')
     monkeypatch.setattr(HttpTargetAIConnector,'execute',forbidden)

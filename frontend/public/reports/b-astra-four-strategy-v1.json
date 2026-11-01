@@ -1,0 +1,87 @@
+{
+  "format": "b-astra-four-strategy-ai-review-v1",
+  "status": "human_confirmed",
+  "planned_answers": 64,
+  "saved_answers": 52,
+  "not_completed": 12,
+  "complete_paired_questions": 12,
+  "all_saved": {
+    "weak_first_hit": {
+      "saved": 16,
+      "pass": 3,
+      "fail": 13,
+      "unresolved": 0
+    },
+    "strong_rule_based": {
+      "saved": 12,
+      "pass": 3,
+      "fail": 9,
+      "unresolved": 0
+    },
+    "scope_aware": {
+      "saved": 12,
+      "pass": 0,
+      "fail": 12,
+      "unresolved": 0
+    },
+    "temporal_importance": {
+      "saved": 12,
+      "pass": 0,
+      "fail": 12,
+      "unresolved": 0
+    }
+  },
+  "complete_paired_only": {
+    "weak_first_hit": {
+      "saved": 12,
+      "pass": 3,
+      "fail": 9,
+      "unresolved": 0
+    },
+    "strong_rule_based": {
+      "saved": 12,
+      "pass": 3,
+      "fail": 9,
+      "unresolved": 0
+    },
+    "scope_aware": {
+      "saved": 12,
+      "pass": 0,
+      "fail": 12,
+      "unresolved": 0
+    },
+    "temporal_importance": {
+      "saved": 12,
+      "pass": 0,
+      "fail": 12,
+      "unresolved": 0
+    }
+  },
+  "limitations": [
+    "Original AI judgments and later user-reported independent human confirmation are retained separately.",
+    "Four related synthetic histories, with only three complete four-strategy histories.",
+    "One repetition per strategy; no repeat-run stability estimate.",
+    "One strategy failed with HTTP 502, so 12 planned answers are missing.",
+    "Source questions were previously observed."
+  ],
+  "experiment_ids": [
+    "EXP01B3C74816804C999C0B320838CD01D6",
+    "EXP09CB29D497C349AAA8B04AF67AB8BB6C",
+    "EXP0AAADB39F75C449EADBF5693A60B867D",
+    "EXP12480C7A37944F33949485B4C837C9D5",
+    "EXP2F14A165787945F6ACAE040DF5C021B4",
+    "EXP32534595AC4A4C1FB3B2262474255BB4",
+    "EXP35CC17FB475D4FE5AE04BACDCEE13029",
+    "EXP3B25E5B9260647F5B750D51330E96A9E",
+    "EXP4976FC77E2514284AEF641B8E524F36A",
+    "EXP6768665B578B4C1FA821575353B6C68E",
+    "EXPA850D96F2DA24C0DB674041FF3903D63",
+    "EXPD0D95F018623408A9A6FA2026D8AF56A",
+    "EXPE0292BBCA9A54BD399A68E22E110AB15",
+    "EXPE5765435C097454E848B46097148DB3A",
+    "EXPEB8EFEDC73184B35A670A280695EAF65",
+    "EXPFD4006C33A81418AACAA518F5712D014"
+  ],
+  "source_created_at": "2026-11-01T07:51:29.244534+00:00",
+  "high_review_confirmation_sha256": "6d17603ada8febcc0e31d4d7648c83446e7aa0a5f2ddf2c83d8d4654200c7862"
+}

@@ -1,0 +1,112 @@
+{
+  "scope": "Local engineering evidence; remote CI must be checked separately. No live provider calls were made by the offline checks.",
+  "backend_full_invocation": {
+    "session_id": 98382,
+    "command": "docker compose exec -T backend sh scripts/check.sh",
+    "static_checks": "passed",
+    "pytest_exit_code": 1,
+    "passed": 3231,
+    "skipped": 65,
+    "failed": 1,
+    "failure": "test_repair_study_runner.py subprocess.TimeoutExpired after30s",
+    "isolation_directory": "/app/.engineering-smoke/offline-tests/isolated-suite-v66vilqf",
+    "external_network_block_attempts": 0,
+    "failed_test_isolated_rerun": {
+      "session_id": 86844,
+      "test_file": "tests/test_repair_study_runner.py",
+      "exit_code": 0,
+      "passed": 3,
+      "duration_seconds": 13.76,
+      "external_network_block_attempts": 0,
+      "interpretation": "Original full-suite failure was a 30s subprocess timeout; all three tests passed when rerun alone. Do not describe the original full invocation as passing."
+    }
+  },
+  "frontend_full_before_final_small_display_edits": {
+    "build": "passed",
+    "tests_passed": 671,
+    "skipped": 1,
+    "files_passed": 87
+  },
+  "frontend_final_focused": {
+    "build": "passed",
+    "tests_passed": 24,
+    "files_passed": 6,
+    "covered": [
+      "App",
+      "FinalResultsDashboard",
+      "CompactLatestDashboard",
+      "CompactDynamicResults",
+      "AstraComparison",
+      "DynamicStudies"
+    ]
+  },
+  "research_scripts": {
+    "scope": "Read-only validation; no experiment runner executed, no provider credentials read or printed, no product code changed.",
+    "syntax": {
+      "python_files": 42,
+      "failures": 0,
+      "evidence": "syntax-check.json"
+    },
+    "focused_test": {
+      "file": "scripts/tests/test_ingest_ac2_astra_four_review.py",
+      "passed": 3,
+      "external_network_attempts": 0,
+      "isolation": "isolated-runs/isolated-suite-e51i360o/isolation-evidence.json"
+    },
+    "current_source_scripts_pytest": {
+      "passed": 402,
+      "failed": 0,
+      "duration_seconds": 28.83,
+      "external_network_attempts": 0,
+      "isolation": "isolated-runs/isolated-suite-mbmewesf/isolation-evidence.json",
+      "excluded": "scripts/tests/test_replay_ac2_scope_supplement_pilot.py requires historical frozen backend per CI workflow"
+    },
+    "earlier_attempt": {
+      "passed": 382,
+      "failed": 20,
+      "reason": "backend-only harness cwd; all 20 fixture paths restored by running tests from root, no fixture changes",
+      "evidence": "harness-cwd-diagnosis.json"
+    },
+    "not_run": [],
+    "unittest_discovery": {
+      "mode": "unittest",
+      "exit_code": 0,
+      "log": "/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/output/final-verification-20261101/research-scripts/unittest-discovery.log",
+      "elapsed_seconds": 29.56,
+      "scope": "CI unittest discovery; provider credentials blanked and rule_based defaults; no live experiment runner invoked",
+      "tests": 270
+    },
+    "historical_backend_replay": {
+      "mode": "frozen",
+      "exit_code": 0,
+      "log": "/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/output/final-verification-20261101/research-scripts/frozen-backend-replay.log",
+      "temporary_workspace": "/tmp/auditor-ac2-v36-ci-r4todl7b",
+      "frozen_fixture_hashes_verified": true,
+      "frozen_backend_sha256": "e4fbbeb7d4bdd03abdd2a2feefc09e2796f10036ace56b4aee8198e96f7556db",
+      "elapsed_seconds": 5.55,
+      "passed": 2
+    },
+    "illustrative_smoke": {
+      "mode": "illustrative",
+      "exit_code": 0,
+      "log": "/Users/y/Documents/26-S2/5623/AI Memory Health Auditor/output/final-verification-20261101/research-scripts/illustrative-artifacts.log",
+      "output_directory": "/tmp/auditor-paper-artifacts-ci-vnn2rrer",
+      "artifacts": [
+        "condition_overall_means.svg",
+        "dimension_comparison.csv",
+        "condition_overall_means.csv",
+        "dimension_comparison.svg",
+        "paper_artifacts_manifest.json"
+      ],
+      "scope": "Synthetic illustrative smoke artifacts only; not empirical experiment results",
+      "elapsed_seconds": 0.08
+    },
+    "ci_scope_note": "All local equivalents of the scripts job checks were executed successfully. This is not a remote GitHub CI result; no repository push or CI run was performed."
+  },
+  "credential_check": {
+    "credential_values_checked": 1,
+    "files_and_archive_entries_scanned": 1214,
+    "matches": 0,
+    "paths_with_matches": []
+  }
+}

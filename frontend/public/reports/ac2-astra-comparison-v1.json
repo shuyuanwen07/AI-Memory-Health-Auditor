@@ -1,0 +1,86 @@
+{
+  "format": "ac2-astra-comparison-v1",
+  "histories": 30,
+  "scheduled_slots": 120,
+  "baseline": {
+    "label": "Rule generator v36",
+    "valid": 62,
+    "generated": 117
+  },
+  "astra": {
+    "label": "GPT-6 Astra · max",
+    "valid": 120,
+    "generated": 120
+  },
+  "human_review_basis": "User reports two humans independently checked all AI-assisted judgments and accepted them; exposure to AI judgments and identities are not independently established.",
+  "scope": "Same 30 synthetic histories and reference facts; retrospective, not held-out. Generator and review procedures differ; not model-only causal evidence.",
+  "source_sha256": {
+    "protocol.json": "f34b01806d4a49f3b8abbe778d6722018435ff37f06813b07f9b3066e1cfe0ac",
+    "ai-reviewer-1.json": "f776eb7b5400c741760efc95e3e9c5425c3c1f46317d62c0432df7a03f01020c",
+    "ai-reviewer-2.json": "6ed27cfdc2180714284c9816df7af7b8428991a5e950426f035be0c3ae5925ff",
+    "user-human-confirmation.json": "c432f0e525f97c8addd00812a2f10e7944ea8fc5035bea654061dfb190d2b37a"
+  },
+  "product_followup": {
+    "histories": 4,
+    "generated": 16,
+    "reviewed_valid": 16,
+    "review_status": "human_confirmed",
+    "dimensions": {
+      "accuracy": 4,
+      "appropriate_use": 4,
+      "conflict_resolution": 4,
+      "freshness": 4
+    },
+    "summary_sha256": "6de35a2a56eb857c24780d42bc1982150e8db2b890221c5c5d6a5153f6946bb8",
+    "reviewed_invalid": 0,
+    "reviewed_unresolved": 0,
+    "human_review_summary_sha256": "34423e61613ac3cc51cd3f2b74c93534c26d1a63a4f40d86a558f9ed64fe8199"
+  },
+  "end_to_end_smoke": {
+    "histories": 1,
+    "questions": 4,
+    "automatic_passed": 1,
+    "failure_categories_disputed": 2,
+    "review_status": "human_adjudicated",
+    "comparison_sha256": "045713c6b05b29369f5a93e79dc5f505afe2484971af78222339da8b2be2d63c",
+    "human_passed": 1,
+    "human_failed": 3,
+    "human_unclassified_failures": 1,
+    "human_adjudication_sha256": "3fba05b00bb9f23a64383ee2af159c84e5524b16e4b656943149eac336d3962e"
+  },
+  "retrieval_followup": {
+    "histories": 1,
+    "questions": 4,
+    "before_pass": 1,
+    "after_pass": 3,
+    "review_status": "human_confirmed",
+    "summary_sha256": "36b7c7f2f27e2804645d10d13181a337660f609db4ba04ad144304a0acdcf8fb",
+    "human_confirmation_sha256": "b3cf21e2418a176e6defff0b540e24c7921170050c40b80d468cbfc31b041e38",
+    "improved": 2,
+    "unchanged_fail": 1
+  },
+  "writer_followup": {
+    "histories": 1,
+    "questions": 4,
+    "before_pass": 3,
+    "after_pass": 4,
+    "review_status": "human_confirmed",
+    "summary_sha256": "057128e2fc748417b8ae68fd11a6073030f4e955ff6b18a4b4f6fa23b60d9948",
+    "human_confirmation_sha256": "4ba7d161167b3c52c9570aaabfacdeb7541a371a0a07151ad72a49df640b815e"
+  },
+  "writer_four_followup": {
+    "histories": 4,
+    "questions": 16,
+    "answer_count": 32,
+    "before_pass": 12,
+    "after_pass": 16,
+    "improved": 4,
+    "worsened": 0,
+    "unchanged_pass": 12,
+    "unchanged_fail": 0,
+    "review_status": "human_confirmed",
+    "limitations": "Related synthetic histories; user-reported independent human checks of AI-assisted judgments. Not a population estimate.",
+    "summary_sha256": "9c3ae2d1226a6e8b1bf3a023379fa043bc1fe71df67184b44bd0cbe63932590f",
+    "human_confirmation_sha256": "04550beceff598236cd5ac35a25d9e98321b15b2e3c6b32396a9e68ded534fd5"
+  }
+}

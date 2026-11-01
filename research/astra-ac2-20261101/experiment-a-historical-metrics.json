@@ -1,0 +1,57 @@
+{
+  "source_sha256": "d8b84bd8e28b9580d9b8e59ea2576edebef258b33c56982a2d2b0394cdcba6fc",
+  "scope": "Three related synthetic histories, four questions per method per history; reported human checks of AI-assisted reviews.",
+  "limitations": [
+    "The inventory does not cover all observed failures.",
+    "Few human-pass cases and correlated scenarios limit generalisation.",
+    "These historical metrics do not establish performance on new scenarios.",
+    "Category coverage is not derived here: question validity needs separate evidence."
+  ],
+  "methods": [
+    {
+      "method": "Contextual/indirect Auditor tests",
+      "true_positive": 11,
+      "false_negative": 0,
+      "false_positive": 0,
+      "true_negative": 1,
+      "failure_recall": {
+        "numerator": 11,
+        "denominator": 11
+      },
+      "inventoried_defects_detected": {
+        "numerator": 3,
+        "denominator": 9
+      }
+    },
+    {
+      "method": "Direct questions",
+      "true_positive": 11,
+      "false_negative": 0,
+      "false_positive": 0,
+      "true_negative": 1,
+      "failure_recall": {
+        "numerator": 11,
+        "denominator": 11
+      },
+      "inventoried_defects_detected": {
+        "numerator": 3,
+        "denominator": 9
+      }
+    },
+    {
+      "method": "Fixed templates",
+      "true_positive": 11,
+      "false_negative": 0,
+      "false_positive": 0,
+      "true_negative": 1,
+      "failure_recall": {
+        "numerator": 11,
+        "denominator": 11
+      },
+      "inventoried_defects_detected": {
+        "numerator": 3,
+        "denominator": 9
+      }
+    }
+  ]
+}

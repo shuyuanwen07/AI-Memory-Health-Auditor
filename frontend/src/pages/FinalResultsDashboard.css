@@ -225,3 +225,14 @@
 .final-results-dashboard .scope-pending { background:#d59c36; }
 .final-results-dashboard .scope-accepted { background:#147e87; }
 @media(max-width:480px){.final-results-dashboard .scope-replay-row { grid-template-columns:minmax(0,1fr);gap:4px }.final-results-dashboard .scope-replay-row small{grid-column:auto}}
+
+/* Keep the primary result board short; detailed history stays in Research. */
+.final-results-dashboard .compact-results-latest .ant-card-body > .scope-replay:first-child { margin-top:0; }
+.final-results-dashboard .compact-results-latest .scope-replay { padding:10px; }
+.final-results-dashboard .compact-results-latest .compact-intro { margin-bottom:14px; }
+.final-results-dashboard .compact-results-latest .compact-intro > button { margin-bottom:0; }
+.final-results-dashboard .compact-results-latest .scope-replay figcaption { font-size:.86rem; }
+.final-results-dashboard .compact-results-latest .a-scenario-list { margin-bottom:0; }
+@media(max-width:900px){
+  .final-results-dashboard .compact-results-latest .compact-grid > * { order:initial; }
+}

@@ -1,0 +1,32 @@
+{
+  "review_status": "human_confirmed",
+  "histories": 4,
+  "counts": {
+    "candidates": {
+      "supported": 30
+    },
+    "reference_facts": {
+      "full": 32
+    },
+    "extracted_relationships": {
+      "correct": 12
+    },
+    "reference_relationships": {
+      "full": 12
+    },
+    "reference_completeness": {
+      "complete": 4
+    }
+  },
+  "scope": "Related, previously studied synthetic histories. Reference coverage allows multiple candidates to cover one compound reference; not strict atomic recall.",
+  "limitations": [
+    "Source-reference completeness and extraction judgments are AI preliminary reviews pending human confirmation.",
+    "Results are selected-sample counts, not general population estimates.",
+    "Overlap between candidate records means candidate support is not one-to-one fact precision."
+  ],
+  "review_sha256": {
+    "extraction-reviewer-1": "f10da2c6e3885f2b915d36f93c509c1552cb9195cc0a91059edf2e33380e6adc",
+    "extraction-reviewer-2": "ef77f6df7d866f89db3dabbd2b72ae22f3131b2a827d7bedca11a54261fc2b75"
+  },
+  "human_confirmation_sha256": "545570bc5f68e4bb48d78497fca7386f71ced1d3e29ce33ab1c3ca370dbcd271"
+}

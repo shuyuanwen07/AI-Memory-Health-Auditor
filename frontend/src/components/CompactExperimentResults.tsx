@@ -1,8 +1,12 @@
 import { Alert, Card } from 'antd';
 import compactData from '../data/compactFinalDashboard.json';
+import experimentAHistoricalMetrics from '../data/experimentAHistoricalMetrics.json';
 import { Bar, BarChart, CartesianGrid, LabelList, Legend, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { DynamicA, DynamicBC, useDynamicStudies } from './DynamicStudies';
-import { RetrievalImprovement, useRetrievalImprovement } from './RetrievalImprovement';
+import { DynamicA, useDynamicStudies } from './DynamicStudies';
+import { useEffect, useState } from 'react';
+import type { BenchmarkPlan } from './BenchmarkExecutionPlan';
+
+type DynamicStudyData = ReturnType<typeof useDynamicStudies>['data'];
 
 type Ratio = { numerator: number; denominator: number; value: number | null };
 type AMethod = { label: string; detected: number; known: number };
@@ -30,6 +34,142 @@ const PAIRED_OLD='#9aaec2', PAIRED_NEW='#147e87';
 const ratio=(x:Ratio)=>display(x.numerator,x.denominator);
 const percentAxis = (v:number) => `${v}%`;
 const object=(v:unknown):v is Record<string,unknown> => typeof v==='object' && v!==null && !Array.isArray(v);
+export function AstraCapacitySummary({refreshToken=0}:{refreshToken?:number}) {
+  const [r,setResult]=useState<{cases:number;before:{passed:number;answered:number;planned:number};after:{passed:number;answered:number;planned:number;missing:number}}|null>(null);
+  useEffect(()=>{let active=true;const refresh=()=>fetch('/reports/c-astra-capacity-development-v1.json',{cache:'no-store'}).then(v=>v.ok?v.json():null).then(v=>{
+    const valid=(x:{passed:number;answered:number;planned:number}|undefined)=>x && [x.passed,x.answered,x.planned].every(n=>Number.isInteger(n)&&n>=0) && x.passed<=x.answered && x.answered<=x.planned;
+    if(active && v?.format==='c-astra-capacity-development-v1' && v.review_status==='human_confirmed' && Number.isInteger(v.cases) && v.cases>0 && valid(v.before) && valid(v.after) && Number.isInteger(v.after.missing) && v.after.missing===v.after.planned-v.after.answered)setResult(v);
+  }).catch(()=>{});void refresh();const timer=window.setInterval(()=>void refresh(),30000);return()=>{active=false;window.clearInterval(timer);};},[refreshToken]);
+  if(!r)return null;
+  return <p className="compact-note" aria-label="Astra capacity development comparison">Separate Astra development check · {r.cases} cases: capacity 50, {r.before.passed}/{r.before.answered} passed; capacity 500, {r.after.passed}/{r.after.answered} passed and {r.after.missing} request incomplete. Human-checked AI reviews; selected development cases, separate from the benchmark plan. <a href="/research-results">Evidence and limits →</a></p>;
+}
+export function AstraExtractionReview({refreshToken=0}:{refreshToken?:number}) {
+  const [result,setResult]=useState<{histories:number;counts:Record<string,Record<string,number>>}|null>(null);
+  useEffect(()=>{let active=true; const refresh=()=>fetch('/reports/ac1-astra-four-source-v1.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(v=>{
+    const names=['candidates','reference_facts','extracted_relationships','reference_relationships'];
+    if(active && v?.review_status==='human_confirmed' && Number.isInteger(v.histories) && v.histories>0 && names.every(n=>object(v.counts?.[n]) && Object.values(v.counts[n]).every(x=>Number.isInteger(x) && (x as number)>=0))) setResult(v);
+  }).catch(()=>{}); void refresh();const timer=window.setInterval(()=>void refresh(),30000);return ()=>{active=false;window.clearInterval(timer);};},[refreshToken]);
+  if(!result)return null;
+  const rows=[{label:'Source-supported candidates',key:'candidates',success:'supported'}, {label:'Fully covered reference records',key:'reference_facts',success:'full'}, {label:'Correct extracted relationships',key:'extracted_relationships',success:'correct'}, {label:'Covered reference relationships',key:'reference_relationships',success:'full'}];
+  return <figure className="scope-replay" aria-label="Astra extraction source review"><figcaption>AC1 · Astra source-only extraction</figcaption>
+    {rows.map(row=>{const counts=result.counts[row.key], total=Object.values(counts).reduce((a,b)=>a+b,0),good=counts[row.success]??0; return <div className="scope-replay-row" key={row.key}><span>{row.label}</span><div className="scope-replay-track"><i className="scope-accepted" style={{width:`${pct(good,total)}%`}}/></div><small>{display(good,total)}</small></div>;})}
+    <p className="compact-note">{result.histories} related synthetic histories · human-checked AI reviews. Records may combine several facts; not strict atomic recall.</p>
+  </figure>;
+}
+export function AstraDiverseQuestions({refreshToken=0}:{refreshToken?:number}) {
+  const [r,setResult]=useState<{planned_histories:number;completed_histories:number;planned_question_slots:number;saved_questions:number;all_valid:number;invalid:number;uncertain:number;guard_development?:{invalid_rejected:number;total_invalid:number;valid_accepted:number;total_valid:number};guard_retest?:{histories:number;completed:number;planned_slots:number;generated:number};repair_retest?:{histories:number;completed:number;planned_slots:number;generated:number;review_call_failed_histories:number};latest_repair_retest?:{histories:number;planned_slots:number;generated:number;ai_valid:number;human_review:string}}|null>(null);
+  useEffect(()=>{let active=true;const refresh=()=>fetch('/reports/ac2-astra-ten-source-v1.json',{cache:'no-store'}).then(v=>v.ok?v.json():null).then(v=>{
+    const keys=['planned_histories','completed_histories','planned_question_slots','saved_questions','all_valid','invalid','uncertain'];
+    if(active && v?.review_status==='human_confirmed' && keys.every(k=>Number.isInteger(v[k]) && v[k]>=0) && v.all_valid+v.invalid+v.uncertain===v.saved_questions && v.saved_questions<=v.planned_question_slots && v.completed_histories<=v.planned_histories) setResult(v);
+  }).catch(()=>{});void refresh();const timer=window.setInterval(()=>void refresh(),30000);return ()=>{active=false;window.clearInterval(timer);};},[refreshToken]);
+  if(!r)return null;
+  const missing=r.planned_question_slots-r.saved_questions;
+  return <figure className="scope-replay" aria-label="Astra diverse-history product question review"><figcaption>AC2 · Diverse-history product-flow check</figcaption>
+    <div className="scope-replay-row"><span>Planned questions <b>{r.planned_question_slots}</b></span><div className="scope-replay-track" role="img" aria-label={`${r.all_valid} valid, ${r.invalid} invalid, ${r.uncertain} unresolved, ${missing} not generated`}><i className="scope-accepted" style={{width:`${pct(r.all_valid,r.planned_question_slots)}%`}}/><i className="scope-rejected" style={{width:`${pct(r.invalid,r.planned_question_slots)}%`}}/><i className="scope-pending" style={{width:`${pct(r.uncertain,r.planned_question_slots)}%`}}/></div><small>{r.all_valid} valid · {r.invalid} invalid · {r.uncertain} unresolved · {missing} not generated</small></div>
+    <p className="compact-note">{r.completed_histories}/{r.planned_histories} histories produced questions. Human-checked AI reviews · related synthetic sources; operator confirmation was simulated.</p>
+    {r.latest_repair_retest && <p className="compact-note" aria-label="Latest generation repair retest">Latest revised-source retest: {r.latest_repair_retest.generated}/{r.latest_repair_retest.planned_slots} saved · two AI reviews: {r.latest_repair_retest.ai_valid} valid · {r.latest_repair_retest.human_review==='confirmed'?'human confirmed':'human confirmation pending'}. {r.latest_repair_retest.histories} development history; not a repeat of the ten-history study.</p>}
+  </figure>;
+}
+export function AstraPolicyReview({refreshToken=0,data}:{refreshToken?:number;data?:DynamicStudyData}) {
+  const [r,setResult]=useState<{status:string;experiment_ids?:string[];source_created_at?:string;saved_answers:number;planned_answers:number;not_completed:number;complete_paired_only:Record<string,{saved:number;pass:number;fail:number;unresolved:number}>}|null>(null);
+  useEffect(()=>{let active=true;const refresh=()=>fetch('/reports/b-astra-four-strategy-v1.json',{cache:'no-store'}).then(v=>v.ok?v.json():null).then(v=>{
+    const keys=['weak_first_hit','strong_rule_based','scope_aware','temporal_importance'];
+    if(active && v?.format==='b-astra-four-strategy-ai-review-v1' && keys.every(k=>{const q=v.complete_paired_only?.[k];return q && ['saved','pass','fail','unresolved'].every(f=>Number.isInteger(q[f]) && q[f]>=0) && q.pass+q.fail+q.unresolved===q.saved;}))setResult(v);
+  }).catch(()=>{});void refresh();const timer=window.setInterval(()=>void refresh(),30000);return()=>{active=false;window.clearInterval(timer);};},[refreshToken]);
+  if(!r)return null;
+  const current=data?.b;
+  const showLive=current && Array.isArray(r.experiment_ids) && typeof r.source_created_at==='string'
+    && !r.experiment_ids.includes(current.experiment.experiment_id)
+    && Date.parse(current.experiment.created_at)>Date.parse(r.source_created_at);
+  if(showLive && data) return <CompactLivePolicy data={data}/>;
+  const names:Record<string,string>={weak_first_hit:'First-match retrieval',strong_rule_based:'Relationship-priority retrieval',scope_aware:'Match the task and project',temporal_importance:'Consider time and importance'};
+  return <figure className="scope-replay" aria-label="Astra four-strategy paired review"><figcaption>Latest Astra · Four strategies</figcaption>{Object.entries(names).map(([k,label])=>{const q=r.complete_paired_only[k];return <div className="scope-replay-row" key={k}><span>{label}</span><div className="scope-replay-track"><i className="scope-accepted" style={{width:`${pct(q.pass,q.saved)}%`}}/></div><small>{display(q.pass,q.saved)} pass · {q.unresolved} unresolved</small></div>;})}<p className="compact-note">{r.status==='human_confirmed'?'User-reported independent human checks of AI-assisted reviews.':'Two independent AI reviews; human confirmation pending.'} Three paired histories · one run each. {r.saved_answers}/{r.planned_answers} answers saved overall; {r.not_completed} missing. Incomplete fourth history excluded.</p></figure>;
+}
+const POLICY_NAMES:Record<string,string>={weak_first_hit:'First-match retrieval',strong_rule_based:'Relationship-priority retrieval',scope_aware:'Match the task and project',temporal_importance:'Consider time and importance'};
+
+function CompactLivePolicy({data}:{data:DynamicStudyData}) {
+  const group=data.b;
+  if(!group)return null;
+  const rows=group.conditions.filter(c=>c.memory_strategy in POLICY_NAMES);
+  const human=rows.every(c=>(data.bHuman[c.condition_id]?.reviewed??0)>0);
+  const missing=rows.reduce((n,c)=>n+Math.max(0,c.planned_runs-c.completed_runs),0);
+  return <figure className="scope-replay" aria-label="Latest saved four-strategy results"><figcaption>{group.experiment.label}</figcaption>
+    {rows.map(c=>{const ref=data.bHuman[c.condition_id];const passed=human?ref.passed:c.tests_passed,decided=human?ref.decided:c.tests_total;
+      const unresolved=human?ref.unresolved:c.dimensions.reduce((n,d)=>n+(d.uncertain_count??0),0);
+      return <div className="scope-replay-row" key={c.condition_id}><span>{POLICY_NAMES[c.memory_strategy]}</span><div className="scope-replay-track"><i className="scope-accepted" style={{width:`${pct(passed,decided)}%`}}/></div><small>{decided?display(passed,decided):'No agreed answers'} · {unresolved} unresolved{human?` · ${Math.max(0,c.tests_total-ref.reviewed)} unreviewed`:''}</small></div>;
+    })}
+    <p className="compact-note">{human?'Independent human-review consensus; declared identities are not authenticated.':'Automatic saved assessments; human review incomplete.'} {rows[0]?.model} · {missing} planned runs incomplete. Repeated answers reuse cases. <a href={`/experiments/${group.experiment.experiment_id}`}>Source group →</a></p>
+  </figure>;
+}
+
+export function CompactBenchmarkResults({plan,strategies}:{plan:BenchmarkPlan|null;strategies:Strategy[]}) {
+  const completed=plan?Object.values(plan.executions).filter(e=>e.status==='COMPLETED' && e.dashboard_summary):[];
+  if(!plan || !completed.length) return <figure className="scope-replay" aria-label="Reviewed LongMemEval historical strategy results"><figcaption>Reviewed historical benchmark subset</figcaption>
+    {strategies.map(row=><div className="scope-replay-row" key={row.id}><span>{row.label}</span><div className="scope-replay-track"><i className="scope-accepted" style={{width:`${pct(row.c_pass,row.c_decided)}%`}}/></div><small>{display(row.c_pass,row.c_decided)} pass · {row.c_uncertain} unresolved</small></div>)}
+    <p className="compact-note">30 selected cases × 3 repeats · {strategies[0].c_total} answers per strategy. {strategies.reduce((n,row)=>n+row.c_uncertain,0)} unresolved excluded from decided rates; repeats reuse cases. A separate model and study from B.</p>
+  </figure>;
+  const human=completed.some(e=>(e.human_reviews?.at(-1)?.reviewers.length??0)>=2);
+  const totals=new Map<string,{passed:number;decided:number;total:number;unresolved:number}>();
+  for(const execution of completed) {
+    const reviewers=execution.human_reviews?.at(-1)?.reviewers??[];
+    for(const condition of execution.dashboard_summary!.conditions) {
+      const row=totals.get(condition.strategy)??{passed:0,decided:0,total:0,unresolved:0};row.total+=condition.total;
+      if(human) {
+        if(!condition.case_ids || condition.case_ids.length!==condition.total) row.unresolved+=condition.total;
+        else {
+          for(const id of condition.case_ids) {
+            const labels=reviewers.map(r=>r.judgments.find(j=>j.strategy===condition.strategy && j.case_id===id)?.verdict);
+            if(labels.length>=2 && labels.every(v=>v && v===labels[0] && v!=='uncertain')) {row.decided++;if(labels[0]==='pass')row.passed++;}
+            else row.unresolved++;
+          }
+        }
+      } else {row.passed+=condition.matched;row.decided+=condition.total;}
+      totals.set(condition.strategy,row);
+    }
+  }
+  const planned=plan.protocol?.trials?.length??Object.keys(plan.executions).length;
+  const model=plan.protocol?.benchmark?.configuration?.model;
+  const cases=plan.protocol?.benchmark?.case_ids?.length;
+  return <figure className="scope-replay" aria-label="Latest saved benchmark plan results"><figcaption>{human?'Human-review consensus':'Automatic lexical match'} · completed trials combined</figcaption>
+    {[...totals].map(([key,row])=><div className="scope-replay-row" key={key}><span>{POLICY_NAMES[key]??key}</span><div className="scope-replay-track"><i className="scope-accepted" style={{width:`${pct(row.passed,row.decided)}%`}}/></div><small>{row.decided?display(row.passed,row.decided):'Not measured'}{human?` · ${row.decided}/${row.total} agreed · ${row.unresolved} unresolved or unreviewed`:''}</small></div>)}
+    <p className="compact-note">{cases?`${cases} selected cases · `:''}{completed.length}/{planned} planned trials complete · {Math.max(0,planned-completed.length)} incomplete. {typeof model==='string'?model:'Saved benchmark model'} · repeats reuse cases. {human?'Reviewer independence is declared.':'Lexical match is not a human or official benchmark score.'} <a href="/experiments">Plan evidence →</a></p>
+  </figure>;
+}
+
+export function AstraComparison({refreshToken=0,mode='history'}:{refreshToken?:number;mode?:'history'|'writer'}) {
+  const [result,setResult]=useState<{histories:number;scheduled_slots:number;baseline:{valid:number};astra:{valid:number};product_followup?:{histories:number;generated:number;review_status:string;reviewed_valid?:number;reviewed_invalid?:number;reviewed_unresolved?:number};end_to_end_smoke?:{histories:number;questions:number;automatic_passed:number;failure_categories_disputed:number;review_status:string;human_passed?:number;human_unclassified_failures?:number};retrieval_followup?:{histories:number;questions:number;before_pass:number;after_pass:number;review_status:string};writer_followup?:{histories:number;questions:number;before_pass:number;after_pass:number;review_status:string};writer_four_followup?:{histories:number;questions:number;before_pass:number;after_pass:number;review_status:string;improved:number;worsened:number}} | null>(null);
+  useEffect(()=>{let active=true; const refresh=()=>fetch('/reports/ac2-astra-comparison-v1.json',{cache:'no-store'}).then(r=>r.ok?r.json():null).then(value=>{
+    if(active && value?.format==='ac2-astra-comparison-v1' && value.histories===30 && value.scheduled_slots===120
+      && Number.isInteger(value.baseline?.valid) && Number.isInteger(value.astra?.valid)
+      && value.baseline.valid>=0 && value.baseline.valid<=120 && value.astra.valid>=0 && value.astra.valid<=120) setResult(value);
+  }).catch(()=>{}); void refresh(); const timer=window.setInterval(()=>void refresh(),30000); return ()=>{active=false;window.clearInterval(timer);};},[refreshToken]);
+  if(!result)return null;
+  if(mode==='writer') {
+    const writer=result.writer_four_followup;
+    if(!writer || writer.review_status!=='human_confirmed') return <p className="compact-note">Writer repair review is not available.</p>;
+    return <figure className="scope-replay" aria-label="Four-history writer repair results"><figcaption>Missing venue records → structured memory writer</figcaption>
+      {[{label:'Before',value:writer.before_pass},{label:'After',value:writer.after_pass}].map(row=><div className="scope-replay-row" key={row.label}><span>{row.label}</span><div className="scope-replay-track"><i className="scope-accepted" style={{width:`${pct(row.value,writer.questions)}%`}}/></div><small>{display(row.value,writer.questions)} passed</small></div>)}
+      <p className="compact-note">{writer.improved} improved · {writer.worsened} worsened · {writer.questions} paired questions · {writer.histories} related synthetic histories. Human-checked AI reviews, as reported by the user; not held-out.</p>
+    </figure>;
+  }
+  return <figure className="scope-replay" aria-label="AC2 Astra question generation comparison">
+    <figcaption>AC2 · Question generation on the same histories</figcaption>
+    {[{label:'Rule generator v36',valid:result.baseline.valid},{label:'GPT-6 Astra · max',valid:result.astra.valid}].map(row=><div className="scope-replay-row" key={row.label}>
+      <span>{row.label}</span><div className="scope-replay-track"><i className="scope-accepted" style={{width:`${pct(row.valid,result.scheduled_slots)}%`}}/></div>
+      <small>{display(row.valid,result.scheduled_slots)} valid</small>
+    </div>)}
+    <p className="compact-note">{result.histories} previously studied synthetic histories. The user reports two independent humans checked the AI-assisted Astra reviews; reviewer identity and exposure to AI judgments were not independently verified. Different generator and review procedures; not a model-only comparison or held-out result.</p>
+    {result.product_followup?.review_status==='pending' && <p className="compact-note">New product-flow follow-up: {result.product_followup.generated} questions across {result.product_followup.histories} related synthetic histories · human validity review pending. This saved research snapshot is updated after review.</p>}
+    {result.product_followup?.review_status==='human_confirmed' && <p className="compact-note">Product-flow follow-up: {result.product_followup.reviewed_valid}/{result.product_followup.generated} agreed valid · {result.product_followup.reviewed_invalid} invalid · {result.product_followup.reviewed_unresolved} unresolved. User-reported human checks of AI-assisted judgments; {result.product_followup.histories} related synthetic histories.</p>}
+    {result.end_to_end_smoke?.review_status==='pending' && <p className="compact-note">Separate {result.end_to_end_smoke.histories}-history integration smoke: {result.end_to_end_smoke.automatic_passed}/{result.end_to_end_smoke.questions} automatically passed · {result.end_to_end_smoke.failure_categories_disputed} failure categories disputed and awaiting human review.</p>}
+    {result.end_to_end_smoke?.review_status==='human_adjudicated' && <p className="compact-note">Separate {result.end_to_end_smoke.histories}-history integration smoke: {result.end_to_end_smoke.human_passed}/{result.end_to_end_smoke.questions} passed after user-reported adjudication · {result.end_to_end_smoke.human_unclassified_failures} failure unclassified. This was a shared review of an AI recommendation, not a blind review.</p>}
+    {result.retrieval_followup?.review_status==='ai_only' && <p className="compact-note">Exploratory Astra retrieval retest: {result.retrieval_followup.before_pass}/{result.retrieval_followup.questions} → {result.retrieval_followup.after_pass}/{result.retrieval_followup.questions} passed in two AI reviews · human review pending. One previously studied synthetic history; not held-out evidence.</p>}
+    {result.retrieval_followup?.review_status==='human_confirmed' && <p className="compact-note">Exploratory Astra retrieval retest: {result.retrieval_followup.before_pass}/{result.retrieval_followup.questions} → {result.retrieval_followup.after_pass}/{result.retrieval_followup.questions} passed. Two people independently checked AI-assisted reviews as reported by the user. One previously studied synthetic history; not held-out evidence.</p>}
+    {result.writer_followup?.review_status==='ai_only' && <p className="compact-note">Exploratory Astra memory-writer retest: {result.writer_followup.before_pass}/{result.writer_followup.questions} → {result.writer_followup.after_pass}/{result.writer_followup.questions} passed in two AI reviews · human review pending. Same previously studied synthetic history.</p>}
+    {result.writer_followup?.review_status==='human_confirmed' && <p className="compact-note">Exploratory Astra memory-writer retest: {result.writer_followup.before_pass}/{result.writer_followup.questions} → {result.writer_followup.after_pass}/{result.writer_followup.questions} passed. Two people independently checked AI-assisted reviews as reported by the user. Same previously studied synthetic history; not held-out evidence.</p>}
+    {result.writer_four_followup?.review_status==='human_confirmed' && <p className="compact-note">Four-history writer comparison: {result.writer_four_followup.before_pass}/{result.writer_four_followup.questions} → {result.writer_four_followup.after_pass}/{result.writer_four_followup.questions} passed · {result.writer_four_followup.improved} improved · {result.writer_four_followup.worsened} worsened. User reports two independent people checked AI-assisted reviews. Related synthetic histories; not a population estimate.</p>}
+  </figure>;
+}
 function isCompactData(value:unknown):value is Data {
   if (!object(value)||value.format!=='compact-final-dashboard-v1'||!object(value.a)||!Array.isArray(value.a.methods)
       ||value.a.methods.length!==3||!Array.isArray(value.strategies)||value.strategies.length!==4
@@ -46,7 +186,7 @@ function isCompactData(value:unknown):value is Data {
     &&object(value.c_reference.agreement);
 }
 
-function FourDimensionReview({data}:{data:{histories:number;dimensions:ReviewedDimension[]}}) {
+export function FourDimensionReview({data}:{data:{histories:number;dimensions:ReviewedDimension[]}}) {
   return <figure className="scope-replay" aria-label="Four-dimension question review">
     <figcaption>Structured sources · four abilities</figcaption>
     {data.dimensions.map(row=><div className="scope-replay-row" key={row.dimension}>
@@ -69,7 +209,7 @@ function PairedChart({data, oldName, newName, labelWidth=138, height=190}: {data
   </div>;
 }
 
-function BAbilityChart({strategies}:{strategies:Strategy[]}) {
+export function BAbilityChart({strategies}:{strategies:Strategy[]}) {
   const dimensions=[['accuracy','Accuracy'],['freshness','Freshness'],['conflict_resolution','Conflict resolution'],['appropriate_use','Appropriate use']];
   const rows=dimensions.map(([key,name])=>({name,...Object.fromEntries(strategies.map(s=>[s.id,pct(s.b_dimensions[key].passed,s.b_dimensions[key].decided)]))}));
   const colours=['#718ba4','#147e87','#bd7735','#7254a2'];
@@ -82,7 +222,7 @@ function BAbilityChart({strategies}:{strategies:Strategy[]}) {
   </div>;
 }
 
-function ProspectiveChart({data}:{data:Prospective}) {
+export function ProspectiveChart({data}:{data:Prospective}) {
   const rows=[
     {label:'Executable',total:data.ai_valid,accepted:data.cross.valid_accepted,pending:data.cross.valid_pending},
     {label:'Not executable',total:data.ai_invalid,accepted:data.cross.invalid_accepted,pending:data.cross.invalid_pending},
@@ -115,103 +255,50 @@ function ProspectiveChart({data}:{data:Prospective}) {
 
 export function CompactExperimentResults() {
   const dynamic = useDynamicStudies();
-  const retrieval = useRetrievalImprovement();
+  const [researchRefresh,setResearchRefresh]=useState(0);
   if(!isCompactData(compactData))
     return <Alert role="alert" type="warning" showIcon title="Research results are unavailable" description="The source-bound dashboard data is invalid. Individual saved audits are still available below."/>;
   const data=compactData;
-  const policy=data.strategies.map(s=>({name:s.label,old:pct(s.b_pass,s.b_decided),current:pct(s.c_pass,s.c_decided)}));
-  const first=data.strategies.find(s=>s.id==='weak_first_hit');
-  const relationship=data.strategies.find(s=>s.id==='strong_rule_based');
-  const bKeys=['accuracy','freshness','conflict_resolution','appropriate_use'] as const;
-  const bComparable=bKeys.filter(key=>first?.b_dimensions[key].decided && relationship?.b_dimensions[key].decided);
-  const bHigher=bComparable.filter(key=>pct(relationship!.b_dimensions[key].passed,relationship!.b_dimensions[key].decided)>pct(first!.b_dimensions[key].passed,first!.b_dimensions[key].decided)).length;
-  const bTied=bComparable.filter(key=>pct(relationship!.b_dimensions[key].passed,relationship!.b_dimensions[key].decided)===pct(first!.b_dimensions[key].passed,first!.b_dimensions[key].decided)).length;
   const evalRows=[
     {name:'Detect failures',key:'failure_recall_conservative' as const},
     {name:'Classify failures',key:'classification_accuracy_conservative' as const},
     {name:'False positives ↓',key:'false_positive_rate_decided' as const},
   ];
   const scorer=evalRows.map(x=>({name:x.name,old:100*(data.ac3.old[x.key].value??0),current:100*(data.ac3.new[x.key].value??0)}));
-  const measures=[
-    {name:'Fact ID matches',old:data.ac1.old.reference_fact_id_matched_coverage,current:data.ac1.new.reference_fact_id_matched_coverage},
-    {name:'Relation matches',old:data.ac1.old.reference_relationship_coverage,current:data.ac1.new.reference_relationship_coverage},
-    {name:'Valid questions',old:{numerator:data.ac2.baseline.valid,denominator:data.ac2.baseline.generated,value:null},current:{numerator:data.ac2.candidate.valid,denominator:data.ac2.candidate.generated,value:null}},
-  ];
-  const measuresChart=measures.map(x=>({name:x.name,old:pct(x.old.numerator,x.old.denominator),current:pct(x.current.numerator,x.current.denominator)}));
-  return <>
-    <section aria-label="Final experiment results" className="compact-results">
-      <div className="compact-intro"><h2>Experiment results</h2><p>Reviewed historical results and the latest compatible saved comparisons.</p><button type="button" onClick={()=>{dynamic.refresh();retrieval.refresh();}}>Refresh experiment results</button>{dynamic.data.errors.length>0 && <p role="alert">Some new results could not be loaded: {dynamic.data.errors.join('; ')}. Reviewed historical results remain available.</p>}{retrieval.error && <p role="alert">The retrieval comparison could not be loaded. Other results remain available.</p>}</div>
-      <div className="compact-grid">
-        <RetrievalImprovement data={retrieval.data}/>
-        <Card title="A · Which audit method finds problems?" className="compact-a">
-          <DynamicA data={dynamic.data}/><h3>Reviewed historical study</h3>
+  const hasCurrentA=!!(dynamic.data.campaign || dynamic.data.a);
+  const latestA=dynamic.data.campaign ? {...dynamic.data,a:null} : dynamic.data;
+  return <section aria-label="Final experiment results" className="compact-results compact-results-latest">
+    <div className="compact-intro"><h2>Experiment results</h2><p>Latest studies · review status and missing results stay visible.</p><button type="button" onClick={()=>{dynamic.refresh();setResearchRefresh(n=>n+1);}}>Refresh experiment results</button>{dynamic.data.errors.length>0 && <p role="alert">Some live results could not be loaded. <a href="/experiments">Inspect experiment history →</a></p>}</div>
+    <div className="compact-grid">
+      <Card title="A · Audit methods" className="compact-a">
+        {hasCurrentA ? <DynamicA data={latestA}/> : <>
           <div className="compact-methods" role="img" aria-label="Predefined defects found by each audit method">
             {data.a.methods.map(m=><div className="compact-method" key={m.label}><span>{m.label}</span><div className="compact-track"><i style={{width:`${pct(m.detected,m.known)}%`}}/></div><strong>{m.detected}/{m.known}</strong></div>)}
           </div>
-          <p className="compact-note">Each found the same 3 of 9 predefined defects. The expected method advantage was not observed.</p>
-          <p className="compact-note">{data.a.histories} synthetic histories · {data.a.answers} answers · other failures fell outside the defect list.</p>
-        </Card>
-        <Card title="AC1 & AC2 · What changed?" className="compact-quality">
-          <PairedChart data={measuresChart} oldName="Before" newName="After" height={190}/>
-          <div className="compact-values"><div className="compact-value-header"><span>Measure</span><b>Before</b><b>After</b></div>{measures.map(x=><div key={x.name}><span>{x.name}</span><b>{ratio(x.old)}</b><b>{ratio(x.current)}</b></div>)}</div>
-          <p className="compact-note">AC1: {data.ac1.histories} paired complete histories; {data.ac1.partial} partial runs excluded. ID matches may be partial, not strict recall or semantic accuracy.</p>
-          <div className="scope-replay" aria-label="AC1 reviewed selected reference coverage">
-            <p className="scope-replay-subtitle">AC1 · Selected reference review</p>
-            {[
-              {name:'Facts', full:data.ac1.reviewed.facts.full, partial:data.ac1.reviewed.facts.partial, missing:data.ac1.reviewed.facts.missing},
-              {name:'Relationships', full:data.ac1.reviewed.relationships.correct_type, partial:data.ac1.reviewed.relationships.partial, missing:0},
-            ].map(row=>{const total=row.full+row.partial+row.missing; return <div className="scope-replay-row" key={row.name}>
-              <span>{row.name} <b>{total}</b></span>
-              <div className="scope-replay-track" role="img" aria-label={`${row.name}: ${row.full} full or correct type, ${row.partial} partial, ${row.missing} missing`}>
-                <i className="scope-accepted" style={{width:`${pct(row.full,total)}%`}}/><i className="scope-pending" style={{width:`${pct(row.partial,total)}%`}}/><i className="scope-rejected" style={{width:`${pct(row.missing,total)}%`}}/>
-              </div><small>{row.full} full / correct · {row.partial} partial · {row.missing} missing</small>
-            </div>})}
-            <p className="compact-note">{data.ac1.reviewed.histories} complete histories; selected references are not exhaustive. Seven disagreements were adjudicated by the user.</p>
-          </div>
-          <p className="compact-note">AC2: {data.ac2.histories} histories; valid / generated questions. Includes the later two-person wording recheck: one question in each group changed to invalid. After: {data.ac2.candidate.invalid}/{data.ac2.candidate.generated} invalid; the gate accepted {data.ac2.candidate.gate_accepted_human_invalid} of them. Missing outputs are excluded.</p>
-          <FourDimensionReview data={data.ac2.four_dimension_review}/>
-          <figure className="scope-replay" aria-label="Latest AC2 development question review">
-            <figcaption>Latest development · Accuracy questions</figcaption>
-            <div className="scope-replay-row"><span>Reviewed questions</span><div className="scope-replay-track" role="img" aria-label={`${data.ac2.latest_development.valid} valid, ${data.ac2.latest_development.invalid} invalid`}>
-              <i className="scope-accepted" style={{width:`${pct(data.ac2.latest_development.valid,data.ac2.latest_development.total)}%`}}/><i className="scope-rejected" style={{width:`${pct(data.ac2.latest_development.invalid,data.ac2.latest_development.total)}%`}}/>
-            </div><small>{data.ac2.latest_development.valid} valid · {data.ac2.latest_development.invalid} invalid</small></div>
-            <p className="compact-note">{data.ac2.latest_development.saved_histories}/{data.ac2.latest_development.histories} related synthetic histories saved questions; {data.ac2.latest_development.histories-data.ac2.latest_development.saved_histories} saved none. Two independent humans checked AI-assisted reviews, as reported by the user. Earlier AI opinions differed on one invalid-versus-valid judgment.</p>
-          </figure>
-          <ProspectiveChart data={data.ac2.prospective}/>
-        </Card>
-        <Card title="B & C · Four memory strategies" className="compact-policies">
-          <DynamicBC data={dynamic.data}/><h3>Reviewed historical study</h3>
-          <PairedChart data={policy} oldName="B · synthetic" newName="C · LongMemEval" labelWidth={162} height={230}/>
-          <div className="compact-values"><div className="compact-value-header"><span>Strategy</span><b>B · synthetic</b><b>C · benchmark</b></div>{data.strategies.map(s=><div key={s.id}><span>{s.label}</span><b>{display(s.b_pass,s.b_decided)}</b><b>{display(s.c_pass,s.c_decided)}</b></div>)}</div>
-          <p className="compact-note">B: 3 histories × 3 repeats, {data.strategies[0].b_total} answers per strategy. C: 30 selected cases × 3 repeats, {data.strategies[0].c_total} per strategy; {data.strategies.reduce((a,s)=>a+s.c_uncertain,0)} unresolved answers excluded from decided rates. Repeats are not independent cases.</p>
-          <h3>B · Results by ability</h3>
-          <BAbilityChart strategies={data.strategies}/>
-          <p className="compact-note">B uses 3 related histories and 3 repeats. Relationship-priority is higher than First-match in {bHigher}/{bComparable.length} comparable abilities; {bTied} tied. Repeats are not independent cases.</p>
-          <p className="compact-note">Example: Relationship-priority omitted the old database; Match the task and project retrieved both versions. Human reviewers failed the first answer, but the saved automatic judge passed both. <a href={`/audits/${data.b_example.relationship_run_id}`}>Inspect the first audit</a> · <a href={`/audits/${data.b_example.scope_run_id}`}>Inspect the comparison</a></p>
-          <figure className="scope-replay" aria-label="Development retest of update history retrieval">
-            <figcaption>New-source development retest</figcaption>
-            {[
-              {label:'Change history · original',value:data.b_example.development_original_pass},
-              {label:'Change history · candidate',value:data.b_example.development_candidate_pass},
-              {label:'Current value · original',value:data.b_example.development_current_original_pass},
-              {label:'Current value · candidate',value:data.b_example.development_current_candidate_pass},
-            ].map(item=><div className="scope-replay-row" key={item.label}>
-              <span>{item.label}</span><div className="scope-replay-track"><i className="scope-accepted" style={{width:`${pct(item.value,data.b_example.development_total)}%`}}/></div>
-              <small>{item.value}/{data.b_example.development_total} pass</small>
-            </div>)}
-            <p className="compact-note">Four similar synthetic histories · isolated candidate. Two independent humans checked AI-assisted reviews, as reported by the user; exposure to scores or other AI opinions was not established.</p>
-          </figure>
-          <p className="compact-note">Separate original Auditor / LongMemEval ranking check: same two-policy order in {data.c_reference.agreement.agreed_repetitions}/{data.c_reference.agreement.total_repetitions} repeats on {data.c_reference.cases}/{data.c_reference.available_cases} benchmark cases. It is not a four-strategy ranking agreement.</p>
-        </Card>
-        <Card title="Auditor · Before and after improvement" className="compact-auditor">
-          <PairedChart data={scorer} oldName="Before" newName="After" height={190}/>
-          <div className="compact-values"><div className="compact-value-header"><span>Measure</span><b>Before</b><b>After</b></div>{evalRows.map(x=><div key={x.key}><span>{x.name}</span><b>{ratio(data.ac3.old[x.key])}</b><b>{ratio(data.ac3.new[x.key])}</b></div>)}</div>
-          <p className="compact-note">Same {data.ac3.answers} answers · {data.ac3.histories} synthetic histories · {data.ac3.human_consensus} human-consensus answers, {data.ac3.human_unresolved} disagreements. Old classification: 0/55 were classified, not 55 incorrect labels.</p>
-          <p className="compact-note">Detection difference: history-resampling range {(100*data.ac3.detection_difference_interval.lower).toFixed(1)} to {(100*data.ac3.detection_difference_interval.upper).toFixed(1)} percentage points{data.ac3.detection_difference_interval.lower<=0 && data.ac3.detection_difference_interval.upper>=0 ? '; includes no improvement' : ''}. Descriptive for these histories.</p>
-          <p className="compact-note">After is an optional reassessment, not the default evaluator. Thresholds were met on this sample; zero observed false positives does not establish zero population error.</p>
-        </Card>
-      </div>
-      <p className="compact-evidence">Some studies used user-reported independent human reviews with AI assistance; reviewer identity and independence were not independently authenticated. Selected synthetic and benchmark subsets do not establish population-wide performance. <a href="/research-results">Research evidence and limitations →</a></p>
-    </section>
-  </>;
+          <p className="compact-note">Reviewed historical study: each method found 3/9 predefined defects and detected {experimentAHistoricalMetrics.methods[0].failure_recall.numerator}/{experimentAHistoricalMetrics.methods[0].failure_recall.denominator} labelled failures. No method advantage observed; three related histories.</p>
+        </>}
+      </Card>
+      <Card title="AC1 & AC2 · Memory and question quality" className="compact-quality">
+        <AstraExtractionReview refreshToken={researchRefresh}/>
+        <AstraDiverseQuestions refreshToken={researchRefresh}/>
+      </Card>
+      <Card title="Tutor · Diagnose, repair, retest" className="compact-repair">
+        <AstraComparison refreshToken={researchRefresh} mode="writer"/>
+      </Card>
+      <Card title="B · Four memory strategies" className="compact-policies">
+        <AstraPolicyReview refreshToken={researchRefresh} data={dynamic.data}/>
+      </Card>
+      <Card title={dynamic.data.c ? 'C · Latest benchmark plan' : 'C · LongMemEval · GPT-6 Luna'} className="compact-benchmark">
+        <CompactBenchmarkResults plan={dynamic.data.c} strategies={data.strategies}/>
+        <AstraCapacitySummary refreshToken={researchRefresh}/>
+      </Card>
+      <Card title="AC3 · Auditor before and after" className="compact-auditor">
+        <PairedChart data={scorer} oldName="Before" newName="After" height={190}/>
+        <div className="compact-values"><div className="compact-value-header"><span>Measure</span><b>Before</b><b>After</b></div>{evalRows.map(x=><div key={x.key}><span>{x.name}</span><b>{ratio(data.ac3.old[x.key])}</b><b>{ratio(data.ac3.new[x.key])}</b></div>)}</div>
+        <p className="compact-note">{data.ac3.human_consensus}/{data.ac3.answers} human-consensus answers · {data.ac3.histories} related synthetic histories · {data.ac3.human_unresolved} disagreements. Before: 0/55 failures classified. After is an optional reassessment.</p>
+        <p className="compact-note">Detection difference range: {(100*data.ac3.detection_difference_interval.lower).toFixed(1)} to {(100*data.ac3.detection_difference_interval.upper).toFixed(1)} percentage points; includes no improvement. Zero observed false positives does not imply zero population error.</p>
+      </Card>
+    </div>
+    <p className="compact-evidence">Human-review independence is user-reported; reviews used AI assistance. Selected synthetic and benchmark subsets do not establish population-wide performance. <a href="/research-results">Historical results, evidence and limitations →</a> · <a href="/experiments">All experiment records →</a></p>
+  </section>;
 }

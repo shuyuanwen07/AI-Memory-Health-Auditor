@@ -5,6 +5,8 @@ from app.models import AuditRunModel, MemoryModel, MemoryRelationshipModel
 from app.schemas import AuditRun, AuditStatus, Dimension, Memory, MemoryRelationship, MemoryStatus, RelationshipType, TargetConfiguration, TargetProvider
 from app.test_generator.conflict_aware import ConflictAwareRuleBasedTestGenerator
 from app.test_generator.location_scoped import LocationScopedRuleBasedTestGenerator
+from app.test_generator.rule_based import RuleBasedTestGenerator
+from app.test_generator.quality import RuleBasedTestQualityValidator
 
 
 def test_frozen_v39_matches_development_study():
@@ -36,7 +38,15 @@ def test_existing_conflict_suppresses_both_resolved_update_probes():
     assert g.last_observation['known_conflict_suppressed_count']==2
     assert {c['dimension'] for c in g.last_observation['known_conflict_suppressed_candidates']}=={'freshness','conflict_resolution'}
     assert all(c['supporting_memory_ids']==['M001','M002'] for c in g.last_observation['known_conflict_suppressed_candidates'])
-    assert any(t.dimension==Dimension.FRESHNESS for t in LocationScopedRuleBasedTestGenerator().generate([old,current,conflict],audit()))
+    # The unfiltered v36 baseline still proposes the historical two-record
+    # update, but the current safety validator must reject its missing third
+    # conflict record. Quality-filtered generators cannot expose that probe.
+    unsafe = next(t for t in RuleBasedTestGenerator().generate([old,current,conflict],audit())
+                  if t.dimension == Dimension.FRESHNESS)
+    assessment = RuleBasedTestQualityValidator().validate(unsafe,[old,current,conflict])
+    assert assessment.quality_status.value == 'rejected'
+    assert 'unresolved conflict outside' in assessment.reason
+    assert not any(t.dimension==Dimension.FRESHNESS for t in LocationScopedRuleBasedTestGenerator().generate([old,current,conflict],audit()))
 
 def test_unrelated_conflict_and_absent_conflict_preserve_update():
     old=m('M001','The backend used MySQL before.')

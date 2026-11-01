@@ -1,0 +1,42 @@
+{
+  "original": "research/full-project-backup-20261029/Memory-Auditor-Presentation-20261030.pptx",
+  "original_sha256": "ccd0154f8a90ce8b9fa0912a22efade111da73df5594bfe38e86121d41c112c9",
+  "output": "research/astra-ac2-20261101/Memory-Auditor-Presentation-20261101.pptx",
+  "source_files": {
+    "docs/PROPOSAL_STATUS_20261101.md": "f3ad12ce45cb1d9b1c1243fd702948556c14da8f53bc687577383a06efb5ad0c",
+    "docs/EXPERIMENT_REPORT_2026-10-28.md": "d0ed5614fa8d7fe5765c03ce6133c8f3f9eb496b92c760940cc109d44af1e87b",
+    "frontend/public/reports/b-astra-four-strategy-v1.json": "6c16d6b576ed03819f3c2590dc28b73a890a5dcd685c99f11cc1544d6dde5d43",
+    "frontend/public/reports/ac1-astra-four-source-v1.json": "8e4d07e93d17fac60e0899086b3ca34c1acfe5252daa3dba8c03e6628518dca6",
+    "frontend/public/reports/ac2-astra-ten-source-v1.json": "dc6b2cbd9d8d00b0cdefe881c61d964a380a248c2aee81b7846670056dd3bdd6",
+    "frontend/public/reports/ac2-astra-comparison-v1.json": "b8bd9746fdf180ce3f2372cf97b632fe1d218702c6e095d2699cf3b3ac8bcde5",
+    "frontend/public/reports/c-astra-capacity-development-v1.json": "cfa36f946463006b4feab645bfabc25c7ab2d94e3939f7420dd9ddd0bef6d77d",
+    "research/astra-ac2-20261101/dashboard-latest-c-plan.json": "f5735c9ed3088b4b65c75fa8aa6534ae348ca43251d0f06084086f7fb97e0842"
+  },
+  "slide_count": 13,
+  "speaker_scripts": "Embedded in slide notes, Speaker 1–4",
+  "authoring_source": "research/astra-ac2-20261101/update-presentation-20261101.mjs",
+  "limitations": "Read each slide and its notes. Separate studies and missing calls remain separate. User-reported independent human checks of AI-assisted reviews are not an independently authenticated blind human study.",
+  "output_sha256": "201973c2395d3e65290435dabe9da9b45a964a9be67a87cc6f2d8c3816da2fdf",
+  "visual_review": {
+    "slides_inspected": 13,
+    "method": "Artifact Tool before/after rendered PNGs, each inspected at1280x720",
+    "source_style_preserved": true,
+    "native_powerpoint_opened": false
+  },
+  "notes_check": {
+    "scripts_embedded": 13,
+    "speakers": [
+      "1",
+      "2",
+      "3",
+      "4"
+    ],
+    "word_counts_including_speaker_labels": {
+      "1": 200,
+      "2": 250,
+      "3": 262,
+      "4": 315
+    }
+  },
+  "validation_receipt": ".presentation-build-20261101/validation.json"
+}

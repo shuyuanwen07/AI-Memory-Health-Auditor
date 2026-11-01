@@ -83,3 +83,26 @@ it('loads only the newest explicit campaign and refreshes as a scenario complete
   expect(await screen.findByText('2/2 scenarios complete · 2 registered · new')).toBeInTheDocument();
   expect(screen.getAllByText('2 passed · 0 failed')).toHaveLength(3);
 });
+
+it('selects the newest completed C plan even when the API list is unordered',async()=>{
+  mocks.experimentGroups.mockResolvedValue([]);mocks.listBenchmarkAnalyses.mockResolvedValue([]);
+  const entry={status:'COMPLETED',dashboard_summary:{metric:'lexical_match',conditions:[{strategy:'weak_first_hit',matched:1,total:2}]}};
+  mocks.listBenchmarkPlans.mockResolvedValue([
+    {plan_id:'old',created_at:'2026-10-01',executions:{r1:entry}},
+    {plan_id:'new',created_at:'2026-11-01',executions:{r2:entry}},
+    {plan_id:'pending',created_at:'2026-12-01',executions:{r3:{status:'RUNNING'}}},
+  ]);
+  render(<Page/>);
+  expect(await screen.findByText('C · r2 · lexical match')).toBeInTheDocument();
+  expect(screen.queryByText('C · r1 · lexical match')).not.toBeInTheDocument();
+});
+
+it('uses the newer B group rather than an older group completed later',async()=>{
+ const group=(id:string,created_at:string,completed_at:string)=>({experiment_id:id,label:id,status:'COMPLETED',created_at,completed_at,test_suite_metadata:{}});
+ const old=group('OLD','2026-10-01','2026-12-01'),current=group('NEW','2026-11-01','2026-11-02');
+ mocks.experimentGroups.mockResolvedValue([old,current]);mocks.listBenchmarkPlans.mockResolvedValue([]);mocks.listBenchmarkAnalyses.mockResolvedValue([]);mocks.evaluationReview.mockResolvedValue([]);
+ mocks.experimentResults.mockImplementation(async(id:string)=>({experiment:id==='NEW'?current:old,conditions:['weak_first_hit','strong_rule_based','scope_aware','temporal_importance'].map(name=>({condition_id:name,memory_strategy:name,provider:'openai',model:'gpt',completed_runs:1,planned_runs:1,run_ids:[],tests_passed:1,tests_total:2,dimensions:[]}))}));
+ render(<Page/>);
+ expect(await screen.findByRole('link',{name:'View group →'})).toHaveAttribute('href','/experiments/NEW');
+ expect(mocks.experimentResults).not.toHaveBeenCalledWith('OLD');
+});

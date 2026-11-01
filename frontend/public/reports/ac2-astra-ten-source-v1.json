@@ -1,0 +1,48 @@
+{
+  "review_status": "human_confirmed",
+  "planned_histories": 10,
+  "completed_histories": 7,
+  "failed_histories": 3,
+  "planned_question_slots": 40,
+  "saved_questions": 28,
+  "all_valid": 14,
+  "invalid": 14,
+  "uncertain": 0,
+  "limitations": [
+    "Two independent human checks of AI-assisted judgments are user-reported; reviewer identity and exposure to AI opinions were not independently authenticated.",
+    "Sources are previously studied synthetic variations, not representative",
+    "Operator confirmation was simulated",
+    "Missing 12 slots are not valid questions"
+  ],
+  "human_confirmation_sha256": "f788fd1e93d41411e77309952f5c0e193f99358253a0fbb07330ca5672ca796e",
+  "guard_development": {
+    "invalid_rejected": 14,
+    "valid_accepted": 14,
+    "total_invalid": 14,
+    "total_valid": 14,
+    "scope": "Same observed questions; post-discovery offline replay, not independent validation."
+  },
+  "guard_retest": {
+    "histories": 4,
+    "completed": 0,
+    "planned_slots": 16,
+    "generated": 0
+  },
+  "repair_retest": {
+    "histories": 4,
+    "completed": 0,
+    "planned_slots": 16,
+    "generated": 0,
+    "review_call_failed_histories": 1
+  },
+  "latest_repair_retest": {
+    "histories": 1,
+    "planned_slots": 4,
+    "generated": 4,
+    "ai_valid": 4,
+    "human_review": "confirmed",
+    "run_id": "RUNDE450783551E4CCAB305DA125DF72E6C",
+    "scope": "Revised source; same saved memories as preceding timeout run, repaired planning intent and transport timeout. Post-discovery development result; not independent or a single-change comparison.",
+    "human_confirmation_sha256": "96ca8c13aaa2a4ac5b92b25d38b125ae6f52c9bcd4566329aa57847db0fe09ad"
+  }
+}

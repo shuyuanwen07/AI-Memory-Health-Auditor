@@ -1,0 +1,46 @@
+{
+  "archive": "writer-followup-evidence.zip",
+  "sha256": "e4ca0768b37d9fff6e18adbe0632290dedb85d721da603a4f2ca80e4adf2604b",
+  "files": [
+    {
+      "name": "astra-target-writer-probe.json",
+      "sha256": "16baa54947e28a06f6f1f1479300180fe49ccb2e503c46a0fd5b4b1d5ed04a03"
+    },
+    {
+      "name": "writer-followup-protocol.json",
+      "sha256": "1ccfa346d054275117519aa685a2d51fdcf51860732313b21acc3a7e44308fc5"
+    },
+    {
+      "name": "writer-followup-ledger.json",
+      "sha256": "a6faa2822360717684be97d534e9331e03bd79e19b0ceca62b5e90806d2171b9"
+    },
+    {
+      "name": "writer-followup-ai-reviewer-1-blank.json",
+      "sha256": "6e0f4a6f64191ba5dbfe1fe27e8e16686de310504d2be93ce1d64f863359a54d"
+    },
+    {
+      "name": "writer-followup-ai-reviewer-2-blank.json",
+      "sha256": "87226b1b4babf6fc9bf1f78503da832443721e009651c68bba57c9c29011c360"
+    },
+    {
+      "name": "writer-followup-ai-reviewer-1.json",
+      "sha256": "24351239c5228b5abb36b30620e92b74488a8eaebcf729a53daed9a2c692131e"
+    },
+    {
+      "name": "writer-followup-ai-reviewer-2.json",
+      "sha256": "b1bc5d6069866f9a8b1fd084c79bb54a0faa3d59fed0441fbda5c6bf0383f21f"
+    },
+    {
+      "name": "writer-followup-private-key.json",
+      "sha256": "d56077e32e6c11860151188b8bcdce35e4b597482d23328b77badd0603e9b947"
+    },
+    {
+      "name": "writer-followup-ai-summary.json",
+      "sha256": "057128e2fc748417b8ae68fd11a6073030f4e955ff6b18a4b4f6fa23b60d9948"
+    },
+    {
+      "name": "写入器复测人工复核说明.txt",
+      "sha256": "5bdf195697689eec743336a9bc7a03af845eb314404b1df7bb9778942355d50c"
+    }
+  ]
+}

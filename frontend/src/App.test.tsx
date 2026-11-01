@@ -21,13 +21,9 @@ beforeEach(() => {
   mocks.ac3StudySummaries.mockResolvedValue({ studies: [] });
   vi.stubGlobal('fetch', vi.fn().mockImplementation(async (input: RequestInfo | URL) => {
     const path = String(input);
-    if (path.includes('proposal-final-results-v1.json')) {
-      const body = readFileSync(resolve(process.cwd(), 'public/reports/proposal-final-results-v1.json'), 'utf8');
-      return { status: 200, ok: true, text: async () => body } as Response;
-    }
-    if (path.includes('phase4-c-four-strategy-v7.json')) {
-      const body = readFileSync(resolve(process.cwd(), 'public/reports/phase4-c-four-strategy-v7.json'), 'utf8');
-      return { status: 200, ok: true, text: async () => body } as Response;
+    if(path.startsWith('/reports/')) {
+      try { const body=readFileSync(resolve(process.cwd(),`public${path}`),'utf8');return {status:200,ok:true,text:async()=>body,json:async()=>JSON.parse(body)} as Response; }
+      catch { /* A missing report remains unavailable. */ }
     }
     return { status: 404, ok: false, text: async () => '' } as Response;
   }));
@@ -36,9 +32,9 @@ beforeEach(() => {
 it('uses the root route as a results-only dashboard with experiment and audit summaries', async () => {
   const { container } = render(<MemoryRouter initialEntries={['/']}><App /></MemoryRouter>);
   expect(await screen.findByRole('heading', { name: 'Audit and experiment results' })).toBeInTheDocument();
-  expect(await screen.findByText('A · Which audit method finds problems?')).toBeInTheDocument();
-  expect(screen.getByText('B & C · Four memory strategies')).toBeInTheDocument();
-  expect(screen.getByText('Auditor · Before and after improvement')).toBeInTheDocument();
+  expect(await screen.findByText('A · Audit methods')).toBeInTheDocument();
+  expect(screen.getByText('B · Four memory strategies')).toBeInTheDocument();
+  expect(screen.getByText('AC3 · Auditor before and after')).toBeInTheDocument();
   expect(screen.queryByText('B · Original two-policy study')).not.toBeInTheDocument();
   expect(screen.queryByText('C · Original two-policy LongMemEval')).not.toBeInTheDocument();
   expect(screen.getByText('No completed audits are available yet. Start a memory audit and return here after it completes.')).toBeInTheDocument();

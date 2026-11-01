@@ -28,7 +28,7 @@ from app.extraction.rule_based import RuleBasedMemoryExtractor
 class RuleBasedTestQualityValidator(TestQualityValidator):
     """Validate evidence provenance and basic answer-independence deterministically."""
 
-    VERSION = "rule-based-quality-v24"
+    VERSION = "rule-based-quality-v25"
     _STOP_WORDS = {"a", "an", "the", "is", "are", "was", "were", "to", "of", "in", "on", "for", "that"}
 
     @staticmethod
@@ -190,6 +190,24 @@ class RuleBasedTestQualityValidator(TestQualityValidator):
             )
             if not complete_override:
                 return self._result(False, False, "Appropriate Use requires both confirmed records in an explicit CONTEXTUAL_OVERRIDE relationship.")
+        if test.dimension in {Dimension.FRESHNESS, Dimension.APPROPRIATE_USE, Dimension.CONFLICT_RESOLUTION}:
+            # A cited update or scoped preference may itself be disputed by an
+            # additional confirmed record outside the original test evidence.
+            # Never silently turn that known conflict into a unique answer.
+            support_ids = set(test.supporting_memory_ids)
+            conflicts = [(memory.memory_id, relation.target_memory_id)
+                         for memory in memories for relation in memory.relationships
+                         if relation.type == RelationshipType.CONFLICT
+                         and relation.target_memory_id in evidence
+                         and relation.target_memory_id != memory.memory_id
+                         and support_ids.intersection({memory.memory_id, relation.target_memory_id})]
+            if conflicts:
+                if any(not {left, right}.issubset(support_ids) for left, right in conflicts):
+                    return self._result(False, False, "A cited memory has an unresolved conflict outside the test evidence; include both records and review the expected answer.")
+                expected = test.expected_behavior.lower()
+                clarification = re.search(r"\b(?:clarif\w*|ask\w*\s+(?:the\s+)?user|seek\w*\s+guidance)\b|\buser\s+(?:(?:must|should|will|can|needs to)\s+)?(?:be|is)\s+(?:asked|consulted)\b", expected)
+                if not clarification:
+                    return self._result(False, False, "A test touching an unresolved conflict must preserve the uncertainty and request clarification.")
         if any(self._answer_leaked(memory.canonical_value, test.prompt) for memory in support if memory is not None):
             return self._result(False, True, "The prompt copies a supporting canonical memory value.")
         return self._result(True, True, "Declared evidence is confirmed and the prompt is answer-independent.")

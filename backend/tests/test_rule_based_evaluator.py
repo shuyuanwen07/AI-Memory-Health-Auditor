@@ -477,6 +477,21 @@ def test_negation_does_not_cross_explanatory_or_contrast_clause(answer, passed):
                               model='test',temperature=0,created_at=datetime.now(timezone.utc))
     assert RuleBasedBehaviourEvaluator().evaluate(_test_case(),response,[]).passed is passed
 
+@pytest.mark.parametrize('answer,passed', [
+    ('PostgreSQL—the user now uses it instead of MySQL.', True),
+    ('Use PostgreSQL.', True),
+    ('Use MySQL instead of PostgreSQL.', False),
+    ('Do not use PostgreSQL; use MySQL.', False),
+])
+def test_superseded_reference_does_not_demand_explanatory_word(answer, passed):
+    test = _test_case().model_copy(update={'expected_behavior':'Use PostgreSQL; MySQL is superseded.'})
+    response = TargetResponse(response_id='R',test_id=test.test_id,run_id=test.run_id,response_text=answer,
+                              model='test',temperature=0,created_at=datetime.now(timezone.utc))
+    assert RuleBasedBehaviourEvaluator().evaluate(test,response,[]).passed is passed
+
+def test_negated_current_reference_is_not_selected_as_current_database():
+    assert RuleBasedBehaviourEvaluator._required_terms('Do not use PostgreSQL; MySQL is superseded.') != ['postgresql']
+
 
 @pytest.mark.parametrize('source,answer,verdict', [
     ('The backend now uses PostgreSQL rather than SQLite.',

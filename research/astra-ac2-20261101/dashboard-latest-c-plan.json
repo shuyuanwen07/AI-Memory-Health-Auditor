@@ -1,0 +1,538 @@
+{
+  "plan_id": "CP24c3f81bba294dcc86c7977e6716977b",
+  "created_at": "2026-10-30T01:46:44.448413Z",
+  "plan_fingerprint_sha256": "e612179dc12c7940fb856fc51e94eef38730c52871eac54367ac9456eaad3941",
+  "protocol": {
+    "version": "preexecution-ranking-plan-v1",
+    "benchmark": {
+      "source_fingerprint_sha256": "f2011e6a1d56c58c9191e65af1358d4476ec9390b2f4549a77b3fb11902445d4",
+      "configuration": {
+        "dataset_provenance": {
+          "dataset_version": "longmemeval-cleaned oracle 98d7416c24c778c2fee6e6f3006e7a073259d48f",
+          "license": "MIT per dataset card",
+          "citation": "LongMemEval: Benchmarking Chat Assistants on Long-Term Interactive Memory, arXiv:2410.10813"
+        },
+        "random_seed": 42,
+        "provider": "openrouter",
+        "model": "openai/gpt-6-luna",
+        "strategies": [
+          "weak_first_hit",
+          "strong_rule_based",
+          "scope_aware",
+          "temporal_importance"
+        ],
+        "temperature": 0.0,
+        "target_memory_capacity": 50,
+        "target_memory_profile": {
+          "label": "Phase4 fixed shared reader",
+          "version": 1,
+          "max_retrieved_records": 50,
+          "context_character_budget": 16000,
+          "isolate_project_scope": false,
+          "prefer_current_state": false,
+          "retain_assistant_history": true,
+          "retrieve_message_context": false,
+          "identity_analysis": "off",
+          "identity_analysis_failure_policy": "fail_closed",
+          "identity_analysis_output_token_limit": 4096,
+          "additional_instructions": "",
+          "output_token_limit": 1024
+        },
+        "max_cases": 2,
+        "include_mem0": false,
+        "native_repair_comparison": false
+      },
+      "case_ids": [
+        "affe2881",
+        "ba61f0b9"
+      ],
+      "adapter_version": "longmemeval-compatible-v3",
+      "adapter_fingerprint_sha256": "33781785dfa81c676671f7782ba2ae3748993598317a87ab8d59a7f8e224b163",
+      "runtime_signature": {
+        "source_sha256": "b6f116442e336f1f790fb8bc87e0f596c2d76d59c1abe7554fca9c257906e6bf",
+        "evaluator": "rule-based-v65",
+        "writer": "rule-based-memory-extractor-v27",
+        "adapter": "controlled-memory-v35",
+        "pipeline_output_token_cap": "8192",
+        "protocol": "audit-runtime-v1",
+        "generator": "rule-based-v40"
+      }
+    },
+    "trials": [
+      {
+        "trial_id": "repeat-1",
+        "reference_run_id": "RUN152796179F0E4BFCB962587CFA10B369",
+        "candidate_run_id": "RUN0CF3FEC2FFBE4E7BB2A05814A841638C"
+      },
+      {
+        "trial_id": "repeat-2",
+        "reference_run_id": "RUN85CCCC25E42B4829B71B7534540411A3",
+        "candidate_run_id": "RUND975D69F86514B6A93CA61D6B446C01B"
+      },
+      {
+        "trial_id": "repeat-3",
+        "reference_run_id": "RUN389F02DBBD8E403CBC2990DA7F5EEC44",
+        "candidate_run_id": "RUN6D369E23502C4F07AEE060EF91C0D461"
+      }
+    ],
+    "sampling_rule": "First two previously used knowledge-update cases from the archived 30-case selection; exploratory UI verification, not independent validation.",
+    "evaluator_model": "openai/gpt-6-luna",
+    "evaluator_revision": "0000000000000000000000000000000000000000",
+    "audit_input_fingerprints": {
+      "RUN152796179F0E4BFCB962587CFA10B369": "0cf19993abc23d83fe8401f83921c798f4efbb8f6e6c81367f02c46cddde7111",
+      "RUN0CF3FEC2FFBE4E7BB2A05814A841638C": "14772bf75e7269628b1961e8ff6843fae65f3d861ff8e20e89dce06bc338f75d",
+      "RUN85CCCC25E42B4829B71B7534540411A3": "d0057fc56e9cc4c2bb3a92fa5ea78eded8f0d4c955c9af9f708c058511c2c2e2",
+      "RUND975D69F86514B6A93CA61D6B446C01B": "6e31d6504b252569d7cb3b4b3a4626930b66318c9a97f89c2856a4fa5274392b",
+      "RUN389F02DBBD8E403CBC2990DA7F5EEC44": "e1f2842ca3c2d4198ac5f14f9a7b2ecb53eab3ba9fd6be0c633bd7de04dc0eff",
+      "RUN6D369E23502C4F07AEE060EF91C0D461": "31f75441dbc3f2bdb03e278bb9feb80dcc04076fb25bfecf17df092934a29a85"
+    },
+    "planned_target_calls": 24
+  },
+  "executions": {
+    "repeat-1": {
+      "status": "COMPLETED",
+      "started_at": "2026-10-30T01:49:31.257043+00:00",
+      "completed_at": "2026-10-30T01:50:10.362491+00:00",
+      "benchmark_run_id": "LB79a801f4c84143908c8c",
+      "evidence_fingerprint_sha256": "0541444f3e0a3cbb7fdf7f8520caf182f0c223447f4030b49f0f8a0f51d23e26",
+      "dashboard_summary": {
+        "metric": "lexical_match",
+        "conditions": [
+          {
+            "strategy": "weak_first_hit",
+            "matched": 0,
+            "total": 2,
+            "case_ids": [
+              "affe2881",
+              "ba61f0b9"
+            ]
+          },
+          {
+            "strategy": "strong_rule_based",
+            "matched": 2,
+            "total": 2,
+            "case_ids": [
+              "affe2881",
+              "ba61f0b9"
+            ]
+          },
+          {
+            "strategy": "scope_aware",
+            "matched": 2,
+            "total": 2,
+            "case_ids": [
+              "affe2881",
+              "ba61f0b9"
+            ]
+          },
+          {
+            "strategy": "temporal_importance",
+            "matched": 2,
+            "total": 2,
+            "case_ids": [
+              "affe2881",
+              "ba61f0b9"
+            ]
+          }
+        ]
+      },
+      "human_reviews": [
+        {
+          "review_id": "HR8691A8819FFB47108C2A0B0DB2D4ECB2",
+          "created_at": "2026-10-30T02:29:29.074923+00:00",
+          "evidence_fingerprint_sha256": "0541444f3e0a3cbb7fdf7f8520caf182f0c223447f4030b49f0f8a0f51d23e26",
+          "independent_review_confirmed": true,
+          "reviewers": [
+            {
+              "reviewer": "reviewer-1-ai-assisted",
+              "judgments": [
+                {
+                  "strategy": "weak_first_hit",
+                  "case_id": "affe2881",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "weak_first_hit",
+                  "case_id": "ba61f0b9",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "strong_rule_based",
+                  "case_id": "affe2881",
+                  "verdict": "pass"
+                },
+                {
+                  "strategy": "strong_rule_based",
+                  "case_id": "ba61f0b9",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "scope_aware",
+                  "case_id": "affe2881",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "scope_aware",
+                  "case_id": "ba61f0b9",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "temporal_importance",
+                  "case_id": "affe2881",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "temporal_importance",
+                  "case_id": "ba61f0b9",
+                  "verdict": "pass"
+                }
+              ]
+            },
+            {
+              "reviewer": "reviewer-2-ai-assisted",
+              "judgments": [
+                {
+                  "strategy": "weak_first_hit",
+                  "case_id": "affe2881",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "weak_first_hit",
+                  "case_id": "ba61f0b9",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "strong_rule_based",
+                  "case_id": "affe2881",
+                  "verdict": "pass"
+                },
+                {
+                  "strategy": "strong_rule_based",
+                  "case_id": "ba61f0b9",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "scope_aware",
+                  "case_id": "affe2881",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "scope_aware",
+                  "case_id": "ba61f0b9",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "temporal_importance",
+                  "case_id": "affe2881",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "temporal_importance",
+                  "case_id": "ba61f0b9",
+                  "verdict": "pass"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "repeat-2": {
+      "status": "COMPLETED",
+      "started_at": "2026-10-30T01:50:10.683283+00:00",
+      "completed_at": "2026-10-30T01:50:57.171972+00:00",
+      "benchmark_run_id": "LB263d2bdfb36e4fe9941d",
+      "evidence_fingerprint_sha256": "16c71924fc403dd0c308203a91ef44bf37a561785f61843601e3703348b99fff",
+      "dashboard_summary": {
+        "metric": "lexical_match",
+        "conditions": [
+          {
+            "strategy": "weak_first_hit",
+            "matched": 0,
+            "total": 2,
+            "case_ids": [
+              "affe2881",
+              "ba61f0b9"
+            ]
+          },
+          {
+            "strategy": "strong_rule_based",
+            "matched": 2,
+            "total": 2,
+            "case_ids": [
+              "affe2881",
+              "ba61f0b9"
+            ]
+          },
+          {
+            "strategy": "scope_aware",
+            "matched": 2,
+            "total": 2,
+            "case_ids": [
+              "affe2881",
+              "ba61f0b9"
+            ]
+          },
+          {
+            "strategy": "temporal_importance",
+            "matched": 2,
+            "total": 2,
+            "case_ids": [
+              "affe2881",
+              "ba61f0b9"
+            ]
+          }
+        ]
+      },
+      "human_reviews": [
+        {
+          "review_id": "HR3CDBD627932E42ADB17764418B25A53E",
+          "created_at": "2026-10-30T02:29:29.086508+00:00",
+          "evidence_fingerprint_sha256": "16c71924fc403dd0c308203a91ef44bf37a561785f61843601e3703348b99fff",
+          "independent_review_confirmed": true,
+          "reviewers": [
+            {
+              "reviewer": "reviewer-1-ai-assisted",
+              "judgments": [
+                {
+                  "strategy": "weak_first_hit",
+                  "case_id": "affe2881",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "weak_first_hit",
+                  "case_id": "ba61f0b9",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "strong_rule_based",
+                  "case_id": "affe2881",
+                  "verdict": "pass"
+                },
+                {
+                  "strategy": "strong_rule_based",
+                  "case_id": "ba61f0b9",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "scope_aware",
+                  "case_id": "affe2881",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "scope_aware",
+                  "case_id": "ba61f0b9",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "temporal_importance",
+                  "case_id": "affe2881",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "temporal_importance",
+                  "case_id": "ba61f0b9",
+                  "verdict": "fail"
+                }
+              ]
+            },
+            {
+              "reviewer": "reviewer-2-ai-assisted",
+              "judgments": [
+                {
+                  "strategy": "weak_first_hit",
+                  "case_id": "affe2881",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "weak_first_hit",
+                  "case_id": "ba61f0b9",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "strong_rule_based",
+                  "case_id": "affe2881",
+                  "verdict": "pass"
+                },
+                {
+                  "strategy": "strong_rule_based",
+                  "case_id": "ba61f0b9",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "scope_aware",
+                  "case_id": "affe2881",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "scope_aware",
+                  "case_id": "ba61f0b9",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "temporal_importance",
+                  "case_id": "affe2881",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "temporal_importance",
+                  "case_id": "ba61f0b9",
+                  "verdict": "fail"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "repeat-3": {
+      "status": "COMPLETED",
+      "started_at": "2026-10-30T01:50:57.579893+00:00",
+      "completed_at": "2026-10-30T01:51:46.674425+00:00",
+      "benchmark_run_id": "LBf65009608d0e4e88b36b",
+      "evidence_fingerprint_sha256": "3465405d3518da37498f5d002d20e4451d1b970068bc0902b840753dd6cff905",
+      "dashboard_summary": {
+        "metric": "lexical_match",
+        "conditions": [
+          {
+            "strategy": "weak_first_hit",
+            "matched": 0,
+            "total": 2,
+            "case_ids": [
+              "affe2881",
+              "ba61f0b9"
+            ]
+          },
+          {
+            "strategy": "strong_rule_based",
+            "matched": 2,
+            "total": 2,
+            "case_ids": [
+              "affe2881",
+              "ba61f0b9"
+            ]
+          },
+          {
+            "strategy": "scope_aware",
+            "matched": 2,
+            "total": 2,
+            "case_ids": [
+              "affe2881",
+              "ba61f0b9"
+            ]
+          },
+          {
+            "strategy": "temporal_importance",
+            "matched": 2,
+            "total": 2,
+            "case_ids": [
+              "affe2881",
+              "ba61f0b9"
+            ]
+          }
+        ]
+      },
+      "human_reviews": [
+        {
+          "review_id": "HR6389ABA47E5F4B0C996AFC461E7BC3A9",
+          "created_at": "2026-10-30T02:29:29.099059+00:00",
+          "evidence_fingerprint_sha256": "3465405d3518da37498f5d002d20e4451d1b970068bc0902b840753dd6cff905",
+          "independent_review_confirmed": true,
+          "reviewers": [
+            {
+              "reviewer": "reviewer-1-ai-assisted",
+              "judgments": [
+                {
+                  "strategy": "weak_first_hit",
+                  "case_id": "affe2881",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "weak_first_hit",
+                  "case_id": "ba61f0b9",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "strong_rule_based",
+                  "case_id": "affe2881",
+                  "verdict": "pass"
+                },
+                {
+                  "strategy": "strong_rule_based",
+                  "case_id": "ba61f0b9",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "scope_aware",
+                  "case_id": "affe2881",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "scope_aware",
+                  "case_id": "ba61f0b9",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "temporal_importance",
+                  "case_id": "affe2881",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "temporal_importance",
+                  "case_id": "ba61f0b9",
+                  "verdict": "fail"
+                }
+              ]
+            },
+            {
+              "reviewer": "reviewer-2-ai-assisted",
+              "judgments": [
+                {
+                  "strategy": "weak_first_hit",
+                  "case_id": "affe2881",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "weak_first_hit",
+                  "case_id": "ba61f0b9",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "strong_rule_based",
+                  "case_id": "affe2881",
+                  "verdict": "pass"
+                },
+                {
+                  "strategy": "strong_rule_based",
+                  "case_id": "ba61f0b9",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "scope_aware",
+                  "case_id": "affe2881",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "scope_aware",
+                  "case_id": "ba61f0b9",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "temporal_importance",
+                  "case_id": "affe2881",
+                  "verdict": "fail"
+                },
+                {
+                  "strategy": "temporal_importance",
+                  "case_id": "ba61f0b9",
+                  "verdict": "fail"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "notice": "Server-frozen execution metadata. Benchmark source and full responses are not retained; save returned evidence locally for scoring. A lost or interrupted response is not silently rerun. This receipt proves this server recorded the plan and dispatched calls, not reviewer independence, provider identity authenticity, prior unseen results, or an official LongMemEval score."
+}

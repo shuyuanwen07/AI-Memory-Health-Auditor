@@ -1182,6 +1182,31 @@ def test_standalone_diagnostic_retains_custom_frozen_protocol(client):
         assert (child.random_seed, child.test_budget, child.prompt_template_version) == (17, 3, 'standalone-protocol-v1')
         assert group.test_suite_configuration['prompt_template_version'] == 'standalone-protocol-v1'
 
+def test_paired_fork_can_change_only_target_memory_writer(client):
+    from app.api.quality_routes import fork_conditions
+    baseline,_=run(client)
+    with client.sessions() as db:
+        source=db.get(AuditRunModel,baseline['run_id'])
+        source.pipeline_provider='openai';source.pipeline_model='gpt-6-astra'
+        source.semantic_review_provider='openai';source.semantic_review_model='gpt-6-astra';db.commit()
+        original_profile=TargetMemoryProfile()
+        package=fork_conditions(source,db,[original_profile,original_profile],role='writer_followup',
+            note='Synthetic fixture for writer isolation',same_suite=True,
+            targeted_memory_writer='llm_structured',shared_memory_strategy='relationship_packet',
+            target_provider='openai',target_model='gpt-6-astra',target_evaluator_provider='openai',
+            target_evaluator_model='gpt-6-astra',preserve_target_configuration=True)
+        first,second=[db.get(AuditRunModel,x['run_id']) for x in package['runs']]
+        assert first.target_memory_writer=='rule_based'
+        assert second.target_memory_writer=='llm_structured'
+        assert first.memory_strategy==second.memory_strategy=='relationship_packet'
+        assert first.provider==second.provider=='openai' and first.model==second.model=='gpt-6-astra'
+        assert first.evaluator_provider==second.evaluator_provider=='openai'
+        assert first.evaluator_model==second.evaluator_model=='gpt-6-astra'
+        assert first.target_configuration==second.target_configuration==source.target_configuration
+        def questions(run_id):
+            return sorted((x.prompt,x.dimension,x.expected_behavior,tuple(x.supporting_memory_ids)) for x in db.scalars(select(TestCaseModel).where(TestCaseModel.run_id==run_id)).all())
+        assert questions(first.id)==questions(second.id)==questions(source.id)
+
 
 def test_rule_generator_saves_rejected_candidates_and_reports_short_suite(client):
     source = client.post('/api/v1/conversations', json={'authorised': True, 'messages': [

@@ -15,9 +15,10 @@ afterEach(() => { cleanup(); vi.unstubAllGlobals(); vi.stubGlobal('ResizeObserve
 
 function installFetch() {
   vi.stubGlobal('fetch', vi.fn().mockImplementation(async (input: RequestInfo | URL) => {
-    if (String(input).includes('proposal-final-results-v1.json')) {
-      const body = readFileSync(resolve(process.cwd(), 'public/reports/proposal-final-results-v1.json'), 'utf8');
-      return { status: 200, ok: true, text: async () => body } as Response;
+    const path=String(input);
+    if(path.startsWith('/reports/')) {
+      try { const body=readFileSync(resolve(process.cwd(),`public${path}`),'utf8');return {status:200,ok:true,text:async()=>body,json:async()=>JSON.parse(body)} as Response; }
+      catch { /* A missing report remains unavailable. */ }
     }
     return { status: 404, ok: false, text: async () => '' } as Response;
   }));
@@ -67,36 +68,19 @@ it('loads one saved completed repair audit with ability scores, issues, and evid
   expect(await screen.findByText(/3\/4 passed/)).toBeInTheDocument();
   expect(await screen.findByRole('img', {name:'Completed audit outcomes: 3 passed, 1 failed, 1 uncertain'})).toBeInTheDocument();
   expect(screen.getByText(/Counts include repeated audits and reassessments/)).toBeInTheDocument();
-  expect(await screen.findByText('A · Which audit method finds problems?')).toBeInTheDocument();
-  expect(screen.getByText('B & C · Four memory strategies')).toBeInTheDocument();
-  expect(screen.getByRole('img', {name:'Experiment B pass rates by ability and memory strategy'})).toBeInTheDocument();
-  expect(screen.getByText(/higher than First-match in 2\/4 comparable abilities; 2 tied/)).toBeInTheDocument();
-  expect(screen.getByText(/Human reviewers failed the first answer, but the saved automatic judge passed both/)).toBeInTheDocument();
-  expect(screen.getByRole('link',{name:'Inspect the first audit'})).toHaveAttribute('href','/audits/RUN560F7B163C244FC09C3EB804BC1A855D');
-  expect(screen.getByRole('figure',{name:'Development retest of update history retrieval'})).toHaveTextContent('Change history · original');
-  expect(screen.getByRole('figure',{name:'Development retest of update history retrieval'})).toHaveTextContent('0/4 pass');
-  expect(screen.getByRole('figure',{name:'Development retest of update history retrieval'})).toHaveTextContent('4/4 pass');
-  expect(screen.getByRole('figure',{name:'Development retest of update history retrieval'})).toHaveTextContent('Two independent humans checked AI-assisted reviews');
-  expect(screen.getByRole('figure',{name:'Latest AC2 development question review'})).toHaveTextContent('22 valid · 2 invalid');
-  expect(screen.getByText('50/111 · 45.0%')).toBeInTheDocument();
-  expect(screen.getByText('62/117 · 53.0%')).toBeInTheDocument();
-  expect(screen.getByText(/later two-person wording recheck: one question in each group changed to invalid/)).toBeInTheDocument();
-  expect(screen.getByRole('figure',{name:'Latest AC2 development question review'})).toHaveTextContent('7/9 related synthetic histories saved questions');
-  expect(screen.getByText('Auditor · Before and after improvement')).toBeInTheDocument();
-  expect(screen.getByText(/After is an optional reassessment, not the default evaluator/)).toBeInTheDocument();
-  expect(screen.getByText(/Detection difference: history-resampling range -5.4 to 23.2 percentage points; includes no improvement/)).toBeInTheDocument();
-  expect(screen.getByText(/same 3 of 9 predefined defects/)).toBeInTheDocument();
-  expect(screen.getByRole('img', {name:'15 histories generated questions; 15 histories did not'})).toBeInTheDocument();
-  expect(screen.getByText('17 saved questions · Accuracy only · 11 pending · 6 accepted')).toBeInTheDocument();
-  expect(screen.getByRole('img', {name:'Executable: 1 accepted, 4 pending'})).toBeInTheDocument();
-  expect(screen.getByRole('img', {name:'Not executable: 4 accepted, 1 pending'})).toBeInTheDocument();
-  expect(screen.getByRole('img', {name:'Unresolved: 1 accepted, 6 pending'})).toBeInTheDocument();
-  expect(screen.getByText(/individually checked by humans, as reported by the user/)).toBeInTheDocument();
-  expect(screen.getByRole('img', {name:'Facts: 204 full or correct type, 9 partial, 3 missing'})).toBeInTheDocument();
-  expect(screen.getByRole('img', {name:'Relationships: 53 full or correct type, 1 partial, 0 missing'})).toBeInTheDocument();
-  expect(screen.getByRole('img', {name:'Accuracy: 7 agreed valid, 0 agreed invalid, 1 unresolved out of 8'})).toBeInTheDocument();
-  expect(screen.getByRole('img', {name:'Freshness: 8 agreed valid, 0 agreed invalid, 0 unresolved out of 8'})).toBeInTheDocument();
-  expect(screen.getByText(/Accepted is not proof of validity/)).toBeInTheDocument();
+  expect(await screen.findByText('A · Audit methods')).toBeInTheDocument();
+  expect(screen.queryByLabelText('Live completed experiment results')).not.toBeInTheDocument();
+  expect(screen.getByText('B · Four memory strategies')).toBeInTheDocument();
+  expect(screen.getByText('C · LongMemEval · GPT-6 Luna')).toBeInTheDocument();
+  expect(await screen.findByLabelText('Four-history writer repair results')).toHaveTextContent('12/16 · 75.0% passed');
+  expect(screen.getByLabelText('Four-history writer repair results')).toHaveTextContent('16/16 · 100.0% passed');
+  expect(await screen.findByText('14 valid · 14 invalid · 0 unresolved · 12 not generated')).toBeInTheDocument();
+  expect(screen.queryByText('120/120 · 100.0% valid')).not.toBeInTheDocument();
+  expect(screen.queryByRole('figure',{name:'Latest AC2 development question review'})).not.toBeInTheDocument();
+  expect(screen.getByText('AC3 · Auditor before and after')).toBeInTheDocument();
+  expect(screen.getByText(/After is an optional reassessment/)).toBeInTheDocument();
+  expect(screen.getByText(/Detection difference range: -5.4 to 23.2 percentage points; includes no improvement/)).toBeInTheDocument();
+  expect(screen.getByRole('link',{name:'Historical results, evidence and limitations →'})).toHaveAttribute('href','/research-results');
   expect(screen.getByText('Overall memory health across measured abilities')).toBeInTheDocument();
   expect(screen.getByText('83.3%')).toBeInTheDocument();
   expect(screen.getByText(/3\/4 abilities measured/)).toBeInTheDocument();
@@ -154,6 +138,6 @@ it('refreshes the aggregate for new completed audits and reports unavailable res
 it('still shows research results when there are no completed audits', async () => {
   mocks.audits.mockResolvedValue([]);
   render(<FinalResultsDashboard />);
-  expect(await screen.findByText('A · Which audit method finds problems?')).toBeInTheDocument();
+  expect(await screen.findByText('A · Audit methods')).toBeInTheDocument();
   expect(await screen.findByText(/No completed audits are available yet/)).toBeInTheDocument();
 });

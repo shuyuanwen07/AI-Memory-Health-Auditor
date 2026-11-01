@@ -327,7 +327,7 @@ def run_post_diagnostic_agent(run_id: str, db: Session = Depends(get_db)):
             "reported_model": row.reported_model, "diagnostic_agent": output}
 
 
-def fork_conditions(source: AuditRunModel, db: Session, profiles: list[TargetMemoryProfile], *, role: str, note: str, same_suite: bool = True, conversation_id: str | None = None, commit: bool = True, targeted_memory_strategy: str | None = None, targeted_memory_capacity: int | None = None, preserve_target_configuration: bool = False) -> dict:
+def fork_conditions(source: AuditRunModel, db: Session, profiles: list[TargetMemoryProfile], *, role: str, note: str, same_suite: bool = True, conversation_id: str | None = None, commit: bool = True, targeted_memory_strategy: str | None = None, targeted_memory_capacity: int | None = None, targeted_memory_writer: str | None = None, shared_memory_strategy: str | None = None, target_provider: str | None = None, target_model: str | None = None, target_evaluator_provider: str | None = None, target_evaluator_model: str | None = None, preserve_target_configuration: bool = False) -> dict:
     original = audit_schema(source)
     experiment = db.get(ExperimentModel, source.experiment_id) if source.experiment_id else None
     source_policy = (source.reproducibility_metadata or {}).get("coverage_policy", "strict_full_v1")
@@ -356,7 +356,7 @@ def fork_conditions(source: AuditRunModel, db: Session, profiles: list[TargetMem
         "pipeline_provider": source.pipeline_provider, "pipeline_model": source.pipeline_model,
         "semantic_review_provider": source.semantic_review_provider,
         "semantic_review_model": source.semantic_review_model,
-        "evaluator_provider": source.evaluator_provider, "evaluator_model": source.evaluator_model,
+        "evaluator_provider": target_evaluator_provider or source.evaluator_provider, "evaluator_model": target_evaluator_model or source.evaluator_model,
     })
     group = ExperimentModel(id=ident("EXP"), conversation_id=conversation_id or source.conversation_id, label=f"{role.replace('_',' ').title()} · {datetime.now(timezone.utc).strftime('%d %b %H:%M')}",
                             status="CREATED", test_suite_configuration=configuration.model_dump(mode="json"),
@@ -365,16 +365,17 @@ def fork_conditions(source: AuditRunModel, db: Session, profiles: list[TargetMem
     runs = []
     local_canonical = {}
     for condition_index, profile in enumerate(profiles):
-        candidate_strategy = targeted_memory_strategy if targeted_memory_strategy and condition_index == len(profiles)-1 else None
+        candidate_strategy = targeted_memory_strategy if targeted_memory_strategy and condition_index == len(profiles)-1 else shared_memory_strategy
         target_configuration = ("weak" if candidate_strategy == "weak_first_hit" else "strong") if candidate_strategy and candidate_strategy!=original.memory_strategy and not preserve_target_configuration else original.target_configuration
         retrieval_mode = ("fixed" if candidate_strategy and candidate_strategy != original.memory_strategy
                          else original.retrieval_mode)
         candidate_capacity = targeted_memory_capacity if targeted_memory_capacity is not None and condition_index==len(profiles)-1 else original.target_memory_capacity
+        candidate_writer = targeted_memory_writer if targeted_memory_writer is not None and condition_index==len(profiles)-1 else original.target_memory_writer
         run = build_audit(AuditCreate(conversation_id=conversation_id or source.conversation_id, experiment_id=group.id,
-                          target_configuration=target_configuration, provider=original.provider,
-                          model=original.model, temperature=original.temperature,
+                          target_configuration=target_configuration, provider=target_provider or original.provider,
+                          model=target_model or original.model, temperature=original.temperature,
                           memory_strategy=candidate_strategy or original.memory_strategy, memory_maintenance_policy=original.memory_maintenance_policy,
-                          target_memory_capacity=candidate_capacity, target_memory_writer=original.target_memory_writer,
+                          target_memory_capacity=candidate_capacity, target_memory_writer=candidate_writer,
                           retrieval_mode=retrieval_mode,
                           retrieval_provider=original.retrieval_provider if retrieval_mode == "agent" else None,
                           retrieval_model=original.retrieval_model if retrieval_mode == "agent" else None,

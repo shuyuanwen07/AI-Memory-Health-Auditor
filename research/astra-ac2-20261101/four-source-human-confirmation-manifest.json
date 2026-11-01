@@ -1,0 +1,22 @@
+{
+  "archive": "four-source-human-confirmation.zip",
+  "sha256": "7a72f37eb7f3ed41b086a4c571cc1e999c71891b2c796749e98bc9b4e7de183b",
+  "files": [
+    {
+      "name": "confirmation.json",
+      "sha256": "bd31bae091e7563910e45f49b178bb292f245f49e1d9e1e943d814d3db93b833"
+    },
+    {
+      "name": "reviewer-1.json",
+      "sha256": "3683557d1d2d71523d68397fdf5afab95ba03f9b944e4dd9b4758f93f95f17ee"
+    },
+    {
+      "name": "reviewer-2.json",
+      "sha256": "3fdff8d670b4b6875063b77106d96b796e39d42194a55148c153276652f431c3"
+    },
+    {
+      "name": "summary.json",
+      "sha256": "34423e61613ac3cc51cd3f2b74c93534c26d1a63a4f40d86a558f9ed64fe8199"
+    }
+  ]
+}

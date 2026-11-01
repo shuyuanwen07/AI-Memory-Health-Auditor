@@ -17,7 +17,7 @@ class RuleBasedBehaviourEvaluator(BehaviourEvaluator):
     It has the same interface that a future rule-and-LLM evaluator will use.
     """
 
-    VERSION = "rule-based-v65"
+    VERSION = "rule-based-v66"
     _GENERIC_REFERENCE_TERMS = frozenset({
         "language", "system", "information", "value", "fact", "record", "requirement",
         "preference", "answer", "response", "behavior", "behaviour", "details", "detail", "data", "context", "managed",
@@ -591,6 +591,13 @@ class RuleBasedBehaviourEvaluator(BehaviourEvaluator):
         )
         current_database = current_database or re.search(
             rf"\b(?:migrated?|switched?)\b[^.!?;]{{0,100}}?\bto\s+(?P<current>{database})\b", expected, re.I)
+        # References may state the selected current database and separately
+        # mark the previous value as superseded, e.g. "Use PostgreSQL;
+        # MySQL is superseded." Never demand the explanatory word verbatim.
+        superseded_reference = re.search(
+            rf"\buse\s+(?P<current>{database})\s*;\s*(?!\s*(?P=current)\b){database}\s+is\s+superseded\b", expected, re.I)
+        if superseded_reference and not cls._term_is_negated(superseded_reference.group('current').lower(), expected):
+            current_database = current_database or superseded_reference
         if current_database:
             return [current_database.group('current').lower()]
         scoped_languages = cls._scoped_language_values(expected)

@@ -106,6 +106,7 @@ class LLMBehaviourEvaluator(BehaviourEvaluator):
                 reported_cost_credits=meter.get("reported_cost_credits"),
                 sampling_control=meter.get('sampling_control','unknown'),
                 sent_temperature=meter.get('sent_temperature'),
+                requested_reasoning_effort=meter.get('requested_reasoning_effort'),
                 requested_output_token_limit=meter.get("requested_output_token_limit"),
                 declared_output_token_limit=meter.get("declared_output_token_limit"),
                 configured_output_token_cap=meter.get("configured_output_token_cap"),
@@ -275,6 +276,10 @@ class LLMBehaviourEvaluator(BehaviourEvaluator):
                 "input": prompt,
                 "text": {"format": schema},
             }
+            if self.model == 'gpt-6-astra':
+                payload['reasoning'] = {'effort': 'max'}
+                if meter is not None:
+                    meter['requested_reasoning_effort'] = 'max'
             data = self._post("https://api.openai.com/v1/responses", {"Authorization": f"Bearer {credential}"}, payload)
             return self._parse_json(self._openai_text(data))
         if self.provider == "deepseek":

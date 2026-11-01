@@ -659,7 +659,7 @@ class ExecutionMetadata(BaseModel):
     memory_input: TargetMemoryInputEvidence | None = None
     identity_analysis: dict | None = None
     answer_validation: dict | None = None
-    requested_reasoning_effort: Literal['low', 'medium'] | None = None
+    requested_reasoning_effort: Literal['low', 'medium', 'max'] | None = None
     request_contract: OpenRouterRequestContract | None = None
     request_contract_sha256: str | None = None
     request_contract_attempts: list[HTTPRequestAttemptReceipt] | None = None
@@ -800,6 +800,7 @@ class JudgeExecutionEvidence(BaseModel):
     reported_cost_credits: float | None = Field(default=None, ge=0, allow_inf_nan=False)
     sampling_control: str = 'unknown'
     sent_temperature: float | None = None
+    requested_reasoning_effort: Literal['max'] | None = None
     # Missing historical fields remain unknown; no provider cap is inferred.
     requested_output_token_limit: int | None = Field(default=None, ge=1)
     declared_output_token_limit: int | None = Field(default=None, ge=1)
