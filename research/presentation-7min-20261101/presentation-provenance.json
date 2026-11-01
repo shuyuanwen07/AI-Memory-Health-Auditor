@@ -1,0 +1,154 @@
+{
+  "input": "research/astra-ac2-ten-completion-20261101/Memory-Auditor-Presentation-20261101-AC2-Ten-Scenes.pptx",
+  "input_sha256": "959b63612c2ffddc7db1834399d8da4443c542eb2f1a1087ae830d1f39b03de4",
+  "output": "research/presentation-7min-20261101/Memory-Auditor-Presentation-7min-20261101.pptx",
+  "output_sha256": "b25c5bff056c42878f1601ca0315c2ab3aedb70c29752134988fdf8d71002e26",
+  "source_files": {
+    "frontend/public/reports/ac2-astra-ten-source-v1.json": "5fffc45a4fca2697309364421ae95bbc1f09b52a058560f5483e1e51d5222c00",
+    "frontend/src/data/compactFinalDashboard.json": "1142b3e020ac7b53b7f8db356d225a153c03c335623f27256349753f01df14d4",
+    "frontend/public/reports/ac2-astra-comparison-v1.json": "b8bd9746fdf180ce3f2372cf97b632fe1d218702c6e095d2699cf3b3ac8bcde5",
+    "frontend/public/reports/b-astra-four-strategy-v1.json": "6c16d6b576ed03819f3c2590dc28b73a890a5dcd685c99f11cc1544d6dde5d43",
+    "research/astra-ac2-20261101/dashboard-latest-c-plan.json": "f5735c9ed3088b4b65c75fa8aa6534ae348ca43251d0f06084086f7fb97e0842",
+    "research/astra-ac2-20261101/experiment-a-historical-metrics.json": "b939cbd520d5043d63e755a926d303234723a27319e5f5dd128e33c42ce07a7c",
+    "docs/PROPOSAL_STATUS_20261101.md": "144a4a33315e8b524ab76174ca6b2cf643fa6dca276f891e3d5c99b145fe7316",
+    "backend/app/memory_agent/store.py": "f5ee4ce6600ce74dbe7fc8fbce51be7e01b243bbc8b29ef02adb4f8557701016"
+  },
+  "slide_count": 12,
+  "total_seconds": 420,
+  "total_spoken_words": 726,
+  "speaker_distribution": [
+    {
+      "speaker": "Speaker 1",
+      "slides": [
+        1,
+        2,
+        3
+      ],
+      "words": 170,
+      "seconds": 105
+    },
+    {
+      "speaker": "Speaker 2",
+      "slides": [
+        4,
+        5,
+        6
+      ],
+      "words": 194,
+      "seconds": 105
+    },
+    {
+      "speaker": "Speaker 3",
+      "slides": [
+        7,
+        8,
+        9
+      ],
+      "words": 184,
+      "seconds": 105
+    },
+    {
+      "speaker": "Speaker 4",
+      "slides": [
+        10,
+        11,
+        12
+      ],
+      "words": 178,
+      "seconds": 105
+    }
+  ],
+  "sections": [
+    {
+      "slide": 1,
+      "section": "Project introduction",
+      "title": "AI Memory Health Auditor",
+      "seconds": 25,
+      "spoken_words": 53
+    },
+    {
+      "slide": 2,
+      "section": "Background and motivation",
+      "title": "Four ways memory can fail",
+      "seconds": 40,
+      "spoken_words": 60
+    },
+    {
+      "slide": 3,
+      "section": "Main contributions",
+      "title": "Our main contributions",
+      "seconds": 40,
+      "spoken_words": 57
+    },
+    {
+      "slide": 4,
+      "section": "Related work and the gap",
+      "title": "Related work and the gap",
+      "seconds": 30,
+      "spoken_words": 58
+    },
+    {
+      "slide": 5,
+      "section": "Methodology and implementation",
+      "title": "Implementation: a source-based pipeline",
+      "seconds": 35,
+      "spoken_words": 61
+    },
+    {
+      "slide": 6,
+      "section": "Methodology and implementation",
+      "title": "Research design and bias controls",
+      "seconds": 40,
+      "spoken_words": 75
+    },
+    {
+      "slide": 7,
+      "section": "Results and demonstration",
+      "title": "Question quality improved after repair and review",
+      "seconds": 30,
+      "spoken_words": 62
+    },
+    {
+      "slide": 8,
+      "section": "Results and demonstration",
+      "title": "Auditor judgments against human references",
+      "seconds": 35,
+      "spoken_words": 62
+    },
+    {
+      "slide": 9,
+      "section": "Results and demonstration",
+      "title": "Four strategies, different effects",
+      "seconds": 40,
+      "spoken_words": 60
+    },
+    {
+      "slide": 10,
+      "section": "Results and demonstration",
+      "title": "Evidence guided a memory-writer repair",
+      "seconds": 35,
+      "spoken_words": 60
+    },
+    {
+      "slide": 11,
+      "section": "Results and demonstration",
+      "title": "Demonstration: inspect one saved repair",
+      "seconds": 30,
+      "spoken_words": 45
+    },
+    {
+      "slide": 12,
+      "section": "Results, limitations and future work",
+      "title": "Limits and the next research steps",
+      "seconds": 40,
+      "spoken_words": 73
+    }
+  ],
+  "notes": "Speaker labels, simple-English spoken scripts, presenter cues and source/scope notes. No separate Word script.",
+  "related_work_primary_sources": [
+    "https://arxiv.org/abs/2410.10813",
+    "https://arxiv.org/abs/2504.19413"
+  ],
+  "preserved_original": true,
+  "source_verification": "C counts independently recomputed from the saved two-reviewer consensus before authoring. B/C retain separate model/sample labels. No official benchmark or universal winner claim."
+}
