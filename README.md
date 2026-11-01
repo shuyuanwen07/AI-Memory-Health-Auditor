@@ -48,10 +48,11 @@ below describe their own earlier checkpoints.
 See [requirements and evidence](docs/REQUIREMENTS_TRACEABILITY.txt),
 [the experiment report](docs/EXPERIMENT_REPORT_2026-10-28.md), and
 [the remaining human tasks](docs/HUMAN_EVIDENCE_HANDOFF.txt).
-The [latest seven-minute presentation](research/presentation-7min-20261101/Memory-Auditor-Presentation-7min-20261101.pptx)
+The [latest seven-minute presentation](research/presentation-blue-20261101/Memory-Auditor-Presentation-7min-Blue-20261101.pptx)
 follows the six requested presentation topics and includes the four-speaker
 English script in its slide notes, with methodology, benchmark results,
-limitations and future research. The previous deck remains archived.
+limitations and future research. The earlier visual style remains archived in
+[the previous deck](research/presentation-7min-20261101/Memory-Auditor-Presentation-7min-20261101.pptx).
 The research workspace guides proposal A/B/C and general repair validation.
 Independent blind review offers a complete blank source-and-answer download.
 Formal results and actual member contributions require human verification.
