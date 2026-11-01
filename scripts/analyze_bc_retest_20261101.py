@@ -24,7 +24,7 @@ def main():
     review_path = BASE/'review/consensus.json'
     review = json.loads(review_path.read_text())
     progress = json.loads((ROOT/'frontend/public/reports/bc-astra-repeat-retest-v2.json').read_text())
-    report = {'format': 'bc-clustered-descriptive-analysis-v2', 'human_confirmation_pending': True,
+    report = {'format': 'bc-clustered-descriptive-analysis-v2', 'human_confirmation_pending': not bool(review.get('human_confirmed')), 'human_confirmed': bool(review.get('human_confirmed')), 'human_confirmation': review.get('human_confirmation'),
         'review_sha256': hashlib.sha256(review_path.read_bytes()).hexdigest(), 'studies': [],
         'method': 'Verified pass/planned slots; source-cluster bootstrap,5000draws,seed20261101. Unresolved is not a model failure. Intervals describe this selected cohort, not population generalisation.'}
     raw_agreement = sum(len(set(x['answer_judgments'])) == 1 for x in review['items'])

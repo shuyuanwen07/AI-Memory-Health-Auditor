@@ -33,8 +33,10 @@ it('uses the root route as a results-only dashboard with experiment and audit su
   const { container } = render(<MemoryRouter initialEntries={['/']}><App /></MemoryRouter>);
   expect(await screen.findByRole('heading', { name: 'Audit and experiment results' })).toBeInTheDocument();
   expect(await screen.findByText('A · Audit methods')).toBeInTheDocument();
-  expect(screen.getByText('B · Four memory strategies')).toBeInTheDocument();
-  expect(screen.getByText('AC3 · Auditor before and after')).toBeInTheDocument();
+  expect(await screen.findByText('B & C · Astra repeated comparison')).toBeInTheDocument();
+  expect(await screen.findByText('AC3 · Astra max scoring retest')).toBeInTheDocument();
+  expect(screen.queryByText('B · Four memory strategies')).not.toBeInTheDocument();
+  expect(screen.queryByText('AC3 · Auditor before and after')).not.toBeInTheDocument();
   expect(screen.queryByText('B · Original two-policy study')).not.toBeInTheDocument();
   expect(screen.queryByText('C · Original two-policy LongMemEval')).not.toBeInTheDocument();
   expect(screen.getByText('No completed audits are available yet. Start a memory audit and return here after it completes.')).toBeInTheDocument();

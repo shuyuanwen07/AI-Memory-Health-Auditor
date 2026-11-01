@@ -181,11 +181,53 @@ def evidence_entries():
             entries[root_name] = path.read_bytes()
     patterns = ("a_astra_max_*20261101.py", "ac3_astra_max_*2026110*.py", "verify_ac3_astra_max_receipts_20261102.py",
                 "analyze_a_astra_max_20261102.py", "analyze_ac3_astra_max_20261102.py", "*bc*20261101.py",
-                "split_bc_max_reviews_20261102.py", "package_all_astra_main_20261102.py")
+                "split_bc_max_reviews_20261102.py", "package_all_astra_main_20261102.py",
+                "finalize_astra_human_confirmation_20261102.py")
     for pattern in patterns:
         for path in sorted((ROOT / "scripts").glob(pattern)):
             entries["reproduction/" + path.relative_to(ROOT).as_posix()] = path.read_bytes()
     return entries
+
+
+def verify_confirmation(answer_counts, handoff):
+    """Read a separately recorded user confirmation; never create an approval."""
+    path = DEST / "human-confirmation.json"
+    if not path.exists():
+        return None
+    receipt = read(path)
+    if receipt.get("status") != "user_reported_independent_ai_assisted":
+        raise ValueError("The confirmation receipt has an unsupported status")
+    if receipt.get("answer_counts") != answer_counts:
+        raise ValueError("Confirmation counts do not cover the complete new cohort")
+    bindings = receipt.get("bound_files_sha256")
+    if not isinstance(bindings, dict) or not bindings:
+        raise ValueError("Confirmation must bind the actual reviewed files")
+    handoff_relative = handoff.relative_to(ROOT).as_posix()
+    if handoff_relative not in bindings:
+        raise ValueError("Confirmation is not bound to the original full handoff ZIP")
+    for relative, expected in bindings.items():
+        file = (ROOT / relative).resolve()
+        if not file.is_relative_to(ROOT) or not file.is_file():
+            raise ValueError("Unsafe or missing bound confirmation file")
+        if not isinstance(expected, str) or sha(file.read_bytes()) != expected:
+            raise ValueError(f"Human-confirmation binding changed: {relative}")
+    a = read(A / "analysis.json")
+    bc = read(BC / "review/consensus.json")
+    ac3 = read(AC3 / "analysis.json")
+    views = {
+        "A": {key: a[key] for key in ("methods", "items")},
+        "BC": {key: bc[key] for key in ("sources", "items")},
+        "AC3": {"cohort": ac3["cohort"], **{
+            arm: {key: ac3[arm][key] for key in ("counts", "confusion_matrix", "metrics")}
+            for arm in ("baseline", "candidate")}},
+    }
+    semantics = {key: sha(json.dumps(value, sort_keys=True, ensure_ascii=False).encode())
+                 for key, value in views.items()}
+    if receipt.get("semantic_result_sha256") != semantics:
+        raise ValueError("Substantive judgments changed after human confirmation")
+    if a.get("review_status") != "human_confirmed" or not bc.get("human_confirmed") or not ac3.get("human_confirmed"):
+        raise ValueError("Derived confirmation statuses are not finalized yet")
+    return receipt
 
 
 def main():
@@ -271,11 +313,37 @@ def main():
         human["reviewer_declaration"]["reviewer_slot"] = slot
         handoff_entries[f"reviewer-{slot}.json"] = dump(human)
     handoff = DEST / "Astra-MAX-全部新增实验-待人工复核.zip"
-    safe_write_archive(handoff, handoff_entries)
-    (DEST / "handoff-integrity.json").write_bytes(dump(checks))
+    confirmation = verify_confirmation(counts, handoff)
+    if confirmation is None:
+        safe_write_archive(handoff, handoff_entries)
+        (DEST / "handoff-integrity.json").write_bytes(dump(checks))
+    else:
+        # The original blank pack is part of the user's binding. Its contents and
+        # SHA must remain untouched; no filled reviewer forms are fabricated.
+        with ZipFile(handoff) as archive:
+            handoff_entries = {name: archive.read(name) for name in archive.namelist()}
+        for slot in (1, 2):
+            original = json.loads(handoff_entries[f"reviewer-{slot}.json"])
+            actual = {(study, item["review_id"]) for study, item in all_items(original["studies"])}
+            if actual != {(study, item["review_id"]) for study, item in flat}:
+                raise ValueError("Confirmed handoff IDs do not match current cohort")
+        checks.update(all_new_answers_human_confirmation_pending=False,
+                      human_confirmation_status="user_reported_independent_ai_assisted",
+                      human_confirmation_receipt_sha256=sha((DEST / "human-confirmation.json").read_bytes()),
+                      original_blank_handoff_preserved=True,
+                      confirmation_scope="User reports two independent people accepted all new outputs without edits; AI-assisted verification, not authenticated blind first-pass annotation.")
 
     entries = evidence_entries()
-    entries.update({"human-verification/" + name: content for name, content in handoff_entries.items()})
+    human_prefix = "historical/blank-human-verification/" if confirmation else "human-verification/"
+    entries.update({human_prefix + name: content for name, content in handoff_entries.items()})
+    if confirmation:
+        entries["approval/human-confirmation.json"] = (DEST / "human-confirmation.json").read_bytes()
+        entries["reproduction/output/proposal-delivery/all-astra-main-results-20261101/human-confirmation.json"] = (DEST / "human-confirmation.json").read_bytes()
+        entries["reproduction/output/proposal-delivery/all-astra-main-results-20261101/" + handoff.name] = handoff.read_bytes()
+        entries["historical/blank-human-verification/STATUS.txt"] = (
+            "HISTORICAL BLANK TEMPLATES. These unchanged pending forms were sent for review. "
+            "They are preserved for audit provenance, not current pending-review status and not filled human labels. "
+            "The current user-reported AI-assisted independent human confirmation is recorded separately in approval/human-confirmation.json.\n").encode()
     evidence_readme = """# All new Astra MAX main-results evidence, 2026-11-02
 
 The archive preserves new A48+B192+C192+AC3120 target answers,120MAX taxonomy judgments, frozen source/protocols, actual request receipts, two independent MAX reference reviews, unresolved decisions and reproducible analyses. Rules/statistics are deterministic code, not a model effort setting. Human verification of these new outputs remains pending.
@@ -288,8 +356,18 @@ Original independent high-effort BC review files are historical only; current co
 
 C is a pinned16case LongMemEval Oracle evidence-only subset, including two reused anchors, not an official full benchmark score. B has four related synthetic histories. Repeated answers are correlated, not independent new histories. A exposes candidate patterns, not a verified error prevalence denominator. AC3 does not establish the whole failure taxonomy: only42/69failures have agreed single types, no freshness positives, and suitable-use type performance is limited. See each analysis.json and the latest main report for full denominators and source flags.
 
+For offline analysis replay, extract the archive to a temporary directory, copy its reproduction/ contents into a separate project checkout, then run the analysis helpers from that checkout. The original handoff and bound confirmation receipt are included at their expected output paths. No provider call is needed to replay saved analyses; new target execution requires an authorised OpenAI key and produces new evidence not covered by this approval.
+
 No API keys, environment files, databases or presentation files are intentionally included. An automated credential-pattern scan checks each included file and snapshot member before publication. Original retained source content may include benchmark and approved synthetic conversation text. LongMemEval source attribution/provenance is retained in C/protocol.json and selected-source.json.
 """
+    if confirmation:
+        evidence_readme = evidence_readme.replace(
+            "Human verification of these new outputs remains pending.",
+            "The user explicitly reports that two people independently checked and accepted all552new answers and associated judgments without edits. The bound user-reported confirmation is in approval/human-confirmation.json. It is AI-assisted verification; reviewer identities and independence are not externally authenticated, and blindness to system scores is not newly asserted.")
+        evidence_readme = evidence_readme.replace(
+            "The two standalone human-verification JSON files include AI opinions and omit private condition mappings and automatic aggregate scores.",
+            "The two unchanged HISTORICAL BLANK human-verification JSON files are retained under historical/blank-human-verification/. Their pending fields describe the original templates, not current overall status. They include AI opinions and omit private condition mappings and automatic aggregate scores. No filled human item forms have been fabricated.")
+        evidence_readme += ("\nAcceptance preserves all negative and unresolved findings: fourCsource/reference flags,59BCunresolved answers,27AC3failures without an agreed single primary type, and the Amappingdispute. No AC3 whole-taxonomy acceptance or freshness-positive validation is claimed.\n")
     entries["README.md"] = evidence_readme.encode()
     checks["human_zip_sha256"] = sha(handoff.read_bytes())
     entries["handoff-integrity.json"] = dump(checks)

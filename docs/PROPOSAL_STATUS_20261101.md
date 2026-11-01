@@ -1,6 +1,6 @@
 # Proposal and tutor requirements: evidence status
 
-> **Latest evidence update, 2 November:** use the [Astra MAX main report](EXPERIMENT_REPORT_ASTRA_MAX_20261102.md) for current A/B/C/AC3 results and the current acceptance map. The dated snapshot below remains historical. New target/scorer collections and two MAX AI reviews are complete, but their human confirmation is pending. AC3 detects 63/69 failures with 0/51 observed false positives; complete four-category classification acceptance is not established (35/42 conditional, 35/63 verified across all detections, and no agreed Freshness-positive cases). Earlier model outcomes below retain their original provenance.
+> **Latest evidence update, 2 November:** use the [Astra MAX main report](EXPERIMENT_REPORT_ASTRA_MAX_20261102.md) for current A/B/C/AC3 results and the current acceptance map. The dated snapshot below remains historical. The user confirms two people independently checked and accepted the new 552-answer AI-assisted review package; original uncertainties remain. AC3 detects 63/69 failures with 0/51 observed false positives; complete four-category classification acceptance is not established (35/42 conditional, 35/63 verified across all detections, and no agreed Freshness-positive cases). Earlier model outcomes below retain their original provenance.
 
 This is an evidence map, not a claim that every hypothesis has succeeded.
 The authoritative specification is the Group 2 proposal, Sections 3 and 7;

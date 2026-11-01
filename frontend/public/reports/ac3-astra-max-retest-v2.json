@@ -1,8 +1,13 @@
 {
   "format": "ac3-astra-max-paired-analysis-v1",
   "complete": true,
-  "status": "descriptive_ai_reference_human_confirmation_pending",
-  "human_confirmed": false,
+  "status": "descriptive_ai_assisted_human_confirmed_reference",
+  "human_confirmed": true,
+  "human_confirmation": {
+    "path": "output/proposal-delivery/all-astra-main-results-20261101/human-confirmation.json",
+    "sha256": "e3c911356d57af2f18be86d9fa45804b26e6866f3b9504cdb7ce0814ec541edb",
+    "mode": "user_reported_independent_ai_assisted"
+  },
   "provenance": {
     "input_file_sha256": {
       "protocol.json": "6ba29b95e364aca43b44f25184beccdb6d55622053ab0ebd58e4f72667b0707a",
@@ -447,7 +452,7 @@
         }
       },
       "conservative_numerical_checks_met": false,
-      "acceptance_status": "not_certified_human_confirmation_pending",
+      "acceptance_status": "not_certified_conservative_classification_unmet_and_reference_type_coverage_incomplete",
       "alternative_classifiable_only_check": {
         "measure": {
           "numerator": 0,
@@ -645,7 +650,7 @@
         }
       },
       "conservative_numerical_checks_met": false,
-      "acceptance_status": "not_certified_human_confirmation_pending",
+      "acceptance_status": "not_certified_conservative_classification_unmet_and_reference_type_coverage_incomplete",
       "alternative_classifiable_only_check": {
         "measure": {
           "numerator": 35,
@@ -660,7 +665,7 @@
     }
   },
   "limitations": [
-    "All new answer reference labels are independent AI MAX reviews pending human confirmation; numerical threshold checks alone do not establish AC3 acceptance.",
+    "The user reports two people independently verified every new AI-assisted reference judgment. Original AI opinions remain preserved; identities and blindness to automatic scores are not independently established. Human approval does not establish complete AC3 acceptance.",
     "Both reviewers and the candidate judge share the Astra model family; correlated errors remain possible despite independently blinded review.",
     "Thirty reused, related synthetic histories are a descriptive cohort, not a population-random sample or unseen external benchmark.",
     "A primary failure type is verified only when both reviewers independently identify the same actual error. Unclassifiable failures remain in answer-level denominators.",

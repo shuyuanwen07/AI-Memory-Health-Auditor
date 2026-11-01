@@ -1,13 +1,13 @@
 {
   "format": "bc-astra-repeat-retest-v2",
-  "updated_at": "2026-11-01T13:22:01.361894+00:00",
+  "updated_at": "2026-11-01T14:02:24.339897+00:00",
   "provider": "openai",
   "model": "gpt-6-astra",
   "reasoning_effort": "max",
   "questions_per_strategy": 16,
   "repetitions": 3,
   "planned_per_strategy": 48,
-  "review_status": "ai_reviewed",
+  "review_status": "human_confirmed",
   "studies": [
     {
       "id": "B",
@@ -256,6 +256,11 @@
       ]
     }
   ],
+  "human_confirmation": {
+    "path": "output/proposal-delivery/all-astra-main-results-20261101/human-confirmation.json",
+    "sha256": "e3c911356d57af2f18be86d9fa45804b26e6866f3b9504cdb7ce0814ec541edb",
+    "mode": "user_reported_independent_ai_assisted"
+  },
   "review_reasoning_effort": "max",
   "source_flags": {
     "B": 0,

@@ -38,8 +38,9 @@ For the latest evidence checkpoint, start with the
 [Astra MAX experiment report](docs/EXPERIMENT_REPORT_ASTRA_MAX_20261102.md).
 The latest A/B/C targets and AC3 target/judge use direct OpenAI Astra MAX.
 B and C each contain 16 questions × 3 repeats = 48 answers per strategy.
-New independent MAX AI reference reviews await human confirmation; unresolved
-references and failure types remain visible. Frozen protocols, receipts, raw
+The user confirms that two people independently checked and accepted the new
+552-answer MAX AI review package. This is AI-assisted human verification;
+unresolved references and failure types remain visible. Frozen protocols, receipts, raw
 answers, reviews and analyses are in the
 [retained Astra evidence package](research/all-astra-main-results-20261102/).
 The Dashboard reads these saved summaries and refreshes without issuing model calls.

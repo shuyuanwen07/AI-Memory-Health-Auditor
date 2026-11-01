@@ -5,8 +5,9 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { AstraARetest, AstraAC3Retest, isAstraAReport, isAstraAC3Report, useAstraARetest, type AstraAReport, type AstraAC3Report } from './AstraMainRetests';
 
 const read = (name: string) => JSON.parse(readFileSync(resolve(process.cwd(), `public/reports/${name}.json`), 'utf8'));
-const a = (): AstraAReport => read('a-astra-max-retest-v2');
-const ac3 = (): AstraAC3Report => read('ac3-astra-max-retest-v2');
+// Keep explicit pending fixtures so source approval cannot disable pending-state coverage.
+const a = (): AstraAReport => ({ ...read('a-astra-max-retest-v2'), review_status: 'ai_reviewed', human_confirmation_pending: true });
+const ac3 = (): AstraAC3Report => ({ ...read('ac3-astra-max-retest-v2'), human_confirmed: false });
 afterEach(() => { vi.unstubAllGlobals(); vi.useRealTimers(); });
 
 describe('Astra max research source validation', () => {
@@ -96,4 +97,15 @@ describe('Astra max result presentation', () => {
     expect(screen.getByLabelText('A Astra max audit-method retest')).toBeInTheDocument();
     expect(fetcher).toHaveBeenCalledWith('/reports/a-astra-max-retest-v2.json', { cache: 'no-store' });
   });
+});
+
+it('shows the explicit human verification without resolving unknown failure categories', () => {
+  const currentA: AstraAReport = read('a-astra-max-retest-v2');
+  const currentAC3: AstraAC3Report = read('ac3-astra-max-retest-v2');
+  expect(isAstraAReport(currentA)).toBe(true);
+  expect(isAstraAC3Report(currentAC3)).toBe(true);
+  render(<><AstraARetest report={currentA}/><AstraAC3Retest report={currentAC3}/></>);
+  expect(screen.getAllByRole('status').every(s => s.textContent?.startsWith('Human-confirmed AI-assisted'))).toBe(true);
+  expect(screen.getByText(/Agreed failure types: 42\/69; 27 remain unclassified/)).toBeInTheDocument();
+  expect(screen.getByText(/Conservative classification target remains unmet/)).toBeInTheDocument();
 });
