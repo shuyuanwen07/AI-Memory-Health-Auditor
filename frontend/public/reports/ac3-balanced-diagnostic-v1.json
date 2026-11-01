@@ -1,0 +1,893 @@
+{
+  "format": "ac3-balanced-diagnostic-dashboard-v1",
+  "updated_at": "2026-11-01T14:45:47.039054+00:00",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "curated_answers": true,
+  "histories": 30,
+  "cases": 150,
+  "planned_calls": 300,
+  "paired_order": {
+    "original_first": 75,
+    "revised_first": 75
+  },
+  "complete": true,
+  "human_confirmed": true,
+  "reference_review": {
+    "model": "gpt-6-astra",
+    "reasoning_effort": "max",
+    "independent_reviewers": 2,
+    "ready": true,
+    "actual_failure_types": {
+      "conflict_resolution": 30,
+      "accuracy": 30,
+      "appropriate_use": 30,
+      "freshness": 30
+    },
+    "passes": 30
+  },
+  "progress": {
+    "original": {
+      "planned": 150,
+      "returned": 150,
+      "errors": 0,
+      "remaining": 0
+    },
+    "revised": {
+      "planned": 150,
+      "returned": 150,
+      "errors": 0,
+      "remaining": 0
+    }
+  },
+  "analysis": {
+    "cohort": {
+      "planned_cases": 150,
+      "histories": 30,
+      "planned_grader_slots": 300,
+      "terminal_slots": 300,
+      "reference_gate_met": true,
+      "actual_reference_counts": {
+        "conflict_resolution": 30,
+        "accuracy": 30,
+        "appropriate_use": 30,
+        "freshness": 30,
+        "pass": 30
+      },
+      "question_validity": {
+        "numerator": 150,
+        "denominator": 150,
+        "value": 1.0
+      },
+      "joint_question_reference_validity": {
+        "numerator": 150,
+        "denominator": 150,
+        "value": 1.0
+      },
+      "actual_agreed_failure_type_counts": {
+        "accuracy": 30,
+        "freshness": 30,
+        "conflict_resolution": 30,
+        "appropriate_use": 30
+      },
+      "sources": {
+        "BTX-H02": 5,
+        "BTX-H08": 5,
+        "BTX-H01": 5,
+        "BTX-H14": 5,
+        "BTX-H16": 5,
+        "BTX-H25": 5,
+        "BTX-H03": 5,
+        "BTX-H19": 5,
+        "BTX-H10": 5,
+        "BTX-H29": 5,
+        "BTX-H18": 5,
+        "BTX-H28": 5,
+        "BTX-H13": 5,
+        "BTX-H12": 5,
+        "BTX-H24": 5,
+        "BTX-H15": 5,
+        "BTX-H04": 5,
+        "BTX-H23": 5,
+        "BTX-H30": 5,
+        "BTX-H06": 5,
+        "BTX-H09": 5,
+        "BTX-H20": 5,
+        "BTX-H22": 5,
+        "BTX-H27": 5,
+        "BTX-H07": 5,
+        "BTX-H21": 5,
+        "BTX-H26": 5,
+        "BTX-H17": 5,
+        "BTX-H11": 5,
+        "BTX-H05": 5
+      }
+    },
+    "original": {
+      "metrics": {
+        "joint_detection_and_correct_category": {
+          "numerator": 120,
+          "denominator": 120,
+          "value": 1.0
+        },
+        "failure_recall": {
+          "numerator": 120,
+          "denominator": 120,
+          "value": 1.0
+        },
+        "classification_among_detected_failures": {
+          "numerator": 120,
+          "denominator": 120,
+          "value": 1.0
+        },
+        "false_positive_rate_all_reference_passes": {
+          "numerator": 0,
+          "denominator": 30,
+          "value": 0.0
+        },
+        "false_positive_rate_decided": {
+          "numerator": 0,
+          "denominator": 30,
+          "value": 0.0
+        },
+        "false_positive_rate_lower_bound": {
+          "numerator": 0,
+          "denominator": 30,
+          "value": 0.0
+        },
+        "false_positive_rate_upper_bound": {
+          "numerator": 0,
+          "denominator": 30,
+          "value": 0.0
+        },
+        "decided_coverage": {
+          "numerator": 150,
+          "denominator": 150,
+          "value": 1.0
+        }
+      },
+      "per_category": {
+        "accuracy": {
+          "joint_detection_and_correct_category": {
+            "numerator": 30,
+            "denominator": 30,
+            "value": 1.0
+          },
+          "failure_recall": {
+            "numerator": 30,
+            "denominator": 30,
+            "value": 1.0
+          },
+          "status": "measured"
+        },
+        "freshness": {
+          "joint_detection_and_correct_category": {
+            "numerator": 30,
+            "denominator": 30,
+            "value": 1.0
+          },
+          "failure_recall": {
+            "numerator": 30,
+            "denominator": 30,
+            "value": 1.0
+          },
+          "status": "measured"
+        },
+        "conflict_resolution": {
+          "joint_detection_and_correct_category": {
+            "numerator": 30,
+            "denominator": 30,
+            "value": 1.0
+          },
+          "failure_recall": {
+            "numerator": 30,
+            "denominator": 30,
+            "value": 1.0
+          },
+          "status": "measured"
+        },
+        "appropriate_use": {
+          "joint_detection_and_correct_category": {
+            "numerator": 30,
+            "denominator": 30,
+            "value": 1.0
+          },
+          "failure_recall": {
+            "numerator": 30,
+            "denominator": 30,
+            "value": 1.0
+          },
+          "status": "measured"
+        }
+      },
+      "counts": {
+        "planned_slots": 150,
+        "reference_failures": 120,
+        "reference_passes": 30,
+        "reference_unresolved": 0,
+        "reference_failures_without_single_type": 0,
+        "detected_reference_failures": 120,
+        "correct_category": 120,
+        "detected_failures_without_predicted_type": 0,
+        "false_positives": 0,
+        "pass_controls_unresolved_or_error": 0,
+        "returned_undecided": 0,
+        "errors_or_missing": 0,
+        "decided_verdicts": 150
+      },
+      "confusion_matrix": {
+        "accuracy": {
+          "accuracy": 30,
+          "freshness": 0,
+          "conflict_resolution": 0,
+          "appropriate_use": 0,
+          "pass": 0,
+          "unclassified_fail": 0,
+          "uncertain": 0,
+          "error_missing": 0
+        },
+        "freshness": {
+          "accuracy": 0,
+          "freshness": 30,
+          "conflict_resolution": 0,
+          "appropriate_use": 0,
+          "pass": 0,
+          "unclassified_fail": 0,
+          "uncertain": 0,
+          "error_missing": 0
+        },
+        "conflict_resolution": {
+          "accuracy": 0,
+          "freshness": 0,
+          "conflict_resolution": 30,
+          "appropriate_use": 0,
+          "pass": 0,
+          "unclassified_fail": 0,
+          "uncertain": 0,
+          "error_missing": 0
+        },
+        "appropriate_use": {
+          "accuracy": 0,
+          "freshness": 0,
+          "conflict_resolution": 0,
+          "appropriate_use": 30,
+          "pass": 0,
+          "unclassified_fail": 0,
+          "uncertain": 0,
+          "error_missing": 0
+        },
+        "pass": {
+          "accuracy": 0,
+          "freshness": 0,
+          "conflict_resolution": 0,
+          "appropriate_use": 0,
+          "pass": 30,
+          "unclassified_fail": 0,
+          "uncertain": 0,
+          "error_missing": 0
+        },
+        "unclassified_reference_failure": {
+          "accuracy": 0,
+          "freshness": 0,
+          "conflict_resolution": 0,
+          "appropriate_use": 0,
+          "pass": 0,
+          "unclassified_fail": 0,
+          "uncertain": 0,
+          "error_missing": 0
+        },
+        "unresolved_reference": {
+          "accuracy": 0,
+          "freshness": 0,
+          "conflict_resolution": 0,
+          "appropriate_use": 0,
+          "pass": 0,
+          "unclassified_fail": 0,
+          "uncertain": 0,
+          "error_missing": 0
+        }
+      },
+      "threshold_evaluation": {
+        "checks": {
+          "correct_category_all_reference_failures_min": {
+            "measure": {
+              "numerator": 120,
+              "denominator": 120,
+              "value": 1.0
+            },
+            "threshold": 0.8,
+            "direction": "min",
+            "met": true
+          },
+          "failure_detection_min": {
+            "measure": {
+              "numerator": 120,
+              "denominator": 120,
+              "value": 1.0
+            },
+            "threshold": 0.8,
+            "direction": "min",
+            "met": true
+          },
+          "question_reference_validity_min": {
+            "measure": {
+              "numerator": 150,
+              "denominator": 150,
+              "value": 1.0
+            },
+            "threshold": 0.9,
+            "direction": "min",
+            "met": true
+          },
+          "false_positive_max": {
+            "measure": {
+              "numerator": 0,
+              "denominator": 30,
+              "value": 0.0
+            },
+            "threshold": 0.1,
+            "direction": "max",
+            "met": true
+          },
+          "decided_coverage_min": {
+            "measure": {
+              "numerator": 150,
+              "denominator": 150,
+              "value": 1.0
+            },
+            "threshold": 0.8,
+            "direction": "min",
+            "met": true
+          }
+        },
+        "numerical_checks_met": true,
+        "reference_gate_met": true,
+        "acceptance_status": "user_reported_ai_assisted_reference_verified_numerical_checks_met",
+        "notice": "Point thresholds are separate from confidence intervals, category-specific coverage and human verification.",
+        "human_verification_scope": "150 source/answer/category reference judgments only; not the 300 automatic grader predictions."
+      }
+    },
+    "revised": {
+      "metrics": {
+        "joint_detection_and_correct_category": {
+          "numerator": 120,
+          "denominator": 120,
+          "value": 1.0
+        },
+        "failure_recall": {
+          "numerator": 120,
+          "denominator": 120,
+          "value": 1.0
+        },
+        "classification_among_detected_failures": {
+          "numerator": 120,
+          "denominator": 120,
+          "value": 1.0
+        },
+        "false_positive_rate_all_reference_passes": {
+          "numerator": 0,
+          "denominator": 30,
+          "value": 0.0
+        },
+        "false_positive_rate_decided": {
+          "numerator": 0,
+          "denominator": 30,
+          "value": 0.0
+        },
+        "false_positive_rate_lower_bound": {
+          "numerator": 0,
+          "denominator": 30,
+          "value": 0.0
+        },
+        "false_positive_rate_upper_bound": {
+          "numerator": 0,
+          "denominator": 30,
+          "value": 0.0
+        },
+        "decided_coverage": {
+          "numerator": 150,
+          "denominator": 150,
+          "value": 1.0
+        }
+      },
+      "per_category": {
+        "accuracy": {
+          "joint_detection_and_correct_category": {
+            "numerator": 30,
+            "denominator": 30,
+            "value": 1.0
+          },
+          "failure_recall": {
+            "numerator": 30,
+            "denominator": 30,
+            "value": 1.0
+          },
+          "status": "measured"
+        },
+        "freshness": {
+          "joint_detection_and_correct_category": {
+            "numerator": 30,
+            "denominator": 30,
+            "value": 1.0
+          },
+          "failure_recall": {
+            "numerator": 30,
+            "denominator": 30,
+            "value": 1.0
+          },
+          "status": "measured"
+        },
+        "conflict_resolution": {
+          "joint_detection_and_correct_category": {
+            "numerator": 30,
+            "denominator": 30,
+            "value": 1.0
+          },
+          "failure_recall": {
+            "numerator": 30,
+            "denominator": 30,
+            "value": 1.0
+          },
+          "status": "measured"
+        },
+        "appropriate_use": {
+          "joint_detection_and_correct_category": {
+            "numerator": 30,
+            "denominator": 30,
+            "value": 1.0
+          },
+          "failure_recall": {
+            "numerator": 30,
+            "denominator": 30,
+            "value": 1.0
+          },
+          "status": "measured"
+        }
+      },
+      "counts": {
+        "planned_slots": 150,
+        "reference_failures": 120,
+        "reference_passes": 30,
+        "reference_unresolved": 0,
+        "reference_failures_without_single_type": 0,
+        "detected_reference_failures": 120,
+        "correct_category": 120,
+        "detected_failures_without_predicted_type": 0,
+        "false_positives": 0,
+        "pass_controls_unresolved_or_error": 0,
+        "returned_undecided": 0,
+        "errors_or_missing": 0,
+        "decided_verdicts": 150
+      },
+      "confusion_matrix": {
+        "accuracy": {
+          "accuracy": 30,
+          "freshness": 0,
+          "conflict_resolution": 0,
+          "appropriate_use": 0,
+          "pass": 0,
+          "unclassified_fail": 0,
+          "uncertain": 0,
+          "error_missing": 0
+        },
+        "freshness": {
+          "accuracy": 0,
+          "freshness": 30,
+          "conflict_resolution": 0,
+          "appropriate_use": 0,
+          "pass": 0,
+          "unclassified_fail": 0,
+          "uncertain": 0,
+          "error_missing": 0
+        },
+        "conflict_resolution": {
+          "accuracy": 0,
+          "freshness": 0,
+          "conflict_resolution": 30,
+          "appropriate_use": 0,
+          "pass": 0,
+          "unclassified_fail": 0,
+          "uncertain": 0,
+          "error_missing": 0
+        },
+        "appropriate_use": {
+          "accuracy": 0,
+          "freshness": 0,
+          "conflict_resolution": 0,
+          "appropriate_use": 30,
+          "pass": 0,
+          "unclassified_fail": 0,
+          "uncertain": 0,
+          "error_missing": 0
+        },
+        "pass": {
+          "accuracy": 0,
+          "freshness": 0,
+          "conflict_resolution": 0,
+          "appropriate_use": 0,
+          "pass": 30,
+          "unclassified_fail": 0,
+          "uncertain": 0,
+          "error_missing": 0
+        },
+        "unclassified_reference_failure": {
+          "accuracy": 0,
+          "freshness": 0,
+          "conflict_resolution": 0,
+          "appropriate_use": 0,
+          "pass": 0,
+          "unclassified_fail": 0,
+          "uncertain": 0,
+          "error_missing": 0
+        },
+        "unresolved_reference": {
+          "accuracy": 0,
+          "freshness": 0,
+          "conflict_resolution": 0,
+          "appropriate_use": 0,
+          "pass": 0,
+          "unclassified_fail": 0,
+          "uncertain": 0,
+          "error_missing": 0
+        }
+      },
+      "threshold_evaluation": {
+        "checks": {
+          "correct_category_all_reference_failures_min": {
+            "measure": {
+              "numerator": 120,
+              "denominator": 120,
+              "value": 1.0
+            },
+            "threshold": 0.8,
+            "direction": "min",
+            "met": true
+          },
+          "failure_detection_min": {
+            "measure": {
+              "numerator": 120,
+              "denominator": 120,
+              "value": 1.0
+            },
+            "threshold": 0.8,
+            "direction": "min",
+            "met": true
+          },
+          "question_reference_validity_min": {
+            "measure": {
+              "numerator": 150,
+              "denominator": 150,
+              "value": 1.0
+            },
+            "threshold": 0.9,
+            "direction": "min",
+            "met": true
+          },
+          "false_positive_max": {
+            "measure": {
+              "numerator": 0,
+              "denominator": 30,
+              "value": 0.0
+            },
+            "threshold": 0.1,
+            "direction": "max",
+            "met": true
+          },
+          "decided_coverage_min": {
+            "measure": {
+              "numerator": 150,
+              "denominator": 150,
+              "value": 1.0
+            },
+            "threshold": 0.8,
+            "direction": "min",
+            "met": true
+          }
+        },
+        "numerical_checks_met": true,
+        "reference_gate_met": true,
+        "acceptance_status": "user_reported_ai_assisted_reference_verified_numerical_checks_met",
+        "notice": "Point thresholds are separate from confidence intervals, category-specific coverage and human verification.",
+        "human_verification_scope": "150 source/answer/category reference judgments only; not the 300 automatic grader predictions."
+      }
+    },
+    "paired_counts": {
+      "joint_category_verified_success": {
+        "improved": 0,
+        "worsened": 0,
+        "both_verified_success": 120,
+        "neither_verified_success": 0,
+        "denominator": 120
+      },
+      "verdict_verified_correctness": {
+        "improved": 0,
+        "worsened": 0,
+        "both_verified_success": 150,
+        "neither_verified_success": 0,
+        "denominator": 150
+      },
+      "identical_prediction": 150,
+      "different_prediction": 0,
+      "notice": "Changes concern evaluator judgments on identical curated answers; neither verified success includes uncertainty/errors, not only confirmed wrong classifications."
+    },
+    "history_cluster_bootstrap": {
+      "method": "paired_source_history_cluster_percentile_bootstrap",
+      "iterations": 5000,
+      "seed": 20261102,
+      "histories": 30,
+      "level": 0.95,
+      "intervals": {
+        "original": {
+          "joint_detection_and_correct_category": {
+            "lower": 1.0,
+            "upper": 1.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "failure_recall": {
+            "lower": 1.0,
+            "upper": 1.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "classification_among_detected_failures": {
+            "lower": 1.0,
+            "upper": 1.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "false_positive_rate_all_reference_passes": {
+            "lower": 0.0,
+            "upper": 0.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "false_positive_rate_decided": {
+            "lower": 0.0,
+            "upper": 0.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "false_positive_rate_lower_bound": {
+            "lower": 0.0,
+            "upper": 0.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "false_positive_rate_upper_bound": {
+            "lower": 0.0,
+            "upper": 0.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "decided_coverage": {
+            "lower": 1.0,
+            "upper": 1.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "category_accuracy": {
+            "lower": 1.0,
+            "upper": 1.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "category_freshness": {
+            "lower": 1.0,
+            "upper": 1.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "category_conflict_resolution": {
+            "lower": 1.0,
+            "upper": 1.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "category_appropriate_use": {
+            "lower": 1.0,
+            "upper": 1.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          }
+        },
+        "revised": {
+          "joint_detection_and_correct_category": {
+            "lower": 1.0,
+            "upper": 1.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "failure_recall": {
+            "lower": 1.0,
+            "upper": 1.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "classification_among_detected_failures": {
+            "lower": 1.0,
+            "upper": 1.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "false_positive_rate_all_reference_passes": {
+            "lower": 0.0,
+            "upper": 0.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "false_positive_rate_decided": {
+            "lower": 0.0,
+            "upper": 0.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "false_positive_rate_lower_bound": {
+            "lower": 0.0,
+            "upper": 0.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "false_positive_rate_upper_bound": {
+            "lower": 0.0,
+            "upper": 0.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "decided_coverage": {
+            "lower": 1.0,
+            "upper": 1.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "category_accuracy": {
+            "lower": 1.0,
+            "upper": 1.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "category_freshness": {
+            "lower": 1.0,
+            "upper": 1.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "category_conflict_resolution": {
+            "lower": 1.0,
+            "upper": 1.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "category_appropriate_use": {
+            "lower": 1.0,
+            "upper": 1.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          }
+        },
+        "revised_minus_original": {
+          "joint_detection_and_correct_category": {
+            "lower": 0.0,
+            "upper": 0.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "failure_recall": {
+            "lower": 0.0,
+            "upper": 0.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "classification_among_detected_failures": {
+            "lower": 0.0,
+            "upper": 0.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "false_positive_rate_all_reference_passes": {
+            "lower": 0.0,
+            "upper": 0.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "false_positive_rate_decided": {
+            "lower": 0.0,
+            "upper": 0.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "false_positive_rate_lower_bound": {
+            "lower": 0.0,
+            "upper": 0.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "false_positive_rate_upper_bound": {
+            "lower": 0.0,
+            "upper": 0.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "decided_coverage": {
+            "lower": 0.0,
+            "upper": 0.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "category_accuracy": {
+            "lower": 0.0,
+            "upper": 0.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "category_freshness": {
+            "lower": 0.0,
+            "upper": 0.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "category_conflict_resolution": {
+            "lower": 0.0,
+            "upper": 0.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          },
+          "category_appropriate_use": {
+            "lower": 0.0,
+            "upper": 0.0,
+            "valid_iterations": 5000,
+            "status": "descriptive"
+          }
+        }
+      },
+      "limitations": [
+        "Keep both arms and all five cases together when resampling each history.",
+        "Selected related synthetic clusters are not a random population sample.",
+        "A zero-event resampling interval can collapse to zero without establishing zero future risk."
+      ]
+    },
+    "limitations": [
+      "These answers are deliberately curated diagnostic fault injections, not natural target responses or real-world error prevalence.",
+      "The new validation data were withheld from rubric development; actual exposure and pre-call freeze records remain separate audit evidence.",
+      "Reference reviewers and graders share the Astra model family; correlated errors remain possible.",
+      "Thirty synthetic source clusters and five designed cases per cluster are not 150 independent natural histories.",
+      "Unresolved or multiple actual errors are never forced into the intended design category.",
+      "Numerical thresholds do not establish population-wide reliability or statistically clear improvement. Any explicit human verification is bound to its stated reference-only scope.",
+      "User-reported AI-assisted human checks do not independently authenticate reviewer identities or establish blindness to automatic scores.",
+      "A strong baseline, tie, or regression remains a reportable outcome. Zero observed false positives does not establish zero future risk."
+    ],
+    "execution": {
+      "format": "ac3-balanced-taxonomy-readiness-v1",
+      "complete": true,
+      "planned_cases": 150,
+      "planned_slots": 300,
+      "terminal_slots": 300,
+      "pending_slots": 0,
+      "pending": [],
+      "states": {
+        "original": {
+          "returned": 150
+        },
+        "revised": {
+          "returned": 150
+        }
+      },
+      "receipt_verification": {
+        "original": {
+          "shared_input_receipts": 150,
+          "returned_max_receipts": 150,
+          "raw_journals": 150
+        },
+        "revised": {
+          "shared_input_receipts": 150,
+          "returned_max_receipts": 150,
+          "raw_journals": 150
+        }
+      },
+      "planned_pair_shared_input_hash_matches": 150,
+      "claim": "Readiness only; no correctness metrics or acceptance claim."
+    }
+  },
+  "protocol_sha256": "00be50665f8e35a53b9c9eda4d43220937799e00f0bea2fdb57e41ff2d97c09c"
+}

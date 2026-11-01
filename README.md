@@ -45,6 +45,15 @@ answers, reviews and analyses are in the
 [retained Astra evidence package](research/all-astra-main-results-20261102/).
 The Dashboard reads these saved summaries and refreshes without issuing model calls.
 
+A separate [balanced four-category diagnostic](research/ac3-balanced-diagnostic-20261102/)
+uses 150 curated examples across 30 new fictional histories. Original and revised
+MAX rubrics each detect and correctly type 120/120 injected failures, with 0/30
+observed false positives on controls; all 150 predictions are identical.
+Two independent people verified the references according to the user, with AI
+assistance. These are controlled fault injections, not natural target answers:
+the natural AC3 classification gaps remain, and the revised rubric shows no
+quality gain. The original rubric is retained pending new natural-answer validation.
+
 The [proposal status](docs/PROPOSAL_STATUS_20261101.md) and
 [original ten-scenario AC2 retest](docs/AC2_TEN_SCENE_RETEST_20261101.md)
 retain earlier accepted Astra product evidence. The current AC2 suite contains

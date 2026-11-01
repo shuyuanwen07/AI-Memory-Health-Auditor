@@ -1,0 +1,119 @@
+{
+  "format": "ac3-balanced-key-evidence-release-v1",
+  "study_kind": "controlled_curated_fault_injection_evaluator_diagnostic",
+  "target_model_performance_claim": false,
+  "human_confirmation_pending": false,
+  "previous_552_approval_applies": false,
+  "source_histories": 30,
+  "cases": 150,
+  "terminal_grader_slots": 300,
+  "receipt_verification": {
+    "original": {
+      "shared_input_receipts": 150,
+      "returned_max_receipts": 150,
+      "raw_journals": 150
+    },
+    "revised": {
+      "shared_input_receipts": 150,
+      "returned_max_receipts": 150,
+      "raw_journals": 150
+    }
+  },
+  "protocol_sha256": "00be50665f8e35a53b9c9eda4d43220937799e00f0bea2fdb57e41ff2d97c09c",
+  "analysis_sha256": "e6b0ff4b5e22fcec37cd68d80ddc2e9f1a55772b9d4303613d2b11afa4dedb58",
+  "observed_metrics": {
+    "original": {
+      "joint_detection_and_correct_category": {
+        "numerator": 120,
+        "denominator": 120,
+        "value": 1.0
+      },
+      "failure_recall": {
+        "numerator": 120,
+        "denominator": 120,
+        "value": 1.0
+      },
+      "classification_among_detected_failures": {
+        "numerator": 120,
+        "denominator": 120,
+        "value": 1.0
+      },
+      "false_positive_rate_all_reference_passes": {
+        "numerator": 0,
+        "denominator": 30,
+        "value": 0.0
+      },
+      "false_positive_rate_decided": {
+        "numerator": 0,
+        "denominator": 30,
+        "value": 0.0
+      },
+      "false_positive_rate_lower_bound": {
+        "numerator": 0,
+        "denominator": 30,
+        "value": 0.0
+      },
+      "false_positive_rate_upper_bound": {
+        "numerator": 0,
+        "denominator": 30,
+        "value": 0.0
+      },
+      "decided_coverage": {
+        "numerator": 150,
+        "denominator": 150,
+        "value": 1.0
+      }
+    },
+    "revised": {
+      "joint_detection_and_correct_category": {
+        "numerator": 120,
+        "denominator": 120,
+        "value": 1.0
+      },
+      "failure_recall": {
+        "numerator": 120,
+        "denominator": 120,
+        "value": 1.0
+      },
+      "classification_among_detected_failures": {
+        "numerator": 120,
+        "denominator": 120,
+        "value": 1.0
+      },
+      "false_positive_rate_all_reference_passes": {
+        "numerator": 0,
+        "denominator": 30,
+        "value": 0.0
+      },
+      "false_positive_rate_decided": {
+        "numerator": 0,
+        "denominator": 30,
+        "value": 0.0
+      },
+      "false_positive_rate_lower_bound": {
+        "numerator": 0,
+        "denominator": 30,
+        "value": 0.0
+      },
+      "false_positive_rate_upper_bound": {
+        "numerator": 0,
+        "denominator": 30,
+        "value": 0.0
+      },
+      "decided_coverage": {
+        "numerator": 150,
+        "denominator": 150,
+        "value": 1.0
+      }
+    }
+  },
+  "human_handoff_sha256": "2d991236e4332a72b962f80d9233455d72964c5c536c2b2d2360034ade301f86",
+  "evidence_sha256": "1b5efcba3358751139ece0bf025cc2dea2553a0325dc691ed7dcdbddbe20c127",
+  "evidence_bytes": 1937972,
+  "archive_members": 856,
+  "credential_pattern_scan": "passed",
+  "human_confirmation_status": "user_reported_independent_ai_assisted",
+  "human_confirmation_receipt_sha256": "1244785d4d19aceeb787598c494083dc1e8cef9b228888a0b953804e5d567a67",
+  "original_blank_human_zip_preserved": true,
+  "approval_scope": "150 source/question/curated-answer/type-reference judgments only; not 300 automatic grader predictions"
+}

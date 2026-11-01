@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import type { BenchmarkPlan } from './BenchmarkExecutionPlan';
 import { BCRepeatRetest, useBCRepeatRetest } from './BCRepeatRetest';
 import { AstraARetest, AstraAC3Retest, useAstraARetest, useAstraAC3Retest } from './AstraMainRetests';
+import { AC3BalancedDiagnostic, useBalancedDiagnostic } from './AC3BalancedDiagnostic';
 
 type DynamicStudyData = ReturnType<typeof useDynamicStudies>['data'];
 
@@ -325,6 +326,7 @@ export function CompactExperimentResults() {
   const bcRetest=useBCRepeatRetest(researchRefresh);
   const astraA=useAstraARetest(researchRefresh);
   const astraAC3=useAstraAC3Retest(researchRefresh);
+  const balancedDiagnostic=useBalancedDiagnostic(researchRefresh);
   if(!isCompactData(compactData))
     return <Alert role="alert" type="warning" showIcon title="Research results are unavailable" description="The source-bound dashboard data is invalid. Individual saved audits are still available below."/>;
   const data=compactData;
@@ -368,6 +370,7 @@ export function CompactExperimentResults() {
         <p className="compact-note">{data.ac3.human_consensus}/{data.ac3.answers} human-consensus answers · {data.ac3.histories} related synthetic histories · {data.ac3.human_unresolved} disagreements. Before: 0/55 failures classified. After is an optional reassessment.</p>
         <p className="compact-note">Detection difference range: {(100*data.ac3.detection_difference_interval.lower).toFixed(1)} to {(100*data.ac3.detection_difference_interval.upper).toFixed(1)} percentage points; includes no improvement. Zero observed false positives does not imply zero population error.</p>
         </>}
+        {balancedDiagnostic && <AC3BalancedDiagnostic report={balancedDiagnostic}/>}
       </Card>
     </div>
     <p className="compact-evidence">Human-review independence is user-reported; reviews used AI assistance. Selected synthetic and benchmark subsets do not establish population-wide performance. <a href="/research-results">Historical results, evidence and limitations →</a> · <a href="/experiments">All experiment records →</a></p>
