@@ -1,0 +1,274 @@
+{
+  "format": "bc-astra-repeat-retest-v2",
+  "updated_at": "2026-11-01T13:22:01.361894+00:00",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "questions_per_strategy": 16,
+  "repetitions": 3,
+  "planned_per_strategy": 48,
+  "review_status": "ai_reviewed",
+  "studies": [
+    {
+      "id": "B",
+      "label": "Synthetic histories · shared-reader repair",
+      "source_units": 4,
+      "conditions": [
+        {
+          "strategy": "weak_first_hit",
+          "planned": 48,
+          "saved": 48,
+          "errors": 0,
+          "remaining": 0,
+          "reviewed": 48,
+          "pass": 9,
+          "fail": 39,
+          "unresolved": 0,
+          "repeats": [
+            {
+              "repeat": 1,
+              "saved": 16,
+              "pass": 3
+            },
+            {
+              "repeat": 2,
+              "saved": 16,
+              "pass": 3
+            },
+            {
+              "repeat": 3,
+              "saved": 16,
+              "pass": 3
+            }
+          ],
+          "safe_incomplete": 24
+        },
+        {
+          "strategy": "strong_rule_based",
+          "planned": 48,
+          "saved": 48,
+          "errors": 0,
+          "remaining": 0,
+          "reviewed": 48,
+          "pass": 33,
+          "fail": 12,
+          "unresolved": 3,
+          "repeats": [
+            {
+              "repeat": 1,
+              "saved": 16,
+              "pass": 11
+            },
+            {
+              "repeat": 2,
+              "saved": 16,
+              "pass": 11
+            },
+            {
+              "repeat": 3,
+              "saved": 16,
+              "pass": 11
+            }
+          ],
+          "safe_incomplete": 12
+        },
+        {
+          "strategy": "scope_aware",
+          "planned": 48,
+          "saved": 48,
+          "errors": 0,
+          "remaining": 0,
+          "reviewed": 48,
+          "pass": 19,
+          "fail": 26,
+          "unresolved": 3,
+          "repeats": [
+            {
+              "repeat": 1,
+              "saved": 16,
+              "pass": 7
+            },
+            {
+              "repeat": 2,
+              "saved": 16,
+              "pass": 7
+            },
+            {
+              "repeat": 3,
+              "saved": 16,
+              "pass": 5
+            }
+          ],
+          "safe_incomplete": 26
+        },
+        {
+          "strategy": "temporal_importance",
+          "planned": 48,
+          "saved": 48,
+          "errors": 0,
+          "remaining": 0,
+          "reviewed": 48,
+          "pass": 33,
+          "fail": 12,
+          "unresolved": 3,
+          "repeats": [
+            {
+              "repeat": 1,
+              "saved": 16,
+              "pass": 11
+            },
+            {
+              "repeat": 2,
+              "saved": 16,
+              "pass": 11
+            },
+            {
+              "repeat": 3,
+              "saved": 16,
+              "pass": 11
+            }
+          ],
+          "safe_incomplete": 12
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "label": "LongMemEval Oracle · stratified subset",
+      "source_units": 16,
+      "conditions": [
+        {
+          "strategy": "weak_first_hit",
+          "planned": 48,
+          "saved": 48,
+          "errors": 0,
+          "remaining": 0,
+          "reviewed": 48,
+          "pass": 8,
+          "fail": 28,
+          "unresolved": 12,
+          "repeats": [
+            {
+              "repeat": 1,
+              "saved": 16,
+              "pass": 3
+            },
+            {
+              "repeat": 2,
+              "saved": 16,
+              "pass": 3
+            },
+            {
+              "repeat": 3,
+              "saved": 16,
+              "pass": 2
+            }
+          ],
+          "safe_incomplete": 1
+        },
+        {
+          "strategy": "strong_rule_based",
+          "planned": 48,
+          "saved": 48,
+          "errors": 0,
+          "remaining": 0,
+          "reviewed": 48,
+          "pass": 28,
+          "fail": 7,
+          "unresolved": 13,
+          "repeats": [
+            {
+              "repeat": 1,
+              "saved": 16,
+              "pass": 10
+            },
+            {
+              "repeat": 2,
+              "saved": 16,
+              "pass": 9
+            },
+            {
+              "repeat": 3,
+              "saved": 16,
+              "pass": 9
+            }
+          ],
+          "safe_incomplete": 3
+        },
+        {
+          "strategy": "scope_aware",
+          "planned": 48,
+          "saved": 48,
+          "errors": 0,
+          "remaining": 0,
+          "reviewed": 48,
+          "pass": 26,
+          "fail": 10,
+          "unresolved": 12,
+          "repeats": [
+            {
+              "repeat": 1,
+              "saved": 16,
+              "pass": 9
+            },
+            {
+              "repeat": 2,
+              "saved": 16,
+              "pass": 9
+            },
+            {
+              "repeat": 3,
+              "saved": 16,
+              "pass": 8
+            }
+          ],
+          "safe_incomplete": 3
+        },
+        {
+          "strategy": "temporal_importance",
+          "planned": 48,
+          "saved": 48,
+          "errors": 0,
+          "remaining": 0,
+          "reviewed": 48,
+          "pass": 27,
+          "fail": 8,
+          "unresolved": 13,
+          "repeats": [
+            {
+              "repeat": 1,
+              "saved": 16,
+              "pass": 9
+            },
+            {
+              "repeat": 2,
+              "saved": 16,
+              "pass": 9
+            },
+            {
+              "repeat": 3,
+              "saved": 16,
+              "pass": 9
+            }
+          ],
+          "safe_incomplete": 2
+        }
+      ]
+    }
+  ],
+  "review_reasoning_effort": "max",
+  "source_flags": {
+    "B": 0,
+    "C": 4
+  },
+  "protocol_sha256": {
+    "B": "dd748ecd2f7e20292c45f24a61fc9e1c3973ba0c9a611c0c0f6ef409f403dc2f",
+    "C": "73b8c59cf6e4612f53d2e7243ef6da13e92f968d930ccf5f8364de5c39107dc1"
+  },
+  "limitations": [
+    "Different datasets; equal denominators do not equalize difficulty.",
+    "Repeated answers share questions and source histories.",
+    "B is a reader-configuration development repair with the original rule writer.",
+    "No automatic lexical score is treated as a source-aware review judgment."
+  ]
+}

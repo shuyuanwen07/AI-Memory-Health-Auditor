@@ -236,3 +236,15 @@
 @media(max-width:900px){
   .final-results-dashboard .compact-results-latest .compact-grid > * { order:initial; }
 }
+
+/* Repeated B/C evidence needs a full-width row, with no nested newspaper columns. */
+@media(min-width:901px){
+  .final-results-dashboard .compact-results-latest > .compact-grid{
+    columns:auto;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;align-items:start;
+  }
+  .final-results-dashboard .compact-results-latest > .compact-grid > *{display:block;margin-bottom:0;}
+  .final-results-dashboard .compact-results-latest > .compact-grid > .compact-a{grid-column:1;}
+  .final-results-dashboard .compact-results-latest > .compact-grid > .compact-quality{grid-column:2;grid-row:1 / span 2;}
+  .final-results-dashboard .compact-results-latest > .compact-grid > .compact-repair{grid-column:1;}
+  .final-results-dashboard .compact-results-latest > .compact-grid > .compact-auditor{grid-column:1 / -1;}
+}

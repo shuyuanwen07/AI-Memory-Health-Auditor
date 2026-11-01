@@ -35,23 +35,32 @@ See the [architecture](docs/ARCHITECTURE.md) and
 ## Assessment evidence and handoff
 
 For the latest evidence checkpoint, start with the
-[proposal status](docs/PROPOSAL_STATUS_20261101.md) and
-[original ten-scenario AC2 retest](docs/AC2_TEN_SCENE_RETEST_20261101.md).
-The current AC2 suite contains 40 human-checked valid questions after two
-post-review regenerations, compared with 14 valid, 14 invalid and 12 missing
-original slots. These are related development sources, not a held-out test.
-The [retained experiment materials](research/astra-ac2-ten-completion-20261101/)
-include source-bound reviews, explicit user-reported human confirmation,
-original failures and frozen implementation snapshots. Dated pilot instructions
+[Astra MAX experiment report](docs/EXPERIMENT_REPORT_ASTRA_MAX_20261102.md).
+The latest A/B/C targets and AC3 target/judge use direct OpenAI Astra MAX.
+B and C each contain 16 questions × 3 repeats = 48 answers per strategy.
+New independent MAX AI reference reviews await human confirmation; unresolved
+references and failure types remain visible. Frozen protocols, receipts, raw
+answers, reviews and analyses are in the
+[retained Astra evidence package](research/all-astra-main-results-20261102/).
+The Dashboard reads these saved summaries and refreshes without issuing model calls.
+
+The [proposal status](docs/PROPOSAL_STATUS_20261101.md) and
+[original ten-scenario AC2 retest](docs/AC2_TEN_SCENE_RETEST_20261101.md)
+retain earlier accepted Astra product evidence. The current AC2 suite contains
+40 human-checked valid questions after two post-review regenerations, compared
+with 14 valid, 14 invalid and 12 missing original slots. These are related
+development sources. The tutor repair comparison retains 12/16 to 16/16 passes
+on the same frozen questions across four histories.
+Dated pilot instructions
 below describe their own earlier checkpoints.
 
 See [requirements and evidence](docs/REQUIREMENTS_TRACEABILITY.txt),
-[the experiment report](docs/EXPERIMENT_REPORT_2026-10-28.md), and
+[the historical experiment report](docs/EXPERIMENT_REPORT_2026-10-28.md), and
 [the remaining human tasks](docs/HUMAN_EVIDENCE_HANDOFF.txt).
-The [latest seven-minute presentation](research/presentation-blue-20261101/Memory-Auditor-Presentation-7min-Blue-20261101.pptx)
+The [archived seven-minute presentation snapshot](research/presentation-blue-20261101/Memory-Auditor-Presentation-7min-Blue-20261101.pptx)
 follows the six requested presentation topics and includes the four-speaker
 English script in its slide notes, with methodology, benchmark results,
-limitations and future research. The earlier visual style remains archived in
+limitations and future research. Subsequent presentation updates stay local, as requested. The earlier visual style remains archived in
 [the previous deck](research/presentation-7min-20261101/Memory-Auditor-Presentation-7min-20261101.pptx).
 The research workspace guides proposal A/B/C and general repair validation.
 Independent blind review offers a complete blank source-and-answer download.

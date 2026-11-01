@@ -1,0 +1,673 @@
+{
+  "format": "ac3-astra-max-paired-analysis-v1",
+  "complete": true,
+  "status": "descriptive_ai_reference_human_confirmation_pending",
+  "human_confirmed": false,
+  "provenance": {
+    "input_file_sha256": {
+      "protocol.json": "6ba29b95e364aca43b44f25184beccdb6d55622053ab0ebd58e4f72667b0707a",
+      "sources.json": "89f2d8a01c7d565f286f3f9549bce7af4d79d43dfde72af6fed268d39edf1183",
+      "blind-review/compact-all.json": "4750b18830b78cb9b7e431aef133dba7abf649881c8e1eb93faba6a069950502",
+      "private-review-key.json": "b342155ca9407a9dd840f17c9aee5bfbba093e9cfbbe47c37a0647e3989c4453",
+      "private-scorer-inputs.json": "345ac8a5df7d847a7e25066aeb049e6da8f303587713d3ac14e66b668f880b0a",
+      "baseline-scores.json": "e2cb47ef8142fd602d695b2bbfabbc46c03960b64a6ee1dd3fb86c027403b670",
+      "target-receipt-summary.json": "4893125be14520530122c6b4abb602f16d53f9390020f646b85950dcb448e4c9",
+      "scorer-receipt-verification.json": "454640c107933a3224d5a7142a929aa3d49b4407d0621f8b568e29c05b7d11c0",
+      "review-max/reviewer-1/batch-1-80.review.json": "208fee57ec30113d9613af4866b72e933d7a5ded1b3d355cb000c73e3fe2f5a3",
+      "review-max/reviewer-1/batch-2-40.review.json": "ac870e4948777d28dc3f1f7177fe374b4a0ca1fa4c3ad65a20faf9eb1189d59f",
+      "review-max/reviewer-2/all-120.review.json": "634cca917138534803a00131b8b488c560523e692b256e5ab7980f7bca97afbd"
+    },
+    "candidate_score_file_sha256": {
+      "candidate-scores/T04311AE4AF2446EAA08F2A090B6B3D4B.json": "63ff0a401abc0a721e74e0f358b00f99912797b600f2fcc9bdc9bfc0abfa6f0d",
+      "candidate-scores/T059393AB4DCB4D0793EB2ABED19C11BF.json": "fa4ff0e4e22c6b20812fa14508ae491edad81c5ac8eb87c0c8a6d5051a132bfd",
+      "candidate-scores/T0816D14AE1AA422E92BD208E005E8506.json": "981251e1aaf353908acb36c70ebc92bf60f68ffdb73d6b087e5c7b4d9878a666",
+      "candidate-scores/T0B3DAE06C1084776B831AB3AC3229715.json": "6ba7435c5098ab60bd66681163a98403e0087c67edf0ba22559ad7abd9e17eb1",
+      "candidate-scores/T0CFE7BF2C2B34AE9A552C17D9796C895.json": "a61ca47cabbf7ecca14b6590fb0bc7f07b17fdc06b5a73c43d84ed7783ca05d8",
+      "candidate-scores/T0D9AEB74CE194DC1B8CEC5655D166F78.json": "1ff407112c22b04efd39f2cdac3a9d46d6f21c6757b8caca861712cfa0713797",
+      "candidate-scores/T1271526A7AD048B08A19C4BEDB861984.json": "19de808bf6d91d55a779cc44ac510d7d542a2bd52018e27c307eda87ad1cce21",
+      "candidate-scores/T13236FDFB97E460892B7FD2468C369F0.json": "043fc21ea82e22ae341361b1fd110a0f61702e5b9036758bbe648b0deb635f6b",
+      "candidate-scores/T14952339AA214DB8BA0DB803F82B76CC.json": "010065a608d0fa46f1cdc34c9e4f74853db995e8a25767204a7f6366ecd19c16",
+      "candidate-scores/T150D4E8740E04E8AB6C223EA5B1A8A9F.json": "7233fcae1ebb080572841a43a873b431e9996725363cf478366963a412eb58c6",
+      "candidate-scores/T1928E79AF5AD46FCB022DD89C7AF46F6.json": "8795f0c128f0531e8c48c36b97de7bddbf30de8e527609cc7b855c72dede5cf4",
+      "candidate-scores/T1A3243381D684225A44BD379B0F4E328.json": "f6315d6d6aac887c6a5f56095b5648029585fea805537b825bdb265462ee1213",
+      "candidate-scores/T1AA17D0821054403B64E94F4850A2F38.json": "2decd7bf0231cba4f68d483d4edc39169e6e58225f60dbba69a1fdbdc278054a",
+      "candidate-scores/T1CABE21E2E5F4A608162C1679147A5A7.json": "1acdac00d94908e737f5d035f462e837d8ec9160a1a5b7c7f155bacda774f1bf",
+      "candidate-scores/T1E407C7401D64806B137DAAC2FE66AF8.json": "96386fa5102e42f21f74ef3d6a5f15db84101819630bf40d29c5a4dc7596640c",
+      "candidate-scores/T202E080DEB8C4854A73A3C1608D224C1.json": "9c62a39da70ac12246760c144292560481a4e0ac113023151cea3918aec9d4b7",
+      "candidate-scores/T209DA4B63E4641E69B284BA5FDC382B8.json": "c00172ce48b45a87acf2e61279e97c9f51a3c0a11d4cc54290e4d539b5d42008",
+      "candidate-scores/T20A9FDE65A534430B142952171495D15.json": "c3a34ca4e065dd6b14c3b69e71e8d8aa695a47ccfb611b4114404aab2807e92e",
+      "candidate-scores/T252283A2AD664015A3751ED9372BA2F6.json": "1e8767bdd1d712ded65e56f84a4b1c9c26020fcc8e3f5bc041b42de50d8938d9",
+      "candidate-scores/T2D72924588A14D64BB4E4CBEC6D853EF.json": "9554e74019057be2355e620cfd4330a59c58fa8a035b088a3385566e86e1868d",
+      "candidate-scores/T2E32C2D81A244AF5BFD995B44B4FEFBC.json": "bed1d77b612f1c4a0e06aab494e3cd253436425ccd60b121b01e37d3d9912d85",
+      "candidate-scores/T2E8E982242E040F1AA323C02371496D1.json": "6669506e92d8b492c43a4ae38b5584814da5c6d0d47fbed237ab457c19c22b30",
+      "candidate-scores/T30C06E5E75B64DBA810FF825C2C8B939.json": "09e912a5189f17c92bb6544525dfff8d3ac499eade3c3319959874664598edde",
+      "candidate-scores/T318EB380903B4084A066EAB777F19E2E.json": "7c83a1d43fe6bad4da4989f4e06d37348b2abd0d79f0655a3b317f9686bd286f",
+      "candidate-scores/T34FB851B08C2480692D7CCBE7876B3D1.json": "544ec3b1dd40947424f8dd50cbe57823120b4c7b3aed629d9c504d6d8a493ac3",
+      "candidate-scores/T36570713388340EBBE4AE422828D5478.json": "4471fb8c8237ff241c632f63436707f776cae2b8d3ffcef6c965e7d9af3e4722",
+      "candidate-scores/T37D7059BA718420D8DBDCFCAE09C1B5E.json": "e6264d34984260e6c7ef30fde0089784b3853f762ef4323a39bd898d99b44b5c",
+      "candidate-scores/T3D9807490B004779BE2428437928BE99.json": "6aea2c0c9021d0171121b592b4f70d2aa9971fb176e7a584e275c1347ad56b86",
+      "candidate-scores/T3E29FBEECDF7487A82CEFC42262DFB13.json": "35298214d8342ce4641e8966ff092468812248d8317ab43beadbe5e9df8c99ff",
+      "candidate-scores/T3E3C4094E580485080E7905614BE81EE.json": "0df61bff766e08de248ca7de51f97b1b606b92b3798832cd3ae3d429202e7a22",
+      "candidate-scores/T3F7A5FF63B144E76845EEDB440B98B7E.json": "7babf3163684d352a7ca4019d775d0705c813e6530fece7b650158ae00bf5a9f",
+      "candidate-scores/T410582C2630D4E439E5B1461EAED4AA4.json": "fd10e9a1f322087c637ebe9b9c4528dfc9aaa37a590f7d4883e2f90d07ba29ec",
+      "candidate-scores/T410E1E8199FD4915A902C26ABF913024.json": "cef6b8392d069f7daff2e2738cd74be3706fef414fb262d334cbcf6c58cace05",
+      "candidate-scores/T4313C102E82C4290B423DC881E5CCAB5.json": "6656e3fd9a631e953e32949fa3572bd04d939595834c95a5c4744a53ebee7b44",
+      "candidate-scores/T44A8B8E4F81D4DB6BC659CE4D5D06C0C.json": "6850779f5607110605f2b2478f4bb6c91fd713afed4eb20f22db27c4d58ab5b4",
+      "candidate-scores/T45CDDAA12B7947D5B44B661038572F17.json": "732428579b29c7c2d4f9e35fe352ee5d9066210f2426879b7a6a870f5674eb98",
+      "candidate-scores/T48FCB9BBDA87405CA06938E5A8008E1C.json": "dff80c641d963ae972dd2692b03371f98fc6ee4195305a3087ba6d544eba8d59",
+      "candidate-scores/T4AF8AEA6A01D4B2E81FCDF1260A36295.json": "7a4e6632ca42d08b8ca1ea830d6e79e30baccb7e8943836526b354b24716c2bf",
+      "candidate-scores/T4D3E0B554B2B4AE1AFBB1ED4FBF8743D.json": "a2b02b83d2018be712fe3082c18ed22bddc8c6fab9a5ce91b6935a9faa9814a2",
+      "candidate-scores/T4F0F5B99AD9F4BDFBBB31DD62097D90C.json": "6d5f7d94243653e589eff1e145872fea6d3441cad2d50bcf8376c59e101b885e",
+      "candidate-scores/T5266A26D10344D178657AE3ED612AA7A.json": "c35c63d1c54dbcaa896a31182b359a16dcff0a300e13220d632513934d27c10a",
+      "candidate-scores/T5307D619BACB4531BA508F619D980A45.json": "3b200800fa15e46b73ba9b04b22adb3aa30212fe72b6fc6bdeb091271f9aca1e",
+      "candidate-scores/T55793CBA9BE24F21938CB1A733435761.json": "e8dfd928aa2a6f26bfb240dc702f37bd87d433b5c8d886bb6ad5c5defc96cc3d",
+      "candidate-scores/T56F245237A0E4051A4F5CBF0925C6424.json": "27abb798d9be2c10bdc02e01657c8c3a46aa2219a4fa390db4b49ef240bda6f8",
+      "candidate-scores/T5B71AAB94FFA44C0AAFF82AEC16F79C3.json": "60bd2bcc5e52d09d5dd2ef8762519e191972132c6e460b108e9add5a93b1a4f9",
+      "candidate-scores/T606B49C4DEF8405CA0998F3D65BB6A54.json": "4b1c3940a8b0cc78b79f2eb8d905d9d1f4b165fd1709372ab513453b038c64ab",
+      "candidate-scores/T63452033F61D4553B40378A3D0F91289.json": "73beb0af112d39e972b6f886d2dcdb2a78e66d69cd7aea72d3390e5242dfb3b3",
+      "candidate-scores/T64B81B780D014F349C7CE77BD39513C0.json": "470114f756b56fe643154992c62107fe92e935a6dd10238df6f5c134330fd6c7",
+      "candidate-scores/T6A4CEBD517F24F0F9CE2ECFEA340AE0C.json": "e3789bcf94cc0dee2f1112d5983007e52e839231babdec80600a3b6c39001ec9",
+      "candidate-scores/T6C2F6D17278F4B10B3389EC9C348E276.json": "6d4816fde142adcb03c43bf04d85384b91e30081c1cc5532063cc5b1ac37cf83",
+      "candidate-scores/T6CE4B80ACECA4857B426E2C805BBA7A8.json": "95e498f7393273594493e6a6068b79932f7eab5781ce5aef267ea8a39c6b2525",
+      "candidate-scores/T6D04CE721C494746910E091EE77C6633.json": "97f95a8ca48489fd5a2130dea9269cd342b93a8f414077c5eba03c25ab230cc6",
+      "candidate-scores/T6E67D0EA60324CCB82D397F3B93DE962.json": "8b0c8d1a16c21cc4676910454454e0b1ce5123fe5cc4067d349978fab3c8d96d",
+      "candidate-scores/T704A603A090148219B4F1735F791C0D1.json": "f0dcd3caf9f63aa637c4caebaf36fe30c15156d105f313a247198278688a528b",
+      "candidate-scores/T73A12D2237364A0BBCCBA716F1E11BCA.json": "5049948e60f54e7a14243bbbee84c38600ea57be792e97149890a29081d1e82d",
+      "candidate-scores/T74AAB12A203C4E9CB93B87E82CA387C7.json": "9cc8ea66c9609ee8177d81edb0315b01fa6d91b38c33f0a6813c218eac04ed60",
+      "candidate-scores/T77D9689B7B4E42FF8D7C3A97BD7D715F.json": "8c669f410ecc7571435ef809eb8a664e24ef1393b92651b29b2703f31fbceb2e",
+      "candidate-scores/T78D14278CAB949EAAE01B33D6810E05C.json": "c758684b55fb73c7353adcb0cb98c9d2996647530a773185e9fe7196ebf6b8ec",
+      "candidate-scores/T79B6D92A5E664AC8883B577561FB356D.json": "68b6dc35ccbbe9539015c24a9c45ff407088f0d30aef5d5dfc6eb2288500108d",
+      "candidate-scores/T7C3F5FC23F2C4835B4F0E206F5D98B3F.json": "233a1f0ee398b33aef41168679d7f87f8c4066bc471ee0b00e038c456984988d",
+      "candidate-scores/T7CC53CA86F934C7C80F41A4618638606.json": "72c0a2dea437ae7fd42db01fdcc784ec9aaba70febca7cc97e7c48d135af0532",
+      "candidate-scores/T7E09B302DA6443939BE5EB3A080E16EA.json": "c3ac23805f7d7c3f9ff38ae7016f1fb995c9b742cc13a998ee0fb501223bfbd2",
+      "candidate-scores/T7F5AC9CCAEE84653AB28885D8F15A8BD.json": "4ed8b5923c01e4518171d3873563d8c1b46798304460b1cc4c4b9d3d370115d1",
+      "candidate-scores/T8395D74C353F49C1B80D329D178D4C1A.json": "fd2d41c28d160ae094c3a448a3d5b7f13b3d9660367cbcefd393047f96f433dc",
+      "candidate-scores/T87789DB045444E288919E80EF0AE9C88.json": "3845546107e390f04b151d54b208e5aa4e4fdc3dbe78c4ec81f6cb64e9f91654",
+      "candidate-scores/T8BD9DD2E19C54964A2CA2597D8061927.json": "5f770f3bc75cacbccfa9e7bd70142518b7692fb2907d8f4a28e3263e64846446",
+      "candidate-scores/T8D046DA4F2074462BA5588A21FEDB656.json": "0a7b0ae6cb2f49c5464a9d8a1098ca7fd54b1beabee7db4d7cdadd125e46abdd",
+      "candidate-scores/T8E8A3DD6444648E181EE170AA7EFEB06.json": "59cedb5d710535c205775d37760c16679629034a487cd6e93f9f7c853bf98622",
+      "candidate-scores/T918C74A18D0941B7BFFDDECBA9117D5D.json": "596eee0c301d0be66837f2bbb2d755c0aa74db5d00871c640fc80d7fb0927a3d",
+      "candidate-scores/T91AA34AAC79F4D34B6BC0F2A521F6A77.json": "a7107a9ed7362c5162e9097a64fbaaeae9edcf6954f28f19566af95fd65d2172",
+      "candidate-scores/T91D8537957A04D3D9B2A957182E49692.json": "ea6ba0fd925cc9f9c92fd36a9bfb8e91058fdbc26e33d5f6d47f587b16e7f435",
+      "candidate-scores/T92429A7CCF554B8AB8704EA76FFF3141.json": "2ac8182fdcc678770684f54a572107f30d10588dbd8351ecc228efa4f0f71e27",
+      "candidate-scores/T9260EE6B90944FFD818A81A53DE972BE.json": "304deac72705a39cca16ecd988226c528baf375b5a848e337186c6530cc0d4ae",
+      "candidate-scores/T928F597426ED4A5293C2E29278605865.json": "81d1ec4f3aebf79657c3a13a8224c179abe3f61cb2b17bc2ee87439087336446",
+      "candidate-scores/T93E309322F314D3C99435689645C8043.json": "a95897cb31921bbe7ab3f3c761b49983a0bce609d50f1ad4b24d8a13a41028a8",
+      "candidate-scores/T960A8F3C6444468ABAA1D232A8BF6C2A.json": "45ec5279db20a902ad5f48336b1838d769a915d426d9c92a37755dfafed8c566",
+      "candidate-scores/T9A5DD31F9CCF411F8BA81E7D1CDE1003.json": "59c56c1bd8bb82b65baa73ed6fc1423cd0eb476a6f86a30ea72bf99a990d5fde",
+      "candidate-scores/T9C86DDC24C61411CAB66C0AD8918667F.json": "6cc061d60a25c9d0ac632cc8f1d76ec582a2c139887c5b0b406238329e7c0489",
+      "candidate-scores/T9C9D8E7EF9794309A6D4C8415B42DE26.json": "3812b54f35903b466c304d3ebf6c0ffde2fc259d87431bb7f6de0e44e4ef1a1b",
+      "candidate-scores/TA63DE0C5FBE44A11AF965BEE83A2D9E2.json": "2839c1eda77d4eff987147df744567adae9540af56e7057a48c427ff6bbc75f8",
+      "candidate-scores/TA74F25F69B3844C398F638CD585C5F40.json": "06e573f825fa022d6da88a1c120b1bdceacee6504115a0ae36475b1cc6af504e",
+      "candidate-scores/TAE9633AF56EB4BCC97BD30273AFB0F74.json": "20e09aa364fd1a64ec1e32ad297738daecbf54603020fc9b59d28129575bb4ff",
+      "candidate-scores/TB236D1FE09F04D89AE19CB556A9364E4.json": "66f26a2e3d9f8e5f3d3d9e731a4babdaaa00951f1be927cdfa769e98c27a6754",
+      "candidate-scores/TB664F35D57E94144B2825FD2EEB98885.json": "b29c2a16a188e8c40b7beb9e359a8b041a92382809ee1453c14668858ba5f54f",
+      "candidate-scores/TB69C181EF9984224B570E666E164D33D.json": "79ae35308e8fd87c6dad2b19a98d8fe0d66b19e2a9b1e055ffee8a84c7204e75",
+      "candidate-scores/TBD86C54558F1408EAF26D8639E4F2F8E.json": "2b956ab4bbd8884c912d1152535594dc0810e4ceb21d9949f62e949b765b8fca",
+      "candidate-scores/TC28340671335494286E4E7D508DFD388.json": "b372ac9168e6ec9166851858a5cd02c58846b2ea2b2e5d1df778b7b65b5b4371",
+      "candidate-scores/TC3293ACBDE5949FA8B7167239DB6B5AF.json": "2addfff9df37f3516ea6883fea9499d629f865fde01c7ebb40d9202be3d43bd1",
+      "candidate-scores/TC3870F4B5C534CBFA03FF4A33FD34D08.json": "db070cd334ae952efba3d181e57278e4687b2e034a23c932c8615577020f99fb",
+      "candidate-scores/TC445E53F617A4543A79B19D18A2DB177.json": "91719d3e2a22b0ece95fdeb84b31ade05d12ff9e88fec3a981124a71010b65d1",
+      "candidate-scores/TC85699439BC04B578BA887AECB01E176.json": "e327c59822244fcd0801015aeddee79bbd346c015b70f4afcf8ddf08ec3670d2",
+      "candidate-scores/TC8EC0E32B6CD401E86ADF2353DF1A770.json": "b2fdaf4e411a93cde0666f07c20ec7d18158b167d4c14cff4376f8449ec7f81c",
+      "candidate-scores/TCA2E1B9285A44415ADE0EAA170BD2140.json": "3d5b8ccc99d30e80fbfe1c765b66151f8bd274c1367833690a57795d4b885e69",
+      "candidate-scores/TCB1D636E6B7048E8A3DF22C494480F61.json": "039dd4ae98790f6de02b12ef428ba8cb3b8876889c4f263ae5814f632ac7c36d",
+      "candidate-scores/TCE4D105C59CF4F059A0F879BE9C7438B.json": "6b432a369b39a1e1db3666bdc2d67e9b0579837e932dcd83a68c2842bb23db6f",
+      "candidate-scores/TD005A8814E2F478CB8B6BC0DC34F7061.json": "c2337d5c91597b3248f78cfbdd9c392a691fcf95986d9fc2a9756d7e20ee8cd6",
+      "candidate-scores/TD06EE950D5A8401D94F1B8D9461ECBE6.json": "72b892c411cc742e76b4b308427f43da3dbe0deb58f3f79dcaf19a8c3deb8b8e",
+      "candidate-scores/TD1AAA3408AE54003B4B27D5EAA45BB72.json": "b3532a256d4e7127993cbad8218886a6d98e2d0f12c270c7f34a788b2f91e0f5",
+      "candidate-scores/TD1DB5EF7A6764183AFC0BF39B180333E.json": "3997959546bef99e3d53c6d94f341570b7b7fc8a0265788732c57f9e089261ed",
+      "candidate-scores/TD2F26F51D89647EAAA80BE8C068C0C6A.json": "555fadfec162686835156f6b494d0598035b0ac0726fccac59fd97a5e28d49d1",
+      "candidate-scores/TD5476FD2801047F4BF064C174562D3D1.json": "180a7424e83a50287fa8efca0e6c2154a1087f926de31de7b6a5bb266afaf876",
+      "candidate-scores/TD653886D0A1F4A5E879BAEE8D35BCBC5.json": "be1b5150e5a89b61262fb105cf86412e17eba9ae908c050b613be75d638804bc",
+      "candidate-scores/TD653DECF2FAF45959D1B4B4C761C1D76.json": "2000cf3e930b5d5b93cf6b60a57989aa85436cd4fe5ea5f8833ffbd04d6bb385",
+      "candidate-scores/TD6FF55437BD5491AA56F6E777E4F6879.json": "b27d66274ec7274255dc713ed749259050f125bfcab3b5145037f78013c6c3c0",
+      "candidate-scores/TDA5898212E2E42079D23437613C83FDB.json": "15ccd25f68c06611b76ae488e77c8408a63e632e40bbcf76d2d5acdaee212ba3",
+      "candidate-scores/TDDF60351E21143008CF1B2D0085324CC.json": "f00fa2fbfec45f6f6ec1376ac5858c9614f777e3bc74b2b5d3dcc30145acc42b",
+      "candidate-scores/TDFC60F6A499443DE93D20F30414C488D.json": "0a001857fd554693170fea914c2205eb5d43f9f5e86adee4cac1b9a75b20792d",
+      "candidate-scores/TE2CBF2DA229F4D89A12E6BBD2DD994B5.json": "0bc81457c43eb7c2e7cab7f5b35be87f23268dbb22315a59260f84dc5f11ea66",
+      "candidate-scores/TE5700C7964414696B86357DF3445E174.json": "5b6f55f315dae0520a89fac7d724509eda97ce3b7436a7dd79db52dfa9fc5639",
+      "candidate-scores/TE6D55CDFDE274DEF8EC2470189B59E8C.json": "670712f02c9e75c0ac50529580fdd9f32914be0a53750b1398225067ff452719",
+      "candidate-scores/TE768FBB4F29949E2A78DB8C3085D337E.json": "cd2021072a2faed195ab959e3efe9da3ff871760ccf56e6f6b31ed7b613f062a",
+      "candidate-scores/TEAD229FEDD8B428DB6BF2A7D1ECA3023.json": "ebf82ad2ea137f3d35bcf80cc23249b4fe9b5c314b54ace4ea0ee730a636f2ad",
+      "candidate-scores/TEE5FB431E90D41E98577AB82E1B38243.json": "78f49798412c5558d20b21534c7b9a0f37d17c75fceeb4c46a1fd2bbf52ef9c3",
+      "candidate-scores/TEF47E000BB6B45C2B79308E39BACB39D.json": "61023e436887e7e344cbdf22df5232f2a6d91263b30892b3b7c2aead289ebf50",
+      "candidate-scores/TF16626068018404AB84BE50D9B79C03E.json": "1c8a973f94bbcd5a4546948567bf8cbf057d091f3412ac647f1967ae9fd7ac0f",
+      "candidate-scores/TF3345698D1884BDC90F4D894E82BF0D1.json": "faa84d2846a095e6726f378aa0ffa951b8b74028942b421b8b6475e54d87c92d",
+      "candidate-scores/TF5F1CCA84C1D4579BDED27638DCF515A.json": "13ee30632ceec1dbdc338f27dabec124bc3b948155c2c0d316111b4a2137b9da",
+      "candidate-scores/TFD751C73361F49DFB0E3511E01785849.json": "0e99572423a257dc93180a6c91671629c926329eed45a80c3f33970cd22b6381",
+      "candidate-scores/TFF16F73A0B834D4A8679F79F74E2F567.json": "a1c284dd839845a994ec30ff1b2af3369d2c876022dc36be414ebb8ea21bde13",
+      "candidate-scores/TFF5F970B5F6E4DD9976F363B743AC612.json": "5035aed7fd830f3f6c7dba857782e91b42c7838869dad42090a7bb046fda4f9b"
+    },
+    "candidate_score_manifest_sha256": "f1c4bba3a8510238e54e3d3f19c945bd244757be0dd3933e448a73da807cf1a9",
+    "analysis_script_sha256": "a7aa45e1beebc102db0dc6956cc747628eaa931cf31bf15795d47d5b511251a2",
+    "metric_definition_source_sha256": {
+      "backend/app/services/ac3_metrics.py": "f12ae314ccfbf534afc95c8ade96e0e913ad25e57440cec766e689839b30608b",
+      "scripts/prepare_ac3_pilot_threshold_draft.py": "68967c72a1d1fa2c1f8876191d36857c7be35d31a85bbc8912f3de02a002140d"
+    },
+    "target": {
+      "provider": "openai",
+      "model": "gpt-6-astra",
+      "reasoning_effort": "max",
+      "output_token_limit": 8192,
+      "request_attempts": 1,
+      "verified_answer_receipts": 120
+    },
+    "candidate_judge": {
+      "provider": "openai",
+      "model": "gpt-6-astra",
+      "reasoning_effort": "max",
+      "output_token_limit": 8192,
+      "request_attempts": 1,
+      "returned_receipts": 120,
+      "failed_or_ambiguous_receipts": 0
+    },
+    "baseline": {
+      "evaluator": "rule-based-v65",
+      "execution": "offline replay on the same new Astra MAX saved answers; no model call",
+      "snapshot_sha256": "31be4e0258856e8dc3c28fb4301c4ac9c01f297bf9a06480f52579e81c85ec42"
+    },
+    "reference_reviewers": [
+      {
+        "reviewer": 1,
+        "files": [
+          "review-max/reviewer-1/batch-1-80.review.json",
+          "review-max/reviewer-1/batch-2-40.review.json"
+        ],
+        "declarations": [
+          {
+            "reviewer_kind": "AI",
+            "completed_by_human": false,
+            "human_confirmation_pending": true,
+            "reviewer": "reviewer-1",
+            "model": "gpt-6-astra",
+            "effort": "max",
+            "reasoning_effort": "max",
+            "completed_independently": true,
+            "has_seen_other_reviewer_or_automatic_scores": false
+          },
+          {
+            "reviewer_kind": "AI",
+            "completed_by_human": false,
+            "human_confirmation_pending": true,
+            "reviewer": "reviewer-1",
+            "model": "gpt-6-astra",
+            "effort": "max",
+            "reasoning_effort": "max",
+            "completed_independently": true,
+            "has_seen_other_reviewer_or_automatic_scores": false
+          }
+        ]
+      },
+      {
+        "reviewer": 2,
+        "files": [
+          "review-max/reviewer-2/all-120.review.json"
+        ],
+        "declarations": [
+          {
+            "reviewer": "reviewer-2",
+            "reviewer_kind": "ai",
+            "model": "gpt-6-astra",
+            "effort": "max",
+            "completed_independently": true,
+            "has_seen_other_reviewer_or_automatic_scores": false,
+            "completed_by_human": false,
+            "human_confirmation_pending": true,
+            "reviewer_type": "AI"
+          }
+        ]
+      }
+    ],
+    "reference_review_model_provenance": "Independent AI agent declarations retained; not OpenAI API transport receipts and not independently authenticated human review."
+  },
+  "cohort": {
+    "scheduled_questions": 120,
+    "saved_target_answers": 120,
+    "histories": 30,
+    "candidate_finalized_slots": 120,
+    "target_errors_or_missing": 0,
+    "candidate_request_states": {
+      "returned": 120
+    },
+    "answer_consensus": {
+      "agreed_fail": 69,
+      "agreed_pass": 51
+    },
+    "reference_histories": 30,
+    "question_validity": {
+      "numerator": 120,
+      "denominator": 120,
+      "value": 1.0
+    },
+    "joint_question_reference_validity": {
+      "numerator": 120,
+      "denominator": 120,
+      "value": 1.0
+    },
+    "primary_type_consensus": {
+      "agreed_single_primary_type": 42,
+      "one_or_both_multiple": 7,
+      "one_or_both_uncertain": 18,
+      "primary_type_disagreement": 2
+    },
+    "agreed_primary_failure_types": {
+      "accuracy": 38,
+      "freshness": 0,
+      "conflict_resolution": 2,
+      "appropriate_use": 2
+    },
+    "gold_primary_type_coverage": {
+      "numerator": 42,
+      "denominator": 69,
+      "value": 0.6086956521739131
+    }
+  },
+  "baseline": {
+    "counts": {
+      "scheduled_slots": 120,
+      "reference_pass": 51,
+      "reference_fail": 69,
+      "reference_unresolved": 0,
+      "tp": 55,
+      "fn_decided": 14,
+      "fp": 18,
+      "tn": 33,
+      "abstain_reference_fail": 0,
+      "abstain_reference_pass": 0,
+      "request_error_or_missing_reference_fail": 0,
+      "request_error_or_missing_reference_pass": 0,
+      "reference_fail_single_type": 42,
+      "reference_fail_nonclassifiable": 27,
+      "detected_with_automatic_type": 0,
+      "detected_reference_nonclassifiable": 25,
+      "detected_reference_classifiable": 30,
+      "category_correct": 0,
+      "category_incorrect": 0,
+      "category_missing": 30
+    },
+    "confusion_matrix": {
+      "reference_fail": {
+        "automatic_fail": 55,
+        "automatic_pass": 14,
+        "automatic_undecided": 0
+      },
+      "reference_pass": {
+        "automatic_fail": 18,
+        "automatic_pass": 33,
+        "automatic_undecided": 0
+      }
+    },
+    "metrics": {
+      "failure_recall_conservative": {
+        "numerator": 55,
+        "denominator": 69,
+        "value": 0.7971014492753623
+      },
+      "failure_recall_decided": {
+        "numerator": 55,
+        "denominator": 69,
+        "value": 0.7971014492753623
+      },
+      "decided_coverage": {
+        "numerator": 120,
+        "denominator": 120,
+        "value": 1.0
+      },
+      "scheduled_decided_coverage": {
+        "numerator": 120,
+        "denominator": 120,
+        "value": 1.0
+      },
+      "false_positive_rate_decided": {
+        "numerator": 18,
+        "denominator": 51,
+        "value": 0.35294117647058826
+      },
+      "false_positive_rate_lower_bound": {
+        "numerator": 18,
+        "denominator": 51,
+        "value": 0.35294117647058826
+      },
+      "false_positive_rate_upper_bound": {
+        "numerator": 18,
+        "denominator": 51,
+        "value": 0.35294117647058826
+      },
+      "gold_primary_type_coverage": {
+        "numerator": 42,
+        "denominator": 69,
+        "value": 0.6086956521739131
+      },
+      "classification_accuracy_detected_classifiable": {
+        "numerator": 0,
+        "denominator": 30,
+        "value": 0.0
+      },
+      "classification_accuracy_compared_types": {
+        "numerator": 0,
+        "denominator": 0,
+        "value": null
+      },
+      "classification_accuracy_conservative_all_detected": {
+        "numerator": 0,
+        "denominator": 55,
+        "value": 0.0
+      },
+      "joint_detection_and_classification_recall": {
+        "numerator": 0,
+        "denominator": 69,
+        "value": 0.0
+      },
+      "automatic_type_coverage_all_failures": {
+        "numerator": 0,
+        "denominator": 69,
+        "value": 0.0
+      }
+    },
+    "request_states": {
+      "offline_replayed": 120
+    },
+    "threshold_evaluation": {
+      "checks": {
+        "failure_detection_recall_min": {
+          "measure": {
+            "numerator": 55,
+            "denominator": 69,
+            "value": 0.7971014492753623
+          },
+          "threshold": 0.8,
+          "direction": "min",
+          "met": false
+        },
+        "failure_classification_accuracy_min": {
+          "measure": {
+            "numerator": 0,
+            "denominator": 55,
+            "value": 0.0
+          },
+          "threshold": 0.8,
+          "direction": "min",
+          "met": false
+        },
+        "test_validity_min": {
+          "measure": {
+            "numerator": 120,
+            "denominator": 120,
+            "value": 1.0
+          },
+          "threshold": 0.9,
+          "direction": "min",
+          "met": true
+        },
+        "false_positive_rate_max": {
+          "measure": {
+            "numerator": 18,
+            "denominator": 51,
+            "value": 0.35294117647058826
+          },
+          "threshold": 0.1,
+          "direction": "max",
+          "met": false
+        },
+        "automatic_decided_coverage_min": {
+          "measure": {
+            "numerator": 120,
+            "denominator": 120,
+            "value": 1.0
+          },
+          "threshold": 0.8,
+          "direction": "min",
+          "met": true
+        },
+        "scheduled_decided_coverage_min": {
+          "measure": {
+            "numerator": 120,
+            "denominator": 120,
+            "value": 1.0
+          },
+          "threshold": 0.8,
+          "direction": "min",
+          "met": true
+        },
+        "reference_pass_minimum": {
+          "count": 51,
+          "minimum": 30,
+          "met": true
+        },
+        "reference_fail_minimum": {
+          "count": 69,
+          "minimum": 30,
+          "met": true
+        },
+        "all_histories_with_agreed_reference": {
+          "count": 30,
+          "planned": 30,
+          "met": true
+        }
+      },
+      "conservative_numerical_checks_met": false,
+      "acceptance_status": "not_certified_human_confirmation_pending",
+      "alternative_classifiable_only_check": {
+        "measure": {
+          "numerator": 0,
+          "denominator": 30,
+          "value": 0.0
+        },
+        "threshold": 0.8,
+        "met": false,
+        "status": "descriptive_alternative_not_a_post_result_replacement_for_the_primary_check"
+      },
+      "classification_denominator_notice": "The frozen JSON names the metric but omits its denominator. Existing AC3 service code uses correct categories / all detected reference failures; the earlier pilot draft uses detected failures with two agreed categories. Both are reported. The conservative all-detected check does not call unclassifiable reference types wrong; they are unverified. No post-result choice of the more favorable denominator establishes acceptance."
+    }
+  },
+  "candidate": {
+    "counts": {
+      "scheduled_slots": 120,
+      "reference_pass": 51,
+      "reference_fail": 69,
+      "reference_unresolved": 0,
+      "tp": 63,
+      "fn_decided": 6,
+      "fp": 0,
+      "tn": 51,
+      "abstain_reference_fail": 0,
+      "abstain_reference_pass": 0,
+      "request_error_or_missing_reference_fail": 0,
+      "request_error_or_missing_reference_pass": 0,
+      "reference_fail_single_type": 42,
+      "reference_fail_nonclassifiable": 27,
+      "detected_with_automatic_type": 59,
+      "detected_reference_nonclassifiable": 21,
+      "detected_reference_classifiable": 42,
+      "category_correct": 35,
+      "category_incorrect": 6,
+      "category_missing": 1
+    },
+    "confusion_matrix": {
+      "reference_fail": {
+        "automatic_fail": 63,
+        "automatic_pass": 6,
+        "automatic_undecided": 0
+      },
+      "reference_pass": {
+        "automatic_fail": 0,
+        "automatic_pass": 51,
+        "automatic_undecided": 0
+      }
+    },
+    "metrics": {
+      "failure_recall_conservative": {
+        "numerator": 63,
+        "denominator": 69,
+        "value": 0.9130434782608695
+      },
+      "failure_recall_decided": {
+        "numerator": 63,
+        "denominator": 69,
+        "value": 0.9130434782608695
+      },
+      "decided_coverage": {
+        "numerator": 120,
+        "denominator": 120,
+        "value": 1.0
+      },
+      "scheduled_decided_coverage": {
+        "numerator": 120,
+        "denominator": 120,
+        "value": 1.0
+      },
+      "false_positive_rate_decided": {
+        "numerator": 0,
+        "denominator": 51,
+        "value": 0.0
+      },
+      "false_positive_rate_lower_bound": {
+        "numerator": 0,
+        "denominator": 51,
+        "value": 0.0
+      },
+      "false_positive_rate_upper_bound": {
+        "numerator": 0,
+        "denominator": 51,
+        "value": 0.0
+      },
+      "gold_primary_type_coverage": {
+        "numerator": 42,
+        "denominator": 69,
+        "value": 0.6086956521739131
+      },
+      "classification_accuracy_detected_classifiable": {
+        "numerator": 35,
+        "denominator": 42,
+        "value": 0.8333333333333334
+      },
+      "classification_accuracy_compared_types": {
+        "numerator": 35,
+        "denominator": 41,
+        "value": 0.8536585365853658
+      },
+      "classification_accuracy_conservative_all_detected": {
+        "numerator": 35,
+        "denominator": 63,
+        "value": 0.5555555555555556
+      },
+      "joint_detection_and_classification_recall": {
+        "numerator": 35,
+        "denominator": 69,
+        "value": 0.5072463768115942
+      },
+      "automatic_type_coverage_all_failures": {
+        "numerator": 59,
+        "denominator": 69,
+        "value": 0.855072463768116
+      }
+    },
+    "request_states": {
+      "returned": 120
+    },
+    "threshold_evaluation": {
+      "checks": {
+        "failure_detection_recall_min": {
+          "measure": {
+            "numerator": 63,
+            "denominator": 69,
+            "value": 0.9130434782608695
+          },
+          "threshold": 0.8,
+          "direction": "min",
+          "met": true
+        },
+        "failure_classification_accuracy_min": {
+          "measure": {
+            "numerator": 35,
+            "denominator": 63,
+            "value": 0.5555555555555556
+          },
+          "threshold": 0.8,
+          "direction": "min",
+          "met": false
+        },
+        "test_validity_min": {
+          "measure": {
+            "numerator": 120,
+            "denominator": 120,
+            "value": 1.0
+          },
+          "threshold": 0.9,
+          "direction": "min",
+          "met": true
+        },
+        "false_positive_rate_max": {
+          "measure": {
+            "numerator": 0,
+            "denominator": 51,
+            "value": 0.0
+          },
+          "threshold": 0.1,
+          "direction": "max",
+          "met": true
+        },
+        "automatic_decided_coverage_min": {
+          "measure": {
+            "numerator": 120,
+            "denominator": 120,
+            "value": 1.0
+          },
+          "threshold": 0.8,
+          "direction": "min",
+          "met": true
+        },
+        "scheduled_decided_coverage_min": {
+          "measure": {
+            "numerator": 120,
+            "denominator": 120,
+            "value": 1.0
+          },
+          "threshold": 0.8,
+          "direction": "min",
+          "met": true
+        },
+        "reference_pass_minimum": {
+          "count": 51,
+          "minimum": 30,
+          "met": true
+        },
+        "reference_fail_minimum": {
+          "count": 69,
+          "minimum": 30,
+          "met": true
+        },
+        "all_histories_with_agreed_reference": {
+          "count": 30,
+          "planned": 30,
+          "met": true
+        }
+      },
+      "conservative_numerical_checks_met": false,
+      "acceptance_status": "not_certified_human_confirmation_pending",
+      "alternative_classifiable_only_check": {
+        "measure": {
+          "numerator": 35,
+          "denominator": 42,
+          "value": 0.8333333333333334
+        },
+        "threshold": 0.8,
+        "met": true,
+        "status": "descriptive_alternative_not_a_post_result_replacement_for_the_primary_check"
+      },
+      "classification_denominator_notice": "The frozen JSON names the metric but omits its denominator. Existing AC3 service code uses correct categories / all detected reference failures; the earlier pilot draft uses detected failures with two agreed categories. Both are reported. The conservative all-detected check does not call unclassifiable reference types wrong; they are unverified. No post-result choice of the more favorable denominator establishes acceptance."
+    }
+  },
+  "limitations": [
+    "All new answer reference labels are independent AI MAX reviews pending human confirmation; numerical threshold checks alone do not establish AC3 acceptance.",
+    "Both reviewers and the candidate judge share the Astra model family; correlated errors remain possible despite independently blinded review.",
+    "Thirty reused, related synthetic histories are a descriptive cohort, not a population-random sample or unseen external benchmark.",
+    "A primary failure type is verified only when both reviewers independently identify the same actual error. Unclassifiable failures remain in answer-level denominators.",
+    "Zero agreed positive failures for a type means sensitivity for that type is unmeasured, not perfect or zero.",
+    "Conditional classification rates can overstate whole-cohort diagnostic performance; all-failure joint coverage and conservative all-detected rates are shown alongside them.",
+    "This comparison isolates scoring on the same saved answers. It is not a target-model improvement claim relative to archived Luna experiments.",
+    "A single target response per question does not establish between-run sampling stability. Cluster intervals keep within-history questions together but do not resolve cohort-selection bias.",
+    "With no observed false positives, a resampling interval can collapse to zero. This does not bound the false-positive risk in unseen cases or establish zero population risk."
+  ]
+}

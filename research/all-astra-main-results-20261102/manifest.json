@@ -1,0 +1,42 @@
+{
+  "format": "astra-max-handoff-integrity-v1",
+  "created_at_utc": "2026-11-01T13:36:40.556724+00:00",
+  "answer_counts": {
+    "A": 48,
+    "B": 192,
+    "C": 192,
+    "AC3": 120
+  },
+  "total_unique_answer_ids": 552,
+  "source_counts": {
+    "A": 4,
+    "B": 4,
+    "C": 16,
+    "AC3": 30
+  },
+  "all_source_references_resolve": true,
+  "all_new_answers_human_confirmation_pending": true,
+  "private_condition_keys_in_human_zip": false,
+  "focus_counts": {
+    "A_mapping_disputes": 1,
+    "BC_question_reference_flags": 4,
+    "BC_unresolved_answers": 59,
+    "AC3_failure_type_unresolved": 27
+  },
+  "main_review_effort": "max",
+  "raw_high_reviews": "archived only; not used as current reference labels",
+  "human_zip_sha256": "da30ca56362d21279078822cc7ef2ab25c9e9df65b399d703bc1b9735aea29a9",
+  "evidence_sha256": "64726adeaf939bf38b3245cdd131a0310ea98de8b42ba1b66f33404234eba708",
+  "evidence_bytes": 11276117,
+  "archive_members": 1186,
+  "source_file_sha256": {
+    "output/proposal-delivery/a-astra-max-retest-20261101-v2/analysis.json": "89848142e18fa639fab057039a4074f83be35e7912a88e210ba0a5069f038d43",
+    "output/proposal-delivery/bc-reader-retest-20261101-v2/analysis.json": "fee712dfb846aa48be2801e40f6e079b1c68ae5fd482d7b066a51cc197d0fe07",
+    "output/proposal-delivery/bc-reader-retest-20261101-v2/review/consensus.json": "bfeb077bca163b696eb47552bb8ddd1683a1ffccf9d476d9504ae88a82a94b02",
+    "output/proposal-delivery/ac3-astra-max-retest-20261101-v2/analysis.json": "e365aad11620647db639f0403592a1bb0bdc84aa36e6418d423eeb4eb8676cfc",
+    "output/proposal-delivery/ac3-astra-max-retest-20261101-v2/reference-consensus.json": "2e6904f9b40f2bb0944f9c410189392029af8f2fe67846b754c3309196a38b91"
+  },
+  "credential_pattern_scan": "passed",
+  "human_handoff": "output/proposal-delivery/all-astra-main-results-20261101/Astra-MAX-全部新增实验-待人工复核.zip",
+  "main_report": "docs/EXPERIMENT_REPORT_ASTRA_MAX_20261102.md"
+}

@@ -5,6 +5,8 @@ import { Bar, BarChart, CartesianGrid, LabelList, Legend, ResponsiveContainer, T
 import { DynamicA, useDynamicStudies } from './DynamicStudies';
 import { useEffect, useState } from 'react';
 import type { BenchmarkPlan } from './BenchmarkExecutionPlan';
+import { BCRepeatRetest, useBCRepeatRetest } from './BCRepeatRetest';
+import { AstraARetest, AstraAC3Retest, useAstraARetest, useAstraAC3Retest } from './AstraMainRetests';
 
 type DynamicStudyData = ReturnType<typeof useDynamicStudies>['data'];
 
@@ -320,6 +322,9 @@ export function ProspectiveChart({data}:{data:Prospective}) {
 export function CompactExperimentResults() {
   const dynamic = useDynamicStudies();
   const [researchRefresh,setResearchRefresh]=useState(0);
+  const bcRetest=useBCRepeatRetest(researchRefresh);
+  const astraA=useAstraARetest(researchRefresh);
+  const astraAC3=useAstraAC3Retest(researchRefresh);
   if(!isCompactData(compactData))
     return <Alert role="alert" type="warning" showIcon title="Research results are unavailable" description="The source-bound dashboard data is invalid. Individual saved audits are still available below."/>;
   const data=compactData;
@@ -335,7 +340,7 @@ export function CompactExperimentResults() {
     <div className="compact-intro"><h2>Experiment results</h2><p>Latest studies · review status and missing results stay visible.</p><button type="button" onClick={()=>{dynamic.refresh();setResearchRefresh(n=>n+1);}}>Refresh experiment results</button>{dynamic.data.errors.length>0 && <p role="alert">Some live results could not be loaded. <a href="/experiments">Inspect experiment history →</a></p>}</div>
     <div className="compact-grid">
       <Card title="A · Audit methods" className="compact-a">
-        {hasCurrentA ? <DynamicA data={latestA}/> : <>
+        {astraA ? <AstraARetest report={astraA}/> : hasCurrentA ? <DynamicA data={latestA}/> : <>
           <div className="compact-methods" role="img" aria-label="Predefined defects found by each audit method">
             {data.a.methods.map(m=><div className="compact-method" key={m.label}><span>{m.label}</span><div className="compact-track"><i style={{width:`${pct(m.detected,m.known)}%`}}/></div><strong>{m.detected}/{m.known}</strong></div>)}
           </div>
@@ -349,18 +354,20 @@ export function CompactExperimentResults() {
       <Card title="Tutor · Diagnose, repair, retest" className="compact-repair">
         <AstraComparison refreshToken={researchRefresh} mode="writer"/>
       </Card>
-      <Card title="B · Four memory strategies" className="compact-policies">
+      {bcRetest ? <BCRepeatRetest report={bcRetest}/> : <><Card title="B · Four memory strategies" className="compact-policies">
         <AstraPolicyReview refreshToken={researchRefresh} data={dynamic.data}/>
       </Card>
       <Card title={dynamic.data.c ? 'C · Latest benchmark plan' : 'C · LongMemEval · GPT-6 Luna'} className="compact-benchmark">
         <CompactBenchmarkResults plan={dynamic.data.c} strategies={data.strategies}/>
         <AstraCapacitySummary refreshToken={researchRefresh}/>
       </Card>
-      <Card title="AC3 · Auditor before and after" className="compact-auditor">
-        <PairedChart data={scorer} oldName="Before" newName="After" height={190}/>
+      </>}
+      <Card title={astraAC3 ? 'AC3 · Astra max scoring retest' : 'AC3 · Auditor before and after'} className="compact-auditor">
+        {astraAC3 ? <AstraAC3Retest report={astraAC3}/> : <><PairedChart data={scorer} oldName="Before" newName="After" height={190}/>
         <div className="compact-values"><div className="compact-value-header"><span>Measure</span><b>Before</b><b>After</b></div>{evalRows.map(x=><div key={x.key}><span>{x.name}</span><b>{ratio(data.ac3.old[x.key])}</b><b>{ratio(data.ac3.new[x.key])}</b></div>)}</div>
         <p className="compact-note">{data.ac3.human_consensus}/{data.ac3.answers} human-consensus answers · {data.ac3.histories} related synthetic histories · {data.ac3.human_unresolved} disagreements. Before: 0/55 failures classified. After is an optional reassessment.</p>
         <p className="compact-note">Detection difference range: {(100*data.ac3.detection_difference_interval.lower).toFixed(1)} to {(100*data.ac3.detection_difference_interval.upper).toFixed(1)} percentage points; includes no improvement. Zero observed false positives does not imply zero population error.</p>
+        </>}
       </Card>
     </div>
     <p className="compact-evidence">Human-review independence is user-reported; reviews used AI assistance. Selected synthetic and benchmark subsets do not establish population-wide performance. <a href="/research-results">Historical results, evidence and limitations →</a> · <a href="/experiments">All experiment records →</a></p>

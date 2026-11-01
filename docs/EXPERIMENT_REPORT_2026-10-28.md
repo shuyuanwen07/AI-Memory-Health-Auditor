@@ -1,5 +1,7 @@
 # AI Memory Health Auditor — Experiment Report
 
+> **Historical report.** The current main results are in [the 2 November Astra MAX report](EXPERIMENT_REPORT_ASTRA_MAX_20261102.md). This document preserves earlier models, conditions and review records. Its older Luna figures are not the latest Astra results or additional independent samples.
+
 **Project:** ELEC5623 Group 2 · Track B — Product That Helps AI Work Better  
 **Report date:** 28 October 2026  
 **Scope:** System demonstration, controlled memory-policy comparison, auditor check, and diagnosis-guided repair evidence.
