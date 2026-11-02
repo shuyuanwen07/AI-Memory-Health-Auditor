@@ -1,0 +1,20 @@
+{
+  "test_id": "T6CE4B80ACECA4857B426E2C805BBA7A8",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:20:10.133696+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 661,
+    "eval_count": 159,
+    "total_duration": 20107939375
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is not supported by any confirmed memory record. The memory records do not provide information about the current export filename. The answer `review-cut.mov` is not confirmed by any of the memory records, and there is no evidence to support it.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H05-F1\",\n    \"AC3R2-H05-F2\",\n    \"AC3R2-H05-F3\"\n  ],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer does not match any confirmed memory records. The memory records do not establish the current export filename, and the answer provided is not supported by any of the confirmed memories.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:20:30.432197+00:00"
+}

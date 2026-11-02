@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "TDFC60F6A499443DE93D20F30414C488D",
+  "started_utc": "2026-11-01T13:20:59.087872+00:00",
+  "request_payload_sha256": "778f0635ae09d19b2e380b64ced9685baf0aa6e0bafe601fa236eae27a49e792",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The confirmed memory explicitly says the fitting was moved from Monday to Wednesday, matching the answer.",
+    "evidence_memory_ids": [
+      "AC3R2-H23-F3"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer correctly uses the explicit schedule update, so no failure category applies."
+  },
+  "usage": {
+    "input_tokens": 878,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 383,
+    "output_tokens_details": {
+      "reasoning_tokens": 292
+    },
+    "total_tokens": 1261
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_02d833d764ee6181006ae73cbb6fb487d0af771726f9cdc979",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:21:06.994978+00:00",
+  "raw_sha256": "aed110449f28557aa791c2c834cdae4fc4954432bc5428d43f0fcb64558ddcfc"
+}

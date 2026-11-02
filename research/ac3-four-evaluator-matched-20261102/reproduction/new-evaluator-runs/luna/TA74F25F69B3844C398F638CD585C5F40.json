@@ -1,0 +1,58 @@
+{
+  "test_id": "TA74F25F69B3844C398F638CD585C5F40",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:21.142873+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_055808de664a1dc6006ae7ffd16b8c87d19c73793eef1322f8",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 992,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 196,
+    "output_tokens_details": {
+      "reasoning_tokens": 68
+    },
+    "total_tokens": 1188
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_055808de664a1dc6006ae7ffd1d2e487d1b6574284893f8283",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__Ta2pa6wLGVPjivi4rHwomNwKBAAI8sPkS2xyjj37ACC8QCeLNClakq5ptE_oN07ASxCnH7RAAcUU4K0PAcbGsoS4vBB6LzdicSGtkmMkSY6nmoly7oZK7xx4uFGVjYaD-xxbmn75s_mg4VRobterlTSNOhCnbZHxigFwRKFHmb83xuoLv__eS2GK2bFGJZh51xoi0fXuBHbxkyV3QBMPcjdiygp9S5y7g0xGEfiBkqRpTX_CID6ApaFxt2fo9hf5CYF93eACNdBZ1z93ha005zPOIQolYYZ6XGIUekEkstPvB0_avLe_GWbPoaIuploy0BN9yD4UbFe0UVy_KdCX3RpHmF5RZ33MCkQoIfN-WwXES2l6ywklVXZ8r33xWOV90yDutsaoeo-qoQ4M0H6On5JLvl6hPXgufwwlaz3apAw58cU92wXiVitcB9Zad-pGpK30qDB0GXlJEM6RMfGppqVMzgIVcMd55fWVGZEK18KwxdKeI1bC7LMMJ2q8asQYb0WaddffMVCqZxhgtzdtRO9s5bY8w3EBTZyv3UQTeVdBQpda1pUW70_A5a-Js19Q7tgR8HeEtc9LlIXgUOOloDZyfzEa5RLu5ipkS4uzAqU_uard2ot7MQwCF_4nUhUFCXgHJd9DKBJKYw0g40ozhznfo5xtwu1jJtAWz16VVcZKlJlGZHySXPrfIl_UKGoOHRfbBSWpKO9alWtvmtWl6iILX1vqJYy9AOjsjzLrduDD3F7ewwfw6kQEeKdEAEaczu7atZHi051r5JePI2tI98TEZCeyRpytQDrtfS47uMH98wlfQ9ookwDHUrNpdpPfhDiq6-psa4spg3fAALgBswtmmlkH4untO2qkVBzYuRklQ0rrjURbs2U7UkEhfDYezfrrNKoh2Voc4XTsPHI3VJbSU_wthb1cJSScWQ9rTv62thjqODPTxctHAS60Jg5WW8UQAELMUNiiCNHgEfnlTASg_OriZfUGMpvf8IzWvSsjs-xVtGczRuojXpJXVseMVv8_ypEuwnXKlqWCRPGWXWByHImheYUu3MLJEbrEuJpdfpqkVvs33y6a22xsK0tV3F4MYu3Z3Xeu48CmqQ4f-i_4BgmqHS8QnOixF6ot_91QdH0eIgqsEkgTE7O_k1djo0vIVFZ3cEAvSRL-eeY8sY25mMI5zcLtCJ33kvlv8YuutkR26ULewehepOyLjaUHm7SkVTCttYFw1V1cfb98mbIVfDty1uPseKhsrC2OqiCq-cmoGHCSf02i3BmZNfnP9MaignzYFg4GitrAUVKqeKoMT53vivEpE2-6Ddi0PaCRpqWOFgVA1mwsd88xIDffp7rUfw8MC8Epm3Me75p_L9hnlZnLaQ6udzIb5Er59_3FqPdVx2pL9HShyqeoAfl4Ey2EwDng1ggErNCJbi6DJ9YOC4xjWDN3UPMO6ZLvcmSoTaA2iowsszRlW4cJlNsdjBC_TfZy4ExUs4w1lkZ0ADcxsEYh1-ammPGFLEKE1BIw5-nTT3WhlXvV66MBGqVpZL0rWR6QiE6HzzOrBDr4Dn3IqJpz4lewu6u-KzHQAqe6m5BI7pXclspthxWDpf2njtjCfDDA93dazJCq80dgxnb-lm7G6Vqc3LDboZwnVH65qDQv34-JG78dmizjw0zuQU0KmRJn2vv1kTHxdq3E3nj7zV3RzLBzh4so2sv894vZIoGOVGdmk7zp0Texp1dEiCDFGBLoK3RH2H-iSM6Q9Qt4qrCXVRB7umG7YOOm2xLQ_O8fEfsxYbgLSx1_3H-xoDAe9VByFjODBYUyPATK_BGUn8g5yk93qkQ2W9c7i1K7EwhwCWJlB8m7E8EKGl9I2CtpfzlzHGMmtI-GkvuA51whMS8spqIxllvRCkoN5Nv-OxM85lWNCe3ZDoddReJXmy9r8qJgxz2wv-CXRJXuYYPLzh3taIy_XLJ2fYy2M2M0vcIKhuYUFx2YNS3OhK3S6JnG1pmsX0kq144ZOnBv2_ZzZBnIqO7ZNfOegU44Nxtj-fZ9r3ExpemjG3FynJt1_1bQcIC6-eibdo54p5UdarT7KUpbXpxOpdrvlHnbLgD3Il3JbFBT5aZ_Cvhjl7Zx76VZR-b4E3-6YsFFve5zW5sF-vaUa3MrZde5sEOjzO_ocHIBQuwmSktAzsAqVZDOyMreeqGnpSkawkikiihQ8CU3oJIqO7SJoi8CBfwZ8cceA9wfLnRNf-6Io85gbufaBy9G8XIQggsVIgkVTDgpCEd9p855_WNfwVezQ8BGBeQAC0o4IZv-calEQjmeYmGduNIAJC2WyB9I7yflBXTmkzshG_8FanI4rrkeDBZFBNsw=",
+      "summary": []
+    },
+    {
+      "id": "msg_055808de664a1dc6006ae7ffd2833487d1973f9ca6b3c80620",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The records establish two active, incompatible plans for the same exercise: one names 145 MHz as the only final frequency, and the other names 155 MHz as the only final frequency, with neither superseded. The answer accurately identifies the conflict and asks for clarification.\",\"evidence_memory_ids\":[\"AC3R2-H17-F5\",\"AC3R2-H17-F6\"],\"failure_type\":null,\"classification_reason\":\"No failure: the answer appropriately recognizes the unresolved conflict rather than selecting a frequency unsupported by the records.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The records establish two active, incompatible plans for the same exercise: one names 145 MHz as the only final frequency, and the other names 155 MHz as the only final frequency, with neither superseded. The answer accurately identifies the conflict and asks for clarification.",
+    "evidence_memory_ids": [
+      "AC3R2-H17-F5",
+      "AC3R2-H17-F6"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the answer appropriately recognizes the unresolved conflict rather than selecting a frequency unsupported by the records."
+  },
+  "finished": "2026-11-02T03:13:23.900994+00:00"
+}

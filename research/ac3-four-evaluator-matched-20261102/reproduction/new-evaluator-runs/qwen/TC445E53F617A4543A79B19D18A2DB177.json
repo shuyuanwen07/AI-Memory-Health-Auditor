@@ -1,0 +1,20 @@
+{
+  "test_id": "TC445E53F617A4543A79B19D18A2DB177",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:31:50.711536+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 837,
+    "eval_count": 138,
+    "total_duration": 18009865167
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer states that the user does not have enough remembered information to say what colour the spare lens case is. However, the confirmed memory records include a memory that explicitly states: 'The spare telescope lens is stored in a grey case.' This directly contradicts the answer. Therefore, the answer is incorrect because it omits a confirmed fact from the memory records.\",\n  \"evidence_memory_ids\": [\"AC3R2-H21-F1\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer incorrectly omits a confirmed fact from the memory records, which directly contradicts the answer.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:32:08.876238+00:00"
+}

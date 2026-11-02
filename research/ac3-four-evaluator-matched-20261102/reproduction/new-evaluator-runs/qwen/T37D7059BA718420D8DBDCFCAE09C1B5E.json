@@ -1,0 +1,20 @@
+{
+  "test_id": "T37D7059BA718420D8DBDCFCAE09C1B5E",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:31:30.575753+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 678,
+    "eval_count": 179,
+    "total_duration": 19718641208
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks how many spare rakes were in the first record, but the first record is not provided. The confirmed memory records do not include a record with a 'first' identifier, and the canonical values do not mention any count of spare rakes. Therefore, the answer cannot be determined from the provided memory records.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H04-F1\",\n    \"AC3R2-H04-F2\",\n    \"AC3R2-H04-F3\",\n    \"AC3R2-H04-F4\"\n  ],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer omits the fact that the first record is not provided and fails to report the count of spare rakes from the first record.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:31:50.698843+00:00"
+}

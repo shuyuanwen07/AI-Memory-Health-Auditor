@@ -1,0 +1,58 @@
+{
+  "test_id": "TAE9633AF56EB4BCC97BD30273AFB0F74",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:22.774262+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_02a1ddce873df957006ae7ffd32ad087d19091e334db43471c",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 880,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 240,
+    "output_tokens_details": {
+      "reasoning_tokens": 113
+    },
+    "total_tokens": 1120
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_02a1ddce873df957006ae7ffd3adb087d1901b6d52c628cfad",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__Vjt_xQgstRYetUStriCIX-Pgglp96iUq_2JNEhee12Xfqg1ae_ozwAPYlo8HIme3vcXqh_YwiekL8GF8rAwyQXscHlO7xlvrS5x5lCXfSF0-Etd96sd_Zw58rl3FDywkMWl0hwyvelN8auJVsHvB6x_CO046NUgyyA559qj4smOC5TCaEfKXw4RLgkN2EmgrkiGr0W2D6qpOZn2ig-mwyqe6LMXyQOHDgZkvQTgZ_AYL-rfE5m3Fvj7bLTP8PSAUsHa1-ha609qhPaRB6KS0sg5JPbquO6jGZQ64Cv_ZreZZ75Pjqo_JGPk2zkcBY5XDS-zEHvwTvB_-7us2rYzjzZ9VTSJ0BqT64etU8ITm9LymrdaRdv3AEe6UmjJwH5Oj-G3-uexsNtE3HYrsiM0Sa4Xg1HgAyfTGvnuQrGWS4QoWA3x10VnWGJZ5aqZHAFA2LIIZALTP8WyQIHLVeBMjmcVfskcrRXGrO2W5N15GG1twPjIFS5AFW-DzgVOsfPiDdUrUbUTMhTYW0FTyDmnN-5uK2S4xlAnNpah9TYsYy6aBZeoMtmOAaVv3twvQYB3uVVZIxbB_Vqu-D4s_lB11LD66OLP3fPAMnYi2K4P6hyqnc7cojX8QJOunAje7tFsKlVpBhclWaMwd4_dhHSrhuWZFYVJnXAhVc567JwltScKWumSJHRNbnAGwf9IfitawYwUk7dwmphqdMwiBz4h-BlQiRG8JlC3SGCCP7HduSjrDqOdKOORNJqL2TLU_5zN9a8uWbScJImG5F8EjWz16btHMNS1y6pVXkI-X3ndAvvo6_Jp-N5A1Bgc6WhVg_Mr5BPHWPqjKA2bt9uufTcReddM7gHp4NIMixbHfi1A3ePdS52DRUPeyt2zejudQR-4-FINQUUWvcYT0nZjkkxje81l22I_-GIR9WeHU5YK0o59bSd4pF19DcJJH9Mm1umWg7E6-XJY36naGdNuwJPHhCk5D22rqc6StgvuEIcw8lDljOzB_HAYGZ8xNAx_ZJ24pQaNK2IipZ6a3uVVJRjLEEoUuYBrqUeyV7be2divvJ_RVHCELANEmpvdU6Ubbl6J3LPnuHaesZYB3C0eJuknGCcT02ZhW7z6M65k9Rzc74vcXEzQ0cQCrPP-E71OkNMm4yXNXSSQRsMPUnHkt9a9WX1J2fsZWGMR2VRTY00ubbX9Mm5qkBrTQLVPpjMT9neVgwGCeqNdHyNCDosdefIhODDOTkw0hmGGMlcHvgCMvoc_WtRj81UjBsWsi3oOd62Mbu11TYSHtBaJgpwvLoZJBCkekzjqwNDqz36KpgqZzJn_goEuJuJNQV4tm2hgH8s6Gfn8L16NXglaUDrycemfVujgGgPr7ch1y6F-rvEcDx4kH0dqQJvf_ntTYsJxIlfDbHtXJEqRrokriCLBq6pS13pZj3KmzZHDaeuvxGVe4Jxmtc8w8_IUxowNYXCsatLOXwmO-v5t92jNyVsdmw2OqhHOrajTeAyS695_t3BBn7MmprhQkdu1CqOrMI9Lly5FXuzAKR9eNqxEvejQQXZxnpy40_jszb4zzUlBMbCpoGbXcuniVuNlqXv7Kv3Ms4ZYVXd3OTgB-8Y16qTTZwmUPO62KkqJhvWurYbgayO1lVXmKtaRlAFnqEr3PKoRVTazS2-mnX0H8TuwBhK17c8oOuaYI_jEDVDHB-5E4rs1S0zpP2Ce_BIf82kKftco4fcw2ah7g4FpcrsBjBSAVjtFeg_m6CfbcuUezMcsfBGf1Sdhmz-hG1XGABDxsCii90KwZfD0eaBZ3GKqh_fEz7wFrk0aMtWFXaExARC4c1zk2rxaY6S_Z2uzza4Vbep1tdvO2R43CtiKWBZu8lCGdgLCpXFHopPKSekSg0Cfv9hWkg7Lgp1qhI61tatGpCp5knhKHwqBuk4HOXz_omhLhYWFHw9p2F0cC-emjOf_iFhXkwINSebHei4GeCbIzXV0imh1qQUnEZfR9W6OGrxMbyIEZOH6CRVvr_6WZWG0cxfKlKVfGIcpCnDx4FUS8ohS8PR5iSO6gzAx2VkDCxeVDyq7o5jN1ij9AoVkk8Q8VttlFv9FkxCXbC7i-nI_T2iwZ9pQmqTSJIm9dRJr4_T1j9vxWw8bHyBeN1T8P1h8Dex5BOU27ZM8IT-087djkQLN0JKdVIun7uc0a7FGBpnwX7l3wucCvfc_t37cVG86HvZ7jwCKqbmZQhOPLREVDsW42NHMU-k9eJHezkygSXWgCRyiMuN2R5qdi7od-RYkJOcbudW7PLzAIS-XdcrnG4oP2rwkb0bgZVyp5-QgMhN6SyMdAEDu9XGBtgcBPkafRCBIEcHM9uf4nxcXAe_bFT_doPXot5yDgqSRr05kjd79RGOnYIAbGt_GvANq4GqLa_xGhy-BMFFEjNUfSnYpUnaKNA0UA2PrRD6GBlrghszqIjs-D3f7jukMZHoTn2dLDyBN7fCWacOIf6T_zLOLrPWiwRE4qy8W7UuUBXiRS-nginJaBei0tRM-yzerf7HQ7qOI6U9wE8i4yT6TdnByoQm-KaRPtvSUniOMTjreEvBISkUaBSpXOXWuxKn3mD1nwTFIR5LEYu8Vt5dALJKf1teZ5XSX4q91Oo1dPYIrM6piF7bUf4binrkn17Ny0nUXslPECATxUcjE7fpNhpG9xECrzX_5HdljuX8t18kaHGqpPIAc0fDRU3DlIzBKSUU1Kis7CYKpbMU16dB447GEBh_oOIO2p2u_3zPCH76H9ZDT76WvgxBUYjqv2vcF80PB7FOGQgYObKaDbmmUySmyGOmSneUMoZZ_Ni2oEj4-gR1ybQ6tcwRJLrtdDpWMJh0s4df3RgF5EAYtmCsK2IJ0yN8iGcwRWBy4sBO7VKF-fD-eGpe2En9nnkHd7-IFgCsArqryxgbSDxDwfuRu4ChN6Ni5qZVRMvMlyOnFkrs2IBuQeO_YNCBFF5lvHrCrRTRaFe_fYjWpdsNn5OotTcpvS74IxfB5aCm9ePHR50yddvbG8XaD-9IQ==",
+      "summary": []
+    },
+    {
+      "id": "msg_02a1ddce873df957006ae7ffd4bec887d19b197c7e44b6b26c",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The records give two incompatible active claims for the same distribution: one names the school gate and the other names the sports hall, with neither having priority. The answer correctly says it cannot identify a single final pickup point from the available information.\",\"evidence_memory_ids\":[\"AC3R2-H28-F4\",\"AC3R2-H28-F5\"],\"failure_type\":null,\"classification_reason\":\"No failure: the answer appropriately recognizes that the records do not establish which of the two pickup points is the single final one.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The records give two incompatible active claims for the same distribution: one names the school gate and the other names the sports hall, with neither having priority. The answer correctly says it cannot identify a single final pickup point from the available information.",
+    "evidence_memory_ids": [
+      "AC3R2-H28-F4",
+      "AC3R2-H28-F5"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the answer appropriately recognizes that the records do not establish which of the two pickup points is the single final one."
+  },
+  "finished": "2026-11-02T03:13:26.070346+00:00"
+}

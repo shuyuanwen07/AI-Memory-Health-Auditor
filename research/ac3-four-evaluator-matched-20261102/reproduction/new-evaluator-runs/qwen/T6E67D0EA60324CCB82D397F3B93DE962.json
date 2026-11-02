@@ -1,0 +1,20 @@
+{
+  "test_id": "T6E67D0EA60324CCB82D397F3B93DE962",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:16:55.995485+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 827,
+    "eval_count": 147,
+    "total_duration": 14828765875
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer claims 'I don’t have enough remembered information to say what marks the soldering station,' but the confirmed memory records explicitly state that the soldering station is identified by a yellow hexagon. The answer does not provide any evidence to support its claim, and the memory records contradict it. Therefore, the answer is incorrect based on the provided sources.\",\n  \"evidence_memory_ids\": [\"AC3R2-H24-F1\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer incorrectly states that the soldering station is not identifiable, while the confirmed memory records clearly state that it is identified by a yellow hexagon.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:17:10.918812+00:00"
+}

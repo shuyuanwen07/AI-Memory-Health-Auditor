@@ -1,0 +1,20 @@
+{
+  "test_id": "T55793CBA9BE24F21938CB1A733435761",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:15:15.444338+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 836,
+    "eval_count": 183,
+    "total_duration": 17585551416
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks about the number of water filters recorded after a recount, but the confirmed memory records do not provide any information about the number of water filters after a recount. The answer states that the recorded count is unknown, but there is no evidence to support this claim. Therefore, the answer is not supported by the confirmed memory records.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H28-F3\"\n  ],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer claims that the recorded count is unknown, but there is no evidence in the confirmed memory records to support this claim. The memory record AC3R2-H28-F3 states that a confirmed recount replaces the figure with seven water filters, which implies that the recorded count is seven. Therefore, the answer is inaccurate.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:15:33.162084+00:00"
+}

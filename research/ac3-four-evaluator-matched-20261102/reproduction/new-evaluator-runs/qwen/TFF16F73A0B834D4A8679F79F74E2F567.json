@@ -1,0 +1,20 @@
+{
+  "test_id": "TFF16F73A0B834D4A8679F79F74E2F567",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:30:14.163487+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 836,
+    "eval_count": 214,
+    "total_duration": 39624763000
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks about the beginning time of the revised observing session, but the confirmed memory records do not provide any information about the start time of the session. The memory records only mention the original session start time (7 pm) and a subsequent change to 8 pm, but there is no explicit confirmation of when the revised observing session begins. Therefore, the answer cannot be confirmed based on the provided memory records.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H21-F2\",\n    \"AC3R2-H21-F3\"\n  ],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer claims the revised observing session begins at 8 pm, but the memory records do not confirm this. The memory records only indicate that the session was moved from 7 pm to 8 pm, but do not explicitly state that the revised observing session begins at 8 pm. The answer is based on an inference rather than a confirmed fact.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:30:53.971719+00:00"
+}

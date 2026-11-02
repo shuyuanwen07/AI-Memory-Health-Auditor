@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T2E32C2D81A244AF5BFD995B44B4FEFBC",
+  "started_utc": "2026-11-01T13:22:12.019919+00:00",
+  "request_payload_sha256": "68c48ffda0982c421c0231b3eadaee025454f8386995e276445709e67e0cb4bb",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly identifies conflicting active claims for the same departure: platform 1 versus platform 4. Neither source supersedes the other, so requesting clarification rather than selecting a single platform is justified.",
+    "evidence_memory_ids": [
+      "AC3R2-H15-F1",
+      "AC3R2-H15-F2"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the answer accurately preserves the unresolved conflict and does not invent a resolution."
+  },
+  "usage": {
+    "input_tokens": 1002,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 469,
+    "output_tokens_details": {
+      "reasoning_tokens": 358
+    },
+    "total_tokens": 1471
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0edde4dc2e5c7eb0006ae73d04623c87d0a06184a0b58105b2",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:22:20.537969+00:00",
+  "raw_sha256": "203240dcabc9a65f113868f2c74ae97278df71b815e43d9faf916fa092266fe2"
+}

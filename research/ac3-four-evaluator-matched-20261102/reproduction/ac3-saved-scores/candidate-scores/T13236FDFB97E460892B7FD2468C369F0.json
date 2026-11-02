@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T13236FDFB97E460892B7FD2468C369F0",
+  "started_utc": "2026-11-01T13:19:13.502957+00:00",
+  "request_payload_sha256": "1359c5151db4b149cec063eadbe5decc26be25cb13503a51ba1fa16ec545b541",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The answer correctly avoids choosing a sole final pen, but falsely says the other record’s pen is unidentified. F5 explicitly names pen 1; F6 names pen 4 and states that neither record is superseded.",
+    "evidence_memory_ids": [
+      "AC3R2-H12-F5",
+      "AC3R2-H12-F6"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The error is a factual misstatement about the supplied evidence. The answer leaves the competing records unresolved and requests clarification, so the supported failure is not conflict resolution."
+  },
+  "usage": {
+    "input_tokens": 985,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 2447,
+    "output_tokens_details": {
+      "reasoning_tokens": 2297
+    },
+    "total_tokens": 3432
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0613835458e3fc91006ae73c51cfac87d0af2804f6329140e0",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:20:02.005021+00:00",
+  "raw_sha256": "94d555a4fa47fdf69f9dd5c9e6557b5d5aa74e820aca84b7b85e444dbebe0749"
+}

@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "TC3293ACBDE5949FA8B7167239DB6B5AF",
+  "started_utc": "2026-11-01T13:19:02.153796+00:00",
+  "request_payload_sha256": "63683739c4305fcfce5328ac3c6dabd248cbca7740d9bd01cd595f9c4252cc3d",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The records confirm that the repair evening originally began at 5 pm before being moved to 6 pm, so the answer correctly addresses the pre-change schedule.",
+    "evidence_memory_ids": [
+      "AC3R2-H01-F2",
+      "AC3R2-H01-F3"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure occurred. The question requests the historical start time, so reporting 5 pm does not misuse an outdated schedule."
+  },
+  "usage": {
+    "input_tokens": 741,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 390,
+    "output_tokens_details": {
+      "reasoning_tokens": 267
+    },
+    "total_tokens": 1131
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0f92d7b7cc8323d2006ae73c46817487d09b1dd102c5d36789",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:19:10.502506+00:00",
+  "raw_sha256": "42efbece4b33a90364220bae7916fa8ca3562fdfd581f6f04210cf5efefbbbb0"
+}

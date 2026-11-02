@@ -1,0 +1,58 @@
+{
+  "test_id": "TF16626068018404AB84BE50D9B79C03E",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:09.656009+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_04df34db58143c9a006ae7ffc5dcfc87d1aab7d06b0c35299a",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 987,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 152,
+    "output_tokens_details": {
+      "reasoning_tokens": 47
+    },
+    "total_tokens": 1139
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_04df34db58143c9a006ae7ffc6ef2087d1a0600a7c4c91fb26",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__Id8cH69RY0rniw0ggwZa-cP4Rmu59MbvM8TBz3hIIXODPxHEMvCdm8lX8H1BbfqTai6BfhHau65CLWC9i6foRJJc5IaVGLNZk5Nj9Urv26FHQ_IAuNlqhxbtptvUZXAhvPb6GdvhKt8kinp5NdgsvGTNESNX2HqpYgxdOI-cwxnUs24viB_VlG_WiE-dZXP9v5y0M3WvCINOP6A-Nj0vknJMOCIgoQZoZTE1mHGvIeUS4SnSGvxAAm79UsryZMw91zqjLXsaQxdcS__KmIiYRTUikkYJPILtkFHoS2e7ry9T-sx3blazZwh3JYwMrfMk97FxVjHHS0dSy6SmT61ngJkKoWeXEWKiBphKfPNZK0H3fDA2bXNw0E41L80HiJrRcyFPiY50t9Jr7evvO0kBEXx5Q7Gv0hH-pcHy2r3qA5ybgUy35mkhhPx31Wioo_SNlfnlqGCBbE1WbnJiCnuUxoofNYwptUoM5cxtgrElUgUbSlCC6C9aMc_86ck96FthvFlMFpSfr4CEZEZXGnD3YEbiwnBgP3wMocdHGfp-8vaMU_GKQR31et7FMUQZomNLF4qWRuCPG7SIP5tWMpTGHBhKmzTGxyXXNyATkZD70uMH_pRHvKD7ik3Ge9I6PazW2n9Ti8uwsWi1COMjreA_DoOAsaQPZaqUOIC40ZVxJeGbaTYksTlq_LbvU4nWQti-iOZv0hwRFBbOp_WrLp_iDfvTyB_k2tjYVPjvpnaVgVs28sNLUOoEIcei77iJ26M1k7JjIKhX4nXmJOB_679VcvYxQFcc4p0_W8GfMDva4KQ0ItmBhkSjrTsqLISHMsX6-vNKQfwI4o-MK71Z1xdIza6LO2yDMUMdT4vGayYSR4qHqK-8jD0QRMZgiBEW3DhEwVSRYTwC2lkYBxxWrbef9Ff0rkYyn66XB7R7--i_5z8aeowSPEZS-2Xmjeq2ZrFj6s3FWtfzshon7S4hyKDZ9wMEw-4KHIu-1HndOUK1iENhJry_JCn_I2yZq7x8BeVeKGjMToCkGS3W0hlCO5tg5bRZnrPJhZh60POlg9FkLpxzo6eide46PsWReSi1Q-prfbTz4tKa_qGtwqyXlsoWWXQbQjKx9FYEkp51Tf-iMHc-HPl6OHBuzJod3six6RNVHwiQCYJ7XM82UAQbxQT8jG_FgQaRyY47JIYguf_z3Rqi7NbKZ9LTtWNNUryyBohEWnoT4hU-Fc4M4fGxLJ_6-ggQfsxoiOdgB1MjqDrv_0TuPd2kDxV0mFJH-Ft6G41R0yPSimrw5rp2P85RptbycfSDU02PTZ9sy0J1MFBD29_CsAf_aluD5ATvCtgC4M8li3yyLaMuCVy05AfkoOrRl2YMyFiYP-WC8pT7T0ULNoQlYiQb5jldJiQOKK-XmnflzI0lbf-cwXFYS87EDxryl6NqM33w1y533OddNcZi3AhinR0WkuXit4emok5NU-ZZzKBydamkjQ1W75LVZ85LzffGtOUI8JQWoWffefO3FkY7PKC2FuxKxDPDgYuZHmM7seh6tytc1fjJX1q3j17AP8WNIJ0sN_W1xFm5Rdsk8UmkeLnwZmCTMds-XsFvOmsUa7Td3mw18E1QBrt4to3uEsDSmZeefE_zRz7gsFfSmaErSWnunHo4q4hATMonDn-4x3FS9MiUWpHztXduT5v1R5ZZ5_tVsWyypLelpeJQu36ARCqchG4b-_tJBS6mGRCOLA1qAAxa2xJ-Fxf4ee46cRCEkO2QfuxO6tIzOchku0elUEBZfHcoK10gUG5qVqzerN1IDV3j1skvoUyB16hVOaHHtH9oPVVJOhsy1xj5vv3ea4JYWEER1GAH_3irlfV0KbyawDhDaq1y5Un32XWTC6T3_xSs5_1UPJO6Ies1kH4PvyCjLDmrIE7NtUp6SG0dP9oGuF4fIfCKIU-QW3eyD16xCVmxe9kmOSg3IOZR2ZtdpPvCnT3W5mBFjUNuwy-wl-ud5gDpumxlAObV-p92FXdDAtCWskrHZEjEu8sNn4evPeFP-h_XYtLoGCzbRBkmTxT8rABZFNfMvXkTQyzmFPw==",
+      "summary": []
+    },
+    {
+      "id": "msg_04df34db58143c9a006ae7ffc7783c87d190740df003150066",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The response accurately identifies the incompatible active language claims and notes that neither has precedence, then asks which sheet to follow rather than inventing a resolution.\",\"evidence_memory_ids\":[\"AC3R2-H14-F1\",\"AC3R2-H14-F2\"],\"failure_type\":null,\"classification_reason\":\"No failure: the source confirms conflicting final language claims for the same tour and explicitly says neither has precedence.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The response accurately identifies the incompatible active language claims and notes that neither has precedence, then asks which sheet to follow rather than inventing a resolution.",
+    "evidence_memory_ids": [
+      "AC3R2-H14-F1",
+      "AC3R2-H14-F2"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the source confirms conflicting final language claims for the same tour and explicitly says neither has precedence."
+  },
+  "finished": "2026-11-02T03:13:12.637220+00:00"
+}

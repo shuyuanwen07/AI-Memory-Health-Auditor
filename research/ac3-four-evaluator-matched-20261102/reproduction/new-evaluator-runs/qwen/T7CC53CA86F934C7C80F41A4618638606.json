@@ -1,0 +1,20 @@
+{
+  "test_id": "T7CC53CA86F934C7C80F41A4618638606",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:23:46.029789+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 833,
+    "eval_count": 194,
+    "total_duration": 19638098458
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks which battery type is 'solely authorised for the demonstration', and the confirmed memory records include two conflicting notes: one stating that the only authorised battery type is non-rechargeable alkaline, and another stating that the only authorised battery type is rechargeable lithium. The answer claims it does not have enough information to determine this, but the memory records provide conflicting information. Therefore, the answer is not accurate because it does not resolve the conflict between the two notes.\",\n  \"evidence_memory_ids\": [\"AC3R2-H24-F4\", \"AC3R2-H24-F5\"],\n  \"failure_type\": \"conflict_resolution\",\n  \"classification_reason\": \"The answer does not resolve the conflict between the two conflicting notes in the memory records. The answer claims it does not have enough information, but the memory records provide conflicting information about the authorised battery type.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:24:06.162970+00:00"
+}

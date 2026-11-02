@@ -1,0 +1,20 @@
+{
+  "test_id": "T252283A2AD664015A3751ED9372BA2F6",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:21:21.539177+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 835,
+    "eval_count": 191,
+    "total_duration": 26641377000
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks about the end time of a revised volunteer shift, but the confirmed memory records do not provide any information about the end time of the revised shift. The memory records only provide information about the first volunteer shift ending at noon and the coordinator changing the end time to 1 pm. There is no memory record that specifically addresses the revised volunteer shift's end time. Therefore, the answer cannot be determined from the provided memory records.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H24-F2\",\n    \"AC3R2-H24-F3\"\n  ],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer does not provide any information about the end time of the revised volunteer shift. The memory records do not establish a fact about the end time of the revised shift, and the answer omits this information.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:21:48.519623+00:00"
+}

@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "T14952339AA214DB8BA0DB803F82B76CC",
+  "started_utc": "2026-11-01T13:22:48.604355+00:00",
+  "request_payload_sha256": "cec50136df9564163e7974ad07515d6cd257188f45796077390ab462262cb708",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The answer claims insufficient information, but the confirmed memory explicitly states that the orchestra stores spare pencils in a round tin.",
+    "evidence_memory_ids": [
+      "AC3R2-H10-F4"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The response fails to provide an ordinary source-supported location fact. No relevant superseding update, unresolved conflict, or out-of-scope memory use is established."
+  },
+  "usage": {
+    "input_tokens": 734,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 367,
+    "output_tokens_details": {
+      "reasoning_tokens": 254
+    },
+    "total_tokens": 1101
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0897f337d6031887006ae73d28f1f887d0ab1db8a523950d1b",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:22:56.687131+00:00",
+  "raw_sha256": "a659b288e6613eb1ba55e7db1fa6916f093580370418df63a0eac69271ae3c96"
+}

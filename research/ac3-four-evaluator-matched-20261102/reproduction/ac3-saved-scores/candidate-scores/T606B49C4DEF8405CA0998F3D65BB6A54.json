@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T606B49C4DEF8405CA0998F3D65BB6A54",
+  "started_utc": "2026-11-01T13:26:18.541130+00:00",
+  "request_payload_sha256": "68bf29b4d5e736b4a560a4dfdade0dc98f619f9eff83b6f0e3d3e07f3a47c875",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The records establish incompatible active limits of 12 and 16 visitors for the same tour, with neither order superseded. The answer correctly identifies the unresolved conflict and asks for clarification rather than inventing a sole final limit.",
+    "evidence_memory_ids": [
+      "AC3R2-H14-F5",
+      "AC3R2-H14-F6"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer accurately handles the source-supported conflict, so no failure category applies."
+  },
+  "usage": {
+    "input_tokens": 1001,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 417,
+    "output_tokens_details": {
+      "reasoning_tokens": 290
+    },
+    "total_tokens": 1418
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0f321de9b1fba620006ae73dfb262887d08ea2042393cd01d7",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:26:27.128004+00:00",
+  "raw_sha256": "be6b4ec428e358648f58ca564c883cf36aea1318eae669b0a12bd21dc7db97cb"
+}

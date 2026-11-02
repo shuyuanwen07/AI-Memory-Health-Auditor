@@ -1,0 +1,20 @@
+{
+  "test_id": "T2E8E982242E040F1AA323C02371496D1",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:29:59.265466+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 678,
+    "eval_count": 249,
+    "total_duration": 35244087291
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is incorrect because the confirmed memory records indicate that the earliest production sheet requested 12 copies, but the target answer states that enough information is not available. The memory records provide specific factual information, and the target answer fails to use this information. The answer is incorrect due to lack of sufficient information, but the confirmed memory records provide the necessary data to determine the answer. Therefore, the answer is incorrect due to insufficient information, but the confirmed memory records provide the necessary data to determine the answer. The answer is incorrect due to insufficient information, but the confirmed memory records provide the necessary data to determine the answer. The answer is incorrect due to insufficient information, but the confirmed memory records provide the necessary data to determine the answer.\",\n  \"evidence_memory_ids\": [\"AC3R2-H07-F2\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer states that enough information is not available, but the confirmed memory records provide specific factual information that indicates the earliest production sheet requested 12 copies. The answer is incorrect due to lack of sufficient information, but the confirmed memory records provide the necessary data to determine the answer.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:30:36.054646+00:00"
+}

@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T0B3DAE06C1084776B831AB3AC3229715",
+  "started_utc": "2026-11-01T13:19:59.914268+00:00",
+  "request_payload_sha256": "cb23000ee7d6dcf85e9024198d3c7e470fd8ed20921155d55c0ce3895d9edd44",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly identifies the shared folder as the normal location for programme scripts. The restricted folder is an exception only for the confidential interview.",
+    "evidence_memory_ids": [
+      "AC3R2-H16-F7",
+      "AC3R2-H16-F8"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported: the answer matches the confirmed ordinary storage rule."
+  },
+  "usage": {
+    "input_tokens": 946,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 372,
+    "output_tokens_details": {
+      "reasoning_tokens": 263
+    },
+    "total_tokens": 1318
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0bd4cfa87687547d006ae73c8044c487d091f9e84db50aae70",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:20:08.080686+00:00",
+  "raw_sha256": "2e038c4d3de1de289e1e1b178aaadd59477b880c6ecc5f8addb84d3aa307aa66"
+}

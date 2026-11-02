@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "TD1AAA3408AE54003B4B27D5EAA45BB72",
+  "started_utc": "2026-11-01T13:24:58.934742+00:00",
+  "request_payload_sha256": "45ad32c95d2bcfbbe678a9307ae084935f6482ee58248658cd95d253ec991c19",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer matches the explicit requirement to record watering in the online log during the remote-monitoring trial.",
+    "evidence_memory_ids": [
+      "AC3R2-H22-F7"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the answer correctly follows the trial-specific requirement, not the board-recording preference that applies outside the trial."
+  },
+  "usage": {
+    "input_tokens": 893,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 363,
+    "output_tokens_details": {
+      "reasoning_tokens": 261
+    },
+    "total_tokens": 1256
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0327d5191a20f2d2006ae73dab44f487d082d825f409deb939",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:25:06.009578+00:00",
+  "raw_sha256": "a132fc097134b6db290c7bf762b726d7a7d6a3a0c0f4fac787851489de87eb7e"
+}

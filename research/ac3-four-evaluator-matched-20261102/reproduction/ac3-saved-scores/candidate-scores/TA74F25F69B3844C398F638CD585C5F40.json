@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "TA74F25F69B3844C398F638CD585C5F40",
+  "started_utc": "2026-11-01T13:25:30.749508+00:00",
+  "request_payload_sha256": "00100c6d000b34c14a77e8b573a3e262da5fb956809b1eaaf4b4618772a4ffb8",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly identifies that two active plans designate different sole final frequencies—145 MHz and 155 MHz—for the same exercise, with neither superseded. Asking which plan to follow appropriately addresses the unresolved conflict.",
+    "evidence_memory_ids": [
+      "AC3R2-H17-F5",
+      "AC3R2-H17-F6"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported: the answer accurately reports the conflicting claims and seeks clarification rather than inventing a resolution."
+  },
+  "usage": {
+    "input_tokens": 992,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 470,
+    "output_tokens_details": {
+      "reasoning_tokens": 334
+    },
+    "total_tokens": 1462
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0c8e26449c1a140f006ae73dcb13c887d08a9bd0d3d0fd8c21",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:25:40.475844+00:00",
+  "raw_sha256": "676af97c765c44e18fc11b51c1129298dd016bb125900fea314d9b8dba1ce5aa"
+}

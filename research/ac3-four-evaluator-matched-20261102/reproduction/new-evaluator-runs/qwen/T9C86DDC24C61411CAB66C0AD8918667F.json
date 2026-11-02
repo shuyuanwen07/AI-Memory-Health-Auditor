@@ -1,0 +1,20 @@
+{
+  "test_id": "T9C86DDC24C61411CAB66C0AD8918667F",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:24.002098+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 904,
+    "eval_count": 284,
+    "total_duration": 19757251708
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks about the standard location for non-confidential job designs, but the confirmed memory records do not provide a definitive answer. The memory records mention that the default is to keep design files in the shared project folder, but they also note that for confidential client jobs, the design must be kept in the restricted folder. However, the question specifically asks about non-confidential jobs, and the memory records do not explicitly state that the shared project folder is the standard for non-confidential jobs. The answer provided in the question is not supported by the confirmed memory records, as the memory records do not confirm that the shared project folder is the standard for non-confidential jobs. Therefore, the answer is not supported by the confirmed memory records and is considered incorrect.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H13-F3\"\n  ],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer claims that the shared project folder is the standard for non-confidential jobs, but the confirmed memory records do not support this claim. The memory records indicate that the default is to keep design files in the shared project folder, but they also note that for confidential client jobs, the design must be kept in the restricted folder. Therefore, the answer is not supported by the confirmed memory records and is considered incorrect.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:12:44.429463+00:00"
+}

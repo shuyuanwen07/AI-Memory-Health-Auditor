@@ -1,0 +1,57 @@
+{
+  "test_id": "T928F597426ED4A5293C2E29278605865",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:31.397559+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0d599516e17c2293006ae7ff9f9bb887d1a105743b782021a5",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 736,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 134,
+    "output_tokens_details": {
+      "reasoning_tokens": 34
+    },
+    "total_tokens": 870
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0d599516e17c2293006ae7ff9ff5e887d1a21866b452a225cb",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-hzkFS_YspZJD2q-ACDoCnwVzy_K_Y6shkqo0MSr4sGUDEKCIdF0SqQy6YvwJtAqZRu070nzffvM3mQs-yq1ulG7_tDJK7u5nKRoVQfr8KVQCGY6Wy13SO-ax3Uq6rOb3WZ61zhfo50g4BaDIB5CEQggXvJIfx-YUP3HD4yXZzjE9ctGCwSYE7xEHTvXS08zJDxiRe-GPxU59UPDG6NsHMkSOnspTJHyabLSIlamFOSMxQPl7FwJeHxRYMaggX6VErTD2vkjSRVYqXHrVo-JomzvlVPLrYwfAJxqUtKcginjw9j3eLx9kKmbZ5Jk4Ul3h4CfRVFjIRrzzHI0lLyZDPd916-rlnkldmST5h9Xbv4ojf33DztrARYTQm3kGIXqy3uk8GSrUjzwh82-zLXJBq43l6Ez9x2FgsDbAbfl0u_lZip2s5GxqTAfssJnEm2_yWzuZofEVCBgUbfcnfhWM_e4N4gK6josT4Alcri7zeef0MQO9ZvhI9jqsSQ0cfvLYGwJv17YwRNuPQxna1g2CXEzDpp2nBB-WGSHFFyt0VWbUlp0l3isoQ9fWwQW0XsQZKaGMoalcY7_9tnyA-dvaUuXHrq3xag6Ha--weijt1EoMjFGruBAAW6yMHRpeYgno_XCQYP5q6jwaVGe7ugji0lA-JByKZhyZTDMkMN4e_JeTucHnRu5VawH7Y0wfiCj_Q0LW9E1O2R6fICIpDQRjpCMOHj7cIvbYajg_PZU_pK2swSrZoffyLIQQtt69wlL0PPMI1p0CqS1bDb4CCeelzI7A40S91tBXJstMWgU4578GXxN4DL6ioONXHR7bUB5Ay5ySIw8GWn9MLKbYawT3d0hosdLu4UDS4yP-dj-r4rReSflAja6eVHyNyHjoP2TkgGEvWyPg34DeuBYD8qfehrwhDc_UaqDuhVEsHcq83SzzYLjffbvrUOLNOyPcbbZ7lMRFWE1BxUdl5CVD_Sv2p7dHlUEgIK9mX3pUBAjfzjVBBFOhRt_vAEdxu-8IG4j4yG9TvQhpzaN-ZzH0te98h8VJ0US1r4gc1NZeLS7kmxzXEIpSGs8qkoYfXEmDjDQVw-J_XQFxgZ-rwM3aAe4QkdhsLnK41Xtdqq1-bguXapWJ2JpFtezTdiG-Iyw0oDR3K73BcxFtf_hqumBpLU-Qt_2pbxEl0m-DNv2AFi4Wq7tpqCQneKUpEkifi7nSCoGK1otMphcnw7EOVbp3Sy5cN2i52OOwc-GnDwRUVd7Ag41F0iYnjR6TvERKSg01HQ5yVbl7en0rfcx-6HFpmY2OwbnMNfJelz2F9ctW8e7fkapgrNvdwuxpGwtnb3ANca3BEHTLBkTH0n8aMVxTUMRbg_uqSxLzN_65Am2b_EKCA6jSpkvSAv1bDPSVl5Mf3CMe-r2peFV8xMcTq-HNmkOOu0FlOBuILmofmjmuKLztWH99RFxk55rhWyDIKc-d-Mh1VA462m8N_rJYv5mlcn4T2ZE26_nsKuzFTCdCeOjiiY9rTHsb7_HKvDWshDAUqH-XvF1DOReDs8PPy_9BuHyE-ksuDvzAdZ2Wz09DCL3bqCX-rpQ3PdTYJb6QYrD-MNEK2MaWthZmBhqb0O8YCmkj711DG5AIMcsv1oMWdsuyYXjXGXvq4Mq-_TX3ItvaFsQMDLOWhVmNnzxJwvDXM3uwhp_cbC4tIos0P87t5S9d8PSs-ZeWfmEPEi03uwUM_Ove0jsgyB8sfVTgURTeyY_Vr8R9bMjIOxiyl_rd_iEYqCDtZ23Gtyc_P7seZ6hn_6Ui8KaWmbZQRUgxLDuJuEFfYyseIPGLXOu7fhC72Q1qYdBpH-QFtQ0IRxij6YU_zWtgP",
+      "summary": []
+    },
+    {
+      "id": "msg_0d599516e17c2293006ae7ffa055e487d1ad96a349780db9c6",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The confirmed memory states that the revised conductor's order begins with the suite, so the answer incorrectly says there is not enough information to identify the piece.\",\"evidence_memory_ids\":[\"AC3R2-H10-F3\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary fact directly stated in the memory. No supersession, unresolved conflict, or inappropriate use is established.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory states that the revised conductor's order begins with the suite, so the answer incorrectly says there is not enough information to identify the piece.",
+    "evidence_memory_ids": [
+      "AC3R2-H10-F3"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary fact directly stated in the memory. No supersession, unresolved conflict, or inappropriate use is established."
+  },
+  "finished": "2026-11-02T03:12:33.448055+00:00"
+}

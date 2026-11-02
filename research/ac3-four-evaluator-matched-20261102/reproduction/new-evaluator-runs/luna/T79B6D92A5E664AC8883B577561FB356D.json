@@ -1,0 +1,58 @@
+{
+  "test_id": "T79B6D92A5E664AC8883B577561FB356D",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:22.481850+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0803668b995ecb6a006ae7ffd2c9b087d1bfe6b2bf0c0eb8d3",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 971,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 209,
+    "output_tokens_details": {
+      "reasoning_tokens": 90
+    },
+    "total_tokens": 1180
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0803668b995ecb6a006ae7ffd39f1c87d1919c191dce831fb4",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__Wg9T55N_8UVB7WSWpKikzlye3vFiowZGYX1-DpWSytod9wqDqoXkyDQmyEstxgxAznEsKjS4-ry-9iA8WyxMkCjpfR8LHH-kCwHuFHb5_uXrXwWTNyxzKkvmHUJiQnIESix2n9E2LPNM5IwUAh_levuolAyN89oLvQPzGeRII1djgtM7ifZBPMYJgaZ_9S0Hf4GqsK3dMYDYAF08bMrxjteXin-_i8npvgrb6ViGQ4QwAkRrpdmZpCYBMVhAYp2mjOSxk84YXp6yBjw7TllYIgNYkgVH-voDMhn7eCUAbMyswivN89PemAXpaLPRI1D00iDf-gp21SC7h1sG8kZDyNGZCG1yjbf2cWbL9O9Q1imGG8II-huzlD_dARD_yLdbnMZQBEY-QyeH9BNnZETmygXkAt-xA0KTAsorD3vmI28prTT5z1HSZqdK-D3wcsbmPTdEgnCwgdxSGA_EetcaLONGJoTh_Fg8X7iwehmpSNqUmQionF3UbivFgyZMIGUgqubnSt0PZix4uLPSoBZvafFBXNzGDFg53VTVikSl9-z7tXu7qIdpIRmddfylmcQ5N48DmWQ4V3WS2uuk7YRMZSSLdh6_nV5HLnYqncgekxkcJdBYrIKP9p2O4aD5wRtqVSp4rnvlYOXWDT-dR1NPuMoF8JmjS-EC-jxh0dOoXKaTytlti4zBMkWntJlT5F6AgAN_HPBIKzH_aRNZRrm3Y7jSKh-0d_gYk7boRqeLP8CGhwBTRBM5HR5K0aXVNk-NSN7pYvac-dptyw3o6r19SF6lgaQo564JFJe20QbAMQMdsvumbEcn3dYJDfL8zzuTvqoq_gpxTpFuWSCverrwfLk476RE_87BFlf157nkMZoBdCK-UAj3q8vLl4n5dcy1PNuLkRjnrMwCJUwbcVyqBD5CZ87hs35T9fldk8BVrQF9uRZISw2ExYUPkBf7lm8XWq8VXWMOi9fpZElABWALKZ0zZQHg4YkgpQuEU99YGug9qj9vu2VHUnflbpV2uGdwjbNS5R1lL1iI38aIlXvSzoFeodmJZHiVLS0kKm4jaYaVtckPZtnGHU1IHqEcATwqzqqKpo82N65NacZZUH3c6DmwDVEdstTNnFGqhspM7X4r5AK-RC9dosMBD43BMAi5e8DJucq81UzMCEMIngRW3gjMARokGF8BDxp_45LML-dCa-uxpsrWFDIf8QrxW32UvnAUXNLpfPWxp5VWUCm-Nnzn389sFem3tC3kOwFsBEiWW0Qc-sJINdLpb0A2poR3icrfg56fr88KIrB1phLrCqYDdz4ENB4KuUV6TPSSBfz9GywkD_l1yqKRVLccFeqXCePgnnrLKqqztAM7aIUVo8Kp0wABoWT2n7_76oAQLX4epHwbrg_cMIpOp_e_vdzCAD2PC1oz66CHJ_PQR1PW1eV9bsnrwywoDk97Ue_tbE8WecP2DTXTebs5pmRecUEG7gAUiLbTGlZ1wjk_mt3ifRALycfCFePDgd7vtfn41j-9HUwU1XC8_eDhFHtF9dMIffg3vJfumqL0nmTQqE2AeSc7pJE1P81izrMjSDUfwB_pFSeHxucqlFKVv1qruZzGxSRWxPukCLLsAmbU7FFTY5WroN9pQwD2TBmNT6qfMcuXxNRc6z9eLgr0_e9QWqcXA5Itx9ywYexnnvMk7Hl_ZGj-HEAOa4UCHYn9ZzX-8D0hVV7tbo1dM9GtgIdxO6NQ8D83iwzu11xk4VOmpLZXdf4Kkf8SB6NA-S2gY6NDBHfRNmBUqH65CmHGsiv2Cw8Mhzw4KkFfrl8JthLJs0sgnCgEuDRB7QKN4J7JHbdr2JG4Oje_xZ1Dg_YzgMy1p0Z0qevq3ULIKCDH_pB8x4QTyMg4Hf2lZCks3qcB0djTU81H2T4MKdEeQozqDbyCB7UQ18Aw5I5fgdJGR2CUZ833HQHxq4ucNYTqiX1YqOb6qn93flSV_zMRNtFXe-CZw0FwzHsW0OkcekG3WaCG2I9mkwpiFAW9uzYdT3harN34NeO-ai_vfq4t1UJzVKYiNH3oxGMwFJZhwEB5aQFxzvf18nOVJbxI-riN8Ettw2juSmnLXVv9wLXHFJsUGoSwJiHGmJiARJ_5sCeOpepW8vQ9MeHuZ1ui8lE5tylgzVsppi8VIpCiJlvENpzXFtI4tUOlys68I43UXB82nsd-OBVzgAZWedW_G8n5-rmeS5NqJ--5ZyWyn88nHJTj12QTpxs8oSp75sWebhbEfHj-vzcMme5ll3nKGp2Vcc0HOig0v2TGGUc1hpv6vUyVwYZlSdHCKt-M_ue901yB6k1j4yAPOdKiKrMW7yYoDU9R8-rbu-liwYr43S3XZsKvOCWqmrU47qXVNeJHutrQyI-WwZWSTpnnZZU6EoANoaZAgDFbQauRVqdKzH3WJubP0r6YcGv0KPGHpKXNerRsD5VHGwMaRT7Z-NBP1iTaN94PpD6YuwANAfF6uqrLzJs3MV-OOPNGm4SoSfg0gS_BOTvAcb9kjW697Qe6mgpDT3KkNVsZD5Qyvv6jXE58VdmjRlnsZqFTRk-1qviHeu8fX-0PWV_2I7PzNEfQv6zCuCY2xy7ouISYtTBOX3Kd--25FuJT-OoBk",
+      "summary": []
+    },
+    {
+      "id": "msg_0803668b995ecb6a006ae7ffd5007c87d1b2cbd01d0bb32a7b",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The records give incompatible active scores for a win in the same winter tournament—one point and two points—and explicitly say neither note has priority. The answer appropriately says it cannot determine the score and asks for the final rule text.\",\"evidence_memory_ids\":[\"AC3R2-H18-F5\",\"AC3R2-H18-F6\"],\"failure_type\":null,\"classification_reason\":\"No failure: the source establishes an unresolved conflict, and the answer does not invent a resolution.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The records give incompatible active scores for a win in the same winter tournament—one point and two points—and explicitly say neither note has priority. The answer appropriately says it cannot determine the score and asks for the final rule text.",
+    "evidence_memory_ids": [
+      "AC3R2-H18-F5",
+      "AC3R2-H18-F6"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the source establishes an unresolved conflict, and the answer does not invent a resolution."
+  },
+  "finished": "2026-11-02T03:13:26.650568+00:00"
+}

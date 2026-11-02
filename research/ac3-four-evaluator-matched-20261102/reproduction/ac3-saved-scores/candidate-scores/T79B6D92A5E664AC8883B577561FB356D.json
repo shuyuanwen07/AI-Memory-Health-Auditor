@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T79B6D92A5E664AC8883B577561FB356D",
+  "started_utc": "2026-11-01T13:25:39.521125+00:00",
+  "request_payload_sha256": "579e5d34d462642f6e2cbfcbd13a8ef22c48849e4efaf06a88fc470aaac31bd7",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The relevant records specify incompatible final scores for a win—one point and two points—with neither note having priority. A unique value cannot be determined, so the answer's uncertainty and request for clarification are justified.",
+    "evidence_memory_ids": [
+      "AC3R2-H18-F5",
+      "AC3R2-H18-F6"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is established. Although explicitly naming the conflicting values would be more informative, the answer avoids inventing a resolution and appropriately seeks clarification."
+  },
+  "usage": {
+    "input_tokens": 971,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 1689,
+    "output_tokens_details": {
+      "reasoning_tokens": 1552
+    },
+    "total_tokens": 2660
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0673593fb8586f96006ae73dd3d90887d097351b96422e9bd8",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:26:09.310833+00:00",
+  "raw_sha256": "52661ad021899aaa44821d27ec849322deebb7d8f971643d56e98a856fa97fcb"
+}

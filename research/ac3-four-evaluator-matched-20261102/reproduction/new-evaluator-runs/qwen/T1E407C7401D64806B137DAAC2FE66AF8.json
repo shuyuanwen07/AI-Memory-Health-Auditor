@@ -1,0 +1,20 @@
+{
+  "test_id": "T1E407C7401D64806B137DAAC2FE66AF8",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:23:03.335941+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 825,
+    "eval_count": 219,
+    "total_duration": 20877316834
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks which single release plot is final, but the answer states that the user does not have enough remembered information to determine this. However, the confirmed memory records provide specific information about the final release plots: plot A is the only final release plot for this observation, and a separate active signed plan says plot D is the only final release plot for the same observation. These records directly answer the question, contradicting the answer provided. Therefore, the answer is incorrect based on the confirmed memory records.\",\n  \"evidence_memory_ids\": [\"AC3R2-H29-F4\", \"AC3R2-H29-F5\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer incorrectly states that the user does not have enough information, but the confirmed memory records explicitly state that plot A is the only final release plot for this observation, and plot D is the only final release plot for the same observation. The answer fails to provide the correct information based on the confirmed memory records.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:23:24.448782+00:00"
+}

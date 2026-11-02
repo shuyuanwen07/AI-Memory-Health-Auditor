@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "TCE4D105C59CF4F059A0F879BE9C7438B",
+  "started_utc": "2026-11-01T13:18:11.390355+00:00",
+  "request_payload_sha256": "b4266442750e6c86aa1192db75975cd5d28ddd1cd96d84d531584a9dee8d4c12",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The records explicitly require scheduling for a live alarm drill to use a radio call instead of email. The answer incorrectly claims that the drill-specific requirement is unavailable.",
+    "evidence_memory_ids": [
+      "AC3R2-H11-F8",
+      "AC3R2-H11-F7"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The answer omits a directly requested, source-supported fact. The ordinary email rule and drill-specific radio requirement have distinct scopes, not an unresolved conflict or temporal update. The answer does not misapply the email preference; it fails to recall the explicit drill requirement."
+  },
+  "usage": {
+    "input_tokens": 977,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 1114,
+    "output_tokens_details": {
+      "reasoning_tokens": 957
+    },
+    "total_tokens": 2091
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0f2d51a6a507aa19006ae73c13bd3087d0b27c44f840065e12",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:18:33.267556+00:00",
+  "raw_sha256": "2191f481ec98e877253f97a909a2bbde2d8c5eabf6fe820fd5996ef313d56538"
+}

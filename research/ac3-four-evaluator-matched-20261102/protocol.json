@@ -1,0 +1,22 @@
+{
+  "cohort": "existing AC3 Astra MAX 120 model answers, 30 related synthetic histories",
+  "inputs_sha256": "345ac8a5df7d847a7e25066aeb049e6da8f303587713d3ac14e66b668f880b0a",
+  "reference_sha256": "84cba0136ff4b66f34de870dd64b21c86fd6cf1b5cd7efc66eadc14b5dfd45c2",
+  "reference": "two user-confirmed independent human checks of AI-assisted reviews; prior observations mean this is not a held-out comparison",
+  "models": {
+    "rule": "archived rule-based-v65 saved judgments",
+    "astra": "existing gpt-6-astra max saved judgments",
+    "qwen": "ollama qwen3:1.7b think=false",
+    "luna": "OpenAI gpt-6-luna medium"
+  },
+  "model_scorers": "same source-derived taxonomy rubric and structured output, question + answer + confirmed memories; no expected answer, human label, or dimension",
+  "scoring": "failure recall = correctly identified human-reference failures / all 69 agreed failures; false-positive numerator and all 51 human-pass denominator reported; abstentions and transport errors counted as not detected and separately reported",
+  "call_policy": "one attempt per answer, no outcome-based retries; no invented results; raw outputs preserved",
+  "caveats": [
+    "model endpoints and structured output implementation differ",
+    "rule baseline is deterministic and uses its archived inputs and implementation",
+    "existing answers were produced by Astra MAX",
+    "previous reference reviews used AI assistance",
+    "reuse of cases means not prospective held-out evidence"
+  ]
+}

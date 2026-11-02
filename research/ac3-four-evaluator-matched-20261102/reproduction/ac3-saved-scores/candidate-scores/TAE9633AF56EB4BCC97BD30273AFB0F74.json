@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "TAE9633AF56EB4BCC97BD30273AFB0F74",
+  "started_utc": "2026-11-01T13:25:41.260434+00:00",
+  "request_payload_sha256": "baa0774520392eda5189d718e274b03413441466b9363261fd5303b4d453ad59",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "Two active notes identify different exclusive final pickup points for the same distribution: the school gate and the sports hall. Neither note has priority, so the memories do not establish a single final pickup point. The answer's abstention is justified.",
+    "evidence_memory_ids": [
+      "AC3R2-H28-F4",
+      "AC3R2-H28-F5"
+    ],
+    "failure_type": null,
+    "classification_reason": "The response does not choose an unsupported location or invent a resolution. Explicitly explaining the conflict would be more informative, but the answer correctly states that it cannot identify one final point."
+  },
+  "usage": {
+    "input_tokens": 880,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 1120,
+    "output_tokens_details": {
+      "reasoning_tokens": 964
+    },
+    "total_tokens": 2000
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_09072f3875793158006ae73dd59a1087d0be891f4d6d732440",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:26:03.036587+00:00",
+  "raw_sha256": "1e1a7dae4cb08b44160b4d606c610dc7d9363896d15aed09aba587c43490eb31"
+}

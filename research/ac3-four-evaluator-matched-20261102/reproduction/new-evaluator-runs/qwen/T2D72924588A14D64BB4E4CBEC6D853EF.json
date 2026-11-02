@@ -1,0 +1,20 @@
+{
+  "test_id": "T2D72924588A14D64BB4E4CBEC6D853EF",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:18:34.373159+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 821,
+    "eval_count": 161,
+    "total_duration": 17177947583
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer states that the conductor folder clasp color is unknown, but the confirmed memory records show that the clasp is gold. The answer does not provide any evidence to support the claim that the clasp color is unknown, and it contradicts the confirmed memory record with the canonical value 'gold'. Therefore, the answer is incorrect.\",\n  \"evidence_memory_ids\": [\"AC3R2-H27-F1\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer incorrectly states that the conductor folder clasp color is unknown, but the confirmed memory record explicitly states that the clasp is gold. The answer fails to provide any evidence to support the claim of uncertainty and contradicts the confirmed memory.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:18:51.639587+00:00"
+}

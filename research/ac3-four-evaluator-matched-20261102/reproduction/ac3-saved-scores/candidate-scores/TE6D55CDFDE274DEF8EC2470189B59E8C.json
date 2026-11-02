@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "TE6D55CDFDE274DEF8EC2470189B59E8C",
+  "started_utc": "2026-11-01T13:18:50.849046+00:00",
+  "request_payload_sha256": "4b4968d4f74fa20961737e9f6c1b3d669871e5d8af6437a94cfede2e28e46627",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer accurately identifies the conflicting active authorisations: channel 2 and channel 7 are each designated the only authorised output for the same programme, and neither sheet has priority. Asking for clarification rather than choosing one is appropriate.",
+    "evidence_memory_ids": [
+      "AC3R2-H16-F1",
+      "AC3R2-H16-F2"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure occurred: the answer acknowledges the source-established unresolved conflict without inventing a resolution."
+  },
+  "usage": {
+    "input_tokens": 979,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 555,
+    "output_tokens_details": {
+      "reasoning_tokens": 419
+    },
+    "total_tokens": 1534
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_04e1dac572818d12006ae73c3b379087d09ededef79fcc1e21",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:19:02.969321+00:00",
+  "raw_sha256": "e83a7869d50bfd4053e14b7e9380a2e804e63e84577a00087035a862051a49e9"
+}

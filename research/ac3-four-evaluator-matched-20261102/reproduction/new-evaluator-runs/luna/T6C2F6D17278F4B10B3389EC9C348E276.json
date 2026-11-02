@@ -1,0 +1,57 @@
+{
+  "test_id": "T6C2F6D17278F4B10B3389EC9C348E276",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:31.782777+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0c7a7727eb1d3214006ae7ffdc202c87d1ac9b5e404a4d86dc",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 743,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 127,
+    "output_tokens_details": {
+      "reasoning_tokens": 23
+    },
+    "total_tokens": 870
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0c7a7727eb1d3214006ae7ffdd2e8087d1adf30d5caced941f",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__ebmnnwwFJheB9Xsj3GNm7sXD2m4brqxxTcYgZffHbLSDN7p7hIhMtelZ8julQreaX2ynesziLQ3RUhv6jwXjjmSLjEKQRHZ1iYWbLxO9Tk00UeKqoV9J4v2b1FetxYlOFfgfsZIzJDouysn6KODNJ8_Kw4_6okgCvW1ok0LBIegoGfV4VgvOFrw2spTY4HSRoSpin6ozpRcdjzi3Mbouicckirefwnpxd_XhwS45qxgVRstNotN2pb-gj5Ito8GEsiLHXugYVrxN2VPN1LBhDf-C0V42u_adaABxboRAm545zqn893n3s6muk9kDIecwuP-Yk_lKb8wAtNvXUnc5QImNFRnp4JUrc_lYLmytRqmJxeIUbjRvBqnLF7Hp0T_IKeFs-pI1Cj97R4gRkYhBcwKqj9MW3AJQpSHnRQ_RGlwASivpl_ZGLAFvlqs64MRt2c4Q9Ge2QWbe8BURrLzXeV6ZRaLZSQthmiDDUaKl_gOZFl3gpGtIR4NqTs51AXFA-_FOTIsCoLhza-iwYPj1X8UXcBkybMfzKEKpMkRLPdRYRfE8jmltKj20_LLDeCYvBMkTBQ_i8OZ9ICoZKiYjxSdOSbxPlVA_VAU23KCrS4Okd-sqg45UQFBuiIFm3ULegQB9M9NBY3U76CpB-eR9jqJFRHSWrwuJ8N8dN-9FMWS0T2roOJQvFCpDqftR433dEavWKGCC-2hF7RjcWHeTs6Ln_H15H6sWgZ3qWEXTgYHUFO56NyRi_lhrrrkumE-SkepT7obOMwsc2-bsEhDFtp9-xmlokRR5U0PyWwxYJeJLLxwJNxji_-VPbCgNr47Rys-lsnYEFutZbAZQTZErv2bGJMpuiX2Z6sVuPaQWJKJkHlfcl_Z5D_k-XoCaTGFj6CJx7x5E7YIYWtwhEGjbpDxQT5Y-miSAHcjWl531t12ojkdMuiRRkKuJSfkNk2DTtU6JaLFy2GI4_5ZX1IQs92ngv1fTM6P2N9G2gMsNQITJ6yjHlDHWBqjiN9MzsVDaXKJ-AKm2HNMZ08AKdzW2Tn1lGbsJMPVPQlHhvunw9e--ifMgxLX_7oQkSHikqcmnrBNjrcFuF7DkCnd77ieWEaDi-OWqDxSvi4-8nj5-dal0PxG7iTj5-V8gq6XmrggRmle1uB1PuNGDf5JbQRjGRWIgQyMt7HI7Bgi_FY1wc63dYfC9lyw5FgQvelFM07nx5kGvAz6EYBHPXwDCambhlcBpgoNhERLyq14WCmGKntCEhWpbbIrGBUrsU8NRFJmVaNe5M1f-aT3h3EjMBeAcYh5rSy_McuD07FL8kZ8eW3uqeBASS7b6-7EsxiGrYD3d89Czo5Fo2CLzP66p59p_HKF3bsUe9VD9EHIVQOq8eIADNrgihy3fy_9MNrBb3kEzcOreRdiM9Z9h0Ou-IBFMvkAzeRuwqAZtEAW5JAwQpfR-PqEUq0e5kOKmsGcYtQuiZdZH9t7nL_wLR5EI-FEkoYoxdPN9V7oVbYIBmBwtvT3PtkXrE0iTtQUdYyU9EXSCiehEyHw_ZXVDc3eEniGtmLCXIWzZDEI3YK5_NthQ2oPqdaDFOoQEibukSloo8zZgjAip1Onm_6A6jpQRwvD99H3t_fZ_5O_fFqevfaD4oEuc5cIRFQXb7Ejz0eZ6xndFLZQgUnVz13iqaZ3kDyhjeWnaQ9dWBBROXfUVRoGPoBfg=",
+      "summary": []
+    },
+    {
+      "id": "msg_0c7a7727eb1d3214006ae7ffdda3d487d1a1376ce102f4b09b",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The memory states that the institution logo is placed in the upper left corner, but the answer says it lacks enough information.\",\"evidence_memory_ids\":[\"AC3R2-H07-F1\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary source-supported fact, and the answer fails to report it. The evidence does not establish a superseding update, unresolved conflict, or memory-use issue.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The memory states that the institution logo is placed in the upper left corner, but the answer says it lacks enough information.",
+    "evidence_memory_ids": [
+      "AC3R2-H07-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary source-supported fact, and the answer fails to report it. The evidence does not establish a superseding update, unresolved conflict, or memory-use issue."
+  },
+  "finished": "2026-11-02T03:13:34.852825+00:00"
+}

@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T77D9689B7B4E42FF8D7C3A97BD7D715F",
+  "started_utc": "2026-11-01T13:28:20.052058+00:00",
+  "request_payload_sha256": "5d1a7b9ae9eafb72e7cb7e7068481cc37554019f10b9b466312f79d6f5f48b52",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "Although one active signed plan specifies 1,500 metres, another active safety plan specifies 1,000 metres as the sole final altitude. Neither has priority, so the answer cannot establish 1,500 metres as the mission’s sole final altitude without acknowledging the conflict.",
+    "evidence_memory_ids": [
+      "AC3R2-H19-F5",
+      "AC3R2-H19-F6"
+    ],
+    "failure_type": "conflict_resolution",
+    "classification_reason": "The records explicitly establish mutually incompatible active claims for the same mission with no resolution. The answer selects one claim and overlooks that unresolved conflict."
+  },
+  "usage": {
+    "input_tokens": 992,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 846,
+    "output_tokens_details": {
+      "reasoning_tokens": 694
+    },
+    "total_tokens": 1838
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_024c52fae5c97e0e006ae73e7463c887d0a2823c33add39510",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:28:36.386049+00:00",
+  "raw_sha256": "eb1e54172221ba131b4aca41b5edba9e7e7061b430fcefdcbf17e5fa4f58d6e2"
+}

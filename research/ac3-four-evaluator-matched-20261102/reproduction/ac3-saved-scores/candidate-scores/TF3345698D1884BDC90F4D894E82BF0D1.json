@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "TF3345698D1884BDC90F4D894E82BF0D1",
+  "started_utc": "2026-11-01T13:20:25.831266+00:00",
+  "request_payload_sha256": "9341c51be79a49efbf045670c645ac9dc55ec7934401a18dca94b4d377486fda",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The records establish two active, mutually exclusive policies for the same release 2.2 release notes: Markdown only and HTML only. Neither overrides the other, so the answer correctly identifies the conflict and asks for clarification.",
+    "evidence_memory_ids": [
+      "AC3R2-H20-F1",
+      "AC3R2-H20-F2"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported. The answer accurately reports the unresolved policy conflict rather than inventing a single approved format or an unsupported priority."
+  },
+  "usage": {
+    "input_tokens": 991,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 534,
+    "output_tokens_details": {
+      "reasoning_tokens": 392
+    },
+    "total_tokens": 1525
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0f7e9bdf0727115d006ae73c9a2e6887d087d58cd174664d79",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:20:36.352726+00:00",
+  "raw_sha256": "6af425e7f1b1b6ad2e387444540bb9cd87b6b4fb20f5f02695ff76cbda6cd7b4"
+}

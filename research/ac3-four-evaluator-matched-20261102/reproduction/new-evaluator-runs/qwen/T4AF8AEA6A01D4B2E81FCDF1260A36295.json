@@ -1,0 +1,20 @@
+{
+  "test_id": "T4AF8AEA6A01D4B2E81FCDF1260A36295",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:16:00.892724+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 897,
+    "eval_count": 170,
+    "total_duration": 16925743375
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is based on a memory record that is not directly related to the question. The question asks about the user's preference for headphones during editing outside the test, but the confirmed memory records discuss transmission sheets, approval processes, and storage locations, which are unrelated to the user's preference for headphones. Therefore, the answer does not align with the provided memory records.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H16-F3\"\n  ],\n  \"failure_type\": \"appropriate_use\",\n  \"classification_reason\": \"The answer refers to a memory record that is irrelevant to the question about user preference for headphones during editing. The memory records discuss transmission sheets, approval processes, and storage locations, which are unrelated to the user's preference for headphones.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:16:18.285010+00:00"
+}

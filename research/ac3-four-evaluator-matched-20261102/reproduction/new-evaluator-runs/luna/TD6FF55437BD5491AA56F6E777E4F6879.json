@@ -1,0 +1,57 @@
+{
+  "test_id": "TD6FF55437BD5491AA56F6E777E4F6879",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:58.478756+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0a97e0e957f0ccf7006ae7ffbab22c87d1b84c5ad37d116f98",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 736,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 133,
+    "output_tokens_details": {
+      "reasoning_tokens": 29
+    },
+    "total_tokens": 869
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0a97e0e957f0ccf7006ae7ffbb1b4487d19e5c2243b52844ce",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-86-NnNCxHhp0fUvSN9X7MG_5B_B_HlnLq9NLYb6eraIGj7l2oioPx_sAZI5OZVyVqHpnBTEbGm6gNG1HfbelLFvnw5SOHutMWU7CxSsdhGxtdMcUzh6uFUeUxZiD-sUivirvJJ2IZ4-KYN-qyHwCQNOQIqDRrHasyc2mVUXz3cZw7ofCzeR9TNZGjSaJCAiKGuUCIhxcNQ8gu9vzKWA0jDCoZz-pRlhk_UaN-LtQLV3MARH4hyVCrhHx3FHgzzOW8U-iyunovc9QAsdo4umt-rXCO3ZlK4kKre0ZUQWbV7uSYllrd9XvuaT819ChO2fPAqP735QGY3fK1F_QYhb1T_9urxTqOJAXuKcIZGiRMGe1Z2pOOJj2Nt8FCv6qeQJnBzugBuexfnCJMKlq7k25kzm-i5Od2wjnx4351BrC0orqcmA0X4QOSnGQDLyQvFJ2Sm8qO-viANn3WWw4sHMLGlXMpDnG2nu3vM1_izl2qdvv0SKXFmUyDxApzb7VFGeq1kKJzy1HDxChks3lsvPEj7e2LnRXGatsSviTI7T1fAwlKKSFZE3mj0cd1crsy3a70E0GXXhdgJHaDQOKMS_0dH0ioCw_8zkenl8x6FfjLB-67PgOmtX7ikB8tdtcH6k6gpUSnJ_ocwqTKWzVstJUsQan2yUzBsbY9LwzYznK4UwrTcuyQgHBjjcxXCOXeDdFR8uFwadYgxLWTmVrL6aeMT8supf3mCQBSeC6sEmwRPQpxi18Z8gZuA4GBc4YsV_uuk64YUupg-MFOLbHiQUMnMv2_6KZNHqT0dWdDlwzcWe6e4zwQuH7MTvPSH-lTATcNDyn3sp0PPOmWt3a-KM23YFna8PfYteecvGYYrGVZqcxsQZLgbsAoCzDr4Ff-ndmcO527c9BHqNpIY4xAOetYAq7DddoR-w9cTvco-JWiUJYhebdi6yBv-2yxki-Y3LYg5hNK0X2u68-Yqf4TWo0GSVLe1rGf1AYOiQiQHLBaRGDx8KQ1oswAYa8IITzU3KP0IIJGMikJmz1IY3aAnGKbdHXuAvTREk6TctkFJLBM9u3-ip0y_SMbaDV4QexQaKdREHZZq1twrN4PAskGGxJh6WAwu2-uiHe4b31Gh9hakKm2Y1OTPG8kG7Jf1c4xvJJeAkkdq9ZBTEqxX_ig_MFuK15RywOtxtkBnpBMoGrmDUA3B_hyI_zo3pEk19CSt2AREnybGnDDV4oJdwDpuewvMUBFs4594T-FwE5eh9ew6FAJcFF7Gtd5tPeLKfrCyL6JdJ1IQymsCOHoTjPipF2fYBeWd6LVLaa7kLZlDcNKwyhhk0ljf8lYVguZaZ7bBJGDlw1dsUna1Z_UnSo0JPIVViAfKszA8tGL3VRLPGwORWpk8YnqFaBtBGOOsekkcCM7zgAulhN_M-zluztcNuTfrqLyk4pTWCM8KfdTIZzYoZppyuGklQCeBMXK_V0QgKqS_eUKsImnYV185iWbYRyzvXgANj2F9KpiJw_XdhxS2PLksh0MaJEZqCoqaSkm4MBzkq5rjpAF46nUkXINkEkRdrevcXc9WllL3HQic6ZiqQOaJG3MLH9IdZ7pOt9SeFctwCeiFa9s3AKb0qra2_xIDvwWaKMwAWVuusjU57vk-YCCcUT5LQyBhPapBD-hHDEA7EoNpxv9oX3Sy4OSelnmTRGmKWNXsDH-cnLDYoh-PcVv6C5gYHFKO_BkuqKoimIAebZOcN0Wt5gx603H0wUnwgpapzXe4yLn3Xc8_eG8qes04p9UiiyC2LAJZX44f06fBHwI1gkq1KP-7rIhalfhjw==",
+      "summary": []
+    },
+    {
+      "id": "msg_0a97e0e957f0ccf7006ae7ffbb742087d1b242aa81e27c5b79",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The memory record states that the clay reclaim barrel has a wooden lid, but the answer says there is not enough information.\",\"evidence_memory_ids\":[\"AC3R2-H03-F1\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary source-supported fact that the answer fails to provide; the record does not indicate a superseding update, unresolved conflict, or misuse of an irrelevant memory.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The memory record states that the clay reclaim barrel has a wooden lid, but the answer says there is not enough information.",
+    "evidence_memory_ids": [
+      "AC3R2-H03-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary source-supported fact that the answer fails to provide; the record does not indicate a superseding update, unresolved conflict, or misuse of an irrelevant memory."
+  },
+  "finished": "2026-11-02T03:13:00.530022+00:00"
+}

@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "TCB1D636E6B7048E8A3DF22C494480F61",
+  "started_utc": "2026-11-01T13:18:27.732637+00:00",
+  "request_payload_sha256": "3f5b3f3a839e747030db739dd5c43135aaa791022cbc6a60321beba6223fd0f1",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer matches the confirmed requirement that remote-access fitting notes be sent as an accessible digital document.",
+    "evidence_memory_ids": [
+      "AC3R2-H23-F7"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer correctly applies the fitting-specific requirement; the paper preference applies only to other fittings. No failure is supported."
+  },
+  "usage": {
+    "input_tokens": 887,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 420,
+    "output_tokens_details": {
+      "reasoning_tokens": 320
+    },
+    "total_tokens": 1307
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_03760c30c4251229006ae73c242c5487d0b4cece2bda90c3c0",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:18:35.715011+00:00",
+  "raw_sha256": "657358004ec1af029fb0685345b3e60e68d63fbe5a4725ade25160d48b492a40"
+}

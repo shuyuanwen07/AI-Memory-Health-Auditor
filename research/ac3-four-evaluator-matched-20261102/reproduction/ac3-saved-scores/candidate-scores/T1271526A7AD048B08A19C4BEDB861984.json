@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "T1271526A7AD048B08A19C4BEDB861984",
+  "started_utc": "2026-11-01T13:23:02.062829+00:00",
+  "request_payload_sha256": "cc46c9072fd2f8669ccf9ba762152e7fc9225fb5982c67d435954e3b79415ae4",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer matches the confirmed requirement for the low-vision session: the score must be delivered in large-print digital form.",
+    "evidence_memory_ids": [
+      "AC3R2-H27-F7"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer correctly reports the session-specific requirement rather than the general printed-score preference. No failure is established."
+  },
+  "usage": {
+    "input_tokens": 888,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 384,
+    "output_tokens_details": {
+      "reasoning_tokens": 281
+    },
+    "total_tokens": 1272
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0c2408bb6e991eb1006ae73d3664c887d0bcf39d1af9aa1a00",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:23:09.378094+00:00",
+  "raw_sha256": "7008cb2959588881307ea4d7474ded104f57b7a8bb7e3f29403ac441939b6451"
+}

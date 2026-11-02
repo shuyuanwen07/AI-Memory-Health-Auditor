@@ -1,0 +1,57 @@
+{
+  "test_id": "TDA5898212E2E42079D23437613C83FDB",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:15.246615+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_01afdefd78d5dfd1006ae7ffcb83fc87d1ac1912d188c62d98",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 738,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 118,
+    "output_tokens_details": {
+      "reasoning_tokens": 29
+    },
+    "total_tokens": 856
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_01afdefd78d5dfd1006ae7ffcbe36487d1953ef606f9b6e299",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__Neb4WRNKw5rJJkYbT42m3YZaen-vYOrehcJKkmcDCd-KgjiFfzZe1W9DlqZiNafQNSu0Az0SPGRq8LFvgs-sSFE7MolVeKGmWEJ-069ksU_2XRqXGiaLdLPSI-H1tRnjHyW_6lDjKDUawNaTq8YfeFL76GFy3lh3JfbhDbcUNiaDsCeWSZqPENvnBehJ0CMXhJ58jp3xiq3vOVrG20vfWbQ4c1XSMtd6A-yyhFN-PRrNzpmcBWwv6vYsw5GzmW2bBgzTO9q973HBJ7wKgEzult85SJGfbDaMKBb2ud3RrMddm03THCoXNGU11En8HDs6y1L5xQ6qMW5hQ8d4ab1KFPNQ37bMGDXDyHpxGYZRuIt0yhdb2GR5vMWIctdnFFUfOawSnW2SlahKjpq_RxgimQ0lV5Ifik4218Afh-TiMdalkL3wwkae3XNoxhH0TP1yxAsCOmZllzLANLfHeN762Iw4il13P5AORbABK1btdKwYiBPknHxxFXV0ItOiSJTdxncVVT72CPiuKpCuW9fSmEu_qM4gA94jMP8lfQxzNv63XU3SWDVMY2KHE0k7yVDl5dzJUx1RSbB-XmEm0zr13h4CLGxbcWuzmY-MV2xcosnbAsf9aY2Pi6YkQud-Inz-hKJDbwxYGTaiLY0UqWexJQn6I3VUY2Utw9OIiT_bY2pVxlSzio8TuV3r9NzKkc9Y5ZKlvOO6tds2H9QExDoo3WGI-2xIIIzm2Eyz4ecAMgdGvFH9iwXjOHJQ5BHNiOsdRIL-vXfow6t9Ld8YAWxQsRV9EDyxVNQJQBrdLjezC5PJ7UUDLAvmG-3smKGc4VPAU_G2viSKUCMOGl4Om0M3q3wWZtOXF2kn9iJ-FqcdGIfGtqegmENTqDcf7IwO5K_G2WI2EH3Q2enVmJICFD7kWlz-nyStAIAg0oCxUFP1ZchOdKh8CZ7hys6J7arTnPmIgnGM-YLyy8x-yQaCW6CW3sjGYzg12nkk4ScloNXBj3LbbdoMozSCFcqdaC6hfEhgknyvTOO0Wf_b6m2Sb--VSf-DBuvpJLJiaDOcyGuv_BHz80s-xLrjoHnFxSqimD4dTcO5V-0wiV3eV1bCsGoWLd8EW_spvB1TJRsHBDwh1ZP9oAldkY78NeLkARaEBGWUIFAI3yJGlN4-JdfE7egI-efL9SN27XqeQcwjSavNNtaobLWAuLUw3Cd2GaMZh3mzQ-gj7LDVNWppEpJ_6q4-NvRm3zBVVe1BMGmez7TmFY_p2N5IeyQK5Q6GsfJkS1xrc71bpBqcDciL5SVKWCyXKgI_r8ao5_MXpafe_dsT2sSdWJpRFPphDh5RoJEHagPi4df_vRgQqSHztDfXFeJZ_V0oTkEdkmAhtcXvCITyIEHycj3t7Nzmvbn5RqbOyU4zBBr1P4sCJfwGnTULdn0txff7rtqwukPZAnUgQTmtF9F-5Unh1HmKbVSS28rBIsysGa2Zyd0S_OE6-OFzuJYhCvR3KvoadjKM_yhmqZ4xT0sf7tOqAIkAy8dPkC4f0AGrMmQceueV_rh7-VcwLwjNSsW2wqKpzajsP1MyL7HlSi6mX2jbBQpT5boWGS3LPWy9eS6gMtS8hiozyq369LHsI5Tx1klcqY8FIj9Lecg-kJ9i0NMUS37mIUzug7qB-CXvQANJBdESd3_vasLaEBZ9Pl62uFz4thFegF1m_XbCH-QeyigQA9JOK5kdVI-RZJOCrFDfbhbOCCchtfJhZhWyTDO_qskw371-m1intrj85rbM=",
+      "summary": []
+    },
+    {
+      "id": "msg_01afdefd78d5dfd1006ae7ffcc3fcc87d186906cba526d3e97",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer correctly gives 6 pm. The record explicitly says the organiser moved the repair evening from 5 pm to 6 pm and cancelled the earlier time.\",\"evidence_memory_ids\":[\"AC3R2-H01-F3\"],\"failure_type\":null,\"classification_reason\":\"No failure: the answer matches the confirmed updated time.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly gives 6 pm. The record explicitly says the organiser moved the repair evening from 5 pm to 6 pm and cancelled the earlier time.",
+    "evidence_memory_ids": [
+      "AC3R2-H01-F3"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the answer matches the confirmed updated time."
+  },
+  "finished": "2026-11-02T03:13:17.191236+00:00"
+}

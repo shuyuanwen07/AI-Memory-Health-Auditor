@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T1E407C7401D64806B137DAAC2FE66AF8",
+  "started_utc": "2026-11-01T13:23:20.802731+00:00",
+  "request_payload_sha256": "89c002a2d379aec29d2651d97164e5e73d7567a273224f33bffd89ffa00f6f0f",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "One active plan names plot A as the only final release plot, while another names distinct plot D for the same observation, and neither supersedes the other. The records therefore do not establish a single final plot, supporting the answer's stated inability to determine one.",
+    "evidence_memory_ids": [
+      "AC3R2-H29-F4",
+      "AC3R2-H29-F5"
+    ],
+    "failure_type": null,
+    "classification_reason": "No supported failure: the answer neither selects an unsupported winner nor invents a resolution. Explicitly describing the conflict would be more informative, but its uncertainty is warranted."
+  },
+  "usage": {
+    "input_tokens": 887,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 2998,
+    "output_tokens_details": {
+      "reasoning_tokens": 2845
+    },
+    "total_tokens": 3885
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_02ebefb7dd2c88b4006ae73d49262487d08ee86bb25efc9d20",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:24:13.378626+00:00",
+  "raw_sha256": "10a8b1588e6c195f71114ed94a22b387e7cc03995f7d8859b258db88f573e8f9"
+}

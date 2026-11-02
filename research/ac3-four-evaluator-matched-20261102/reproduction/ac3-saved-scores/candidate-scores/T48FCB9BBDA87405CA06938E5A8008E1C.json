@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "T48FCB9BBDA87405CA06938E5A8008E1C",
+  "started_utc": "2026-11-01T13:20:27.544251+00:00",
+  "request_payload_sha256": "cda5eaae1b40076dd07e2a6617915c1bda7dd7887980e4d31c12e372c143ac90",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The answer claims insufficient information, but the confirmed memory states that the film archive stores silent reels in a cedar cabinet.",
+    "evidence_memory_ids": [
+      "AC3R2-H05-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The response omits a directly supported factual location. There is no evidence of a superseding storage update, unresolved conflict, or misuse of an out-of-scope memory."
+  },
+  "usage": {
+    "input_tokens": 734,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 427,
+    "output_tokens_details": {
+      "reasoning_tokens": 311
+    },
+    "total_tokens": 1161
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_06efdf418f53b120006ae73c9bdd3c87d0b9f954a3bbb2e36d",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:20:37.094683+00:00",
+  "raw_sha256": "915b2b8a2dea248eb0f17339b972f911380b287f73859cbff9ac74b7003b82da"
+}

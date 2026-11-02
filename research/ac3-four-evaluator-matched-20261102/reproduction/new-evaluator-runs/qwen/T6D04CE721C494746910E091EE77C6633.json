@@ -1,0 +1,20 @@
+{
+  "test_id": "T6D04CE721C494746910E091EE77C6633",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:19:50.830156+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 825,
+    "eval_count": 185,
+    "total_duration": 18892248958
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks about the format of the summary for the audio-accessibility workshop, but the confirmed memory records do not provide any information about the format of the summary. The answer claims that the summary must be supplied as a spoken recording, but there is no confirmed memory record that supports this claim. Therefore, the answer is not supported by the provided memory records.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H29-F7\"\n  ],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer claims that the summary must be supplied as a spoken recording, but there is no confirmed memory record that supports this claim. The memory record explicitly states that the summary must be supplied as a spoken recording, but this is not the only format supported. The answer fails to provide any evidence that supports the claim.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:20:10.107243+00:00"
+}

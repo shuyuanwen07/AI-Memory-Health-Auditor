@@ -1,0 +1,57 @@
+{
+  "test_id": "T45CDDAA12B7947D5B44B661038572F17",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:37.571690+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0625be8c50962b95006ae7ffa5c86c87d18af5391a3620996e",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 884,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 170,
+    "output_tokens_details": {
+      "reasoning_tokens": 77
+    },
+    "total_tokens": 1054
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0625be8c50962b95006ae7ffa6291887d18c58433d3e06c3a5",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-nVrm3gvnvyiCkBIaACKO8ExmlEKPCGANe5xr7vGX8QlBI13Rs_5EaQ7u8bLAz3c4MXO_ln8jU0xn2lawAaARuHP6jmlCx3U5KBz107IhhiKxgfChmLSLfn53FP1naXATlzpLSPFxk84hcbsRx8XXJbeAc4RIJoVBBXYY9pBsVfS_15adKjXWXW8CGq8XmDNLe-liPHnc2UdPl2ywKM6wQuDJa9KyLediEG8LwkRyVw_6XjkZDZTAMEz_IKfnjIlLQ-H5qKf0c_tKzZqhRYSQS9Zu2ku0gYcknHUN_L3M_C8Rlq3XKP3Zz1LPVyWfZqgxe3lpAuggeYem4I9YnnMXwzG6Qs1pUZ21_j8cUi2Ph-GjHoCzScWzLbtUX3tDOA-L3DPxdc2VQl_WzEqZIQjxNg_1u8PV28iHd2dtZJbSwyGkS05qFw_Zrx-KP2kkWph2OjUdDLJaBaPzSyGv4xvnDlmyg3nD5ioS0mPoUkTiKwbNeHfR1vs8gnwhDKAZGvzAEKlOY1N_8aCaueFQ2rTtkRJ1UhRTqsudA9tcKoGjGeQQ1y-gkziS99IAoGSp_DJpVqxvozCiccASKgzEXzn65yEWp-lTei1X2uC4HX6n5XIjBwyINFT6I1pBm-Th3F_2sr9aY6762EAGXrnFk2UfNxUoLHl87BCITA2IDpu3ngsd9eujvJ1w2onSK-WjftX8BlgE110-zyOm0_8gc-7QrpErXMEFNfacLw1SfKCu69r1mx-7sIsoHQTgElAss8dzBxrrE5wymZ-7RonG0IrMkr9P1jNp_2YIX-EX_bNq8bQD1icM2t0bM9KIcGRcfNrRMeG7GI-T_A7e7rysYsR9o76E4L09qhvxde6cGaFdMEhn6nLhj95EfrI-af7TEMk9RdrRmj0q4DudOolKg7cb9C5wepQiOwyze1fWgvu8Smm6AO1BP5ZJyJBxBJsr8SFs2Zjz92gpWOwhngI9vr5fOBS5yi9Jz9NEW44ZO2LpOxMv9RhT2DGwqIZdrkFQWJDIkV6tuM_4_foRrhum6n1ih2sZ5KuUdZUhRpmgivd5-QvO0ue-wRZUqr4rAwTwSuMIWnVGSggfdDHvpTVzQropJCdAZZpvJa62G_3OVlBqtknFLUz5OoM1Bptcf6H2wtONXEY2bSjZhSk8IvUxdeqBPuCVsa33BuNY4qpgoC3RcE9oEjTai4gFTv567r2zGPSMDEV1MMsSnV7CtiER04oCx7jcwUdPUQXCyPqnS7Z_eBpaD-QMe-h-RoU05PdWf4MConhEtePIRAv3RZGgXJhCZ1Cgs6HRlPhnCKdRP8Z-X_AsbgACWQHTcE916Llx9sGYtGxPSZPI3rT8jghD7fR3Xxt2wnrCdLSUp01uOUDUMFvHZkG7ehPOCrgOLpQsPh1Uf8NTWEDMkoV7bZo-bPBWCyMZu80n-sJmxuZ8mYuW1TyDrF2gAQHKA_8kjoffDFItWFDNXvQyYK0QizfbWA2ThtXoDLy7rKbZ3lqFJfZSxu-8XcYaj9OguuMgKnjWxHpXUoK4nGEXe5xbEM0TdG0b61Wuv_lLgijJq-4OZmLiA8eodKVoxTfXYa9iep2W1EFUSWtcwIa5lNa7TrcUuTPxDaPgnGDOBAJKKoCF8iTn9eNTv9jJbPaL_eY4lUnBP7fgJwIKGoUfrNRw_WKO8b71f2cIUqNMKYZRVVMhBfuoMKLZPmnySMJrQWFuUuMpJcummAMg9qWd9WcpBXAgttdBcahHZ3zGHdQ7iqP0XAlhWg_XozIFb4VI14h6cugOA3zG9-o_CVa0s0RDP3VgOO3jXwTD53fP13KDHcN4KS7XmcUMflyXNg76cYh07VBn923iYkSee_c4iqdkYRUL3xOkpbyQGOa6Pyu0tozFwjUtH_GvLGWeskZGNuAy2o-gDQ6S0RRrs5U2mcpU3nHRlz7qrO2erdVolag6F5rHck05EJBImEffBQe5dNgfIwAshKPGNj5wSTXWJPTydQ7LZcstjChSl6Rd7N_yg325lbASGmVJhpYz-1xagvBHHfdBGprFGbqaWgNtN9ieNJZB4P7nd3CQrU8hsSPjoOaE9QR4OEoFxNf7iTJb1V0PVjASZCQJN72bWJ7qEVbtW6HMBDLfhzeoyD12UfbMmPQa6q2CClAGq8aPQ5w_8Q4LK6cveDyXF4h_Z6wvIC-9lQJOf3eedRKA1XXlc4Pm0ZMD8nx3vtye3QahqdcWWYcoV1ikHT5D5_HgozNyOxfp8JsWGR23V2cQZOr7jTF9yN4Yre3fWbUfaeaHK2saOWU3DUla8P1yLV0rdu_al-tr8XJsz4NEOxkbfiuTgRQSDiJK4mCynQAuI6_YcAEb6YJHnkRxRxQnMaR1j6aIWtOo3cBwyooTon2KqjMwtA2mEcMjSSeOEUbY=",
+      "summary": []
+    },
+    {
+      "id": "msg_0625be8c50962b95006ae7ffa6e3c487d1b825d3189c48789c",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The revised exposure time is eight seconds, so the answer incorrectly says there is not enough information.\",\"evidence_memory_ids\":[\"AC3R2-H26-F3\"],\"failure_type\":\"freshness\",\"classification_reason\":\"The memory explicitly says the revised instruction replaces the earlier exposure time with eight seconds, and the answer fails to use that superseding state.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The revised exposure time is eight seconds, so the answer incorrectly says there is not enough information.",
+    "evidence_memory_ids": [
+      "AC3R2-H26-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The memory explicitly says the revised instruction replaces the earlier exposure time with eight seconds, and the answer fails to use that superseding state."
+  },
+  "finished": "2026-11-02T03:12:39.890338+00:00"
+}

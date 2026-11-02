@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "TE768FBB4F29949E2A78DB8C3085D337E",
+  "started_utc": "2026-11-01T13:25:30.449686+00:00",
+  "request_payload_sha256": "b24873d3d4918de1060497edb40b02a9c9b29fe7bfef9557636bb5d9b92995ae",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory explicitly states that the bean-seed drawer has a circular blue sticker, so the answer incorrectly claims insufficient information.",
+    "evidence_memory_ids": [
+      "AC3R2-H02-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The answer fails to provide an explicitly supported factual attribute. No relevant update, unresolved conflict, or misuse of a scoped memory is established."
+  },
+  "usage": {
+    "input_tokens": 743,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 366,
+    "output_tokens_details": {
+      "reasoning_tokens": 255
+    },
+    "total_tokens": 1109
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0bfae17cb885801c006ae73dcad05087d089d8043f097690a3",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:25:38.643974+00:00",
+  "raw_sha256": "e0d57632c914e81b093b18e43944dfaade38b3acf8ec18d3bff7cefea293fbc0"
+}

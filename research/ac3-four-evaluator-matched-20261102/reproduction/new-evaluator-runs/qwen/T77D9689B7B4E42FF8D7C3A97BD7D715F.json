@@ -1,0 +1,20 @@
+{
+  "test_id": "T77D9689B7B4E42FF8D7C3A97BD7D715F",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:32:30.862951+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 943,
+    "eval_count": 209,
+    "total_duration": 22769574250
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks for the sole final test altitude for the Kite 3 mission, but the confirmed memory records do not provide a definitive answer. Multiple memory records mention different altitudes (1,000 metres and 1,500 metres) but do not establish which one is the \",\"evidence_memory_ids\" :\n  [\n    \"AC3R2-H19-F5\" ],\n  \"failure_type\": \"conflict_resolution\",\n  \"classification_reason\": \"The memory records contain conflicting information about the final test altitude for the Kite 3 mission. While one memory states 1,000 metres and another states 1,500 metres, neither is clearly prioritized. The answer claims 1,500 metres as the sole final test altitude, but the evidence does not establish which plan has priority or is active. Thus, the answer cannot be confirmed as correct.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:32:53.928782+00:00"
+}

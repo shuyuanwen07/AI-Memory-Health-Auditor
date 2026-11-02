@@ -1,0 +1,20 @@
+{
+  "test_id": "TD6FF55437BD5491AA56F6E777E4F6879",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:20:30.442532+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 670,
+    "eval_count": 141,
+    "total_duration": 18648227500
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is based on the confirmed memory records, but the question asks about the type of lid on the clay reclaim barrel. The confirmed memory records do not mention anything about the lid, only about other aspects of the studio. Therefore, the answer is not based on the provided memory records and is therefore incorrect.\",\n  \"evidence_memory_ids\": [\"AC3R2-H03-F1\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer claims to have insufficient information, but the confirmed memory records do not provide any information about the lid on the clay reclaim barrel. The answer is therefore inaccurate.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:20:49.221187+00:00"
+}

@@ -1,0 +1,57 @@
+{
+  "test_id": "T3F7A5FF63B144E76845EEDB440B98B7E",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:39.754064+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_08a94fac7fa2e3ba006ae7ffa7fab087d1acd3e725f14c6b3d",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 732,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 95,
+    "output_tokens_details": {
+      "reasoning_tokens": 26
+    },
+    "total_tokens": 827
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_08a94fac7fa2e3ba006ae7ffa89f6c87d1ba5ffd2863d028fa",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-pN84kSZsFJP8TzXdEMkiBBsHXffzGfiL8-w3bUBH6CJWIZg502_VFJU-SPZXdZ4e6gXaArgUoRRfBt4BHPiHRGw0l9kLuzJn4yIIOirEEcwyrllCf78_6erhca0kfYpvutFqAXK4i2LTBZYfYcHMBZAK9jpe6K-8YfkxPtxavcgxQsn7GbLXhIDp91obdMfkFZhi4itGzGT-h9zhTsWHIFrNaMk57ovpZD9-R6e86M2PQw7NOxErqWPpHvfJhwxXItNLGIlJM7zp_TNMIfmnUHM1swPwUL682nNPiUXwzj3KB9bopfN8nrOoWUBmoje-3iOcSzEYje6Llt4sj23-Wxi9y7wI4WJvoVTP9aGPzHw1qmqxj9Pbh8CC6cXBANo11osydLjj71ZTjPzdINh4HM8dZy5AAzMNURBcpM6i0G52k8TV8WLslU8JKb2s5Lk-GhFfbGrXoU9JGe32W2XAHeB0A4FgfTMOwputcbrmPYw3-MIIkcqxJLop26Eu-ENC1JTV_G8LXBgNjsmzPqxTaMNuBRQXZZ1TRKRVkM01yldzG-8WarY1dW5-uJAbdUGVn1H0jT9X9e3fCo5Lfa_fPG8Acx5z8gEH9WmDXFGsgRjJF3pkX7sPHWt_m1Wj31u3E3ccmE3GUgihxpB0KKMdC6piRQ727ZPEdlSj6h-PErqKxpdV2J2y-W7Vbvz5Aiv9iMFm3-ToIdqQhU9vfcp6SHs0sOzTgvQ5U3_d-LZXm9AGrySoeONBQROCTSZ5dd5YgsHUHHEDzk2aoXamHgLUomgyp7oy1tmi6JRSpQmJVjH8BxyY1rWqLZBDsa-8KqEoNJdqL55u_HzxMhba97F07trLmaW_hYU8zIu58UB8_tw7G8NtQHgROguHlzusEG6gySoURdB_F1FryK7auB5Kevx4b2dT1eytbAILAB06W9eOI2IZLC7NLPz9c4fnwa3Ue8eozrvBII1rtsQ9ruOvQ5Xduq0w6BZZI97QbB1y-JA4cCkdBhma7BqwtTRvaqaUvFzdFsPZ49H97Xqan0wRsnEUY_IbokFOWK4M10mq4fwW0FwXQDe9MifFDKDHyjU-WUecxL-Ut6MW2_160fK3zTQBi77X8TKMSMlq-j9jSHOb41e4QYDud68rwYmlrQ5u-MCpcOamBelRWuBESlbi4HxMI9C00sHsTrdhQISHp1OvA1G06Z4XqJJKRcQjLMO4GPQfX-aqX_5SCirvgmlPbJmjSfTu68m_niOAeF9UCrZOEKSmCdIRe3eVis5xql4gLGbC7ysNOuVdoZiEjcC9IhbSyvR0RPGa-STV5cJIhyv1NbmZ4Cx_-vEqJZhdfIAdJjWouuYn0XK8OvXIFrKUwVx1LV_oi-SJ1eoDfvXX6dVCo8dzmo8tbbNMGmNZj78B8V6_obUwbFpFgNdMXk1LBOqIl4IYXwmFPacIjKSyuT9usZYujWJ0hNuxQW2_g0syVe_zMAtnPsKPXTOYgvC9qY4RuVpRZLQCwUTByDOKJFysJ_DWNVvECMylJSjQoBFaGFo8VV29a-4Z1PGYrXiD-FqOiqVaMKJNDVGi5NMdnW8H7c4SYHXTHd6feO-_9VRlUj98WphoR0ZEBwj5Z1Ts4IKurlMYFoUy3PsyOSULLXX2-XfkOeF1__D2XM5EqG9Ou4ng8oeQ-Gc5NjEqGaPVZs32JJRiJ1ZQ1NDFqwqc9XOn7dDlR1hE1jtqak_dgDTzn",
+      "summary": []
+    },
+    {
+      "id": "msg_08a94fac7fa2e3ba006ae7ffa8f9f887d1b1632fa760a905d0",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer matches the confirmed record that the archive uses a felt brush to clean reel boxes.\",\"evidence_memory_ids\":[\"AC3R2-H05-F4\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer matches the confirmed record that the archive uses a felt brush to clean reel boxes.",
+    "evidence_memory_ids": [
+      "AC3R2-H05-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported."
+  },
+  "finished": "2026-11-02T03:12:41.733145+00:00"
+}

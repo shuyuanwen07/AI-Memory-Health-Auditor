@@ -1,0 +1,20 @@
+{
+  "test_id": "T91AA34AAC79F4D34B6BC0F2A521F6A77",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:24.002269+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 822,
+    "eval_count": 140,
+    "total_duration": 10886230625
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer does not establish that the updated attendance limit of 25 refers to attendance. The confirmed memory records do not explicitly state that the limit of 25 refers to attendance. The answer is ambiguous and does not provide sufficient evidence to confirm the context of the updated attendance limit.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H30-F2\",\n    \"AC3R2-H30-F3\"\n  ],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer omits, denies, or reports a fact incorrectly regarding the context of the updated attendance limit.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:12:35.557278+00:00"
+}

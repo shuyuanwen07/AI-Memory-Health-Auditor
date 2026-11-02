@@ -1,0 +1,20 @@
+{
+  "test_id": "T150D4E8740E04E8AB6C223EA5B1A8A9F",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:14:24.998999+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 661,
+    "eval_count": 123,
+    "total_duration": 15030585291
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is supported by memory_id AC3R2-H05-F2, which states that the first export used the filename `draft-cut.mov`.\",\n  \"evidence_memory_ids\": [\"AC3R2-H05-F2\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer correctly identifies the filename used in the first export, as confirmed by memory_id AC3R2-H05-F2. The other memories do not contradict this fact and do not affect the accuracy of the answer.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:14:40.189956+00:00"
+}

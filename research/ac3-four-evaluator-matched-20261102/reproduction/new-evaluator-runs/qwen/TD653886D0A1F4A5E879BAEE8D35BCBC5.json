@@ -1,0 +1,20 @@
+{
+  "test_id": "TD653886D0A1F4A5E879BAEE8D35BCBC5",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:19:43.775231+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 828,
+    "eval_count": 151,
+    "total_duration": 15537675958
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks for the label on the seedling bench, but the confirmed memory records do not provide any information about the label. The memory records only mention the white diamond label for the seedling bench, but this information is not confirmed in the provided records. Therefore, the answer cannot be determined from the given evidence.\",\n  \"evidence_memory_ids\": [\"AC3R2-H22-F1\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer claims that the label cannot be identified, but the memory record explicitly states that the seedling bench has a white diamond label. The answer omits this information and fails to provide a confirmed fact.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:19:59.377010+00:00"
+}

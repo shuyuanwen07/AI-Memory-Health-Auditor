@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "T6E67D0EA60324CCB82D397F3B93DE962",
+  "started_utc": "2026-11-01T13:20:37.398721+00:00",
+  "request_payload_sha256": "2361ac3b7bad4a7238540e49c28b3ca2d9c07d29fd009c58b1dfb1de58f215c6",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory identifies the soldering station by a yellow hexagon, so the answer incorrectly claims there is insufficient remembered information.",
+    "evidence_memory_ids": [
+      "AC3R2-H24-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The answer omits an ordinary, directly supported fact. The source establishes no superseding update, unresolved conflict, or scope restriction affecting that fact."
+  },
+  "usage": {
+    "input_tokens": 889,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 393,
+    "output_tokens_details": {
+      "reasoning_tokens": 293
+    },
+    "total_tokens": 1282
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0bd4ad04b83ebe17006ae73ca5c72887d09596babb4d832ab2",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:20:45.868250+00:00",
+  "raw_sha256": "21ffd475f4366fecbfedbb028888d29db43e6ae2fdab494ceb2ad93767ef7d0d"
+}

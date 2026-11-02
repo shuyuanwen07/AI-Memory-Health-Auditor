@@ -1,0 +1,57 @@
+{
+  "test_id": "TFF5F970B5F6E4DD9976F363B743AC612",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:37.451183+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_00f4f048c2694ae3006ae7ffa5b2b087d18b9ff6c66ef2a74d",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 737,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 137,
+    "output_tokens_details": {
+      "reasoning_tokens": 29
+    },
+    "total_tokens": 874
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_00f4f048c2694ae3006ae7ffa6194c87d18b632aef029dc1c5",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-nwPxF2OomEjAAac8s2UBYD6CAz5vTGbpndkbVHEcdt9Gompobtv6EfXLkcyz61Bd0A8hclqZU3__T1C07wcVj9UuL5w-e8S8Y0XImNVG6gWjcAPVDN0WG6yc8JX9jtqRYZiiTpYW4L58QRyJEERB0TdAq4UK8SwlE4UzO87u15FflwFKUG1OIKrfe7tCv3m4k_gb5LoQJGAlD2WZCrSivaLaF8MzKa5k-oXsuvb2nIApuWMITO_CIFdHDNyPraGStpR8b94V-w8AiwA45QT6RZB_aDZh49UyHsHVo2M4wj-O5yH9nJjwB_jVi-fGhHrqIaQGWwq_U0wLU7qa-E1fqFTuVwixpYgIaCjEH3IhLYQRR8yrRqxWit-k9jGvKJ4jOXW5u3A-BVrNmKUP-uTGmPpbs88LyrvnmjvbMQ8jDAeL1glmiLLsL8V29CMNgHpJuK6vuBkdlJ04CnN_HcCvxgwtzAkaWsGpfkLy-SKhNo09CzjeJx5wROpvnac3PVFsqIHQZHJNAnTUAvOHfTspSugu2ClEOjgaV0Nj9ubV0McGRjxM52DBo__pkh1Kz6RbLsfYvV9wfCfxWehDRDVXWYppaoz7qmLU9hvac52Ax1Lp8AmNMUnebkhjGPjs7cvIKq-57sbLdTA-sxCjdDeCuIEu-3PAyFGfkJ55UxU6tH1pPJasMMR0ke4W3TxFNrLcYMlQ9LkkYQz-_3iqASuq2vtWfPJEQdd5DWv9n9lJEfvTzNeHDTgR9Bt8oSWdQnGgAjjP6MAO_IMRQAYQ2ddXdfE8McVTzfhgK9YitZ2sjxaR-lkmw5GPOtXiizipPXaRRIwlVtY9gpk86SMphZgbBYGGmN-7QBoQtv71KklW_wCu2G3S5vjU8qMpjpNWMdcGk5z9JtiqstAYL45PLRX-Sb1oBQvGNjfAXRx9GJ-unMPDiqIiwVbGGewWoCAnMwuVbCZSD7Omw3cTCoQwMZV2pExHt4E75jz3KXoNNT80FNZ9rt4rWfc2bgAINeLuIKowe6zsf7Vasjt91nbQYEnkYmNWTQHdsNPZZl_yXdUkI7ZjX_8zmSuQlmm4dmhQT5XptarXes_EeH-lvlXAKAGJhz5SRvHf66wgvLCEg518In7ZgXl7F2ibWvzx4RaLUKWTb2_I4iH_RQRBqpEhjzB1TZ2UEqDoBMvub21MIojnM7bOy4vuwKYO8mTBZ_vfJltxc-usuRSFZ4U6js1Q3mQ6PprbWaebDbr15gflbtMA5TPJgdYcexLYu-grgG9CMuC55OilSgFAcnf1AEOo0bBw22fKpPmMm69j19Hu9_OepHCV5RJFReLdDTAeY0YIAIAn7pkFZoTmOM5ySiDQpAvsPXyBM4l1Uh4o7fj5-bbw6_6Ow0Rm1O2KuBefvH-re25KPBANIT83Q2YTokPMMR93NI7TOhDbccWhfeemI0SG623x6Aw-wt0ttjV7mSiO3KDjlawcz5x8aq0sps4FUmaa79Sik53uyhcvt0ZIv8cvTQFEpqNKG4oaHE5BWBNncK0RccK7R9PjSWoYUrvSbzYBNFl2zxeRuDG08XNT0laCA-_gM3IU8UHVslSi71Q4tW14xk_iKWXAfmvxFDOxsaSB5EdCqvd66LBFcDJ-5CyvW-ogBm8xNXzn7RTxRYf59b50L6gQH5Bla7Yx-LFTqcsDRrS0ivt5doDtTplLJLlKKwP1_H9DO1yi_uQVolEoYGOgO4SUy8w6kyUW2fv4YBy-C2Fb1JlWSFaW_l4xJYcLbynn9vgRVngAf_ptJyMoEXRM7",
+      "summary": []
+    },
+    {
+      "id": "msg_00f4f048c2694ae3006ae7ffa679fc87d1b07f8fb633dd9a1a",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The confirmed memory states that the conductor keeps the tuning fork in a black pouch, so the answer incorrectly says the colour is unknown.\",\"evidence_memory_ids\":[\"AC3R2-H10-F1\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"The question asks for an ordinary factual attribute, and the answer fails to report the source-supported colour. No supersession, unresolved conflict, or misuse of an irrelevant memory is established.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory states that the conductor keeps the tuning fork in a black pouch, so the answer incorrectly says the colour is unknown.",
+    "evidence_memory_ids": [
+      "AC3R2-H10-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The question asks for an ordinary factual attribute, and the answer fails to report the source-supported colour. No supersession, unresolved conflict, or misuse of an irrelevant memory is established."
+  },
+  "finished": "2026-11-02T03:12:39.750100+00:00"
+}

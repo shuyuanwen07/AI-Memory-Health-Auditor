@@ -1,0 +1,58 @@
+{
+  "test_id": "T4313C102E82C4290B423DC881E5CCAB5",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:50.573421+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_06f75e9f9854819e006ae7ffb2cc6c87d18466297ca4afaa0d",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 959,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 133,
+    "output_tokens_details": {
+      "reasoning_tokens": 35
+    },
+    "total_tokens": 1092
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_06f75e9f9854819e006ae7ffb34b8887d1a3d44f32df3eee2e",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-0fnjtaZjuKRG9tMPpwbFkNmCpunUd719G09mRIQ9XDQ-lChO3l9bHwBFrF5qqAnoVe3RA2TtrrX7PMH_f3EGOQ6BFWTJkpvJDTn7vWKT3bzR1wCJKT9yaMuEFCmges97OW-ItQIsuOz7rGG_1Rzcq15XSATwVM0dkRWalw9PJiXmj_-Lpw_1KL53giHld2C9p6-U1OM_P_OG4WNo84jCg8jGFzQQtE3BdZGEoEpKH3sY6Hu3jgS_rWfOrzClTY6mKUQuPFUCMAPrKjsHJkW6P7egwBYMeu4KYQ42uOvRyRgLSoPZ1vog95EiqY0Fnl1M1yrP4P_tes61V-O35opb8NEFNFUJUnGg-WosMh1OGdTECRG738Bq5pqRPiCFI7_g57gYNp_Urrd-_7Rhm4c1s9thUIW4wDTKIm3MYaxYIb_od6xu4_VrGyioSBz2L7D-CTbiANTqponthlfL2IsL0LaeT4PGVuxeofqkWVzz4IaAjbBcI5YQoAo_VYPwqEF2YLvm1tH5fiIUacFzyYhwZ-E449QS6DO_U6J9aSlBsMcXljXqtbPo324WQ_q8CtSJ044WBUYuPZB5M0I12d8hHlvZfncOQ7Xc23Ki4B-7B746quvZ939Y9u30Vy0QFrMsF2q6qwUbRLKr-epcI4t0clHH9GI64y-m012tZzGz8Pn0HVorxuZalkHHUFvvGujoeDljdtKbmgK0Q87rcmQvRlcZjxZcMQmwif-A6Pk7GGiPWVDKlQipyBia3KmKjmrWqyijLMHPXQU188qvpDUr_e3uS1tJ3uv8VENBLpQY7Ahw2uTPM0IhEbqvuXUDA-eCyWULrdLaC8uCXeVBQEJmX-EYPS9qt0dgnyyiJ0kPCnWLowtw8mBCFa4jDd0QuaWwYnYCGvTkU7nPEyI4xW_KtXli6VKRfPobBPKT4xuxFybUISrqAByOu-d6em10gHTJ14vN_znPy4_mECY8cXM25cXxthG2RUvuT1Val0ZDPRN9fq83VZsKWEqotf9WMEEMQCyPFZcsLrYAm2po4ULQNjXD1GmqNQtmtcBd50rICQlBV9TyvIVkVh-psUvRKvscQ6rP95pOzzU2jkbCB0m3rA4vgYKOLFL9S-mvOkgRnLIwvMfCxJiiEmetP6vuR1hF_Va2YA6HTfT6xfE_cJyNt-MRCOjPdng1mOc9aa5vWaSzFdn17Amxd5di_p7Hc8yMmBr_MUKOLRx7BTBOCVQ1IUbdGavYEZUSFkIDW5CzKMCrMzxTxI9vENG2gjO7s5Bgh_I0B0DmyqlPADtyOYqEixFDovRHMcZeptNjZ3I8hVxJZSxV7ouZBsQ-ZT5mhqFMCqHGXlKtOoHPI31mZx-5IPio-8_yzrQ5F6-5UodtAxAj_x8OoL2032lTk3IkMIb0kHD3Vz3a1oQr7QCRTTSOi2BPs1vSTgGpw6jzDMaqp9AwaeJNczqpBZgGUhQhgolduFN9t0VAadJxXxeyMWXvqKrbQ1b_GLXRkwbXfXmuI41qFSALoW7RZPt1RyXXFffrIx0_j5UmmvSNvFWfAkFRGCXCfgqBKAFsFZ8E8g-9lq_ROwrBuK7ZFpNbMunHEkm1ML22vLMU6Gh3YtowHCoNozgfybeNb-S2HcITVWhE3bHosyadwW2E0ZfNP1rvdEbOSLuDO9iZKLIXwMBDI4v4BguTrGHbVSKX4NRVeWIVVN6_DYp8jXuLf_ZdRyVfrg9TTQciE2DP_uPbOBflJDnshSRRmMiICUAIjbnvBWFoT_1iWSHrvI0_Bb-KdEfJMB_splL-e-FSwi1Ka5eZRakvY22mxbL4suOqvfv2WjtxBw2tU4R40D3nvJJupverxnljy_cHW-RwNDYThmqdrqONTbw==",
+      "summary": []
+    },
+    {
+      "id": "msg_06f75e9f9854819e006ae7ffb3cb0c87d1aa11c5975e2cb6a0",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer matches the confirmed preference for ordinary, non-security changes: email is preferred. The security-patch exception does not apply.\",\"evidence_memory_ids\":[\"AC3R2-H20-F3\",\"AC3R2-H20-F4\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported; the answer applies the general preference to the ordinary-change context.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer matches the confirmed preference for ordinary, non-security changes: email is preferred. The security-patch exception does not apply.",
+    "evidence_memory_ids": [
+      "AC3R2-H20-F3",
+      "AC3R2-H20-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported; the answer applies the general preference to the ordinary-change context."
+  },
+  "finished": "2026-11-02T03:12:52.785978+00:00"
+}

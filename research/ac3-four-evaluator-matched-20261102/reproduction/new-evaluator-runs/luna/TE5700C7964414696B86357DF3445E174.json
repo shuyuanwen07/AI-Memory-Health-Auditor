@@ -1,0 +1,57 @@
+{
+  "test_id": "TE5700C7964414696B86357DF3445E174",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:15.045613+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_02da7c1f0c0c2c13006ae7ff901b2087d1b615ea95862223c0",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 742,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 143,
+    "output_tokens_details": {
+      "reasoning_tokens": 35
+    },
+    "total_tokens": 885
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_02da7c1f0c0c2c13006ae7ff90eb9c87d1918490bb3abd3760",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-SXmKk5gAoRY4L__OonFYk_RBvlXPECGlpq3jk3UhEKjh7wlKe6qkjsPs-IR9VFUVUte8-a3owfJ8tqZeoB3pszOqZZeVON3JuqIM-MYZXzuDwDLq2BFVzFqvwjPqugI9psWEgAcZ5sq0wn76Mc3gNc93Fx4dIMm7-kf88rC7gkDw10uf5jG9Zper-9Jy-fTDzg6GBQhfDBMCcLBmJR7DHZFxQJKnQUSRrf30t7k-DHJ1W9_Gbbz2eMMxYPziiFET_mjHFiJhxujpLYoC11EytYVjXfJcon3Cf_HZ76G46joerXT9vPGU8Z8Stta6PKM4avy2X-jdx7MK9Zt5ETGSi9Xesypfl_UOh2Z5GLSDBFGP3b3wVwnpI5eiwG8s1_TJqWxABIgZdisKU2zO1IVJbikxUINqWCvzuV7QTe85SjSROCl7ezmPJY-hSLJGAtbbqQsRvO6xSkb-wMj3FMjgHFERjVM0aH8TyPCF88g6HcMVLdzZjPRpyDMre2ntl7PgEYj_THP8O99GvKV88r7SposBCK2WtLNDuLlo8cp3Re_48-LZipZQWA9g29_taJM81Gp_baVOOnLQREIAhgvj16ThZpuvphtD3kx9hBrw4aU4d-0NsmE1CSM58gRFa-bk7sAgg7wJNWgsdoqj0F6FNsH8SgB7fGo8N9Gzkf54Cdpb_xDKZZbYiHBA-I73UYmgcXTOnXd4TvStfDhaswXPc3C7cpeP_6sAu9qn0zRNsDDCLJNQlN3n-55xSFRMkTX2AQ6PiSC5eU_IS5hT4yCSCBJ0ge3YvfQf3EPS1pCcj3HVS_3u-2JIVlLY0clp50xrEqZBpJr9_XF6EsSm4KLK6mSMHdqH3Tqft0MucnUUT993WIUOuitKsSLZrhusQvdEm8rdsFl5p0z2QjQl3UGM7utTwtAcipSUCjbfqWHjFbsn1yjvZ17FxebvmtFTxI9ewPyZJ6skq17STw5GcX8lL4rkJ1WDmt9N7vMRKUVNjXYZvfd9WVEeX5J9IIaGePt8WeTw8_gw-FgOLkuoOCwFXcrHy9elptfrvEdgn1sL_83QPdVDa2yY4yz3kpi5KE7Gc7KJKLyv9SUwEG-m5LClCOZvMger2rhhydImZkT_BMvoWCnk5GkoEJUQG8_WXYaw_lMYB5oUXTFIg151r0CW9kqglsiqkedkTDppOg4Kw1BXzCdEwJD77ynkh0zOghPrwL4Bo685vWRFDqneeGxnlWXuXE98KJllh48hc0gnKsnrHXW_ysBlVYyIg1gnZ9E9OVkH9QR-B2fSpDEcXe2uTK541fFCti9WEtJpi-PWy7Xf84H4PtpGjyTKmKjbmjAOmmvSz5P_3ISLM1Lufi6kU5BNz7vK9rreagrwZU5HVHuLPzBukBMnN3zVUTibxUrPdB7hdvAPV36qCIkrd1G9tJYeyaDLTMFGSeJ_xyxfYlAFSXwlRt2rlFUJ3I6My2MwEOFsihEZgSYJ-ZDLlila8GZeFUmQidK0m5USwRnd8F4G8NdmFEyWWUQNvxvL0UZMooVmj1ASboSiG0iODLzIFekoZbyjltmykJIOsxucpm0krC0TkMWIufMSLvtyddMGmvwIJT0n1VUqXUO7SWX4xBuyihHWyfwFM8E74hcVa_nUnF2cqOu_xnMIqzQq4W0dvUvp6YPodxX3Dxi7MNZ36FUgooZLVlEbbSwrNb-nItm-ItUrfpzdo6F5PLZ4i_1q47ubtRQDtTE6VGK2FpY-_h6m6mpAX6kSYoRqG_tGwfU0TbSy4vecTTdwZqN6MOKCC6XAvpC1HsQ24OQqE4u9J1NTi4__eeRNNW-PWHKtr6zNu-6fA5I__Zfbk_5P30HH026zPvrN9vKwbkKw_1M51qavx-KmgfBA1EELGuDNdLk0=",
+      "summary": []
+    },
+    {
+      "id": "msg_02da7c1f0c0c2c13006ae7ff91545887d1aa6e05002ab3bdf9",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The answer says there is not enough information, but the confirmed memory states that the seed-library sign-in book has a woven cover.\",\"evidence_memory_ids\":[\"AC3R2-H02-F4\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"The question asks for an ordinary factual attribute, and the answer omits the source-supported cover description. No supersession, unresolved conflict, or misuse of an irrelevant memory is established.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The answer says there is not enough information, but the confirmed memory states that the seed-library sign-in book has a woven cover.",
+    "evidence_memory_ids": [
+      "AC3R2-H02-F4"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The question asks for an ordinary factual attribute, and the answer omits the source-supported cover description. No supersession, unresolved conflict, or misuse of an irrelevant memory is established."
+  },
+  "finished": "2026-11-02T03:12:18.578012+00:00"
+}

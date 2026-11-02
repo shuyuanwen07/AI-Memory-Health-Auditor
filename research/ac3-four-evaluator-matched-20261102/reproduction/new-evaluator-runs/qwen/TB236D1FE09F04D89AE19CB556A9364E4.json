@@ -1,0 +1,20 @@
+{
+  "test_id": "TB236D1FE09F04D89AE19CB556A9364E4",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:26:20.619813+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 838,
+    "eval_count": 185,
+    "total_duration": 22712333625
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer does not provide a specific current watering interval. The memory records indicate that the original interval was three days, but it was changed to two days. However, the answer states that the user does not have enough information to determine the current interval, which is not supported by the memory records. The memory records do not specify the current interval, only historical information. Therefore, the answer is not supported by the provided memory records.\",\n  \"evidence_memory_ids\": [\"AC3R2-H22-F2\", \"AC3R2-H22-F3\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer omits the current watering interval, which is not supported by the memory records. The memory records indicate that the interval was changed from three days to two days, but do not specify the current interval.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:26:43.451129+00:00"
+}

@@ -1,0 +1,57 @@
+{
+  "test_id": "TD2F26F51D89647EAAA80BE8C068C0C6A",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:52.788152+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0064fbbc8f7922d2006ae7ffb5021887d1b9b3d685a9d39c84",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 893,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 122,
+    "output_tokens_details": {
+      "reasoning_tokens": 41
+    },
+    "total_tokens": 1015
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0064fbbc8f7922d2006ae7ffb69f9c87d1a3e2b30732b70465",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-4HAg-rLwaOaZ1plmkkbCodOFH1K48IDH2eHVwSbd0Enhw6EYHMNXsQ_tYivLxd6KiRsXcUGSSkL5BIApsGjKaWw_lo6cR8aPPgD3NOJqIp-y92E5JW4SQyVXTmgi36_4TJMKHUo7a2YokylgRKsCHM6pDfDqHU4nmwcVDg_zheXU7U7gSSALhPttEr2Q0RZ3TZDolfoZI-kUkLheitlaMrXGykc1KLb6AtQ24TjNTtgXr0qF6Rcp2LH4qz3ICHKhPBRwf7P6LRX4RJoCIXn5Cw3bytWte5t6ZX8bpwqwLgHcd85tQrTBRi4dCN1eHaA6T6X_GmI9prnNuL7LWS1S4xz0sxwMFjpPmB2OVR6fbWp5zQSykmRNBuKstvdy1s9Ilqy6SRFxpHPUnSqniZfjvttZ55vmerQbizV6siQWw9IwAYKs7QgS8nJUyMckj0soKeelPmvhO2pGwSyZm8FwAB6x9fVRSm1VBsaYBZsnw09cLOT5f4vW6kcgTWYHz8eGH_C_Ycbw6wvSx7WE-Ee_L-sQ2_ERMiby9U8GvokPF0inbJ4OPKfRZa_aSKoJdTmdZ7Kog-PL9nIRrxFWBItgcpa4v3dumsRR8IjuewJvHvakN7Hbg_zd09xoaztlRnoUnHUsi5UEdPLjqHkQFE4c5lZ7fgGRNBiYJSBaasRWX0Z8kvYV9_gQiPmAVK7FbaA7yJGIlv1dbswnQ9IdoPaINwmIWk2EGKj9vkkFPkDw6KUXUqJBx9dsMrfsJvIQTcPMpInR-A5MArESh4Tjx0yu42TkzLB8umEWCosKiDO1SblH1yDsO5QEUZO9mrmuZDIESJmVa1e7xN9qo0ZOEgdrE-3cEphvbuIfX6H50XCWcSceZAn00uou3LsAYFISCWxqFWF6kOliVWFGoF9my1Xf60EhpdNy4RSnTSFzZOn0WA-13iwYDHE91uO7au_i8WkC0YaT0mEyacsSN3Qx5D3MScTfLO8Nd6-J8off386ak7wAN9e3JhETETnnhUad8A1mu25wX3kiFBV4MuEsUMuznOzJyK8LqjB2OEmqAgubMaJYCX3X2ao1ej_tL6iuIsUkzr5NSpqIwORxUIrk9vJU0zPui1MQQ67g2WWdjbWCB6JFiKAF2u7QDuICD84WBM0ffEHSoXCQQ2UduUO7IK81ExsfzyGPHkaik0Vz5ojl4VNA_5uhBz-AkjuYGLjDCQVRxkDDkV3P0JJQiJ0uiyVZkyd39gB_04mI2dJ9xXx1wO91W7_jR741aUvpUaTBd2xAZjTwLBeaKbdGIuY1JZqX4TH5fN9B4shImMqDc3HYYZX6DtOsgK_Nyv8UE1IMJSmPBtwVM-Hl3aThJt1KBjnFW3wy0YUwgIYPrO9g3lKDO8-nmVMZkL4XoMHOprc3VU3z175OInIHKvTPDdvn3x2GnSyrvDLwEtQtupuORq2eM6QdUR05hzrOgCiN_pOL0NcX2nMVoXtICQZrFYX7kLg2Ru38D8Q5a3hLkJsaPM-uMWwCMY4QrWOLHwLpJOuZi5Gk8KtRnJBb7bts1VuyOAHueRQnrzuYu1vr3-euIDmxsSee4JtbhWyFCQ912B79d_8_RtBCDf4FzqxwgO9GGJ2cuQ_SpGkYPLH3b6aAtiRVorR4qiMbtSZr_f3tGZpHx23ZX42-Msf50tK5hP4BCxC-RC3VLfLsE1Gf29qK0dBFGoXyPsNeY4DTPq_rVliC2AjJdJDl56nKANL7lHdclhkOySg9LVYrYmdYSFnF1sScfGuHyyQ3hC6kxxCJL8FXHSnC3R9UeNCe58l1rsuvR9UIaAvx21KhBBr1raPmPubiBTgVjbOjtYfHZdImjgt5K6f8NMobwHcQt_ffwvCcku-ju8feVHXuo_5mtO8OTcx6qSEoJFFGzqCbWqj7QLza9XekbHTkQjyvdz-2WndYQJDHoSw==",
+      "summary": []
+    },
+    {
+      "id": "msg_0064fbbc8f7922d2006ae7ffb74f1487d18abcf44a924eb024",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer correctly states that negatives for the water-damage recovery case must be held in protective plastic sleeves.\",\"evidence_memory_ids\":[\"AC3R2-H26-F7\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported; the response follows the confirmed case-specific requirement.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly states that negatives for the water-damage recovery case must be held in protective plastic sleeves.",
+    "evidence_memory_ids": [
+      "AC3R2-H26-F7"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported; the response follows the confirmed case-specific requirement."
+  },
+  "finished": "2026-11-02T03:12:56.381296+00:00"
+}

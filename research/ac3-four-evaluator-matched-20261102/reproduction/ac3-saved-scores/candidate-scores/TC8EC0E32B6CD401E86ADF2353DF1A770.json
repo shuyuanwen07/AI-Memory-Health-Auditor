@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "TC8EC0E32B6CD401E86ADF2353DF1A770",
+  "started_utc": "2026-11-01T13:18:42.466590+00:00",
+  "request_payload_sha256": "671246192015db04f912e65ccbbeae3c352e9d3e1bb9d69a087f90461c66af22",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "Avoiding a single-name answer is warranted, but the response fails to disclose the known conflict. One active instruction names Lena as sole observer, while another names Omar for the same exercise, with neither taking priority. The answer should explain this contradiction and seek clarification rather than give only a generic insufficient-information response.",
+    "evidence_memory_ids": [
+      "AC3R2-H17-F1",
+      "AC3R2-H17-F2"
+    ],
+    "failure_type": "conflict_resolution",
+    "classification_reason": "The records explicitly establish mutually incompatible active claims about the same exclusive role, without a resolution. The response overlooks that conflict; no superseding update or out-of-scope memory use is implicated."
+  },
+  "usage": {
+    "input_tokens": 968,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 2861,
+    "output_tokens_details": {
+      "reasoning_tokens": 2686
+    },
+    "total_tokens": 3829
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_069b5d569a9e2b7f006ae73c32c91487d085beeabe329c916e",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:19:36.465451+00:00",
+  "raw_sha256": "2c22ef9479086647c6a10d33c0dad20f14b44b1af7a94e3c4593bc8def143780"
+}

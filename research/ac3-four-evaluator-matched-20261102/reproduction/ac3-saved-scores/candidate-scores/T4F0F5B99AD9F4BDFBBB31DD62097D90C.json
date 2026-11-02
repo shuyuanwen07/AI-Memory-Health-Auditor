@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "T4F0F5B99AD9F4BDFBBB31DD62097D90C",
+  "started_utc": "2026-11-01T13:24:35.402633+00:00",
+  "request_payload_sha256": "3092e5eecffb3be394b3c725dc4379394664f523d10dcc532b84fbc1e0a09054",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer matches the explicit statement that a paper route card remains preferred outside the night-visibility exercise.",
+    "evidence_memory_ids": [
+      "AC3R2-H17-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported. The answer correctly distinguishes the exercise-specific electronic-display requirement from the paper preference elsewhere."
+  },
+  "usage": {
+    "input_tokens": 961,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 390,
+    "output_tokens_details": {
+      "reasoning_tokens": 291
+    },
+    "total_tokens": 1351
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_02cb831e0aa02279006ae73d93b9d887d0942c9fd3ba43be0e",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:24:42.732637+00:00",
+  "raw_sha256": "88484dc5bacf22e64e4c22dc9ca9aef6140f018923d7ba6c4d43ecf2087b799c"
+}

@@ -1,0 +1,20 @@
+{
+  "test_id": "TAE9633AF56EB4BCC97BD30273AFB0F74",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:26:43.468088+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 816,
+    "eval_count": 236,
+    "total_duration": 29095693500
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks about the 'single final pickup point,' but the confirmed memory records do not provide any information about a specific location or point. The answer states that the speaker does not have enough information, which is consistent with the memory records. However, the memory records include a confirmed statement that the 'only final pickup point is the school gate,' which contradicts the later memory record stating that the 'only final pickup point for the same distribution is the sports hall.' This creates a conflict between the two memories. The answer does not resolve this conflict and fails to clarify the discrepancy, making it inappropriate to rely on the answer without further clarification. Therefore, the answer is not appropriate use of the memory records due to the conflict and lack of resolution.\",\n  \"evidence_memory_ids\": [\"AC3R2-H28-F4\", \"AC3R2-H28-F5\"],\n  \"failure_type\": \"conflict_resolution\",\n  \"classification_reason\": \"The answer fails to resolve the conflict between two conflicting memories about the final pickup point, and it does not clarify the discrepancy.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:27:12.719208+00:00"
+}

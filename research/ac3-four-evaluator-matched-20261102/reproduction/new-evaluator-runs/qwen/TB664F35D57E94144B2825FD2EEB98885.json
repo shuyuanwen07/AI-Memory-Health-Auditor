@@ -1,0 +1,20 @@
+{
+  "test_id": "TB664F35D57E94144B2825FD2EEB98885",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:10.697850+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 908,
+    "eval_count": 226,
+    "total_duration": 15054048583
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is not supported by the confirmed memory records. The memory records indicate that for the screen-reader briefing, an accessible electronic notice is required, which matches the target answer. However, the answer is not explicitly cited in the memory records. The memory record with memory_id 'AC3R2-H14-F8' states: 'For the screen-reader briefing use an accessible electronic notice instead; printed cards remain usual for other events.' This directly supports the answer, but the answer is not cited in the memory records. Therefore, the answer is not supported by the confirmed memory records.\",\n  \"evidence_memory_ids\": [\"AC3R2-H14-F8\"],\n  \"failure_type\": \"appropriate_use\",\n  \"classification_reason\": \"The answer uses a memory that is relevant to the question but is not explicitly cited in the memory records. The memory record with memory_id 'AC3R2-H14-F8' supports the answer, but the answer is not cited in the memory records, which is a failure of appropriate use.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:13:25.827170+00:00"
+}

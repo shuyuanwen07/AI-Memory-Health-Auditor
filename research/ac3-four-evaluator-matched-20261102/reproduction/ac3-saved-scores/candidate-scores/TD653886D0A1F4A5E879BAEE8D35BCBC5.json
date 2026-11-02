@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "TD653886D0A1F4A5E879BAEE8D35BCBC5",
+  "started_utc": "2026-11-01T13:21:52.580220+00:00",
+  "request_payload_sha256": "4f872f25e0ac2bd9051e86a1c69bc9bbac31c7fcd7354c900cd48811f3bb1361",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory states that the seedling bench has a white diamond label, so the answer incorrectly claims there is insufficient remembered information.",
+    "evidence_memory_ids": [
+      "AC3R2-H22-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The answer omits a directly supported factual attribute. No relevant superseding update, unresolved conflict, or misuse of a scoped memory is established."
+  },
+  "usage": {
+    "input_tokens": 891,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 532,
+    "output_tokens_details": {
+      "reasoning_tokens": 419
+    },
+    "total_tokens": 1423
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_02078d86a3d5899e006ae73cf0ef3c87d0a80b06ec88c35719",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:22:02.432430+00:00",
+  "raw_sha256": "a8c8b2fa71546d8f72778efcc184f1a3621597f3c7647e67d3d28c3b5b5de982"
+}

@@ -1,0 +1,497 @@
+{
+  "format": "matched-four-evaluators-v1",
+  "computed_at": "2026-11-02T03:33:05.319802+00:00",
+  "complete": true,
+  "reference_fail": 69,
+  "reference_pass": 51,
+  "cases": 120,
+  "results": {
+    "rule": {
+      "counts": {
+        "reference_fail": 69,
+        "total": 120,
+        "state_offline_replayed": 120,
+        "decided": 120,
+        "tp": 55,
+        "reference_pass": 51,
+        "tn": 33,
+        "fp": 18,
+        "fn": 14
+      },
+      "detected_failures": "55/69",
+      "recall": 0.7971014492753623,
+      "false_alarms": "18/51",
+      "coverage": "120/120",
+      "unresolved": 0,
+      "nonterminal_or_failed": []
+    },
+    "qwen": {
+      "counts": {
+        "reference_fail": 69,
+        "total": 120,
+        "state_failed": 103,
+        "uncertain_or_error": 120,
+        "unresolved_fail": 69,
+        "reference_pass": 51,
+        "state_returned": 17,
+        "unresolved_pass": 51
+      },
+      "detected_failures": "0/69",
+      "recall": 0.0,
+      "false_alarms": "0/51",
+      "coverage": "0/120",
+      "unresolved": 120,
+      "nonterminal_or_failed": [
+        {
+          "test_id": "T44A8B8E4F81D4DB6BC659CE4D5D06C0C",
+          "state": "failed"
+        },
+        {
+          "test_id": "T5307D619BACB4531BA508F619D980A45",
+          "state": "failed"
+        },
+        {
+          "test_id": "T3E29FBEECDF7487A82CEFC42262DFB13",
+          "state": "failed"
+        },
+        {
+          "test_id": "T8E8A3DD6444648E181EE170AA7EFEB06",
+          "state": "failed"
+        },
+        {
+          "test_id": "T1AA17D0821054403B64E94F4850A2F38",
+          "state": "failed"
+        },
+        {
+          "test_id": "TA74F25F69B3844C398F638CD585C5F40",
+          "state": "failed"
+        },
+        {
+          "test_id": "T2E8E982242E040F1AA323C02371496D1",
+          "state": "failed"
+        },
+        {
+          "test_id": "T77D9689B7B4E42FF8D7C3A97BD7D715F",
+          "state": "failed"
+        },
+        {
+          "test_id": "T410582C2630D4E439E5B1461EAED4AA4",
+          "state": "failed"
+        },
+        {
+          "test_id": "TD005A8814E2F478CB8B6BC0DC34F7061",
+          "state": "failed"
+        },
+        {
+          "test_id": "T318EB380903B4084A066EAB777F19E2E",
+          "state": "failed"
+        },
+        {
+          "test_id": "TD06EE950D5A8401D94F1B8D9461ECBE6",
+          "state": "failed"
+        },
+        {
+          "test_id": "TFF5F970B5F6E4DD9976F363B743AC612",
+          "state": "failed"
+        },
+        {
+          "test_id": "T1A3243381D684225A44BD379B0F4E328",
+          "state": "failed"
+        },
+        {
+          "test_id": "TEF47E000BB6B45C2B79308E39BACB39D",
+          "state": "failed"
+        },
+        {
+          "test_id": "T4313C102E82C4290B423DC881E5CCAB5",
+          "state": "failed"
+        },
+        {
+          "test_id": "T8D046DA4F2074462BA5588A21FEDB656",
+          "state": "failed"
+        },
+        {
+          "test_id": "TD653886D0A1F4A5E879BAEE8D35BCBC5",
+          "state": "failed"
+        },
+        {
+          "test_id": "T4D3E0B554B2B4AE1AFBB1ED4FBF8743D",
+          "state": "failed"
+        },
+        {
+          "test_id": "TCE4D105C59CF4F059A0F879BE9C7438B",
+          "state": "failed"
+        },
+        {
+          "test_id": "T92429A7CCF554B8AB8704EA76FFF3141",
+          "state": "failed"
+        },
+        {
+          "test_id": "T6CE4B80ACECA4857B426E2C805BBA7A8",
+          "state": "failed"
+        },
+        {
+          "test_id": "TCA2E1B9285A44415ADE0EAA170BD2140",
+          "state": "failed"
+        },
+        {
+          "test_id": "T0D9AEB74CE194DC1B8CEC5655D166F78",
+          "state": "failed"
+        },
+        {
+          "test_id": "T4AF8AEA6A01D4B2E81FCDF1260A36295",
+          "state": "failed"
+        },
+        {
+          "test_id": "T6E67D0EA60324CCB82D397F3B93DE962",
+          "state": "failed"
+        },
+        {
+          "test_id": "T4F0F5B99AD9F4BDFBBB31DD62097D90C",
+          "state": "failed"
+        },
+        {
+          "test_id": "T150D4E8740E04E8AB6C223EA5B1A8A9F",
+          "state": "failed"
+        },
+        {
+          "test_id": "TFD751C73361F49DFB0E3511E01785849",
+          "state": "failed"
+        },
+        {
+          "test_id": "T20A9FDE65A534430B142952171495D15",
+          "state": "failed"
+        },
+        {
+          "test_id": "T7CC53CA86F934C7C80F41A4618638606",
+          "state": "failed"
+        },
+        {
+          "test_id": "T2D72924588A14D64BB4E4CBEC6D853EF",
+          "state": "failed"
+        },
+        {
+          "test_id": "TB69C181EF9984224B570E666E164D33D",
+          "state": "failed"
+        },
+        {
+          "test_id": "T059393AB4DCB4D0793EB2ABED19C11BF",
+          "state": "failed"
+        },
+        {
+          "test_id": "TEAD229FEDD8B428DB6BF2A7D1ECA3023",
+          "state": "failed"
+        },
+        {
+          "test_id": "T6C2F6D17278F4B10B3389EC9C348E276",
+          "state": "failed"
+        },
+        {
+          "test_id": "TC3870F4B5C534CBFA03FF4A33FD34D08",
+          "state": "failed"
+        },
+        {
+          "test_id": "TE768FBB4F29949E2A78DB8C3085D337E",
+          "state": "failed"
+        },
+        {
+          "test_id": "T93E309322F314D3C99435689645C8043",
+          "state": "failed"
+        },
+        {
+          "test_id": "T8395D74C353F49C1B80D329D178D4C1A",
+          "state": "failed"
+        },
+        {
+          "test_id": "T6D04CE721C494746910E091EE77C6633",
+          "state": "failed"
+        },
+        {
+          "test_id": "T79B6D92A5E664AC8883B577561FB356D",
+          "state": "failed"
+        },
+        {
+          "test_id": "T928F597426ED4A5293C2E29278605865",
+          "state": "failed"
+        },
+        {
+          "test_id": "TC28340671335494286E4E7D508DFD388",
+          "state": "failed"
+        },
+        {
+          "test_id": "T0B3DAE06C1084776B831AB3AC3229715",
+          "state": "failed"
+        },
+        {
+          "test_id": "TFF16F73A0B834D4A8679F79F74E2F567",
+          "state": "failed"
+        },
+        {
+          "test_id": "T3D9807490B004779BE2428437928BE99",
+          "state": "failed"
+        },
+        {
+          "test_id": "TC85699439BC04B578BA887AECB01E176",
+          "state": "failed"
+        },
+        {
+          "test_id": "T13236FDFB97E460892B7FD2468C369F0",
+          "state": "failed"
+        },
+        {
+          "test_id": "T2E32C2D81A244AF5BFD995B44B4FEFBC",
+          "state": "failed"
+        },
+        {
+          "test_id": "T45CDDAA12B7947D5B44B661038572F17",
+          "state": "failed"
+        },
+        {
+          "test_id": "T14952339AA214DB8BA0DB803F82B76CC",
+          "state": "failed"
+        },
+        {
+          "test_id": "TD6FF55437BD5491AA56F6E777E4F6879",
+          "state": "failed"
+        },
+        {
+          "test_id": "T7C3F5FC23F2C4835B4F0E206F5D98B3F",
+          "state": "failed"
+        },
+        {
+          "test_id": "T91D8537957A04D3D9B2A957182E49692",
+          "state": "failed"
+        },
+        {
+          "test_id": "T1E407C7401D64806B137DAAC2FE66AF8",
+          "state": "failed"
+        },
+        {
+          "test_id": "T9C9D8E7EF9794309A6D4C8415B42DE26",
+          "state": "failed"
+        },
+        {
+          "test_id": "TB664F35D57E94144B2825FD2EEB98885",
+          "state": "failed"
+        },
+        {
+          "test_id": "T9A5DD31F9CCF411F8BA81E7D1CDE1003",
+          "state": "failed"
+        },
+        {
+          "test_id": "TB236D1FE09F04D89AE19CB556A9364E4",
+          "state": "failed"
+        },
+        {
+          "test_id": "T606B49C4DEF8405CA0998F3D65BB6A54",
+          "state": "failed"
+        },
+        {
+          "test_id": "TEE5FB431E90D41E98577AB82E1B38243",
+          "state": "failed"
+        },
+        {
+          "test_id": "TBD86C54558F1408EAF26D8639E4F2F8E",
+          "state": "failed"
+        },
+        {
+          "test_id": "T0816D14AE1AA422E92BD208E005E8506",
+          "state": "failed"
+        },
+        {
+          "test_id": "T8BD9DD2E19C54964A2CA2597D8061927",
+          "state": "failed"
+        },
+        {
+          "test_id": "TDA5898212E2E42079D23437613C83FDB",
+          "state": "failed"
+        },
+        {
+          "test_id": "T55793CBA9BE24F21938CB1A733435761",
+          "state": "failed"
+        },
+        {
+          "test_id": "T64B81B780D014F349C7CE77BD39513C0",
+          "state": "failed"
+        },
+        {
+          "test_id": "T9C86DDC24C61411CAB66C0AD8918667F",
+          "state": "failed"
+        },
+        {
+          "test_id": "TDDF60351E21143008CF1B2D0085324CC",
+          "state": "failed"
+        },
+        {
+          "test_id": "TDFC60F6A499443DE93D20F30414C488D",
+          "state": "failed"
+        },
+        {
+          "test_id": "T91AA34AAC79F4D34B6BC0F2A521F6A77",
+          "state": "failed"
+        },
+        {
+          "test_id": "T5266A26D10344D178657AE3ED612AA7A",
+          "state": "failed"
+        },
+        {
+          "test_id": "T37D7059BA718420D8DBDCFCAE09C1B5E",
+          "state": "failed"
+        },
+        {
+          "test_id": "T1CABE21E2E5F4A608162C1679147A5A7",
+          "state": "failed"
+        },
+        {
+          "test_id": "T74AAB12A203C4E9CB93B87E82CA387C7",
+          "state": "failed"
+        },
+        {
+          "test_id": "TE2CBF2DA229F4D89A12E6BBD2DD994B5",
+          "state": "failed"
+        },
+        {
+          "test_id": "T36570713388340EBBE4AE422828D5478",
+          "state": "failed"
+        },
+        {
+          "test_id": "T7F5AC9CCAEE84653AB28885D8F15A8BD",
+          "state": "failed"
+        },
+        {
+          "test_id": "TAE9633AF56EB4BCC97BD30273AFB0F74",
+          "state": "failed"
+        },
+        {
+          "test_id": "TF3345698D1884BDC90F4D894E82BF0D1",
+          "state": "failed"
+        },
+        {
+          "test_id": "T918C74A18D0941B7BFFDDECBA9117D5D",
+          "state": "failed"
+        },
+        {
+          "test_id": "T1928E79AF5AD46FCB022DD89C7AF46F6",
+          "state": "failed"
+        },
+        {
+          "test_id": "T73A12D2237364A0BBCCBA716F1E11BCA",
+          "state": "failed"
+        },
+        {
+          "test_id": "TF16626068018404AB84BE50D9B79C03E",
+          "state": "failed"
+        },
+        {
+          "test_id": "TC445E53F617A4543A79B19D18A2DB177",
+          "state": "failed"
+        },
+        {
+          "test_id": "TA63DE0C5FBE44A11AF965BEE83A2D9E2",
+          "state": "failed"
+        },
+        {
+          "test_id": "T704A603A090148219B4F1735F791C0D1",
+          "state": "failed"
+        },
+        {
+          "test_id": "TF5F1CCA84C1D4579BDED27638DCF515A",
+          "state": "failed"
+        },
+        {
+          "test_id": "T7E09B302DA6443939BE5EB3A080E16EA",
+          "state": "failed"
+        },
+        {
+          "test_id": "T48FCB9BBDA87405CA06938E5A8008E1C",
+          "state": "failed"
+        },
+        {
+          "test_id": "T410E1E8199FD4915A902C26ABF913024",
+          "state": "failed"
+        },
+        {
+          "test_id": "T0CFE7BF2C2B34AE9A552C17D9796C895",
+          "state": "failed"
+        },
+        {
+          "test_id": "T04311AE4AF2446EAA08F2A090B6B3D4B",
+          "state": "failed"
+        },
+        {
+          "test_id": "T252283A2AD664015A3751ED9372BA2F6",
+          "state": "failed"
+        },
+        {
+          "test_id": "TD5476FD2801047F4BF064C174562D3D1",
+          "state": "failed"
+        },
+        {
+          "test_id": "T202E080DEB8C4854A73A3C1608D224C1",
+          "state": "failed"
+        },
+        {
+          "test_id": "TC8EC0E32B6CD401E86ADF2353DF1A770",
+          "state": "failed"
+        },
+        {
+          "test_id": "TD1DB5EF7A6764183AFC0BF39B180333E",
+          "state": "failed"
+        },
+        {
+          "test_id": "TC3293ACBDE5949FA8B7167239DB6B5AF",
+          "state": "failed"
+        },
+        {
+          "test_id": "T63452033F61D4553B40378A3D0F91289",
+          "state": "failed"
+        },
+        {
+          "test_id": "TE6D55CDFDE274DEF8EC2470189B59E8C",
+          "state": "failed"
+        },
+        {
+          "test_id": "T5B71AAB94FFA44C0AAFF82AEC16F79C3",
+          "state": "failed"
+        }
+      ]
+    },
+    "luna": {
+      "counts": {
+        "reference_fail": 69,
+        "total": 120,
+        "state_returned": 120,
+        "decided": 120,
+        "tp": 60,
+        "reference_pass": 51,
+        "tn": 51,
+        "fn": 9
+      },
+      "detected_failures": "60/69",
+      "recall": 0.8695652173913043,
+      "false_alarms": "0/51",
+      "coverage": "120/120",
+      "unresolved": 0,
+      "nonterminal_or_failed": []
+    },
+    "astra": {
+      "counts": {
+        "reference_fail": 69,
+        "total": 120,
+        "state_returned": 120,
+        "decided": 120,
+        "tp": 63,
+        "reference_pass": 51,
+        "tn": 51,
+        "fn": 6
+      },
+      "detected_failures": "63/69",
+      "recall": 0.9130434782608695,
+      "false_alarms": "0/51",
+      "coverage": "120/120",
+      "unresolved": 0,
+      "nonterminal_or_failed": []
+    }
+  },
+  "note": "Uncertain/errors count as missed failures for conservative recall; shown separately. Shared 120 answers are Astra-generated from related reused synthetic histories. Models differ in protocol/effort; deterministic baseline has archived input rules. AI-assisted references user-reported human confirmed. No independent held-out generalisation."
+}

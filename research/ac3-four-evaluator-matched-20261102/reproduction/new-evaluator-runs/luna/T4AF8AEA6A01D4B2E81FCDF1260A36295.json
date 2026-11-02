@@ -1,0 +1,58 @@
+{
+  "test_id": "T4AF8AEA6A01D4B2E81FCDF1260A36295",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:35.638362+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_06d9f908ba25453b006ae7ffa3d88c87d1b08577f618ac9187",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 958,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 121,
+    "output_tokens_details": {
+      "reasoning_tokens": 31
+    },
+    "total_tokens": 1079
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_06d9f908ba25453b006ae7ffa439e087d191ef2d3ed1a50d41",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-lZ11HEsThhfkuR5Il5B_Jao-Bay-_9T_uEJHFaoy3QIAgczAetkmxyN56LGJ8C1Ma_Js_KPAj5cgxqmrw1iyuBSgVBh_Baps-I_KsqHIcF0dj-xEMClz8txTn7sn7Y4TILDtXzuIE9GGfn41QY1t-Sn5EkCFgcP8wHAPiMfWlCRgE-jZtFKS11wZXQPG9lQOYszc7bXKkqiO_DE09opSIaT5E0fijv3euyzkAlI7tezT8SkTw32fz3ZneNgDeRtO5OJOEsOgCJvcRdugkC03e8M8udH3Q_g3jhRWZJMRE7D7e5FWlEwFNH0IWRB8-Ddq9xUEVu2SxCbpwPAatKu5PWeS3qtvvcVDrlIyZTotOHyzvdTz7TvjGSpbrxensF2jz85ArPUAiqcORD0A7mwYk4M48b7Zm4XgnVClBejyg90LS2ud-2Iug3XrKNwpMKQcE4ptJIDZG6jqqp7Z24JScp3rYR0Fd7gEbkVy6y_sfTL63W0F33JZ3jvAmU56vaRfUUobHAGZTrxpyAw8oIZFOncyLII7E29YEAzo63WDCnIhvPH5Wvw8euU504UvRj8y0zjKI2KV5gzAcr8gfG27HOIh0KT-BCWuzdsaP3KMVRm4WiUZq-zKwQ5fYy4nfSY5SU2Jzv5_2z6IhFv88MTQfy6yJ4Pkg3BAKKoPdFY2z9t9Sl9nYAEDUqGeyx0WWk2reqizOJzi1S8Qt064YQTLzbHy3J-aLpqeYgEylQIXRlN-PhTHV3cavIU6Ouk8b2puhjfBJ3nZI2zJDG7G0AFgSEAkPn1Kt-eFegCQI7Jd1om0HLdkDN83yjOLo5wFjOP5Z-ZS1nmmADAjcLASVCWFbFUqPXDB0D-wJSNQ7HiPOmtD6ANlZUCa9p-ZCrQFL12FD6j3xWpUW7xCcbk_cAhn4csR_LC64RfHYCD9ZQvLAR1Ad5W4bhAdLwKd697NP1QZXSdotNzS63qzpjMHsD667Ufr7-ChrNd1v_czyMgiSBZmbB8mT8BLK_Qwh8fmRmN7HyKwrFPmnD8tsUhEjWAhrk37_v8PLBufCP7lg_wBsaUm8js7UheKRhvVpOrMC_lDYZQJVH0tr5NczzynyBeovC7sIJmwNmS1OnRB6r8rR4E956BTZ9_8d1g9XpnHBC2kLxTxls97tVsDvY_2q7vz0lFhFvF6DP9qkTx5ulrQ_dKOYfBbJVtYE0mxHP2vM2h2-TzmuxDZlgBpWXpmZiM4x9HXPlt8QlaKUHgkEX6vHkr4ywoKNV05fhLGOKIhnbngfIJ6kNPsWAlGp-cY-xRu_2WT9m5GRPRxLatmBNSa2a8PaP7-Pdht60O3I1pCJmkIp8G9D-2NqgHrOXqfzUcIIP0zoU_baaSR-5zfsUHzEgDy2622d8vU0mSZptKkoh68U_fYCpStkl7ljjjVLKHqFv63RKcShyGZmiVsOOF53QXU4uVUEtu3VqgBKoiNLaxVz9JLTL2jo_LO9UztBudnMPm2cUY5y4rkqFpjCgDlBFlC7XMH1cCqYWFG4jOqGfuMHSpBw1G3Ay1ZaqGEMQR_6FOPCWgLyVKJ7LH0cz6jdIMfSyqwOqqIex54a0T1FM6b3tW3EuSRxjWExyQhLOk7febnub0ZdsKU298XBZz4LENJhAXXKrk6KrqrrfPG8EiHOTghZMKVvdayRvW139KupHtc7ig42Dyxq3ki-YZS3E_phS9n8DMmxZxwLtd9DCFP4Cte_D_YQiyZh8BN-F4Tobca6XgCKudvke-Z4VfmSbHwkhgA1V85l0pXEL9knKlv8",
+      "summary": []
+    },
+    {
+      "id": "msg_06d9f908ba25453b006ae7ffa49ba487d1b434eeb3b78b8078",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The user’s usual editing preference is wired headphones, and the wireless requirement applies only during the test. The answer correctly states the preference outside that test.\",\"evidence_memory_ids\":[\"AC3R2-H16-F3\",\"AC3R2-H16-F4\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The user’s usual editing preference is wired headphones, and the wireless requirement applies only during the test. The answer correctly states the preference outside that test.",
+    "evidence_memory_ids": [
+      "AC3R2-H16-F3",
+      "AC3R2-H16-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported."
+  },
+  "finished": "2026-11-02T03:12:37.569396+00:00"
+}

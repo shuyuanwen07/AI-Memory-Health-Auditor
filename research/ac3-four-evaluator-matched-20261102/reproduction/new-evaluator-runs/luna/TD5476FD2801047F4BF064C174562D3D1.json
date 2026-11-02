@@ -1,0 +1,57 @@
+{
+  "test_id": "TD5476FD2801047F4BF064C174562D3D1",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:03.488991+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_076958b4881ff2b9006ae7ffbfb90c87d1adb7d9185d4d56e3",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 880,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 139,
+    "output_tokens_details": {
+      "reasoning_tokens": 28
+    },
+    "total_tokens": 1019
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_076958b4881ff2b9006ae7ffc05c5c87d1a92e01e9e11df06e",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__CmdfDKxsSMMphAmCKw2L-1PzmGTdYPi-jDTd57muGyx61zXmwqQkreF8BNMXeOaZO45jENm5k8Bew4H5ToDWsxIbV5jZD-lMAqoYz5s21nca31b0Mmk-mIP607VeZvJo9BEUVr-nDRd-ZGcVg-L5dMeSGi3ye8R-GECmZsJzHFv2Bi0eGqyR1xoIGgzfP-pUtHk8yWBrH-lnzgnY4s3GwidVDitaoOLjfLQ5n5o6oAUKEJWIhPPRimnKFMPuJbCAG4p3d3k5AbEXozmfc-N-7tPUmxQ4E9bI1R6EAfTOaIt2kx9VmKVUF3wtsDkmqLfaFIKNlLJ3RTjk3-KX77O8-eF_WcPiVva1SKKM-njE__hJc_foZb_2u3FZOKyb10qU5dJlGb2RV4PP2OC6bv-tEvCKDOxF91nc4KEC3Vb6P1aQJ7A_nTWEoKmzVodEK5ldDreXR6QWbJ5QvBmOpF_esZPEzKuR3w9jYTwVIPT9fnvskuT2wfuhbuDon6C3ze1NT3c3xYA5C5zQT-NEQmfEHIwiwY6e25M1vrHUH-G_CT4JrQzL67ub991f1OoVyorTrZuQ4OSgp9jgkMa0dpzXF1JpTKwzmW2mOeUNxNWYIqmJeXV5BZOL4iq6WcfeQGGFeLHA_IX5OyrpzeaWsksoNCW8mKbWxe1-l8KlqIngcyX4qkOmE7z8OvjaDch0BaHvuLmBBvNXu2o-bz_KHBP2LodsDTvWWyBZT5suZPhPv9uMja_9LLleb0t_ja-F7yU5OBeIQitZhdzKxsQOLzZ7wKG0tr5LRzAq2zLfRCLSfx6nhcfiaXsDW81ORHF4GGJ65Dx8EGdhJcu3JTceXbyErm3vwA20Nat79uid9ETBQLvU6u1SZXxg7aJmEzHJ0cJA3fqX7Fr3W-SZCr4Eo4MgVqVKZqxig33YshMWD7r_t1RpcG89TMzVe0_IMT46uu1chyQAhBV8Ybv090lEdaoc7rhs6_n8pRFL0krC1QSZz295cRLc-cswntn6Ud0Yh0r2O4cjJjHdDakF30lzB856-P4SzImMBKxv_MRkk0lTXun29f1-ZhuV2YllI5n2WbQhrLsoV2GLI3bXGppc_TBd7LIhK-F1B-QLf_jqbMbIpKblvk8UqnS1-g9MMVMMiucu36y6Mhm_L8JWVGQ1bdvzUA6o54qMyMufvaOgSiky2y3jcvv7hSFj0Bmq9xaiwBnyQECMvatPKjNk6hgjSXz-sXwKEyTEduDQAcj9Xc8Vy2k4rMRdjdcpkTCOzsDqD_lWoDd8ivqw92lj63jLjppNmsbvc0MFFjHoDcS1ZajDCOiHncnpGjfXk2-Tjgrt1uSONXhwn6sj0oiDBle4zs1GyUOr-fY4UhoyYz_YlOaxlvJkOAj8dlwfDxxb1Qpo6avM4mlIHOPiVWfXbBrliXz4PwZFIDSRFo443Y4kpZAcpHc-cO-i6vWKWQOje_r5FeIpdRFLkCaAzGGAB5hRjrPoi_NopZP9z-kjlHi5uVlkr1i-Cu8o7jO6dK_0GqvgGUy5k0_THn7uW2FJbQa7GeOuv0QIU1eOEuJ5hZmM-iddSmhgHrMDPFEXtRU4MOaPqwgETKSVrwgl20XAucchY6SJ_wdfiLLosIebz0i4j2qDo6sPnCqF7cNO7uLvTClXGZxsRBDSC6R4C2w1iQT6wWkx0uqxsr1V0Mxr2Y7eRxkFtZYQOWsbhSwCvrA0AWGzIpqejPKd49TZkjQum6qbvLDrUZDy6ksa9Hs1qmE3nUp0aRH4D-yZTzvq-tf0MYR-ehgya",
+      "summary": []
+    },
+    {
+      "id": "msg_076958b4881ff2b9006ae7ffc0e4b887d1b1af13b3abdd338c",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The confirmed memory states that the spare torch is stored in a red drawer, so the answer incorrectly says there is not enough information.\",\"evidence_memory_ids\":[\"AC3R2-H28-F1\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary source-supported fact, and the answer fails to report it. The evidence does not indicate a superseding update, unresolved conflict, or misuse of an out-of-scope memory.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory states that the spare torch is stored in a red drawer, so the answer incorrectly says there is not enough information.",
+    "evidence_memory_ids": [
+      "AC3R2-H28-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary source-supported fact, and the answer fails to report it. The evidence does not indicate a superseding update, unresolved conflict, or misuse of an out-of-scope memory."
+  },
+  "finished": "2026-11-02T03:13:06.333132+00:00"
+}

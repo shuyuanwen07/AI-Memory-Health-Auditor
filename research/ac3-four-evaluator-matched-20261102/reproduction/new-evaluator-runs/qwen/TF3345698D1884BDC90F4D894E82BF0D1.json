@@ -1,0 +1,20 @@
+{
+  "test_id": "TF3345698D1884BDC90F4D894E82BF0D1",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:16:39.046843+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 928,
+    "eval_count": 182,
+    "total_duration": 16854864208
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks which format is the only approved format for release 2.2 release notes, but the confirmed memory records do not provide a definitive answer. Two different policies are mentioned, but neither is explicitly stated as the \",\"evidence_memory_ids\" :\n  [\n    \"AC3R2-H20-F1\",\n    \"AC3R2-H20-F2\"\n  ],\n  \"failure_type\": \"conflict_resolution\",\n  \"classification_reason\": \"The memory records indicate two conflicting policies: one specifies Markdown only, and another specifies HTML only. However, neither policy is marked as overriding the other. The question asks which policy should be followed, but the memory records do not establish a resolution to this conflict. Therefore, the answer cannot be determined from the provided evidence.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:16:55.978676+00:00"
+}

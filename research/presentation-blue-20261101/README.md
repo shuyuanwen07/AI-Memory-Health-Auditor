@@ -1,26 +1,7 @@
-# Seven-minute presentation: simple blue style
+# Seven-minute research presentation
 
-Open `Memory-Auditor-Presentation-7min-Blue-20261101.pptx`. This version uses a
-simple blue, white and grey palette. It preserves the slide text, experimental
-results, chart data, demonstration links and speaker notes from the
-[previous seven-minute deck](../presentation-7min-20261101/).
+`Memory-Auditor-Presentation-7min-Blue-20261101.pptx` is the single presentation deliverable. It has 11 slides, a consistent blue-white palette, and simple-English scripts in the notes for Speakers 1–4 (seven minutes total). The charts and diagrams are editable in PowerPoint.
 
-The 12 slides cover the project, background, contributions, related work,
-research methods, results and demonstration, limitations and future work.
-The script is in the PowerPoint speaker notes. There is no separate Word script.
+The deck follows the research question, motivation, contribution, related work, methods, evidence, and limitations. It foregrounds evidence-based diagnosis and a paired repair result (12/16 to 16/16 on four related development histories); the experimental platform is supporting context. It reports the four Astra MAX retrieval strategies on matched question counts and preserves unresolved outcomes. The chart on slide 9 places smaller value labels outside the bars for legibility.
 
-| Speaker | Slides | Planned time |
-| --- | --- | --- |
-| Speaker 1 | 1–3 | 1 minute 45 seconds |
-| Speaker 2 | 4–6 | 1 minute 45 seconds |
-| Speaker 3 | 7–9 | 1 minute 45 seconds |
-| Speaker 4 | 10–12 | 1 minute 45 seconds |
-
-The planned total is seven minutes, including short transitions. Actual time
-depends on speaking pace. Slide 11 links to saved pages on a locally running
-copy of the system; preload them before presenting. The charts and tables are
-editable in PowerPoint. The charts contain snapshots of the original values.
-
-The authoring module and `presentation-provenance.json` record the source deck,
-data files, source hashes, spoken word counts and planned timings. The earlier
-deck and its more detailed research interpretation remain unchanged.
+Results are limited to the reviewed cases and selected LongMemEval subset. The deck does not claim population-wide reliability, a universal winning strategy, or official full-benchmark scores. The PPT is included in the repository at the user's request; speaker notes contain the script, so no separate Word script is needed.

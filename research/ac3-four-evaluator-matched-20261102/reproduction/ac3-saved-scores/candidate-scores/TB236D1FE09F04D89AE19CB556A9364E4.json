@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "TB236D1FE09F04D89AE19CB556A9364E4",
+  "started_utc": "2026-11-01T13:25:39.497819+00:00",
+  "request_payload_sha256": "16833d2b417115750769cabdc1815e586a945f6e4faeda5f107c53be793049c8",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The current watering interval is two days. The records explicitly state that the caretaker replaced the original three-day interval with two days, contradicting the answer’s claim that interval information is unavailable.",
+    "evidence_memory_ids": [
+      "AC3R2-H22-F2",
+      "AC3R2-H22-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The source explicitly establishes a replacement interval, and the answer fails to use that applicable updated state. This is not an unresolved interval conflict or merely a failure to apply a logging preference."
+  },
+  "usage": {
+    "input_tokens": 901,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 913,
+    "output_tokens_details": {
+      "reasoning_tokens": 765
+    },
+    "total_tokens": 1814
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_09af363a508fa1c5006ae73dd3d61087d0904deed41c62e358",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:25:56.896781+00:00",
+  "raw_sha256": "b1fb868df6da5a3d8431b573b5b183dea5cb8862308aca3463dae30820754e05"
+}

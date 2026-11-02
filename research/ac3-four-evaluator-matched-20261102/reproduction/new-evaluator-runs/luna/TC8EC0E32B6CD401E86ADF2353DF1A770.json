@@ -1,0 +1,58 @@
+{
+  "test_id": "TC8EC0E32B6CD401E86ADF2353DF1A770",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:25.914419+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_015998d1c1d5c13c006ae7ff9a43e087d1928fbe843b319d4f",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 968,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 192,
+    "output_tokens_details": {
+      "reasoning_tokens": 79
+    },
+    "total_tokens": 1160
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_015998d1c1d5c13c006ae7ff9ab7c087d1a5a91994e73b49ab",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-cIXi9VPgWHbullhh4J51h7gY9WhiBdpuSgltftBbZcFoTCZG3NjS3cFb0PNQYbeOrQ7-VpdSSWt5fVG2OFrSw7UGyCsrM9GSrn0ZCX-R7zPhfpoUei3BYEjE3FAv1lBDGTsVFvzDkIGPSWxx4pPcP4t0FFE_5nj30ljv42opj-Dmx68sWtGbs9DBKcuWOF3EhQRaTw2qV1cxw-GDzAakLs0p1On0RsEziODBdMHkb6Pcbgmmq-7YcBcEoBmpGOCUwqB673mPE99q9dM4mzAJibEyUL5OqYUeRBThBnqsgMTXr29ICW_2g4u7hOrzfQ4ncFMmDS2_3eJUqfunJCJ5iJYFxo0uQhtmLfO8K6Tl06t7yjXog1TGEzNQ2yKLB2OqaNutS5rwGqrZ_ojdFVMw9qGlTWFkULRGkF5qZOcvrde52ntIwqc6m9kowNApurL0cFxfHoGWSBa0hMNaEjHJvJJJrGzOoZ6oHVmFc4C8OWkye1AvlyIMauUDsGy_cqaFze9Nf9IysxjNMVrOcIGHkOUGCQcLiGVad2-1CoEkn061I9CMMBkn-ztYla9gHdPaFwexc2uEs51NwrioQI-b2m4-wulmQkMI5_glb6bEg4EyfF0Q1Mb6T1p37cW5QVgIrQhmXUEgUc-_cf7frRqDYtNSlzgXn-Ls27i7eEmdrAMtYWSqqcmnImYFZrc28bkf34VRX5XwRO68G5iKbxMChIT8E4EdNNaw1QO7646XaOSU6bdXL1hnL8oxFFG28fBrLCqhD3XsiqKp4x8QMOjwDyKq4THGjSNQrPbncrpCLiZ3tDTOJsYh4JcGaLxyrUi-IHKuPaGZvYfG6j0fs2aIGHJOpjeoKKiUIezCxnhK1fOPe1hs_nljptkZmHRtug4ak8Yg2bQjqcDAonh2NJwqTTwUhJza7dlzPEaYj3qMbPLOQNlPSOfoC_ANDMPrHgEtq-Xro2hTGJVwYzE2myObN6NKLxAtAw6KwSJuNJahuXHkespjZfvfVH-y2i3S-ELfnpvhS6mRSVeTG2gsgc0PW3zYHjUUuSj_mIdHKR1FFJE9MqhbI24KVlmUSl3lwjqBYk4FH0-vesHP9Q7rlxHXdw1E9C4rzWkNjnrIwDCukZoTy5aDO8KGFEG36S8RZgpsnPQhloTVM09ZvgN0N3FTLGjBDggZp6dHct16NU_3i_rh4K7RVtyKMrhsOkZJPgmMzJ4StO_cHrY6xaq44HaC0TotQ6tKeX2dD27RE_ckcvTPfXsanKsPCeIiv6tnLlAgyGOEpT5SxayeHbvtgfvyJ0KnsPXlSClVcPx6UrEmNgF_BsXbIpKBNMu88Jsr_u4C3X4c6p3VMEiaY5qBEXtKY3CQcMoz_GKn0VxXCXGAhTLHKNIM0LS9rK5BAbyGSd5iaIqPqiw3FeUIW5Cn6wNwC3FhX760pI99SsC57KiCovgdqN7pzSfSgiSGsId30yf2YNTNsfIrr8x2gbrpmSUWfyUitJAViMxfLh_iaASX5AbYs7Kc6Qv57NbIKZ7MP9vfAgFLJlUPSjqD6g8tleKs38429sGdlrawITwUhprPFhnQlHH7KIzQUzIc0TvCO44ei40O3JjU1AlEuH6Nge5N34eMttZGj3eYIICgSRv-YcNVdhAhlfqyrNeTzcY90P8Nuft20yTQZH-urMFu7_Ikrz4NJ1Z0IijsEogrv6PmxhHIqXhKCCs3VV1r30tTKyYxOEZxgbzEljoh3_3rmWoW6uoJal-gRc6KES2m8vQyFoB8cfcnfnTVcBkRWG4Y0O700ovrV7E4YevkVmIv-p3Nugka1FyDIHWudcehp1BOI5_zgUUuohoBLArtLjuen-rQuJdvzIK_8XxvE1wUp2VVtalnYCmY8I2gwjrRBz75LMeaUX6eniGhLyc5cuuwdF_xJbQDwHyq_hgyvpvCHQu7s77Bx04i4HUSq1NsIiLPDLqg6Nkrf62q56S1eEVWXPGibEjjl_W3BW0ErKUPEH8EKKG6fwX11zvMVqZg3eQiKERnyiu4G8dzma8Mt8aVdgmNci7MQtKe4d87JKl_GEBhG6nPb0JTr5MaJtygXJVNckSBKl1z5NZiBEDMfN-ezEnDv_Vzkz9bk2irJyNpAPER11cMuVZ3Bbqi31fxkJ3MMliChRM9R06b8gwzwiGDoyFfWAXyRjbdM06M0LGnsK1JoOnjl3wqlkg2MWvwzTYedN95Y2RpiZJtpRyADwPY8j9bVhvrOQQQG4MnseBTW9IUq8xW360gFf0oXn_1zhE5VqCLUs2BZiLINr3NbFtNLyO_OgR1BTO1YFox0Km9vn5nCAmUhBeFjEbZbApqVnOCR88BtObSXChdJCYE9Byuy2wPbopEjl64XlWumiozVnmwhJ_Wc0TNHhw3lT5k4ddDWt-7qbWX53xntCUWr-fZSqh2fKwRNRNMwkT_OiEh8olwhmjcZO9WyMWoW5BXAJztxWjxidfcr5jS2RIM2lLQWEhWZ_d0gdFIZ8LBq1qVbaDdjB06xLZt3Ggxa_cgz-WwkV5cu00pnVOZarTlLXQCwXdHa",
+      "summary": []
+    },
+    {
+      "id": "msg_015998d1c1d5c13c006ae7ff9ba4b887d1b212c68827ca9017",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The records name Lena and Omar as the sole safety observer for the same exercise in separate active instructions, and state that neither instruction has priority. The answer appropriately says there is not enough information to identify one person.\",\"evidence_memory_ids\":[\"AC3R2-H17-F1\",\"AC3R2-H17-F2\"],\"failure_type\":null,\"classification_reason\":\"No failure: the answer correctly recognizes that the supplied evidence leaves the observer unresolved.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The records name Lena and Omar as the sole safety observer for the same exercise in separate active instructions, and state that neither instruction has priority. The answer appropriately says there is not enough information to identify one person.",
+    "evidence_memory_ids": [
+      "AC3R2-H17-F1",
+      "AC3R2-H17-F2"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the answer correctly recognizes that the supplied evidence leaves the observer unresolved."
+  },
+  "finished": "2026-11-02T03:12:28.903887+00:00"
+}

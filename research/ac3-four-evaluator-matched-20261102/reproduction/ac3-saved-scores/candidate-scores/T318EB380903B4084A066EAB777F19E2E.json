@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T318EB380903B4084A066EAB777F19E2E",
+  "started_utc": "2026-11-01T13:18:36.676759+00:00",
+  "request_payload_sha256": "eebafccc058bb70436fd6400d357f742b29a8fe6ea87893ec2f2b423dc7bc57c",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory explicitly states that the initial allowance was two boxes per household, so sufficient information was available to answer.",
+    "evidence_memory_ids": [
+      "AC3R2-H09-F2",
+      "AC3R2-H09-F3"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The answer fails to report a directly supported historical fact. Although an approved revision later changed the allowance to three boxes, the question asks for the initial limit, so this is not a freshness failure or an unresolved conflict."
+  },
+  "usage": {
+    "input_tokens": 735,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 651,
+    "output_tokens_details": {
+      "reasoning_tokens": 516
+    },
+    "total_tokens": 1386
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_07a84835b0f6133b006ae73c2d031487d0871c16bc06c0be3f",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:18:48.625770+00:00",
+  "raw_sha256": "fcdca66a01a7c72df1c1f210085760095ae4664bed4aa9f10fd34b18a1fdf435"
+}

@@ -1,0 +1,20 @@
+{
+  "test_id": "T0D9AEB74CE194DC1B8CEC5655D166F78",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:21:04.063966+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 922,
+    "eval_count": 191,
+    "total_duration": 31214920834
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks about the reference level for the flood monitor, but the confirmed memory records do not provide a definitive answer. The two calibration sheets are both active and signed, but they conflict in their stated approved reference levels (2 metres vs. 3 metres). However, the memory records do not explicitly state which sheet governs, nor do they provide any indication of priority or replacement. Therefore, the answer cannot be determined with certainty from the provided evidence.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H11-F1\",\n    \"AC3R2-H11-F2\"\n  ],\n  \"failure_type\": \"conflict_resolution\",\n  \"classification_reason\": \"The memory records show conflicting claims about the approved reference level for the flood monitor. The question asks which sheet should govern, but the evidence does not establish a resolution to the conflict.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:21:35.695979+00:00"
+}

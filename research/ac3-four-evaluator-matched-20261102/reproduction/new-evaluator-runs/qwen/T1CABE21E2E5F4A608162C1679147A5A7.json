@@ -1,0 +1,20 @@
+{
+  "test_id": "T1CABE21E2E5F4A608162C1679147A5A7",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:14:34.359524+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 822,
+    "eval_count": 218,
+    "total_duration": 15450775917
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks about how observations must be recorded during a hands-free accessibility trial, but the provided confirmed memory records do not explicitly state any rule or instruction about the recording method during such a trial. The answer claims that observations must be dictated to the recorder, which is supported by memory_id AC3R2-H25-F7. However, the question is about the method of recording, and the memory records do not provide a definitive answer about the recording method itself. The answer is partially supported but not fully confirmed by the memory records, leading to an uncertain verdict.\",\n  \"evidence_memory_ids\": [\"AC3R2-H25-F7\"],\n  \"failure_type\": \"appropriate_use\",\n  \"classification_reason\": \"The answer claims that observations must be dictated to the recorder during the hands-free accessibility trial, but the memory records do not provide a definitive answer about the recording method during such a trial. The answer is partially supported but not fully confirmed by the memory records, leading to an uncertain verdict.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:14:50.565532+00:00"
+}

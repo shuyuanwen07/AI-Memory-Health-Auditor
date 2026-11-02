@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T91D8537957A04D3D9B2A957182E49692",
+  "started_utc": "2026-11-01T13:20:59.112506+00:00",
+  "request_payload_sha256": "e378daa0cb392a46d7abb8fbee59753daad547638ad8244c0f1ba6a685f9250b",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The records establish two active plans naming different fields—east and west—as the only final launch field, with neither plan having priority. The answer accurately reports this conflict and asks for clarification rather than choosing an unsupported field.",
+    "evidence_memory_ids": [
+      "AC3R2-H19-F1",
+      "AC3R2-H19-F2"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is established: the answer correctly preserves the explicitly unresolved conflict."
+  },
+  "usage": {
+    "input_tokens": 1010,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 646,
+    "output_tokens_details": {
+      "reasoning_tokens": 516
+    },
+    "total_tokens": 1656
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_00df62923a0191f8006ae73cbb709087d0b5e23bb565121072",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:21:13.057525+00:00",
+  "raw_sha256": "0a7475c117e7d933db8c7bf32e2bde892606cceca88b714798af9b519f52e54c"
+}

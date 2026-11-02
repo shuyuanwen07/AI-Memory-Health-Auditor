@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T8D046DA4F2074462BA5588A21FEDB656",
+  "started_utc": "2026-11-01T13:28:11.719519+00:00",
+  "request_payload_sha256": "4c894a02098649766f389946e5f23d61de227d34585a1da455a676c2351b303c",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The records explicitly require telephone notification for the urgent ventilation shutdown, while routine notices remain on the shared board. The answer omits the telephone requirement and incorrectly claims there is insufficient information.",
+    "evidence_memory_ids": [
+      "AC3R2-H13-F7",
+      "AC3R2-H13-F8"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is a failure to recall a directly requested, source-supported requirement. The answer does not recommend applying the board preference outside its scope. The routine practice and shutdown-specific exception are compatible, with no temporal update or unresolved conflict established."
+  },
+  "usage": {
+    "input_tokens": 985,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 1597,
+    "output_tokens_details": {
+      "reasoning_tokens": 1441
+    },
+    "total_tokens": 2582
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0a43d0372a2d25ad006ae73e6c0b4c87d086a25c9a9e5e67cc",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:28:40.162088+00:00",
+  "raw_sha256": "a5ec88ccd4200b0b6d8460d04e857705d0f3ec8180cf81f0d0e41e6d85fcb396"
+}

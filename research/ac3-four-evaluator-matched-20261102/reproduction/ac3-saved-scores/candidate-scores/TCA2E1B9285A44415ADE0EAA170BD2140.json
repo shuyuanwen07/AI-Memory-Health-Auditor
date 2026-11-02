@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "TCA2E1B9285A44415ADE0EAA170BD2140",
+  "started_utc": "2026-11-01T13:26:10.196498+00:00",
+  "request_payload_sha256": "e95123b09ea066527ae5892f96d2d740256e70d49b1fe4ef762f27759ba00e32",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory states that the reading stool has a woven cushion, so the answer incorrectly claims there is insufficient remembered information.",
+    "evidence_memory_ids": [
+      "AC3R2-H30-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The answer omits a directly supported factual attribute. No relevant update, unresolved conflict, or out-of-scope memory use is established."
+  },
+  "usage": {
+    "input_tokens": 885,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 389,
+    "output_tokens_details": {
+      "reasoning_tokens": 279
+    },
+    "total_tokens": 1274
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0c52fc470736bf42006ae73df2843887d0bdacbd1c018d52a9",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:26:17.739881+00:00",
+  "raw_sha256": "c48339cb7766ae572b95c8703bcad9c82264d0156422e6c076fdc27719245449"
+}

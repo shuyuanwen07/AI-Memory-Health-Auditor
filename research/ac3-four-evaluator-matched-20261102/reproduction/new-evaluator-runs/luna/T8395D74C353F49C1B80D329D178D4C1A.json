@@ -1,0 +1,57 @@
+{
+  "test_id": "T8395D74C353F49C1B80D329D178D4C1A",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:34.867281+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_07326f9572555d79006ae7ffdf2bb087d19d2d1877224ecd98",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 917,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 165,
+    "output_tokens_details": {
+      "reasoning_tokens": 71
+    },
+    "total_tokens": 1082
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_07326f9572555d79006ae7ffdfc21c87d1975338e0289a4918",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__ihKqn8ADQGvlGboekljK86PhjzlrmxXNypj248usqffosQEcjfjqe8NnT5BWQeXHTdWSbmfax8dAog868ZoEvXWYwQT50RGRts9EDqEmDa2IIr-oXvIZK8z_QvlQBUgm06Ep1mXpGzxTqeLHUFqZVcbwGKmFAP2rUB1mv2WTTvuLlf56-ufYkc8Fjg_tiIuGLvqw3zs8xWT6wZ172g2lJQl_oPlbO8cT7DgRd8Dz59ZtFQIaMPXeH7EsRiePkT05ch9cJRso32TYhY7Gkc0rR6BHCOMD1pF3RqzM2Su_p94Z6cPPbM5eQdPoBSNU6K7BI95yahTtT70wRDWy5zDSETFfJnQ6iCkcvaslgx8hrLiFPu9uPZwqEVpJ46Eh7W0iUgLFvymMny0KIZYvq3DHPhs00GnW8DMRoa3cmh5-HdTR4pndq-j7cesW6i3GfWrj3i6Tb7xQzhxlX9-hqCJonhrp4NEhlq61Rzr_hxyDSN3dEpA-IUrrn2LbPW7HTRK6BDYcsHJmMW-nYgZMFWAYfYQ08Y-G-ZmS-UO2T7eixoSClXobFWx49-SzJHPUtQYvtejKWxRQlF6EYIs0AVemzX27fUv0GOujDeukCI-NZhDV406K7FOdShlm4t7XAPME7UV9LZl-zP3qaVRSSi2siM0IxHL6RfELDlMWnjhExvInTGm7zH8tjCxHXdLKyPsHG4CPe4ACPaSMwqeZgY_H6QJG9_Mo7JWyjjy_ep3iyujIA94SpiZe6E3Appnl_hmSoslrxZIFBYHPr9OhW0eY1BYIycDDjb2RskSTFjw_AZKW2OomgR6uJK8l1cWJdt6FyTE1bWe0d6FDf4DeUc74EOPfq55IK9VNUUqQ5hbFNcxrcbOOlloXB0JtoNbvV8vR1PuK18DCo58b5YT6fap2O6KMF5yaYIrAaCMvhOwTGQqpqj5QUDgTmh56YqweHim_1OlMnJvtQOHj5EiwRod21GbpfhJw2IakWWQXT8Vd9zL0N55vVfEHBkbifWl5EUC_qDYn2HVUbuNOlXi46HDeUfYsd-Mkob8WRMKj88iY_GdG4NpK7-8xtEhEa0V5wRxdawaHABCl8n2uhbcOeymt1yrSRf3Ycz-MzmSSc9J1gJHwSzzF7N0XnqGrVCq-Fr8VUEmL1nYRfN8Io-VG7-6b-YbW-ygAqCYDmk7KHLgrbBtqPhQLw9EbnQjPCCayGzx9jvwRBzQu45xhhmQ8no2JMBGStM7OQEFL8JYdaLs2i5GGd99fT_1ofiK5DzbXsrEBciKBM1_5EgeQpIXT7uDC0MUQ6SoCi1OHD_LvqeqDWL1xBgkRr4LQPigZ9bG9TKKFw9-Fg11fPxcM5UrS64vxu4mmF17YGq4I7_-l-Rg1hHjV7z9WdmzZAUO8NqNVXOD4WDCrl8fXSyyY68cHCwdKw4MJFEuqJJ7rJKq2nepX90sI4DfXQBEbM0LGMyzit5DBHyO-KmcTjQvbysvpKh6m6Snb9LRm6nbGQpKo1xvoMAEzy_wWqpKpRnoyVTtlzCTiZGK3JrEI3LquHKMuipX7h1I12p-PiJmtpEnsSvBzi2Ftmhg47TiA3EXI2itILLsIT3DgCXAKAe8lKWwknMwZQhpaNhc_S2rodSMlxTbsRGow3ZrbI73dsoXlS1b5QXptJxW09bVovJ_wY1VFZxk8CJuDoKeYhzzmz5FLmDSokcMQAY_2FEWSnY-AbHKwZaPzPOTY7Efg6SFHWfU3EBsLnF-NiPgF7M17w7Kepi-vKoc45Ne5xnbNjxoZXsocrIv8LLhHF_FysHowaZ-87M86oxpjuSvHWRpBpmF4CpVS0P6wwopHf-LMJe3REUxVTu4Mfw_RYIudMl4j9t6OBCZNCACeBQ0iSZrJ8nFYm1vjiy8dKp7RTwoLOBWOPXgUGAFWBH1H-jDBt7gXiBDPRfvvhxRODCwHnhtTB3llCaVDbv0zkJbh4FiGXYZ3Tj8j-azai3eUfsGsIWRjogIET7X5V7UBOOib0NgwZe_mE4YtkclGwHtFQovgXH0qlgEi_W5DkjyEuvaEOFkQscZw4EmELfJJi2XB0NEwz1LlJHxiWiUK6laSz5WHudvsGUmWVkiaGJP08PsVybhikvmmNm_O2INbBt25kEPqkHs5hGCiYEZP4Uax3chRBcZ81wS6Xu0OW-IJFSbUtsKgLM4V9q7CnfWsFEG5hvjhssCcnRqmavjnwGcOWjsYD3ZNfDnqmFNado4COl7P2KWcUhfn8fJ8McKNwJKX8jexKuMYgP5MwbnihnPzFfwlsFMuczFyptQ7u-kXTvAdD_xLpMc4Q5M7HKO8OaX49sTWWjeSrEAayQRDZSqFbQeuHmBo2YMYH3ehLPKk3BJFMoA1ujsdRkJreyQ==",
+      "summary": []
+    },
+    {
+      "id": "msg_07326f9572555d79006ae7ffe0e85487d1a4671621c8ea7c96",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The verified recount record states that the nest count is nine, but the answer says the count cannot be determined.\",\"evidence_memory_ids\":[\"AC3R2-H25-F3\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary source-supported fact: the answer omits the verified count and incorrectly claims the supplied records do not establish it.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The verified recount record states that the nest count is nine, but the answer says the count cannot be determined.",
+    "evidence_memory_ids": [
+      "AC3R2-H25-F3"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary source-supported fact: the answer omits the verified count and incorrectly claims the supplied records do not establish it."
+  },
+  "finished": "2026-11-02T03:13:38.141591+00:00"
+}

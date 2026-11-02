@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "TEE5FB431E90D41E98577AB82E1B38243",
+  "started_utc": "2026-11-01T13:26:55.021460+00:00",
+  "request_payload_sha256": "d207aaab8bb5a00a769fe746974e4ed76b02de8991cd4a82103bbec1e5e21a68",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer accurately reports the conflicting acrylic-only and plywood-only approvals. Both cards remain in force with no stated priority, so seeking clarification is justified.",
+    "evidence_memory_ids": [
+      "AC3R2-H13-F1",
+      "AC3R2-H13-F2"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer correctly handles an explicitly unresolved conflict rather than selecting an unsupported material or inventing priority. No failure category applies."
+  },
+  "usage": {
+    "input_tokens": 989,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 463,
+    "output_tokens_details": {
+      "reasoning_tokens": 342
+    },
+    "total_tokens": 1452
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0da7b55f6b7d8c6e006ae73e1f599487d0b541495a031a8fec",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:27:04.658582+00:00",
+  "raw_sha256": "af85ae9a9c0d0e5b734e3d36f3666e3ad00ac38dcb7ab57fee4ec0b6713aedf3"
+}

@@ -1,0 +1,58 @@
+{
+  "test_id": "T9A5DD31F9CCF411F8BA81E7D1CDE1003",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:11.369112+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0f761a30693ae0b9006ae7ffc79aac87d1bc2e8aaa32b6679b",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 888,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 253,
+    "output_tokens_details": {
+      "reasoning_tokens": 108
+    },
+    "total_tokens": 1141
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0f761a30693ae0b9006ae7ffc832d087d1ac1fbdca7d817b19",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__LnNOC0apNpS0r0524npII2y9Ow9AZG_aLne4fEri6T-uAF5p0L4yp-X6M7HL7rItMpnPJAzxx-zxznZUBntchgqoZ-QU-k3cEr0rCLDj3pxnKsv1iQf_DKlz18GpAQ1UYWXyvZE_yRwv2agME-GY-XxqeHtXWBTHLSaJ4YmC0BvZrc8gdNyEJg2A2OjWCYPk8eK-5HjFdGOKtS9j1D7yavQb-P4TQ3ubZRNKa9pdgOB_VUC4JnBVUTjDWY34Z_NIvvJJxsb0sXpdqoVgGufm6cApZUTLISyO29v7hlUgEjqTsQUnGnHTRy4hRLLYfWM7rMg7CvwrmgAk-pombXTApAutfC90d9Qwmu9tlyNBPIkPL05v0iD5XcRAnRP3H9bL-Igbr6vI0mJALGeL_ZKec3I2Nn9UOy-p6cxNtACv6DeKUD4gLMLQcJVrfxfbkNgKg163-jWfWzDnLn9cQHD3RMxnN3yc_JKTOw2qi61l72LhjdQjVh5gXpyPVtYAlgsIiiR5o68-mkAWTz9SD_DszEl2r0UxUjRlUE2lyLYnDIDUTXudSmACrgUMYNEzgDNjicR95KnBkG_VnL6-l2Zv00n8wEfWia3m-iTTtJEHKsRA5GDCP_JplTq-LKBIiS6ONFAG0FCk0LTyYI-n44YaPwaNaRUv-brBxmMXn3f5Yp4dpvDPQTCjscm2oEDhWLqZHGm_JRi_qLswlyuj5_d1xMne_-XRNPuYCulG4C7hwmQESq536UaoVoTnNQvNiEOOVX5aFQhT_lnKhsPOXk1zFK2nvCRYLL4FOtZtv92QPw1u227k5mSa8UGPOO-gWNu7BmmnrcxYlXxXgsQC8Ekda-l-vOev1cVmDMcKBRWcy-ja3CfiMltXWbT606xZaxm1LIahMTFPk1_treApbktB0L2KMx-HjItPbZvZEN7kpougX_PSGZ8OHyQ2WCYhdj76sDGEdiSIYYOJOhOYRNs_cO6Z5C_eh57aRIgZZHp6bi4bBrAM2wP2tsvaaey27kERVW7lE3wAKwHiziU_jmXZolmtaVIZBZ68B8F106T8peiFtYECHUSbSfEii99JusQnApMEE4TByNx69AK6iDPLxFJU64p3PgRqtbbcaSkbvNdp4l85ZSEIPZ0Jab_dfkMlQ3Yo-vhuSXHP4ryDOkU6i3yMmUcdN6BIzxpHvqMJ3zJ3ZLyqoswKwXHBkPh7KjLp6YSXys1oShShSaCcUz59RPhiEXqTt2oo7AojXjPE23DY7wDxeb8iVnX9DaEiv_bcIVaklB3_OUKBHTqeRpKaT7UxnVx31ajkm60duzw9bXZHVXN0rl48MrTO3q9jP_DFdIixmmyBwb7LsBbj5t3qVilYJWvr1vnGohl6W-npyWVQLJC_NsybpHN3p3fLVZwNJ935F4LNy_cU4HuaqU-fdB6TIzc8PCdbEK0UMXI2dzC9vWeIj4zpEbarCoJmol_1W0nildI5yXNhd_DhDWgC3izSJfep_JlxGzj5YFeJp81x4VElHn0GyfZiqkU573ndSibvnDbv2MkXlGowNWObrFK_mrFZ3rP78TMLM_VOrZxcmD4NMNPaNT_vfDFGF5vKlsKDSq1ZQqIZLAOfiXUU3A_BhTZuOerSElhPPzU1a0uXNY0NLbKTIMyFEfHomzUyrq8JsPeG9zUVnQJwciWfP452_ynqYiwgD0piK-i6eF6tcWUA6w7RI6paeGmd4Z75lH8oWeS_vgL0n4QdtuEr7kxE4MzIjEppIKWutqo-uCgNCpk9ZWFYpVPJbbJ0BnI0s-5CiakakQrQCtgihBPXZg4pZaz5qwkjVQDNIgdFmmR8sgQTsQHIKs6YLUFwo_yuyufEsfqk04EUN_Mvh4bwwAz2BOknlxHvtHFotBElzUqtbuhdHfMO2rMXIFX_1t63BXGErzUuuFU5AzwDoR0nVlEmtAcy3V2tWO_0EkntzPtEWEieZ9tnhcdzsIePLxfHYVpAYuiOPMgAM4Z0kTi9F_yoRdhKv5GhG-8L5VWkRzvzk8yuJOcmv9NsTDo4cgpgaV3KxrN6B2wuDGx-Sxth9Hs8BNl8YjTNItNtxIWpeGFo_b6X8GCnDcu71weLBHrxI66Eqp2_K7nuyKMfsv6a95TIjelmR4Ydi19PSIfygTfveHtC8waDBQ6WFz4CApJ53oLP0X2Id2dMxByvg6plaFAAq9i-d6RVtAhoJS45TZyNmtjRw5-N8bIUUvgCMQY0Gmd_qpruVldoqPZLOJehEjkAnPbhIWfpTV_uoWSbGhoWZwwJSrnymNyA3GKumiyGMBQv2i-34KmLHhX3wjKPf2F7xcSP6SJMM6iwSwHR7VOuVLUMPOAHQG5bsoKz8tLH_1RGQ32AHE45CiEZNAmUEJDLr-bmxznTIFrrv6R5tfr3LyfZjOU52hhmhZQSsxIJLyCfQf1u1vIj1gIwmf3wfPg4C1fYzqhvdQW9DCwKm5D7jjA4kNd7UQXNjkGY3b_upglHrPT9_X2P8OzY7R9ITq7h72nKdyJv4NjDsfEkGcail4DqgDz3FkhF8yRYeaEx99dio5Ia9Hgiqe_1NlzoR38ljqmBY3Fh2Rl_drXkNuCwMMeUQlhy65A6WBJWSGYXwJQdWfxSttrnWMWZLYU8_hNWxYsZkBpsGyotA8-mHk2xQdLKtalJIolgrmjlWDb1iiz0tQyrY8d3GuEgryxC-MnF4HPQCCQkRBUfdX3KooEyz8oMxzkhuK7ZTT8_jxFYzh5VOGcdbSgofJcNw3qOC3Cz94C90ahpeo3sFpAq9Yvk9F0BtHIeAFNppTUeM-h5COeZedmc4hHiIKtmrxPuZxnwZt5O7yy2ALDJu_wxDtHNJKSE7E3s6lJNDjglg32LylTomPz3UtLZtOnbUFCVrlg8NKWYpS5F-JzpNYLQd-sg1t3ZbNm5ZfAAa8XFyM8gd0HKEUMOLdkrFchPHlUVeZzoiQ5Hmszk-xn09IL6vxJ0=",
+      "summary": []
+    },
+    {
+      "id": "msg_0f761a30693ae0b9006ae7ffc9981c87d1b22d23b54a438cae",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The records do contain room information: one active sheet names the upstairs room and another active signed sheet names the downstairs room for the same event, with neither having priority. The answer incorrectly says the records discuss ticket formats rather than room selection and does not identify the unresolved conflict.\",\"evidence_memory_ids\":[\"AC3R2-H30-F4\",\"AC3R2-H30-F5\"],\"failure_type\":\"conflict_resolution\",\"classification_reason\":\"The supplied records establish mutually incompatible active claims about the final room and explicitly state that neither sheet has priority. The answer overlooks this conflict instead of explaining that clarification is needed.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The records do contain room information: one active sheet names the upstairs room and another active signed sheet names the downstairs room for the same event, with neither having priority. The answer incorrectly says the records discuss ticket formats rather than room selection and does not identify the unresolved conflict.",
+    "evidence_memory_ids": [
+      "AC3R2-H30-F4",
+      "AC3R2-H30-F5"
+    ],
+    "failure_type": "conflict_resolution",
+    "classification_reason": "The supplied records establish mutually incompatible active claims about the final room and explicitly state that neither sheet has priority. The answer overlooks this conflict instead of explaining that clarification is needed."
+  },
+  "finished": "2026-11-02T03:13:15.240683+00:00"
+}

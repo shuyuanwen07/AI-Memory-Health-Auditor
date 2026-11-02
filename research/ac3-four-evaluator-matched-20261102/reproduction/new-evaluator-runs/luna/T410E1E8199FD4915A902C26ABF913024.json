@@ -1,0 +1,57 @@
+{
+  "test_id": "T410E1E8199FD4915A902C26ABF913024",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:08.413833+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_050f156bbd60fdec006ae7ffc4b74887d1a35afb6570fa19e3",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 742,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 143,
+    "output_tokens_details": {
+      "reasoning_tokens": 32
+    },
+    "total_tokens": 885
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_050f156bbd60fdec006ae7ffc55af487d1b261029c59aba267",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__HpK4bi-_AOP31NqV9-WL3HYJaGk3Yj7MYYshDBavChrrzn1br8q0FCvKoxSormYk2wOlKmrgbG4NKGFhlT6wJlUHKnzZo3w0qTDLM0qceJS-XkkM686QHrR2L0rlRGfI-p09N-MGEsqelyKaBgQ174G8lbO4xdq0zsJInQj33g5uMdwTFFNx-38VPTUwIAGHhlvQe02V3rzmOHnfC3fv5FnlpDvFdq1LJMF5BnAji5ZixGBqQK0bCbPIC5rGMdsvL7381ZWEQk-USY6h4A1B_8hI-jVCVjQYwBY4emZljPckSpMzqNiOMPQ7OyUPPHNrnhpNIK3V7WKq1RdQSlXeatInkiCwSLzAfaThBlDzAjYgo9KHu_3F9pcfmqtnpbf4H4qdJJ6z-eK1dy5jLjr900W5ySWL6Fso2TiDFcJ5PybpekbBsmDPZDpeHWFb0bnjVZj_fGiY4h-2JABBWUDmX47stJVSvIxE5LG9Xh-CN8gIQNH44L8ejURanm11kaRmDXm7a4Uxj-z-4AjoDxUdwagIIceo5A1a7b2l0eAFA2v8HaqZ_WYMkcr6m7hQA8Owoji9nJGvAt3JaiS_GY1hfI9hr0kP6F1L-ENHM7oUv7FPr2IFsF9grZm91F7bajbgKBNfBctMEUKq6jTEhmocQHipaNReYkm5O7LXcB_kN6whdpmY2qFBrhoid3nOojRXB87K23HefWSg5nyMcVLCkzxj_zZMdXvLmQL5KMrG-90kRK8qi1Bzywvx43mRc7ba_EyiBgM14ew7vN241AMOaf0qxFzereOw-Q-nT77Dod_3FY7ezryq8FvTEgdbf3LwvLFJWGX0qC0Lh9FXtinhTlPDWJroi_TWC923ucTxxpC50BSw_m3BUkdIrkjIlPwWWCNX57dkdOOsf7SaOWHzE-silv3Y25Ir199JscKiuv9ktAHEWbbfm0amNpBcbefLTwOS7qe9mIG3ex31FO3Wvqa7H2v73PMm6HOAYODzVmtJT2HEVjq4_nXtRAAMZTTzoSRjFzL_Yzb91JnszJtPfoGzaOrVjF8YaSgYMVRhlF42qQ2ErpXqk3Rx1OPoMPi7a1b5Jvyaz0e6MPbaslGL7Gr2xPWbTGFEoxQ-jdLUU9VoSsajPsa6jQaLGylpN65q6HkcmpwY9F9yS-jpO40bkrXshLHIQZzGRuQBDI-AEyv6Gr5yTklN50HCcFNeNVJC_TEIowH00i83Bxpo_IFt7BlcJE4Dfh9Oxd2VXSUPfaZNwwGZI-51yywV29bkfumOsuNpcz8J5bg3KrImv9c36Kj_RGkQRNy0O3gMhuklGVoNX7Mr3SCivRtAgsUMWydPBlXv6HqdJsO4vQ0egDjcznk-uzZ8Y2AegXZbsOSjDf4alzpJ2dFGbwoBuBTCREWQz5lWDIHmRfdd-ZbSRlVxekRQu7JC2oUiJrDwFeH-IfSQg4pUjDm80Zn4ily4x21s6lBNEvKK3EzxrBitk3Lu2hLqZPtp1QULLl13gn0ODFL1A4mEVfGC822UsXSiAYVYHUcOHk170sZ6iq7e-s-OXqY1YTCnGTzFaBXEcDQoPIwsGQUCDzKK6MhjELzsgyPYOCOCKaNINl2Yq73QcEwycSz7gbfUqyclfW4QmCYfYZOUAS7NdKexRYw17ide-NTTTeakrclU2YG0SZc7yK2eQ-fz6RT9mqBZkLV1Cl9C58wR_4UkINWMuDgQng_z7MzgnEtFEfqVjlxg1nf1isU9HF7ZUhoLppmF98lnXmo2lL586nZO09085v5Khyt0u-A-qY4swdvHen2fN8fmHigFJO5HSDexwD492sC6gkdeJ1dJ-CDxu_K4d15n_sol3JCC5",
+      "summary": []
+    },
+    {
+      "id": "msg_050f156bbd60fdec006ae7ffc5cdec87d18f7deb91383b54af",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The confirmed memory states that the mobile library van carries a silver star on its rear door, so the answer incorrectly says the marking cannot be identified.\",\"evidence_memory_ids\":[\"AC3R2-H08-F1\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"The question asks for an ordinary factual detail, and the answer omits it despite direct source evidence. No supersession, unresolved conflict, or misuse of an irrelevant memory is established.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory states that the mobile library van carries a silver star on its rear door, so the answer incorrectly says the marking cannot be identified.",
+    "evidence_memory_ids": [
+      "AC3R2-H08-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The question asks for an ordinary factual detail, and the answer omits it despite direct source evidence. No supersession, unresolved conflict, or misuse of an irrelevant memory is established."
+  },
+  "finished": "2026-11-02T03:13:11.363798+00:00"
+}

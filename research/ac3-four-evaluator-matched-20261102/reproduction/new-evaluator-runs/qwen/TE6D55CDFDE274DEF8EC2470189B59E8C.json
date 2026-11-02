@@ -1,0 +1,20 @@
+{
+  "test_id": "TE6D55CDFDE274DEF8EC2470189B59E8C",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:14:08.499940+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 917,
+    "eval_count": 177,
+    "total_duration": 16375272250
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks which output is solely authorised for Harbour Hour, but the confirmed memory records do not provide a definitive answer. The memory records mention two active sheets with conflicting authorised outputs (channel 2 and channel 7), but they do not establish which one is \", \"evidence_memory_ids\": [\"AC3R2-H16-F1\", \"AC3R2-H16-F2\"], \"failure_type\": \"conflict_resolution\",\n  \"classification_reason\": \"The memory records indicate conflicting authorised outputs for Harbour Hour (channel 2 and channel 7), but they do not establish which one is 'solely authorised' or which one has priority. The question assumes a definitive answer, but the evidence does not provide sufficient information to determine the correct output.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:14:24.971881+00:00"
+}

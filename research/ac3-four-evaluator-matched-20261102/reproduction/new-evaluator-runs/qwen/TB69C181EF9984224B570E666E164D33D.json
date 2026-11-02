@@ -1,0 +1,20 @@
+{
+  "test_id": "TB69C181EF9984224B570E666E164D33D",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:19:03.043366+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 671,
+    "eval_count": 169,
+    "total_duration": 23517657500
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is not supported by any confirmed memory record. The question asks which stop ends the revised route, but none of the memory records provide information about the final stop on the revised route. The answer claims it is impossible to determine, but this is not supported by any of the provided memories.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H08-F1\",\n    \"AC3R2-H08-F2\",\n    \"AC3R2-H08-F3\"\n  ],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer claims it is impossible to determine the final stop on the revised route, but none of the confirmed memory records provide information about the final stop. The answer is therefore inaccurate.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:19:26.766006+00:00"
+}

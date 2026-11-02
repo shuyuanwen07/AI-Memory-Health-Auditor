@@ -1,0 +1,20 @@
+{
+  "test_id": "TEE5FB431E90D41E98577AB82E1B38243",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:29:30.596547+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 925,
+    "eval_count": 156,
+    "total_duration": 28465061209
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks which card should be followed for the Falcon project, but the evidence does not establish which memory is more recent or authoritative. The two memory records (F1 and F2) are both current and conflict, but the evidence does not specify which one takes precedence. Therefore, the answer cannot be determined with the given information.\",\n  \"evidence_memory_ids\": [\"AC3R2-H13-F1\", \"AC3R2-H13-F2\"],\n  \"failure_type\": \"conflict_resolution\",\n  \"classification_reason\": \"The two memory records conflict, but the evidence does not establish which one is more recent or authoritative. The answer cannot be determined with the given information.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:29:59.248987+00:00"
+}

@@ -1,0 +1,20 @@
+{
+  "test_id": "T9A5DD31F9CCF411F8BA81E7D1CDE1003",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:23:24.460973+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 826,
+    "eval_count": 165,
+    "total_duration": 21387637959
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks about a 'final event room' but the confirmed memory records do not provide a definitive answer. The memory records discuss ticket formats and room selection but do not resolve the conflict between the upstairs and downstairs room claims. The answer does not establish which room is final, and the memory records do not resolve the conflict between the two sheets. Therefore, the answer is not supported by the confirmed memory records.\",\n  \"evidence_memory_ids\": [\"AC3R2-H30-F4\", \"AC3R2-H30-F5\"],\n  \"failure_type\": \"conflict_resolution\",\n  \"classification_reason\": \"The memory records contain conflicting claims about which room is the final event room, and the answer does not resolve this conflict.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:23:46.016447+00:00"
+}

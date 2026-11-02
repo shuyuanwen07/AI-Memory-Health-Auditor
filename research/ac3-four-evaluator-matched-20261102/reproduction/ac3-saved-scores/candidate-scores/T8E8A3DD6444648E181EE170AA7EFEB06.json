@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T8E8A3DD6444648E181EE170AA7EFEB06",
+  "started_utc": "2026-11-01T13:17:50.557186+00:00",
+  "request_payload_sha256": "ca13ac69e30f9cc4c28837c062ed294ba58d02105792612c301fbf7cfc2e251f",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "Declining to name a sole colour is justified, but the explanation is incorrect. Two active project cards explicitly identify different sole final colours: black and white. Neither has priority. The answer should acknowledge this unresolved conflict rather than claim the records discuss materials but not finalized colours.",
+    "evidence_memory_ids": [
+      "AC3R2-H13-F5",
+      "AC3R2-H13-F6"
+    ],
+    "failure_type": "conflict_resolution",
+    "classification_reason": "The answer overlooks mutually incompatible, relevant active colour claims with no established resolution or supersession."
+  },
+  "usage": {
+    "input_tokens": 983,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 1133,
+    "output_tokens_details": {
+      "reasoning_tokens": 985
+    },
+    "total_tokens": 2116
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_05870538723d6e88006ae73bfee25487d0aa7c428646c41c95",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:18:12.700672+00:00",
+  "raw_sha256": "e2fc1d075de8ab19a371de7e6f523bcbe1bde7f436018d8656b98e5ebeecb2c1"
+}

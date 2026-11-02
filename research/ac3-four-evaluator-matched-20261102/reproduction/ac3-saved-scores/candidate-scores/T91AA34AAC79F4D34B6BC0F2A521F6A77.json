@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T91AA34AAC79F4D34B6BC0F2A521F6A77",
+  "started_utc": "2026-11-01T13:17:40.170337+00:00",
+  "request_payload_sha256": "f2aa97b05c78d623d4989ba0d44f8572f50a18eb69cc323791fad650512a133a",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The caveat is incorrect. The initial notice limits attendance to 20, and the updated signed notice replaces 'that limit' with 25. This establishes that the updated attendance limit is 25.",
+    "evidence_memory_ids": [
+      "AC3R2-H30-F2",
+      "AC3R2-H30-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The records explicitly establish a superseding attendance limit. Although the answer repeats the new number, it fails to apply that confirmed update to attendance."
+  },
+  "usage": {
+    "input_tokens": 883,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 1825,
+    "output_tokens_details": {
+      "reasoning_tokens": 1682
+    },
+    "total_tokens": 2708
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_04e0d8950737aa40006ae73bf4aba487d09e4643dd41968fb3",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:18:14.309197+00:00",
+  "raw_sha256": "f517280f18ef240ac630ac38581c61c460b7abf498ddde09a3d93b1d81b09a09"
+}

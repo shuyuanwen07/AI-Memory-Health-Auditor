@@ -1,0 +1,20 @@
+{
+  "test_id": "T9C9D8E7EF9794309A6D4C8415B42DE26",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:18:10.083721+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 664,
+    "eval_count": 148,
+    "total_duration": 15611770000
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is based on the confirmed memory records, but the answer states that the user does not have enough information to determine the revised allowance. However, the memory records explicitly state that an approved revision replaces the initial limit from two boxes to three boxes per household. Therefore, the answer is incorrect because it omits the key information about the revision and its effect on the allowance per household.\",\n  \"evidence_memory_ids\": [\"AC3R2-H09-F3\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer omits the key information about the revision and its effect on the allowance per household, leading to an incorrect conclusion.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:18:25.810726+00:00"
+}

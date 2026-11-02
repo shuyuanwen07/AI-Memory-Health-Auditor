@@ -1,0 +1,41 @@
+{
+  "state": "returned",
+  "test_id": "T5307D619BACB4531BA508F619D980A45",
+  "started_utc": "2026-11-01T13:22:04.065378+00:00",
+  "request_payload_sha256": "a8340ebe1365b8d1680c8a308bcb628684504c226be95d304966f0ae598b8e6c",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The records explicitly specify lead colours: one active note authorises only red, while another authorises only blue for the same Milo, with neither withdrawn. Not selecting a sole colour is justified, but claiming that lead-colour information is absent is incorrect. The answer should identify the unresolved conflict.",
+    "evidence_memory_ids": [
+      "AC3R2-H12-F1",
+      "AC3R2-H12-F2",
+      "AC3R2-H12-F5",
+      "AC3R2-H12-F6"
+    ],
+    "failure_type": null,
+    "classification_reason": "Two conditions are supported: conflict_resolution, because the answer overlooks the explicit unresolved red/blue conflict; and appropriate_use, because it bases its absence-of-information claim on irrelevant assessment-pen records. No single category is uniquely supported."
+  },
+  "usage": {
+    "input_tokens": 972,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 3125,
+    "output_tokens_details": {
+      "reasoning_tokens": 2926
+    },
+    "total_tokens": 4097
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_05a52fbdd11a52ee006ae73cfc692c87d0be373eaa77916d82",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:23:00.577537+00:00",
+  "raw_sha256": "17fd3b39133eb33d8244eda105f53746b446f8de7f11eafcba1363fd94505e0d"
+}

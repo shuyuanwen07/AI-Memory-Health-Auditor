@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T5266A26D10344D178657AE3ED612AA7A",
+  "started_utc": "2026-11-01T13:24:33.681893+00:00",
+  "request_payload_sha256": "6792e843af0f615996d0b01fa8f3d63ac8c38e3be3434bcd64dfd2072d52335c",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "One active plan names Sunrise, while another names Rainfall for the same concert, explicitly with neither plan having priority. The memories therefore do not establish a unique final opening song, so the answer's uncertainty is justified.",
+    "evidence_memory_ids": [
+      "AC3R2-H27-F4",
+      "AC3R2-H27-F5"
+    ],
+    "failure_type": null,
+    "classification_reason": "No supported failure: the answer does not select an unsupported song or invent a resolution. Explicitly describing the conflicting plans would be more informative, but its stated inability to identify a sole song is consistent with the evidence."
+  },
+  "usage": {
+    "input_tokens": 881,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 2943,
+    "output_tokens_details": {
+      "reasoning_tokens": 2789
+    },
+    "total_tokens": 3824
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_096cd47aa67e6fb9006ae73d91ff8c87d0bdcba128f8c2d0f3",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:25:29.502794+00:00",
+  "raw_sha256": "0455d7ce0f3e054e645bbc39dba87eaa2c34de58c167c22527f48b6126fa19b9"
+}

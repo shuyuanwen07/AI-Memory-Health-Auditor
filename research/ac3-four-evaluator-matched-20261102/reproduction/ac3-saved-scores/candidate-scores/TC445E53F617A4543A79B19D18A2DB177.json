@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "TC445E53F617A4543A79B19D18A2DB177",
+  "started_utc": "2026-11-01T13:28:03.169643+00:00",
+  "request_payload_sha256": "7dc1194534ed7559e4728c0a504e5f005ab41254e88eea1744927c4b0c5a669a",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory explicitly states that the spare telescope lens is stored in a grey case. The answer incorrectly claims there is insufficient remembered information.",
+    "evidence_memory_ids": [
+      "AC3R2-H21-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The answer omits an explicitly recorded factual attribute. No relevant update, unresolved conflict, or scoped-memory issue affects the case’s colour."
+  },
+  "usage": {
+    "input_tokens": 898,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 451,
+    "output_tokens_details": {
+      "reasoning_tokens": 338
+    },
+    "total_tokens": 1349
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0f3c575520adb036006ae73e637d1087d08dff4cffac44228b",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:28:13.131388+00:00",
+  "raw_sha256": "f3659c473f359545170afe798b2aab68fba44fad99db4b1cce6d567e0a0963cf"
+}

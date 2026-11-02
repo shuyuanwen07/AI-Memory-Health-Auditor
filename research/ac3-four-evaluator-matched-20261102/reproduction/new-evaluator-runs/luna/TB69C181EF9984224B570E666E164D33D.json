@@ -1,0 +1,57 @@
+{
+  "test_id": "TB69C181EF9984224B570E666E164D33D",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:51.817553+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_003151684d35ae6b006ae7ffb40ffc87d1887e77bb1dc06aed",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 738,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 179,
+    "output_tokens_details": {
+      "reasoning_tokens": 64
+    },
+    "total_tokens": 917
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_003151684d35ae6b006ae7ffb48cac87d1b48e191882ea1ff5",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-2seW13F-Nhq76TDMSic8cI9qSC-T6VzQ-OpLJ3yHyo47wiY-IhXXHnvz2Szj_jXViJvibD0K13bXP_y3_GKasyTzx58RkzXaS4Ft8zoKCA_lhrG8LKWrOayZmChyJZtm1Bf5ttFZONMqkawWwnMNIoVa4nX_wzUS6qTJyxhhcGMSoRlreFumK4qMla67dNLXn47hEvsunewivzaQ7CXQd5Jd8GGioKM74Sn78brvaWBeuTmjQo_0jWwBQSUJOQYbdWpS46YBNu6DqmIurGkARr6ZlwHy5TlCnUy8CJfXtdSCKVSy8xchFgU9XHUHFUF1zGIn1fW59xgcCN4XGujrDAwRZB44P140OWSo5Wlr0Ww4OpPPz3gxWoJ9HF46-_iTG4rvaR2AETzCgOD_0SO7m8KbFbE4-zIzArP5VJ_qnZ1nsYf423jC18ur-cTRBEkFjb7xs4TF612cXVRUXxM2f8kHR-4d7P2_08bcK5u44ewDprhEQIFI-nG_PZBTnwCESwbWV6-uaZCNj7q68odKrnV064_YandOBvOHlnEWBljvqsY11KfhGUHkIv-EiOPNATYo71VEAKhrdDg2_rYcssd7s9aLnHlBh-2h_uh0GxYxtM4ekiM0C7Jie0eAz6K4Loac29VFyCuXbbCsDRSEyR8OZXg-B-JGn0AbqqSHSUCfvE1b1NfljE657mjIleAQB7i1IWqtjb8UhMV0HMLqQuuwozI7lhVA9aek8KixkdFy5vPGErZvAw0vMDmkaOorJXXZvU-THJZ8N-zc3SlJWSinf8ASoUs1dUKnIy13CwLHIZvLDY8x-OFwv2JwFDLvN_QO_S6WJ8QWXAlxeJ3uo0j3KjJ9k_HomN8RI-NhJvZoCR9lmf02j2FeQXkpKyXx7CnUuegQRvuilvwycvqd4cZF1zq9KPpeLkru3xZqClNymOwqQwMD76R0x4c3wBc0H_3tRs5yTFOgE1Abw2b8_LxPnAzdNPA0bupaLSmXhIECPXtz797EHtcmcitBKCIQ3wr-z9yXIdESddplVPZ_RR5aUF8lTQC680BJmzTjoKITDhVdQ2L0Uti9WVUj12qGjA-PUkOioN_Nfn93LEdj-fLDmBrUf3WW5RCBRqt9HhDxcPtmVBZwdKJLa_BdujwCGdGjPxEtnffUjbKmV5_aS-Gr9q5irfskOGHDoHE4asNZzX-ThYBPvdJcGfomLBZ-mJCogrBZu06Y73XgTjdvvJRqFYoLMc1sZCfQ1EimBvWqjmk4kWumt7w2px1P7hCzndeLY9mWp_G9sJSpVMceU0lEVVP1CyVRE9i9Asn5MxxDp4knH3Sf1WukRXMaga__l0Px-2h_337wsUVRIq7xOqCPenFnIQKMzTVd3b_xj3XJMrss12JI7b-_g8y7Y8U7kmR0GwwifhNZFgxTcqzaTBs5h4Ks_xoar5BOyzKYmgfRq4yw8A1YTTeU8xooPZXAQI6NU1wD3cQSF2vXm95rv6-B6RoGmrMlKQtp3y3QOsAsse4_AGvDueQj8YiSbWEgH0DUkKT2e4Zjd6stlFPjPZjBGpvuQ1eglPo43f6Fd-jlINeZ8xcCSFyQNJhHufD2H_xHtwC3PrSFqXvRCsRkGutjFHabt12sL1c2_aDjrflYzLk30N1m0fxrSaU6ZPAEH4fF0VVTsCeVtX_IkvjS4eVhD_HA2u-81keWv8GJ-6xjaMwjmw_6FdvfrZ_tljRjbb3XLoL7jVZZXYwiYMY21Pe5k-PSCcEQxhTuuTYPD9oOSd_M53MC0pmSy4AGEPNDNdeAbl6BZ-CyYFDgOTIXinE7OFM9SArCM5xDqF6e7rIHIhe6muCwzVumXbLJR94wOcb2ZagU3w_CFYhTGhaNSk5SWv0SkVaduuZW0dY5oQ9DzES875oEiE9Ua9qr_oH0KG9wn6aLmUI5UxU6A5bHjnoUz5YXhOBcWxpxtq1tToEQUxBkY6gPFowUTq8IW8Pl-uzEPHhywunb50Gw-KNl2HcJ54nA_b97x8F9S6aeZesaaJ5fCo4fd1D-j1tr7zqLT6mXokXr8T_4orPjxvWjIDMZeISqmqmeiNIMfZn8A5b9I9yOXexempqFGmZt91J_eH9nSu1YePgg1nYPLU9b3MYWm0aY0AAh03FDRnxe3DVh7radq_5krTwmoqJkLPjZyQz3urwIUv603FYfQx343EScXsSuZzfQqJZCUeyPL9PFWlbKqIqZ2ssKpYkM_F1SD6s0QjWJeoVWytpPSRpybqR48rzr47YLZhx5ct6ZsRDKVVpSA6r2CozhYgWPwIX2C",
+      "summary": []
+    },
+    {
+      "id": "msg_003151684d35ae6b006ae7ffb5520487d1ad8f0a2d5a134704",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The memory says the transport office replaced the original final stop with the hill stop, so the revised route ends at the hill stop. The answer incorrectly says there is not enough information.\",\"evidence_memory_ids\":[\"AC3R2-H08-F3\"],\"failure_type\":\"freshness\",\"classification_reason\":\"The source explicitly describes a replacement of the final stop, establishing that the earlier river-stop state was superseded. The answer fails to provide the applicable revised state.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The memory says the transport office replaced the original final stop with the hill stop, so the revised route ends at the hill stop. The answer incorrectly says there is not enough information.",
+    "evidence_memory_ids": [
+      "AC3R2-H08-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The source explicitly describes a replacement of the final stop, establishing that the earlier river-stop state was superseded. The answer fails to provide the applicable revised state."
+  },
+  "finished": "2026-11-02T03:12:54.388914+00:00"
+}

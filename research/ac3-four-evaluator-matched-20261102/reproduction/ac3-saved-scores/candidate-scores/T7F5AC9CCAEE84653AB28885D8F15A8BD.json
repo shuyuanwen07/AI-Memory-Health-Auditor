@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T7F5AC9CCAEE84653AB28885D8F15A8BD",
+  "started_utc": "2026-11-01T13:20:46.802993+00:00",
+  "request_payload_sha256": "ead28f38a444407d32c4773ac4643333d13c03b6b53f24fde8492d61e979d4ff",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The records confirm that the user usually brings a paper score sheet and that regular events retain paper. The electronic-form requirement applies to the online tournament.",
+    "evidence_memory_ids": [
+      "AC3R2-H18-F7",
+      "AC3R2-H18-F8"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer correctly states the regular-event preference and respects the scope of the online-tournament exception. No failure is supported."
+  },
+  "usage": {
+    "input_tokens": 949,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 539,
+    "output_tokens_details": {
+      "reasoning_tokens": 418
+    },
+    "total_tokens": 1488
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0a71d9724f2a541e006ae73cafd1f887d0857a9ffba73f0228",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:20:57.742583+00:00",
+  "raw_sha256": "9f189ba2743e050835311b9a2c487fddde9a37bdb00a15823a2d9db49aa63875"
+}

@@ -1,0 +1,57 @@
+{
+  "test_id": "T918C74A18D0941B7BFFDDECBA9117D5D",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:18.559196+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_06a7ecc54e2e7a8d006ae7ff92cfc487d18bf64bac91c6b98c",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 882,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 151,
+    "output_tokens_details": {
+      "reasoning_tokens": 41
+    },
+    "total_tokens": 1033
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_06a7ecc54e2e7a8d006ae7ff939d5887d1b3e4e24c4bcdcce7",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-V-Gk9sTXlrzrCFfNI-ds6sjYElK3OzdE___xj5k72mFihhZyDfJYns-2XnccCvTRzNgG01A9Y0zEoRYX97_dLCDqdMENibzNt5xWwVB1Yezwy86TVwGR3x6jd69kZthDcOpD6Mdj1YFR52EYi8jZEiyZCG7wb8KUh8UTbhmXTH06hqeVX8lmCoWZGFKq3esE9i3hzXhyHtBzWMacXHtp8HH2SYSUS1cMjP0rMhgBMNjp9kHtYJtHzY3zEaUjzBTDEXeN8OMqKruCtu_IGB15fe8A8EOruhAAAL9n1GUbQyvegC6M9RtSECwU8fnhe82NpW7hMKXNZenkO2fvqWXHrT2oi5hiiaMkY2gODibhmOH3P326FpOyflI2gRZUm-T8O-THCDbBaiQjnHmFSR1sL7rXYKJ_GzhLOTme1CHxdSp5GQg7Fcyhc0ixD_XQKAoG-tMpjfvfhoYPKfo3_FaV8z1HLU2JEFfs1nWgGRKhZmsP9DGDUrtWmgIny-2-B_E9A6SFmzoeiErYviKewJ21OhOOT1rr4oolYIYosNPjJ8ZDjVd4BLme8C-MOAovseBmWu093rqY5TFVHrHnQ0x16XuCH0p14v_FYfvXoa7GcEEJQQ5ZRHDQoetQiDRlnVAho_KsrGRTZvNyTPBwKHDqElmq_3k1eQV1Ibb4vJaJi5jmV9-4be2_F6Oiw-I-ra-8kykqR30c0T--ZjpD4a-OLhqy5h0X8Jlt6-5-lQ2aDr5ct5SbE5kgno_4_67Wrl3m9g38guRlRk1zlZ3yRPW_yputlgfI5D-5NlQM-52cUhFc6YJ0Yo2hWpwkGhBX7L3MNuzwUuGFBP8BNn4iaja60RRBOTSOIzR23w0aawfN3D9k0rzVEX5dk1LW__IBhUZS03kSQH63QcmJYCQ1SqgaBMc7zWIlO0TLiKw5T5j3RP3zotcdR6ZifsDl4a-8fKEXGX1ZLyPd1ywlkZcHngfw4BeApilk5gheAwiKNsb_9ldp3uwhmagth_J1nGsVkhLTWAJwA1u8wF4mFsZgUdMat82hPx6fVk66HkWxgeXm_15UgVjVvr89h48FNoyXtpjfkiHU_RlHSQcA4iTIDNWsKKs6Bh_hfZG4kZHTkIjtkf9FLWMp14IatbntZ95uVbHMCWnWAin5shtxwt9_wsH8N3YROUFvNUhbEfVyoD6tAJn9ZgllhcvqOP6gIiRELkQpFo6bfvWAlBKkN4GgXEE6dcjJKLbKVMboxK112rtrOsEcjG3hqDy9vTY4pvL9IbeqEdpcxC-K6j8TVuyFKrB7-helHLZ8iBXOPQMDrBtU30q9dI-K25kc8i_5jc1-Mm11bpROVDTYzm7lwskcEikHpxhWdPoEcwZsA-HAxcoLsZ0-6m_vssSvioJ6QXDwLmwuldO-ZKR-l6-Ff5TQe0Pi1aYgGtSm70Nwln7zMoxltseUKRnlhNyfE03cbBEHKziNy3adNfSdW1sppAqCfmIGsc2mfKACx-a-tCP8tdYAca-bqi2i9J_z6rkg3AoTfgzfOEvTlNw4o-Wy1ncXQ93NPWhpVwk8ZZRaaOZ03mvTclZxJZ93ISNpgYB7fxpNt6TcJ0id0C3QPHwhTGk8xdKRN6QtnfvzqiwT-kqQDy1enlO-ilKU1w6rU4Ge5n-Xpjh1pGjwo7gxpG9AKoYsGROGKottrTV-x0twT36b7ZeTm9a2FXxKoAUkkRfG8r34f4tTsnz_SY4gXLrJ-aouvxlYd7iN9mw5UE9jnTTpvus4Adj-nKAVy7j3bD7VVrl0zkuHbKuNgG1jpaXq32YRTz_2BnpVxpz70JxeK4BehZYL0nmfOuYgnBFuNbp5t90EtInLSP1b11B8pRKLd--2soLwOL8LmfVJmvHawQFWhFSN9hZkfCkTODiQ8oFfQuYNBHCYSI6nEhTLhzyIRx5DDy0_WeF7xP0ARk6VaYeEPIFjw35g=",
+      "summary": []
+    },
+    {
+      "id": "msg_06a7ecc54e2e7a8d006ae7ff94266c87d192472604f49b7fcf",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The memory identifies the tracking receiver’s wrist strap as striped, but the answer says there is not enough information to identify its pattern.\",\"evidence_memory_ids\":[\"AC3R2-H25-F1\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary source-supported fact. The answer omits it, and the evidence does not indicate a superseding update, unresolved conflict, or misuse of an out-of-scope memory.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The memory identifies the tracking receiver’s wrist strap as striped, but the answer says there is not enough information to identify its pattern.",
+    "evidence_memory_ids": [
+      "AC3R2-H25-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary source-supported fact. The answer omits it, and the evidence does not indicate a superseding update, unresolved conflict, or misuse of an out-of-scope memory."
+  },
+  "finished": "2026-11-02T03:12:21.582543+00:00"
+}

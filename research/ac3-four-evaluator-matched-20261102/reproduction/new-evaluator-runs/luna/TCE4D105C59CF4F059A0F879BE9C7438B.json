@@ -1,0 +1,57 @@
+{
+  "test_id": "TCE4D105C59CF4F059A0F879BE9C7438B",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:20.016655+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_040f72b5bf901f8b006ae7ff943b5c87d1a40f06e315c29293",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 977,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 358,
+    "output_tokens_details": {
+      "reasoning_tokens": 240
+    },
+    "total_tokens": 1335
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_040f72b5bf901f8b006ae7ff94a34887d18f8b19e64a751af7",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-X3ubcBVGSEniu6SsoHxp9W4i1frbD1qGngs-XWe49y_hRI7EYaIYHJnwkUiE9GQt408H3hP0Wc4HY_t-ahTndFeqQ6vPKBOOcNWVm-76yBg2tj0TyndOeSP9NcbjRovvs3g_PRlNM4gydVLKOp5Nad_oowKOCLegexZZpBRi9BsVfZ9FfK7ga3hbR782ldRSP5tBM05MXqmzXdQ4rANxl8IoMrD-q-51zzSUg43SYSgzQfajiXqXRBfVI5LKh-2_FZiKFdCf7fcAUxcIF8D3xIBb-pZZul9DeTTR1wOXhqt-Px6IdlGAlKLpwm7tPSo1Pz7yninndwl2Y9JwzfpJ8HJimDvqtNEosP0hEuYNQr6T6Axv5XLrtc0Tins7uUTkL7WGnFDb3vxzKrUmIadViJvh6wV51zxiPYtdsRDAgUlxfQnZn4NW7C1tztARCAcuxgbKvCY9B071j-UwaIiSPL1aHmycAAH1AleLZJ5X-k_yEbEua__3fXzrd0nsaieOJ-Tyu6Tn-cHnQt9NLUpl-Gzj0kVZ7yJBMEIOhrcM3Ytc3RlYdFs4FLqG3bkQ_OyxMObyJMOcKc8jIYrU1v0jYpMPkSZMzYwsS5XuHtevU0S4i00GWu96WZwODWLVj3NWoNHDd9URq7v7E2vpAHeHyyRrzna_zTxBi-g9or8jsFh42e_iGk4UtpE2eBMMEBisyhPAUk2l1atGOir2bEI6ibi_uBpYNfobU6Vpi25vS-uV8sKit68gbYgmT-Rj5Yst1ajUCdDlnD6TKZxkza8oEbSoiBgXnfO5PbOo9O-bSvePLxx8qtlPl6dTSRwxzo9HjzueL3iO-P-b9a20gmrI2MTdv-4B9woSMJGibRIwpN1McyfPglC2j2TcNZLzyPM3oXtmoRk0jxwjRtvHmZU49a9h76ub9ZBKk1mlOOba2s3XYr2n-2GqmCMQINOPPaZPI1Nyv8dXVTy6cP4bVuHuOzRsexcr8xtmN_Y1leQ9U-foDzqETZK1k78QqMdeTln6AbhVw6Czvn9uEpZJY77em6ObPvo_8J4rcKG4FedH1eeDxbl1WKE73leQrfOoQRsPEru4m56w6qCqTBjDqTc0bCpW5Sa1wSYwqig-lnShp8Pm0Akznk8y1C_hlm1_KYU3vYWXE7shIQlzvEkaXQSEs4y2-lrZxRm6YbxUsN68rmEh9ih3WAaWLKuD3Ktm981buedryZOdXXefriYuYzpoSsXpQH5sIq_d39sgixu-qe67S4aJgoCvmwDWCjQ502y8ZRX0njs46xCNwveRx2-FY8-aiknLtw_kIsJvdrEjD_05VWfNq-VkjPEI7l-Fchu97BaQt3ib3Xy2ItF95vby9Myq2gQVMnS52lK4skWFPtIfT6DO_2JfVnvJyI5tBSte6MwyGmyVMAXmqyccl3H46PrmGHCPniIhoUUvkaxpqxG5eN2X5n3o7gdf66ZqCd8Fzhk0xFz5Q34Cp8p3aI4SkZmUjpUICOZmgOwch2bFCyWTwitkQ8H-9oOxkvn8P2YeCkEU4l0AyHLwNLb-a2Gr6V27mJTYlQ4eWJE3faZGTsX9xlhgZyuQVGSM6027GSWOkbeGNjC1kk5gX_8r2s58zgrnkzBEgp1eCC6CWYijCptXDq3iG4QD-2fehfto41pyhbqlL8nfpoktkKeun4dLJF4dK314GSJG4U6v80VOvVcbDnKinY-F8O29hHM79LHKyN25udNexWKtXmVW6T9vFz_Inz7gnXnRop7YOlR9yv25DFT8Ft3421YY5xeFcKj2nHUSo1Xw7txCA37K2bQLdqf661tAI5IkmXOwuBPUzHmUOk39wZTsK2NrC_KjZiweSTK426NSZLGTVS1ZsNa1Af7wzGVHcAa5pAmqHTaaU133ZEvko0xbn_czbLn8o3mjJPzmVbG3nfodLCqpUmsaYRQCsllq_xlmXNLV9HRkzWjE71PxcjBol9sGYJQRLP5M88ggDNpQ21eSpmGBtY9KSsrmFaaM9oHg714qFjGRZG1Gdwy0kvmCwJonOiU4x2iHsKo9Slb5F4ym3sJnt_wHXSSxYGwTN_6L_MsfQoS8xgftUOkkBCQvVbWTAfUmaiq9McSAiUXFvHNe57i9zjU1Qwk9pGvDuFn3irV3LwalwTpzO0VfLhgBuAfFpeTs3ob7KMNBOWQTRveL15OjEfPb-4-no6s9aGP-wGtQGlvkNaPSuhEXq6z4nxzeREG820xgxS9Wb1cKLO0_V4zuCtatU-Gxfe9gcHQ7Qwii2bM3lUvRrazVxTQxY_E0Ut1V5CiL4Ranrb9ywQSiDoSIzD4imKrz1clZKzuD5hQxZKMBmFOoinYp-CF9yXffQACEYeRA8Qe2OSGWDy1iaiiQdeDeR8JMR1GcRaFnbDBneqPcUcrd27lmnfYaNZhjfrhpbEbHTWj9uwv1lyo87phs063aa_Nib5TKzwd75LAEr_IRed-F79qdCXyr_GQ1rvOsADdB9r43IrUwOC93fnQi5vqpAYp2oxHYLRc5AoSopAasgSRzkd-URWX_71LTx0yF9FXAXHvNpacXEVeO1m9UZImGex5FT6PN2w469CTzvrIo3geCYVBmIrqoR6c39VxfjFmLqRreJDMg25FCpKZQp_krY8_XgG_ZApmvKUkxRsPmGUynO2Z7dxjTzOF0xhNVPS81Rj-s4bicnKDe_ItXF6BOvbTKyXDv8IQQp9F1X2HrwuvjNuYjxHrTsbBSZcaKMLaU2VwW7_FmF9fDNGzwvNuE-LVmeT3l2zywxv1-FAGMcZ8QOlKg56EuoWWnFzoTYWeH7ypn7bFOIJTbGKtYJ2bOs0139Obbi-LO2Ikddv5vlP_wSeUznDvAKbovqgoB0hzskuA7-FWnz3_tZraPPJcArvLR5faIFh0hDX2eCj6mnF64743pyboRL-LjtrXKwQruFNKGyYQYwrTdH3CpI-81qC8rnFm_JdDW829oWuGNXhRa71_KoYKslcDlE8QFUQgIZnwhs3kf8QYnW6_n4yfzVzu2QfqM4NqbG2UuPf7k6vg1b1pzHQso6pSqoIe7iAPEg-LPQrqLkKN0Aqq2ve0Ikd66cINsjnItpEX7KBgi25UWz64Xff3Z31-NELEdL-xxA6Te7el5xCXK0tJJBRfzqjCNOWaEV11nc5iFl9g8N3MXtCnyRf3a5BLa8LeQ4RQFlLK2ngOqRbW4L2_uJdbwyc7B3VdifeuQ6BdN9jLr4OE3hE3JQYWZ56PocODlwENzJLfMwniU7GUb0PrMJm4FR1lAZOfS8oTwLIXkWZV0T_o8o_ZLujeoiIaFjlmLzIHcZoiHPKAY5N7mTXC60kDgMnPy81fWm7HGHYXY4xogr4JRbZlflQj3yy_d7U63dj7I_LREqoScZHBgw-CPvrO5uVz7EU_YCrekGHc5B6M6XuCKmarFjnKwkW_2h3EblmKqNnlzgFs6ChomKDSR6NWGuZ09R9TSATUqKq4qSZjGvM98MaGc26i6v_FowS4ICpFquilrHHDrqe1ydqXWUvANU-MBfRxESr9_H3SIbJrKPgtq91Nkm-WqOypNcT_y4sqsM4hnBPYIjibhXewvZfeS2n2UTtvG-4XgvjYATJBjIi1Tv_DST-8gA7W6OwcIqZiIZl8w_ZCQ3vzHpXE5RjrOKhhTbX492EpTFNLkOdkdw1RPM9TiRl9EXDu3awVEgcwgBYw3VOrdMrUJesnlm8g1OqUdVVeq6gvMdT_4IVlO0L6sq4bTfjWFY7vaNE118URdEYY4Cy4K3JuoNAH7aivGhznKu35UgMihMIfHGKSjgkUsMFzTgmao2HPtpZvaE89J2kpkfs3MM0m53otdJQ88606TRcqFvjD4-QySj0jfaL0jOK8dFXd49ytZEF24vY2Se3pc_BafCAMDRWUsYml6E-OfSadIDj61ReMxXlPvWjp2ds4wY9Knqy0GvURR3-ey9hj8OEIWDOLLVzgZBGAniodzkcJ_xUCwxKl0Bp38Rw0dBVaugE9Ju4oyZB8NGP_HBuGpWRRoI-GEmWUCNKZoYhsie5au4hdsWsfxXmGjG-axzzDp5qNUajNQUQVBUJFlHfZwgZBKM7c7o5BsdPqBL7RPjJlbxy-d1C0fh5fWAqEy_TdDAIYyGSvPnj3JqXVPO9KxPIIDrPKbOfotx4D7AlMbFU2837s8liVUSZgK4FrHQUkiBdorsP6yWKQzhnCsOumMSPqEbtTBSiBHsMYHWmqDtHzCq_xQpjbhcbssRNVrhihQeqP7q9z3ooGjvaFE7yvl8dcoWmT4sDCb49BONDpuojGbOcrnpaCRy2imi4FpY_oIaTv4RXrT24Vc5erMedwNK4kQTvmbvYsWUxWUrjhypO8ndMCYLv9tjg29eayFl40twBb9HNQuhC8qQ1ZaLdr-OfEHYhIHaT44xKILFBM2pdGq7MjuQCNRpObZSP2z3bvfuFHVn3WcXEnJmQunWbIGjCczv1zT4mGTfXdXSNbBZu8CBMWQNFsVP9aY7ffVoQZe-hwLOcp088w5vxQAKGtv9PCNwB12a6HgXcbKaK8CnzgjBOblLYLYfRaiNyTtbbLJcxV_yDlY6HADncG7slP3v7LDFG7lcqVRaL6PlTMhaoN6sBqjhAURToIBmJ1PtfxHBPeinykYzdfZkecwEGV7NRdDYwk2fVqqeK7l1lexfZQVQwN_TqF5SZQj8SI3RGEjLA6BdJ4QcrINTsGufIaHPpZoDQnz67t6Mdvq3cwsBQIMVSTjiXKXsmFQJP5EyJ2sXtIt4pIyZzFjGmie2ZcjizHI6M12recTSRglm5GK4kJwyIERlJmvzPWH-sht9Xji7eHzsrwG9b-Szxy_qaH-Chk_WeFGqyBmQ0yI1iA==",
+      "summary": []
+    },
+    {
+      "id": "msg_040f72b5bf901f8b006ae7ff96e07c87d1bbe926a16be6faad",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The answer says the drill-specific requirement is not known, but the memory record states that scheduling for a live alarm drill must use a radio call instead of email.\",\"evidence_memory_ids\":[\"AC3R2-H11-F8\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"The question asks for a source-supported communication requirement, and the answer omits it. The record directly establishes the requirement; no supersession, unresolved conflict, or misuse of an irrelevant memory is involved.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The answer says the drill-specific requirement is not known, but the memory record states that scheduling for a live alarm drill must use a radio call instead of email.",
+    "evidence_memory_ids": [
+      "AC3R2-H11-F8"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The question asks for a source-supported communication requirement, and the answer omits it. The record directly establishes the requirement; no supersession, unresolved conflict, or misuse of an irrelevant memory is involved."
+  },
+  "finished": "2026-11-02T03:12:24.029907+00:00"
+}

@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "T3E29FBEECDF7487A82CEFC42262DFB13",
+  "started_utc": "2026-11-01T13:25:07.160458+00:00",
+  "request_payload_sha256": "5cc75502e4550ff5c7875a5e6b477b34466ae2cf7c7ba1747cf9494305a506d0",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory states that the south footbridge is marked with a white triangle. The answer incorrectly claims there is insufficient remembered information.",
+    "evidence_memory_ids": [
+      "AC3R2-H04-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The answer omits an explicitly recorded factual attribute. No relevant superseding update, unresolved conflict, or misuse of an out-of-scope memory is established."
+  },
+  "usage": {
+    "input_tokens": 734,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 500,
+    "output_tokens_details": {
+      "reasoning_tokens": 384
+    },
+    "total_tokens": 1234
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0e8be92e8bd0c85a006ae73db3885887d096a892f9dee64a51",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:25:17.023772+00:00",
+  "raw_sha256": "2d7b83e391424b3c28531c9d6c98cb588408f1910c465e08d199c811e832d5fd"
+}

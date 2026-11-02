@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T704A603A090148219B4F1735F791C0D1",
+  "started_utc": "2026-11-01T13:27:21.819076+00:00",
+  "request_payload_sha256": "abe8fadaaff983a0ce46e610ed6cb144f350a2459b7aa1929e2ff6b814662a83",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "One active plan names canyon as the sole final site, while another names ridge for the same observation; neither plan supersedes the other. The memories therefore do not establish a unique final site, supporting the answer’s uncertainty.",
+    "evidence_memory_ids": [
+      "AC3R2-H25-F4",
+      "AC3R2-H25-F5"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer could explain the conflicting plans more explicitly, but declining to identify a sole site is warranted. No incorrect selection or invented resolution is established."
+  },
+  "usage": {
+    "input_tokens": 883,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 2729,
+    "output_tokens_details": {
+      "reasoning_tokens": 2588
+    },
+    "total_tokens": 3612
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0b2e71149bac1e25006ae73e3a677c87d0a042c4dd7ec65206",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:28:10.866540+00:00",
+  "raw_sha256": "64eab419006dc5641bd0c544a9d0a8bc2b6a5682ea1e2ecb4c3a2202a2535b6f"
+}

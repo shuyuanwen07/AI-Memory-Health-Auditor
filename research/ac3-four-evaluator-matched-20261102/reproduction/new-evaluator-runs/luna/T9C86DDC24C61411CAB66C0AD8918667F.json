@@ -1,0 +1,58 @@
+{
+  "test_id": "T9C86DDC24C61411CAB66C0AD8918667F",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:15.044056+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0f096e50ce434267006ae7ff902de887d18d2c3b7ff588a80c",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 967,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 152,
+    "output_tokens_details": {
+      "reasoning_tokens": 61
+    },
+    "total_tokens": 1119
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0f096e50ce434267006ae7ff90f5c887d1a2b297c5e30e99eb",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-SNRRTQdHsoVSAF1-YAcke4BXJTJK4ARTYEjL5sor74Vf_mOM8rXx-buNKYm-MsSKEm3_Lob8fM-QpxY1BZ8AvQBMnOog0r6zRprlbWdCwbnTyZY6XEqwJhHhBO2ZLmbBZ7L-0A4uxt4BDH5MhmKG2klSRnafsJfpwbg0h3npzDgGiXx-NxdZ2ZNfRSE9XslSjzAgDoTq86rWP2bRVAyCyvyC4BlOFl-8PRgd94a3kTDhT8jVNRQXU5NhrH5htiU9DkjHvI3PvVvf5jhvzZgaV3hfrNxE_6xKLHMu5BNZd1ZiqMyTTDmmbjsFkzsTh8Ya8xTXDyf0VovpzvXFJuRXhh00ORw39ZjmCVjrKnGeRRN_TjeSy3_H-D6Gb0K1W-Xcp_FaK7VXiApzpm7thkGYnlEF3e6ceT9-4jXZmX0Y2yqbIQiKWAUi5RJtReSM61wwbKR3zuoBuGdUNaGtVZzUtswqx6oDf-EkqvnvcEoaT8tg9Jr4eN2tIAsr8j15AfZ5ZKCsNyA84GEx6oR8iTaajBdiI6Etgdj-CS7wQ2610lMQj_IsE-wQvc-ab4JnpHTPCEs46XqN5YIJS_vqBy_uTpvVvurdHIqtjNVxhVDbUExVx7vn5qeaqO_zyzY7_W51dkJWMY-w6LKog-ZuT7jooVTlD-6B4XgVt7mZQ24n2UxS8GSW8I32hwecY5di2S8JROc7J2ZamrktLjz_BdqDgYzOG9oJXnTmoPXIOxkV_PaMeYfj239Yj8-O7UK58Atii7wKOPz4Y2q5w02r4cYaQgsEWlPm3QtNAEirTd8ne3WHRBRPforC-TV3C_pw5RlgXbNo2ikoLnsBThD3mXjrGa4drN2wD_QkIgQeRI3wpozha7-1g_nEJo5pf0_W1sz6g26-Z4VUGhokvq70eIlRO9hNpHCjkvyzgUCoq87PPumneWz183g_UWcsRaG_xteB7rErWOXur4kO9YKfLUVDf0FPBSbkyW3AISCoafC7CJb2rBgMsaQ1FAPsCglcOmnM5KqavDUPdMHrMwET3uLdlv7Y8XDBVVhRdqWIqTafFEc3OTmNDZooi0B93r3kO2D7V5X6cm_af0wIB9EvTLUv49RC4vwJp4jzTaFzHMEEie3Q83SfFa10lpxKtqFcAlPQuHE61TqyzL20KMyS240SQTPmKnDtDXbBH_4okCSYhdFf1JdnQStnExuETqcnKSip4RHFlNXbdOCezjlACG2l2vpHsQJvCo-NzQ6c4Ixt2RVx61f0Tb-C6WIGLp3mY_W70C9i5eG9gaIB_Uix2Pgs6NaJMSJUpSc4Tf4G_cxAN4d6heZyYprEM9doQA74J3V_scno9yM81BrAGiedOWV73f8rJ1r92nn_3ivtvxDKSpNLUekPnkz49tQw69GqVYP95AcSk4EZ1chl2noVJFvGMrNgp8tCBwAiBwDQ0hHA-ljDYfni56eA1bK2MqnO3fNUEuCJtV4d7vOMbQaSWaBAij6Ypt1k3o1gl74ADOC6LWaSN-gVU3p-vRllIzwOvlpsWOwD-ioYFpPsAJCqqSwnQxRFSmI66155REWpTa6oXVLEVFckvlhboyD-doPQgkxs6IiBAlmJqwZLs4DZ5Ph6k34AAb9rQ8h3OGbX8ayPRjyq_UYRs6j5ff55gmVKPqI0G3raUdd20_Tis97dtzZDqMWmbjyYx4BR8p_tcjYG8ods7mslAcfaiOThNe15-rEmtmJmcM5hB1FQKKeWeYRc7aHXbHNV1KPnwJ6LOzYseaxG6jRv1k7i65UsGEf5xXsb3zfIJ0ip7ENgkb7DzN-PiedMjwdHkPWjTerlXx5-Q1dessgxG3ZUKMmZvnAq00Bp42Mo-5N4wOcbQLBzKqOojIJwivWdTslKgADedgvY7kHG4KMOvsYvffNnHKbUYh-8HKD2Z-8VTP12Anewl1JC7TPQlXt-02kqhPCQYaptqoPoaF4hAZc7-h2VIP9pXXdXIFyX8yQrEYGGILuWdwsWBrg2Y-J4_opUFPFr1HQO-5uTSR_1t6PGyFWYZ8rHeemVYbOn8BHjiEx3BEIIlnHvoqLRnhmXu2MQIe5f8g46YZQE9KvzYK7xhQR-xlLjvIWQYYxXFGUEwYh3AxRxKmXD-yGzbzN6VW0YDenQiN64L-H3XqlEYa4IpTgNi-NnF6T4-b87cQq3mIIFFkclCgDrphw==",
+      "summary": []
+    },
+    {
+      "id": "msg_0f096e50ce434267006ae7ff918e4887d1a0807beae652cb82",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer correctly says a non-confidential job normally uses the shared project folder; the restricted-folder requirement is specific to confidential client jobs.\",\"evidence_memory_ids\":[\"AC3R2-H13-F3\",\"AC3R2-H13-F4\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported by the confirmed records.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly says a non-confidential job normally uses the shared project folder; the restricted-folder requirement is specific to confidential client jobs.",
+    "evidence_memory_ids": [
+      "AC3R2-H13-F3",
+      "AC3R2-H13-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported by the confirmed records."
+  },
+  "finished": "2026-11-02T03:12:18.552281+00:00"
+}

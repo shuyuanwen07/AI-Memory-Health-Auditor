@@ -1,0 +1,20 @@
+{
+  "test_id": "T606B49C4DEF8405CA0998F3D65BB6A54",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:27:49.768161+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 949,
+    "eval_count": 208,
+    "total_duration": 22693984208
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks which sole group limit is final for the museum 10 am guided tour, but the confirmed memory records do not provide a definitive answer. The memory records indicate two conflicting group limits: 12 visitors and 16 visitors, but neither is stated as final or superseded. The answer does not establish which limit is final, and the memory records do not clarify the status of these limits. Therefore, the answer is not supported by the confirmed memory records.\",\n  \"evidence_memory_ids\": [\"AC3R2-H14-F5\", \"AC3R2-H14-F6\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer incorrectly claims that one of the limits (12 or 16) is final, but the memory records do not establish which limit is final or whether one supersedes the other. The answer fails to provide a definitive answer based on the confirmed memory records.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:28:12.577121+00:00"
+}

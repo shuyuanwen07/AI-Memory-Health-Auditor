@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "TB69C181EF9984224B570E666E164D33D",
+  "started_utc": "2026-11-01T13:21:29.263248+00:00",
+  "request_payload_sha256": "57a55b74c88d27fa2a59ce86a37bea815738dd1a885c539e002c3c62cad842d8",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The revised route ends at the hill stop. The memories explicitly establish that it replaced the original river stop, so the answer’s claim of insufficient information is incorrect.",
+    "evidence_memory_ids": [
+      "AC3R2-H08-F2",
+      "AC3R2-H08-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The source explicitly establishes a superseding change to the final stop, and the answer fails to use the applicable revised state."
+  },
+  "usage": {
+    "input_tokens": 738,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 516,
+    "output_tokens_details": {
+      "reasoning_tokens": 390
+    },
+    "total_tokens": 1254
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_015bafd058eead36006ae73cd9958c87d0839aa6abe6f89c9f",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:21:39.115895+00:00",
+  "raw_sha256": "e51210b781bf430c83a0fe81699c7e694cdc9e6a35dbf4fccbd3abf20cdaaa06"
+}

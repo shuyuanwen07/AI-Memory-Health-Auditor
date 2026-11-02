@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T45CDDAA12B7947D5B44B661038572F17",
+  "started_utc": "2026-11-01T13:20:13.183172+00:00",
+  "request_payload_sha256": "6aacfa024b67f2f9f8c28072578d13a383e10b0bf574581e84ca41e237d2a081",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The revised exposure time is eight seconds. The records explicitly replace the original ten-second exposure, so the answer's claim of insufficient information is incorrect.",
+    "evidence_memory_ids": [
+      "AC3R2-H26-F2",
+      "AC3R2-H26-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The source explicitly establishes a superseding exposure instruction, and the answer fails to use that revised state. No unresolved conflict concerns the exposure time."
+  },
+  "usage": {
+    "input_tokens": 884,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 643,
+    "output_tokens_details": {
+      "reasoning_tokens": 516
+    },
+    "total_tokens": 1527
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_028c4f28281379bb006ae73c8d841c87d0a6b8b4e4470e8b7c",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:20:26.668537+00:00",
+  "raw_sha256": "7eca8416d4676f8f97965b6a17d87c2f120941f12e11dc0e058a7e42e56d6143"
+}

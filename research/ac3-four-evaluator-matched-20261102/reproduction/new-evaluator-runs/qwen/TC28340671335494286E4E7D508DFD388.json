@@ -1,0 +1,20 @@
+{
+  "test_id": "TC28340671335494286E4E7D508DFD388",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:23:55.001308+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 884,
+    "eval_count": 241,
+    "total_duration": 25558593291
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer claims that ordinary adoption updates are sent by email, but the confirmed memory records indicate that for urgent veterinary updates, the method is telephone, while for ordinary updates, it remains email. However, the memory records do not explicitly state that ordinary adoption updates are sent by email. The answer is consistent with the memory records, but the question's phrasing may imply a general rule that is not fully supported by the confirmed memory records. The answer is not definitively supported by the memory records, and thus the verdict is passed=null.\",\n  \"evidence_memory_ids\": [\"AC3R2-H12-F4\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer claims that ordinary adoption updates are sent by email, but the confirmed memory records indicate that for urgent veterinary updates, the method is telephone, while for ordinary updates, it remains email. The answer is consistent with the memory records, but the question's phrasing may imply a general rule that is not fully supported by the memory records. The answer is not definitively supported by the memory records, and thus the verdict is passed=null.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:24:20.696550+00:00"
+}

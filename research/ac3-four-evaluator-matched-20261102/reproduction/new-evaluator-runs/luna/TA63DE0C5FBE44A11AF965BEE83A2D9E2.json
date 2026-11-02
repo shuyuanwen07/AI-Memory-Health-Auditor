@@ -1,0 +1,58 @@
+{
+  "test_id": "TA63DE0C5FBE44A11AF965BEE83A2D9E2",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:29.655347+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_08a158f9b4b7e871006ae7ffd9e1e487d1a89f3d34c32addbf",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 989,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 189,
+    "output_tokens_details": {
+      "reasoning_tokens": 74
+    },
+    "total_tokens": 1178
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_08a158f9b4b7e871006ae7ffda5cf487d1bd4631891bb4daff",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__cJnLO4oeLMfN_xN-GZrjVH6GBYIk8RCFHyIy-EFtyYF2t7Jumdk0lplgxDjL0ec4xCAuK5AOslmeBacwi9_WQYeLzUuyuna9kSJla2vI9HEW-S6BqEqzyJ2N9n4HXace8NCcrCgiA6z_-7EHwZv1I7FSuFlJkbyVNFjGcIY96I-je5X5f0qc4NHrtTL0JIpNe3bian-wkRFj6p1byDbJe9z_GKncDtYrxWYT9ZRqkxib07eNUQuQsDGYoW9FL0V0GKXwkG2JjaudMVkiJc__WAOy5xXQwUKW6i_VxRfMDFLPO0wbQc-vWT110Y7CAHjgtQUTouFYBsybEcCNoB5TwbcwNbf20b8ImMl166K20TWPqoRIcxQCgdI0mYG6Qbv_elYIQUBAIu0e1zkrQh1rYt9V7Eg8JGSoO5pALXU-YUm1OQoiATB3Y9a9dOiQcFQ-fd_41tyT7_0KQtLb0eHBOy2K4n9z_bLLYSgDwQhgjs9YcfWbj5aNf98LIgXB3yRE4yvw8QCvd3WelfmtKLUp-XimwC-xAT_BP0d32mslqv5HrpQPZ_Zw1Ar3ISWt9zKqBSWHyJxmpx2Kmukb_igAy3KaYt3ynvFJco868DtgO4TYqKbYbNhSBxHkxdL-K59oqBs9rQtupKRzKq0Y6KavQOcAph9erPYn9r_5Lp3igfPjM2kkrUB3ruok-HKKkCZzBiROtwbrQrn-5asH4j4frAjxDodXMVbqXoL7IGQervDBZwMmwepYjHGB7NYsIBpm7RfjCPUDuONfezJsIC-WXXscIplzXjGcG4Cfa_O-I_wc5CSPetkzI39tskIu3XWssmm-fUgCGzgnllPRZxZgxk0JysTBZwuKDBEGUogDRbR-Y9QUYAyajd7eXXw1uPkzXITkybfqpDBkT77cWd1atvKX8s7hrengm8XmLltLRw3ehJaNXRWs6ndJuXAxhheoar4j9qJHihV4c2h4NRKNaJ01kpodabb6L3pRlSO_6AAxnbhU-DunaHOIcANEvabRTIQRq4hePzbSmxuvIep48SxgL4suzjs6Pk1RpoR1uj76UzDysrTXVItVcPTWtjSvkJ8EdqGl5pvHArsXz4cGmmIVyd051-2adAXu4f_yMpf7h2mlmE4xFupNb0wU1rwLU031xlEuXtq1MM3ynJXsrqEXCTaVkKhTp5AcAinWvpjv7MEQO0DggOo8OCZvy2BC23SQYqumOBXDG68FW5I0aS6UnLr_sfWOFBnMHA1Byj9xcA7rM9kfgSmajQhdc5-2mri_5Vwcy39reXESSh_jTjCY3hTDwVVSu5KkPOwSVvS4j4Gg_eUeInBGxJuAsXmuMJ1UF6RUeeM0wJyeO0SV6IZHuFbHxAfuyRhRdL91JJN0SFONYsSKPtHxsLfslFueeTSvKNBfqPiznbQA0MEFOOX60oG3io5os4m_0dMyrD0A92vbslmb1CcMEwa4fr9QTQVECxjuw1ZdMns0QaRAusdnYQlzKKkfSL6PqvFngW1n3d3GbrwXPy1UWSxEtHQ3CR0eYqnL4gwVO4fl7W0awA-WH2KJnIcMBmYjNQE2MybDWFx9RJaMq5fEBcFZEXejaeOlXkHaCMKgFz012f-NOKWJktfuJ253S5sq0Us8BzSbK6Sai2T0aWYQVGoniL3ZM_OVHk3FtW1oKRHi6VF8PmB1oW2_e2haNnR2Dp2g2PzdW08y5TpdgDpu4jSCkd7b4ipIbPWPEUTSYmxRa1-hTeo7OjFBYe7ahv1yYhE5CR_O82E-SIlhJ148fXV9_XeKLy2xtdBvhesgHeT7QnNkxOTNvTi0-m9uLdnmF4i45o9TrRhJyTPNxpZBMFM2SXniJFYCGLqukl_OkUkxJA-AIKtY67Lewx_JJgvCLoPJNqN5nq5r1zylJ7-sZFXNsF0ojhGioNhFXdrJjrDkxbRwgZohqA6dpmsRwWLQdpi7Ed6jSuPpaQWHKDIv5jruFpzqUbKnFXlob2nkGYIHTwiIwTWLGpvAmwt-moWal0iPZNlmAdlnSO5cD5Niu9_Egt9vbSwf7BOIOSA2pi_yciLOwyaGxdwC9tV3tkLqJpnOwZNgFwborYMsSQkMz7w5br0nYcgT6laRaQlB0VlCIH-vr4H7beva1oTNa2LZk63HTT61mcCZ5hJaZUszGpGhb4tPSCJI6sYipawO8TM3a2x3Sxg0497F7_MWyAfPjdXqgIdoQRjFS87Ce_2WalhVsLm1EkqXBXCwG74Y0c9pWWficuUKAPl8VB3X5EIZaAxXwBjLpTLo-WHYTkNA8ZmuEgtLPzrW7EpGiWjzU9mTzl11MHAT8A_SER9Hr-YpoZx_ImOSpIhWOYYC421pDuY8-GtCdJw1JVuxdxmkxBhd-OnaikuiWnU_dbx1YFhND8Alwlw0UZg3DZQOEeM05xkoiVm9UqaSysYtU0vvIUc4C3A56GOkakoavcoWgCN7_KUPwXvo=",
+      "summary": []
+    },
+    {
+      "id": "msg_08a158f9b4b7e871006ae7ffdb1a5087d1a9fe886d9d27d52d",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The records contain two active, incompatible claims about the sole final licence for release 2.2—MIT and Apache—and state that neither notice has priority. The answer accurately identifies the conflict and asks which notice to follow.\",\"evidence_memory_ids\":[\"AC3R2-H20-F5\",\"AC3R2-H20-F6\"],\"failure_type\":null,\"classification_reason\":\"No failure: the answer appropriately seeks clarification rather than choosing between unresolved conflicting claims.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The records contain two active, incompatible claims about the sole final licence for release 2.2—MIT and Apache—and state that neither notice has priority. The answer accurately identifies the conflict and asks which notice to follow.",
+    "evidence_memory_ids": [
+      "AC3R2-H20-F5",
+      "AC3R2-H20-F6"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the answer appropriately seeks clarification rather than choosing between unresolved conflicting claims."
+  },
+  "finished": "2026-11-02T03:13:32.433987+00:00"
+}

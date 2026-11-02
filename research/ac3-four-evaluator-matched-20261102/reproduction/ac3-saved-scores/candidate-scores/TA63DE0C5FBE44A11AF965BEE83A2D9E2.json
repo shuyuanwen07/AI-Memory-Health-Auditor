@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "TA63DE0C5FBE44A11AF965BEE83A2D9E2",
+  "started_utc": "2026-11-01T13:26:32.642791+00:00",
+  "request_payload_sha256": "86f2ecaa44980b4c37885452a4ffed9ddffb80aa1ad3e0b87bbae00f7d473c55",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly identifies that the active notices designate MIT and Apache as mutually exclusive final licences for release 2.2, with neither notice given priority.",
+    "evidence_memory_ids": [
+      "AC3R2-H20-F5",
+      "AC3R2-H20-F6"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the answer acknowledges the unresolved conflict and requests clarification rather than choosing an unsupported sole licence."
+  },
+  "usage": {
+    "input_tokens": 989,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 442,
+    "output_tokens_details": {
+      "reasoning_tokens": 324
+    },
+    "total_tokens": 1431
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0eb77de09099781c006ae73e08f6bc87d096d8593eea55eaaa",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:26:42.027883+00:00",
+  "raw_sha256": "28d4cc21e1d40d7a017cbd9d1f761d374a9496399c241c661a7086807328c671"
+}

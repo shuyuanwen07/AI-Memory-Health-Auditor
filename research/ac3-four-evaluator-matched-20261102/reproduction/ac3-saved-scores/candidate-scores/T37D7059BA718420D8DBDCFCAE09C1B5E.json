@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T37D7059BA718420D8DBDCFCAE09C1B5E",
+  "started_utc": "2026-11-01T13:27:48.956203+00:00",
+  "request_payload_sha256": "5cdd929e9ae16331f67944f662bf8693fe92c7b4d61d82cbc0565100774b9b69",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory explicitly states that the first record listed eight spare rakes, so the answer incorrectly claims the count cannot be determined.",
+    "evidence_memory_ids": [
+      "AC3R2-H04-F2",
+      "AC3R2-H04-F3"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The answer omits an available historical fact. Although the audit replaces eight with five, the question asks for the first recorded count, not the updated count, so this is not a freshness error."
+  },
+  "usage": {
+    "input_tokens": 744,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 806,
+    "output_tokens_details": {
+      "reasoning_tokens": 672
+    },
+    "total_tokens": 1550
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_04ca37455c1e9d71006ae73e5544a487d0a0b6b00721d629d6",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:28:04.401549+00:00",
+  "raw_sha256": "8b818b45c9e7c6f71cbeff82654fb119049bde2eeb6d6494f4d30ff0d5f2ffee"
+}

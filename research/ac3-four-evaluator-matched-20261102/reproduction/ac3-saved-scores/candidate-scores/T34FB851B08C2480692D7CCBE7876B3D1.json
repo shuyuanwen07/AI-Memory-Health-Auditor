@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "T34FB851B08C2480692D7CCBE7876B3D1",
+  "started_utc": "2026-11-01T13:24:08.407759+00:00",
+  "request_payload_sha256": "74821dfbf41d18b171935556b2430739bce5abd35439599ad550c4e526ccee17",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer matches the confirmed requirement to use an electronic ticket for the remote-stream event.",
+    "evidence_memory_ids": [
+      "AC3R2-H30-F7"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the answer correctly states the event-specific requirement, which overrides the general paper-ticket preference for this event."
+  },
+  "usage": {
+    "input_tokens": 878,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 381,
+    "output_tokens_details": {
+      "reasoning_tokens": 283
+    },
+    "total_tokens": 1259
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0af828ebaccc2f79006ae73d79345c87d0aeea3b8ccb4d56c6",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:24:16.022961+00:00",
+  "raw_sha256": "c813fdaf7badfdae9cbc2a21dea92fd0331e1b470d4b4a477f7b4e189cc91561"
+}

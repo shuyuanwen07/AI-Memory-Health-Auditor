@@ -1,0 +1,58 @@
+{
+  "test_id": "T64B81B780D014F349C7CE77BD39513C0",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:29.356380+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0473a54cfec354f7006ae7ffd99e4887d1aafb569a753e578e",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 730,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 134,
+    "output_tokens_details": {
+      "reasoning_tokens": 49
+    },
+    "total_tokens": 864
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0473a54cfec354f7006ae7ffda40f887d181745ed21e22b9c3",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__bQ2ZYRudnmFCTe1e-dnHOO76-YxWuJ8iRz19bHQloCKQWRjrvLC4377zHanNuUfxPM0fXXlO_yPDBbdJH2bcUufkHV_B00j_RxK9vuR13ntYJRqTRc5IBqJ4I3Vbyb-cv_SBsJJK1g4Nlab9SlKjtldQduSI2S1WUN1Abt414K3HSoTcOJSeTkNnEOIL_lFjfoOowvD8-EAqAsC9xGNdpeFVta9CuyoodVEI85oZZOYHfL7UX0dmYVboDb2eEbnklV-hwORqM54M4zNWOENjsoh5zIqr28CoOikkFJb5HI41FE2DUrfqANoLclz_O7kD1ELxRZ43bJPw4SIlmaFBF6aceTt2qFEiBEXih54I20JXAK_4jss_-zIuKNk8ZtDBLVpdJH7KFok4y_GmvfFiEAT3VZAoDrhg5WukjOy1CsSvaCfg0UF6Qp9W6Ey1DrIIXegn__Q_tpAdCtryzYGlThTTq5fzIg0F9zSkk5AXBBSU6X4iEfcQykK_1wI_7w0hPhdugATzF1nbrgotBKRaO3U-WQ7BU5IPF-2m34g3F7NblJvFu2Wdo4iMbS32Swvo79oBruR-5Evc_U3-1e2u7hf1Zl0-ImdC12-9F88SzMB8ncBANmZZRgbXX6wpRasa5y5Lsmgw00Jo4zNTVrboLq1xG6SqIMeTaXCt3Vn72_cJk61vFa0qcHDKIKOiLKMsHcUWouWLFV9TtE7jb6LSaWzQ1EXzMN99pJQx6NtuNjfQSUH9EMxn6QCSyq1iLzOr1sffcFVmN6t7Shm4QKyJfmcrQAWB9o5blYTS4bBOJOZMtmBlDq78vWrfBy9TWLWRvIrMLHsZMq3NNz7IHXG-HbOjM1zNWl99ZE1xktVaQeLjgnOqTZl9Bs5Zo4yA6Q6xyWM9J2JSJOgLch2cgMAx3YpZPRwZv6tuB3LIvcs-6b1cEZjOl49WFSvwLDV1SON-pzJgEnYyhE7AKyabil2G7dk5D48wasT3JYfrCzx30gz6YeQ_ARkV5xoey42o6UiWmIbowjR4Q1RdICWrUGfzAoJLuVZaDyBCQ7jj4Oy8hSpJSC1KS5vU6GKk-MlYR9wnBZ5TRLvU7ITJu3sDdoTztNfUAnbkw6PjEZVTXVXwUpKmrSK990IXGBc44G2mX6sPFDNswAUaX90rFGI2v_sCdNJHsAfGXlPxy9jBVTeD-8bOdRk6ks9hOzECN1W1onncCU0cbATWh6eR51LKa_y-XTX2UI2mih0D7oAeFRhJbtz_XcGC6mNuVQ8zq_19PNgx4xxc26uI4Qzd5MB2WunGtI2DIe4iyR2dB5lVe6-fm8I6-1-qou5nXvpWctgMH-Xo5lus5FrL5aOiDQEHu5t5JTtgFWy7NDSi6lDXJ1PCV4xx8tlxmvwqBuJtk-lJOn4EmyLP2bT4PwnkE1SB09aqEZ8Utb9fnM9N-z2LxkURwgV6U7HS0N3oKtGAgry5Hk3Ab-u9n3C9l-EopP-hFth46AcvJSBvGszTPs-_7fHT-Z39QQNwbV9-aYenaxw-Q6u0-WvDlIvBsW4L_E0qidZC4epjk_zqLy2FwilkMmwL8aeNPEn5hXtzci1xhoqRHHUNgMGS66RF8z6_mZadVWqL_r7u6yUudf_FI6yHTd1q-RBQbd6_vx3kirvu3O4in1nNB7H18fYBOFldG8n8412LsgLmi8nCjoMGmlt1JDLY9RzMKINFZzW0sxQdjClusZHtEMCnRqnAywG7KKB1GE4e8ivjK9t6aTmMH5bOEwSh1CZBwspsHhKG5troRZFI1pf5LPKQa20tf-1YPXoxmaEU9UDkIzmOCLgrfymRoAfT1YnqPMHNyNE8arE1kpiDstCpWFMHQchgsrDS9MjBgFjIp-YB01i4Tv9e3dBqiI4uMNa_QlOuL9-tnnMMayh6g9JBvyaC6lAj4j-hJblNDusBrypI2In07oTHsmamXmFjXrb1ufb6PyFkHXF7cUyij8-t2Zu4EoNZgdgSUK_QlsKimDmnlpo4tR1tlVYz9170iVVA=",
+      "summary": []
+    },
+    {
+      "id": "msg_0473a54cfec354f7006ae7ffdaef4887d194dcc11ac2e5f1d9",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer correctly states that the briefing originally lasted 20 minutes before the revision.\",\"evidence_memory_ids\":[\"AC3R2-H06-F2\",\"AC3R2-H06-F3\"],\"failure_type\":null,\"classification_reason\":\"No failure: the answer matches the source-supported pre-revision duration.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly states that the briefing originally lasted 20 minutes before the revision.",
+    "evidence_memory_ids": [
+      "AC3R2-H06-F2",
+      "AC3R2-H06-F3"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the answer matches the source-supported pre-revision duration."
+  },
+  "finished": "2026-11-02T03:13:32.013543+00:00"
+}

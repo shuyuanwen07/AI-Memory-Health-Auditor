@@ -1,0 +1,58 @@
+{
+  "test_id": "T7E09B302DA6443939BE5EB3A080E16EA",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:35.409116+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_055488fa29f5159d006ae7ffa3ab6c87d1a6399c68d4d6d14e",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 904,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 527,
+    "output_tokens_details": {
+      "reasoning_tokens": 354
+    },
+    "total_tokens": 1431
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_055488fa29f5159d006ae7ffa416ec87d1a5655d7b7f21879a",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-pF-ZAs64unsVU58EKgPHx3XGpvSUxXaKcPp58WE9wjuKdIV6JiAB47RGiRHkUICFHZNJnSc5dfvF1C4p_yOuM4UelL9iyaeSG9r3uozTuz-hl5y0j1Gz0OqvDbBghXgOMOQMYPhwwYkH5C38dwWuS7GcD5L9lAm26UJSKDzS096nROAD5vyH-yeDLBEzbFpR5qY7xkUttbg5yHeW6wywggEODr19fRM4Laa52HJdtNluIqpmoRzABI1ffB5kV4eScaq3iYbriRPmaLL4NJZggYHsxQ2XOtR-CrLTG1Ealrh-QRd1GEKDrWPqmGYcbQovWEOEL8WTk2WnJAetmRuOVjWHXzipT_kpPIQmMYzvjH58qT3djxY1pokedZKxufyGVEIrqv_56cCqOOBjASiTr1t_Ua66NdbfXRTNANRBnZdbpLTUnjAwiIarsYssyvXLMQkrGNsUMPCFRQmx2ZtPlVUsZNnubtI04eeqVXleepPD6NFpHFWcdUIg_NQgy3GdTQu84iLJZm5v5FiFrRaAgujvuGIcVEg2toqmAuhr5xJ-8Ph9p1kkc8b7cL1kdlQDVFuS3PClZE9J_eUp9mwmf7-3tdLZNtfkGcIUZ0Cf2NTB-uNiAsS7Ymn8alxruJ2s3MQyKSvM_d7hCaTrT0dMgqKAQF7cjHhyooL3SL2qfULroJz4qWhm8-pVn51CBwfObJA5bFyfRFiINxLltWNd47QowkQ867Jjx_tZfmdZvWAccREjZoeHGtJUCQFjwOtoQlf4eKRCMz2bC9u5yv6mEnI5de_Q_ZLyqjFePaCBdHzOMGZVVA8ZlgnBYNvzj9m8o_tXuoq3Fc7IfiddBNmNkAjnIecn18AU8u1nq2vYCmjRopJWm_QEXPWfeQtxgwPk1bcxfQ9DVPfzGZ1B4YZ5z9E699y-8GTlb-s-XQnOym50jLnQDMI_uDg-CfRt8Amb90N0QtmfJquykW1fyKbj0C0ZMIV5Y9tHWnoPFo4Whi5iwlNmx5HGv3HBBEhHmDDexx7rs9tmH_BDckKFgi9PN9_zFGqaxCGIw7xjLY6APOwR6MDXQsSl4Uaw55Mkd9kXjhQHhbhhSsiFKZ2oCq9_umqxQ98IqYTbGYdKNjoL3SAG41syMJiFNNS9Ub1s4T4ZWNB0tN_yfaxxyI9lD69YtBOi1RLQ4LdolZ75xx0QApoJaTvskeDqWV_l8kVGvSaFGuYrEWihDlam_cleR8L0KVAu_mWeBvnCSbhkx2uwfBUDQW6hCrW5vePnHfv0ZNH3Al_XNkHJ7fuQoTM0CzHHC4U4Qs06-bRS0NM4wEgEFMPtJGCCngiEjf6Cq27jToDYViGr9tDpLENquJef_UWmWgWTrljo_Mn52dDFCyi6th_IHaX4VmX3mn5iIvpa5fQGdWfSqGXc8hBPXBVlZ8JowP6J2lWhEvvggDfpJounSGOSryVSihrbGhTNhNbuWkj01zTxLAMx6ZmsPZRIxcZpm1KMeeCJ9oKanDnJV_owqs5yrN0Zrg5VFK-JDvPCQp00NmaqMTnxkIa97Dd_PLz6_NSVndOBe_qF6ekKw2kVg6wXIYtWL0gwOLBOKzM8IbpungcG-yBe-CQZRtPyJWvrgEGTmxxyfpaIF-l5eeLDJy8Ei3lWbPOuloH5T272LPgDLhojGvTEieyDdyw3kOEruj7WFtUE0uTZvTXUi1AlAkaVl4_ryBOzEKWctYSpBuwnG5TO9M-zMo5b5G9zZ5n-SUCshqLD0nlRD0YcPDedqrvJlsRncic5heDwgIGaFnV1rZXWfv1VNUrglyY2lg5n5DXTgHQQEkxvH41BUS00fPo6SSgdCkft8dvUZYLW_dFcke80wLBBZLC94DiYdBjNk3GJbydWqh5t2WQeVU1-ayaf4CUpVwKRgmOD0Nio8GMhNQFvhY3bwBMfByQwl8CV_0cWsfMugvL_yAS4XMiTSqH3_6ou0nPN82hql2T58hsGmKojh5IPqkZpgk0KJ_3OvftLiHQSxSNHUNOSCCRjQUFN6sRIHxra1gffa4I1QRVPM2zobaPuK0jwlmjvMI_7o_L5ThZSgfti4L0cOJAxZUSAC0MACkxHgzqFMUSXVJg6ka-uErfnosIiqzztle2KO2QULdp7yITuEtUpNH4BFxwIHIMo5c5WJjEb6y0t5kThpKZxwAaRWQPTYgCx-dqG7jtFBipBzJF30qj0xmscw6JpinRzfnO7tEk4RocYHuJETiS-Emn-YaZpoQcbpo176xwhcnPaj3tkMJN9S0CFpkuoe1uO0w6RoKrjYu0R6TVbIe7MoqGZcFHxLCt22Nv1hauyJPjzUq0FT7zEXCHSFJkVvlLNMqG9Pk3WhMzb4o4fpTI1HH6AAd6XYK8N4Xhk5MPAWgspW9Mn1wO4I9qawpsh57Dgz56S3W7WCVL5V-V5LrGcbAEGj2Yax2ejrmNOI4fK-A1V-f7y_q5Woz8tXa0HHQj1bIcPlk0SiAModIxkbmeOLz02Y17K5xxb0NG6KYQIMBrlbuVR034kd9CEkXE5mOjSM_nJESzrY7f0OtsW_7wOqqCqDDjCbJgYTSy1dI1m8mKSJ1bz0DW57mmzHj_EnAIhdxWd3oYzc6CWJA4XeO9rs2KdPcX4bq6oCD2BIl-q1LneFDn8xnxRSmIndV63mGcGlNkV4XLwtB4pYbbWlI6hoNxs0hn1NyLDfJ2HEu_Nm6ZATQEAyfOVfpQqhfj_yru598gqM8UZfiDH18Gnhjv0qhHD7qa76S540G0up-dMMqsjLk9bkXw58OFqZ9rGMxba581fDtV-2y69-TT-9EpzcS6S5ptPhBArXQiRkaHt9byK4ALgOL4MfdoBi3clhPq_6qZThWpXwsg4gBFiO1yASsaky3bp8lp7JkdubXK-u5tXikcwYQY691Dc2FieFbPjcNYpdYLMeruO3Zh7h4ZBbizA5p6l_yTGIGXcFJsBnh-gPSseuDkxhld9Vydq89LsvF-xeAeK20XXmrWPY0guPowg5-edUz6P3ChHzpM1ozuMx7_JYg0kaO2c5M9lh4oO6gyPVVV0ns9X9pjzBcFzym6yg71VDq_XYhjW6RXV_u_qXXgWXGigdxjP7pM0VsVss421-2CjidhUAxbXVKwdOiiW-003uDZkGap8wIRoxWTEbDAqKG2ywxjIjzWnatO7RpP7niwwjk_rmKOACCeVdJVPcar1qThQhxs0uQsZUlktMRYCV9cYvkc1FgvTgG5le6n9MNT4e1qyBf0j7Pi_pGDYRVvFT9ImRpAxAX0gdzA8eTXy4X2xxqruTMmZJtcUKNb7rcLUpzXjqZ1CAFcKgw0mwunL8pwy5iXvxK-nM98YSzR73rcEqDyO7TbW-sQMY2YRpTAmR0oThOhlcQfD7cuEbKp8iaQQIgaekkUoYkShagmHc30fbGBu9nxNUKAhuLts1pUwxPsUWxzwUv9py5pGZHgZNFOfrSSnJropWzJQbHzuKcEj3sE2F1NMEYooYGWVYmTUZCaq8hZJtSAjlgb0oN-3vhEBzU-c9HWQhi-WGKRXgWXnuYLKnrt3caGSazproChUAXhIyzqymntKqKRYRdugR-enkgEF5GsS6hvvrxH1bMK5MVrwnnW7eAu9o4nqfxjh6XEOAzknHrX1BkyHI1tLp0sLx8ApA7eFpQLN2ZpLl6WJFeYAPS8aZ1-79nBLsLCb3LpT54O83pF25NFv44TLAXFU5nrrN9MWPYHbUoQKqtBNP1aslO_yg7Z3QaBcKmsIOTDtA-usOy2UY7-Lt63BNbl3XQfh39hwTM6CtHFc6E91O9SlcRDtvHE5FfUBr3xwscSd7SdQ8LA5Gaz-5Tz7tGRf1yyN7g4D7MQzczCz6EfV-7Q9EVefRT5IHySE0HbvFpQLSiJTfbvXT10vEcSgRz2ssk_IrWi1G08JvOfK5jdeAX9kAnPMZ6qGFodsSBMCg_svLaEg1sfjs4fPD0w-lL3bQ37U0xGwTVzUtCkLedl4WNUwL1MOKrDvRXtXn7-SQ82Ptdz4JL8dQ5tnncNWNTGks4gEXhy_m2vy_1rdaLkaA6Rmu0l5DMqlSEaVP3XDsLL3YgRI7JlctgzLoOc3SdnN2Use96Tbfb8gGjarnBTuq92ZfFGpz-fXwzvr4GMIDnSunsAa1iZFwPywT7PRSW5CCX4mA9Y7xXgnc5PJ6_i9IkJpadHInGKm9N0cCbfZOVEhgmMNsk79VcMafYcO-XA7IVMAmg_kF3PYkuw9eHguapRFMnZaArVTlnDZ_OcGoYlSmhZEG6aQGsKx3KlwC4zuRngCtT1ZAHbym9YcCLL6lHeY-rCiolzgO50TkO0tgCVcqgp1TfgAvuBaas67GeoPBhPuv1zph5j1oIQ2CVKyNrb4jS9lEV7F_3XDGr9lKVyPngKQjjTM0gaDbDLkIjpWIUGlPR2rBTveUSy74eN-MseIuQQGw3630QSQ3YfO9_-AbK0ndoUPwgs5YuGcCZVvxqCMusHFl4K2up3stkMdh0iJWlcft5QrP25vp9kJ15kcOm81GMrBytUlspcIwlhX7LLbkkt9TRkU8LKFSjq-qIhortyx9eyUa7k-TaErCTkylFPfCr1Y--5WcFBZ3KhbeW2sBhIzo-tB0v23MXJgmz033bf7mrDbRmmBUAMvU2Eybaw3DsMn2_Dsy13dU9rd1k-LzcKQDVgrFavrUmslsefzBMHqWhLHxOmxBcomFbGWEYVmLpTKGWwGFeVXIR1tyOv2uBTthfi89e1OteI7Wuqfpsl2_ffWL72sRGEqyouerx9Bw12rydQWqtHrVad6MgUhl1PShLTmRVcl0uFJRJMqadFRtLjW4DMjP5PPFg9au6IyrYzyleZ-Rbhl2UNXBpQhusbPtf2m1GYZghnlZ5c1fKNOCyt53erEWDtLPjkT4wgRn_mb12_xcdsul8ILJOH-FRzOFAPpv8UOrNnm6HSF18iyZGNqQyRbmfjszg5kkZ8Jx1o3awCQ57g72eBxNvueeRR9gvGKJ8sArsA0pRdqLcGBsvUZX_aIas-ALq4RNZN1GGsQDglp8xUetUfv_9iRaq_UHBcqVs_zcx8zHRHE0THlPE77q2-FO36J9IAA9hZo2aCXjtLpdVfqyZOHHwzYBY7EiImCHwAAkQq_j_VmhlN-p5auFyYEapA_QjgJNt9o_o9EE9WSdVWgQOGYntH87OdbWvFk5MUakW7xxVVnSsweZkO179655DoKjJot2xIU3Sdm2NRHkJX6gib3eoF2yxWsQNjY9tapmrI9QAgaBuLcUViZx8Q2u_ozHGcIJ9ld0z9CSYQIvxM5WFJ1dWGzr0chXO1XQdotYTT1qH4pWFdgJK8P_4ldJc0onegRufbi9MNO7ro_rueL_AOEO1QOpZtpktlFsaxQxillOC9x4B9VeGd6dpKqsisNPvCQFXB0fkqJIpuYvQved8SF0XWmsoD205DStl1Zo7oQ067NUSNp1c5wlxvYD7rDH-BiNhFh6OzV1nMB8BLUtmeUj25x7qexbx3lSqHAPbYDuTWkGaCNoxksqulkwjqHNelZfXI4S9aE8GSfN6CBqGqlPT_wQo1Ipng-CAgk_uzzn2tMpMrCSUnis96bVMhh-Q9glcOPTTvsxMGMaLBm54ofFI7eWX7J2FM2z_MFlNQ66l4dl1_vuVysltrHAAufbRK-UBa2Vq8v8EtZ8zHmK7mbrGl1Yj8uh3Lq0XKC2O0J9YDH3e085ue1NeCQuug-W_hs3N1F3zwWw6O8lf3KRo0aLm-jPj0sMXmSAdBlvO8YTKEqSeo1ajOmtVZnziJSb0L3m-5soeeMMIrenRp_Sf0RvU_yB9W3eOsrVk3nkUE1hxSojVlS4Fw89ay9sgZMhtIeL1H8JS53TI63A-fxTZg755-BYLAwDaUHNJehf4lD8yKr1g17myhWrIotlcg0d7fqYrjUyVxLFR0NEka2uV24qEl4VOfhTdZCsyJ_tHaRcPsd4PCP-FJf0Ut64aAp9g3GnyvdSXer_xIAIgz3nK4diwhXMY5N0yj3S6qmwCsl8XZegcpr-rLbVmOV37adTqXDrOTyQkuIedZas3WFM_SlHrjAhi-msvy2-0iApu5Z2SMezNio1C3j6rtEzr68EVqTSW5OkIeWDooCEswU0HafTHekOIEMjJyPlOZlql9TsYVSYOiU-KsuYbplvpUj3GxmZOz3zr3v_ba2V3LSbaV6A3uEp7uzhcLiqcrBrr9tRGXDvnS3hLpK6lTJIhXwIKSPmR_R4N9o-1xd3yCVU25gLd0tWiECR6hOHe_M32Q0lBhCH97UvP0SIgi6xPJL6Hb4q58jr369aliNiWcpSx4EywjL1Y1JHb7MA7e4bBfQQD_yDSMDKSTEvCMGTFn-eJHt7C_yp2hatL15Ym4lFFy3_sVM0kJCjSpe1y7Pw56hkXh5x758GpoXFV6I5GPL0Bna3Nsmls02D_ONFdsUYVS6GVgqoeLBrBw052gaiY2uXkSVJ6pCwT9luBnjAU1VJaFOFtrQ-4ue7wadaGgG-b_TMrhESIkIed3RGqRgE2Jzxw7YD400=",
+      "summary": []
+    },
+    {
+      "id": "msg_055488fa29f5159d006ae7ffa7864887d191c67efeeb2f2d31",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The answer correctly avoids naming a single approved paper, but its explanation is contradicted by the records: they explicitly identify fibre-based and resin-coated paper as the sole approved paper in separate active worksheets for the same print. The records also establish that these claims are mutually exclusive and neither worksheet has priority, so the answer should have described the conflict rather than saying the records only discuss sleeves.\",\"evidence_memory_ids\":[\"AC3R2-H26-F4\",\"AC3R2-H26-F5\"],\"failure_type\":null,\"classification_reason\":\"The answer makes an unsupported factual claim about what the records contain, and it also fails to identify an unresolved conflict that calls for clarification. Since accuracy and conflict_resolution both independently apply, the category cannot be separated.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The answer correctly avoids naming a single approved paper, but its explanation is contradicted by the records: they explicitly identify fibre-based and resin-coated paper as the sole approved paper in separate active worksheets for the same print. The records also establish that these claims are mutually exclusive and neither worksheet has priority, so the answer should have described the conflict rather than saying the records only discuss sleeves.",
+    "evidence_memory_ids": [
+      "AC3R2-H26-F4",
+      "AC3R2-H26-F5"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer makes an unsupported factual claim about what the records contain, and it also fails to identify an unresolved conflict that calls for clarification. Since accuracy and conflict_resolution both independently apply, the category cannot be separated."
+  },
+  "finished": "2026-11-02T03:12:41.141098+00:00"
+}

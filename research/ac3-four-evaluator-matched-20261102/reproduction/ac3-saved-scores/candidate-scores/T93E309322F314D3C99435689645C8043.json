@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T93E309322F314D3C99435689645C8043",
+  "started_utc": "2026-11-01T13:27:29.990292+00:00",
+  "request_payload_sha256": "aeddf7a3fd03d11ce9905ca89a9662fabbeff8075960822a2cb77a2156d47190",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The first inventory explicitly listed 24 packets in the lentil drawer, and a later count replaced that figure with 18. Thus, the pre-recount listing was 24 packets; the answer incorrectly claims insufficient information.",
+    "evidence_memory_ids": [
+      "AC3R2-H02-F2",
+      "AC3R2-H02-F3"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The answer omits an explicitly supported historical fact. Although the records establish an update, the question asks for the earlier listing, so the error is not reliance on an outdated state or failure to use an applicable later state."
+  },
+  "usage": {
+    "input_tokens": 747,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 1191,
+    "output_tokens_details": {
+      "reasoning_tokens": 1034
+    },
+    "total_tokens": 1938
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_061fd86c7817ab34006ae73e424f1887d0aeecaa7668030847",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:27:52.710314+00:00",
+  "raw_sha256": "316139a827c558446576902c4405597df24778e099a7610e9861f5f4aa82c137"
+}

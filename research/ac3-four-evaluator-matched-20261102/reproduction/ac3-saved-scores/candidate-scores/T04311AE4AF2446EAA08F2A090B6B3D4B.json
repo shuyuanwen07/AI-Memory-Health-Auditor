@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T04311AE4AF2446EAA08F2A090B6B3D4B",
+  "started_utc": "2026-11-01T13:19:27.928906+00:00",
+  "request_payload_sha256": "e5773df29b2784b163016d0282852d9dea8783f1c6ff9417150d228d05cb3c38",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly identifies the notebook as the preferred method for an unrelated routine inspection. The records explicitly limit the mandatory shared online log to the remote launch rehearsal and retain the notebook preference elsewhere.",
+    "evidence_memory_ids": [
+      "AC3R2-H19-F3",
+      "AC3R2-H19-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the answer applies the general preference and respects the scope of the rehearsal-specific exception."
+  },
+  "usage": {
+    "input_tokens": 991,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 373,
+    "output_tokens_details": {
+      "reasoning_tokens": 244
+    },
+    "total_tokens": 1364
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_057db29da64e24f9006ae73c6041c487d08c2ab111d04e87a0",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:19:35.917258+00:00",
+  "raw_sha256": "5191ed9ff019d8276e9c0b3a5f02cdcce83cf40375596e0e7ccc0fe88c93b1f1"
+}

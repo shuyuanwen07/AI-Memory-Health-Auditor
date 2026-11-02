@@ -1,0 +1,57 @@
+{
+  "test_id": "T2E8E982242E040F1AA323C02371496D1",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:35.097887+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0633f900a739d3c5006ae7ffdf58b087d1bd5b3561adc97dba",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 742,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 185,
+    "output_tokens_details": {
+      "reasoning_tokens": 83
+    },
+    "total_tokens": 927
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0633f900a739d3c5006ae7ffdffc3087d1bfcc37c764d4ea75",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__iIWc03rh5LuV4AsxpNrcdoSeJ0zJYHMoIvvE9ZfxwxwmsGz8wJV42cwQXW4UY_j9yZKnX5FktVh8uPFQ1AqHJFpEFWDGwunpAsB7tclof48vCkOfudYl05MKln9ubclCuuv6HUcjS5hzod6Sq5jImQ0t4idHnNwyIBsVWoysn39VHB5c4ffpzidfqFzsFCZNAh5gCimQE96aaPt9v4vRORYshP4NI1X4PjeOP19oEdtAVptu-VoCoUVsH35dq8sV0TxFT_CZwPl0Cz5uRlG2GuQqVMM1-jlUutqH_VHOqfT3cQb8e1wU_tjLmVhpbGdEFKDJuBH1y_Vj_ZYmr0nb9whzw31SwrAJVDkfl1LERXfuFvS3ER-xYK2W8Un59AzPfQjOAMHLsGaefGQFNDmPV4AlGb4c29JHqnl7fu9-5Vp2NvOwByjpllncKFdrVEvtZ3mog7wgWoNjv8p5pQaJcdcik4zQsuMsaiFK6jKUAlBP7CTYXNX5m92FOsSKQ_YY2vdBS8RssPrL_TjdOLL_fZAw2khDTSoM_Z3y2fQtXvl39Y_2l7P5ccc7nmeIht1guvZ8_B0SGIX8t31W1Eb5BuXCC03yTn9IkMqyswERTJDJfvQ4kEZXSQE7v4oiNebivqZDDMj3Ns9eteyygXNwZz54oM7Q7_fzVPv3ZXPRPEym6DX43cHtV_uaN_IM59IpoDzzD96HuiHrUBPlfIJIW_874T0sK8LxJVefiJXvflR9V9H08AR2QjzkcZ-sZOzyUj6FQK9oCn5TKtTcCuPXYsVgn_CxkBFsBWC0pJb1eQ42pgVLYLJIEzfeSlUOpgLwtx72lq-kqFFHuzTZg1WSjtVJVjdbLTexgt9k0usp9wWDT6PDh8sNenpbZ_5Axu5GW1EnxcBBqgvCwLFQ39gPD5SVEi6yBAq-XIXpuoXtZtirc4i8LvadxEwmhNtvVKjaeu0MrKXb20W2kAahqDrHVFubv4H-xFCDThiXD-eUov78Mw9C3voojcguYBOi7bvXt_2jOjToT4spbZql0kt_J4R3HnEZ0yj9AYtQtCzexYhRdeLjL2kKtvAIsTWUTti7hKxU3bgFwGkHazXbrVUGunjYWFur161JQPg_5mRYW7i7Pr-QLGcccW3WibhmKiJjzBMvO9G8NbhU81L30cSTlG8hd1A-wifZeVk9A4RQUW4iO0OjUkjEuopDHdsY9DfuhxLjY23dp7IEPqxsKCEmYHV4K1s9PAi86hw-f3gHwA57UXtOyh0hW2L882oUmorDMjyA73zmJ2dhuO7oge5kCEyYV72rhr3Q8wcftBg1b-20juY5zHEC1UqrTlaEoGDiLk3P2nyH6qRxQcYGf9uOocNpfZhxvbpzJ24TMZxzCc5glg0PMaGtZodn_A2IJaxzy3qub_PaeEvXLukYcX6whs1X41Cp2eCR_pubRZ8GgKNyyChw4oSPSQ9fk-52RH1G7YmcMe-okxxlaT1PqLQWwqhwTaf5e6Nw4KXmqRv4ZQK1G1jZgCoF1Kw7veCbJj_l9LSblkWImkwRqkkT7NHThkjr-0Y_OHrf2PdlPCeGzIghBF5F6QXvjqlrcVS0qlvXcb08aSMO2G4bLB0AmVk9F8bxAAoA7_oAUuFmoC1jYGKEUyEzQSahx8A_Swa-LOs_vBsgGQNtruG4B1or7OBIxxsdmp88nqWzbuzOCQ3O7p9fbMwvmoJNqes4drJ7j3E99CSKcxRjnnVtlo4EcLAa-BkggEF8OVBgEpHUuPGtzTfWvLi6BUvsaFrYcBusKTQ0hYae_ziXcjRwp2jjLXmoWdzF9LXb4YPNqLeKxA6es1vsZ0BPwaqhrrNN5vU8hEt4OmnQbdrVh13svpBG-BVtiUvctxslieok3FNBjxUUfavwJqWkxFqgDIX49R2nhTaKV92d9SlxRX_-b7BqJCr7OxHYqUNHuGCcSHg3nlM6p3Io6aZ9oSGmw3ptBFSvZdwa-fX_eMQ-4MjHRsmjuciNut88O1f7pt-5_zJHyGK9l0rWqV3CnRgXEh1RRHVa9M8BOVlPhDuF7I8CGrq2cW5mzYUu4io4j2vDfo0Jh1yGlESIx09SDNmphy2t0qaDmbi80ugWGN4YQtDmFNw3iYhO8o4OVc6A5UUFP8BjyOzundNFwDLxk1Uocpf0xD96ZMXINmY7K1j0Pf4cTwkLwUogBoPQfRH9Ym-nbEI4kRmdGEbWExyhkR5gcq2-G6yAcJTgpc6HrlsKMi4QBOIS7scdTE_inR6doA4yGsxTTi6MKxVJ_6SENvyjHa7vFUjJgadnaIaLYOIw0-g_gGClVlLM15qiC9FQJd-0abpb-p-QpmZYOOLelsVdc0xiTyX--ebtg8UR-7par1ecoWkQtUqGb54uPUTQVOQTvWVpEbYHy0UfHJbdt7ITjdGpr1o86FWkCrkjQuxVdmQ7ndV_mkC0HvmyFsnh8S9cCfnYCNDy4azUIZYxs5JjuddFQ2C2HymAv",
+      "summary": []
+    },
+    {
+      "id": "msg_0633f900a739d3c5006ae7ffe0fe0087d1ac199b11bfd8bd12",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The earliest production sheet requested 12 copies, so the answer incorrectly says the amount cannot be determined.\",\"evidence_memory_ids\":[\"AC3R2-H07-F2\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"The question asks for an ordinary historical fact, and the memory directly states that the earliest production sheet requested 12 copies. The later revision does not change what the first sheet requested.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The earliest production sheet requested 12 copies, so the answer incorrectly says the amount cannot be determined.",
+    "evidence_memory_ids": [
+      "AC3R2-H07-F2"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The question asks for an ordinary historical fact, and the memory directly states that the earliest production sheet requested 12 copies. The later revision does not change what the first sheet requested."
+  },
+  "finished": "2026-11-02T03:13:38.431272+00:00"
+}

@@ -1,0 +1,28 @@
+{
+  "test_id": "TCB1D636E6B7048E8A3DF22C494480F61",
+  "model": "qwen",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:25.835341+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 823,
+    "eval_count": 133,
+    "total_duration": 13380005209
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is supported by memory ID AC3R2-H23-F7, which explicitly states that for the remote-access fitting, notes must be sent as an accessible digital document. This directly addresses the question about the required format for notes at the remote-access fitting. The answer is accurate and aligns with the confirmed memory record.\",\n  \"evidence_memory_ids\": [\"AC3R2-H23-F7\"],\n  \"failure_type\": null,\n  \"classification_reason\": \"The answer is supported by the confirmed memory record, and the answer is accurate and directly addresses the question.\"\n}"
+  },
+  "judgment": {
+    "passed": null,
+    "reason": "The answer is supported by memory ID AC3R2-H23-F7, which explicitly states that for the remote-access fitting, notes must be sent as an accessible digital document. This directly addresses the question about the required format for notes at the remote-access fitting. The answer is accurate and aligns with the confirmed memory record.",
+    "evidence_memory_ids": [
+      "AC3R2-H23-F7"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer is supported by the confirmed memory record, and the answer is accurate and directly addresses the question."
+  },
+  "finished": "2026-11-02T03:13:39.301124+00:00"
+}

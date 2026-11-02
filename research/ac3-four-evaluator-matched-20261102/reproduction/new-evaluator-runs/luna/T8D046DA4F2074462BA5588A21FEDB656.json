@@ -1,0 +1,58 @@
+{
+  "test_id": "T8D046DA4F2074462BA5588A21FEDB656",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:43.349292+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_01d368c2696a31c3006ae7ffe793a087d1aef4de04afcd866b",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 985,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 275,
+    "output_tokens_details": {
+      "reasoning_tokens": 156
+    },
+    "total_tokens": 1260
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_01d368c2696a31c3006ae7ffe9143887d18e3433a240dc0c20",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__snD2o1gqVdMTCfOtVneSCNXHlhbRiKIGg93GPyk0U9btD95530p9YDKc4VpjeDOMVLD0bxwtzaN2m6u8xxqnqlDHcKQ9X3XGmodIxwbW1JDUwnM_Pp1zxrsENOVOGKsf7sK6qE0WfGV8AyejIDNhQisQkPsTT7kenCW-eRQLqtDf6ZPiJ6R_vKUYxiukZ-gQnogK22zDnWv2A2aL_XMF0lBoJYrqgYUvIGmr6R17ecAwB68c6RlevH1FaRv8gWVMeKj-utRZxrD632VlU64-lAmyHmYmemSLgKDeTTUBWhyMZBmHI3e-A8KjJ7lBxgMyd8UU6hfLHK5pTDEFlG2Q8Y7-0jDs83a9AcfSKlubQspGOq60qzkODcGRjd5Asx-PrriNXhfrHZR-_3Z4SQOWt1-fRA97uxtej9j3m3eDi2cVBMu5lY1Nz4f1Ir_rVp_3jAW_J7cG2ougwPrjJ1p_qqdw9Ig1PmgFBdpcgde4SvZyn-2M0f6fsxhaZOirL-kh-RBssRsThoFfvQFWCd424h1wxJxYoVdND4dk_aHgU02i_QDNmt_JyndVokig_HgYZYmREry0BbYZCQSfb8ZdFqHja3cog9HzyidIYbe75QaBLFQV4qxf2DkcP1gaChfUeyLlj5Ax0ommWX-kuV4HyuYGxXLe8Db4A7RKR_vQcMLR0dLeMIc3JML9Rg-yR7uoaKf-X8haRFZ4JHB-lX4a9kA3XkhJcx1yPPDzYzg8qELL4RmSGkbMQy48ikSX7z5Pe6VUb0xHumAiAOD9sEQgMRzOby7JoXgwbY6eD0GMFuXVp9GoISkWrfsDEWjwR41FWTcxH_5iQ0K6_da4ZUmDV52mpGapm2rCatiu89DZn2RaA3BSemIMqp_9cb2NTvZF3sB4pCb1ffuAgUJAtX67ra7h0tGKfjvx_Z_mUHqhAit6qIGxnPa0_Znq0nUdM89iBHBgyAWxoyvbIl4vgLhTNcLq_gFpUOzaZ6MewnP409ZurslIfYboJ5wTsLuDZGhmx2u9u8GgNIcls7PTCFYm0L-1cQUGDdlr7sRYcv2WSTMAMl9UFMU6cfYBVhJMAEZgbZyB1vfzd0QVtyF3XkVaasUAwyx4SaFYVrF_6d9mMmZeiEOEzbDOLXCIFqm2hGB0zJ43U5-hv1r22aDbS_zea_RsUW56CdUTmijkeDTJhgaJpOh9pNc_34SOe1SDtZRqDlUlbpNZrY_Xnyhl8zM0vUvM3yx66xpvM850lIGX-M5ZpI258Vzuok98cx65SAW0t5BgAHuvkyEgKiQNEl9VlhDHgM9rrr8QyqBzvfkDXkFUykZVpiK6xgf5ilEP7QbFXKqqXI7zUgV3WDL5Y7llrmdRtkrLI-hiOoaQxxqNNYT5ufRpX2MvgjoAGHTJhBTEx_Lx6GeyckjvhmeP1amSOJt48KgatXG-BRiU2_8Uf-YJYVN39sBlakrSSi-Go4rUUFK6Xt-WNxySCFv3pw9DIp1EPXDE4Ek-8lmJaC-PLGYqECg0yPAao87d9dJjjjYDJsd41ksKeqHBjw7atH2EFiKLQOD39WYCZJ_57MxJHjyTt1SZDc6ulmgtY8TR8hAyUM3XP-R1mFnbBdAve8SKDknYFGfR91_xYxRNKWTIrqoMSYJcQfDikdALfDZVNKK8o7g77c2uBmrHhgHc7BaLXbcr_a-PHYUabXxdAjFjB1IM8EH4gsrrU4y2jweJDqB7lijOizuFhLzymAP25e8zF9mODRoSf2sDIRA129Utww5t7BP3Rp8qKnMPUbRrTrWUafgts5ODrVM-wKgEvD6XOBqKZv8lqgTlk7vfW8Rq00YmCCTOS3kSM44OkOOod4jqsSmvpV2pIidE4mh-Oz0KfWxWrAlSPwz4ILKlYIroLV_LgFi-sWy6z1v0GGCqyh86GS0wo8kfZbpgAXSehtxv5XGCLuRHl2d3EyPrDY3q7a7coy_Om-a0jb3NrlXYX0_a-dPJjBI9r-ApAdPxDSXFtCYp-B0D4Y1DyYvSGL_xw-V_y0HbVUkQA6_zNZmCC5gB5dUgoa4CMLtGL2Dt8LU_3z_UveWTBEkAl6TsTulHNJ65FvIoZPpDSZGaXb5Jg3qYDRxusJc_CKblSRSwNWdAsAA5Zt6Hn3bwhm31v43QEGXUjuSVeXQU058mWOXg8F9t3m9wnI3goW9C-dsa3Ah-MoSPUcy08YD3G4GDHpNgjj4E8fGlZoq3jaDzfFSRU8PsTDnM_n3EyH4cr8670QWya21MhyVnS_z9kJqaBmOyQGGJIwyHi9Lfc_C51tO3n4ptks5BEygAjBjHy4YG5VbyOI4FNyviVgIDyq_sun0hNQL6i_tnS4cyXvTBNMieCQT3cjLRt3ETBRnq0SIMUHPpUyUW3ytZnceawRawQtIHtuo7_zeFlSN-HDsNyP7ba4j1CEkFxSAiwKihh3PFPomUSSF9-988Lmy9wa2PnvzfGe5gjrU8J1AYhPCw367wcA_cFdqczWzLq209vKomUxyBaZJJ2EZCtQSsfWJjB0EYYbse1RyhYeebIioCJAZhHWA8Rutg88yvc-ECgxZaS1hOCxo6bGraB9OLdA8Jgn-Rm4KyG6-iQ62AKGO2k6ulZdGZuZ0ZDXj_gklSB6lPru7QayUrsrAN-g-Nt_3WIlFAm4iMpVYeRgZ9K2RvO8jLRJnp2hsatCjhUCnYbXZ5iC74LCQhjVBPh5b_m4PjmIy2MasJpdUXROS2GHAURevWSmF6vEiizDuK7mG706d6_ridTSPVFzvUil3xnu5zXjaFrg_IiMiJt-dFM5cFu8aOnx2qBrzL4SuWwHTlDcNw0C6Ty5gFjv2ousPqYCBwe4QbC67-3Z82X5rphlKJa7wDSUY8MOeZKAzBqArmGgfaALc8iSvhoFxlDA3ajdOnOHRmrk0TAiSRFa1QlnXabK3oDAwwmthEoRs08mv6oOSTSqn62-k5XmpxXSJJy-9a9Htk9vYB-vF_o06SUplDbG_VlkEh3SDibO2L38oWydjE6UshuaDASM1BABs-p4lJpmQY50Auby-oRyu49ybInPHLH_jlcu1XnCcjr7NPxBnxwZqCwqU8RJe3YxpXDbl13UE6zblNJu9oIdbfdq0BJpyYLitUeZkuIOGuB17rZK7d6LygRTreZmxUVdEwFV4xLLHE0HSLx09_zHCXvGWWHtsu_03ueEPfJbv6yeNo_Bsap7hVVo2BrY51udOwDZXdzwTH1xD40bGPgQwRbVNACiz8cy-DiF5Nl743q9n1GxUwiFKsSyDaxR90j92ePc5p3vFaIXiZcU9Z1mPOgschAO-SUqyxc-SfR5ioTeTVrqRh0rBmjOppb1_O76Lzv7FP6-8inn4dI_vDFL2Ntg3NGKk7iTG6tTNvQ2LiHNQbb61Gogd-A9KxdDd-JYaJyKCV-PX2lfu34AVsVl-eVlfbhs9MpGAfrC5iBadTT3WCw6Afk-XKEFULgnm6yotuX0hIC7GeRbu_UD218gaLjvL4CGZReHl7cs8IF2yLJH6t5gA3FDwpetXSBjbaTJWVFUk2tCrDav9-1Mh7pGmRFAUskdTOeq3zSX346PHPwLnY3qxfeiKkSfU74K5D2_OppnVdWPIUS1CA=",
+      "summary": []
+    },
+    {
+      "id": "msg_01d368c2696a31c3006ae7ffeb3a0087d1a3ed10b199bf3d2e",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The records specify telephone notification for the urgent ventilation shutdown, while the shared board is for routine notices. The answer incorrectly says the required method is not established.\",\"evidence_memory_ids\":[\"AC3R2-H13-F7\",\"AC3R2-H13-F8\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary, source-supported fact about the required notification method. The answer reports it incorrectly; the evidence does not establish a superseding update or unresolved conflict.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The records specify telephone notification for the urgent ventilation shutdown, while the shared board is for routine notices. The answer incorrectly says the required method is not established.",
+    "evidence_memory_ids": [
+      "AC3R2-H13-F7",
+      "AC3R2-H13-F8"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary, source-supported fact about the required notification method. The answer reports it incorrectly; the evidence does not establish a superseding update or unresolved conflict."
+  },
+  "finished": "2026-11-02T03:13:48.728304+00:00"
+}

@@ -1,0 +1,20 @@
+{
+  "test_id": "T704A603A090148219B4F1735F791C0D1",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:30:54.003059+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 820,
+    "eval_count": 193,
+    "total_duration": 24565415833
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks which sole site is final for the observation, but the answer states that the user does not have enough remembered information to identify the final site. However, the confirmed memory records indicate that the canyon is explicitly stated as the only final observation site in the active field plan. The answer does not provide any information about the canyon being the final site, and it contradicts the confirmed memory records. Therefore, the answer is incorrect based on the provided sources.\",\n  \"evidence_memory_ids\": [\"AC3R2-H25-F4\", \"AC3R2-H25-F5\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer incorrectly states that the user does not have enough information, but the confirmed memory records explicitly state that the canyon is the only final observation site. The answer fails to provide the correct information based on the provided sources.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:31:18.959663+00:00"
+}

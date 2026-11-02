@@ -1,0 +1,57 @@
+{
+  "test_id": "T1928E79AF5AD46FCB022DD89C7AF46F6",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:33.450481+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0a436d07d2c7492f006ae7ffa1a99487d1835d286c94b3418d",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 754,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 147,
+    "output_tokens_details": {
+      "reasoning_tokens": 47
+    },
+    "total_tokens": 901
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0a436d07d2c7492f006ae7ffa215cc87d18f4018095b18ef14",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-jX5ynG-QOGeI4zVziaNddromYU0yjqj9q2t69QqJX7FnIUCL0EFmQdYcovOeX9Ko33tf1fMyBW69_tCEymSSLF9P2RBmsSlZba5NC-s_ziJY-IvlN0OTVVozTFeCEHYrpEovA8JICzJG80rLAbzFCbH1w8LkGoNeeqkoTPR8cum5aBGBlca_UcDW-HTSTzNq_D_wuKJdrTO9EizWt5UsprbsNj5KTVm1HUc-8HyvyI6GhU-XHQLIOrrx7avbRMINVYB1O_n5Th_Ak63t66deTIAi7A4AQN06o6oh-sRPoh5vxvR_aR2pI2e4l2bOpBAtQrtlgk0KTiC9zd9HDe6JeKmki7PII6CcrgkX8QCufaiAvJYZtiI_uv55czbgcBVmzjTbqNKT_HhN9vtI2tkp93_gq1ZLe8LQgKqg3epx0qfotG7YD9nRwBDfOvdJV2ZFiDcigrDsUoWtxn2O960RO5Mx_1ujQZccZC-MKi6B9Ma0dJASSNp7L-6PGz9kgiSPu7tjpYj0kB5BSm_o4Vr6s-xf7HaHxXvdz3e364DYOJGALUOY4O6sytjyj8mKoGx_wyHQNfgieUGuv4kVzfKAfQf_H6Y3-two1aCb-pL5RhKD05VT3mrCLPsB0IbACy2xoIWevdZ5WnUsiJSULp2PDE53FnU6Efa0YYu1GehXP7hYeyUVfWTt0J-K_7I9GcAh5MVouYxLIVuDXcgd2HB5CKG0Y7r7t5EEoTsd6Ia62OWy5NN-05sdMsC2H9NTRiSbL98QI-yCbgxUgfogbWqx7G8trXz4M-m6ERyNyo_0yOyGAz2mUO_uvJsE79aRbFx2Dxp9eCud-mUBMkt1LdtUNqyXGcPPjm3JcQV5-l0e_F8H08ubmWRpDxSocoUf9-0_3bGDhr9iQh55cnBJwKsLRidbVnYoAgsJ7bp3wvF2Y0gIrnntx0beXCPmT7AQs6iwYeuqRAhgB1JR8qHbyZOa--NzfjDkhQdpI6wcecRU-mZvRX1JVjclJhE7iRSIFh-cf6OwNu_hNB0wxAzexQf7VaOWyKR_J7TRVJAjEhsksA1CJXnRcxsSh1SGKDFnFAcPXrIgRJ6MSx4n2rg6BYXoSKsekXM8Tf39axcATqbcweJ-EBeyea2cXQRF1SPiK3dM6ZliqrJOVd5UIDO3ivwQg1wUhb1HV7RRN4b36kQUL_NvyetRabP5z4JnyJw-e7sco7HGWxM3b1WBkUv1oLMiz6ePPfqtVkWu-Qq2HIUYi0A5znp4H1N-QgmVSpVkGjke3ps4lZUrg_AkN7WuIV05qr2vWjsV_ZWFfQnoWnZTziffPXfSMbwtQqyjyj_T23nTREiEpMgYE5ENKaL_D5aUcYO9TWPoz-Dx_OBzBefRyXVtcdldtHNrRZx01Sm67H9gQFaHY8WNu-8dM47Keow8eCsVPJfO_VsdDS7cmPrVvrl1QYYDHMssAsXBLTE254ljsJH9lqDXcDXVQEhxAjJDgvaSpxkuFIgfsK5Xe7SMNpPCZelOaipBwFSB4GhPs9IIzM9TULV9zRSgEJLhR-E0ST0VpqpummWLShnSoptgpATznEGnUDhT-8bbYjSRz-CEK2raMEJC4S-1o9H4wF3a80wkwkIRzD9OJwUCRqQKM0ymxy3R5RgmJhXV5jXlq6EtW20GsvV6S-Di-JjDhoeCuUuBLz37pWW5b3pECDXmwBJ4_vJdRROJHCg_qsMUZXXznka4OF3ipdZGZ5qsD5SEABrG1RlcCaGPIRXQA3bsrgm_Pd93ewHkAwD5qIBDp0bhvhNTfmmymQCHsislbpd6r3bu7aB447vrt015-ligmFm5jcgnBlrNnnsg7iMe3rRdeQjch9zIpShgux348kDWHwFNwpGnM5FlDy6cYqBKA5zwr9QqXg1muVC3PFj_y5xRjENlZyRZ9-R8_15YUIe0uAaSEw7GKhhjVmpB0EDk-lRvYpbMLCo229QVguwNHCHIFtqZdGyHOjk_vr-lwpTqRJkkHi_l1p_B6_qSKdhRK6RY=",
+      "summary": []
+    },
+    {
+      "id": "msg_0a436d07d2c7492f006ae7ffa29bb087d1b2e77db0b5cad68e",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The records state that a later count replaces the earlier lentil-drawer figure with 18 packets, so the answer should have given 18.\",\"evidence_memory_ids\":[\"AC3R2-H02-F3\"],\"failure_type\":\"freshness\",\"classification_reason\":\"The source explicitly identifies the later count as replacing the earlier figure, and the answer fails to use that applicable later state.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The records state that a later count replaces the earlier lentil-drawer figure with 18 packets, so the answer should have given 18.",
+    "evidence_memory_ids": [
+      "AC3R2-H02-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The source explicitly identifies the later count as replacing the earlier figure, and the answer fails to use that applicable later state."
+  },
+  "finished": "2026-11-02T03:12:35.636626+00:00"
+}

@@ -1,0 +1,57 @@
+{
+  "test_id": "T56F245237A0E4051A4F5CBF0925C6424",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:05.736804+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0dcb52eaa2387b04006ae7ffc2015c87d1b546a019f3aeb28c",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 893,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 102,
+    "output_tokens_details": {
+      "reasoning_tokens": 26
+    },
+    "total_tokens": 995
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0dcb52eaa2387b04006ae7ffc27c0887d19ac7d06095128df0",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__D1ih8cLL6UTeonWf0njoZHb_tlx-ZemmrIyNBteIFvy_V_LZWyDAiI2bLwAZ5j794tYyCibLZJVRK0qIz45m0nqOyZJMQhl2q922WYkAIIluHhRd2PxdiPBuFSTNsM2Zvm1wmoJX1oFrqRJzoKGtZP_Dk2O3afJH0aG-9xXnTOlzz0pIZ4ktCr65C6ajA8BlM8JRqJD7ZTXYDJBoSY6GH5W57iFMfhEUf36Jqe1xsPagkt6dqp3zBZluQD1aWLCccfhxU_1OsAIPUbtbKNnD-6dy3AbdbdYbG7JIBAxV8tS17rUc-JqYWI-C6JtTo8KykaFpUgf_ItKkhCUEKoyBotUyjg3QorwQkzpRPW2f03IkRxUaLuzBrgF3wuuKgA97eeIcDLoUTZXpoWtE7HzstP19LxKPX1FLbj-XdslyejwPQiyD8cVnT8TBzZJqXyeKys3V8BtqpRt8DXDWqYt5keAmE7JmkGwgPZ87Pcp1LNJ__-tsTOvUu6XgYpHCL97Gmxs8GJL3siHsedC6AVRMdafwTGZr-G9wzobrcJ0SDE7xQw5IAowhLOE1vGuHX-o3WWm91cw6Y5DFC57YhuZYX3q-vWz7U0Y1wqCh4Azf1g2QIR-iUVAOIp7Ovpbv2zfzcKvwRXdjUbm4_H-OnMlYfK5rYikOiBZGVd4k8_Ommcfx09gFtj5kbi7OxrHA6alTB9uB3PJZ472fREY6L95y4LT-IL4NeOaZoLgVdPJwVlKpL9H4d0DoHYmcD_GhyUFzEPiJ_TNlHZipwaUztAUzBHRgt79JnM2y4QuNJkWQI_HciMGF5zZ_A6tKdR0GMCswGLYF0Ri8dVIx7uX4OXnfoFTljdLhMwLcOadaTQ1FuZIVma_JYF24vrLKXCNAR8WoHkdXrAgrUlpEysDFABhLtHG4skPIZxrl5d4pUL-2vKAsQokhRsNpRuNYvrlBhj6fzauoG3fPsmOJ6ZstTeYM_lN1tQ6sen4NBUOzvsG0aOFz2et55vkC6GlEU1H3g6HbO5F4QmoAeAC7sy_XvFGyQzZEpgvoV7Qqi6ZTuz6OAfDajGjFQHtspf_MNTrrbVYSg7bwXllNytDuq3SHbZGiq4SwrvBY8iGbwLMTTmIlJa2dIJzhTp1LslIWSAI483KEnLznitvTeAMAuB4CAnZnRpRzesY96Qk4f8imEffrRKNPMsbrsOIf8r3qa5sJIUJRcAQSKXgyaqnkNdQnHGneeZSt06h2ukl_pLTmas8_KFh1yijt0VfPCohFYK54Xid78URC2-1gj-ubRilp2wIb8HS7hOsVOXvQF86tbCnsPQ1H2ry8gHWQvjAk4Ml_UaVfTSapfUBQbnkv5KkzxRywU3VXnQZoJIitwdzP208awifxgFjLdyKcz9EpBGRWM_C9mzWnU0QX66ZZXfl6D0FGb3SlizkqAIbWTI3QsrxlaNw430_7F55PO-8ufLjMD4N-3ds54yVSMUFAaUyCTuBCKYeKgu_cH9hYbjRanBjtIZgMmnwmkNE92N4WvRsKNwe3D-oxAlhTbEJnCMOiD01PGbTOkK1fGRQr2gmt7riC-NkaTKsthJhNjbHN4WUv3xuOr3a_IqNErdshoK4yS_wvaSURJVNRElhaNpnxiqDkic3Zhl1IQQUtKuRMaY_ZgOHYaKcrJdAsnqiFC10L4vLthR8wQwKNBBdUjxcf8g4vNvupo7QwTNwZJDCCQc7N0friW",
+      "summary": []
+    },
+    {
+      "id": "msg_0dcb52eaa2387b04006ae7ffc2db7087d1a23136e1c8964d0e",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer correctly states that requests must be accepted by telephone during the phone-accessibility session, as specified in the confirmed memory.\",\"evidence_memory_ids\":[\"AC3R2-H24-F7\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly states that requests must be accepted by telephone during the phone-accessibility session, as specified in the confirmed memory.",
+    "evidence_memory_ids": [
+      "AC3R2-H24-F7"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported."
+  },
+  "finished": "2026-11-02T03:13:07.740136+00:00"
+}

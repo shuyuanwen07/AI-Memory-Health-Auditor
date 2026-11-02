@@ -1,0 +1,20 @@
+{
+  "test_id": "T14952339AA214DB8BA0DB803F82B76CC",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:21:35.714877+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 667,
+    "eval_count": 171,
+    "total_duration": 24318963333
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is based on a confirmed memory record, but the memory record does not provide information about where the spare pencils are stored. The memory record states that the orchestra stores spare pencils in a round tin, but this information is not explicitly stated in the answer. Therefore, the answer is not supported by the confirmed memory records and is therefore incorrect.\",\n  \"evidence_memory_ids\": [\"AC3R2-H10-F4\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer claims that the user does not have enough remembered information to know where the spare pencils are stored. However, the confirmed memory record explicitly states that the orchestra stores spare pencils in a round tin. Therefore, the answer is inaccurate and does not align with the confirmed memory records.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:22:00.960571+00:00"
+}

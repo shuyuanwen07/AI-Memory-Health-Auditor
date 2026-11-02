@@ -1,0 +1,20 @@
+{
+  "test_id": "TC3293ACBDE5949FA8B7167239DB6B5AF",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:14:16.852829+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 675,
+    "eval_count": 225,
+    "total_duration": 17352713875
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is incorrect. The confirmed memory records indicate that the original start time of the repair evening was 5 pm (memory_id: AC3R2-H01-F2), but the answer states it began at 5 pm, which is consistent with the memory. However, memory_id: AC3R2-H01-F3 states that the organizer moved the repair evening from 5 pm to 6 pm, and the earlier time is cancelled. This suggests that the original start time was 5 pm, but the answer does not address the change and instead asserts the original start time as 5 pm. The answer does not account for the move and is therefore incorrect.\",\n  \"evidence_memory_ids\": [\"AC3R2-H01-F2\", \"AC3R2-H01-F3\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer incorrectly asserts the original start time without addressing the change, which is supported by memory_id: AC3R2-H01-F3.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:14:34.347169+00:00"
+}

@@ -1,0 +1,20 @@
+{
+  "test_id": "T918C74A18D0941B7BFFDDECBA9117D5D",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:48.906585+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 819,
+    "eval_count": 252,
+    "total_duration": 15280469959
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks about the pattern on the receiver strap, but the confirmed memory records do not mention anything about the receiver strap or its pattern. The answer states that the user does not have enough information, which is consistent with the absence of relevant memory records. However, the answer does not provide any information that could be used to determine the pattern on the receiver strap, making it impossible to evaluate the answer against the provided memory records.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H25-F1\",\n    \"AC3R2-H25-F2\",\n    \"AC3R2-H25-F3\",\n    \"AC3R2-H25-F4\",\n    \"AC3R2-H25-F5\",\n    \"AC3R2-H25-F6\",\n    \"AC3R2-H25-F7\"\n  ],\n  \"failure_type\": \"appropriate_use\",\n  \"classification_reason\": \"The answer does not provide any information about the pattern on the receiver strap, and the confirmed memory records do not mention anything related to the receiver strap. The answer is therefore not appropriate use of the provided memory records.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:13:04.334475+00:00"
+}

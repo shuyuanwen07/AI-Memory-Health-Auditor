@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "TD5476FD2801047F4BF064C174562D3D1",
+  "started_utc": "2026-11-01T13:22:53.868350+00:00",
+  "request_payload_sha256": "71294263072bfd1d37109121326250d8326124ba2bd42d2c97c94915635b7f01",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory explicitly says the spare torch is stored in a red drawer, so the answer incorrectly claims there is insufficient remembered information.",
+    "evidence_memory_ids": [
+      "AC3R2-H28-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The answer omits a directly supported location fact. There is no relevant superseding update, unresolved conflict, or misuse of scoped memory."
+  },
+  "usage": {
+    "input_tokens": 880,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 491,
+    "output_tokens_details": {
+      "reasoning_tokens": 379
+    },
+    "total_tokens": 1371
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_03f6bb5f20230883006ae73d2e557887d0ad3598795f8f5cb7",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:23:04.365306+00:00",
+  "raw_sha256": "2838dcfff788a6e0728570466bf9b4e0dbc0711b894678767e3535a07d073230"
+}

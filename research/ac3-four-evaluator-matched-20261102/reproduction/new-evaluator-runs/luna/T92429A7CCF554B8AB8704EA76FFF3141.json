@@ -1,0 +1,58 @@
+{
+  "test_id": "T92429A7CCF554B8AB8704EA76FFF3141",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:26.720758+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0e5af2ea9a90497f006ae7ff9affbc87d1b5bef52345553338",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 925,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 212,
+    "output_tokens_details": {
+      "reasoning_tokens": 89
+    },
+    "total_tokens": 1137
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0e5af2ea9a90497f006ae7ff9be74887d19183fa8eae56dac3",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-dOfaO67Lb4T6DgzcoiHRk3Z6QR8iVlUnBfzjXT5EZFBSNEtLZuKckdJ-VGasfwXRavWW15JbRwgH4auioXTeQCvG9FCyU7E36Y9r_QoDumBCH1E1BuTKJHkQwX5hNRzeeL1hNMm3kj6EYW5tZlwagWaLLi8HJfr4Q3rcimG4jggp4zY7xDvNkax35hRPgg_S1T5OrrLij8uBRxshW_YcZj8Hk02wpwTQt8rKlmUj1rizHr7jLpOZZsP6jVjZoKygWvFUs39sHrkQa8TQBZ-KuKDSkY2LtiROSuwk7BcTlBJLm2MtTxi0qo8ZByDEgljJr6jCyF7ZE7wPL-3nAoSZ2a9_btjIx_nn51e0NPCxL9vjLTGZo9zuRG9Vz4pATehJn23_j5Jt9sRjNQ4khgn-CTtRI9SfuLSaWvyMytaWAdShlZAl3yNOZW-74yHtaOC_X4iJwxC-ykBJZK44ipQUETdNdpz8W8ZQ77aMB55NzDVWIdheFfy2-0N4zRQT8SC5ABZ8VW0mfIjkIiXu-5ygwyjbtZH-hqo9vaBajyZ5UOvnBIkPzS68XxmVTfkozyXKNsQqnReL-sTtvquwOyryEKirskI7Enl8wafgyqKFA9S2ZP25CB0giPlHAwh2-JH4BDEO3QXaeQFbM7Bt_NZaZVlwzpGGX2aH4UMyrmixPbJDTj-X5Dq7qP4_6r9AZTwbqOd2v1ieoCJlYOTuy-x59pWr26EjZUqdEjKp9bALHX6JKhj0n7U4rISI6NO59GMwjdsfJUjWaLywWlsjycXeCG_rJLEEfE0n7QsTnKU5QaKuTz6m-6V-bF59vOYOY5EgdGT0p2oyZ99bQ28lmwvcSIy8_azjtqp_d2MCYidMp7Cjtdl__W7zPDQ8nGavZFP_mIDlXHDfKdvY7BPBDzWI0BsSk_T9UnMXOTQlJDNAFJj6jOTlcIhFBTG9dQlqMJpMV8xC8q62MJYbCoA20s5teMwNVgZLX4DTzScaQL2dLvnlQ7Xwoo1s3nFjbJt-4y_vsCT8KwNJ7XsWDlY-jIm862CH8kibipCOZe-avoelucTzVOSkZoFK3wVbuoQSEoigzTh_EuJrx0vDiD8x88dFUoOoooRlwsgsLsqVpMnfvHRQtDZ3N_8zc54w1S7TFCT97n4yxSvZ_7caK1s6x0_2nP4HjLxrSfNnh0ArZb_GDSi1b2Lo3TDMeJlzoMfkZT0SEf6la-dZaOMFCcIGHSH946ivHw8xFWXTyl9FXzM1nzr3AY0M-HKXsutBU2yCs5qVoyw5v3aIau6Hq7gqajzWZGyTajRWnMCrrkzYddF5QkislH3KzZo6HWCt-0ixTWOB3sVWr5NUymhH2ptY7ni2lyoCntoqAiYHcxHxAcHpZlj6fpyBlHTzBO3wAT5Tsve6iXOWVyMvQ71rpKchvWZjxWT6ezn9x8eq4_RtKt-GEM8m08c6rUTfR8zbzjZQuJSM7rRTXqaT0tY4vyS9SmMeEwpHtaZIGnaiq2y0MMPHLDkzp5XqsQzOWRHmXk8nMwAPChIqRcPGdEDxQu_PCetSbuL6_ZDhkcZ1khxIad_74MUSBo45txqC0SML2JTu3L2zaRNqpbcUgSssqdxkU7CZiL8k3E6y7pkes-6vf-IZ6Lnqf740VEKTLwLpmF0rxh3tky1Ym7atkuoM8c28ndpS6ao6YRHJLoyB_9GxpD3yEbP1RSvHjICsVqpEOT9WcLhNsgqUm-n9ZcubzS-zZSXIZmCcUdgkNp67dEErHYhXa3PdVhYuO5rJmGfa9cvFEhere9e6viZfB1HppDr1RAJXPTJMPkAyzeEiAlcMeW-Wv_e5HLPpOnp2GIanoY7y-nKv02lG937jNLjJXQMuB7wH0A-aVhgGvD35--tYQ0QNtvUc76rPk2zhqMlF5gxdTP3zgNe7UzxT5HT_1FsRILt4EIlMFFsGYJLYTAeZVvPnQCoPe6AF4L7fByXaY0x5rGWCA1V6un7TBwQRY4tBMQRveGsBUN_cYN2QCeza3mCE5bA1xhJtZjleqjmzSGkKO4kPR6exys1NrV0bhyX69W9jjMLA2C6QOn28twKFIXwXlVaLcxZLudOJ_E6k8ez9PruVGRAF0LqLG8vvt9hcMLHDxdGku_RY7WOhvFTtC8kHSxsJyzkVy8x05ldjW_E58Qi1MMM3cIjcXb5F9EXzo2ANdqwITlLULgb3Dm5QEeAL26-yrM6qNxHW9SZgiYVq37B-dYrJ9LR-NmKepLDS21pKlheogpXxSrVvTLQCkfSu3IPJ5NTN4ljBV9tesG3v2P5gfJvcW48FqV_YQaHNS0t590Gg5KJjNPLHzAWbTJC6wCv-aGJZ_COAjc3uKkQ0-sVn0ioYA5DxZBnHDMH9HRzTKfcH6pXFBOiFcuJquMNIgZyWrfqliHLLG08Kq5X1yV_ulX9fDvr8GooZ27tQh_8KX7rVOETaZq6qXB9sN9WXM4AsNWtDWQWJylW_sPRwGAEpksctPSB4jflAdhqec7HOlLdEA0qUD0S0tyuEwZZkZm2MMftgeMykeFmD55g4wBN8hclNTTTM-ypCUazlT1w-UAGteOPl9fHt8aObKbmyyenXF4_XcvPmq1ph8JggiEEIL528ZnmjjaKxhxQxTmh64zg==",
+      "summary": []
+    },
+    {
+      "id": "msg_0e5af2ea9a90497f006ae7ff9cc72c87d1ba24dc16dfc7017d",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer accurately reports both active cards' incompatible approvals for the same north bed and notes that neither has priority, as the records specify. Asking which card to follow is appropriate because the records do not resolve the conflict.\",\"evidence_memory_ids\":[\"AC3R2-H22-F4\",\"AC3R2-H22-F5\"],\"failure_type\":null,\"classification_reason\":\"No failure: the answer correctly identifies an unresolved conflict and does not invent a single approved valve or a priority between the cards.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer accurately reports both active cards' incompatible approvals for the same north bed and notes that neither has priority, as the records specify. Asking which card to follow is appropriate because the records do not resolve the conflict.",
+    "evidence_memory_ids": [
+      "AC3R2-H22-F4",
+      "AC3R2-H22-F5"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the answer correctly identifies an unresolved conflict and does not invent a single approved valve or a priority between the cards."
+  },
+  "finished": "2026-11-02T03:12:30.004215+00:00"
+}

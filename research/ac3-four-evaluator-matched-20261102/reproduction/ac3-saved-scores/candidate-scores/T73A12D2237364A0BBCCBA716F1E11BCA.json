@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T73A12D2237364A0BBCCBA716F1E11BCA",
+  "started_utc": "2026-11-01T13:20:50.560023+00:00",
+  "request_payload_sha256": "3f8b665acdaa5b877956fb4af7c0991b44d34e67e282a323d1c533a02b8f0935",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The audited count records five spare rakes. The answer incorrectly claims that no count was supplied and the total cannot be determined.",
+    "evidence_memory_ids": [
+      "AC3R2-H04-F2",
+      "AC3R2-H04-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The source explicitly states that the audited count replaces the original eight with five. The answer fails to use this applicable updated count; the records establish supersession, not an unresolved conflict."
+  },
+  "usage": {
+    "input_tokens": 753,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 771,
+    "output_tokens_details": {
+      "reasoning_tokens": 640
+    },
+    "total_tokens": 1524
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0021b46d08d28af7006ae73cb2fe8487d0be98d1650852b1aa",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:21:05.928237+00:00",
+  "raw_sha256": "ac80ad9cd34e0142789438291259af86f699eef028ae94552f2fff62766d6a97"
+}

@@ -1,0 +1,58 @@
+{
+  "test_id": "TFD751C73361F49DFB0E3511E01785849",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:46.698867+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0d50716ff94c1206006ae7ffaeea0487d1a921fa7c4e438f6f",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 737,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 199,
+    "output_tokens_details": {
+      "reasoning_tokens": 76
+    },
+    "total_tokens": 936
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0d50716ff94c1206006ae7ffaf82f887d18dbcdc148973fff0",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-xtbkSXmYTsjeNKGGQcyg6WpWP1No2depYGi2LUYk_KnbwuJYC5ryK45lNt5t2Rz7BklLUS9tBN9uoHHI1VZ929dNhfPuIeh8ys5NXVEl3lCD6HINCq89q6N2L0K7rwA6wBuyXhjp149dxYKE7Eb1rhDG5QAacaT-anoAXHFpHP5JvfZmGmiXxmCfOiI30u8eTb_Sr4lPLaZRT0SlSHF1wHaMtdsBDo9SDV-fSB5Dgd_dk3JUnPQhtuMuW6UkrJM3Vc-tg1CbupMvvQt9f01CEh5HkKvBFWkAmO8Ahqszg6Z8iS6-bnkXJWBmOG_RfW9N1QSqouubIMYN3onzRErvia-angRLjhhJYjdmyMV90XS7TbfzW6HyXNIXNwMhyMZZWnRgiA0tw0dY6NxHFeF_4GAq7vX2etCSwToITSwfxDj93GD_Jdglqr2zGv1OmCwAtpVvjeomO4bG12-Un1MBHIjrsZHLtrM-NS3NKHAuHUQp9IjvJuykfyk22NWwEkx8mqQVVWJPfisVhqwaxZrPNiDQDWrovdtQnfIVfbbnoEPwZEKza-4SE6XKbPz9-NhhtrSoAYVLslWmz3x5IDqi-abDvjdspr2xf2Qt2croU-Onq9QRiFeHGywNZ5uLWoYmovDcvm6408kCHJCqV0I2zKADFGkpnPsPjsTTl7HGRHklTSHGqJ1yJxHjQFvQm-r26W6v2iRpTT1NQ94MxrHXmI7bgfcXoli9D7Ionl9lPRyGPYj7v_HevDUT8zxa9DLqxL4qzx9Bbl_vOMAXtGCJ6_5ti6WcawlsBE6HGtUCJ4cXCZ_waMKp169nihkJ2_eKl93OXqoOqIB3MRjCPzlRiwpXIKlJ60uIao0D7QLlVCvNmmfKHVuv_dV7FvIWTuXxaGn5GAx8eMyWPxw7wCNzwQQmA76BEqBJIFy2g9fO0lgM0upC6lK5k9L3XfA_57oZdcOs2hpZ3GYQ7ULAjfOMUA61ZRPMnhDO_KEulh5o5piZjTr-mp6eMtOKrq6a5aztzMPIs7lwqPjE0eMeYzX9V32hzIb6LvgLXX85ne7GdUYNglvpAgR4aeavLXwD8s2i9VdEwDzSWvt7A9kbw2OX9z0MIL31Q-rwHr2KasDr1Mx-HIReL6B9HNnYDVGMob20_hUt8K-nNdkWb1wrn2hGMmJf6oaec1sEZe4mrJ2f-0hjMxjiCL0Ob2f2BlzMow5tJBIj1E0dCKnd0Kg9fD7LyGSUCoii8aDarawjBlPIRd-SgVupPUs0g8mI3sOLFdXTshtgKX4GsBg0rq262miOcEaNDRl7l8-TJceumbVnrSt4EiJegOHOdiT0adLV5gn1z6ZZ-cu3uXCGtslioqmGN7JIMWlU5WNVjDFuq4VRZjTo5Nb6KytowBv90uf6mWuPSdfrbCeYwuh6l85-gytFaO0bRNqMqPJofaEu1L9Qdmi0l7Qlucs48j_UAs7NPHnibirS0ql_JEmFzH0fnCwMJS1KFBdSB7BXB_88nDO7vUS6aoDxcdyd1P9wb83-7nX7QwJSwZrqkUj6S-eDKoWBgCJj6b4K4oLZtgJOJ-DLxj2ToSG45aszM3uyqGedvpkMXbcXOKeapyLsWD5SZnxi_TKYhOOllT4oXpZ3yOiYauetzNnvKqYzqG3m0AmL_TqfCn3Gxd_hIk9DO741psMy0TPg3TbACHotv-xso6iikuMj9YoMahZp_Qi3IzkXbvclEIYiTb-yp4C2qrziGTexY0Poy31DnlbaTEmF37VtOGxkJ4P7vcKz1y76fsVKCMGrCKScB35yrLIermh_255liefVRmYujfttEuspZYft-XGKsi8upgPgDPnYJverBvE0gDRircYtcMLRoXa20oFRQK1_nqAM68XlIx-He66kilGrfdJntV6OPNKDuSr42M_9EVlkFxMSnQz4Y0xMoreidrdTQdtdwUOsxmZRARzb77qKGZSsvLFNZcnwMFCDIHe_4sJ3UWqmndo4udRxl7sSbnDrHy4Ydbre6_hfilo_AUyrnJT0cyRb19Gl1WPQ04_vwdYANzOYR1M0BhvnabWEjeF2O6Niezx4z-RyPu4tnqzl9dqJZo1JmJEWEck5Y8Ayhs9mbmJumZobQMm_GdF1fOt6q6C5eP0vXkKyM2sI8QmlenOsEVfAZBzDLFsRoykrQws0epzw4aqb4JZ6wopSVytblml8oQAsB4nPfjA7PsLA39UaB7Ms8wxqiy8BGA-ri5jQ_SDtWkEoM7I_duyhd668yTLsG4ibzOtGxOzaVVejClsU2VOAbESxuk1a7TH_n1q1AMQt4d3mOcw8CiUghx7A036CXY6dNHFnMhiNp2OjnemmmAjyM_inJ3mchwnVMs38-ZBuBoWN-88c9xdy8scChM1T0pzchvgqtTj8JDA7vAmsJW7nDIiWQZgO-_h5K",
+      "summary": []
+    },
+    {
+      "id": "msg_0d50716ff94c1206006ae7ffb0680087d18bbf25566b670367",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The production lead revised the order from 12 copies to 16, replacing the earlier order. The answer should therefore state that 16 copies are ordered, rather than saying the number cannot be determined.\",\"evidence_memory_ids\":[\"AC3R2-H07-F2\",\"AC3R2-H07-F3\"],\"failure_type\":\"freshness\",\"classification_reason\":\"The memory explicitly establishes a superseding revision from 12 to 16 copies, and the answer fails to use the applicable revised order.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The production lead revised the order from 12 copies to 16, replacing the earlier order. The answer should therefore state that 16 copies are ordered, rather than saying the number cannot be determined.",
+    "evidence_memory_ids": [
+      "AC3R2-H07-F2",
+      "AC3R2-H07-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The memory explicitly establishes a superseding revision from 12 to 16 copies, and the answer fails to use the applicable revised order."
+  },
+  "finished": "2026-11-02T03:12:49.836575+00:00"
+}

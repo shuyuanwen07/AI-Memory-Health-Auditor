@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "TD6FF55437BD5491AA56F6E777E4F6879",
+  "started_utc": "2026-11-01T13:22:10.853106+00:00",
+  "request_payload_sha256": "8f55092191c13ff22a55671d72ea80b7a125e26f29d09ab709279c8d90d9a852",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory states that the clay reclaim barrel has a wooden lid, so the answer incorrectly claims there is insufficient information.",
+    "evidence_memory_ids": [
+      "AC3R2-H03-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The response omits a directly supported factual attribute. No relevant superseding update, unresolved conflict, or memory-scope issue is established."
+  },
+  "usage": {
+    "input_tokens": 736,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 435,
+    "output_tokens_details": {
+      "reasoning_tokens": 325
+    },
+    "total_tokens": 1171
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0883a16921e6f708006ae73d03358487d0b28b723cf23131a5",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:22:20.429762+00:00",
+  "raw_sha256": "f2d36a9a7eb607c1d739111de7b78b8db7393b1472c41b981eab782741b524f6"
+}

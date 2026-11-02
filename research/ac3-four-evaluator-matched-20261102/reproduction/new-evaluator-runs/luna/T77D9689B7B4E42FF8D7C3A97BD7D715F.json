@@ -1,0 +1,58 @@
+{
+  "test_id": "T77D9689B7B4E42FF8D7C3A97BD7D715F",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:45.421486+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0a29b0b9345b466f006ae7ffe9ab6887d184f50aee3662b8f8",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 992,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 228,
+    "output_tokens_details": {
+      "reasoning_tokens": 94
+    },
+    "total_tokens": 1220
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0a29b0b9345b466f006ae7ffea909c87d1ac052dbe5d47a2fc",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__tDnJQwwwsWmApSqfNkRfro0k1NpK42NCN0IXcZs6qL2_0Tyy5KfA_EE-IiA2stiHYXzy76epYbN_jGHADisfCBqE2HYpT7hhaGnISI1IObdhGPPldLIhx58Tw88UVeUNb9Dydrz28M81emyJE4rqvPFcl72-1357_GtBNzkOLnAizQTUftrKJgnmrt3cTJRLasixgWnyea-0MG9Kg9_zARiXjgI0kJtTc-yS_2-AS-KJMXONXyWyE9JyRvxLpfClKwEAYZgU4G65ZP6R087hucUS_agxftteYMAG9wdgC2dWeoY8HvngUR7CB_qTg9sWT2ot4vEuAuy-sG1wx8uVErhu5iiGyYbvF4mj8MLGKrH9zsBXybMpKqO9CbhpeudbQ9HpnqhCAXMuL6-27b0Hv0bDU2kuxoSbjtdCEFGqL19uXEy2ezeDvDRMypv2TYzqtU_PqCf-U-2Tg6xHIKCoIY2t9E5jUgQslP8frddE_--yCEHIinWFt87pnBCUIfzPFfUNYwJzAcTh2Dd93AkXWH1XaerStTvvOnmqLZBSO08n3U3o8eLtGQMj_xnIocY2eoJiHtqFM3j05xqZu6jC3x4TBKgvFa9tXG7n4tYgVDETHdbavzRliMY7gJ6KjU-2619dGoKwhtQAnwin0FXCdcXmprWx9BhnBE2UWBWbGKDVKjrZRxgHmwiGGJNW93W7oHgvY3z0PTMiL0HaOM5j9YVEyev_cQzecjZLfTU5G3nGcwRE9_wFbKD8PKR4qf7c-t9GnmycPnTjq9nqOgTMrA5h6HkD4jK6lbWDOoC2rF9TI9m_yeuXHLd6pU6w6FG9pX7gfcqUgKGotL_tA9oFQwH2KbeoQIysHBJ7TgC0ltjs5fywiSDgUs8s6jCSMDrBlVXDLSAlgFvuTwq4wjsgWEqK_a83ALV0_0NGxnN9hRuyKNEJtzTgbSk-s-h6Qg7NiaYc-bfnoK0Rkru2Y6YQiinNouyEGWNXAwuwW3Q-9xEBSgSVyQPaF2WNeTww4sbZeRY3FgczafyZI5KQ_aXN2BlVh-7hBVVEB2gUw1cINtc7mkUF_J1bLgM3qjiIvrZaL-klbbKKI72dXjHa5XnN8wd8I9G_uojB8gtqPn8xkRFgWKbBgxsS-KD6ESq8Vc1fGDF068I_r_EMraxE3exGDxBlX_KQInIEUi9RIUajqgssobEgzAMt4oc7J1K_I3MJKKCOP3uguW6nT_qne7AkRK1JtqpomkcQmSscxt9PmEmhUqpYR0heJupsc4atxnaMavohpb031XNKHloEb_ZxnBPDKnrcJzHPsG5PdbVpczcSlBbh_jnaeYcLOM2Gs2qYOwC9lhTrVstsrPqohnuSeVTFuCQRFjMrNRF9JZ4E43-AixgUSMYd2iwj092A6SZIiyrKBQE1lz5AOp6bt4WAMz5KP-Qro-A1QypZZoGcbkJpzqNDbhhDvruaw--PHiCKxBHQED-Db-XSQ9NHw36W593bm0g1yg8-_cWFW9pfWjqj1CjWR5A8TnW6-IAaUieoy2l4tYVF3-8cEoxGmrbhnrLy5s4QmPTyEs8iSJvXkuWYHek_3lHhcAxISjUZ37t3lH8UzSurKPhZ4_iurtpzuU6wzNlr5UjhyqGD25nOGgWsIVmJcewAoABGuEzjGAGlGF0HMlFgvw__FfCp3NrOQtpHstKQUIR0WH7Y2Ym5YvR1WJh17XPIDwu72sobZRNcd1xBN6AWpzdHu9wEnr6LSDXulZOOfV0GdoD_Lrz42vuvIh7EzxHAKDMRxOs73qtps7eaxlvFq86ICq3-4QWH2lXg8wXcV-HeIKc0TKEES4sbmX3Gm30uRuW-1yHFXOml0k-dtvSXEwg1-M3mdMfLWX11IhZWbgkSJrZT2UigBGNgVQ8Yg-MRsmmXyoEchqOEYUwkSuctl129LVQQ07sn2yxucaX6-9CYYp5yNCS8gdRdjO74BjUIF9YJEJzaE6CDEqbEkXHaQtDlI-ac8mwGQYSe_kZ89Yh4YWwKQTPy001qUr4gR0zmWeNyvo3jU18ui7wM2yW2jNQ0k6OcNa0L3Tvs0W95bEWzuNW7NlJhd2nGBTL-oLxM8zx9nyIQKzgN5dhL_KdagJ-v6sXnHuCF5aPBOvNw-rnxBBvo6QwnDhjBuLMOiMgy-EhgXe8K2g5ZNd2AY91YpPNX63chdcyIJXzy9n37aj29FyW4z-5gTKR9qbWbYjbzdpKfWL6yrPCM-GvS6DORCMKyismh-QPVHk6pILb48KELjEXb9hbVqT0SYBIwm16nPFZHPRRGst4-QrrataCGQW1WcqmB7RvZ1aBeKrv9yNibKs06l-lZ0r9vRaOtNSjVJM4j3pPOY-eCzabNvjB8L7GghPkKhw6cE7IvvYEiTaHS26tTvaz0AZx_cRP5O7wKa6mr5H0LpJWAfxlAi1n2qW4vFzDdFJG7sRqfhbZHsrLr7xbu6WUnCpBk79dx0lWjzBbR52nhfJ7uG-7tKIM7A7YtdeAeXYXWXrPfbkw7OfwQ0bfHD_rw2EI5dH7SIVsC6JkEBjRS1aD_5i9uGsv3HsOZV7wsNjrpcJ4X9PXxhzXIDR-44GZHNKMWv1DLGWZMIoK5MjmZypUsuYR3qz-HOLTGoQDGk4BrgEF-B8AvFEAfIrNHoY2cBx6snF-KQoB7uPEJHkWGpAH9NB_eEkhj-jb9DmqyauwACvg==",
+      "summary": []
+    },
+    {
+      "id": "msg_0a29b0b9345b466f006ae7ffebe3cc87d1a20adb5afa792863",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The records give two incompatible final test altitudes for the same Kite 3 mission: 1,000 metres and 1,500 metres. Both plans are active, and neither has priority, so the answer cannot identify 1,500 metres as the sole altitude.\",\"evidence_memory_ids\":[\"AC3R2-H19-F5\",\"AC3R2-H19-F6\"],\"failure_type\":\"conflict_resolution\",\"classification_reason\":\"The records explicitly establish unresolved, mutually incompatible active claims. The answer asserts one altitude as sole without addressing that conflict.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The records give two incompatible final test altitudes for the same Kite 3 mission: 1,000 metres and 1,500 metres. Both plans are active, and neither has priority, so the answer cannot identify 1,500 metres as the sole altitude.",
+    "evidence_memory_ids": [
+      "AC3R2-H19-F5",
+      "AC3R2-H19-F6"
+    ],
+    "failure_type": "conflict_resolution",
+    "classification_reason": "The records explicitly establish unresolved, mutually incompatible active claims. The answer asserts one altitude as sole without addressing that conflict."
+  },
+  "finished": "2026-11-02T03:13:49.348760+00:00"
+}

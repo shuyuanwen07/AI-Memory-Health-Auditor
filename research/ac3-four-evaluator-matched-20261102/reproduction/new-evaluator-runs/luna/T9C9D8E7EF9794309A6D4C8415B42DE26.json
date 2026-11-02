@@ -1,0 +1,58 @@
+{
+  "test_id": "T9C9D8E7EF9794309A6D4C8415B42DE26",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:47.571685+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0aa42236c533f378006ae7ffafff3c87d1a28580f2ae79270d",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 731,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 182,
+    "output_tokens_details": {
+      "reasoning_tokens": 68
+    },
+    "total_tokens": 913
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0aa42236c533f378006ae7ffb09a6087d1883bf61ea1f0152e",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-ygmjEiYlI8uwbhHpOPnbdRcZ637Gf1AFEgsMM5ZGuYbl_qCUnCJL7d_5cBgBIMjc_eWvlO0M8JmbsLJaNqeEqzlkQDkWidOMhldwr1_SwOCmyH7POXlje1SgzlF8qs-S_gE3MTzE8Qk0pgOCOC6Hx_OdVCffUoVzFK0KTx_rG94Te_GKIftd69r5s22ed_ag7CHJg0upgKI-SA1xzpeYHmYDPRZdX_BIFLgfYkeXTm8RqHfPcdWecc1xsW_iVI8Cf40gKxxE3iRceKWZsisg0trxxEE2RjO1C0nSHAGCAm87V1spUCi9lSlweUKrh3CocVjvoCpb0fr8jM8njOqwSYJzOBQGzWkrrulTIGUtoVv0dvpdhwEIf8nGhg96grJcxsV8sipdos6QZBtt2Q636HA0BGwyUUqT2UBmKKHKD_6_P-K2MVKG2JEUNbhU4HnZvayPNnrPKkHrJ6PdOeEQf7Uj9l85WM4ZVDFU1R1zsY6HSWHJVNSe8JvJi8kGmUSnTXYr_SnJbNl5R-_WZxkwhTPXiVdGLbfKSGIjRUd3wRP3gvmudyRjHb_kGmItM-xrZtjaHj34LDVKP1jR-2BaWEcJdAbNvobA37xSg9_j6zz4z_Lr58JVV3FVaPfgKKW0f1jpe8-v7Pays3jhNqiP9bm267M2yYG-foznzf8OpO6Fb7_chpRA9U6LG_3I0Fv64EsXehJXLFXXU-ZCT4jsdaKsInTXwYYzQ8tUSrQmYlU2N4kejcJzZu9u81cpw3pseYyKl4JwbwVRTCtf3D_Mu-kFn0MpRB5PZndzQlkgh1KN5SPCF27IxtISnfk2MOQmgfsgPjZ3QJdC2fOC8k5kRwWea1z_RI6wD2A-_b96Br60mKXgRK9twxmI8WIoBQ4yo31b9GHESeADlxYngPphL0m9uANCLbKugGpZXr5S5ZYFcmdTkTVI9CEQREN14unxb3E9nUpVuHybxT-uapH0eXZ7200IUFgSTyNRpob3KCyMAf5CbLjWt4yyyO5cEWNgGIUmqpiRCTYH7hFtjgZvX-ojdKQYPA52AX8hmC9UV-DeCL4NwJY1IBvcaFjacEQnn2Lb7T4FmEHGQLrLykvZdgV8poxubD6qoJEu4OxZNFs1CbJFlSOONo4N5ngsMon09ghKH3byJA1B2S4AbPXrzRXX5hgX_UGECM6jD7fL8xzHilkQb6KiN2ES8tfqC0R8TX9LATz5WJ-gsoPgjmrx012kjFHIH6d6LNtUZfjYUfVk-fT9-7Dod62Bk77mfv6Huyj8syuRU5WzYhpG9QbzTg5o65Lzj2Cf17uUbW_3-BtSrTqYFNKOtRSpe-_gMJFWwjoZBM8UjueIFFJw3a8ufYS4HRQtNWhRw-Jhn8EtiO4hAtwGDGBlnd3bSCgE9AzelEUfEQA-hS4TcsZQtqnPnYI1PLPe2wJJVUZM1GfUMMTiJTJBjTLLl0XL8MD0XrYiE26QofFMO8-ZKE7EvjP7GsyVzrcqh_Je1nHM8ERputc-M52pkclFADmWytQVBCsW03Rc6KdwbbuZOhYgorSDtiHgMetW13QilZBI_uPPi4g464zICR4BIsHzV5ItY_6g13f00_b2__xAiUAHwjiHbQgnSH2KV_KJWuOvL59ONK2QWVIHdgWXkjzwn5J1FZ05UFqhPPJPZ44dzex6DZ3mmR8VapKbAm7Tel_4fC3h0XN3meS3WnERy_O-0EAHGO5obTCWZ9WCv3MQ_9vAC5cZoy4OjuZj2zyNFnnQOd1peehfQT5ZDjSQ-ac8H1_AC6-DFTb2_Cs7rBo5N5IuePWhUfBwJQPmdxy6t3K1CYaxnMLjgQKZTKH3TEd69HKBa4xQNGqOLHIVA98577m0J7gyRDph9TVM4LXJoPo1xb5kcLoaSMKgtoH3Y7jIuXequAASFeZhzGsILaRB818MPqLIXXiyzKZArOAKyrnI0MuRTyPGQDPgJkB3Ivtjk1kM5FnipiXrmz6y-twHvHgYIg4ApvtJOagCJ4YGN8AHoP4qeOXoHNeIYpZCOI0yFZwMriSx990a1joEufsIjQiPsJQ-9AKUywvrPtCLE4xPXJ2G-7nS5tb1KRPxETqhlH5cHuqW6W-g2p60NO6MLG_9pU5wpY48ALKeQ94G-KlkNeUnfPNXkDtyXhrblvMZcoV24FA_0clkX4pJwqsiA9Jjyux6BJCRGW4GIu7dYZ0juF0LcSf35pDKPUH4JdXDqx9bdRYaqECEc5tMKn507yxu4MMNFtViqAXFnHZBjrS_BN4shRIEte0wM6H0bPl02UcCyMTDIk6OOEIRNoWM9hVtMZOQW1lgWYRkKDge-9ELTz6gxEUM=",
+      "summary": []
+    },
+    {
+      "id": "msg_0aa42236c533f378006ae7ffb118a087d1ae0e27b867746698",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The records state that an approved revision replaces the initial limit with three boxes per household, so the revised allowance is known. The answer incorrectly says there is not enough information.\",\"evidence_memory_ids\":[\"AC3R2-H09-F2\",\"AC3R2-H09-F3\"],\"failure_type\":\"freshness\",\"classification_reason\":\"The source explicitly establishes a revision that supersedes the initial allowance, and the answer fails to use that applicable revised state.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The records state that an approved revision replaces the initial limit with three boxes per household, so the revised allowance is known. The answer incorrectly says there is not enough information.",
+    "evidence_memory_ids": [
+      "AC3R2-H09-F2",
+      "AC3R2-H09-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The source explicitly establishes a revision that supersedes the initial allowance, and the answer fails to use that applicable revised state."
+  },
+  "finished": "2026-11-02T03:12:50.308159+00:00"
+}

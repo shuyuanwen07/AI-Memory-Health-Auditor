@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "T6A4CEBD517F24F0F9CE2ECFEA340AE0C",
+  "started_utc": "2026-11-01T13:25:30.135840+00:00",
+  "request_payload_sha256": "6a1ff76f7545e8cd5d2511c5ac68265953ea4f57b4018bac44ce49d864ae801d",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The confirmed memory explicitly requires an audio sky guide for the accessible audio session, exactly as the answer states.",
+    "evidence_memory_ids": [
+      "AC3R2-H21-F7"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer correctly identifies the session-specific mandatory guide. No failure category applies."
+  },
+  "usage": {
+    "input_tokens": 895,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 408,
+    "output_tokens_details": {
+      "reasoning_tokens": 314
+    },
+    "total_tokens": 1303
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_02150f99c2ef4dfd006ae73dca7d4487d0a688b58a3c4b44be",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:25:38.592676+00:00",
+  "raw_sha256": "63a084639b0420a44d9321eed66cdd5a5911381df25511a43726b3a12f895943"
+}

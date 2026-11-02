@@ -1,0 +1,13 @@
+{
+  "format": "four-evaluator-matched-evidence-v1",
+  "source_inputs_sha256": "345ac8a5df7d847a7e25066aeb049e6da8f303587713d3ac14e66b668f880b0a",
+  "source_reference_sha256": "84cba0136ff4b66f34de870dd64b21c86fd6cf1b5cd7efc66eadc14b5dfd45c2",
+  "protocol_sha256": "01b2f39bb2a45f45bde0bb67bfefb94d809e5c57512bdc75d5a6649464640ddb",
+  "analysis_sha256": "382d508a87a683dfe1eabb6dab6d3fa367467791dcee4da39214ac249416f43f",
+  "script_sha256": "78ec61e459f08714c2484deeb83a88fe7b03f945e9c89bb28e3aefa108235dba",
+  "rubric_source_sha256": "9fe1145a1343dd2d5294234e58696bfc1d1d1e7448a5bd81aea29c7518a9def4",
+  "qwen_completed": 120,
+  "luna_completed": 120,
+  "qwen_model_output_contract_invalid": 103,
+  "qwen_valid_but_uncertain": 17
+}

@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "T410582C2630D4E439E5B1461EAED4AA4",
+  "started_utc": "2026-11-01T13:28:13.957168+00:00",
+  "request_payload_sha256": "d7c1d29b732815add562baa503c83791f5baf59bded504746239fe1fa89e60e3",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory explicitly states that the studio measures glaze with a glass jug, so the answer should not claim insufficient information.",
+    "evidence_memory_ids": [
+      "AC3R2-H03-F4"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The answer omits a directly supported factual answer. No relevant superseding update, unresolved conflict, or misuse of scoped memory is established."
+  },
+  "usage": {
+    "input_tokens": 731,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 407,
+    "output_tokens_details": {
+      "reasoning_tokens": 297
+    },
+    "total_tokens": 1138
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0ed117df3252759b006ae73e6e488087d0b50e539adf0ecc92",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:28:22.333929+00:00",
+  "raw_sha256": "bf96c5a7b62ad48e2177990ffd7b7c4ac5edb6631a219c95d6b10f06a23dcb6b"
+}

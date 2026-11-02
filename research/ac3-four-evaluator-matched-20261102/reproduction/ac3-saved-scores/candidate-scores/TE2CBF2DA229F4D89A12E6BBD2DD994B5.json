@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "TE2CBF2DA229F4D89A12E6BBD2DD994B5",
+  "started_utc": "2026-11-01T13:20:25.783846+00:00",
+  "request_payload_sha256": "f9333fb9fa32192ae6b266fba5c21a01fcd80a5e228c1b66f77ba38f8c5d5e1b",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed record explicitly identifies the rice shelf’s symbol as a green square. The answer incorrectly claims there is insufficient information.",
+    "evidence_memory_ids": [
+      "AC3R2-H09-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The question requests an ordinary, directly recorded fact that the answer fails to report. No relevant superseding update, unresolved conflict, or scoped-memory misuse is established."
+  },
+  "usage": {
+    "input_tokens": 745,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 707,
+    "output_tokens_details": {
+      "reasoning_tokens": 592
+    },
+    "total_tokens": 1452
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0230f8cd2254b64a006ae73c9a205487d0877ea21ca0fe95ae",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:20:42.798892+00:00",
+  "raw_sha256": "293c6e263ed2d6ad99c4315f13341cebae361760f03d4234fa6d914694ad2838"
+}

@@ -1,0 +1,20 @@
+{
+  "test_id": "TEAD229FEDD8B428DB6BF2A7D1ECA3023",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:29:16.604595+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 916,
+    "eval_count": 335,
+    "total_duration": 32198253541
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is incorrect because the confirmed memory records do not support the claim that 'paper check-in sheets are the usual default for an ordinary daytime check-in.' The memory records indicate that for the remote night exercise, the online form is used, but for ordinary check-ins, paper is preferred. However, the answer states that the online form is the exception for the remote night exercise, which is not consistent with the memory records. The memory records do not provide a definitive statement about the default method for ordinary daytime check-ins, and the answer incorrectly asserts that the online form is the exception for the remote night exercise, which is not supported by the confirmed memory records.\",\n  \"evidence_memory_ids\": [\"AC3R2-H17-F8\", \"AC3R2-H17-F4\", \"AC3R2-H17-F7\", \"AC3R2-H17-F3\", \"AC3R2-H17-F5\", \"AC3R2-H17-F6\", \"AC3R2-H17-F2\", \"AC3R2-H17-F1\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer incorrectly states that the online form is the exception for the remote night exercise, which is not supported by the confirmed memory records. The memory records indicate that for the remote night exercise, the online form is used, but for ordinary check-ins, paper is preferred. The answer incorrectly asserts that the online form is the exception for the remote night exercise, which is not supported by the memory records.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:29:48.979759+00:00"
+}

@@ -1,0 +1,57 @@
+{
+  "test_id": "TD005A8814E2F478CB8B6BC0DC34F7061",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:17.199466+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_06aa4d7dbb11cda1006ae7ffcd745c87d1bf253f4c52a938ab",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 735,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 174,
+    "output_tokens_details": {
+      "reasoning_tokens": 80
+    },
+    "total_tokens": 909
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_06aa4d7dbb11cda1006ae7ffce5c3087d1ba77c8f6d0c6db40",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__QHtaIytIlX1Rq-OJn4wta1-N3mirmGA0W5zWS1fnxmvWeAMrHXWrwk8Fwehc-KZChIp15qIvBvTor0bbyN_Kc4-JRPJ9egKpCK1y1dgaWzPYqEGKZ852mOt0FJrGGCbXEe2Ny3fQ63_y62v-8EdOmoclOf9fdd2PerKFMr1jNrnyIL_oQRS2WTEWm4AUAc5YCjYyh1CmJ5lxidWHKw9exMlZjoVJo7PbSTGQY2FJl-i2RSX93V720g4nhj1xEcORa7oYMTyvOJr1flQfPDQmZW6aYWBeie4BfL_Ru6olNwoVbmIWXzyXXC3l_oI2FXLTElQC3Ba4n0b0zkxsQnPxQLV9yxM-8l-T59bLoBWPekSD1qyYowMEpNyfAM2aso_VfTINu9_ES7AeL860knwcGDQcvcm2N9mg2s_j4d7QUFwTzD1vDaY4KebQnoxdS_9WHByPTtLpyZVyAwfipryXeE2pL_vDs_yv1Yba_MMYLD6g2xfxlfHy5VhJ0ffo7airgj0T4H4UD91TP3BsczABSi8k1i4DdNlXqRHGM9eppjdHhu79oXwUEBhKTkU_9jOMku3uAK1Z44fFmJG4JrNkyNav-3BV6AMDRc2CHkvbtNBWZg1Gj0RUSfxtpgMWcOpHO25a3qUS-9LfymLxF0V1wbwvfESdmCdznbVOV-WMmG4Le5bBAYLJ0Iw54M1yHn8uDYeNRSf-suRTrmwUrbdLcHW4vE8gfyAuNkRd4USBgLi16h4znLoeZjovINaxI6NVh2TOXVrHLKAp2jysRg2vUDoSUWZbUVqDASDpEkdGS9F3LMqLtJ_ylfWsCA-RYkx_6kZTbilH2oZUn4XwwnBj0Z2CsMY_a-DnFhzhUKnuFKFW1D86IpapE2yyfXqJWGVVfXtXXJD_H2O0tada24PMAMisj8HVytH3Klzqu_CU5hMDnpRd8p0dbDvu4qrjllXF2PwAjBqqNO1O_P6WdGKGUgP6jWlAjZl4CHbeMYBr-ypiHCLya4ml5sdSRZTENklPs3UrbnxeGEGqiwAX9ikfASr0FLmw81y67YU6Yn2X8H9SIeP2mwjVMGdXzKHSfyETDgrZ1rpkMPi8P2uh-NJ3tim_MxgzlJXYcKmPHRbB_pVa09Q4taNTE9MQkvWnbG4p-N9MqTbU1vj5Z45WrGmEJZwA41HcUgln3mw79jnpN9UGwjVYPG3ecBXCqVWkLx9S6FepXtIUSaPcYVfiWC6NSH6FDRed4VvOwJKNN3V5vqKUzKYkgW4gwUhmagQi8RIwsusM1JxhvFjUWxjOw6n363RzrJwUwkbJn1in9vE6myDvpkBlfFGP9YvzupBBNTb5ZLQgt3W14vA6Obbvo5EIVzTxb15N7NtCR6DgQjc8ghnipraccdRdTuAy034Prg8OcgH53taSIv0cwmXicG67i22-q5cwCXwJb2vL9HxC6-mPuWkzb7A-7d9zHIasqMyA7vYnw4mvQ4qy11iTcNkO84hbpar2NmjOBjxJ0TgpeBXPt-fYKn5fqHCvpkC9tl67O0i8iSwQFzj7X2JhRTp9bYnz7TGi2oHDeLqH8SqA1EBvV1gDlLiKiv_7jy12d6BB1DuNj6kwKrq0LV3FATX5bVnb3gsFUQkK31zLy9B36BVDQob0Q2Rr_VMJD5EAjJydowDoq532oiMzlefKsR8Kzug_1sjtVHwNrZCq14tuovJcXjlxclGZcI_UFC8LILs262VKw1Z1KXjUrUfNb7r2B3Qg3cyCUygk4HnRyDYcRwWeVdpkuJr1b8QIE4SUQg7Gq0Oa-0tANZpdzk5tdSfDweYQGZJmoA8WEte0hctDBy3smEvSd8VvJuwBx78_28pUrz6_vX-EUfQU72OOEckO0_FOFtlyZ4e12vntOhzZmMuAIp5d55s8vI5mgFWc8QRp4TmYHcMo3UCWAlt5Ll1qMLhN-z3ICcWFlPySz6v9oacq8YfJbhelRxqRCCOgGx-aNygSvXCWv0u8h5ngJ8xICI3OWYt53LYvEbyJcW-hH4mnf2Q8pvTE-VeZzl6GZL71nQmNVKxAZ8K2O0foFlQsDsqtckOZODKEKtpVoxF4Iv7IrMNOSYqj0kTR08uYy3b1dnFrUz1GOqAE2p4aaG5k93JiiurrdfW4p7WcyZqX8_yATYVH27OB7IWKeqpa2x1WO9A39KGbeVDVizonWNcBlqV8DO2Y6U-JdjUOL30l6UEDbUvLtoq1DZ3BcLDQ9SvDR0HtHW_VNM8sx3pMzHsOQO4XWKHOIF0j_W6GRr1q43bivM_dUT4V6NZbYtYjRUomLmuwmRIpFwTzWIc4_8NQgtmUtEZOKCjvt_d5PMks6y57kNEMSNuY7E5yTgTYmiU31s0W187nGSA6KPw7QHGWDEQg9JxzTYta6Hfb3lQT-qeGqr62OeoPDw8QrqcDCjOGjesX6vMnwytLv-z7CWxEyRULTAfeadY7DSfvcPcRwvyAVkK7_Z2_NtpGBjakB8m5R",
+      "summary": []
+    },
+    {
+      "id": "msg_06aa4d7dbb11cda1006ae7ffcf556887d1b85ea098bafd1997",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The answer says the original day is unknown, but the memory record explicitly states that bisque firing was originally scheduled for Tuesday.\",\"evidence_memory_ids\":[\"AC3R2-H03-F2\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary source-supported fact. The Thursday revision does not change the answer to which day was originally scheduled.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The answer says the original day is unknown, but the memory record explicitly states that bisque firing was originally scheduled for Tuesday.",
+    "evidence_memory_ids": [
+      "AC3R2-H03-F2"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary source-supported fact. The Thursday revision does not change the answer to which day was originally scheduled."
+  },
+  "finished": "2026-11-02T03:13:20.353391+00:00"
+}

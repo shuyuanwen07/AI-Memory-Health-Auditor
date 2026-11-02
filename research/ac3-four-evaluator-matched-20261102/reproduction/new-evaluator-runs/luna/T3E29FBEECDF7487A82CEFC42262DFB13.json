@@ -1,0 +1,57 @@
+{
+  "test_id": "T3E29FBEECDF7487A82CEFC42262DFB13",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:18.839501+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0aedea47adcc8262006ae7ffcf1c7487d1b095df3bc5723c2a",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 734,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 142,
+    "output_tokens_details": {
+      "reasoning_tokens": 36
+    },
+    "total_tokens": 876
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0aedea47adcc8262006ae7ffcf904487d19996c4893fe23707",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__R6rGVi-Ua-78r546f_8dIJi3Sn-4k2rcHsxvRfS-Wk-o5OHe2FOvqos2HBDTwMM_1-hGTvY7dyX1coA0ZZN2VlcE-yYSRMtdauGlyqces73rM22O7sNmE-rFh-YKDbpXVl0ZFueLJmsbahsUF5dIaF9wOMmwnVelY0oJqcJfR_Jkjoo6oN7XuTNPHTuRSO0S-1jSCHsKaYkczH1XIBuFGiCwEGbxJGLVcK6FDz3ShYBpKwBvwLZ2uN6L52QBVcu96r0dARampko0hOVFlh7X73zvCydJpKI6TMqWZaFEuDuG5CdW6o3y-fF5sXGq4CmT0whW3GPAsadFRsUQ6FpEDtvG8y1aD5dOGWHHP_L7XhV9RRXE4V6Dr9-1DdTedeouzgTGJMQkIuA1LV1p9EbVy7eCmQjMk3r4zTfO-GAIhMgIXYK9dCLe32c6pbv707CeTy_wNd29kB9vl2_Lg2HlJ1OaMfc_mZzwAF99BPhSqdXPbNbhPM38k-gwOX3PBY7Lyzkip5bsykugH-us35nfP68qnf2xl0hP_egUeigbJpJsWT_7eRFY0yMrk-RxcMfdFJCzpWi1jZWHAUSswTogfHfN09j8lLszD6651i-YvhW93-k2feTC2zLsPUxGeWNIcoXwakQHsDFffjIpuBdTq2PLmvy2IsgQgjs5UXPkJ5FJj37zK8qOnSeclc2ITZKj3HGgRHnPmMgvpY24OoRJU9hFE8c74Q8S0gLFmXWeNX5r6tyyGsTsGjyB6LXSvzyNcfKIeerdR9IKYPGsbQRBVPjNUcoLB247nT-qtS4Du_2HhkNWz4wEKdiYqwcQ8zkGvELAEbmRUNNPnk652dFIXYAdlQlzjaiOLogEKABWCcCxd_zWCasC0X8_obGueDAT2O__o-oDWoY1T5VvFB-_l3e8kdmwA8umYRnXCKq55dHkFOddSz0M58hBltAa85G7UDae6uA5NEWvf2_bb7GMTJSZ7RbOE5yrhN59j8IozJByh0Ds2RXFlZO-_FIPsF0gh9uI6cRp8JKH4Mbxs56Xbpzsa5w2h9Akr0YyaOwwYm_zoJWZGBp4tRApNzZm8ySObDP0nto1U9txqra8U0DuuAIrEUiu-ExKZ7ulZ2b9evyEkQEdJ6y907tfkaD80DJ0iF-JKK3y6m8VWPi5xCmw8NE64EfFsYCMkWd5h3AKRgNT2AeHoO6HKJk8W-xEvQgZtUqNsVI_-6gFfxVj4rQXfn3MMOF42UmWJ9BUxWeFyw-WWs7xFPGif-PUlWxQ5ElYtqLflDacfkXYLzMHKzqvlLiOA8C6cb4DpcZsNRbk-cCQsYB-x1W-tAp-4zv6i-nTq_U8q1nC1SYrXJlNr8DyETa6pugPP8hh8AgRLdxkESEqXH55V6wg3Yw22-Xx8NkCHjSkZv9PMWokf2BjlUTzqSC29FNoog4g0LMyso2lSfNywxehLU0vB3G8NeA3rwyiyIV2AosD3PTDJGE1HDuZjMb6bFAsv_eW7wiQS-D2EbjrmBPXcLSaAYXdka_hZllqyl33g777wBVaA8xUWxZQxRBfDgA0lDwCPJARqQlCXNujrqn3un7piLRxQzA8ktdL820Q_cgHuqh7GC243z3fmZeOOznLbzzoLACiWd1yV80gWkRFgJDQ2gOEAKqoO_cVagFuz65bfwHAbSwnkXmZWkToEip2h6M8FWfPIBgwYpXVqBhdSZevv8KJf06ni92ncgB3Sb_xFJ67okBpM25NglNFpDGh9rgf9lrodg4X57v6E6SfHpvX1r0tg5CgTx1vOCMdCm-bZ9wfEFKv7vQww8nUEwuPB1znCQNaacgb3cheiSgwJpayk_vQ1wVt9GB5eIb3pxV5l7rZ1lol8LFq32_Av04PlgZ2l7VdmQqkHuW_pcU7YFjSk3Zx6XNlBG03y",
+      "summary": []
+    },
+    {
+      "id": "msg_0aedea47adcc8262006ae7ffcff9dc87d18003251faad78da4",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The answer says there is not enough information, but the confirmed record states that the south footbridge is marked with a white triangle.\",\"evidence_memory_ids\":[\"AC3R2-H04-F1\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"The question asks for an ordinary fact explicitly supplied by the memory record. The answer fails to provide it; no supersession, unresolved conflict, or scope issue is established.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The answer says there is not enough information, but the confirmed record states that the south footbridge is marked with a white triangle.",
+    "evidence_memory_ids": [
+      "AC3R2-H04-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The question asks for an ordinary fact explicitly supplied by the memory record. The answer fails to provide it; no supersession, unresolved conflict, or scope issue is established."
+  },
+  "finished": "2026-11-02T03:13:21.122576+00:00"
+}

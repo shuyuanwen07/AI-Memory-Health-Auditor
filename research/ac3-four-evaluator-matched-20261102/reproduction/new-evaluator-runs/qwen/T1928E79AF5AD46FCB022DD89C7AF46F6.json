@@ -1,0 +1,20 @@
+{
+  "test_id": "T1928E79AF5AD46FCB022DD89C7AF46F6",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:15:33.172313+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 689,
+    "eval_count": 231,
+    "total_duration": 18069157500
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is based on a memory that is not directly relevant to the question. The question asks about the number of packets in the lentil drawer after a later count, but the confirmed memory records do not provide any information about the number of packets after the later count. The answer states that there is not enough information, but this is not supported by any of the confirmed memory records. The answer is therefore not based on confirmed memory records and is therefore not valid.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H02-F2\",\n    \"AC3R2-H02-F3\"\n  ],\n  \"failure_type\": \"appropriate_use\",\n  \"classification_reason\": \"The answer uses a memory that is not directly relevant to the question. The question asks about the number of packets in the lentil drawer after a later count, but the confirmed memory records do not provide any information about the number of packets after the later count. The answer states that there is not enough information, but this is not supported by any of the confirmed memory records.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:15:51.482847+00:00"
+}

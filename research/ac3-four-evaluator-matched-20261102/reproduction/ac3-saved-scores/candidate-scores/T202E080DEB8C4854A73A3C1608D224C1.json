@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T202E080DEB8C4854A73A3C1608D224C1",
+  "started_utc": "2026-11-01T13:26:03.885859+00:00",
+  "request_payload_sha256": "af4d451ee2ceba38ba13af532459612e52bf145581b4367d3ce8ea18ab7ec29d",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly states that ordinary planning notes are shared by email. The restricted payload review uses a secure portal, but ordinary planning explicitly retains email.",
+    "evidence_memory_ids": [
+      "AC3R2-H19-F7",
+      "AC3R2-H19-F8"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is established: the response accurately reports the confirmed practice within the scope asked about."
+  },
+  "usage": {
+    "input_tokens": 971,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 730,
+    "output_tokens_details": {
+      "reasoning_tokens": 615
+    },
+    "total_tokens": 1701
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0da0342252505556006ae73dec36b487d08bd8f33bc8622278",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:26:19.050936+00:00",
+  "raw_sha256": "63dff0da1cfcb4a876a90f04f9669599606110875bbeca437fcddba20d785b18"
+}

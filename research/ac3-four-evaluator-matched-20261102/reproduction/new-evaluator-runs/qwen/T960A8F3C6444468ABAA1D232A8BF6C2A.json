@@ -1,0 +1,28 @@
+{
+  "test_id": "T960A8F3C6444468ABAA1D232A8BF6C2A",
+  "model": "qwen",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:19:34.661756+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 667,
+    "eval_count": 130,
+    "total_duration": 16062789084
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is supported by memory_id AC3R2-H08-F4, which confirms that the mobile library uses a wooden display rack. However, the question asks for the type of display rack, and the answer is accurate. There is no conflict or freshness issue, and the answer is appropriate. Therefore, the answer is correct and supported by the memory record.\",\n  \"evidence_memory_ids\": [\"AC3R2-H08-F4\"],\n  \"failure_type\": null,\n  \"classification_reason\": \"The answer is correct and supported by the memory record.\"\n}"
+  },
+  "judgment": {
+    "passed": null,
+    "reason": "The answer is supported by memory_id AC3R2-H08-F4, which confirms that the mobile library uses a wooden display rack. However, the question asks for the type of display rack, and the answer is accurate. There is no conflict or freshness issue, and the answer is appropriate. Therefore, the answer is correct and supported by the memory record.",
+    "evidence_memory_ids": [
+      "AC3R2-H08-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer is correct and supported by the memory record."
+  },
+  "finished": "2026-11-02T03:19:50.820265+00:00"
+}

@@ -1,0 +1,57 @@
+{
+  "test_id": "T1A3243381D684225A44BD379B0F4E328",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:47.899513+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_038dfc65fd8dce92006ae7ffb01c2c87d1bd0481367357fb86",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 739,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 136,
+    "output_tokens_details": {
+      "reasoning_tokens": 28
+    },
+    "total_tokens": 875
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_038dfc65fd8dce92006ae7ffb0a9c487d1924a61f5da0f910d",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-y08ySyfMWy6MIrK1zyk4NuHqzmdGRWE7bzDtMcEapd3LAe39uOMkIywbnT5sEVzyhcaauVkrD61kVF_ei_mXzQntxoI0W1dg7oRPcLTL6j4yumiOT79VPfVUI9rt7klYfEHmUL3_fN7Y5m3K3-C46rFTg58tp-9rRlGbx5OfC8luDy8PflA_BkWWOjXJSHBSz05kEwA_XbIyrtMjO8lamHHcirTiZtrM1VtRHguN_JMaxLPxIk1TGqJCr-5aBh76BW8KJEKeUUxyP_tdw42lHesc593wqOZ_KB2lCjtjx6GYGckkSbyz5UX5J71gx1_agNjLbLjSUJl9rqMujCqjs7H8kF8KiUxKSseak0DYTYwE5NwruaQBN-OVzDtJtxfL6vftQuvjdl8eodkFFvAq_x1uy7R6o1wcQMd1tK2f4q2mUEe301QVY2ejP9dsp4VIVLXXvkCh1FOtUXBC8bGMOH34QivSmv8S5132lDcTQn6mVIkWPIW4DOn4WKS5LmhSQZfjJPpUkc6U0osebGVr65CMHYHmIEPqSp10lptWrE9yT0Uwg67RoPlzD4GSeB48EkEJVx2xeXXlUM34K7M29L2lFSGOv0WhvAWlGzbu__arc1XYabAptV8KGd90bF2sUx7y3bjFV1SmbQJhoN4E4KnD3d_zaB6aEq66v5DRYvtOUvvifV9nnxXoZCnmnaqn-7xoeyglg6qAAbEMkw0DlsdqE3jDOBcpIeAEm8uVTT9lyoiQ9V6B5DKu7WrU41dn7bzRS2vJmiKtAGeycVvxW9Dd-6ct1xRMUkEtdJIZjz2ohillx7GkGR-1SG79BEGir0-JOmyztmW0eS-1ewb5SqCbQKMf2c_dArzqt28c__AC4r8S6CEEwuy6OaswXFR-Ol8KDevgqiQQDwnahnn9bkX9dPMtU9mN-ZGGaguhmio3jYYA5b1jYxh4ft-tl3qDhum2v96baPliIClDM65xKV5GKmGltU4qtfnIpwq4_WzCmIJmIHa-EVWZooBvVm2jzYxFxHpLETLC2TPd6uXUn9irpu6t0EsRloulFR4PqHvm6-tmbX_5VUPqvIXNOCD83spLvW0JJwheNutYBGiEHPFSlS9ZKgCaEbNVh0fKr-ftPGycfGc3aYZdOal4AA4cAB2ofMUkee0B59WcsChkIW4hlAzjM3Eig06LgN_-fCZUp9tSBMD8_1WFb0yNh5KSHg7l2vnwtdqqy9qJVkZB-L_Smir3donDbkBADOP9N1JeLNRupu-2HxP-u27a3E058-LZ0DH0j5UyhQHEwHy4xWJGb7pbZsKtGH1lrp0SfxDe1GY4cvZA2R6dvdehiT8Y6a-OQmk2Jbu9ejn8k6BkpEHnZork1dHav8y6WYTNkAZ5ZL6a8Jsc9v9CAI_MxUzcpqrCc5iqEA02IvgM3RRN3mV8tGOcDzp-C93oSgjHy-xPdXBhaw9OUroK_kX95eJkZ7soTsu8L-DPUkRhtXbzkUkl4w3Sf97x1g9il2mtHGTWN2B4t4PMeIcohiNvnQ8z2IRx1RkFKHYhv3u3vJ9zb89c_y1VKfPJ3OSPVMg0g0TMw-HjcXwELOBfe_TlQzg7WtQQNckVuXha_3mywC0StokHRezHOuoYSNSQG4f60SLAEvX3yBeA-2OTa9qbRBg2vgEwPGxFlWju7MeR4FAKGZxHPeSkNoiIvugUruLKsc-tC2X-nyp1e-qLiYyaD21PYbVkfSYKYSihdo8pRAoyc_f97-KDBMnw2N_g4CfroM5JS5PnyJOidkd4f4RvdLl2V9f_aRK499mx4vnIQw3X-gQ==",
+      "summary": []
+    },
+    {
+      "id": "msg_038dfc65fd8dce92006ae7ffb12e6487d19988b1931d0ce1dd",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The confirmed memory states that the first-aid locker bears a crescent symbol, but the answer says it cannot identify the symbol.\",\"evidence_memory_ids\":[\"AC3R2-H06-F1\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary source-supported factual question, and the answer omits the supported fact. The memory does not indicate a superseding update, unresolved conflict, or issue of scope.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory states that the first-aid locker bears a crescent symbol, but the answer says it cannot identify the symbol.",
+    "evidence_memory_ids": [
+      "AC3R2-H06-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary source-supported factual question, and the answer omits the supported fact. The memory does not indicate a superseding update, unresolved conflict, or issue of scope."
+  },
+  "finished": "2026-11-02T03:12:50.565858+00:00"
+}

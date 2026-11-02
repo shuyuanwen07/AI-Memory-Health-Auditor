@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "TD06EE950D5A8401D94F1B8D9461ECBE6",
+  "started_utc": "2026-11-01T13:24:16.963041+00:00",
+  "request_payload_sha256": "a5e3627462582a16da674b2e637f13fcd4a4c2c5f42fa70f6239cac76dd7b3d3",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly states that the user usually buys ordinary bus tickets at the station counter.",
+    "evidence_memory_ids": [
+      "AC3R2-H15-F3",
+      "AC3R2-H15-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "The records explicitly confirm counter purchasing as the ordinary-bus default. The online-ticket requirement applies only to the special rail-replacement bus, so no failure is present."
+  },
+  "usage": {
+    "input_tokens": 971,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 423,
+    "output_tokens_details": {
+      "reasoning_tokens": 305
+    },
+    "total_tokens": 1394
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_06f9dd5fdf2484c5006ae73d814bac87d0a875acd8db233da6",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:24:27.188754+00:00",
+  "raw_sha256": "1d44b2a323964517d2930ede5dcfd1c72c50decf8ce7d4ba818a5e96b833bb57"
+}

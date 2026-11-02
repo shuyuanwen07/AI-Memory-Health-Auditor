@@ -1,0 +1,20 @@
+{
+  "test_id": "T5307D619BACB4531BA508F619D980A45",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:20:22.237643+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 911,
+    "eval_count": 173,
+    "total_duration": 18487374291
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is incorrect. The confirmed memory records indicate that both red and blue are authorised lead colours for the dog Milo, as per two different active training notes. The answer claims only red is authorised, which is incorrect. The memory records do not establish a single authorised colour, and the answer fails to account for the conflicting information provided in the records.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H12-F1\",\n    \"AC3R2-H12-F2\"\n  ],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer incorrectly states that only red is authorised for the dog Milo, while the confirmed memory records show that both red and blue are authorised. The answer omits the conflicting information and reports a fact incorrectly.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:20:40.865927+00:00"
+}

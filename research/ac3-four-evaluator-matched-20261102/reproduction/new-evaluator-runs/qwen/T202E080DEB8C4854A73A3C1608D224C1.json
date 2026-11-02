@@ -1,0 +1,20 @@
+{
+  "test_id": "T202E080DEB8C4854A73A3C1608D224C1",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:27:12.737343+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 918,
+    "eval_count": 185,
+    "total_duration": 24595641458
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer 'Planning notes are ordinarily shared by email' is supported by memory ID AC3R2-H19-F7, which states 'I ordinarily share planning notes by email.' However, the question asks how planning notes are shared, and the answer is not universally applicable. The answer is specific to the context of 'ordinary' sharing, which may not be the general rule. The source does not establish a general preference or rule that applies to all cases, making the answer incomplete and context-specific. Thus, the answer does not meet the criteria for a general fact or attribute.\",\n  \"evidence_memory_ids\": [\"AC3R2-H19-F7\"],\n  \"failure_type\": \"appropriate_use\",\n  \"classification_reason\": \"The answer is context-specific and does not represent a general rule applicable to all cases of planning note sharing.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:27:37.543021+00:00"
+}

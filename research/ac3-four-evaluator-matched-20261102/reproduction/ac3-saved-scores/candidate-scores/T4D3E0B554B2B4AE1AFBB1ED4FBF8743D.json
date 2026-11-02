@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T4D3E0B554B2B4AE1AFBB1ED4FBF8743D",
+  "started_utc": "2026-11-01T13:23:05.586969+00:00",
+  "request_payload_sha256": "29ba4325ac0c25c5f8af4d881caccc912f332a2f63c36a1315c0b0033a6f2bb0",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The original rehearsal order explicitly began with the overture. The target answer incorrectly claims there is insufficient remembered information to identify it.",
+    "evidence_memory_ids": [
+      "AC3R2-H10-F2",
+      "AC3R2-H10-F3"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The answer omits a directly supported historical fact. The revised order does not create a conflict or freshness issue because the question specifically asks about the original order."
+  },
+  "usage": {
+    "input_tokens": 734,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 719,
+    "output_tokens_details": {
+      "reasoning_tokens": 594
+    },
+    "total_tokens": 1453
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0d321062c5035b05006ae73d39ea5887d08838c6278e45ea50",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:23:19.900897+00:00",
+  "raw_sha256": "d1e5d89fb54d253d3988d3dbcb1b0fd144ba6fc0308d2891e30497b6d733c3a9"
+}

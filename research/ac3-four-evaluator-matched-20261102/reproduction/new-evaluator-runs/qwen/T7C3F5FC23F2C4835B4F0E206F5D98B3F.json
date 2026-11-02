@@ -1,0 +1,20 @@
+{
+  "test_id": "T7C3F5FC23F2C4835B4F0E206F5D98B3F",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:30:36.065799+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 819,
+    "eval_count": 164,
+    "total_duration": 30606148208
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer states, 'I don’t have enough remembered information to say how long the updated warm-up is.' However, the confirmed memory records show that the updated rehearsal note replaces the initial warm-up duration of twelve minutes with nine minutes. Therefore, the answer is incorrect because it omits the factual information provided in the memory records. The failure is supported by memory ID AC3R2-H27-F3, which explicitly states the updated duration of nine minutes.\",\n  \"evidence_memory_ids\": [\"AC3R2-H27-F3\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer incorrectly states that the updated warm-up duration is unknown, when in fact the memory records confirm it is nine minutes.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:31:07.078144+00:00"
+}

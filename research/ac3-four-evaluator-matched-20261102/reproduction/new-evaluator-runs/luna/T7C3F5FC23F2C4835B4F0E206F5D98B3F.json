@@ -1,0 +1,58 @@
+{
+  "test_id": "T7C3F5FC23F2C4835B4F0E206F5D98B3F",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:37.430135+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0b36a0cf217ef6f3006ae7ffe1adcc87d1a585603d6c6adf42",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 882,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 172,
+    "output_tokens_details": {
+      "reasoning_tokens": 62
+    },
+    "total_tokens": 1054
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0b36a0cf217ef6f3006ae7ffe2240c87d1b05d7ca8ed2b0f47",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__jbZs8taia7-lo3kN_Mt8vMM5aIbda5iOs-P9QAGh-fPX1JgMdRZKUlDbxtjcV9tEy3LmjCPVkaKaNH-18zMXsr1Js7idv35_o4d5kTJ8c59if_lYUaM7eCojFOaQYHSmHXdcRHyFL7ksKTXqO739x-_x5VsrNSEiObVBj06efBcvm79bfn2iLcWc_vi5HCSay_bLyrCfDON-F27Yh4Jo3hqApe2nERI92D25DHT9vY03X-r1iEI8DrFk1uvX8Gt8243wXcpOLGUZOY0qCXlP-MP5LngyYxqC4Qx_SPgZReHnGFgc54trXde0iNIjeWt7nBG01Kaoa6o2OLAARic279HCY_nZ5QW6IcXm0Ze-pu8OaRE_lDqE_0FIeaqWd6F31pCQfHEGYPRrSQepwKl0KZTRTkCqIrGxiAxrIm1pd9i62yrAZnRaW8RwSvgVAVNOiTGqNDN-3jOz-8NAGgx_9MWdZ1znSqCSMn9Zv_K85icng3Dc5GgCzeqyEECuQSnJDPCPsRh0iD0AdzJUSewitsZHqZPK7GBz9YVsFxSIz4Z3d3bdzXfFJfthBA6ln0YWfutrYJuXyPQsQ8KJ6HmjNs_x56xye-gg0zA8uJAn6Wfo6gDzErghW0b-R97FBGz9mLd_JuD5X2X0zbdiFrHQ3KRNTvT5N24_G4-tZvI8XaNhWmoGWUoo5yWGciYtsolYP1FmiE9JHc7c7-Xocx_h9VkPwP3AhOKAOv9n_NZmW4JS8z-xhKKf_ne83zYit2yXwIheRaqKHtdEnWiCEAa8AeH1EHff1k6PLarfAZttI0enV5BpwPp97sXawYq6S6_CHxNu8iHuxqc3RBJLzzH5doZF4wXj2e7A9Ifym_DrAraZdJA04KZ3wFS7jqE6Cu9Yp4PSvQ1XykJG8DWo4gOy2Npgp3q520SyCPN6DgEgrnAzrjFXs8egkXRPmDq3Dtdkzei9vO4LW-0krw-LffQdBmzn1jK1EXZfb7ItheVeqxQIogNXjzRyuD2e4Ries2ucOj9lfFtc0PPU2Cy_SmmkJkXH2Tlxf8msnWCG9AiJnT03x_AuQlAuMnHweYnad_YlmZq6dwkNqgn4iwdVDR2m70uwc4_Y3YBusHwcb1r1v8CrnIS58iTXjVL-iqfai1jkTInZAt7qe6uW9-RZwaK9lwznE4G2yuxo6PZvKcXmnaCfZZtXi9jkaDIkJ-lKElWqg-lxfl_lQroMP_-P5_UhL0TCflrqfnjf0draLmR5hNRGRoZpDEE2c7NtqbZNnBE7PTzuEPAy3Y-5LkkhVLZC0D3bt507-RKEfp6RIvWBaf0T48GlEAziDDLd_acwczNBq98_CO_A6txtHpWjoxiZfiFUIVUwEgrqPXGNrSAAu6t7DhYzxAwvwG1Fvsf9ICfweeTVIEm1vRBeq4DW4UBtuoc2_Qg06-CCSpDOHFY9h4Us5N8uTsjgFNvEzMwKnki73-UBKoQ8aVK8t9Sui0Ji_oHS0mGwj4htHMIKfm_mzpGe69ast0Ki36GRN6FAa859QtANCUabx_BdYyZGYnrYdmCiRbckdnPtQ_GJDyNhhuNjVQG_wWZHoTU9GGKC6b03Nw_Nngyn8kNhUKrqvzE_W6WgNOEz45ycdWy8iev6jeI1bzcqRBoyrD__bMbWjMsF30M7Vf30mdTPSWLTk3Ay4239wCznbF5btOqPZ3v_4E0H_dK9nItlCdA24lWyUnb5LYEiy6fFDRQxJr3yTmgx0PEIvNMTJge3qWqnjow3YpyE-qbxvQkv2oshwoDo6XFAJi84CTEM4hTSbcxUQbiF6vmiffk3eES2OD5xOI6cg7Qs9vtvamwgcJvNuwf3ZyQHW7try_4lMdLRlwEyQHKWRn1amFBqF9NvLlJVTuDmJOcgaIrddd5iA2iPatV-iHISW93q3juZhPX0VdfOP8gMuHrkCDVdEmYsqn1alIxKMyS7iuugpIZJt9ekryNhWHYrT37ptsZcvOFoip6hsXmtMExhyYT5mN5Z6YTK0TDBoqVKbtS3M11_zxxUCfe5CscMtUpqrpXjA937f78Xgms_pWx8LxBQienoYZO4QxXT0weq4zxuMkpQMZNynaGUrQmFZ-Sk6v2uqYZWaLHYtw-6oOuQf5Ro_2jwLLUdDUnVv33Np8BpqUcpN7hO8wxFbmC0cp1-sn_VuNOYMJXndOvny8Fot7Ri0QO15r3ggfOe4pgmOrEAqHcAFj7NDU4NVr45u6q9UT4OtDKA0vVQu5JBp4Jn4KgPgH1reGBiGhaMq-HI=",
+      "summary": []
+    },
+    {
+      "id": "msg_0b36a0cf217ef6f3006ae7ffe2c81887d1b71bf9f0a14cf9d9",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The updated warm-up is nine minutes: the updated rehearsal note replaces the initial twelve-minute duration. The answer incorrectly says there is not enough information.\",\"evidence_memory_ids\":[\"AC3R2-H27-F2\",\"AC3R2-H27-F3\"],\"failure_type\":\"freshness\",\"classification_reason\":\"The source explicitly says the updated note replaces the initial duration, establishing a superseding state; the answer fails to use it.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The updated warm-up is nine minutes: the updated rehearsal note replaces the initial twelve-minute duration. The answer incorrectly says there is not enough information.",
+    "evidence_memory_ids": [
+      "AC3R2-H27-F2",
+      "AC3R2-H27-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The source explicitly says the updated note replaces the initial duration, establishing a superseding state; the answer fails to use it."
+  },
+  "finished": "2026-11-02T03:13:39.816188+00:00"
+}

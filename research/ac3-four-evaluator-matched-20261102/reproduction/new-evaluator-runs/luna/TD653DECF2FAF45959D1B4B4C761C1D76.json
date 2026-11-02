@@ -1,0 +1,57 @@
+{
+  "test_id": "TD653DECF2FAF45959D1B4B4C761C1D76",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:32.017079+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0cf6fdbf7caba7f6006ae7ffdc430487d1b7eaa49ae589b72a",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 966,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 117,
+    "output_tokens_details": {
+      "reasoning_tokens": 39
+    },
+    "total_tokens": 1083
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0cf6fdbf7caba7f6006ae7ffdd8ed487d19b1bde8a630f36ba",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__fLn68pq6wWf4zlXdWqjFRMVL8Jho80Ni1IHRWemYZS6uqmW1y4T8OHPsWdvxdUPAlWn6AE8lwVU-s93ci9ClJriae4OYMIP3ZF3Y3cFAUR6u9bXX7SFZQ2uB6JE1UvORnRgbfcxHPgn7cCbiVZ5a9XLLbUn6JO1d026WMYIGqMHp-5p8lev84sGHmhrd9VhZKQVdlKfCF9cAgLV94l0ozUUdUnnIBIPXDXfVmShXuZ3I5Sh5KqaK0eofqy1n6ksSdffowf5KBdFPWyI9t12Vi5kJF6r5-Dmh7E8d3XcGCN-9ms8EPef4FP6no3jRgYvi6aJqN79_rYNhy3v8D5ikJM6VU9yZZlRi4N6MjnK2iy677FfJ0gGaRbAA-8brwvA26XOzsjvhhfkaZNQtTKnNljQWzMP_pHGF-PzI5P-IOGNvbfoMjSB0yZGbhjLx0grktyKvECcC8L80KGeyJkuehTD-uoFMBmDLixe_gixWbDAYHlQ8Q4RC9QZ-RFu5qlgJEQYhsj6Uqw0RB7Rg-pIHy3RiJXvCHOP0bsI7TYtWliH0JfNFVBdN6hh6Ep4_5KODHJyGQrrBx9aQuOHuz1XKYilvgLkzAu7AlY-ai9lpM8MWeEqime6n6VJUvF8yxhte_vQiZf9MKbKN3m9yKKDHreQpmjOl8qQNBu78RP2ZdYaLVhiKJeCDG-kFld6FmK5xFWJ_xiwcjmsPYZARlebgSQmMwttf6dpQ3CKNoWyYumlf-cnHEzWUWOIOQS4o07tcvtpyajzuPduPQAOk3ytP5YHhkL-Qcf9GXXL3oqaoDhK7MEiccprUQ0S5bu47FUcM__IJC77IF0NWcedoaofYkX5L3y3XWRwUfLPm4vRYShSwxG1D2R28DenSKLzaLqoc_0PR_EvhWxbfY6U7i9bvOE9a_Jmp9gNdx_NCVrTHvD2NKqijhGo3M4yI5HLoAQ5VcvJ7IbDH6AGjEJKDlTUce7AMUhGoQoP1uBHDSNNUtvSSHq3pRtyEhLpHGNqBxQg4T2sKsl_QWk1sBYkvUhwrioVVqPKcxBweNFQ3Q2U7bC0G_M32X8dcPcSvGdacw6HLLAZIjcZnNW_I1akukcqn4CIC7ce7WxJ6lPzUMCsc9leaqgwr0TAHI32FjSonAFdXTRrwe_NEaT60ItKjFUImvWo6faEoqju1JSYvPRPpAJNsvJzdpxezatzVrso76Oa3G7BFmu-04V2NNhCibhc-TsvMDjj8KLPZz5C_YuC84oQQzdSogHufLSO_nlN8kzwrG_voRbBEuqftl5Ds2VxQW3Gaj-vOcaAUc4HBYqVYgG7ADY5-IV4czcvM0qMNWjOSUNNJ0tZBfxnVYE_R3oFFIMGQJ9TIJeqPz0oFkIAkEVNxbvAwDN2msRX9ygE_KLj3TVbyzTQSEpK5zwKZwCrwJ_kg2Y2q3L0IGUY4TZyLwA2AHaKfwOFnPiRZjV97Q2sV0IlOT4UE-2fGVaYjwMf9k3RA2wJuHZbM2LlJPWI3hkXx__2fyfDoB_hqdNODVARJIvDMe_IG7ozXugfAjE0cxH-1bYX5iMylSqnfg3UJUJnHZq5yGozO0drA75L5HVf6VFmY5Wg7uWb3Gt82XKzjOTt5X-UBIHxOxSZxEw5GT1GbUOqzCi9lZWScnEAiL8fmtAgYQm3S-Vc1jbrqK10r4vj1yvDRf_IIfKFAJHt4F_B-8I5OFOi8JrpTrH4uj1n5rwi-YWQKkkgKfAeNogWxHOGQvXhG5kDJBQFEAo4OBNa__aE4NBsRCmqH_YTZu1vXjmHxxTZkS17rNOygzFhfMPqUNn_BXflfzJRnqKbGp1hEjwhFGRA3Xnm96kA5sv3QLNDTGlTH7n6pJQmeFI3yJSCVNQcTlvSUcptZ_AumzWrF23vbtgVNemp94XA_tEaVQkWiaBvTKTt6RHWn0SelCEw==",
+      "summary": []
+    },
+    {
+      "id": "msg_0cf6fdbf7caba7f6006ae7ffde198087d1a69938da89f06a45",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer matches the confirmed requirement that emergency diversion updates must be delivered by phone call.\",\"evidence_memory_ids\":[\"AC3R2-H15-F8\"],\"failure_type\":null,\"classification_reason\":\"No failure: the response correctly applies the emergency-diversion-specific delivery method.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer matches the confirmed requirement that emergency diversion updates must be delivered by phone call.",
+    "evidence_memory_ids": [
+      "AC3R2-H15-F8"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the response correctly applies the emergency-diversion-specific delivery method."
+  },
+  "finished": "2026-11-02T03:13:35.118849+00:00"
+}

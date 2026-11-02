@@ -1,0 +1,20 @@
+{
+  "test_id": "TBD86C54558F1408EAF26D8639E4F2F8E",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:26:58.555065+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 899,
+    "eval_count": 216,
+    "total_duration": 27510832125
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is not supported by the confirmed memory records. The memory records indicate that routine logs should be archived as CSV, but the target answer states that the signed-PDF requirement is specific to the legal incident package. This suggests that the answer is not consistent with the confirmed memory records, which state that routine logs are archived as CSV in general, but the signed-PDF requirement is specific to the legal incident package. Therefore, the answer is not accurate based on the confirmed memory records.\",\n  \"evidence_memory_ids\": [\"AC3R2-H11-F3\", \"AC3R2-H11-F4\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer claims that the signed-PDF requirement is specific to the legal incident package, but the confirmed memory records state that routine logs are archived as CSV in general, and the signed-PDF requirement is specific to the legal incident package. This suggests that the answer is not accurate based on the confirmed memory records.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:27:26.214156+00:00"
+}

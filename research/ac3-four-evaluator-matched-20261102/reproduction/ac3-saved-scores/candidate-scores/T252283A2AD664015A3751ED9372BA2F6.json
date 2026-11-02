@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T252283A2AD664015A3751ED9372BA2F6",
+  "started_utc": "2026-11-01T13:22:36.453631+00:00",
+  "request_payload_sha256": "65af8d38210b39d551de59313db93550e76001d396cac11fe86be2fb7472d205",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The revised volunteer shift ends at 1 pm: the coordinator replaced the original noon end time. The answer incorrectly claims there is insufficient remembered information.",
+    "evidence_memory_ids": [
+      "AC3R2-H24-F2",
+      "AC3R2-H24-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The records explicitly establish a superseding change from noon to 1 pm, and the answer fails to use the applicable updated end time."
+  },
+  "usage": {
+    "input_tokens": 897,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 587,
+    "output_tokens_details": {
+      "reasoning_tokens": 461
+    },
+    "total_tokens": 1484
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_02d73b048ace5a94006ae73d1cceec87d0b523086066a72967",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:22:47.333385+00:00",
+  "raw_sha256": "fa69724353c530c3fcd91bb4802091348fe3a4bf18917d852193b7ed1e179e4a"
+}

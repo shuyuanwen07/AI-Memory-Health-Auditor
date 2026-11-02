@@ -1,0 +1,57 @@
+{
+  "test_id": "T34FB851B08C2480692D7CCBE7876B3D1",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:11.496173+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0f1a7a32889f9b85006ae7ffc7c72087d1934ef846c9fa28de",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 878,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 131,
+    "output_tokens_details": {
+      "reasoning_tokens": 34
+    },
+    "total_tokens": 1009
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0f1a7a32889f9b85006ae7ffc861f887d182f1b2db30f1783b",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__J97v3QVdKL8WJuZmL0LeV89_9AnT7AHaYWSsX-5npKEe7oDyB3vR0uypsRTzqTxK-RscsIblA1UAKe-6D9lTqaWtGTDQYO0AAdBCtFf3_hHMbVAUra_n-FRVzU6dehfuxdqtQcqicZEdMUDMvz-u5nuCGgyGp4l9CNNJg_oxc8RMdyBrwHq7SCH00zwYJOoVlih5WoX6g-y3ULcZK2VkED2s1XKKDywnMDeVJAlljwrp9bXasFdk3ICQw8mb-qzilimtM8buJsaoK-Miopnn_fDG_aqT3UQGcS5O6JTWuPoinavXJb0FLvC9eSAvkE5ILvNPl1a6EcbIHF6jJZ9D26dmvhyM1P1OsrCjP0y8sdeW78jwJft6aylxhZVRQtA2k6ykTOTF6V8cxzxtn6iXry5MIRomJC7TL2YW6yjgmffPXGQuJC6X95ZHrQnhPlB24YRqRsVDClGKXKaTbDHYoujL6Cw0kIQ5lNU_0z24DxZbcxS6iH8edHVKYm690KU_lo15E7QsqBbUg_Q-XsSmKxFHrU7XaQp1hD6yJ9hr9Sw2lzIzsr7wTEDw6FuRWsaueNc39P22S3hgILffKhKWvEEC4fJjwFaBt0jsQlHx0kFlPE4Hot3drdNLfYCZTbcIUc5srbh5_YJpyLfw5ip7Ahupp0MnZhsb3-UM-qzY06iG5ajbLWxtlBxfOCWzxgARk2ROpEZVUvz_Zdpv_ksYFlev8R6jRU5JiOMiF1pjMgmUTAn1hf7UADHyBDgA47XYICJHU9skobderBkqeeuGFSojIaDWQR431mJoVb-wSAglluFnMYuDeQdYnnVJlH2Kiy8TwMX5Sar0_RzXbPWFG_7E2OvBkE7V_-XihucUInomXcDQCcqqw12m_loWkXkaETXy_YBW7g1pejb50xFZSNBt2KWqH4YZaQr0pSN2RWInt4Y9GwEAWYpHqoHIqD2ENxS0injsy7yWmFbDVMssG5wkGw-OKnTiL-y1hi_r5F_bYDlP8voLvtGrwDhnGQFdaVwjdhLQ5wDHnVZhaA_XG8KGt6rvGOPLD9RJ4-9sLgzahkQ3OJ3ERb9PP41jh3r7RHftjlYzUeg-kn1nQTCIH7KMdSYMQLMy2LgST7-rF_0WOslO1bn4OiBv_eSqO-CepJ8X6xr7SRNCVeqH0oi4AkIgb8ynNEN8-ASi-MYZu6nTlgCNV4Za_R1H_BP8sHnTmhyMIKeBHI5D0J1rdNpAem04iyngAfl32_-4lrks3LLGotVM3XsuzPVt8iQPGkqShUUcjs5LMv__XSP_IlBr2bCEuiKrhBWunEGBOi-NOZCSvDEdukslYJD7nIOiDrbCpCOfs0lSc8zb01gLm7XMowlI7wmgY7OPppC3No2B2zH-HZwjHkV9I6HtRHmwM35Zl84g_xu1UEVnA0uGjDldFcWYoCXAZ5qHcwbgKyWEeeiQ44FRizM_mK5v_5-qlVNnAym3D_-oliMQs5d5gFIkKMHPKoEGpnpYywSjc2jzb5s4OxnX-WB9REyFxLIlrYkjEZvaTRBYrY12EWV0S_e-yMJFqiFj5RMMgldHMVNNm2s10yRJzOMS4kd_vHQUqAbT2uWRusJW1FPT1_shlfNL8-YbFT3WZY3iZFBBfTF2nM1WgurXANZwkPdkETNo86TK-82R3FCJFGO5kOZ41_9-BUt-yuQoYir6QDkT3tafygtatBaM02hPIXgbu-fASMhTdopq9cszENZ3G5osn0H5pK19fdzF8Yh0_SOFuheaRIxN3lbvwurHk11Tckryrq6Y1mMRRb-B9ZEaQlvK7r-8mWaX9SwppG7IotXgs7Q786iU=",
+      "summary": []
+    },
+    {
+      "id": "msg_0f1a7a32889f9b85006ae7ffc8ddd087d185198e5fb4e923e3",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer correctly states that an electronic ticket is required for the remote-stream event, as confirmed by memory AC3R2-H30-F7.\",\"evidence_memory_ids\":[\"AC3R2-H30-F7\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported; the answer follows the event-specific ticket requirement, which overrides the general paper-ticket preference.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly states that an electronic ticket is required for the remote-stream event, as confirmed by memory AC3R2-H30-F7.",
+    "evidence_memory_ids": [
+      "AC3R2-H30-F7"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported; the answer follows the event-specific ticket requirement, which overrides the general paper-ticket preference."
+  },
+  "finished": "2026-11-02T03:13:14.014181+00:00"
+}

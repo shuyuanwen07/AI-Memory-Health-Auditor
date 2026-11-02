@@ -1,0 +1,58 @@
+{
+  "test_id": "T8E8A3DD6444648E181EE170AA7EFEB06",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:15.045712+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0819afadeacea42c006ae7ff900b8c87d18f9bc87eb3328c33",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 983,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 320,
+    "output_tokens_details": {
+      "reasoning_tokens": 190
+    },
+    "total_tokens": 1303
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0819afadeacea42c006ae7ff90e4ec87d19b5ce8203cd7c469",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-TwCknxkiAKXAVsY_vUwYTCtlzhCOrA9SEbXJGkMIjoCYlXG_Wpd5m_P_ge29ucH1ESjo4s260WEF9-LjGQU1wRM-CZ3M4OLNM_mptr0M15KVAtJr7XnxGmKDisVci-6Vd8tdRp90jO9zQzXgcd1TpeqBWycJpbsTbMZJmR2JLsRKW2u6CPg8UHzDhDPq79ueDFZGmy65Z2z6LBPyXd4LddDiOZ46wQBby0NmJc_SqDC6MMupPuiOWWPeluScije3l4-yNBp6F3ApbUFV3rfiv5IPSchU9xDyK9iu0QlhBOIa799lMQUQdVWtF3KIZwMhvqv76XjK-7V4OZRRGvvtz8FFNZjQ4gq0TkfIiWpTsz2R3tpur6nec7_Aj2khgELjk_ft5XzJ8xsa6VyvM7zW3EldpB7GbjGxRuxT21LgA6PdlS6Y9ZgPSJ3ctlYCHuncXU2_qOJBXqQByPFF2flUE5ImbETRwNTIRhn4wekA5bPFjq_ja62i9N__dTcrqkxADSPWp2lMqbN1p1GiWkycXGAGhknTUVCRRj_BSXK_7H9rVjjyjNRyy2YAff-rOqREeQsMlEzGcwScCG7EfzKKxWgr3op4FlH_X0ZkQQrRm4GuPUdLvni9lMULYQN3WLHB-94_q_TN8Q_4gsGbeWN1kVNYMHX83kF9FksFMIgJSE-PCAkndoUdnzfjYocDeJt_uQXWEkqzdc1tJ2Un8G54DR6T7wRM4QwyFc_JtYyUi7-ETJqXQ1HqI6Y4lxtuJiXufxKsmvx095ghahjZNx10Ng5bVX9FM7s1JWCSUINTK0sfm1oqgeJ2nWJ7-H5qt9Gw62S_ocfJr2FS3OizNRsVOHHSCjfOMw9SR1KJ9pSJvhrkOF9qqBplYUy25xx8z_1DcvsIxzN2eivyq2j_brasKm29Ae_m5z4NCj9rdNiq-bdaq98hSFhr5IsfFDYh9smOuwC71HD2Z3jPPOJpjWZECXC6tdzjx8dgn2k0tGJsEbAPUZWtn3dU6w6sGOhwWog7dV-X7G-uhwYVyglPPhfpiJAdtwyW8_QbOofJlWT0nzSaspdcVRaurL-t3CYtxl03-zPPNGa2G66mUPdSaVSUswXGADmPx2Hx2toIt4Kpme82EdHUek1TIOW4R93pDBJGGseKzVgYKEqLp1v8faOUcN5uPupTIu00iP681zGzB2cJ1jl_ueK1tbP1T-5ahUFA-YkmGaY4E2x_NGAwQFc6dbKbFtxIijaUlPisvaw9179J7bREMqeFtp0Y92sF5EMD4LJdzztJPdCAgcpR9kKdQJpHRxWhmtoIciGBw7lK9M-mCjSUCUL4snteZDKSKBYZCDKFqCLrz5gsIy0Cq2moFc29jEqmgpV8zI1BYyjCc0zeoKao3LBNVLU_v345X6-ltRCFbCulFAJ5hkJvl1kpfWvnJuvxnTDVYDCaErdYIPgtvzC4AeGmkLXRlKRrqAwFSG_1x_IblTOimw_Hy_Ds1MYfPnKF4OwfWYoEsXF8q8pxgtED1MhF5SdkBg1HrAOgfwKg-GLcNgE0uXx-dlItkAItJDa-N29eyEdUjymHdzLnb3YjyLnS3pYu6eqYfUynHVABsXVfWmHJwlF2PSK_5SB4GMXd2Fapxk4uqLHjc0E9K6xKJN6SG_fYkGJUqtC-f4j1SgEUwPM9g2-kZ46WqeoecccL_8uxZ1DVkf1u40DA0HEqI-HoW6e6F1CxNIK6_jIbTUfjiEDm2RZHYa4gr9Td00m5uYnGL0tJ1NJOpP-Ltjg005Vt-FB-WkC5y4DNUTQMynMqQVWfRUj7baUkWPTudny_-vj_zOBwhT5eD0FZKBUdvpFoNNWLjx0tasU-kP_jc33U6VWgR5BykE7C-vf7cTFC9meuywCI7C9Llw_bsjcD8butXpTCAXc-DdpF0yA5X0VI1xdmVeQB88BksiLQjSwBwZjTfiEC5wgLRIIGOuJc9I7t6oWPC38A1ZYnhZcIm-9NsYJu2C7IhnqlUYE5tO7k58wuX-SM69VnSitO3c8LT02cWFOIPQdIYIY4eiMadTNSvROe2VELk20KsaZH8qw3gxIUYf-kg363B20SqXKJbNbmV0IbSv66N_EU0g_2RA2UdHBVDUHdnEcT39w35mekL4yJycjUa-lp3kRx4Vx9ui2ckabsJ9rL8SNc8pMqqXJ2cwFyTtl7Caz1HCaOVIQD25Vyx1wHNUEtMzKMI_yi_CaTym4f0jgkezmzwoA08-ozq8BL0g47JnLjKTcNXcNUn71BzSWXT8GwTKP0W_ZmiskQxu59-UBvyYUKwiOBWJjGIcbs9LzRDtgRVSlnLLnZoCURSbCkF3_0PSsdx99vu-gP-MDyHl22Z9z_IKyT5SPFPTze4KOPTT9ZCL6W0Qt8z5bwPbkwd4QvMXQ58au4FhAuOjK7XX-ScnLzij0kMD6sxUDHpjDwVNS98TGRdD-V58ZnoVy71520HVDAOfQ3FB3Y6uHYwk4GFeaBaAIwtGx8QbZ7wrKhYtC6qF7U0r0pry7JIO36skqDXI3vLmfn3sxodQL5iVcbAbjO8W9Ky_yGD-B8upmRwxYGA-IP31Bb9_uyPGKakwqa_IiFy9uXMFtHU1g1pvM5dsY8L_naF-uAsD8MsM-qjlmS5PL7ebDnNrIs1EV4vmnQLZUllj1tnqO-6j0UYYu2P-OxL2x7E3wSLdjRAtmb2C4G-RCOXrByPP8HA7v5exI3VihVGXXHpnmF-AXClvzzFMPp20A1LsM3uljdlgTM2uJPqnHKSQz7-CrndUXwxuHdVEYWFRwmCSSBbKd20Nz4wuAlfOHCzL9MqPIwx7SCl9nLeuyED1tgUPk6G1Wh_I1vvT_KccCT3hLYpR0YeiBSkAKgMhLx4fTOTqeILB8LvqkNq0ArN_YEcj8vVHrCLy5ap4d121r15ld6NGeR-BhNRqbn5qtce70v5aPklUIq_0VyHTnobRSmdUAMlxpB61tJ4lu-7CqXp3y_gDOvm7vutXhqDr0fck3vLGKJ76aWmolhG6FfRfXskCQLVMmumA_QE-wvVqOv1ZOVXGKNJva3pxpjhn85LVOZCQH_GMm_eQu3Dg1ZCu2uGvdY7WPuEAeHEhlbDhJZ2X0gJ5xMW0dw_ieURclPQuLe1aJkFU5tTxwTOSZyLB7LcPI1yeVcNKK-Ae4nKgD4-2O5E3owEnP8faaK4V-aeEbPB0trjq0YrokHpvoOEtqXwgALtjMwXb63YePMpk9Oely7UysMVCEyDWlqTQi3gJLHoejsRm1-8oZeRTw2C_yhX0CWgX-nJCBCHmpUvfvB8RIXhjZPk943lVYttF_qj35uaO3sCPvl_LvzsAzqw4innrNkMiKd0q-KT9M8M0Zw40HPZWTus5StWqosuoO0U72cYKNmHWhXvEGG35Uuai1YdIifeLGJ0Q4tHp7RgHsMjbMX5gH2-NVK1mgj3qhq9PHFUioxeMuHMxn-aev3wZDfS913FOsfQeaLpL1ZyTD-exlkuOgtmSy_2M5Kijn6VcIh6O1Jy_0zZseHcV7quieovs93OP-B4_KzZASrRcrlKY7CVgOY5ngkrcUeK10xIRFlxHcHogLWda6dL8YvjRycbrBswG0paNQ-JD4r_Sk3g7BQJwB2E026OpuCPm12Eo0YgtXHfJtmqrW8BqyBZMiZ6SByCo57aZeLSxHkaQ1qAu4bxKaKuNg1G-qygEbMRS9OHwLuoo74dm6lk38NhT7nCLzUt3y_E30jJi_WdSCRYZhLj2okOOw10BkiUZhWcjQsodDVfWSZ45c2jo7ZobLytGOftTnqjc56OULGS3LgQO2pIQiVPpdu6GJMnBHqHnNQ_-yXwsOD8kigL2v3Y6VlL6gb8JjvjzI8WjqyC0B9msuYyCZcnDcsmY5GuuRXo_A8C98o7rw6Thd_4esKNid753OaNT4KeXvcyV25z_MoqCnGlyfjYYuPt9VGqib6qYWrcgs1gCMCWFIaNQgs0Mry4Qp0QnGpjnWAOpWSJo62DYcrSVU0aDkRDcA6muswUPetAwVmZSb93N1mtHoul8UnCHtmR66S1fm52dNJ8cTTvB3C4EeJPFCK30NqqzQZTC4YFx0i07lK3nOL6cenUqeHGWLuJapYYOtm3hlc=",
+      "summary": []
+    },
+    {
+      "id": "msg_0819afadeacea42c006ae7ff92bb9487d1857d3a634e4448e9",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The answer correctly avoids naming a single colour, but incorrectly says the records contain no finalized colour information. Two active cards each claim an exclusive final colour—black and white—and neither has priority, so the answer should identify the unresolved conflict.\",\"evidence_memory_ids\":[\"AC3R2-H13-F5\",\"AC3R2-H13-F6\"],\"failure_type\":\"conflict_resolution\",\"classification_reason\":\"The records establish mutually incompatible active claims about the sole final enclosure colour without an established resolution. The answer fails to surface that conflict.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The answer correctly avoids naming a single colour, but incorrectly says the records contain no finalized colour information. Two active cards each claim an exclusive final colour—black and white—and neither has priority, so the answer should identify the unresolved conflict.",
+    "evidence_memory_ids": [
+      "AC3R2-H13-F5",
+      "AC3R2-H13-F6"
+    ],
+    "failure_type": "conflict_resolution",
+    "classification_reason": "The records establish mutually incompatible active claims about the sole final enclosure colour without an established resolution. The answer fails to surface that conflict."
+  },
+  "finished": "2026-11-02T03:12:20.014149+00:00"
+}

@@ -1,0 +1,57 @@
+{
+  "test_id": "TD1AAA3408AE54003B4B27D5EAA45BB72",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:17.212700+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0ee6e2031f3f4cd2006ae7ffcd728c87d1b65ebc17f6b2d83c",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 893,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 106,
+    "output_tokens_details": {
+      "reasoning_tokens": 23
+    },
+    "total_tokens": 999
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0ee6e2031f3f4cd2006ae7ffce048887d18885e08bc6119dbe",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__Pxf5c_64J7l9yVWpA9TQYUDV7IZqggGf6QLsOz6CCrIYV_5yEjfGzB9BDUeMAdqZ0VSoxdC1nrPnSav-WaGubKJIgHicfW_c6A1paNANOGuteXsR_3l4HqKFotDgLxTaYkXo3Zd-ej0M1ix2CF0mLwiJYctgsOJGg89s90a2mxF9crjMvyvZHZyR_7py14jjNMhG5RpfD19kf5pPiGQGisDSVwrEdnyNXQcBbNuxCXtWl47Fit6tSVJuutubV0-mcWDDKJXQnUJzqE_ZxOr_bkGwvQEVB1khoCk8MaVHg5eKI_T5yJOf4zp1erv8m-8VkprFnx39_l1jPiIk3EJZ8jTQVwnLyY3iiWRABqeD0A_2IYjShAUz-eqo5U77qn7L5l6ZbfqjyUQuDhLMDd5SrpdHkdLI-v6RqJkk9kiON8zL2-rcfpo_1Aql-TtjDAqfE6XTLKNLBw4MpX-jnUtvq70i5q68Lk7ND8glG4EcfKhUxloROHOEFQ0CXHA9k66TpcX5jI5dUWSejGJiEZI7pyKqfB7PlYv6EYvsXku1Tb4-oDmlCjR8b4Ry9MBaVnh9Osm5MeIvKNYfATdSgxB5SyO23riuFFpAWlPCXFaDN7oQjDgUIMwqSO0KwH686FsaZb9vxPpUJy7CCfAGedFi47Imu9LtMuMeMnBWVewv2R1mjUvW0aZSNwA9ySSDNyumnDO5s-gBREVb0AsMn-kNRbj4H-4YUoz65Fu1TN_SupcqUM98j3WdUUZdoXk5zG7kUTosFL3EKliAt11BQE7S9JQQMBkk8s_xQPr_g2_GYHWln570uEVXsa-NEhCMgjHh7izDvYqzEu_0t25t091dBU5EaYnQ-jBcDd2fzKTlri0YWxwdvE7J9PDu-7R6GpsKrdpWKgOoDFJebUjpIbOfTAlZRgBt_OX8ePQIOVD4JagkVDw77Clz0wNrH3epusK7cDSxbl6eiYeCkOpyTBGHI0cvc_yQjkGYI397YiAXCBEcvQhSNZkSBULuNhVMrMM4F-RC4I_dOkagGtU929WN1CWsPWFiXi2yx4FfxeYksqTsJybtJ_-grVqw1HJjbMSSdn1hirEZNYQDFnsydfM_vjpn0Aypa5BVo17hi9tsTOIBfMLsbiQlMgTIWesMyBXMoSLC4n_7ghSf86SMjEct-XOnn6bPHjYX7VX2ugpNmO7DIy19oUQdlXP8tAP92zHuYiIaHnYsMT2iEEKgw6B6u_vFXC25m12oNlDDfkAW8F-RekADWIaIQvNt0QFLg6WCHH7qlGQ2MWeAjy2q45He7NYABX3ueJ3AF6wZjQL18R2VTjxD8pIv5IVxhOP_oJs0njO_83ANodLd23--blsOo0wnNAyEqfcJSVTaOPUSt9Y_DIHGKGX5Lvv37IhVXcggVm5NZks5kubMqLLY_P2qnkGW9lIyiVQQwScdzFIP8Ij8-bcK9VoXvRws88zfy0KybCpqaQdxJZ-Ff52jdJWvGCmAcSeFSKpYYSy279wPIifYA10PjjXzuW4U-I_tSvf_jmVvHhJLARMOVeXcYeUHQgcwj77YyzDNQr0r2S-cHsOTNHoZJnAY8dXb-_cQfZ8SYNiP6RdWkR9-vRzPjNTyO2YYuEO7sqUPz463lbFKHMRrHPnG5OWY3pHmxam2Ms2eR-aF6bpKLIqR6IJOfLEsQxPXjuil6qBOsGGE1RZQXbsU=",
+      "summary": []
+    },
+    {
+      "id": "msg_0ee6e2031f3f4cd2006ae7ffce785c87d19c0ce551c700c302",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer correctly states that watering must be recorded in the online log during the remote-monitoring trial.\",\"evidence_memory_ids\":[\"AC3R2-H22-F7\"],\"failure_type\":null,\"classification_reason\":\"No failure: the answer applies the trial-specific mandatory method stated in the memory record.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly states that watering must be recorded in the online log during the remote-monitoring trial.",
+    "evidence_memory_ids": [
+      "AC3R2-H22-F7"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the answer applies the trial-specific mandatory method stated in the memory record."
+  },
+  "finished": "2026-11-02T03:13:19.464928+00:00"
+}

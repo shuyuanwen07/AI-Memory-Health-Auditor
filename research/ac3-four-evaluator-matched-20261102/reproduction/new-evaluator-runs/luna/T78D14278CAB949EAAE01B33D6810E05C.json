@@ -1,0 +1,57 @@
+{
+  "test_id": "T78D14278CAB949EAAE01B33D6810E05C",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:44.851944+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0726267f65084ce5006ae7ffad14a087d1804f2227537f6288",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 877,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 104,
+    "output_tokens_details": {
+      "reasoning_tokens": 36
+    },
+    "total_tokens": 981
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0726267f65084ce5006ae7ffad797487d1be2f5ff5a2152663",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-uPV1arTVLunyjPZnTL6TpEEA591Uq3-BkyTycRPJPbW6EXmV9Me5XkFP4FyGZ7J95nmYpnXF75K20Ww6rKf7DDgFmAWgmtkji9pcRUFavANqhImjVpn9Tor63OQ9zDPGWcv5W5sb-8VBpQ0S2gLv7gJpqkbSWdGasc008kdwv0qH5Lh7WnSGMPBa4m6PVCgMaAtqxqjS_h2AAeYlt7yvsoF1egJ2XAT4g5jn2tkVdI6XW9sxlK7NZOI1PJ8R9GbMzz_v4WFHB_otI_CSqKR-jtRIZAoSlI_HYfRimCZ2DVASbFsfNBIlyE-DwQiDKujOZq6WQOPPT7kEYP4e5IVDA7_S7cdo5Gla7qKDT6zlOcFYRsja0TErABDvFYXaMAo_UjDKxQkyz9C_mlIUKBv-C-NhBD-07RRoKN6dIJkZDfvXs9qV_seyXuNLUMKtQXgRRGXMVAZSBwZCRgh2MrsWZjj-CfXPLR0rlJ5YtvskJ9XULdyEmc4Ogcs1hJC3lKfa6pT5_a9lXdXtVPyZVcVgO3V8RR8xiTjZogQsshobrZ1CzTpkR8_lpCgsR3HD4MqZ8qDW7Rp74ZuxgGzomYFpbSB_nOyfjj87irFrSWKJk7GAdoOE60cBdemYlJT7MB_S0jGlXb4HDp6Q2cGZ0cjYVIz8DwR9YZuftJgXb8MfufaYOaB-n9ftRZZ_Ym00c3me5RuZJpqDhsrkjs1M7vB9G4vm1ZCYLcjO0pYH5i8k1nd-7Xh16B-fhpF-AIUIRIKdlNzWSFN2uF25VYXKH6cgWfcG3c_ivIoUO_TgPst_nDqN1ESKLh_HlOA1drdU7-YDyZP1hnkLSvE2HVO0toS61hi-D5odB6TpvzA6l8Fa2xHFuwHlQ7s05GXiUl92pC3ZL-PKuE_uh1Fyz0hZhBNXvkdemQuk6knqgZ6Z6CIL5vBu9djf3L1Zo2qF7QbmKylbqnehHqNb1niP8BKHY6d6ka_X2PuZ5H8wv9oENQE54k_RN3FrCAJOp2j7WSgQBi8Y6_aHyZSAKramr0IKpSQvmqAhBP6nAOUYODYQ2kQ_j8-oEmC60n8rvDyFjSDWTsmWECP7qeNTPCMoo3yCu3du9y5FLDEeQ-Dtw9CoamEZroCDFlUp4J7U5y97LqTUrQiOB7bgBErueu6Br1U2d5jabOBiqafED8EeCdoPdmDvGxXEpIRL2TqA4olc70xkPd2KMr--dxef-_x9TAqsI8pd_wHcXvjJtCycWI1bjUGagSYPBDPb0XIBkDIUoXY-QvaV6z-heyXJ9Il-eCBt6IqCSWv6mtxl-4lgwie0JM2IBFejMx5hRuzCoyVGBt41xAFwpJPWdDLVKsIhwsQIdnTcJZyyOk26Bk9RffArqthij9CeVTGr57MQ2WQ-1dgjK69gUO6X_55oxD18o0O_rvEoNZh-XML4uKFn4l_LfeiAZG1nZtHHTdpLZpgq3t_yeqmRAz5o1JIPR6Do3g_0C3-ZVN4NrvJuPZ3-lEEw-3t7Ih-wmxxxZvQc01JFAbPy7xK-xugoKF5_6Q8pN5UYew1MjtbmHLZmfYuhXWSsvRcKvRIk72-hFBIPsVk1kf_72n1vJ8v12zX1t5NTkHGVzkC3yJILFz3nla0JMCJSBe6NVHhYxn9WL7PU9rS-ZpqFhfrwhOKQFuj5P8pZFVyHoK73uNGoujI0e60V42GSjQ0GA3er6cNcTRGLbtjh6aC12PhMc4dqLuYvQ4s_pPNIp0AkzEypMeui5IfuAGOMhnCcVFBwEuBM_gb6djPFxky58bH2kVy4JccRCbTjyyHGDw0x-YwKEAdHBvRUkceTXP62YHOlKa9McmorYWEyDM60jsSXpeXdbTaWMEFsB8cyu6bEr2g==",
+      "summary": []
+    },
+    {
+      "id": "msg_0726267f65084ce5006ae7ffade25087d186aaeaeba17c0963",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer matches the confirmed requirement that a critical evacuation warning be delivered by telephone call.\",\"evidence_memory_ids\":[\"AC3R2-H28-F7\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer matches the confirmed requirement that a critical evacuation warning be delivered by telephone call.",
+    "evidence_memory_ids": [
+      "AC3R2-H28-F7"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported."
+  },
+  "finished": "2026-11-02T03:12:46.696226+00:00"
+}

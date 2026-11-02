@@ -1,0 +1,60 @@
+{
+  "test_id": "T3D9807490B004779BE2428437928BE99",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:00.057941+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0651655b16ba0161006ae7ffbc52d487d184d4e5ef0e65f86d",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 990,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 550,
+    "output_tokens_details": {
+      "reasoning_tokens": 378
+    },
+    "total_tokens": 1540
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0651655b16ba0161006ae7ffbcc06487d1b30c954c9838a05c",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__Bql0iNSw9qi_vYZH2Ox9JArIo1RAliJ-XSE_PpUX7lGM7jbnyKbClgOGiZF7QMjiDf7Zlndcx5PDWM0neCxlyHCxj91qh_zCoRWPbrbnOfUHVjVrwllmSd4yB6iTh1TpUGlBgBWiC3ekva4lypxpO4hq55MarhoIf3sQUm_zRwD6p08ndJjojzMHyApXvkgzWarY_B8na1PgydqjzllQ8AxLrJabMrdmh7JOmmantebTvosDiggZ5V-O_U3NEYe6eNNI2KQIKRJDNYf1ATAqKqTrMnShaIjiRs_M_4BKBDFnC_XZ3ttjGe_jaEQ1Sqv02guIrPYCwCoPu-apkD1-tlq7efFbBxuT1Ckrocnv-cbQLaeblAnoF2exvEpTmXFNU_UmdJ3Cd5ASR6f_9o1qEfekhV401FwFue6jWwLjP_E4cTSvQsMmkZkMdZRZulObsyAj7wl3nNPztTQRODOGRQWaQwESmUGKWK-rbsC99jb8QPbb7CvV4EACbFqyd31QnBrn4L-8GS3dbPQOI1R-oODsLFH9wi9uONyq3eBCot-e5JPnwve1J5Pf3uTWc4koII7ZASqtxlD1uBaq4kgw0REjqRjlcM5VA1z94VJLN65Bz8TxeJRkCRGLcLq80br_93dww-ehkGktXR5mGI4chn15OXB9I-i_fLhX8zbIh5MdWE0ii-SV1AFEyh5IxBmElfmizOsOolaXLdMxAF3Mc69aZseyCrqVEXvrxSVHCXQr4hr3nQGYESbbbVK8LExRfa7EKq6Q7kQuMnesH66GUEp-OVeFdvUIRkK2INgT0lehEJW3ziky-3Ks7Bqj8crh_tBv3K-vrPcoAw-nxsrNG7DogaCcT8n8V8_Nc4MaiQA320G53D0f9KDhK3MMcwqHe7inUxFafDjT6rXQilTaokXq1c48tMdpPToHXvNI8cqJ2lV4Kr9b0v78nGhdt7Gz16E6yMEPZJBZF5N2zoyWb3NQDPN-m5wGR8XAkf4WOoU_ZWx7yxbyzlq-ycVj3hBZhOw8nR1pHWG0E0Jr9DSwMo8AVDjdgApNyJuXqFS92o81erYPCqvoK4kC-34yfiFn0-DT3ezK8H5WYac2S_wZ_wYDpl0EkmPvpMwXrl4BDkiFHWSGunsDZYHM6MXWGRkJb6sZ0Fie5Ljmr9_AqQ9NAGbWhK6SCR7rZx2NZJDFfvxr7DrpyFKK-2g5QAOQ9mX-I83SmXUisSfyR4h4AmYRa9MUsoGzjhqHqxMKGz7k4go4zTV9T8udaTEqLX4hUbLKU8mk2TzKve2zGDNeaAzDudmycWqvU4x6ZNr1T9eJecpzj1b-4Bdt3fNcPu5kV4pYCkukHfEA62-rDExg5msVdU33eTLzJnhFEChiiTUWPoDzwM1Ina4dk8Jeh7TSeuE4ONasuzIrY7O4jqJpQ6DVZk6YVNoc-ednEyHXgXegXDOerdb3hQ7qVVgJ4ux5bmf7q_FgR9ZRnx2RHyxqRYlHkX5tC-O1XvjIqxjx3UCu5RZpeFKh6ou-roiQXQq6RNRzn-zFvl-EjcrEFp_wlY_SOb0B4CtfIvNLYveX5k08lovLI0uXhvO7oJp1a_X_Ch2bv1ziwuQEIpJi5JCfJANaRy-C5_3cj89-i-A7VV_uLCtHlOlopcX1zHg8BrYWJeWEzCyv9Aq4kUich7uh_NPad_Lr4NfuRYhHf-P7RAd74XCh8-UU1x2zCNb4sg-xqlrErNwPiQOVns_-Py_qYns-stxjQEC3CgszyI_i8k__a1cN3lA_R7OmBJ-iLh88b0Ioi-0GAKl0SbQafBVwQn_7Cir45nKwo5rVdjG5kCGjVTl6tR3LoH8BAdJ8SFvR8DzbI7pMTDVl8uh4LjhtIeiRv98jed8aW_h3aSmqgZNsyfen8pyRmLxhbb8mFrM0N4xF23gz0EoGnKlIPp61z-wMLmsQLDUey6BCp232HPhzdpExV21zJm_HJ-devcrUbEjxGzeUwvTjAmtB9iHeU0Z03ho8KY9z9XSuVD3EvKAp4632KzcxBrMlEWXT2y3r9VSyd5Ja1dAvxJpByTtJ4Zk2AxIMdvYmumSSoZUWLEiB23xlOadypcrP5lQMY1Sp1m88kGMzS-lkUExz5NJX45-TqyadPxAKZz3R4xCWFVDq6668pBzpU6VO2YnMUr2_viR_sDfS8wPBGuTItotjReK4AYZQwFfIKyEnrLSDxVTLQIORdDTXHN1CRLrlJAIIxeYJ4aOEnFMHLY3mXs-NUbUYs0ctEBTVtasHoEtUQjI4AqV2DbsYnq-MszqTbnk6_4yS3X_yLNUnb198VQSmZrSNuI3FtD_93rtxCOTjGx5CVlWvFmRQK0-4lUFyFn6BktgAkgH1qZ3XADa1ZSV0Dfoh1ywtU8bdg_JRzY8xT_IMFO9Y_N5AaJhkWiqfMzs_mPv-JwWKkPfpL8YEvShh_A2V3cyvylcviNUYfeFoFYrdzACbnZkgUgj1cBBOUP4pA6LbOSmQut5o6bYXChSV7iT899E1ukvtBAV8DRP6i_iA4rUY1mfNmiuWVWKBTomfgYXw4k8ktI2BtG6aV6ihizsD8UF-B-0MyBnBp_pe4kIEjOZLbI4rUDgVb669nr1SjwJ7LFS_DofIQXpZcpBZFK_JM_kgLA8elHWGyoG34Wm7G3lp1eRNOMkxQGGEfQk0t9w4LCJzXMxHbam7JoBuhyeYwWEmRDlFVApE2xFabNEQv1Q-VNEkAZkhoGmTNyUKDEBRwBSGEgrKPOI5_6vyM5IXgCZp4ivDKol5HzKflb2fyze43v6jLAhpTcOFYAkeNhbvI-6ebwRQ9zHN9JhUfz5js-YknhXBC4-QbhrbswFKz3fGshjUt0K5fGj9a7J7OnQqbOzmI7Ud1t33FO6ilLtR4FeXUbHpt_SwVY4IF1gaREcEm7b-TPxKYGAtubE3FkrxG42Q2R2gskl8cHHxTNQZNcn2xOIm28xpKmxS76BkEz5sTTlQBMExYkRtYZTHGWXt_s6KDwWGkBTGywmuox4_hiFMLAN5VW_JE3CM1gRB3DGAQ7FRpfbtO0jR9o_qAt2DiBt7yLjkD-L-GlOA_luNLYnop_wYy4pbmwm5g7GpXqWwJg5OEV05wDcfHABKb3uOZhSHewuLVcoujBO2k0NG2ZaQxUw9lrXeeugs2Nyd06Dio3ov3j6ruG97e0vyfND4n5VFVkPhyCjZ9BfOezSPeoNK0Xm6c4681oJIlvGyUcmcuNkfSNDP3PVgtXDvqk7tAVbhXClmj1QlzEHlQfgNUFrBcOD6lRtYEI3sGPUxQr73tBLSjlHUBvzigt18P9g-zUrcKBNN4GnZK8W2k4eYTMKJYbK-WrbvDRQi1KV7EnTFRLaXj5I8tGyeVok7ZC8RqCF4p88hdbD_xzWHSfQyP1hqNraR891t1d-l4yuCJLD-nRm6fExeY_4MKNrOeGuIGdqHrtvRQ8mVUl5tw-xNRAVU6XfyHUc4bzyNiLGZKbIsFSoHlxiujxfUKFYv4c8d7DeazQ3azwqH6N4ah05heeNIXLHZWv4WG75JIdyGkTr9OqWYZjjN1qtmYPhV-z7wWOFRNN8pbh6a8INI6Bg06XJSW5ObUKh_9u6wwt5QRjjPY9nET1d7W-SLnzy4NhO0DwOcjdYSLwhYTcA693WJu4ig2Ga9V-FbF9vK3Y88sL6QPV8b0MDEb0-EOB-e5fUtPLMCknH7dvgMrr_FRe2AxC4lVe699RI0fuSQy7UAXBcvkqlptZTmbBCgPxTcXo073b4d_zlwkFU_jT9Fnnyltec9T7AbJ8RTRuP5_qXU_-0KIsRlIw4BoVIu4Jo2wgcYOQ_KEViZwIOEpa1BgaWCzW-hIT8sgnnQkRYWb2wQarD9p8yArLeUMMp239SUMqdN6Jp_GgwsZw-3I2te9zCeeaXJ34ocpj9OoTMnO5HAMjtpSR7p3eWz3eBK876Vn7LRi-iasqX93xXUosIvYUEzkNbMuUraxlLT8Wi0NT_JTw4sgWGBAP3WH6LCsg5MI3-bsZmJBGbstgn5TtDDLM8IzPiZlnk35vx18VR83y027B9_GFRSTUF36AETUSilhB_oG5XiHwTJIcJxo9Ls6DglNqXo6P-IGg_0jmomNeuOr-Qj_yVddJ29F8fm4mVNoXCtsLxYTlDT37jb2Fst2wUAiZl7FEm01Pi1v6CIjPG18F7ksOTJtBO_trdz4Vpz3TUJup7qF17zjshTAQB-EEp7FXvUljIfq-E5vnx0t-ITaWltKwCUxCg3tVyyZZHFr13Ovf2KX3vF0XjRAwtUVRJzFAdycRSazjlLOmyJAGX-f3cqCPFLymAczNjO3e53m7Z26Ma9xllcX-YpmlbchivZWzIL8frWeAMepUGKcKej7bIOF-zR2kIEVdZbxQ2uxw6O9DEQxpgSuiJGJSQTCkqi9J0H2os4m5nOPS6RRark2fXM0VOnQQdssbCvxd5XxqZnorPFxhl9B5LroERFdfmHS7vfBVM-hsnIMOqRRdL3iigHD0nNffjbCr0AOJQG9eV3C73uFCeME5kH1DwIFaS_QLbbdOTfdCOOAHT4y3sCB6dXGnPWL9e7BVuRWc895OwMrmTPu6XXs6v15mXuAjOh1Jd8SXQJI0ShGgK95xMzrB9swokAjy0vgw1Yf1cMjQgX4_AJFDFySHJXKJ_6A2iN-Rq9NmDo-DSHF46Erg7TRT0iKZDFO37mb0oe5sGonzp2-rRPOiKT0TRGMGJfiOGJVNaR6x-oMTyYIWAG4hjRI6beahUBSUKeS9YVNRWJ7t6WLOtnoEs_3pw9K4QZn7w7sbMKuUSZ16yxtwKyKFyRMzM8gvkEgs2FzzI15PoS9LQTLve0TCftqJGW_9_J2YI-NDldZCRp0n8U1nVJmBMflRr4xIUQ6JjG5PJHXDgw6VxXzUbFTYouRbupbWns3Sudm0n0JuhMsZqJ9knBlpI7rxmJVeucECCKqgkPThFNfYOkXQl0vOlEQwHOCg3fG0sM-hKD4Z4HuQuavbN9xUREsbEBGNHO2MEJ2D1OFlAyWYzkjNQymIqD8FjwcpesMwnS6SFUB4-j1LFubEZleLR1hRfYn0vJbpr1cs-OcPvvsL9xHumNH1oYSj8qIsMDQEYmmx4lEIfen57-dJMBH-6l-hW1gd7QexA0XYP98ILi5aSyUEEGuZJ9WW6BNvPLR5EDq0-xFM-Alwq4z1xx1nvhNwEzNC1MHuHSkpYtw0UF3liCoVD7nN4t_IdGus6MuIyA3gPG-62kQtHZYTv2btzOpU1UhMbhHy9LAoatHdp0QRKHAFhl6zkPwRLhNK7RhNCj4RonEGCxxyeKhewQvTX231H9WyKPHC0fGmZYWY9YsHSGwCT6lfY8I34qi7j99uBlXJkC5A1u7hne1ICmduWSXI7ONJk-RgNNcktIo2hI9uusQVIbwKkq1_y6DOVCvqDa4Kvp3DV6NNCiUdU82sTJpg5knuKN-eTURV149QtsZLmVlUcSB30ax1wHdkUNemTzWxGAl4I-MEU1nAsAhiZvrEe970aseAH0ypTnXEjIYBAUI0fglWglczzonbFlmLX_-7CoSDnBKX3eDjsh9Z6JbET0g_XhBPP9ni9uXd16AWcuTeZn26nSumjr1j3aAMeBdz0SGzlXHgX8NS-0b3RVWPBx1Mp-Sd2pCAulfMX1hM1hVgmPdxG6_VWkx2dpbqf1FwIvV51LCmNdt9pz2zIDMv51GTi_bxHJSoelCmrAYdzJxltmCsigCr-Oaprk_AY8-s0d3yHRBEdiXr0iMoowwOMfPj-gJ295NneXOyU4q6OWYLGtFXuBJSdktryoEtPa-KGrzDcuwMjl5Ncorrt7eVVYrUdq35jWbnZEHgVKjgoUnbWtW569eA0zMPlZtYx0eI8S-43PVIkpRu1faXoTTZ-tLYyRGocDnOju6W-p1zgEms23C2XLKZawHz276bQfPyl1-3etNdnEHqfvD_evSansM_dfTeIT6gl9iHpbjooZ-ReyBlmHPgMfD_ek5kW28OiqUaodDaA-EHXZvtNk5ACC3oEUte827_I-Anmo4EH9dOxFmPyXLKUITIboldR2Yh3AJtDV0Cakc4fs2SKPpem1YaflRZogTun2pj6N4aaF_3OY7L3KH0ErlfpCqH-rPT-zHkM-NgF_w7mxg1IMDb6xjCnNaLIGnA6NijU45e7zks4w5hAEzHfqCk-vzb8rzu61zDZCwpwtIedLZ6vVoWF-eKUxy39bx2yxidviPmD9rsAiu2BfBDd6WUimCM6xOGFYPtNkLW5PsABJkClkU62XMfcSAfA1Eu6QqCwgaPu9V2euggDldq0fmPnUEfgeU8AHf0WZXJizlY8B8jIrCJUkNueBuRg5XjIrC6DABD411FG9mVq5L3d2Uf7GEZWEg3-063YPY3wxoKkolkz6cYl-nY-H2oA-KUbvQHD_6DjG2HC_pZUJU0jGVzkg8N2gpZB4IqdgjPcR9wnk1kvYWF2HYx4pdqL22BD44cFwUbrzcQuApIItIRhWMHFsP8j7lBKt9uaMhsA9bCpAShkYKnpXO2GIFfaHdEdon_wNJkFNAvEnDYlM0L1WjH7_U3b5IvjQsx7E91pvan_METKA9nmzwuTtbOBODPavY7Fyc4vWH9GwX-flzp7veKiWXnWjxbg==",
+      "summary": []
+    },
+    {
+      "id": "msg_0651655b16ba0161006ae7ffc017d487d191b8d97e9659e402",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The records name Hana and Vik as sole final approver on separate active sheets for the same broadcast, with neither sheet having priority. So the answer correctly says the single approver cannot be identified from the available information and asks which sheet should govern. Its mention of the conflicting channel outputs is also supported, though the approver-sheet conflict is the directly relevant reason.\",\"evidence_memory_ids\":[\"AC3R2-H16-F5\",\"AC3R2-H16-F6\",\"AC3R2-H16-F1\",\"AC3R2-H16-F2\"],\"failure_type\":null,\"classification_reason\":\"No failure: the records support both the answer’s stated channel-output conflict and its conclusion that no single final approver can be determined.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The records name Hana and Vik as sole final approver on separate active sheets for the same broadcast, with neither sheet having priority. So the answer correctly says the single approver cannot be identified from the available information and asks which sheet should govern. Its mention of the conflicting channel outputs is also supported, though the approver-sheet conflict is the directly relevant reason.",
+    "evidence_memory_ids": [
+      "AC3R2-H16-F5",
+      "AC3R2-H16-F6",
+      "AC3R2-H16-F1",
+      "AC3R2-H16-F2"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the records support both the answer’s stated channel-output conflict and its conclusion that no single final approver can be determined."
+  },
+  "finished": "2026-11-02T03:13:05.724402+00:00"
+}

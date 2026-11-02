@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "T74AAB12A203C4E9CB93B87E82CA387C7",
+  "started_utc": "2026-11-01T13:21:39.088970+00:00",
+  "request_payload_sha256": "710c281c71c901b9e2fbbfd5202fdb343b7357c933509deb5a866d9830e96fa9",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The workshop calls volunteers by ringing a brass bell, according to AC3R2-H01-F4. The answer incorrectly claims there is insufficient remembered information.",
+    "evidence_memory_ids": [
+      "AC3R2-H01-F4"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The answer omits a directly supported fact about how volunteers are summoned. No relevant update, unresolved conflict, or misuse of scoped memory is established."
+  },
+  "usage": {
+    "input_tokens": 739,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 493,
+    "output_tokens_details": {
+      "reasoning_tokens": 374
+    },
+    "total_tokens": 1232
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0ac5eb8c5cc7bceb006ae73ce36bbc87d0856c1f39198fe512",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:21:50.037151+00:00",
+  "raw_sha256": "7d44bbd9e476d76efb2aa7ce6a8811ab96ded83fc1870a2200ec02b436b9ffdb"
+}

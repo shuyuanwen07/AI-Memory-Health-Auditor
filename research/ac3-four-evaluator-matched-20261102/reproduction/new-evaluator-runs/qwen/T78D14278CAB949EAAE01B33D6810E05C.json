@@ -1,0 +1,28 @@
+{
+  "test_id": "T78D14278CAB949EAAE01B33D6810E05C",
+  "model": "qwen",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:17:31.972713+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 813,
+    "eval_count": 152,
+    "total_duration": 16866532750
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer 'A critical evacuation warning must be delivered by telephone call' is supported by memory ID AC3R2-H28-F7. The memory explicitly states that for a critical evacuation warning, the message must be delivered by telephone call, while ordinary reminders remain texts. This directly supports the target answer. The other memory records do not relate to the question about evacuation warnings, so they are irrelevant. Therefore, the answer is accurate and supported by the confirmed memory record.\",\n  \"evidence_memory_ids\": [\"AC3R2-H28-F7\"],\n  \"failure_type\": null,\n  \"classification_reason\": \"The answer is accurate and supported by the confirmed memory record.\"\n}"
+  },
+  "judgment": {
+    "passed": null,
+    "reason": "The answer 'A critical evacuation warning must be delivered by telephone call' is supported by memory ID AC3R2-H28-F7. The memory explicitly states that for a critical evacuation warning, the message must be delivered by telephone call, while ordinary reminders remain texts. This directly supports the target answer. The other memory records do not relate to the question about evacuation warnings, so they are irrelevant. Therefore, the answer is accurate and supported by the confirmed memory record.",
+    "evidence_memory_ids": [
+      "AC3R2-H28-F7"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer is accurate and supported by the confirmed memory record."
+  },
+  "finished": "2026-11-02T03:17:48.957773+00:00"
+}

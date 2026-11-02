@@ -1,0 +1,57 @@
+{
+  "test_id": "TD1DB5EF7A6764183AFC0BF39B180333E",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:07.092761+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0a6e9eb4806d511e006ae7ffc3518887d1931c0500b36d232b",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 732,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 132,
+    "output_tokens_details": {
+      "reasoning_tokens": 27
+    },
+    "total_tokens": 864
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0a6e9eb4806d511e006ae7ffc3dacc87d1a2a05d8e4fd00b1b",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__FdG7hehhAsp8OpNO5VOpAmIY3bU6K9G9Mhbsqbg2rx81SKLMESRM36UfDNylNdESD0-mmwFXpck97YmSSgKFS3BJqLQbbGrNUiU5yBrbN2Swe1rUqAgXboeXR0H0WyhKw89WIl9n36M8ETUBKiMOG-eARKTe7coU0SXOXqiizvMXmQzoUL-KE-dhbBDKSd9fSmOJdEajByfiSD9c7g9udoaP6fmwvKnH3c7Gky4XXz6u0fYyzxX1wGuvOyNLrH4IusoWjRHRDsi88xJz4Tx21vD0dLfXZNeicSVdo5UFGGtyAggdoIrNk3ksOyqPW3iu-_AIh-XJmqKvjqNm5xt4ba60fzjTJySSoYlm3P_2ERVHm4YLdXjCIjG9O8Fke4p1SxX_-2gzzzll0kU2g1OssSMnG5WoajKo9rD7bSc8bZ7JBV_8RZ4fRh-_Zb-8O7Ah_IsYDVTts9QeFeatg0dwOtyF4Kd92eL8lZDZXRV1hPyZHWspxljycEKSgBA_O9nxU4DRkMoaMDttWyeuWotgTKAtLGHhjcgQIMgRSjthnbe68oSlaHT6Od314rp_PaCp4lk_DvrTslHbaTwRU-pGVlGGtJCXqiadAnFn5bhNWuhRcRd8rk1Ly4vyQFaQAh0TF5Zf9s1BlJkGIkmrZnTsdq3vtTBGhO4bPC-oIxkyGVXuDGK-25Ns7sEoa0QDE2pxid-HLtmy05Ndn2jy6UFUFDezqz-kNU3RqrDvqmdywbtFR64JFGq95m1tv3tBLj7SQponRiiSgkggyF4TLEOmponbvTW8wNcER-45PUs2Ttf7xN_KfhUOtoj-XiuZuMgUVEPwx2ZS2d5YXEkOCvWjtZtJCiojPXVCftpF69230wTd2uBDU_KhAYDuX-NGLHi4YFt7CIB-vtcyeI-r2AWLpiZWXteekfzMoTd2SiGuestRow_rHHTepiohvvLfbHcccOPUL7eKmnOjBQ9ji51KlQVuQLbNqJRyDypG0Nkx9ceacb_gYch6gCcCH0hyYEosVDiLV99FVEpZ2wqWcWsgAXWN_bmBg2X8Qh0EigPK3Q12MxQOharS9ibm9NZ2Trm91Di5RDdzp4kGutSs0YZtr8L_V-CGn1rskDqvWriKaQQnYKuwkGIlpbrdL91QN0bgIIOPya4itCYXk2fPR21NqqJr126AouvNoHY3lgFGnH-EBh2oGe8hkTGn2JRL4oMA7VvFNdHuwV8tyEEDxY_nJo9mhkruFrTt-vTwzCv8G8M8EMgdseYOCFpWxWJZofcP8oS51JgzWj06ASBHmH5Vl2CqilRnrGevnBbYTtsKOkL-HMxRk1JJQrm3UexMnWzPPPSNjyBG2hZWOos9gj9x0yv6bkj4QGbmZiUi6VwXXKBX8v6zsz1pRwuvRLfgpEXQmiFb-1MvpiyL5V556IKvlSu95eX86dAn8JPTdvNOXaQJyeiwz1SHaH8P1q7JJ1hzZwpQaHjaeVmK_xZIbbZMO6YMDwaSxmbdI83dbYaT7yQBL1W7Ewf--AaL2pZGLqduqNEqnneAe5m1pNtWMBFHGaLH1KBm1mEoXik9W0dDADFvhVZjDp0CW9OYOiFsR9kU7kk8kxrd3SzQTCuWnF3Og10q5m0WUNwbrvbYkkx6wmWTEQ4Cy1EMqqekT_cg1uuA1hksdiNQTBtiRifh3HaXp7a5UknmMUF42MS2Eqhlwxde7z_H2Um7CKH_hA9CMz-5H5Ii3_sM9CyaURksLd3AuAQ==",
+      "summary": []
+    },
+    {
+      "id": "msg_0a6e9eb4806d511e006ae7ffc44c9c87d1a0bd24f0f7e5a987",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The answer says there is not enough information, but the confirmed memory states that the trail team marks inspected tools with white cord.\",\"evidence_memory_ids\":[\"AC3R2-H04-F4\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary source-supported fact that the answer fails to provide; the evidence does not establish a superseding update, unresolved conflict, or misuse of an irrelevant memory.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The answer says there is not enough information, but the confirmed memory states that the trail team marks inspected tools with white cord.",
+    "evidence_memory_ids": [
+      "AC3R2-H04-F4"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary source-supported fact that the answer fails to provide; the evidence does not establish a superseding update, unresolved conflict, or misuse of an irrelevant memory."
+  },
+  "finished": "2026-11-02T03:13:09.652824+00:00"
+}

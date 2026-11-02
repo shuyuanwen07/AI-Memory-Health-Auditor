@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "TC85699439BC04B578BA887AECB01E176",
+  "started_utc": "2026-11-01T13:26:20.757686+00:00",
+  "request_payload_sha256": "9014e98be98e76ab99f1a5afe43fab777a8f3fbaca5c4075db15fdd30877fb7b",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory states that the measuring tape has an orange handle, so the answer incorrectly claims there is insufficient remembered information.",
+    "evidence_memory_ids": [
+      "AC3R2-H23-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The answer omits a directly supported factual attribute. No relevant update, unresolved conflict, or misuse of scoped memory is established."
+  },
+  "usage": {
+    "input_tokens": 885,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 465,
+    "output_tokens_details": {
+      "reasoning_tokens": 357
+    },
+    "total_tokens": 1350
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0e267e66c781f226006ae73dfd15bc87d0a143d4c6836ba19b",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:26:31.796869+00:00",
+  "raw_sha256": "1015692da42a4433430febb9770926d4b17e4e5f02d94047356bcc7b387fafb2"
+}

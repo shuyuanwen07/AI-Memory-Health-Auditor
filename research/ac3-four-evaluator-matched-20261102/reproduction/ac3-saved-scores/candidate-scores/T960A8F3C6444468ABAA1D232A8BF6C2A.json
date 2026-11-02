@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "T960A8F3C6444468ABAA1D232A8BF6C2A",
+  "started_utc": "2026-11-01T13:21:52.570910+00:00",
+  "request_payload_sha256": "d2c12a0c5b968f8ce9fc76f91f1d06526af5858ecf1a1637e4296ed41e65ee40",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer matches the confirmed memory that the mobile library uses a wooden display rack.",
+    "evidence_memory_ids": [
+      "AC3R2-H08-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "The requested factual attribute is correctly reported, so no failure category applies."
+  },
+  "usage": {
+    "input_tokens": 734,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 285,
+    "output_tokens_details": {
+      "reasoning_tokens": 197
+    },
+    "total_tokens": 1019
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0a8325d318c957a8006ae73cf0f0d087d08ae99bf9ed37728c",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:21:58.484245+00:00",
+  "raw_sha256": "e3627c6954863f75f1c0b14f485405da2d13ac5d4d642da0a2e82a77b8f88a61"
+}

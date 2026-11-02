@@ -1,0 +1,20 @@
+{
+  "test_id": "TDDF60351E21143008CF1B2D0085324CC",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:18:42.833352+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 930,
+    "eval_count": 191,
+    "total_duration": 20075972250
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks which sole final format applies to the flood report, but the confirmed memory records do not specify a single final format. Instead, they describe conflicting calibration sheets and different final data formats (CSV and XML) with no stated priority. The answer does not identify a single final format, and the memory records do not establish a definitive answer. Therefore, the answer is incorrect due to the absence of a single final format in the provided records.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H11-F5\",\n    \"AC3R2-H11-F6\"\n  ],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer does not identify a single final format for the flood report. The memory records do not establish a definitive answer, and the answer omits the fact that the final format is not uniquely specified.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:19:03.021035+00:00"
+}

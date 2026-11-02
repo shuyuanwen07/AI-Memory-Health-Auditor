@@ -1,0 +1,58 @@
+{
+  "test_id": "T1E407C7401D64806B137DAAC2FE66AF8",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:08.868503+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_05de1b358874e9ae006ae7ffc51bc887d1acb6e585e94af8ed",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 887,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 192,
+    "output_tokens_details": {
+      "reasoning_tokens": 58
+    },
+    "total_tokens": 1079
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_05de1b358874e9ae006ae7ffc6064c87d1be6633c04355e645",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__HZo3011gOHZb6nXCPfDEgIAFptJ5DRCsCAri5vdOjmAakhZvjxFZDkjMf8M0RX3LBZMSqNp_vE36FnW0qwiHdxSl4s9nt7z_63cQuqi5ZQdp4sj9qvMVP-2EGRGelazGe7c8jX1VP7ipkWNCHIqd5e1X8ygDE1w-N-Gl4Vb2SQS6GdI3OkgH8jciw0vTCvAtBCsxHBHoPPJx0SqhAR2KNskeNT1CD4vOrgQveSJlul2pFUmU3FvS8tJEbXqoNztmw0QRJ8jhAm2wK-OWX9xtTxxcJ4NZwoGApRB-HnhVqOuSB0rofAUE0QUvrWXh2PxoVfiZL_u99aPecMDCgWjnoWkdXzMcxJy0UQDzG7CL_vDlyFt0n3fnzmgKt6Ny1GANpYR-NpNLUuCzCLV25fuoW2Uguhvp6IREYreqZ_-ItW4TTpOs0xxdFWjJztDuFtNIFZ6DmMs0flLIB4hVedIz9b7ZbsWI31A-Vp1Wj8g22HanvYHTgPr8KFOddRP54A32fPeDpcz8wqnNytuLajhr8Uz3D0mvx6hrBmC4FvDl9kVkBctzz0PfNkQuy9qIN2KvngusJ1a5z-8qNvZpuqxIxvZw3dBDw_uSnwp2oEQ24PBTmSegOqW8jjgm2KPeT8tAaagdDjJdqGUGYZd_uq-A5OJXQbk4srkd4w2eQ9pHD8MohvehzmFGD86xcmQvOjGWKrxNZhDxJVhQWtINIYdb9u-w_rmTRadQx57s9r_PizcArw6vaD4HG1bA-m-aeEbCgwlwG7utRWOTWSImUnNMoQPy3AGUWgFDznCZpcbQ3oea7TuSyaUqvQvF5FrUyDAUR6fnHxA-O2v_Ke3eVvBhAtlGuRAoazNuFI67vToNehF_FX3qzOr-Q9PE9zVQsTfJFf5ZT0h45jk6rJ0aK_mn0byKVTiLyPfUWODqzcFk7vBuk_pOgmjAazPhDpWJXVpFAbWSK7m2CqNVX2uD65teSLfGCcjFzlScOHGrEpwXjRJqLv4lnthsk50iejwYKWGa3NBv9QUxVw-AHdOMCPiXwVCPlgrHmNLps2wX8zXWObQ5c5qQzRElbMIrXGDnPLaDtpAgy5FyOEbF92tevo9f5Tr0DbXX4VmaCLGKpB9LNppB8dOszByqu7X2dCB8llRhqod7mcJpqDtutUHX_GwWpAd_8uzJ92heSuqnQ0x4rn_6aXe5q6yIKSyOLbyZLiFjKIaspmFOgmPx9Bix-8jc-trNMy7Ou5pSxATxLwiY7LSAIkX_7m8HRqOuBl6PoAU4QWIM322kVmQ0qFwow1JY28trn8-Wcyax4euRXgqDDJAarbosyKz1_oNf_m-sbrXye_gyeh_RloiPLC-iwC3ALDDpumncdtNeKI1P3K_VtOPXYqPKYB-c73u8EyX52r-M_0kNm62jmNubUcI0astb3c-SW_WmLwV_Mf1WyNK1R2aqAyopTfpNAhNi1IrXBsSky5YHPMbBMiYRqKNLwETZZX0HXeD6Dyk4RymM3EG4hdXtVPPPU0MW5W_tAgRC6pTvhDtz-fehKszsq60jz3N299quEnPt0k7h_Bme99k2jp-u6bbC-YyUoZVyc4NLHZMV70OXlVGXd57ZeJ1QYS-BdWZKz9enstNof-NuiFUWoOB7Bq3GbF0XNuASJbC9vCUWBaYAR0_YnNgeYnEznYmEBbt7qIEuPW25SNpqOt8cPvgZQaIVZoocsFjRpzlpSrdVIUbXBuv3ElksfxcEifgzzl4ir0KGUvcoR4w6KBqiWj6vvXnzqhGpSV2A4pK53C5PJE0-N-YLLxGy-CFkqZgH22UHpARFVZvqtMgqPglKtM0fFSu8qcBSRkQL6zqsGE-DReT5fyVZ13gef76J0Mi-csjrPrluS3zxZlxe4NnNngHfca8mDWygrzT39hunQqdB_B533dj6ZTF5G837Mz7niKyWb-kno8jG7dp44hVLvlCjwa4c8sCUa6qFwt2BtQah-J_h9lzEkE6NPkoV4eQ7aO00FwBhthG7rsjwZmZPiHUFjayr1oWob0KgsjRl3RcLGRpESWYTyo7C8ZmAuJKuBKIYXmVRLqHFmKXCoC3O3072r8Bk8BA3ebtE1P-W1y4dJQgdckylVX0HHPzS8_9dyFHQzmbaKkNi6keP1r_KzIYKn3eumzo5LpVc71U7bLl9z",
+      "summary": []
+    },
+    {
+      "id": "msg_05de1b358874e9ae006ae7ffc6a7f087d1bf308deccd7a55a5",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The records give two incompatible active claims for the same observation: plot A is the only final release plot, and plot D is the only final release plot. They also state that neither plan supersedes the other, so the records do not establish which single plot is final. The answer appropriately says it cannot determine that.\",\"evidence_memory_ids\":[\"AC3R2-H29-F4\",\"AC3R2-H29-F5\"],\"failure_type\":null,\"classification_reason\":\"No failure: the answer correctly recognizes the unresolved conflict between the two active plans.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The records give two incompatible active claims for the same observation: plot A is the only final release plot, and plot D is the only final release plot. They also state that neither plan supersedes the other, so the records do not establish which single plot is final. The answer appropriately says it cannot determine that.",
+    "evidence_memory_ids": [
+      "AC3R2-H29-F4",
+      "AC3R2-H29-F5"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the answer correctly recognizes the unresolved conflict between the two active plans."
+  },
+  "finished": "2026-11-02T03:13:12.010305+00:00"
+}

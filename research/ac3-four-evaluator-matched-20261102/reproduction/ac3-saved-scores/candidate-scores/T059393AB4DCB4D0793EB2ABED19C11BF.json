@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "T059393AB4DCB4D0793EB2ABED19C11BF",
+  "started_utc": "2026-11-01T13:20:38.176111+00:00",
+  "request_payload_sha256": "101b5e3f12cb797dcd7ba3175d2aa71e86906e8b70039a67d0b636303bdbb714",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory states that the print shop labels the proof envelope with a blue dot, so the answer incorrectly claims insufficient information.",
+    "evidence_memory_ids": [
+      "AC3R2-H07-F4"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The response omits a directly supported factual attribute. No relevant superseding update, unresolved conflict, or misuse of scoped memory is established."
+  },
+  "usage": {
+    "input_tokens": 737,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 351,
+    "output_tokens_details": {
+      "reasoning_tokens": 240
+    },
+    "total_tokens": 1088
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0ef3a9afd38fc0f8006ae73ca687ec87d0b79638630e6f772e",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:20:45.632369+00:00",
+  "raw_sha256": "64a48673a0504e10bb15856f49fb966969063dff8a51b991eb7f5456c1f88c87"
+}

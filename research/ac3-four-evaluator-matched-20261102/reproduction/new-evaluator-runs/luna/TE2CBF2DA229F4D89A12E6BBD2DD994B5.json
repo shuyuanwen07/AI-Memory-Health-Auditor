@@ -1,0 +1,57 @@
+{
+  "test_id": "TE2CBF2DA229F4D89A12E6BBD2DD994B5",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:39.893218+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0bbebd52ee506538006ae7ffa81f0887d187e052e0537778b3",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 745,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 159,
+    "output_tokens_details": {
+      "reasoning_tokens": 51
+    },
+    "total_tokens": 904
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0bbebd52ee506538006ae7ffa8b2ac87d18298f02df4edb84d",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-qNIibzDI_bv4eSU0166z2OLYDOJNe8FwTSSDcQSXTIQS0aIDZ2ExCvJAdmneARzL6BqE8bd2G0EN8F6Pz62wvcBxhwfpqsQlaSHe0tMvI5sYBcWCXUqeoKHQ--rfQ7LsOdRvPH98KhpnvT9BgfxUnu1dIbMf5HoGV0N02_WVhn7y_ArqLX6fciREHQBoZ82oB9a_k5xHbkBifUDsTwcafkL7yYUYJC9w8YvrhLn_R__tpBW2GTVgv69_UGs_Mq3s0wZpwO5rFl6aPXd5xXJy4993wpTdq9NjBfquod9WV1DOO219ZoGpWxFx3KDxLnXM5VpZWEoxueltbFQSuz5Scbhup7LIaRra2e40XHNc6EM_mBGZcUQRIq_2mSjURYhgTfvZB5hmGAgWNvXpvthVgoX13ovu1uOmgcboOk7S3fRHObRG-WfBOHprLX0EmSfagowM6G0K06stNZdSUv3DJMgtD00DicPvcxvfITw1wT4mDoICh8Mh9LXA7d7XYGLo4aT9iqVr12SA7tBYs-lC8GtER8p6vcGgjY5RGXs-lufMhxW-G7O-B0L5FCJ0Y5iqJB_N5UbIWCJ6oa8zCxsOIZCXIii0S9xQrAAlT4Vl0q7QWdZV23l7J5gWM0GKtLNEGC4_Zrza-tAd4tI4wzJtrfSaG7Lv1eAkO9fn3Q-s6vRx01JZEHMF-nGHaffoekPGBdOcQBAddjqnMvuGxVh1YVvSn73i1GpCvUfmzwitvVCDUVxDnaXZyCq7dBKGJJH8uXXQkp7w6UX6xWtoqMvrm_emJs8oErDekZZoe5yXEX0MU5DkInLxfhXlaJI5zSbDDu6Oi4uSm2oLO2GFYI5CtxrycOxv6WrATmV2xFyublZfm2cNf4ZvwSjdpRo1lms235UTclRdXgJYrBFzUgnmUNq7KK3s9cJRbodaXHlOzjAaFgLXvqfP4Bv2UxCszxsJMffEwMouM7PpEnApCBg_b11sks-QwcUjvt8KBEpFJupRMbLRa_gsPMSUZDMO5-T9B1kTkencfroJO0rwIeRQO4bksIs4HTM-F1nrUnIZwm_PXnsQfS7-T5Yl4u24vpPJRpSX3pZEc5z-DaJ16bMcbdTfuIdFIgHw80C-SpB_F2Y88l9IHWluG7yJ1suLLfZd_aLavPwoeP_vQ8pejx9cUQYrJ3oI7uihCb_36fAoXTDGih2Qp7j2iEoqcLjdV9g5zAyea64MJF9Znknvg3tZ9gmM3qCEXP9m49On_BZcSWdjiN1mDxC9rRHcOq13DP6x2J0l-TVABB0FGM9v0VkwhXpgbJQl-ofHwWXX8N9Pz_e0W2ttTnJaCe1iE7hE-3I_2suP1y0G-bYr2t6qVQ5NmLHC3CMbSH9dtku_PAoSYXTcF4_jYyd3lK6gM72ONZQWQ69McFIaobnlHb7xdvy0AOnJUNn-Rb7ZkJu6PtYuCwUkWUFsQqr7c9Ue5Js4AC1ddbgl6FfrU4Z_GPBz4Athzs7GyphirYJ1I3VW2uaxTZpAky2E05-kp0LDVFAuNnTYs33_I5lfOmq12ZJoVXefBea-exg8ueICENLsmu6jPD3VDH_Nh4f9Z2FqeI5vqhpcG4nUTVEVenwemy8N-zrCw27B6YqnY8zoY3056oAoFJkx5xEZ5YQkS4ZAWwGUtXDU89zKAD74Eb07CeB_2nwW4_TTkf_6AsWrmlvBHm_eCeX3BiWzzAAw_oT6KO2Ys18wYv3HKr5lBtxNHeHpotazCVIyQFtRX9BZ0DIXg7iyVmx1T-u2TJo1RwQgVKUOlThGFjwMQv9DpPSzx06yE5npkIeKIUxceeq5DAQ5E5v9sZ_w5yn2kM_D2txLbOSTMmwlIBJJvZ_tESF6RB5wL7ZRX_UUXgjnZ54m9-mDfQ6WJjTTgxmUvra9jB6FXcX_CqzSLL1xhbxRAq_-9FegJL2q7YcHongDGblV9ch9WxuxNposNnflkMJlHVSZ30HLGeb_dkGo2ubN_kijdMZCeZ8TYT09Yrig6dfCKOp78Y9fH3E-7Ub0knUUD7al36bFYmFCHAWFl5Fzb5Dv2kOH1cMZTV9izP0cUcLZjbGMjRFMEf98=",
+      "summary": []
+    },
+    {
+      "id": "msg_0bbebd52ee506538006ae7ffa96a8087d1b14f35d647ad2ca0",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The records identify the rice shelf’s symbol as a green square, but the answer says there is not enough information and mentions only the canvas cart.\",\"evidence_memory_ids\":[\"AC3R2-H09-F1\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary source-supported fact that the answer omits. The records do not establish a superseding update, unresolved conflict, or misuse of an irrelevant memory.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The records identify the rice shelf’s symbol as a green square, but the answer says there is not enough information and mentions only the canvas cart.",
+    "evidence_memory_ids": [
+      "AC3R2-H09-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary source-supported fact that the answer omits. The records do not establish a superseding update, unresolved conflict, or misuse of an irrelevant memory."
+  },
+  "finished": "2026-11-02T03:12:42.741146+00:00"
+}

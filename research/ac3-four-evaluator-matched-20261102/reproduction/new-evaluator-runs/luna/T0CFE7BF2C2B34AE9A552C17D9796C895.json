@@ -1,0 +1,58 @@
+{
+  "test_id": "T0CFE7BF2C2B34AE9A552C17D9796C895",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:21.584963+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0dcbbe5def94db1f006ae7ff95ca3887d182e5fae7d3e42903",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 903,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 200,
+    "output_tokens_details": {
+      "reasoning_tokens": 89
+    },
+    "total_tokens": 1103
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0dcbbe5def94db1f006ae7ff96377c87d1ae0a44f3638f268c",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-Yg-snh090slxeEJAsKfmjObtxzaGKeYGg_27O5BlWFYeaZHB776YZkXStBoVSUIIhKXypXVVRyNhzyXircmPnSwkuTT-nwDCj8LFVXDmIpa_wpT1218r7AL0BZRoqybAq5JAuFKqznAurhNkgVhwom90bSwEjgAFKtKxUMErfh8d2pvdq8k9MmIVhxccoxTLU-vUoK15wzVj13hQyQ-vH0YMGgxx1KgMwsj_9afmBsnRoHGcaHQ1OFIUZjYTU7ldgMOSuwC3LAJGA-J8Fe0TsnwwzdiBEMgJUcBYtpAKhLqI0PlEfrIGoGMNYIRIUb_thczZbzoF4fhw-CFus3xb4R6Bl8uH84DS6Z5Zx5LGp0aeTnvNz6p5XnpgNTZOhRMbGLyuKSHFM-R0BiA-5bbog7OQy-yu2jRYJvBSBaxpo7a3SxpmHpeN-t0f6O4ZNI_W83WQyypICN3e-UIgF62MgkwV6lmXpNgt6eP7sxWnTc3TOYkKvPikOrnWbx5sBSr3KKUikbyeL0_kvR-ExpdtX0H1FX1FDDsm7uTraEgKS5Hvx-fzhZc58xjZJh21IVvgztb3_AcrWNiV2fD3cqviQcTuFMupNIZP6S88vOeGMoRpLqM9xH3rf1NgXm2_z7q_s0pRePi_hXXAmcEwpxgmIKS4YuEzP5N4fECn9BomdQ8JVdIn3xAfx1yh0JOJhDDfM_kAI9k2vO8h5y1IiOUIQ7OALn5hIyozx8yuhImgXeZcMZ0oyIHC6E2i7UgiIv6MdPQIHgyVv2IV8aTouXuPO_p6v0uFfBwoEKROlK5R768t34Ddxi4NGYi4-M4DIB73sblJo22FWbmv-8MqTKzOB-H1N_H2HdIX54pOjcMDhu1L2rk-PB0hOqvySpZDMwkQJepIZZXsadCLGlP0rutQ2hNVIy2pKz5MaiXoZOEM6AWQXhcEShTnBuSHSZGc7r34-uRlN98Y1IMXjiV8gFSBtVp8n27rd2LmEiLpICp6saJUjhZeiZL2dvtdSl9MzWBxVDK7x4d-2m9uOFthXTLQOExsGMJWRs2MyFfdBotD2jCaVdoystTkXVvu9133sAGafqyHc1-Vu7KMrrzC4DegrnVUFZj5Dgp8finiG60V-Co4fTsdoVog0oXkwgTi_-xSB0hfkm0nqM2yalMpBJcju4J-CMOo9YOokM86jHz-EOEsfoR6JCzBLQI3o_P7qyPbw59IBFobN7eVPYtI9faK4kU_gGdJ_5UVGA9TGFt1egmPzJ0EP1XmK0pJBZKOAui8VH-UVTDSNVOC_l4ts_3wyHhYAEPQYiHYI37gFiD79hiySoyDZDA3JIBpWFgVHpJaeG_6jta73LEXEKokOUN8d8YveQFzYGoZf1a1qX_FH0JheHWHXaq6kguF0XmwoOmu6ZL5DDim5t1oYD3HeTtCza_-2j3ioBATBrE6cu_-gJc6zkhQjOWfEJC2mRNctfcCwlPORnpDvkmkYofptllxRWd9bCgQlTdWSVKDler7Z9SFHvLgZ7eibzh03K04O2vY0krNVEM-eDJSplyxEsEiRwi3WJlkH7tgSyitAvFwDurdAST-mM759RLonAlKqBFqsTX_KYad22uY-HOy0OWl-FCC2-eXLt-a74U82sWXbXN0QfneriQ755gNgeHnX4mRdTjAPJboJzwOLQ2XVI1X6DKNHMLGBfGfTvrHCUrwNOzJVWB_aiTjghgUv4XT0QGucoxXGA59bmshW2kb5-jyCVUU9z8IFJ6oePf2zKYCXsyON039V5rAuPssrtP36NLK3kQtoGg9Nu81SaKqdgXionc6K1j9xeSz9Mzg7VDbxrtnQj0N__qtbmjqxSQy5rbr1fR9WH6LmE0jp0ShppucPVmyhO9NqAdID9UplRUR_XpfjfRkVA2sj7Pr2c721LMFVL-K-14sCiWrw4LUBt1obgNVGkpIfO8kncyrpGWDWHTQHr58NkQIRPGNJSJyRE1RJcC-9qgEY76gozxA0oH_rxh-qOokz1BgFUlzvgp_DkeRO56PSUhjdQ40zMr420XMSRh7C0H-6TBiAcwp3PV3NmMWW7Caa0rbnmSZ-5N9Z7T4KFGCUP-6fe3y_EnrP4f0FqnikC6VP085hd636Zqwtt8Hgeq6WwCDU8Tl-_OEk106s9-XHKip0gt_3u6yczTdFkF-J_5_AhZqRvxiO3FxBchBsCDhtf3S8xFtQvHJ5_mgSzncZz8ojvH0MBYEd8YP9923Pt3tTRYbGT1kvfRXI0qOAEAwvNxyUURScDr8yeBS4koSOnPVCD2qkRGbaEToVW5l8FuYIzvFIiLNWhOm5dhhX2Yd51PljseJfP8nQDfihNAvph1gOM3OvrGyDaitjslwCPBdDAu-OAVcvAV4cxmgtPjYvMWUMj6MDOx4uKOkT0f8RNPMihFF3ARyE-E8A0Jk1kj-_QSJwEKiOWAwi4mnSfo5-qDuxcWN7v-cqevtd4FEblNW7l1Jc_zEOBT4s4PPuJwwJms7T9JssXTdH0gnHG1kYuDVh-OOX5TlSZL3Xzny_nUDVWMfA0-phvuJAGs3Yq3_IQGpA28h0ufdQ94xjTj-DysJ05Hy37hPaG3w=",
+      "summary": []
+    },
+    {
+      "id": "msg_0dcbbe5def94db1f006ae7ff97268887d1bcae5ebca6da7ad8",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The answer says the revised end time is unknown, but the records state that the survey lead replaced the original 11 am end time with noon.\",\"evidence_memory_ids\":[\"AC3R2-H29-F2\",\"AC3R2-H29-F3\"],\"failure_type\":\"freshness\",\"classification_reason\":\"The record explicitly establishes that noon supersedes the original 11 am end time, and the answer relies only on that outdated time.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The answer says the revised end time is unknown, but the records state that the survey lead replaced the original 11 am end time with noon.",
+    "evidence_memory_ids": [
+      "AC3R2-H29-F2",
+      "AC3R2-H29-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The record explicitly establishes that noon supersedes the original 11 am end time, and the answer relies only on that outdated time."
+  },
+  "finished": "2026-11-02T03:12:24.453075+00:00"
+}

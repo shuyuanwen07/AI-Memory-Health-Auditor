@@ -1,0 +1,57 @@
+{
+  "test_id": "T20A9FDE65A534430B142952171495D15",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:49.309536+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_085135abe4db2b1c006ae7ffb19e2887d19af2a716000b2f32",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 734,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 133,
+    "output_tokens_details": {
+      "reasoning_tokens": 28
+    },
+    "total_tokens": 867
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_085135abe4db2b1c006ae7ffb208d887d18f9b5f57058e0184",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-zSGtdHzCbufyNFv5Ad2nKgYIPN-KTmoe02ZRhR_uPmmcx9hKzWQo1gjMDCNcUkqXc63HmFDqh4ONtTwGzPP7XuhYfZfc_0w5ygZUzpi3QgXs5UFmt7YKSPxT9QkdkUl24fO4ToMg3kYzLDW-ImAL7YZX1kA9AFOuYq_hUE02NGbkNpiCtY2405_Bq5z1J5-WePqMvt6ODowILFX0ntNtD4dv5G6d_jCNe5Hqj7OhctkPn6uDU-gvhhr8es1Hr2MQTFaUYr3qbkr83WJa7yAfqYq8QR721gdGlTSGN9cmm1lxcw21ia341vBYWGHSbznVKKnPdRyg6y_jiRzBEC4dUQ_sCb6-w6fUeE_Ey6uELH-CqhrPDMsi0dVuBibpDSoOh3SSQhkmao6Bt5CLf1apE_jZhsfAPIXZXUjDh_nZiy5ynxpQYKvB_lY9zm8pdvFiL5n1DwLU32e8vwYK5PVQHtCskvA52GDGRxU14cFlRQ9BkWKGoE1bVV90-G6i9xayKVrmBVosibB7jNX8m1jNaBPzHnf8k1RKqcWWXcP0fdYKWdUbhgqzNuMTG-k6cApa8-sJXD5QVAoteRNgRhNqdKGQqDXS4SO_TyklwqpKbLh6xeDt-f1yn2xRBX7uhJwBvzS3XNtproJ1z5kkpvHsIWDNQz91bP8i74HniCwn_ZI27i6R3g7Alkue6C3qEnANyRT1xT6N-mF578vKbIO9fjW2mIf2z8lBPHADMNP3nFS0ucPAelHnU-NXwCENs0z_kFpIaftR3O1q0lHICDcNgbpUkQ3l635BwhFF8SAY58FbTZA_hpTyXcrjbwUgZSwppYksCvt_TFUTiLBqTNW7f3xSxhjswGI2Vb-gpZyow5u9Egy3-ji2lSztl7t6SeO5ptJLtH_YErhnSnkUWAv9QnwzKFob4Ib0bjr9MQIbkrbEntGtm1iooNHfigWG3GmluDQ00B3nH3WMxs6JdGHKXGzr55OZyNSY7cDlpEZXCugDbPG47WyLsvXVLkM01MlESPNqv_pA3DEejol2XhxJxQAX9g8AdnhP_Qxs1zHfe5Q7oa1-FGxxPy0EXrAjZqUriAuHkvsPOvhSLvniWKHmAczDshyylz6dz5J5d1pn_O4UV-yq0BiQhuL8SQBUH8jVq0xJvf0itgW3AfvFDXtbhbPVa6xZ2Er9YobDLXA-gf70uPe1E-0RW-2vdHU7g1VtiM4e7aSVOsWvTtLzCqTAz3fwl4rrBFDwfKRsReFjAkGeiSm-XjSuxeO2s87n4iVn9ji3Y_Cg-IXHCFuqogahe_c1ISGmdpqAZlpo-VXINTco4MSxjAcE8SmZbbEmSoyjs_0yC8jSBv6rGxjdi2Ji-n41f-WRpCHJlY2DP1GMFtInoSxrwaka1KENBiz_dRSwDnn6wVn2LHqc6uKNn5d4G6lpPStc2RIe4EihapP5JORpJn09r2aoC95o_wRhbiPbjK1ZeBcn45xKtTcSUfLu3mfLi6c5xFSuh-vDPlH2k6DL63R2QhXWxznyGV9a2qSEbyJe1Ac45lyjOU7PrfQPFduYMGPDSkKH375Ekp-VMU8xXInyhzQ7lqqERcpxVXKdnTLvtAtKTMef3TAEfsUEzE4Lw1Nt3rgh4VzI6tyuBYfPBLGxCxm5CjaBZH1fRGTLco2rU7ogw5D80aiDH17ecH5prz05LlPbirYq4yiHxjNKBdGFXKRzPhV6VPOuCBfBizWTV2Cypdy4LPzZwrYq-vlD8kv8CAnFOAc8BEki_QMEasfLURPA5sphPIX53SIkH",
+      "summary": []
+    },
+    {
+      "id": "msg_085135abe4db2b1c006ae7ffb263b487d18b56b60cfe198a28",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The records state that the pool stores spare goggles in a mesh basket, so the answer incorrectly says there is not enough information.\",\"evidence_memory_ids\":[\"AC3R2-H06-F4\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary source-supported fact that the answer fails to report; the records do not establish a superseding change, unresolved conflict, or misuse of an irrelevant memory.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The records state that the pool stores spare goggles in a mesh basket, so the answer incorrectly says there is not enough information.",
+    "evidence_memory_ids": [
+      "AC3R2-H06-F4"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary source-supported fact that the answer fails to report; the records do not establish a superseding change, unresolved conflict, or misuse of an irrelevant memory."
+  },
+  "finished": "2026-11-02T03:12:51.797327+00:00"
+}

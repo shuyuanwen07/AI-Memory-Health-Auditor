@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T150D4E8740E04E8AB6C223EA5B1A8A9F",
+  "started_utc": "2026-11-01T13:19:04.106794+00:00",
+  "request_payload_sha256": "cdfe3cc7c29c0e7b68bb63f0a3f6dc1840ec8459dd18faf18b48b7bd18dddb62",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer matches the confirmed record that the first export used draft-cut.mov.",
+    "evidence_memory_ids": [
+      "AC3R2-H05-F2",
+      "AC3R2-H05-F3"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure applies. The replacement with review-cut.mov concerns the current export, not the first export asked about."
+  },
+  "usage": {
+    "input_tokens": 728,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 498,
+    "output_tokens_details": {
+      "reasoning_tokens": 393
+    },
+    "total_tokens": 1226
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_092f6d463e759ae5006ae73c48729c87d085366ab50e12c0ae",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:19:12.490077+00:00",
+  "raw_sha256": "66f414caa5c7651937a8e7baf0c40f5a6b9747ea9261a114866331c943ffdf25"
+}

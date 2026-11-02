@@ -1,0 +1,58 @@
+{
+  "test_id": "TC28340671335494286E4E7D508DFD388",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:12.656700+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0146a3e71e1da60c006ae7ffc8efb087d1a46880d402c844c1",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 945,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 120,
+    "output_tokens_details": {
+      "reasoning_tokens": 35
+    },
+    "total_tokens": 1065
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0146a3e71e1da60c006ae7ffc99f6487d18a808e062c80aaaa",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__L5UPiv38ZBBMqEUtYR7DGY_VqvW6L7x7Daz1jLDQMalt7KIDLYWoxFVrSAz8ZVgLG2ZHJoQjgjKakdOn57jx8B54X_7aPygbZ6yM2qxp_K9G1VDeEXynVLtQoGCpqA1Dhf-d7Rj0_BWbbH7sf9iKJ0MemmiavEow4WpxINYC_YZt3pMN56MSG-pByX4059PxCFQ8cMGSjyyW0GsFydOhXANnd55G3udG-32b9hJt8CQYviugeLM_XFsRHzOIwUJi5fFYXP9wfDbjikFZVyUnjoWAUVW5VVbhI9Do0opEJUlpUy8qSlyX-XtBiu9XVe71G9lJomV11JZRh2STUmQUeN40jWva2BgXq_gshxJ1EyueYCSk6NPKKsz9hN2hbeqKSFxjsPJfK167YggmFWDftgyh7FhWLqfDI5AuGn3_kI5XWWHvLivwIvGYtVh1CLN94wfC7qkW8FJwmOUZijq56Tw0PCqxA_GNTMZ3NC-lrv6CEnYIOOth9LprtPoWb-bblLoQB78jDYnhDtdeK5hUCC5MuVkIEVT3hGGD4lZQ1-zC4KBR-YA374wvw1f7DgbSgpSekNWMZeOSHd-4cWpsYJCu_ZlCzfAmoz47pg3GwfmvfKry7Ee7OsksW58TMoF1RirqTHgZ1dB83xXjOppDBvcthC_rF2kGsPyPGV4OgZSvcaY1OvS39CbXZO6EzmqOfVt4GqgrD_fFRIzIWAlrm3jDk3rvdgrbvDf1QDJ8e7CGfxPc4-RDXahyIeu62It2XU9t2El54MD36cIgYpra0Ge6hQiTeTo6GYvfpLoZYpYpbc0GVUvYBNgmW45isZuTfyucTUWQwfm4k9LVL49NBV_vT_ZgQxFtfaZisZnHQTtpnI1wbNq-O4PJnJfjS82YVb1JnYTzeMnNSadjK7p7491TU-GaESmUGKzDakCH0IZOaZ1eup35FPcvfJ-n8hOt53SUMiaipycBYMhL0rCtIaQcdIJxWIw-z-RnxlTtXg5gtBPSvfsWNUiyETMJZolWghHIKmlG_ISUw7_qyUF482nUgutH-6F5a8y8YJxF_3vXC4ekP-D7sShiFrAqTLwO5k3D-9wWz5DB4uLKvUEMyoAxAY8-rPQu2OXsqfFl8FzsIHwKO8skJ5JCod9EOuPmicZXmwTjNooeUXfo1P68F7mUpfpXhN4Ywu3dOd9Ai2KTqAHJpVRPtswtnayu_EsHlNAKCemmabN1c0lT7aj1laHnXMAXStN_yHePhVHfgVmsRDkWCiifxSOq-PdVtsyuGQ2nUB016aLw7nUfzaqXF8ZuhDYcgZIDhKNFS15r2-XYLX7jGWfzWOLggjQeVD2UCTkcg97-Yqj-ByLLV0HPSzUxQxRhRfcLTla5M-ypxxwFFY2HsPjlLDw9KIHFfjq5_X5x1XzR_imcX0Zeo0aBh6b-qu294Y-wVvXv05fgSCfeSWQIdgGl_wXCfjJ6R4UwtTxhPz4-qTZM6QRYPMYPcszrFta87LZZTK0C-amwDJdCMiA1eUeUTYkBWkUwnYpqy9KUCGUbbJK2CQGbdI3hAjgZqRJlTQGN5rdp0ywoyjDp8K99XB6UnNfFgkr2d7gUaj6aJ0auhW1sFzVAxqFtkBCeXWX62UuGURv0bk5qaisLfUHc_VgrgqMGRd7XYsotztgXVoBu_yBJWOUOiGwjL8Z92dCqfAiA80bFLkynF4e4VO8SK6KROg0Ahv9j-tD36IYFdUZliX-Mk9gmjFZ53Xr3ZkkYfvbOKXymXuPvgh1S24CwKdfRjdBS_coKjk-EyYIl9o6MUgOUega1Ih3wX0pXBghq8PbDdrj5FNYVbxVNG2bR_X7tKPsdOCkdPxv1G2Jdbicnfn8AckrKnmESDRQ==",
+      "summary": []
+    },
+    {
+      "id": "msg_0146a3e71e1da60c006ae7ffca15b087d1a482b5765fd6976d",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer matches the confirmed preference that ordinary adoption updates are sent by email. The telephone requirement applies only to urgent veterinary updates.\",\"evidence_memory_ids\":[\"AC3R2-H12-F3\",\"AC3R2-H12-F4\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer matches the confirmed preference that ordinary adoption updates are sent by email. The telephone requirement applies only to urgent veterinary updates.",
+    "evidence_memory_ids": [
+      "AC3R2-H12-F3",
+      "AC3R2-H12-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported."
+  },
+  "finished": "2026-11-02T03:13:15.238722+00:00"
+}

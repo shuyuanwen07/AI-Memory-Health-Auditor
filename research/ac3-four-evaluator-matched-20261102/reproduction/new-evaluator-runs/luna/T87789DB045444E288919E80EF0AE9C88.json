@@ -1,0 +1,57 @@
+{
+  "test_id": "T87789DB045444E288919E80EF0AE9C88",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:15.246780+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0a8e83f42d6ebf9f006ae7ffcb83f887d1aade9553fdd69571",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 729,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 93,
+    "output_tokens_details": {
+      "reasoning_tokens": 25
+    },
+    "total_tokens": 822
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0a8e83f42d6ebf9f006ae7ffcbeddc87d19f67476b3025bd4b",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__NUOsvSlSJXDTaXTeKHVL0hQOm79kmd4rESwCjn0qJ2jYuD5J6POcMIRDwx9BIFxZPKSBzprxjgs18kwEkMndsMyRMLll_JhAvop42NrU8E0-JhoTVdkoKKCgO4XWK6gXlCr-Iu6O-0gyxrbFSIVfd3E_mQmCnmFqjsiAdrLfQSsISwdFDkw-TtkcelFT-Vi7ImNIggWe8bNq8MH3Ue6daVFT6QTBWXZC5pnmpd7YKUqf0mtSy4E4jzqfRSep2nA6OlIssvs2Hzx8mn0Gtu8njtDJZ_hayrk89KovQ15j4b2hrHO-DPYZ7w3hxonjlUkY4U7VibKkaPCEbQq6UtqpgXG2RseoGLEj55hw7md1E4knv_L_OX2H2y_LBi2IscRX6NKy_8QxROiuXXeMt2oAnxb4jUw4cuQ8CP63kGukwY_QvANV5TotQQc-is1bURVCJ3vlQ-qpOPVtfeyixZcQQ7nyoMd0iq5yj5D2l5rn0UX9Esld6M8V2ifMvxp50azm-aYoNGwcMVr1tgSg_WAhEXlSuPl9tkkHD0oNluh0jI0gQ05obvNCXoU9Z4wRHWlQyiXyOhT0lma8rb4KYiI5fKN1u9Q9vXlEaJPgmeI56L4E5O0uNW9lJJ64MA9TQTwPXiDC1QkAhXVu-qzxOFUTm_gICAZXjHMHfI-vyG7_B8p5zJ6PBDKT6BEZp21DFIByg5Dh-fKUFUm9DHDJWzSvfDjVOYtlvoG4LHaWSkB5iQyfgJqMURnoDsY2Lvj2efF6v5Mm0mMjPi9v8X8Fa4avUIyXes67E4F43POdRQRk6yowRlHo277iMf3ZaBSHSO9isswsMFC3KIXgbmFZ6wLKGW_JxSOsZM4gwfjXS4CgDqSqroBgpIypsUCIM6b1VJMk3D7fAQLiQKlBmfZejtdc5OwgZVV5W8k6IMiSmVc2Bca7rr_vKaFYSJClFEFr9wOqlACo8Madt8eH56SatAoHh8z5TlW-mCam4VdQaJaUR8wP4vds69i1ALydBR0xnSK4cZ2TxpBMvcwnQYmtg5JZcGXjV_sraDuUhr0Gvxmgksny7S5sdKg5iQ4i_heNCrSPjLlhYIe-dm3gdG63dWXoLWEgIMKVV3zJFxtZrv0aMbDBs9wbErXIRZcmFL1Z2kwXJPL2YhNHNWP0Zkj84BUEDkVsvVFJ1InzRT2D-wtzdY1sRNRwP7KZtR7B8aVGnAm036te7DfZf7GXziO39mt8ATCJFjwYJiRqEyeWQDhJf0TFxbigQSxqMJ3tDj_UvME91Dcv26RzeWkgCl0bjQdsPX6PyjNl5bn4dQOSAyIeczswZbpwlR3cPQmcVYokN8hqiZIbtdwFtxAuGw_G4kjjjeh_BpqPlKXhgIuBYpsdCCE6eGBhf_xJ3jPr4YhHSccFhlCbZXtsac2NMUfMWgUZBsC9C3_xhyqD7mbDGvIyUk1mPL-AHHP3jFdPlvGKqDuuZuFFkh6mvLI7_EChYNoF50MuU_M8tBpZI9MhP5fJ5G_NYnMCkaPQuI4aCZ3w6CnglFYJS37W1iE0XY-JLHJsEEhcbkDmELxpJRX7mEXOx0awxpADO10R5-u8ggqJxsKvJ1I9lnwupnLf695LFT-1_2munH-ehisfz77PlfJMdMJx47kAAPd63EFeANPqzTuDbnp7ptmF3ZSfb5k3uL7JuDJm596SjJrBltx4oZPXmdyMyIEWoW5ZDV447PICyOv7T",
+      "summary": []
+    },
+    {
+      "id": "msg_0a8e83f42d6ebf9f006ae7ffcc3b6087d19a820b1fffccd6e6",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer correctly identifies yellow as the tag colour for bicycles awaiting inspection.\",\"evidence_memory_ids\":[\"AC3R2-H01-F1\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported by the evidence.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly identifies yellow as the tag colour for bicycles awaiting inspection.",
+    "evidence_memory_ids": [
+      "AC3R2-H01-F1"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported by the evidence."
+  },
+  "finished": "2026-11-02T03:13:17.187004+00:00"
+}

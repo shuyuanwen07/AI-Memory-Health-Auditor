@@ -1,0 +1,20 @@
+{
+  "test_id": "T4F0F5B99AD9F4BDFBBB31DD62097D90C",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:24:50.971567+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 902,
+    "eval_count": 270,
+    "total_duration": 28572533792
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks about the preferred route-card format outside the night exercise, but the confirmed memory records do not explicitly state this. The memory record with ID 'AC3R2-H17-F4' mentions that the paper card is preferred outside the exercise, but it also specifies that for the night-visibility exercise, the route card must be a lit electronic display. The question's target answer claims that a paper route card is preferred outside the night-visibility exercise, which is consistent with the memory record. However, the memory record does not explicitly state that the paper route card is preferred outside the night exercise, only that it is preferred outside the night-visibility exercise. Therefore, the answer is not fully supported by the confirmed memory records.\",\n  \"evidence_memory_ids\": [\"AC3R2-H17-F4\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer claims that a paper route card is preferred outside the night-visibility exercise, which is consistent with the memory record. However, the memory record does not explicitly state that the paper route card is preferred outside the night exercise, only that it is preferred outside the night-visibility exercise. Therefore, the answer is not fully supported by the confirmed memory records.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:25:19.741407+00:00"
+}

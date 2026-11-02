@@ -1,0 +1,20 @@
+{
+  "test_id": "T79B6D92A5E664AC8883B577561FB356D",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:26:32.493582+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 909,
+    "eval_count": 232,
+    "total_duration": 25911740375
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks about the number of points a win is worth under the final winter tournament rule, but the confirmed memory records do not provide specific numerical values. Instead, they mention that the only final score for a win in the tournament is one point or two points, but these are not definitive or confirmed. The answer is not based on a confirmed memory record, and the question does not provide enough information to determine the exact number of points. Therefore, the answer is not supported by the provided memory records.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H18-F5\",\n    \"AC3R2-H18-F6\"\n  ],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer does not provide a confirmed numerical value based on the memory records. The memory records mention that the only final score for a win is one point or two points, but these are not definitive or confirmed. The answer is not based on a confirmed memory record, and the question does not provide enough information to determine the exact number of points.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:26:58.503868+00:00"
+}

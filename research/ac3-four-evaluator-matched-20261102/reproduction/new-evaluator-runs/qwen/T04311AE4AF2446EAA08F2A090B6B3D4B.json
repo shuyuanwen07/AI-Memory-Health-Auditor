@@ -1,0 +1,20 @@
+{
+  "test_id": "T04311AE4AF2446EAA08F2A090B6B3D4B",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:14:57.975075+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 938,
+    "eval_count": 248,
+    "total_duration": 17256164125
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer does not align with the confirmed memory records. The memory records state that the general preference is to document inspections in a notebook, and for the remote launch rehearsal, the inspection record must be in the shared online log. The answer claims that the notebook is the preferred method for documenting an unrelated routine inspection, but this is not supported by the memory records. The memory records also mention that for the remote launch rehearsal, the shared online log is mandatory, which conflicts with the answer's assertion that the notebook is the preferred method for unrelated routine inspections. Therefore, the answer is incorrect based on the provided memory records.\",\n  \"evidence_memory_ids\": [\"AC3R2-H19-F3\", \"AC3R2-H19-F4\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer incorrectly states that the notebook is the preferred method for documenting an unrelated routine inspection, while the memory records indicate that the notebook is the preferred method for all inspections, and the shared online log is mandatory for the remote launch rehearsal. The answer does not account for the specific context of the remote launch rehearsal, which overrides the general preference.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:15:15.423650+00:00"
+}

@@ -1,0 +1,20 @@
+{
+  "test_id": "T91D8537957A04D3D9B2A957182E49692",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:17:49.025084+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 959,
+    "eval_count": 185,
+    "total_duration": 20855181000
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks which launch field is final for the Kite 3 mission, but the confirmed memory records do not provide a definitive answer. The memory records state that two different launch plans specify different final launch fields (east and west), but neither plan has priority. However, the memory records do not clarify which plan should be followed. Therefore, the answer cannot be determined from the provided evidence.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H19-F1\",\n    \"AC3R2-H19-F2\"\n  ],\n  \"failure_type\": \"conflict_resolution\",\n  \"classification_reason\": \"The memory records indicate two conflicting plans for the final launch field, but they do not resolve the conflict by specifying which plan should be followed. The answer fails to address the conflict and does not provide a resolution.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:18:10.073942+00:00"
+}

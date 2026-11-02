@@ -1,0 +1,20 @@
+{
+  "test_id": "T3E29FBEECDF7487A82CEFC42262DFB13",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:25:30.089707+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 668,
+    "eval_count": 148,
+    "total_duration": 19209850917
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is incorrect. The confirmed memory records indicate that the south footbridge is marked with a white triangle. The target answer states that the user does not have enough information, which contradicts the confirmed memory. The memory records provide a specific and confirmed fact about the south footbridge's marking, so the answer is incorrect based on the provided evidence.\",\n  \"evidence_memory_ids\": [\"AC3R2-H04-F1\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer incorrectly states that the user does not have enough information, while the confirmed memory records provide a specific and accurate fact about the south footbridge's marking.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:25:49.408332+00:00"
+}

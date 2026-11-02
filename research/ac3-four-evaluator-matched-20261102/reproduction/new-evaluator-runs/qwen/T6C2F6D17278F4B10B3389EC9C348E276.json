@@ -1,0 +1,20 @@
+{
+  "test_id": "T6C2F6D17278F4B10B3389EC9C348E276",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:28:48.183846+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 679,
+    "eval_count": 128,
+    "total_duration": 19084448750
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is incorrect because the confirmed memory records explicitly state that the institution logo is placed in the upper left corner. The answer claims it is impossible to determine, which contradicts the confirmed memory records. The failure_type is 'accuracy' as the answer incorrectly omits the confirmed fact about the logo's placement.\",\n  \"evidence_memory_ids\": [\"AC3R2-H07-F1\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer fails to provide the correct placement of the institution logo, contradicting the confirmed memory records.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:29:07.639389+00:00"
+}

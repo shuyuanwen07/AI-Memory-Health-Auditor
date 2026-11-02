@@ -1,0 +1,58 @@
+{
+  "test_id": "T5266A26D10344D178657AE3ED612AA7A",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:15.517770+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0532eda24caef42a006ae7ffcbc85087d198a7f42b3ddd69eb",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 881,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 217,
+    "output_tokens_details": {
+      "reasoning_tokens": 104
+    },
+    "total_tokens": 1098
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0532eda24caef42a006ae7ffcc672887d1bb9e3ec0fe5728ad",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__O83nA50X-e8pq_GQgDADbRZpozoIONndifwu_Uvri_NhLLufz-yj0PIH5VWDU4F4pP8m0izUY6R-wkuP581lrLAMoWkW7mHrIwQazcUOe-t-6HXqQtX6WBaDGoKbLsaGRU7Z9GAAOU24w4eOjvR_pPpgKS2U9okfs2dYT068r6BaoZKjauZd-x5OO6vB-pG7YR2pkpXN20NxGbWOsNHpP8I1mPYY_gmsMXUEXyv1yZMyodGlU8RMX71QIXHGcmkDdDN0-Vus7dBnIfrLI_xOQTS1jMm0BvioH9pCndX3HmXtxwpI3I8vFced63Ne1CKDqhBvQArEAXz2ukP9N8LYRLXdZlQDUquoXCNpYXWOY4f4nLYElB92rVz0Am-RnTChcM-OiLvqVIFb18cwgIbqtkMHFvW5H4T6cCoHWy_1lxq7kJh-rzjPaxZL5v-_H270HgFXsc21bz0G-k0toWXqIfpv5RpuaC5fk71wAuw40UGoNe5Xj6fxiu1SQA40riNXoD8od9cUynJp0TGBGUxG9wXK2xApvaiX6sb-KFtgRe-SaX5Q62ds7Kucyfo8vQ7lzILC6jGHiiX8aK508btF3bM2NwnwsxlD-2nq579hlXQrFnewFJ2Qp92V_gvuysmnd8rntIwf0TAWnYpOOx9ToCRC1K_6m9tCXJiR2pumdfJ_IkV2KCMNEn_l2zwjKhIreIM10Sc7Q1DrWTaWxdI9bXZOw106XVqMDj_SxOjUpgdy0CvCrq-wMpmuZ1d1GgEuw_YsMRFZ-y6ZuvpUywSHcGt2GFSaQ03g_LrI1RmUNVZJ05rRvqqWsUlUHvmY9RWz2t3ySsAi0TOCNhlRaUYyD6joTEs7DC2HJKbo4TLkqeZDmJvilnwY6VTMSL2bdHiXGMWH4DaiXc47MtY1Ap8N1F6lB5u17QyCWYuxt8YLksSykpJSv7fa-E7pwYXA5v5jPwBu_KnwKZwDU_8SG5xArbJrOUfHXAPcfiTiimjB2MBFihFRLhzDrAkyeNMF-tZBDOd3gqewjJr2uZELzqtV7IENxm16tAwoos2SlJgrtmZj5UrzUxCGWDh7RtXuPpzvFgzRUdAXDydutEZpnDDcBpxoS0n98cgLoFhsHnDnI9oVJbIhiN9aCWVc0E4TXaVe6BpTOmLlDJb0AjgEG__k1qiHX6db1rPtfE2GJQDlYxXI6i7moqHKrWH-R4EsKUDZfr5nkeF7zRscuWynWt58cc1ld1YQ9kkDvPZUn6pmDC_gTd-PenIPBZ2Pk0d9k7RL08oQNnDGh5fJnZ540D8EJbZ3bwG57ujVdPmzLcvRUUmfuLoU_htKF3NTcYwgIDdsKj9CaElgPGACC7-7k2MM9NBh76RvReCv1GhWQcQJrWCjyBAsiza0kcIGviEgHlxM-bKHvCwBlFxqJogbdeJlU1S_DINjF5P6LWSKO3Y0CKvndf1coRs5iJ4qhubQjzay8Ffw_dKuYRx93Hwws2NYaHPyUYbSX-l_cjSPPf8V4OKBsAlUYn0W1NSPScOn3B7lI2BTKEFE2wITXfh0XZy2AgzjylUVJfGYJaMJfgo2sRdlJh4JWQWIf_EroHdY8jIusGDiqMrroSVziPRDNqJFP3KmaJBV8M_OvKbakXixzZwD5VgtmXZ5IXANSp74kpaKXyzWYmWcgVurEzpluyA9uTSGUvPhbJdJADt8lDHvDBb5sdb_t-OW-7HTFgVKC2V-asVrxc21fkoD4qoXAJaRIJMS7XGdU_1_LLo570Y45kuj0iuc9oBd5e-c-pg7fToQB712EOXBoeV3ex0deLyMm5ob3HdlxmjvSYzJ-pqqlnqfGTwmlbqMq0lIFdrtRGPk0Qp1ispJ2ZVmcUOGLBJbqxwJJuwDDNZs1MJoaRUtvYWOVAi-kQOG1rn51FnpNKmxnuKDv_hqmRc_AkLmGPb_mgbkTa0huksNukO3JiedP673nZJ5qcKmJugP7IPG2iZNWk8zOvzZnSs8yvAbXQWkVpRsy2_06dx4II-ElKpkffI4ENL-xDLjQ8vEuiVT7yZLKJxgFjFaslHztBuo2QtMC4I7DzwDFEQtljJW14nQG0D9iFykbhDF06tlFn3jy33V6Wyh2o1Wec3Lf4a3HyO2zVIcYm4NlpCUU6XWHhUD9OQK7ZAs-dwFqsUWAxrNX6IsU4bolGHP7pyXabBakVFe0AMt0FYp3UzaUvOjL7iH-ODsQsNhn--sLwnZ68v7OMoicSwls_Vdoy7OD4N9_aUqiX4dYEELiCfGyJsg_dXZEHeL4cfXAoW-5uVqAvAxiSpUA49_tmCs1HtW9ti5ztdHtl-88XjFaQdcCRmt_uAiOhJmbqYMZSeapl26K_5M2THiHnELfLz44XB2R9U-tAYO-TM6vO32mnZQIP_UEOQRKyMTY8BTSCs2E2fOFvc9cmfahreI0IbMg-fgrN3Qy4mXUXYRVa6ySaDm4cbRoSTKtlThVttxjQP1uaQJcVMwGpuezVXDi404aFJTr4m7H3FBSIMuCfgsXB4i5vEeP22E1zCR4ZlDj6E5EQtknC1GNMeHR1_1oFEo13S2cYz3cUaPbFOoSGa0wQBYcwWpoFl21MV8vW_hOp_klfPvuqhydHZ-yBjjXQDb_s152HahF4VeJnyq_VPTkxnKvDpt1xqZphvsXiQtppKYm87FrtAZt5TLrFm2Ap-Hr5uDaN6eAuRdONPCEbFcKkVWJpV0gHBq7jUgZa8A4EM0IsnDCspsF1npb6hkkRM5flZQJesqAvxiYTfPLkxt0aW9iA1SXzfLAUCM0kUBkuf3sZoDrNlLaZbkNGMNAIsfdilvYin6PQQwmOA==",
+      "summary": []
+    },
+    {
+      "id": "msg_0532eda24caef42a006ae7ffcd8f9887d1909d4e431d1ee6f4",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The records give two incompatible active claims for the sole final opening song—Sunrise and Rainfall—and say neither plan has priority. The answer appropriately says it cannot identify one from the available information.\",\"evidence_memory_ids\":[\"AC3R2-H27-F4\",\"AC3R2-H27-F5\"],\"failure_type\":null,\"classification_reason\":\"No failure: the source establishes an unresolved conflict, and the answer does not invent a resolution.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The records give two incompatible active claims for the sole final opening song—Sunrise and Rainfall—and say neither plan has priority. The answer appropriately says it cannot identify one from the available information.",
+    "evidence_memory_ids": [
+      "AC3R2-H27-F4",
+      "AC3R2-H27-F5"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the source establishes an unresolved conflict, and the answer does not invent a resolution."
+  },
+  "finished": "2026-11-02T03:13:18.874306+00:00"
+}

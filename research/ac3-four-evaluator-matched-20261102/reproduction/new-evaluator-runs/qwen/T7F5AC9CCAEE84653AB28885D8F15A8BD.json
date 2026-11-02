@@ -1,0 +1,20 @@
+{
+  "test_id": "T7F5AC9CCAEE84653AB28885D8F15A8BD",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:17:10.929495+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 887,
+    "eval_count": 229,
+    "total_duration": 20939689666
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer 'You usually bring a paper score sheet' is supported by memory ID AC3R2-H18-F7, which states 'I usually bring a paper score sheet.' However, the question asks about the preferred score sheet at a regular in-person event, and the answer is general in nature. The memory does not explicitly address the context of a regular in-person event, nor does it provide any information about whether electronic or paper score sheets are preferred in such contexts. Therefore, the answer is not fully supported by the provided memory records, and the category cannot be determined with certainty based on the given evidence.\",\n  \"evidence_memory_ids\": [\"AC3R2-H18-F7\"],\n  \"failure_type\": \"appropriate_use\",\n  \"classification_reason\": \"The answer provides a general statement about bringing a paper score sheet, but it does not specifically address the context of a regular in-person event. The memory records do not establish whether paper or electronic score sheets are preferred in such contexts, making the answer insufficiently specific and applicable.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:17:31.963479+00:00"
+}

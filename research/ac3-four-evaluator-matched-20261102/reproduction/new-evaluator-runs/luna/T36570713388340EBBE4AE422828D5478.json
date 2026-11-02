@@ -1,0 +1,58 @@
+{
+  "test_id": "T36570713388340EBBE4AE422828D5478",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:07.743605+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_057385ed906a0b86006ae7ffc3f86c87d1867211ea695c27b9",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 884,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 180,
+    "output_tokens_details": {
+      "reasoning_tokens": 63
+    },
+    "total_tokens": 1064
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_057385ed906a0b86006ae7ffc4a13487d1b420eb4f8a48cc8a",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__G_S8NwO_0ruzIJp4zhtaf-NxB1xF3rztMZ4rArWUtb4Fz23qo-8GBQr0656bJKETuY_Z5w5NMJM-qaiFrOufpAdknLcb_Iijrm1raUf1sgp8qTCORZnl7AOX2T5ujb5mYWhVYhU_dAENh7boXKFs8ITIeYzmSNuvIPHHPkmnYsiZG-wtoHfNS9STd0HteBSS1KjUzPcVQ32z_Lbx2NtX1rAhC-yob270vs1cOv9ErfJ3pJmbCNxzW4mhofI6beO1_SyU5JsSetu6KVOdM5Np6L3VPq6Bigy2TYSgIIpUWzFIGioaQ58MH4jybv0GvEKnGTVdzu6KpBlI9D0qJngfc1GXogPUUNAX3cYkXZIG7pZRS14YLXIXRvIOFihOE_6MIHNBfCi9l4Kla2t2HltiuKeJVuQNovjOk7QX4dQwLYKcd-B_lA35P003YlzBVae9NnMjK1ku3gManO6xP4De6Oq4l7fBZA3dtKAXhFvsBholAng5hBUVWVlhYHBc7eQLdZgGIKmKDT-1PYRNHc38kttmnNLzOFBy94BcmM9NV8HpLRmGpWtEExjCQvdbH7VNUI2tz5KyuUHftYEfbkhAkAalIlakHUOqusT99HwYxN3kDNorm9-yd8jD0Lqx6sC5DEzrDexeVoTImOfwA6uaX0LOFzSHjMlauuTKbStmcv_6F384mMAQgeVN6qZMfyZ35xSK6_WYXZsD8_8B1gOeOPGFHkADjbn5oZ0D5MpDKsZks48OTl05K2K4eIraH7NthDiK5sgB8psSn_ErX4iFtvNMvTkrAh78jUNmKClUN2DHHiSl9DlnILTEwk53q0jOiUkIRmjqX2ruZ8rzHzexlCNngDu9aQ5TAMfSJlHMgr1jqKyQ72KaTGLWEsVekTZtHBZSjm9YpMJ0HS2VHl9nAqbNRBvhQ2QWw_vn-5XArkcNKvynX93w7nqDXkvB9RRZbUbL893LVFOiAqymTZTCNtoMTus-Da1pcEsZidibMT-LvwjemBuUdplwuZkhAdjHTxXRXzIir75Ks5vmAud5cNNbMvLw4FzbJnttbm-YXO_qsIxNDxjFPklJVBu4rFd98rLqZeCnoqKpyV4YR0LU9sjP9AwWCtCl-Bxw-RhwicICZgSL53HgQM56ZY9ITJtiIMlcNcEiTlkRy-eSw67izuYAQXGryD51RqpITe2aZFvnltdJ6HpdR0KTlDSJuhPJJFmsFXt0YzpRMUqVKBcF4Dtmg6Pn8FnU6ox-sYbu6svnYLXspSdHAQPBS_EH5WmecLUMaW7rfnZ50CJaS7l-39AuolfBEXRbSaOGT1_TrbX7NaM7hYB9zeilqvIp8eZYajgIQMLFnT0UfZUN98KnQqBU_-UfOfQ_JfjSnxNeHrnXA6nnpgBlj80A4E6On5-c_TCxCBVfnictzi08T_Jxt_g0izuF-d9Yj4RlxegKJDJfDzlAum6-KRh7_lcCyizatDgyTWSkp3z0dYPihR_Kc_d8d3chN56CQckRU339tP6-J87wBtHSt-Xmgx2c57i2MJorMLaa3CbO0LFD4UcjOWTvDvVjShJOboJY9Jr-B2Psc2v2WcRsxjHgnlJaYJ11krqQHlWJiTT1vetAavAxh4rKH5F5wET-cKTPsywRvoPomYAwchBV-LdSHlYTUNqLGcLqQwznS8CsdwxkNvy_IuunZWz8z3kKQ8BsJy6HMVp1h_HsYKhNxO58iMadyA1uWqWWVWALij5YIF21jln4-bcwDX1pbmNwd6vsRgEY8gOA-cq2yqmS7iIDQF8n7pjTI4LX7BVajzX8KNbcDbld-Js4ddX7atxWVbt-MqGg06Q5KfYgwz8Ru64lljiQ7VTxC7AAk2OsmWkpP5XKxLKhd7cvrXu5YvePg4JSArREErnJy6BMkH43_80OnD3KtyAYf4jbiahl4vvPdVaij0K6bZT7OdnyDZfsMi6x47MO-xFOXl62JWAMEBjBCkVOpYkptTekq4pu4XRNLL2UsoFCkw-ww7AUwMlqKWrKmH7pYbxtKLllJxCvkuJYJVK8dIMg0BcEbdDj8meaI9fQIDW_L_1fgTaMUwmRQ2rJ0r_VTjQRvNZAsERFyeLXqgp_GFYLksz3g1qTiI8oDYN_yavMKcS2qZN35u__D_Z30-AkSzW2QjEAOOgbXGEa3XcvVEUBbDEB-mJY1nqb0otTZNrUPlIeFQ6d44wbrTgUCTzryFOIn-5Lq1Ny6ohvL6Td1YH89uWpph5zI8Q4pWN6WkRw0JG98C2qocbgUC52LCqA0V-4=",
+      "summary": []
+    },
+    {
+      "id": "msg_057385ed906a0b86006ae7ffc5876087d1b11133a0eba1f10b",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The records give two incompatible active claims for the final coat colour in scene one—navy and cream—and state that neither card has been superseded. The answer appropriately says it cannot determine a single final colour from the available information.\",\"evidence_memory_ids\":[\"AC3R2-H23-F4\",\"AC3R2-H23-F5\"],\"failure_type\":null,\"classification_reason\":\"No failure: the answer recognizes the unresolved conflict between the two active costume cards.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The records give two incompatible active claims for the final coat colour in scene one—navy and cream—and state that neither card has been superseded. The answer appropriately says it cannot determine a single final colour from the available information.",
+    "evidence_memory_ids": [
+      "AC3R2-H23-F4",
+      "AC3R2-H23-F5"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the answer recognizes the unresolved conflict between the two active costume cards."
+  },
+  "finished": "2026-11-02T03:13:11.490528+00:00"
+}

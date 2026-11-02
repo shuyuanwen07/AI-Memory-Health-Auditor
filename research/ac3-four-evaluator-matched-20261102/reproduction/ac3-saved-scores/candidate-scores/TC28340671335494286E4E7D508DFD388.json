@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "TC28340671335494286E4E7D508DFD388",
+  "started_utc": "2026-11-01T13:24:14.247400+00:00",
+  "request_payload_sha256": "7106f572523a3fd4bfb4a6c577bf9d9eea27f698056acfa322e27f41e66d7e1f",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer matches the records: adoption updates normally use email, and the urgent veterinary telephone requirement explicitly leaves ordinary updates as emails.",
+    "evidence_memory_ids": [
+      "AC3R2-H12-F3",
+      "AC3R2-H12-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported. The relevant records agree, and the telephone exception does not apply to ordinary updates."
+  },
+  "usage": {
+    "input_tokens": 945,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 498,
+    "output_tokens_details": {
+      "reasoning_tokens": 384
+    },
+    "total_tokens": 1443
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0ad508379605bc7f006ae73d7ea77087d08614c6b5f49375ed",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:24:25.397757+00:00",
+  "raw_sha256": "856b21d5c33a48e378653a79ea5d4627ceb5a0fe0d0ff3c9de18c53cd3ba6156"
+}

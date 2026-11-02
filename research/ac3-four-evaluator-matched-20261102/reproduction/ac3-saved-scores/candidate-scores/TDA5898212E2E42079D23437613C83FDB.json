@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "TDA5898212E2E42079D23437613C83FDB",
+  "started_utc": "2026-11-01T13:24:26.256037+00:00",
+  "request_payload_sha256": "f3288d80fcccefdb05d43f1b4d01a6b4597b8fc22dadd9abb9fc9f98e245ea2e",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly gives 6 pm. The confirmed memory explicitly states that the organiser moved the start from 5 pm to 6 pm and cancelled the earlier time.",
+    "evidence_memory_ids": [
+      "AC3R2-H01-F3"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the answer uses the explicitly updated start time."
+  },
+  "usage": {
+    "input_tokens": 738,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 328,
+    "output_tokens_details": {
+      "reasoning_tokens": 225
+    },
+    "total_tokens": 1066
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_05c829b2a70fd4f4006ae73d8aa23c87d09153d3417da5f85f",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:24:32.715214+00:00",
+  "raw_sha256": "9fe85ab1b600dcce60c79e49e7f63276da9e4df2e2f8b3422f8e78dfdbe11735"
+}

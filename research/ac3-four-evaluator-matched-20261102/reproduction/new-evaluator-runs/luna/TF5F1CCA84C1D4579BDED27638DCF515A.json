@@ -1,0 +1,58 @@
+{
+  "test_id": "TF5F1CCA84C1D4579BDED27638DCF515A",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:18.883642+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_015e5d5065f76410006ae7ffcf251487d1953e87f1e29650c7",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 733,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 155,
+    "output_tokens_details": {
+      "reasoning_tokens": 42
+    },
+    "total_tokens": 888
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_015e5d5065f76410006ae7ffcf946487d1b00d6231b4ee928d",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__RevzRGr7R7mQUbWGj47fjT9snrmWN5KrFn9GPalUjJxkqmrxjUDJ_E5o9gitecq5irJ9qhuBcRPRUcw-mrIoGN0B1Rv6B-Z_ZRkCyF91BdxEUn7tjmEtw-sZimygXU2Ty5nEFUveGi4YOhYyFogO_8bVb_xIFV9qaAXCfmGRl-lzF2ygPKTJlS-II6iiP0O20lLrbuywZbR0N0Vxeu7-eididIzBqs5F7N9iuY7BXFpFaxDBXFJdm3HEgtf_vBdEN_mpzvFAF5PPQajImRer_bkaiG1e4e4ipQwYzNSxNNGq5kCz9nr9TeQjlxCpt0WBiOT6KgcoG81I6DIK2KWk33qyyPVEzC5AkjbTAnFNw5Fk0jO_JVpizXTpc4Al7m0gDs8X46J_s1J08Ujymozhwuu_1Q15XPP8jccfMdfo-sxifu8HlpwWOROQHI2JFQeIj570fb07g2mbqz61qxQhmg7CqiWFHSHp50Xj-tRMN1gmx2dgcYyw3fMtq9GKsb7PjU_ExwgMeYOKgEK8AIBDVVWXCk3mRt7BlFvqu8ytgtDcq8WP44fn8nXY961cCcqSWtCml7ybjLqgr9tUhUeMOVU1p744Y1sCmc06XmxQaOLNlpiYkSdWyBlzzPFPRjWVzhvo3KrWXv7qXL6g_9FGl34mcQNpDmhi-1fh_Jzw-dDxoQRj9P4UDm0H9umsIujWxCpYH5uN3r9CpHIY59oCTIOVDf0uNNTAFAOFYGdkKMsun2JY-1Dffz_6G3lEbXPNLnsS-8jZ0eSc99OmjN5woXHoKPRahHoEO9WDnDalm3OJuNhfcMRNinX-YC_0qUaAg2ntpiP3eg1La_hIlz8uALp_GWgTFUSszQB_xIo88yWd2TGtFXKiVPAR8MxkQLIodSce5j8eX2OqSC7h6bZ4lyIlj5Mb5VrzddRABbMJUwtFfAMpIo-kPpn_BnHIOaoQgCpER3zeYM9kTRcitf1KgXogN2Mxwa9ZV8I6mK0sC_2dJLxVOMDn4-s3V9H2SehDR6ihi7UfKdI4wesV6llHekT5xf-hurBWGEcKSOozJCFYcWSaArzNWSh4VzmPr4V98V2nvgNT8Xi1my5ULquEF10ZH8OQP3Ie4W1I9MJwQN-HcT9uSTiEs6H0eZXimW6gpdbz6F_EGSSjNYc-T-IZdplnTWQW1RQzAcm0wxrjHBhBH6kawo7l8dhBzoriF8Wr8CZmjjjsjR7m8FzPPohToYNpjMX59E6EJP5VTeJ5gbxLpIvbQ8qlV7Ud6dNKO03QhZU3EPTtDkTUzZ07OFbU2gTpU519awVrE0mb6Q34EwYWwvWv2NA3a6pf6ytKw5KdKOZfmYQATdegm172T5mENWE0NMAzjz97-ybYA4_TO6DU3g8rRjlgWwJZn5amaA11MEXpJULNdn52QePIIpEYRZH3QuAWJ0qc1koi0MCK8ZyTFo1Z1YDF7zJycCkHlD_9Kpv9ONCIC_ODVhEhU7snwJ1yXr5KWUXRdYizM_KZF6ILNgY--V8Qo_Dgm5xUyRfV-ecp-NpqAB2emKUiBs9x-Eq7UHnOuE_RcnJB34WkyQPOK7sS1Ag1kY2QhoCJm6SWsTSmXwQLivi6BIvGHNUQ5BLO6BNejSEAjpK32UC0NiVNMpgqY20kygI0EdGhnXal3dm30orOVEnf8qKfMEnTuj_C_XEtisIwnfN897ZV861SrPvsFmw_Vy8cZ45p1_25cGOhdWvlPRuu5jIkT8KOJX5JBHAtntECH244oU2lzUPYOj_bueOgK3bQEXtExJlWOZxGjFosmsjfqSBUe-apjrTC_yMrzd7e2699aviQSSijblEO-pefnlpDtlv5dRG9qkxx3z8QK-t3tty5aS_hi33n-SfAVdY03FMa0qmvhNkos7sYCak3wRVLRIIKMT7oD75s7KSQlfB7889eAQhcTHbkJtMkQKcUDnNegwOjbMZRoOyn1gV1UQeV3yT3j3eTRhTGEVB4D73RnZDQPLUPZBg==",
+      "summary": []
+    },
+    {
+      "id": "msg_015e5d5065f76410006ae7ffd0175087d1a7482c5a936b6155",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The records say bisque firing was originally scheduled for Tuesday and was explicitly revised to Thursday instead. The answer incorrectly says the day cannot be determined.\",\"evidence_memory_ids\":[\"AC3R2-H03-F2\",\"AC3R2-H03-F3\"],\"failure_type\":\"freshness\",\"classification_reason\":\"The records explicitly establish a revision from Tuesday to Thursday, so the applicable current schedule is Thursday and the answer fails to use that later state.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The records say bisque firing was originally scheduled for Tuesday and was explicitly revised to Thursday instead. The answer incorrectly says the day cannot be determined.",
+    "evidence_memory_ids": [
+      "AC3R2-H03-F2",
+      "AC3R2-H03-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The records explicitly establish a revision from Tuesday to Thursday, so the applicable current schedule is Thursday and the answer fails to use that later state."
+  },
+  "finished": "2026-11-02T03:13:21.262944+00:00"
+}

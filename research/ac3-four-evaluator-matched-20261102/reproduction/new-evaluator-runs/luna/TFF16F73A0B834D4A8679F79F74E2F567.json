@@ -1,0 +1,58 @@
+{
+  "test_id": "TFF16F73A0B834D4A8679F79F74E2F567",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:35.134911+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0ee32ab73239cc76006ae7ffdf5ddc87d194f0235839203539",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 897,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 139,
+    "output_tokens_details": {
+      "reasoning_tokens": 44
+    },
+    "total_tokens": 1036
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0ee32ab73239cc76006ae7ffdfc0c487d18147742ac3f82e71",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__h0GJ-ozG-js8j3SsfMF2bm4abcrDWL6t0d6GLmRtGCu0TA7fDpXT5wa-rHoIy7LzGF1R_HV_RwJg46tYHYsXvbExTrffKHMNV6DOPhL6KiopLqjoSwO_yyPK7eRknzypQ4WQfPoP-jBjHDUgP1CD5hFLQfb-R6T8Wjunh-po_ak8xXz0dDWFXVmwLvU5qqlumg4HKu44oCUirT01bfJCZ_AxDYbdWCERr2DSa-weYVSPahg_Go1wnOBzHb8ApB48bTC42jJMp8Gql9BQ-Bd5XSiCCD0bY33lse3ijQYcr__x1OR1id4NwdJrQhDHzz2PUno0HG4SC_4W_MpQyZcIrellDSD9jsGlmSE2_isADL9sEDe7ODhYMzyC6O-X2WdfsBrLLedkv1OHT62CmYSldso38nogAn4Jv0P-IBb7Q7GGOLHMAhtPIUfiCU7gLWI7JipFm5CEy6d8AKqS0wJYNUM5I53Tq5y5JwT4PB0OWJNxaow1pMc0m24zaIt1GB_S4cjpUQfpy17TcSoMCZ4o6IBbXICNX501IHGgDkkQNro68iDK0RYNGOAUP6jB-kQKHQSORPBu23upytsdyxjLZwX3AvJa3mW118pGJ3eOI9KWqgViOvJ73b5zm-wBeT4GH7-bd_OGRZGvllcGVD7RvRotb6uOdbuvxQndIl9lhtApgEs7ZTdseogD0KA8Tz6JMl9W5iLLKkZVb5p0MBmjHsBbOQlFauUNapooUfwqUIN1MvzwUSDo-QAvZvP-jKEQlKklLT-KD6lTbMsZqQyXGdIFs-DccJ-o8sW9t8GWljrwBmHNMWGuhwqlOSe1u5eUFFvnzPkx3pDq0m7WkSitHTmNMGrS__UCT_79LiVmh_JEXAvGajQPJk2hZyttJe_5fFKjsGJNaxlFvS-QywfVcFcKtEF4IuylGT_qZOZaO2xCH9XHwywCbTi5zWf8nmkqtC-B_plre88yaIaKA0Yko0n72pI4z2Xgi96FYnq_3xO-bmOjcf0wIMwPLKksog3aUcRbkHktLrli3c-n4oy_vJHBseStstr-CQSl4_JCjWxFRjY4W2xL2mTf0HwLcuwJjoZaJN6B2-NdMUQOK1YB-yq6PtgCAbchkX3_wsz5E5G1tfa9iziTWdOjrZlANUHbEJfWQntMRDxXRQwW75fLoHfCbVcsruKpwAnXIsMUTH6Ik7ZdSgGahWDiHrhn9sVMpVdpBIZcW8ayRKxVHBDaDNAd41_hBN1K_Z47fXliUFzg7f17Flq2vWg4u_vIVXZfezXrvd7wDJgiJpyieH1m02kHnCd0iZdWSqLN-5jrwDk0CyKl7Ium7gEfRg3jr_woYyl_mWN0ytVSfLeZwdhu7zNQv5AP2NEHIJ8CB7oyDqzEu89ko1qQBhoLH73Z5qiLZPuzOB3w2aD-9F_HCN2uXx1mM0YYpqG5nJxTKrJlcWU_mqvZ3C4ypu-hvmPl6nbmUgnFwR0588y2j511gE-6_3lB_tqVSalZ8KsyR980us5JLLuy-ZQAsu5pehUnfQcZUuI9bXiLccPZK6cA6VoO4uta2qRPnO-o2h_S_mLUQYB6cv9s3zLygL9xgiXxR93HLKqBr5Jkr_PmeSO5UlKTmu1ecfG00Bs8VHSgR6VNKSNtR05ozITncDH5_WOGy0DAt0zUnMCpt08fNp4_DAHgiJxWmkKB-xFrgIDW-5ObvFHhKVZMVltoyQrMYidHbILVjRboD0ISJv_7UTmATMOIW2XgQn-C0bbR-MyN-HFZksqbvg-Ux59DtK_bDJElSHqSK8lPSpRlP8xVmY4lNOnLUqvXVFH6VmGIess6IyBa_USEBmyEp-mm93HflnAOXuPUCjkTTkV55y4uYsvTPvFEy36zHQysrKu8-jO1Bw_bXaNk=",
+      "summary": []
+    },
+    {
+      "id": "msg_0ee32ab73239cc76006ae7ffe03dd087d19b05bed48212f1c0",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer matches the confirmed update: the club moved the session start from 7 pm to 8 pm.\",\"evidence_memory_ids\":[\"AC3R2-H21-F3\",\"AC3R2-H21-F2\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported; the answer correctly states the revised start time and the original time.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer matches the confirmed update: the club moved the session start from 7 pm to 8 pm.",
+    "evidence_memory_ids": [
+      "AC3R2-H21-F3",
+      "AC3R2-H21-F2"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported; the answer correctly states the revised start time and the original time."
+  },
+  "finished": "2026-11-02T03:13:37.424221+00:00"
+}

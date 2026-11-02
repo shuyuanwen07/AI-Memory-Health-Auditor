@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "TEF47E000BB6B45C2B79308E39BACB39D",
+  "started_utc": "2026-11-01T13:18:01.414233+00:00",
+  "request_payload_sha256": "940e46e2c280701c3eda74dc16d364ad8fa5f08301a285693910410bfc79c94d",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer exactly matches the confirmed requirement that the remote interpreter briefing use a shared digital document as its checklist.",
+    "evidence_memory_ids": [
+      "AC3R2-H12-F8"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer correctly applies the briefing-specific requirement; no failure is supported."
+  },
+  "usage": {
+    "input_tokens": 954,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 474,
+    "output_tokens_details": {
+      "reasoning_tokens": 381
+    },
+    "total_tokens": 1428
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_093374564674aee6006ae73c09cc9087d0a1adc8205f829e1b",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:18:10.337447+00:00",
+  "raw_sha256": "e2740310a436c037cf0e94086baaecf96e863ba5e4326147e93eaed90412a06e"
+}

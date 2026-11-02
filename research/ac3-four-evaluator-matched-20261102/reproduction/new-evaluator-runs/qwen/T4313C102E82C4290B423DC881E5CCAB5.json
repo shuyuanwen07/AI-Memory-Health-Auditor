@@ -1,0 +1,20 @@
+{
+  "test_id": "T4313C102E82C4290B423DC881E5CCAB5",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:18:51.654685+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 896,
+    "eval_count": 258,
+    "total_duration": 25517444375
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer claims that 'email is the preferred review method for an ordinary non-security change,' but the confirmed memory records do not support this assertion. The memory records indicate that email is preferred for ordinary changes, but they also mention that for security patches, the review must occur in a restricted issue tracker, and email remains preferred for ordinary changes. However, the answer asserts that email is the **preferred** method for all ordinary non-security changes, which is not supported by the confirmed memory records. The memory records do not provide a definitive statement that email is the preferred method for all ordinary non-security changes, only that it is preferred for ordinary changes in the context of a restricted issue tracker. Thus, the answer is not supported by the confirmed memory records.\",\n  \"evidence_memory_ids\": [\"AC3R2-H20-F4\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer asserts that email is the preferred review method for an ordinary non-security change, but the confirmed memory records do not establish this as a fact. The memory records indicate that email is preferred for ordinary changes, but they do not confirm that it is the **preferred** method for all ordinary non-security changes.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:19:17.551721+00:00"
+}

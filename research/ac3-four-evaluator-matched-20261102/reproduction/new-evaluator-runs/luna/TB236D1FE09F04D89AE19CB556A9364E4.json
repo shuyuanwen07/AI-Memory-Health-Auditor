@@ -1,0 +1,58 @@
+{
+  "test_id": "TB236D1FE09F04D89AE19CB556A9364E4",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:21.270268+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0cbd9ed53c777ee5006ae7ffd189d887d1ae173eff79a1a3a9",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 901,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 179,
+    "output_tokens_details": {
+      "reasoning_tokens": 62
+    },
+    "total_tokens": 1080
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0cbd9ed53c777ee5006ae7ffd2223487d19f607285351daf76",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__UXzPNEsHKPS3TUia33M9NT-UixBH4uLEm1M3TKnNksN3tsmQziBW85a9zDkWXNE-ytjxEGxV1SX_ArNhxgO8v6JHLogjA4z3UsQkJm3u830dhK5G8BX_5YMysXNZIpHMnDEnH2wIXx_KREocjiNSW12uXSDLrB0ZKTuLPgp87Hcb-FvFfV39wunWPU7e_IhL7iGQUc6BAvs1Q-QOfrRCdc9dmRn22lbU3cd3HY_rvF0nHgfDvKXcE0CRHhjpZVJc3rWCHh9Z-EKurYwBM1HKfR2s0AIu6izT992Z1T3VWYzA1CRZOry36hmMaNJGja9DOqkdR7gFudB5moSUZEgDh_KSyBKh0LiXvWx-TqNcY2AG6TvKPxsh1nI23LXvUbtaKz6-a_iLFBbmZEsHcg7dAeBFHOPPXgKABwtloEs0t-XLqjiGRq05ZXQ433fxAoZ8JXgtUefzE39LDOcLUv248ofdbYZATlYyhreDVU_OAcbZTK-9tHoIOMXYaoBPSeXEY3A7aHS-ks5-alEGxpsct0H0VEsDQiYMxDu1ImxoIxIVGXiFb0awqNw-Momqgfva4NlKB5V_Oj1F7Uy9-o5kZ9xAZShT7xKelM3ooyI-l4vMe1efrETKyF0vWeMzmtNecAekdF2gEUPn_vrxvPGpPLQaGo3AEF2SLydUu5WSjfvl9axSo8ODj3RU8j3SBpFxumcZ__es47rgPlKkQW58AY-wQSNVmqGTWrrXZH-6E1H3C1171DNFYd5nMagQIiszqN-KQ3n2EOCthZuQ0-rvRdILPAPD8hgjy4_zULUpnfdB2bF78DQvTjZl6WcnnFUNQBPXD66TZpSuzfPphvGPNTPJmgrFCr4gkF6HwLXvy6n6hf-U_mCIgqV87T0GjrjPJehGiszsMITCWKmA6wlclcgZTuS7w7TDu0HDUepTcmS9FdXCHd1FPBA4n7MvifQoMePWcmpvHVUR36wrN9y7OE0z5A5j0gHPcnvempMUfU6JL6bwSa6_FeQlhqAwQYzSR4rG25DvIScEcM0vMU6jD_lkr2m5iNQ6OyNKWM7UyGC91WQC9lhfzJmZ-pw6HnSj2KqmtFkE75BI86fYpqaP7gPEhc__4qKdxw44kJKjPF_x3fErqyiM4iq5Iq_sNf6YiZZfFYThfI8i6OcIJ07RmxUguf_3foGzbubSgR02UTQ7Va7jYeS_U3qIPpg1GfOYDgE0_MiGcfiI-sr-4YIhquKb9fnuw7qyHJO_rxnP5oX66EkK5Y4R1xtTkIj_FRthCOCeFjLHOtd5ydR6J2y9r5D7jEH4uYg-XNQ-45tYAKg3KOt9KRZMc_qQqqso-HAG18W1tL-295XJcgQFiysB67nbMQ2cZOhInjlUDigoZ3WBkJWTeQ64N__tAySLnxKzK0-dQ7tuhILZCU6wqH3bcAn8n0GdsAZ6Burm7mkZKPwVJny9kogGc5lgT85uKIAMVF0ysKNudTzLUSdBXvt9DMomzPmuDXznrnjJ_eM4Me7G53irZ5YYfRNzS1GW8IoW9BoE6x2sjI1_ln72cCoJUVVsiMHfWCVNnIVmvJnkqX3EiE0Pt3gOE6QTnsIt5aDCuBwr91tCaZt58TS_pgClTDLUDaZg70-zUS0aObWL1-NeA2si3jNUTsgUvKhyZf__ROXhibM3bhxLQal95RNR3S9HNKLBNEEUiSQ_xE-d7zfAnB07-jCxKwGk97p4409Uo6izuTAMUsPZ2M_y5rbXe2LDqY0n1mpinl5W0lFL26Oi2v16r2ZmFRvE1mk7AjYoPHuQa0HgQyyC6XOm9UIdIB4PZ44vnPFATSl3BcicOUgvyrfctJ6UP9Dgs-ldwyuRs0bMOQxGWRRGjru2a9UyX72KrVqRT4WKhYh3ZXHu91KCrvRjApTLS4vYUi1wSXbR6gKZJsxIyqCjf29qBWL9XT15Tt7HJ4U7r1lJgg9GX6hCseHpZVVtfAU_Hh7Ti30SMKGUZ70ySYezJPH2ZiKX_CzkElMJH2vaQjjw-uGDk9KFUd9Hmkaxjaxrwy2EghPq3gEZyuZHN-Dm-zwOkv5aNs46hAusZau8-_2CZc4GA1yc2oN39VrN5w0suAXDXpgvHIffMHoJx6WcZ91DCuZ9ovh-MLC3Iv7kBH-38SlLmBsuMTnM4mBz_oKgxvq0Xc6U0PLv2ngS9xq-tMAQDqVJVsRzNrNBwNaVOHozc7LjloFY=",
+      "summary": []
+    },
+    {
+      "id": "msg_0cbd9ed53c777ee5006ae7ffd2e7a087d19173bc462609092c",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The records state that the original watering interval was three days and that the caretaker replaced it with two days. The answer incorrectly says the interval cannot be determined.\",\"evidence_memory_ids\":[\"AC3R2-H22-F2\",\"AC3R2-H22-F3\"],\"failure_type\":\"freshness\",\"classification_reason\":\"The source explicitly establishes that the original interval was superseded by a later interval of two days, so the answer fails to use the applicable current state.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The records state that the original watering interval was three days and that the caretaker replaced it with two days. The answer incorrectly says the interval cannot be determined.",
+    "evidence_memory_ids": [
+      "AC3R2-H22-F2",
+      "AC3R2-H22-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The source explicitly establishes that the original interval was superseded by a later interval of two days, so the answer fails to use the applicable current state."
+  },
+  "finished": "2026-11-02T03:13:24.184619+00:00"
+}

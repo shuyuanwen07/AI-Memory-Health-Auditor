@@ -1,0 +1,20 @@
+{
+  "test_id": "T0B3DAE06C1084776B831AB3AC3229715",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:15:41.030208+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 884,
+    "eval_count": 179,
+    "total_duration": 19329359208
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks where ordinary scripts are kept, but the confirmed memory records do not provide any information about the storage location of ordinary scripts. The memory records mention the shared folder in one entry, but this is not explicitly stated as the default or normal location for ordinary scripts. The answer is not supported by the confirmed memory records, and there is no clear evidence to confirm or deny the claim.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H16-F7\"\n  ],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer claims that ordinary scripts are normally kept in the shared folder, but this is not explicitly stated in the confirmed memory records. The memory record mentions the shared folder, but it does not establish that this is the default or normal location for ordinary scripts.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:16:00.878910+00:00"
+}

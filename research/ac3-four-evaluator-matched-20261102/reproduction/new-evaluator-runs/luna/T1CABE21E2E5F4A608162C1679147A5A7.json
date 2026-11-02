@@ -1,0 +1,57 @@
+{
+  "test_id": "T1CABE21E2E5F4A608162C1679147A5A7",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:29.372278+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_078878b552249dc9006ae7ff9d928087d192bef545193c2821",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 885,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 114,
+    "output_tokens_details": {
+      "reasoning_tokens": 33
+    },
+    "total_tokens": 999
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_078878b552249dc9006ae7ff9dffa087d1bf8d3aec201ded01",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-fKcDqYCHG4VgIIsHKi80PY7hYuT0_2fclqX1iVu-HsbPU_HrlvSzpRe73QNTqg2jY4-TZ2DgprPxIr4Ziq4bSEL96aklWotNE21fGodkbDUBgAvACuVtVMnX1PxyhVYNigSDpZCuyixwdg8Q93b2r8H1NaGmTUpwSZcZ0Ve8MJwQSJ19uH4F8lRGCX872PU_airf0-7BAga2rTI4jcYD6ApdQwmYdXfHNJtN4QgPy7rECxPskBlD63jPzOl-KPt4F8Ue1TwKQJY3b9kKP3j0O0yrlY7nOaVeIHO6T65RjQZHr_X6d5SOzqP3Ph3LBvtk2-FEHFOsnFys1nCGAlNvMKvk9br52ytiSyY9vxNh-0v-8R8CDtZ2xk-yVzN2GosDgKakOkv_4s8AagVksV_v8zNNpFLHe_n3HK9fC4b8L_VBQwuY885DyPaztkLMSd1Mi2J5XY2ray-AtORINdhjAjvV9jkytfglJ8GhY9qVgfbV2lffa209u9oPB84J6npIjMz60hhhd-YnHyd8JPGUMF_DzlfKD0k2TZCv_DwWXLC1JbkKgXeKV4SFQulhGgbKjJnp0lNDuO-geOkj-n9xp3ul4P_UMjh-RlPf44ht8yAsvseZYaNrEk2Ndvbx1H6UG3ncQLF6IEvBt_ylaNNZKaUw63fVUS2X7hy8Gi1tPRN6VQJ8vBaoqEQzAqRPGocPFviQNi-OoJrE6Fo3zKiLRrRdW19Ci4xarlPoOVVX-L7UrRjSHycMOpjWdqnAFvW-aauITdDglZXL1J4fnGIqtou-iOrEruGKDUpv6jf_2yoaJShePgeuv8lcD1_FInm3dWIG6B4FIveZ3ELW_ajYbBH4FB1-EHi4i3A961VluXuaoArW_O7ckpR6uOByybKH-yFRmRzZZmmujLCWuKZd8aksJ4GCk-G0TuJ_JYDQe2OzRKpO1SE290bftEi8jTOwQeP5lWOUyNv0nMOSrAm8yq7XXzVwlMsSRew0d2kFh2MRMr54XTZCQNb2v02BkykG8sxtMB02oc1ZKkm8xgJ94l14N6qCnLi7M3ptWDAVWsy41RgWLJ3MRQtHLMj7J_sfYlFMKPXa4515yXiLVs453L243FpZ8m2ma0tgB2RasAjfXR3lfPJ6kC-2e4-K9GW6zXukGqzbmDdOefpqcT2wi59MCkjCNYVBTbsjdB8f-JA0ghgYPFrTHyU9nVGZac5KYaX_ChVYkTk4tOuyVva6Rv4KXOw0YXgF1bVLMqbbXwvrGaSPL8a6CS8QO9KQLBVhyHLI4Nx-y9LXZOcBMVO3QGvGzo8Jg7C_fDPejYNMPoGqWC4QUbd1H95u5tHIYaS4Kd8vP5dpArPCx7Uk6tnr4X7e3AllVP6aR0oZtINXs42fPjahtJA5U5JjHZu_d7dEFbqWDcmjShing6gCrAIxOWDp_apDa3gRUohQt83ugcc3TUlF5e8fInbTgV9pzKNbHZJSEprM7JFiAWxHVanSTDpv92ILoymRHVPpS4o1PFoDau6mIH_N5TuBgAyPBP25H-gjipKKThe3gNQNvHamVFEZ28n8w06vZS6OlOMdKw9xjWot1MPtd-rOxhOm7kuz6lJyJ98G-jW3PL1hRu6Jj1aH99lW-rnkGHBtdkkUnLAAT5mIdiWlfBxWDfObdI9y_vI9CVvTcKzzqK7kQjPbyRXOvTT-LVSEbUhP7AD1PfBJz72IoGSJexSLZUGFAuCLVS_QAzvTcUjwntaLm-E9jLdFyuHmd_wTeASki55owSy3OG9tfCEek0GMC5qwvp-rGo9t6zS5hoH3_h5XrKHgdsg==",
+      "summary": []
+    },
+    {
+      "id": "msg_078878b552249dc9006ae7ff9e5a6087d193226edd1a625f5a",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer correctly states that observations must be dictated to the recorder during the hands-free accessibility trial.\",\"evidence_memory_ids\":[\"AC3R2-H25-F7\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported; the answer follows the confirmed instruction for this specific trial.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly states that observations must be dictated to the recorder during the hands-free accessibility trial.",
+    "evidence_memory_ids": [
+      "AC3R2-H25-F7"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported; the answer follows the confirmed instruction for this specific trial."
+  },
+  "finished": "2026-11-02T03:12:31.395418+00:00"
+}

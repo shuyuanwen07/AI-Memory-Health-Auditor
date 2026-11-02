@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T1928E79AF5AD46FCB022DD89C7AF46F6",
+  "started_utc": "2026-11-01T13:19:54.336758+00:00",
+  "request_payload_sha256": "7387b414fb413b78461c32f2e1d7a529b29297df9ed15111dab778c4b51289d1",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The later count records 18 packets in the lentil drawer, explicitly replacing the earlier count of 24. The target answer incorrectly claims there is insufficient information.",
+    "evidence_memory_ids": [
+      "AC3R2-H02-F2",
+      "AC3R2-H02-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The source explicitly establishes a superseding count, and the answer fails to use the applicable later state requested by the question."
+  },
+  "usage": {
+    "input_tokens": 754,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 419,
+    "output_tokens_details": {
+      "reasoning_tokens": 293
+    },
+    "total_tokens": 1173
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_067324567b911037006ae73c7ab55887d0978e0dd3698350e5",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:20:02.624632+00:00",
+  "raw_sha256": "c571ddd928d03fd0fb6de9a03243cc18937fac2ec196553c1c7c389f2b6c3672"
+}

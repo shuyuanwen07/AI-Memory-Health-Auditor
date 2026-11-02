@@ -1,0 +1,57 @@
+{
+  "test_id": "T960A8F3C6444468ABAA1D232A8BF6C2A",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:54.398890+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_035aeee503b81a46006ae7ffb6a2c887d18b1e4fa09b9b6a3d",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 734,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 108,
+    "output_tokens_details": {
+      "reasoning_tokens": 33
+    },
+    "total_tokens": 842
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_035aeee503b81a46006ae7ffb70f9c87d1a57269c2b5393608",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-4pS_kZLxyYWEpStJzYDsH4mxlt6ItwmEETZFdcTxgek6ujZdxnXxuJjtfrqKkqpcWNSiaRJqYDfIovm1slAUsHxpJFipwZEAe_dYt2nSbsyqwlEeBeRkB2AHpeKkndDwp1bBUmKGFsWGTVuY4T345XeZY0VeP3eVsr2ez3W2oGbnNiURQ_7CocOUx2soMAv4wk8gLNHlUyFF0dd_6UcYJeUGfv6vdGg70r2a--xjAZvOpnaDfDYft54CUY-JWB7Wj1O__JkrzNqqjPQVY86pM0yZcKHu0LGGDLfour-rOgAouF7m66KTy3QCCWMKUykMLDOYElOp3gJtxamsQckHMoKXHqR2x36K_heSAYxixtlMmNZlFKfcICMuq0T-MsZuWlmR7S140i_ZhBgXXzKi99SXpyQ6f4K81Bke-B-5d7VXgxJbtCMfcvuL3YKTVBrk8sEBrB1seDPhTBjjoR-QqlA33cAwMa-wJtVlP62FjRXpT39FabFZm9-yE7cmCVeb4slD6EM8GAnaPSbI3mld95dsCQwbneqNBBMIaGfWqnkdgE53h8aJ1XmYtl_S2kDmHqGFxdeG5sUKiBuBGXGTDB6twUJFof2jlOjwh_8T005x9j0rNTc-vTFgeCH5fJkIXvNui73KxRiKG8-pQvjdzRJglKTofdAockN4zyAVO8j9r_vP6JYr75JJifT2Hl_OsxMVuBWXF6uKce4zNi4HVSzYKYt98XExUrKM_nHAxtBf9-PbkbfEQes2-_lbAzaJQcev4XmfGeWv8cC_WvIvwN5sH9t2l_7nkyzX3FsVHrs7OXItz4qSBPzKsd-tvbLbKUz09rAG-3D-WQvLibHL9dASaY3mW4VAyM0uw4uMzlT4PBiIdBfyXXW-BeGU3GKjF0_GmJqrPU9KCGfx2gG4umGfysnqKtvaS-uW32JRZuD0moTxOVMIRRnY7IndEijNPoqQ79dqxg4lKILVP9W4RTYIlZF5ZL7mXoDzAcJ10qhy8uILYhhM1N4-qLGTCj_GIDrW4WQ94IC9T-XgFqkuL3-4BQG3eF2-oQMX0Wf_sF06NFO_O_IkqpaXzr03RrifHNSNMRTA56hTvW83cVSildcWBA1_FGCLzWnOFQTk5xsvYR9hapfK1BF9cXUQcXgU3lmSeljAV0FlLI7uUfIEjthoEOWaqgsNrZQ0OJsYCBEKbzBR4BIByA9tpVaKqbaD6g5W0BcNdCuBJNW_z_skSKk9N3hz00-SZzwD7RQJUnONkE6TcNvbCsWRo33Hcwaguw7PRU1soAmRoLjrN9-v6buJczKj6y-1ODPAb--setROwssV1skG0uPcNMI85ZZwzSaIJbHiSjO23csClecQwdJIpGFLp0Xseii4bvMAfaJRDLlnArU7AoL6I3NX8HsVkPIdFULdEbVY9bjViNWnZjKXqD5lZFMEAu1GMlMeAGjY_i3zzTum4BcRpa8aAKAoHFaG4VBYH_xcxmBG6Km9mRpTxKXTgkpmN5GitYpymX3-ACDZc9Kk71cVqRuXM_hU90EE7EzpFKmdrTcmERcZIWBX_m_kAiS8_DBknvZwqas0IesbWEayg_L5rzvF1Mr6hUpw2HKjUXWeEwz2FWSem69OuxWTQEH-1rV_X0ZEE5isvRAcTUZqPknYzdMj0iXRn5cyGZWa8Mq_LSgMNeFFBAmyBCj1ZVITwvXPn_W6p01_qnRKDHCe1ZZHwEia9Q5eATx4nxMveUBEpRCYWTegotMN3tIy6EiuibsWhyLN2fM-WLjn5DLkhMXtPlyuTktVqa51odKCWeOIBkpKWT2op_6DKKzXtiSGUGIhRHOCsXbw=",
+      "summary": []
+    },
+    {
+      "id": "msg_035aeee503b81a46006ae7ffb774bc87d1a0aabdb43226ca2e",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer matches the confirmed memory that the mobile library uses a wooden display rack.\",\"evidence_memory_ids\":[\"AC3R2-H08-F4\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported; the answer correctly states the requested fact.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer matches the confirmed memory that the mobile library uses a wooden display rack.",
+    "evidence_memory_ids": [
+      "AC3R2-H08-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported; the answer correctly states the requested fact."
+  },
+  "finished": "2026-11-02T03:12:56.349697+00:00"
+}

@@ -1,0 +1,41 @@
+{
+  "state": "returned",
+  "test_id": "TDDF60351E21143008CF1B2D0085324CC",
+  "started_utc": "2026-11-01T13:21:26.579762+00:00",
+  "request_payload_sha256": "e95de4ce7a1909f4de06d036badb81f2309fe8b1191b5cea1b925b289dbfbb79",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The records specify conflicting exclusive final formats for the same flood report: CSV and XML, with neither card having priority. The answer incorrectly claims no format is specified and discusses calibration levels instead. A sole format cannot be selected until the export-card conflict is resolved.",
+    "evidence_memory_ids": [
+      "AC3R2-H11-F5",
+      "AC3R2-H11-F6",
+      "AC3R2-H11-F1",
+      "AC3R2-H11-F2"
+    ],
+    "failure_type": null,
+    "classification_reason": "Both conflict_resolution and appropriate_use are supported: the answer overlooks the unresolved format conflict and uses calibration-level memories irrelevant to the requested format. Because both conditions independently hold, no single failure category is justified."
+  },
+  "usage": {
+    "input_tokens": 994,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 1738,
+    "output_tokens_details": {
+      "reasoning_tokens": 1552
+    },
+    "total_tokens": 2732
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_06819d48b90f6174006ae73cd6edcc87d090c866b666a32c79",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:21:54.555891+00:00",
+  "raw_sha256": "2cddc5b1392ec367ccc3ff949547f2ded4b08a15c038f40749ad8a587ba71a09"
+}

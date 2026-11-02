@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "TFF16F73A0B834D4A8679F79F74E2F567",
+  "started_utc": "2026-11-01T13:27:09.157234+00:00",
+  "request_payload_sha256": "7e37fe09ddab2fe34ecbfdabe5a217cc600fe18dc36f58f277edeb541b5b2681",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly states 8 pm and the move from 7 pm, matching the explicit session update.",
+    "evidence_memory_ids": [
+      "AC3R2-H21-F3"
+    ],
+    "failure_type": null,
+    "classification_reason": "The response uses the confirmed revised time rather than the original time, so no failure category applies."
+  },
+  "usage": {
+    "input_tokens": 897,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 528,
+    "output_tokens_details": {
+      "reasoning_tokens": 430
+    },
+    "total_tokens": 1425
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0e3700a7182eabe9006ae73e2d7ab887d08b9c24ecc254b3b0",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:27:21.023395+00:00",
+  "raw_sha256": "dfa677e83f52b3f0200ef7c9d3757d72500e7cc1cf3d0e8444e33a31021f225a"
+}

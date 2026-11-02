@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T0816D14AE1AA422E92BD208E005E8506",
+  "started_utc": "2026-11-01T13:27:53.516988+00:00",
+  "request_payload_sha256": "a350bf831db98c2603858046b4db17527e38f1761d68bc29a4786590ec930ec8",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The revised volunteer briefing lasts 15 minutes. The answer incorrectly claims the revised duration is unavailable and supplies only the original 20-minute duration.",
+    "evidence_memory_ids": [
+      "AC3R2-H06-F2",
+      "AC3R2-H06-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The organiser notice explicitly shortens the same briefing from 20 to 15 minutes. The answer fails to use this established revision, so the failure concerns freshness rather than an ordinary factual omission."
+  },
+  "usage": {
+    "input_tokens": 743,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 398,
+    "output_tokens_details": {
+      "reasoning_tokens": 262
+    },
+    "total_tokens": 1141
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0f2746398ec87b3f006ae73e59dae087d0982979e42036badf",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:28:02.235839+00:00",
+  "raw_sha256": "ae85d7a64956d1e3abe8cb44a9fef690cc16068da2b521ae055a1cc3ef8bd154"
+}

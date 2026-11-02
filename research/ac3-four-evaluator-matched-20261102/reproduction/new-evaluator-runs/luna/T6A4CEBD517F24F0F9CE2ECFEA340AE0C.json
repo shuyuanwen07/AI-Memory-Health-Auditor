@@ -1,0 +1,57 @@
+{
+  "test_id": "T6A4CEBD517F24F0F9CE2ECFEA340AE0C",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:19.470475+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0a5fa47c9490f433006ae7ffcfb59487d189fe411675fdffd5",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 895,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 127,
+    "output_tokens_details": {
+      "reasoning_tokens": 43
+    },
+    "total_tokens": 1022
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0a5fa47c9490f433006ae7ffd0b63887d1b41536899dc2ec25",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__SPaw3gViOoJI4r6a0Zs29gMeqFmiNDzvqER4X9-_Nt3TOPPJ4IIKO8u2i4gKaeDPunj1xMf7vrU2xuDK7_prXLac5GMXWoh7AcXkqyUUv3Fmp1hy_dj_gNG5muzu2y82fCCapCb5rzvf9kcpYWY8FF5lNsko78w9BxR-O46peZsnwimjxNhQvcus4P7qoGeYL-oQPIDKhag0pQc6zo-DVguG7dPqKlQnyQ7iUfIGkRzvf5Fhz7SHyBOQT0Jm70BuPIPpXb9tW7BYB0CX59Gm7vm2E6kvO2qKiDhjZrGpi0iIsF3YUYGs9li-FWjPO6OiiT85Cuj0kiiT4nZz_eskpJuXdqzviHepLFIum3x2zbIjmDGqoHP3dP8phfozvpcdph1uLX6CoWydVv4ozTLQRA_QqXh6DCR3pXLRvLCR84FJSdLo42B1Mz8uKT0LPaSND3nyFYN9sxb5BCyJTtYfSDmJ9iAEgs2WCT3Jmder7dwmdoyJuSUXyzkK1gkSqU-vnu4pQuOCJeyrKdKEesFaG0qzOmSDmJwSiUzHSgB9m8fXYCHOfDZYgaB2DeXUpxSE3GNqNEDiuEm-hFu-Ew0s6dXJHokHRrfmFS5uSMEQLNTmdCn5iQq58ZUjnKr5D_z6hy_AUqjTZrisKvmx9wp1PROkSdeXBWIqIucgsZhsXKZe9hUtEYaNIt8W53NTkUUVlRevHKRuERKbTlS2_sFGu6I1HkaMlA09vjeld1_fdPy7qhuc0LzjBlZHB-qMISKKfxsikR4AJdVfMmMe2SUev5cOOKfGfWLAlTbPdFdrp5DC9AnVCLlaAai8yCGeTmmdeZjnmxAYN3vIL-C3PIRz9hRyyanQmPC3LAAS-G88Y0gv-P3fQtEnIMkL2Mh646UiOLvn6b4nD9FUwwzvlhccQmXsXZ7B0Awu5Ue2jj-FLXQnf-57qddoJRO8WVqH9joQOrJppFrtMRmwbONFtBnAYmDz-99JGljj-0lm1ZS7WI1dRsXNwpD4SId4xQkOcw1JE_uRaJi8Tmq4hjEHqzXfURMXz6rmw9Djcw6uUhvJZVNzeia7fENNWA3QJfloWyy7vDrXkIoAq8zJHWq5QvcQEl_DxO23VRw68O7k-WuHe74KwjFOpESTlbTZcQSSHDrPqPuPWcyiQWksDz6gHF7fP8NybjpIUVnjMNUx73fjqzJX3su-neYHenuo5cwj7k0NAOMYQZxDngpoB3X3-1b4v7i3awRwDwpHuSP9KiAcgszQCXbdDo7zbzDVG5Uk0WeDEF08l38zCzLt9971VjAH471VM-Fi_XKMjiPP4zBawA86KNmldqDg8kEtycxmP3SMW36L0innVloopidRe09W9SrDXDioqBm8RdmHLrKyIMsODg1_tgM9WZq0CnxyIQhWxQD9xVRiXg7RYVsGzGVfVmxDImKY0GzpBhcz-lYnoHUI0IV6Ev_EzLz1wRcLZ9j-mjzI00mYZqy6D-F8BEgbUC2Gidd6NVyEc2S_PDY5HE3HDPbduYnani2Jjyo-uTXFJqVNddUsW9bOtntPI52ZmMEy_GWdXBBD4McMo8IomYPbC4BJ86lkf7Af6udJnMvaqlVvjeevH4j6SETBNf2oP2MHJKwoYDRgypQNpAiMxH6cL9jMjomyYfntiYDY5lIMOQkRC5io1T16gDh3KP9YrSzj6GQ96d-b-wcAmO70MQUe1KhXiop3ilW4n8nXO21Q0BxhNK3Gissww0w5EaXH2UUjYdnzFVjpw7yxv-nfm3fBh2FfAz4pEwWvui4lwjSqCiTIWPkpXuqY3MndK-eV7Gfw9H6Tpd8Jcu_kVyY8f6EC1mEjB2iQVJqF0-9hrLjE4S7SKPn51T5ZjsmHr3mr4JMCDl7hFM_pD4p_0RQszcubFr4xWs2Jf9yo_ov5myfKU9itfytwXyzoUdNoLJ19z3q8iuDKBNqtbBQK8IC4Eyil2N86_NTEz_xUIz8794vP0",
+      "summary": []
+    },
+    {
+      "id": "msg_0a5fa47c9490f433006ae7ffd1514887d193afa328314d8c2a",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer correctly identifies the audio sky guide as mandatory for the accessible audio session.\",\"evidence_memory_ids\":[\"AC3R2-H21-F7\"],\"failure_type\":null,\"classification_reason\":\"No failure: the supplied memory explicitly states that an audio sky guide must be used for the accessible audio session.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly identifies the audio sky guide as mandatory for the accessible audio session.",
+    "evidence_memory_ids": [
+      "AC3R2-H21-F7"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the supplied memory explicitly states that an audio sky guide must be used for the accessible audio session."
+  },
+  "finished": "2026-11-02T03:13:22.468649+00:00"
+}

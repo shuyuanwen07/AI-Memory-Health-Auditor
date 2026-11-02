@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "TC3870F4B5C534CBFA03FF4A33FD34D08",
+  "started_utc": "2026-11-01T13:18:30.927775+00:00",
+  "request_payload_sha256": "e0cc1f9e3224d83d1aaf9cabcd24c489013115ff786bb09d155dfbe347d1f3de",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The original route ended at the river stop. The target answer claims insufficient information despite this fact being explicitly recorded.",
+    "evidence_memory_ids": [
+      "AC3R2-H08-F2",
+      "AC3R2-H08-F3"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The answer omits a directly supported historical fact. Although the hill stop replaced the original final stop, the question asks for the original location, so the error does not concern using an outdated state. The replacement also creates no unresolved conflict about the original stop."
+  },
+  "usage": {
+    "input_tokens": 737,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 895,
+    "output_tokens_details": {
+      "reasoning_tokens": 753
+    },
+    "total_tokens": 1632
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0c52eec05e2aa3ec006ae73c273ec887d0b89906074f55909c",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:18:49.163730+00:00",
+  "raw_sha256": "6775e8d8c068a8ad3625170623f41fa387942802c07de41a29d786736ae12a26"
+}

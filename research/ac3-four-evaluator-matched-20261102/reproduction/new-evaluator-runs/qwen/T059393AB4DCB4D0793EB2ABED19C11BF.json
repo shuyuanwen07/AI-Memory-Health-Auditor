@@ -1,0 +1,20 @@
+{
+  "test_id": "T059393AB4DCB4D0793EB2ABED19C11BF",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:17:03.470515+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 673,
+    "eval_count": 218,
+    "total_duration": 17298219084
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is based on a confirmed memory record, but the question asks about the labeling of the proof envelope, while the memory records discuss the placement of the institution logo, the number of copies, and the labeling of the proof envelope with a blue dot. The answer omits the specific labeling information and instead states that the user does not have enough information, which is not supported by the memory records. The memory record with memory_id 'AC3R2-H07-F4' does support the statement that the proof envelope is labeled with a blue dot, but the answer does not use this information to answer the question directly. Therefore, the answer is not supported by the confirmed memory records and is therefore incorrect.\",\n  \"evidence_memory_ids\": [\"AC3R2-H07-F4\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer omits the specific labeling information and instead states that the user does not have enough information, which is not supported by the memory records.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:17:20.966830+00:00"
+}

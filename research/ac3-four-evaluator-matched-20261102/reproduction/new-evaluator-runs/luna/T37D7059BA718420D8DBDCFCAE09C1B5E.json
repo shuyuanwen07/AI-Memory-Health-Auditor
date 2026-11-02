@@ -1,0 +1,57 @@
+{
+  "test_id": "T37D7059BA718420D8DBDCFCAE09C1B5E",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:39.821768+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0eabd52b5e8c5e2b006ae7ffe411f487d184f6f44a99628f57",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 744,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 232,
+    "output_tokens_details": {
+      "reasoning_tokens": 127
+    },
+    "total_tokens": 976
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0eabd52b5e8c5e2b006ae7ffe5b02087d1a6d333b334758068",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__opZMf2cFwZ-v0HFLOt7S8GIpuHMYsNch0apZMJwlIVTau4eimYnj5YBULuArun9f07ikXbcHEF1l4-Z6VnWrpMGVrNerDVitlq2Eugw4uOUto1vnAhLlkkfgAWSMkyyioWRPcaLD1YM1ivbdlnJK8HxhOMdg64kD1gk-4GOi-i7VCekPxH17EmTkhwgSf5b3m4I4NMygzL0PgL-OWmna1V_ot1-H9r1IPKmQcTz2Fs_wYvvo80H7pxCg7RJY0iaLVn7m7Etz1ylDgwODOyToD_obWgojJmgwNHd-KlXGO8sg-qaLsqwJSPuwbNn-WZQ7GSFRkUC5TEp14aUh3tgsOh-99tIEWCJhds8hSvA2WWu_SW-88F-F1PwiSvZ1dXjNHld4ezCFMJcIjPAsd3NDSxKZgPa0RCRXflbTPIo1MWipyaVpJAMgah5lB7zCR-WGejPft6XPjTG-a9ps2C4I5HxXwIC7Vglj6Jda0rij17SG5lPHdvjSh0Qfs3T6xpTJBFp6I9w5kj6mCuig1GLEvhebW4h5K78avpmVTLsO6Ic1bf-BRy00ebfixcSw6M4ZLbO1t_so54ktjmKvJVjlkJp3gJlglGKjAT7AUYDlYwecLmBkczmcpyRqo3h8P4o7Byc-diBB0GUny12H5C63yWB-gXox5TIc12AXIce7k0wM0Sco8naYJ-nieowQkCVi5Iwc4rk6ilSaGpfQAV0HWi0K4gUFtBzdFZtlXFl7hGXokd5OyoPl-U6ukhFK2FiVKu7a8Vf9RubY5BX_JiIag4gttIRI8Zcaxzzd4PZdi30pXvhrAe_pg0m249mNjEFoqPUgGdXq3nfhObb_uyzNe7uOIFtfsrof8HLjvMFzajSNd2K2oFrVJdGPLH5XRjFpZlGbOkzOxm0JTxnGR-ok3pcV--PcAhSThDqQwHjpCdv16Qz0aV-yqMbI26_KmWRK3KtnVcsYZFc17emGxBzlgBuvKpCCwglGddkWuouzg9QrTOn3poE9CwAFElLSUQEh2DXrtngIWNNwQHfKYNoSt5vO1YvkYLPD95fal-u5AoDOVgDicdQzIz83MRXfOYrKBi8aXYck4NtLy7W7Q-ESrPSdtzbceMQLYZd33sJyDotTDh5ab6VclwPjTuPEhkGH3Iw6-UUW6Ggx5-ON-ZK64QuHlezDbNOose2UYLAxX00W-5ZONlooBK61FUESuT3-1802Wxtrm_6lDJv4H3XVuTC-sjMyT3Cy52O3OtL8JeZ5yFpm2Ge2YdxrVVkKB0rzmGorZ55OQ2Xeq4x4zRX8wo4NXQALmhXQkHjV4i5mZRbqjhAuCwZThgK894Xsf7QKbtrJbfMCn3OXPo6GozYxhD02STav3voX8LG6gtSfRYXBBAXvATwI8m7qdQLScb0Sbzgq1wkKXjV7aIGMwIZV9tkw3-KVDRO0gn8oWu4vWydKr54zwdK_etnZVvyX9XRifCmF5SuVygeTV4dru-b894KnirTzC0BOYMeC_hGGfgd1FcAvtybmbYRpC86LWXWnedCcpGyyemj3vP_891V20qp5h__GsR0UrbT8D7fax7d8jPex_ALhwWUWYqklDH-F2Eu2GkrC3NQypnUy2S7agxMcUkO08-zECZtYEu7ZXSYbW7kmdWmO9Fr48t0Rdrw-BJ7QzR8MmdsBEAM5HFfQKbm0abBAS-xrVNIilpNX2FCJ5kZhr78ZldZ1R4ggiP7Y80N6vdbQeME1Yma9q7nL1wP_kWerT9zkw6RiC0sftu4Le5z-4apZ9VBc_i45jtahrEj_kilOcAWUxb7qSoZwp4CSiIhzTn-RvBtfQFVeCQRCb6wBceUYJDwbkvtX6Nzp7tCrh38B8Q_cSoG4FNVqibtuxe-dpK0m1BrkSx93G8A3Y8xevum7HnRgCCsSDcwXDscGEdTe6AZA_A30Dczo9_jJNRLX3cMSTvpA_p50PZd8acEF9DHP3QrB8pzG-1zTERt2Mg4D01BlVI-xOQA9IceaXH4BRHLGATwPBQQ7RkSsQrLo-BfpIxYPWupY8GgwwJtKgbgGVLta4WT9TNwLjxQI5oLtAVqy4VXzB0wNswb7SouDZzuv_x5pyOJqxZlyEWBnAjY1R_J_jcomo5NXjsL6jKOlXFw6agdvkA2ZT5pxveepmgdYthMn27amCTjhQDhXM5Nb59UxmkGg5gB7h7G-sP1a7mitgVNOsgbMuV7voTUGhkekbPUMAgZaODQpxHnAvF6QkJf317W2MybRdUZRNiADaweKK6MxMsEd1oXazAzQ09gNfoIfsW4K3XcqVXWCsCzjzyenro1OqDSdZjB3nKQ8rNQ42FpLCtUG4mPUZ4vNh8C-eM_EAhjaJCVP5b49Z-aZKilkLSs6G5rtodD-y-VDbmSAvAtdYpWoObGwyC0NXlnXauC5DSiMoMQn0l0DBN73WfHn4pPL8-v-r7B0G3ruLRWoVA0x5_WmTw49ATqusLeqU0pV303eljJfirv88LTSFQHCEspD560hPOAymEGRijlq1Rrj0sXEGD8eBT49jntOd9c2t5HsdEppZZsBzlcpZMPu4o4nvKi_u92N66jDJVYkREFPAmVqEiEVhgp9KMme-o2SanJaWw37KJetL2q5g1woQKIdafoeLRTgOb1CLf_6MJJMUVxdG-es-r3hKL0YbxVctHqo7kHDO6CgF0GlIILPQiHHsnHPlgKadbvTmHag5G4zA2I7-gEzIzR-dzeRPtACUm0fjbSyH_uOZpEltT0EGZb0yTIn6QSMKdSXkMXWoDSWjMEiQTkUPApm6fCdrMxv7ckYFKZnIBDbCNzy_ZuefUbVVxh61g_emLDVvYR1-qc_jn7p-tGd_6nwRm5uq2l-GNlEf5JfOHTOOw4vV2Pc9z5OH3NrloScYzDculzwBiBk4t7qZGR4ty3TAVOy2enbtQ42cOdUt6HgmAk0nvMZ2aomOOcBN0JZojziNLm4i7jLPJas9Tda2WzgQsy7vx6I3p_K7tKZionllif4xVLa6ys9sBfCjzUQggmPFehrIqdwXyW2vZhh16gaWShdKV4V70_oJNCFQEp52R2auytcG0cPeAPxOW-Jw0p2OD5SFSKHmzPPTJCUyyB3kqaBm03ND5K6SKa453c1TIV9RgDDJ0JRxJLgiiA==",
+      "summary": []
+    },
+    {
+      "id": "msg_0eabd52b5e8c5e2b006ae7ffe74aa087d18ed6346e96f1394b",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The records state that the tool shed was first recorded as having eight spare rakes, so the answer incorrectly says the first record is unavailable.\",\"evidence_memory_ids\":[\"AC3R2-H04-F2\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary source-supported fact about the first record. The later audited count replaces eight with five, but does not change what the first record listed.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The records state that the tool shed was first recorded as having eight spare rakes, so the answer incorrectly says the first record is unavailable.",
+    "evidence_memory_ids": [
+      "AC3R2-H04-F2"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary source-supported fact about the first record. The later audited count replaces eight with five, but does not change what the first record listed."
+  },
+  "finished": "2026-11-02T03:13:44.685611+00:00"
+}

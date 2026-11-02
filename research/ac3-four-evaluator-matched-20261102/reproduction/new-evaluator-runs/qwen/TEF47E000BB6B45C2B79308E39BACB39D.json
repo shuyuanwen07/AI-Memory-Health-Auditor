@@ -1,0 +1,20 @@
+{
+  "test_id": "TEF47E000BB6B45C2B79308E39BACB39D",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:55.807260+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 893,
+    "eval_count": 180,
+    "total_duration": 14817074458
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer claims that the checklist for the remote interpreter briefing must be a shared digital document, which is supported by memory ID AC3R2-H12-F8. However, the question asks for a checklist, and the answer provides a specific type (shared digital document) without specifying the actual checklist used. The source evidence does not establish whether the answer is correct or if there is a conflicting memory. Therefore, the answer is not fully supported by the provided memory records.\",\n  \"evidence_memory_ids\": [\"AC3R2-H12-F8\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer provides a specific type of checklist (shared digital document) without specifying the actual checklist used. The source evidence does not establish whether the answer is correct or if there is a conflicting memory.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:13:10.685906+00:00"
+}

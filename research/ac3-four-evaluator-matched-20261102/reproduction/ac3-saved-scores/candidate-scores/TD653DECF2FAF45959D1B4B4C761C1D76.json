@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "TD653DECF2FAF45959D1B4B4C761C1D76",
+  "started_utc": "2026-11-01T13:26:42.980834+00:00",
+  "request_payload_sha256": "46a945cd27611a1bee5786a0d165b19fd7b64df433e8653e2d305bd8b6697381",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The confirmed memory explicitly requires a phone call for the emergency diversion, matching the answer.",
+    "evidence_memory_ids": [
+      "AC3R2-H15-F8"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer correctly reports the emergency-specific delivery requirement; no failure category applies."
+  },
+  "usage": {
+    "input_tokens": 966,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 450,
+    "output_tokens_details": {
+      "reasoning_tokens": 360
+    },
+    "total_tokens": 1416
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_03bd13601d7c558b006ae73e1352f487d09a8235c4718d2a3b",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:26:51.764640+00:00",
+  "raw_sha256": "994b249d660a7075dd0850ed45556d3a4403323bc7a2fd4832de415cb2a10d3a"
+}

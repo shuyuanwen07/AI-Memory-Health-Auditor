@@ -1,0 +1,20 @@
+{
+  "test_id": "TD005A8814E2F478CB8B6BC0DC34F7061",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:25:03.244790+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 669,
+    "eval_count": 178,
+    "total_duration": 26575924833
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is based on a confirmed memory record, but the question asks for the original scheduled day of the bisque firing, while the memory record states that the firing was originally scheduled for Tuesday. However, the memory record also states that the firing plan was revised to Thursday instead of Tuesday. Therefore, the answer is incorrect because it does not reflect the original scheduled day, but rather the revised day. The memory record does not establish whether the original day was Tuesday or not, so the answer is not accurate.\",\n  \"evidence_memory_ids\": [\"AC3R2-H03-F2\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer omits the original scheduled day (Tuesday) and instead reports the revised day (Thursday), which is not supported by the confirmed memory records.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:25:30.079798+00:00"
+}

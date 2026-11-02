@@ -1,0 +1,57 @@
+{
+  "test_id": "TD653886D0A1F4A5E879BAEE8D35BCBC5",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:54.965320+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_054905e8a79edac2006ae7ffb72fd087d186e4ad3288940d72",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 891,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 139,
+    "output_tokens_details": {
+      "reasoning_tokens": 31
+    },
+    "total_tokens": 1030
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_054905e8a79edac2006ae7ffb8078487d18ce4a2242721e466",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-5DEO5huMdsIuUXaCLBUEGzYQfpEqDGTj1NLul9tESYsSp4Tdl-eSmGOl7ljg-W2p4hvY4szXSwotxmdYvxuwznlOnhOUoGPUdg7GDh4aNRVmF9q1FzfVRbG4II8mhTu9nYEDRXLqhpini6x-CgE7WybVwL4wf8ARpIhUfD1bjwJwD2THioV6vEh0gjYBJbQdMc8hRKTlTt24JT2uKFc4fdQs3pqBuaKddSu50jQanqkzQ5nZEqskxJbX_AgdF1DEku61qgJyG5LG95N5VOGoRBbT3n_8jPscOYZ5FdfbmTJX94dEKb27eWhjbQgs83eYl-I1jeFhQqfgmUGs5B0Cw4UxKFxheIGCoFs2JPYjeJJtJxX3nVEoOTURCTxGcvGmhmWEhNCdrHLOwxZuohwGJFrw2xVhHGbwMxZtx9n66fcfXveoriJC2khc1wnA6wnUc4QFwkCiaMfsTaTYh5a-KHg9nxvo0YcVMO3NSCVPM2HHw3Iks9fwfxLt36BSF9wzRTrrPr1PRGf6T0p4WhNcmWEBNryfCgS48PgO88HX8EfvTNFnTdgQz2GxUh-CX-DIMFHI-OtoloqLSj2n6DN0TJnB-Q-E5ugThFpOfj3JE1joM1NMRz8FPnCYhJayzIcnxuWOSdEj0nhNMRTABAdNdbq92WDpQdunGErImuBRqdBtycxpPUfr45nB2UYLgTSCtUkDYdAp1jc6mfOFwjoIsHQQNMJQV7k96iytZleuMwu1ma4ZYnaZL9BR339_3xhk4DjDlE1Cm5zT8US0ch6_LQt8yGwbEc6PKq_-w6nUKACs9uJkt5p-BsYtKAyT-EZaayehFbXkfzGIQZqhINtGouUIBH_0_6od0lREYQdliIEwNIFhBnJZcgYoeDjz4htdbVL2Mp0GnxsD7aD0rR-GXet5FkdDZn8NjJvRGoY0FFUweQWIeh1ylELqwHBRefJrB-vP27xj-WFr-nkklCXjMNHMW48bJmIfyNeso0osX9gLNHo9WFURNYuvzaEfwQu_jewQSfAj6yyjzJyN4YTJ2sF0xMcPOWK2nCpguGuxiNLIwVdG6mOxpDFIyvA6PBgbtk1TIIbjsnbHiKx3KtTOeAcxxR7YPkUo4ZyrXzDcC2F7du_MJc0NA_BteRZzRBCwxqueZ7FvAoZ3bwwpAVhNMwYjGAosXKCeAZg5oPUVUj44JG23yGLQDft9YCOy7yZyH9SO2LE892SUBF7IwC5EKaZnsYrEJcRT6wq9WJYm9jREmD5G-G8PAhFxAqUdfSUc7bW2T0WmQtM3rwFt7VQTsjJDwfP9_CDQoyw-qNjMuNf74bdoNYtSWwDX79Qx905jaiGRY4kFBIAJ2oNjFJDIqrZouqAHu8zwZIzH5dUoJDQZ5ykU8k0hVaCK8z5w70Vw8pSV6Qshc6qgmfJmjxukxwQ_RFi9X5nn2G-0SENiHs6h5nPjMgyGqaM6nQ-GkZkjzgcSr3cBTuICKFRfQpLBVuFhTZH4HAXbXfVzITwqmHhCS10_VRK-tvTSR1TIwFxqxu0F67I9646C28oHi4gqe1aHrwYlcGN-IUzI_aDKms0ZBnyEFzesBf4oR2bt5OfPG91u8tqKQ8hA74GgipO88cka2Zizw3STzXI6TMWdH6fc70oiluKwUFHvLd59bI8An5KwfhLMhkCsmQ4u17z0FodQtN2uh5HdD5aoH6kX8axF8iTDHzzzy4VU4ExoNN30biDQoww8y0KOG94AWxcYy3ffm5YjdMs5bVVoyd5xlBT62Lzmr7Zl8eld_ufesvJRiIUyE8xrQRPphDz312A3g0VB4nzCCkkVfmvpimgFzQek=",
+      "summary": []
+    },
+    {
+      "id": "msg_054905e8a79edac2006ae7ffb89e4c87d1bec5c13692462d49",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The memory identifies the seedling bench’s label as a white diamond, so the answer incorrectly says there is not enough remembered information.\",\"evidence_memory_ids\":[\"AC3R2-H22-F1\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary source-supported fact, and the answer fails to report it. The evidence does not indicate supersession, conflict, or misuse of an out-of-scope memory.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The memory identifies the seedling bench’s label as a white diamond, so the answer incorrectly says there is not enough remembered information.",
+    "evidence_memory_ids": [
+      "AC3R2-H22-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary source-supported fact, and the answer fails to report it. The evidence does not indicate supersession, conflict, or misuse of an out-of-scope memory."
+  },
+  "finished": "2026-11-02T03:12:57.964128+00:00"
+}

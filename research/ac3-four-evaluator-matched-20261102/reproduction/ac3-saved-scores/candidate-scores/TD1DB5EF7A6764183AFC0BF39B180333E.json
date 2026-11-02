@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "TD1DB5EF7A6764183AFC0BF39B180333E",
+  "started_utc": "2026-11-01T13:23:05.711939+00:00",
+  "request_payload_sha256": "6a49876282c4970dd522ac5a3fd8154637e9dba2e1f25aa1e2ad44bc08566f97",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory states that the trail team marks inspected tools with white cord. The answer incorrectly claims there is insufficient information.",
+    "evidence_memory_ids": [
+      "AC3R2-H04-F4"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The answer omits a directly supported factual answer. No relevant superseding update, unresolved conflict, or misuse of scoped memory is established."
+  },
+  "usage": {
+    "input_tokens": 732,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 369,
+    "output_tokens_details": {
+      "reasoning_tokens": 259
+    },
+    "total_tokens": 1101
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0c6b4e59c2fcc23c006ae73d3a089c87d0a21652dc695e234b",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:23:13.678783+00:00",
+  "raw_sha256": "70d146b8876ef44ee6f399912d28417bc6448b6720c800313b6c233ba0774987"
+}

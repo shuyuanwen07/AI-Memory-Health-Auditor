@@ -1,0 +1,20 @@
+{
+  "test_id": "T5266A26D10344D178657AE3ED612AA7A",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:24:44.237037+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 818,
+    "eval_count": 206,
+    "total_duration": 18902055167
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks for the sole final opening song, but the confirmed memory records do not provide a definitive answer. The memory record with memory_id 'AC3R2-H27-F4' states that the active concert plan says the sole final opening song is 'Sunrise', while another memory record with memory_id 'AC3R2-H27-F5' states that a separate active signed plan says the sole final opening song is 'Rainfall'. These are different songs and neither plan has priority. Therefore, the answer is not definitive and cannot be confirmed based on the provided memory records.\",\n  \"evidence_memory_ids\": [\"AC3R2-H27-F4\", \"AC3R2-H27-F5\"],\n  \"failure_type\": \"conflict_resolution\",\n  \"classification_reason\": \"The memory records contain conflicting claims about the sole final opening song, and the answer does not resolve this conflict by providing a definitive answer.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:25:03.226124+00:00"
+}

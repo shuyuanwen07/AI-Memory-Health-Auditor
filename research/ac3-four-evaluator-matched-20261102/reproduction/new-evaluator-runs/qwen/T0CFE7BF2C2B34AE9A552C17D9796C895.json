@@ -1,0 +1,20 @@
+{
+  "test_id": "T0CFE7BF2C2B34AE9A552C17D9796C895",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:17.060998+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 842,
+    "eval_count": 236,
+    "total_duration": 16878223958
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks for the 'revised end of the collection window,' but the confirmed memory records do not provide a definitive answer. The memory records indicate that the first collection window ended at 11 am, and the survey lead revised the end time to noon. However, there is no explicit confirmation of the revised end time in the memory records. The answer states that the revised end time cannot be determined, which is consistent with the memory records, but the exact revised end time is not provided. Therefore, the answer is not fully supported by the confirmed memory records.\",\n  \"evidence_memory_ids\": [\"AC3R2-H29-F2\", \"AC3R2-H29-F3\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer states that the revised end time cannot be determined, but the confirmed memory records indicate that the first collection window ended at 11 am and the survey lead revised the end time to noon. The answer does not provide the revised end time, which is a factual claim that is not supported by the confirmed memory records.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:13:33.990067+00:00"
+}

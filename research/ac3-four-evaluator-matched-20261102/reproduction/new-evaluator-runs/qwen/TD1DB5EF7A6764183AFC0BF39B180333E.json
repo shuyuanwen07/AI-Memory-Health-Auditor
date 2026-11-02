@@ -1,0 +1,20 @@
+{
+  "test_id": "TD1DB5EF7A6764183AFC0BF39B180333E",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:22:27.281062+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 666,
+    "eval_count": 216,
+    "total_duration": 23118031250
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is based on the confirmed memory records, but the question asks about how inspected tools are marked, while the memory records mention specific markings (e.g., white triangle, white cord) for specific locations (e.g., south footbridge, tool shed, trail team). The answer does not provide a general rule or standard for marking inspected tools, and the memory records do not establish a consistent or general rule. Therefore, the answer is not accurate and does not establish a general fact about how inspected tools are marked.\",\n  \"evidence_memory_ids\": [\"AC3R2-H04-F1\", \"AC3R2-H04-F2\", \"AC3R2-H04-F3\", \"AC3R2-H04-F4\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer omits, denies, or invents a general fact about how inspected tools are marked, and the memory records do not establish a consistent or general rule.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:22:50.722540+00:00"
+}

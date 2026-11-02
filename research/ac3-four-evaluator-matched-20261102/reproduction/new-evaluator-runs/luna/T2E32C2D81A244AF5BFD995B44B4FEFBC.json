@@ -1,0 +1,58 @@
+{
+  "test_id": "T2E32C2D81A244AF5BFD995B44B4FEFBC",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:00.055848+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0857017087fee9ee006ae7ffbc55d487d1b1c1ce0be0e950ca",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 1002,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 179,
+    "output_tokens_details": {
+      "reasoning_tokens": 70
+    },
+    "total_tokens": 1181
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0857017087fee9ee006ae7ffbd1ea087d1b29a377ef7755ba7",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-_26HuCxDF29NxWk0TndohGeTTpdGQHUTyhdMozwL6G8Neb9VdfdgmBaoDOuSKK0YtL-vnIPLoRDqp10c1FS2QCNkSH2VzVPBEajGk3ZfM_rGOfJ0CTNt0pAyt5gfxpIg3BLjp1OO8WGX5jSrtrAVXE_ouNpb82WoyVfH403cM85wRw4uGgIgD721YSh4XDv_pr_GQMq4YJn994KIpqYrvfGI8RnXFrbwaUV8v9cMWl0HalUvzE1Be2ZScIc0cnrpYmkWqDb3iEg-fYGK0_HdhzjtutY26GAMwbGFN8ySI-ACbzfF0a-njiOyWgKLQXIRgI0ZV3N0OZzMnvqQTut_kexdkRKhNnxtRGO1M3NoMKhb-Ie1jqnfBf5HNa9QRcGR1kwgnHbBTBW4XjtS4KQ3TfCHJoPpPnaK-wGpOSTbo7aEp7FhcT1jFIdWUsPEqD9It3KCjK2O3Q59a374RohdrKKzFreP9HfYBN3b1aH-O8BglNoeJrERq5oMP6tyaVi_PtLPTkMjEUjoTQK_SomZ1i445FpZkyU6uexOwlmhUpT4hqclccxXJNeLrpiCHawyL8JZIy4cucXL4hQb7D7vhKa5i6CYDwes7ACFqIDZKH0pZxSGxM9868CF8YOFJ00I7_wqR1Czi14nhl6irn8niHR9C23vhRd4uRZPVHQMbLoNiWQACVVhFEnmtAC5ryJRjVvj8nuTOhWRpsqkPWNNv8wPqJVIdYiAZoc_eu8sTD9PjuVWXyGtgawYHbgapRnpknD9Uwa1INrFozg_LuSRP1Tc5yRepU9b90AU1o_lbDSTXqvsC-tAFuP2sdxYh8GjFRXieA-qPJ53NYrLvWYVQ-LuZIRN4BRmo_MYKS2jI9VQKFAQm8UHJU_N0h_Yjh3h3Mvtnlu9HtPPsgWfo2YiWhTDd9rRL8ojfcbllJas5fXppmNRVdTZH7J6U9SGVA8a7I6uYpD1-t79MCuN1FfI4P4ObRNefjjeVoaKaKlUWC7sJ50vStNGLr2Ka_8cERRtzv7LxGMBeu9-WLCYlvHhDmrLWL19PaZiQePGq6BDDc4nH1UqnFn4tOK_UMC1ie1KxdmiowOqRFP-ajkirgaoGlZ7RlfeOPr_zGK87ouEkLrNKlPW9UVy2kZSD0WWHqFBzQykPrmRkV-nc3ygINj1Pb_ol4K3dA_icEjGJNbn-VKBm3yt5V_TIitLCBmjuqRJ_kN1dQWJaZMKRKE9ynErZnuZuOXjG55N44YuA4_GVNwVvUGqk-v7sgnBCkHx80g-BGq6V0iNtGvyjsEyTTOlQXP24GiuDV_x3sfnJ7gWfyVc3ewINZVfjSZ4_2xfX3Fn0DTbab8ELcz0taGjMZeZskWoepv_r2QfJ-cNsz5eIh6Fp4Sa3qOzDFhh_1w_BkZ2cqI_RSKFheDHVrJFBkt_mxOyyWuTYWeqpWYTRXG0DBhlNPvJCmM74xPoBu6ARYXhoF2pgaN_EoGgPWZXqtpJH-XuOja1ATvqJJgyd1E3P9srw3n0myPnh92NO4mVHSfvwVKJQBPvXiQOvAwDqG3hosSusztuswzEk2nSHv6LO4SRvRoZcXSF91dQWTUJ0dbyxPWqc8ReYLu5_sMKVhCOwTy8WXTbSGxwywnrRX-NyM679uKPd4RDgElxycygTXUWMlGrczKm2a31qHgAHUTzWTmudumkvlFiNGycpENhh4S-hX8elCr49ox_tKPDcmeVY65aI_WRU6q_MIYe8Qq1opQ3VmiCRqMoweCpzZC2xxLjzWsJ6KlBITFAxUmBaNYULgcqxFzYJ2MBXfZ84y7Q1ck39wqMcEFCdjYe1brpoh1RAk9gnEbOQlrEEQBfBw4bqMPrJQv2XFWt5J3XWLSLzsAKAo0lQefzbneSQsVNAmcdDvvGzYGIplbxW5y6bpjfvTyqWrX2UgMx6C4jjrDdvZ0OzmnEFu0rcxMHvvdmCu1pm0n3vlWjdiapY2O93WeK7nTVG8Ymk07QAJfY3NJFiFRfpwknnP_NeQtbKrW0qYSzPW8XxH13OmbmmnN6U7JXB8VTiRCBfSMcre467hH5JINnAL4tmE34SAAgaY3lku2rOrygkq2DaqLW8SsWr0oMYPH62T3cIsC-e4jQydiMMJJMJq1B0QtHsK058f8FeheeL9cVD2AzilKyxtFPsIiprutpS245sFQKkczX_f1B-EKQ-E5oJ4HPzU6BhZdjalHyghO_VizJspewTDs6aircmpgQZK78_EmkpiPOo5adXBQ6ngWEC1yRyS3eEBepAMQ-lu6yiIuhtkHgRs4EYpt-yVZ6wmPY_66YHwKcw0IA4uijhxFw8AbPUaRbuSFuMvKa-RLymRv9eGwKBfayWSvYHLxenEhyjRcxiZB5q-YDxeQ==",
+      "summary": []
+    },
+    {
+      "id": "msg_0857017087fee9ee006ae7ffbdedc087d1a03b690b01f68153",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The records explicitly give incompatible active final platforms for the same departure and state that neither supersedes the other. The answer accurately identifies the conflict and asks which source to follow rather than inventing a resolution.\",\"evidence_memory_ids\":[\"AC3R2-H15-F1\",\"AC3R2-H15-F2\"],\"failure_type\":null,\"classification_reason\":\"No failure: the answer appropriately recognizes an unresolved conflict and requests clarification.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The records explicitly give incompatible active final platforms for the same departure and state that neither supersedes the other. The answer accurately identifies the conflict and asks which source to follow rather than inventing a resolution.",
+    "evidence_memory_ids": [
+      "AC3R2-H15-F1",
+      "AC3R2-H15-F2"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the answer appropriately recognizes an unresolved conflict and requests clarification."
+  },
+  "finished": "2026-11-02T03:13:03.228837+00:00"
+}

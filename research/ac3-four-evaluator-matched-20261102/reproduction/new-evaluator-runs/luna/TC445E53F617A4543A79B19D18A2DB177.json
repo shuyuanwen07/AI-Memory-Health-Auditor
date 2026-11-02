@@ -1,0 +1,57 @@
+{
+  "test_id": "TC445E53F617A4543A79B19D18A2DB177",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:41.812032+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0d00cc6d95d364c8006ae7ffe6141487d19e45723c161c4a93",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 898,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 208,
+    "output_tokens_details": {
+      "reasoning_tokens": 108
+    },
+    "total_tokens": 1106
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0d00cc6d95d364c8006ae7ffe720f087d191cabd5a0c83bc4f",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__pbR8S53BkVQYyPd4ExY08lsRiMjucufhN0nxQlY5edKthTrFBB0bZbcaxBViMcCaHbZzB0NBkGMC7teVpCoOX3ofU57Jek8i8r8y1cqnznOKdOlTacdk3ZROTnV9BGUo-phYrc6kD1u-r1FJPZCwxBOtAnLdkt1fJzkpZeW1D-uKol73wNp_wWRSzmB6JBMG2CPi0vWD6fmMXTV0Vqt5-EGRkF-5oOxMz-s743oKfJfR8ExcFMvywPTTy8vc7xaw9yIeu3pupl3MzjSoO6MvlVTljvkEWucuiBAaCsBJvYgweWDS9wdkrtwajG7Cz0eq2Gwcrd3MPE1w4ksaBW1hwQ4sg1ULlYlrJHJDCWYpWQtX9J_H3MoJabDUU7eRGZD0xj7sDA9moOKrhOgie7J5d2zZBF2bJ5SggNiBx6Q8nLhLDVQqaKvd68j1NEk4DTHn_3Un33CL7tH7jixflcvnfo74iXEzvXI74rV_ypqZcgZeTUvH4Z1_MRSFtCQtJlMy-WTwgB6GhfB3UUz4W60xVTvOwErekoNqtxJxb-X0R8vtkYq-RSvvGsSTvuHjuNRLY3Z__h_L6E-YVUk47-rvBUa3rjStB7-NYiUzmgslTdo8QQg73z5nvd4YSFLwh7-vdcZk-vSslyj6eVZ2aLGWVsPub1CHo-N2umzJ7OAkZNqw51Fq05SWryQqiWn0abhRpoFugaWySEXyYbrW2l5U6Xw5EMEuth9hCR2ZKO5fl2dY9ZnejL9mJ_leptCTcQoWZahSwOED73PNpHUWCTjlEmTC7BG24HjAV5z6Y_dihIUT7vBzLu5hknAKUJPO1_NGuT3MqLxr5SQoZ_1ooiBelf7s6Ijuvqx4wCbZ2CJCYsD_o5NrP7P9SOvWc3cBGmQvv2Knvn0gD_aFjnelsAMzC-5MexkbWx9ZyaKdXa0k7QsrPysaYY2YNRQ6vFJ6gfu9OciQZavPuf4Oy0SiHVy-amsG8K3tti9qsDGRY5uIIKGmGbeAcxigWeLH71joLsm-WvlidUw6jNfXIzR6vlaWLRn_H3CcD1PKWiJPN-YNlLygv1qsc37F-dAmh2qHxWSUTCHAPxsZTsHMKhyVjyyk0By8jRv7MxDHXcMI1poDI15HbbRfU1dcbjOG_JR_3Z_q-9DT9Xd5ykb7VgpCkcysoo-0OnpYm2U4QU7j0IzkNRQRrJRnVcqZ-EoqB0vy1wFgfL_NmK_jNu_6pzmNL4Oh-nOWk1pbmchJdVIafotAxWxbFsjGnP0PLAq301WRkG06mckYcSu_Qo2vG1T0DLguEaI6TsT3hokL7cN-S6aByFXbuKWaZhFmgCXWVHUZMX5SZchjCBNKqVmBl7HgPvlpkEHqJgN8Un_qL4u2Vw7CjnRcBcrXglx-f0V4LTPkMq6W5Nd-ngCFwm451z8klG2n7kLuls1-k30Q-w4LfSbjVQAjGgCh0bLhukLJmGs-8e8mv6Qo4ykkwqOX4YiBpbHUWpROoeKcgo2Gifi5mAaEKrgoiAtqw_bPtzpIoU6RYsV9Qr6Qjyynmr4TobsPAUjGD8_Y7E_Gi0BXHSgcFMBxoqJZKYOSCyFKP562cHoFUnnvCcd-C1bsa4UNJ7zhYE3-NLWyY10LdiQc2StWi68EX8-lklKrmV5yQe4xAls_QyICqTrqVLqbJBZdDL3uffQn1dNGKmu5tMaaKYUBLJMfg5N0eu-fzJ87tVrCED0xF3-Havzp77YgUeUR7tCru9ngiWF-teq68ibm8YC8Mv3eJ7oXKw9uzSNqP7u0wYM5Jexo89dOaYVpVz6J9C693XDXTq6DM5CY518f2Zr-ku2MRCaxj7jEN3oPlM-bE_FawII6-1LX88vnyrOfq2DKmGhzHSbKzF6zI8kTzeEvTNOS8_RmT4ta65sAnkkSJjNHSdab9VfJj4XbmqpdNjRQD8Af-cKB6IT1TOQ7Jmll6IlW1vx4enMNhHZCzRfvNb3bT-tsjSmI8EZA4zHuLdYs-be7MtVBA2fwA6NUQZlY_NAP8d9czpbp5_3s7CCf9fP9RZ2BTYtAzDHuO-0lP_e_afjNuaYndbMJCyxB86Z2f2UyiBx1OxAV6PFk6nwf0DENQqrxebw88jP7KdbKdf9nc7WXAXeJlABNNBLuBOkKaYX4GZoTZVW60NvkwxQ6biEX_cE1YVA7laaKryUu0Slhnlvhq3kyOBJL8Or7vu4qdX8rEjoQ2OFARlmPXP-Wh7kCdA-1exX6u0V4_c-Z9SmMee2iA-bXpg0X-RSDkoKbOZSKVxSYLwHdLj2S6CFDzYqxCx1o3snCEZ9uMI2_2RNDmNcXSk6hWzjs7PtsHyFI7tsHxyN-n_xcbJ8hrnyZjOOWP2-Zlu43FKXFCFpHBsKd4DSupsCbepWk0OT18Tk7ZBLHYacowPjg0HCLTULLWQiNcRVstdCpY8G3I5uIdSn2u8NHUdDGjXyVsyQugKju11XcXxvAPgtxr9NhPbYagsg9F8wkKRi2np4nzB5OuzxJ7vBGgz723xj0BETHT27lw6raDP1EfPshptgipFU86uCK6A5aX5FOWumE15hlqwKvsnZrNJIlSSIoSYc4yHocap1MwbboVQBYxurjWLg-aOBaFi7uOSXapeb623L3I_LlyNQDNJUDUzmHhePuP2ckVnU-LfkDXf1Sjz-Q_gxleREdkqcx1VhItqNidjj3syzU3ySpKbbK4K-m36_jeX66RCuBwihSTMaMp2jacu48aejouo1D81VGlNMvQodBdTiK2scyPWbcrTpJf2QQptmS6IxVi7BbSPw4UAGgeVgXT-iCJQ-VsC6leWE6BoAfoUNdX7Ym3eg==",
+      "summary": []
+    },
+    {
+      "id": "msg_0d00cc6d95d364c8006ae7ffe82f5c87d183e0901d08cd46ca",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The memory says the spare telescope lens is stored in a grey case, so the answer incorrectly says the colour is unknown.\",\"evidence_memory_ids\":[\"AC3R2-H21-F1\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary source-supported fact, and the record directly gives the case colour. No supersession, unresolved conflict, or scope issue is established.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The memory says the spare telescope lens is stored in a grey case, so the answer incorrectly says the colour is unknown.",
+    "evidence_memory_ids": [
+      "AC3R2-H21-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary source-supported fact, and the record directly gives the case colour. No supersession, unresolved conflict, or scope issue is established."
+  },
+  "finished": "2026-11-02T03:13:45.638121+00:00"
+}

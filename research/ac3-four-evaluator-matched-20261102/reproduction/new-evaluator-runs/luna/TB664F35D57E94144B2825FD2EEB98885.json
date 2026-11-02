@@ -1,0 +1,57 @@
+{
+  "test_id": "TB664F35D57E94144B2825FD2EEB98885",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:21.093423+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_02ece250a3e3b243006ae7ff954ebc87d1ba37c575e3c16b43",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 965,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 108,
+    "output_tokens_details": {
+      "reasoning_tokens": 38
+    },
+    "total_tokens": 1073
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_02ece250a3e3b243006ae7ff95bf4487d1b7fd231c679049a3",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-Xm4h9fLHKJ1dU5Srpq9C1f0GRZxEctT9bblkR1RsNktnb-D7ETkDIkWuaZ4PDu2P0O3cemLU5KVXDxT89SVS5jH1Gj5i-bessnTFqeOMWDnvcMNvieqXmlc76TKSqnkkO-DvFJKJ7oz1iIAJxF6-BqRHhikF_cRYzSQr1ThDr6MIkUonoXZcOt2LQf5Ld9O3mU5aA7ouTecMBa6VmIwjbAQy8izIyiQTv5Rb1Y_K_mDD2Ha4w5b3Vhnu-UzGSe246wl5jbSokaxToXEzKDrDW8OitxfnQP25k1ggMaqzgNCFGDblNZjo35RWIu3XQrOq21VX-cc8TWgg4TJ-lGYrXdmja8D22zZdbxp-0CeQkoFWohrBa-K0THeKX9VBd330Gze2zNL0iMTrwcSzCJFcQAgLXJdecNyDOW8D46QZeGxSUzMc5KBMNBWUQx-quHpiSW6D98fT5HMghdVzAjZ-W19K_fu4NtlZAyHiZTn8D7X0NN4Th5lSkgzGmlWyLZtuZ3MxYSfehV2LQJ23cFqnXjYjtvqjFRhwSXgR8YhF3mXoOPpwwmE493AM9bvpgX1nXfk5dcZCE9I0Im6qcXSqCebCW8JesCleIoMls87Vq30pCt2ek3QQzWAS6hiRXblfP42A9yrXMGoz1CYtNBFDxbPZSj2x-Qbt7xucdco2H1r_f6QG3kFA7CZxrqHMf71dGWszWTkwQ3H9RsrZAz14cEbhNeQPWVNs2pcGkpKbfMoRXQJvni992BhBLXPDv4EAqtpYJskEUbNWps7rHzM63sK6VyPnMI5xKFYkGelQ4wm9Z1u7hFbjMC1apI_EMbBa_2UiKoNpOoh8rN_bJUAUn2Tva4--ROErqmJEZINSmRJ9PAaJEhwlbmtNjAuF7R6qzQeet9tHc5Srfg784YkBNqGJVm4ljGbaC5MQKQqGNJ-DeAby11WPdmjVOkkLct0eJZzIUIXBJrPF9Nj5K70jbQ3r6RVW9A-u4vI49MMbaGs7XYgY06AGQ2y20J8dnAuX_Q8RS5uDhqyf9v0Ozcu8DvSgge3ctXVjfeO0mltRE9lC56hSbi1iXnhuoStg9ryfox-4ds_gLVgMHy7oa83qfC-v6XuDxV7w0UWqgC-TgzpbRfYEQQ4BCRnX8Men23IgHO_4b2vbMT3ID770Icu6-zcXnsMqNb--0lgeDZ-6n0W7vKyjXmdUND-n49YrnBYhdzDz_TLYgiCf_6VFxlOmISa2AuztNecXVKKBA_8_aFBb2abgrtCgF9iPy9P5jpbpwpWx6OtU0eMW2-fKWKmZ1B698Lp_vlXmayzdCD2MiB14oAw9gZlxykKhQHxCUKH5-g7uCxiB6yCamEQiTxIiMb4MMl0HYt74D9JYMj3bS6ISdASkm7RZAJ8_hsTo2a1MpZR0q5hZyw6G-OYQXmNAqjy7t386T_OJp62Ay-EnEi_jMPtESKfRyOyX-2WJfhCP6uyPanLWsy0hwAWEdFrq3XTVWcwcUKf_hyFY_-JqsDxuagu899PAFm5P-h_3hH2Uk85di0lAAsHcg_VbTzBG4uVSK2r3ZkfMu_pH--v2rAxf1xb8TaLSLksWbj2SpN_y7Wea2ZZRoHqFmZyCMTzazsixQpTLRXmAZZ3CHVtfGnUo1PtD5ASIizEPaTeNSvIvWfxSq0J9I0gRLMrFqK3Mb-PQTp0V7uAHkWqbDipI1wPSfCL3a9wK0H-_sqADymQ7aX3J9qWNaCiynXphQK8k9LkN402ipXSlrcODxl9Cjz4IRDswBYAj776OJqaSGQpsrooSjKmKWnLyAUBvz_XeejXTm3lTtcyuQqvIpwJskLPKobc1pAjjvteRkNT-WnlAD5cUX4r3xX5w8zhWOKhr5MBGbMhZpQnZ5gBTj6R5ABHt-Ke0QulZpLbgnsUVtb19v",
+      "summary": []
+    },
+    {
+      "id": "msg_02ece250a3e3b243006ae7ff963d7087d1937ef3b1ba66c2cb",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The target answer matches the confirmed requirement for the screen-reader briefing: use an accessible electronic notice.\",\"evidence_memory_ids\":[\"AC3R2-H14-F8\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The target answer matches the confirmed requirement for the screen-reader briefing: use an accessible electronic notice.",
+    "evidence_memory_ids": [
+      "AC3R2-H14-F8"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported."
+  },
+  "finished": "2026-11-02T03:12:23.154575+00:00"
+}

@@ -1,0 +1,20 @@
+{
+  "test_id": "T3D9807490B004779BE2428437928BE99",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:20:49.262868+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 928,
+    "eval_count": 228,
+    "total_duration": 31912202542
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks for the single final approver for Harbour Hour, but the confirmed memory records do not provide a definitive answer. Multiple memory records mention conflicting outputs (channel 2 vs. channel 7) and different approvers (Hana vs. Vik), but none specify a single final approver. The answer is not supported by the confirmed memory records, and the question does not provide enough information to determine the correct answer based on the given evidence.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H16-F1\",\n    \"AC3R2-H16-F2\",\n    \"AC3R2-H16-F5\",\n    \"AC3R2-H16-F6\"\n  ],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer does not provide a definitive single final approver for Harbour Hour. The memory records indicate conflicting outputs and different approvers, but none establish a single final approver. The answer omits the key information required to determine the correct final approver.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:21:21.512446+00:00"
+}

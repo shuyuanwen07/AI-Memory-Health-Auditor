@@ -1,0 +1,58 @@
+{
+  "test_id": "TC3293ACBDE5949FA8B7167239DB6B5AF",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:27.521827+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_00d85748d935d5bf006ae7ff9bceac87d19b62a5de7cc67132",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 741,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 158,
+    "output_tokens_details": {
+      "reasoning_tokens": 65
+    },
+    "total_tokens": 899
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_00d85748d935d5bf006ae7ff9c576487d1b8743edd09184e8b",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-d2kM8tchJfOMsnYGvZtR3xnrQNyQ-ythdM9TZcPS6nJLawuf8sevUiBzNBAYePsMPSwJNWONWh8zNjJo3IHytE77L9m4vi87A2bncKkc7sMVfhtMVl2sV0eIvUreGT1enl_9CtTySXZGHzCcxb9ppnf8l1ZnBHCj-oCS5QmEXmwJokjuZ712Xm6-XUW0KofsW-I4yXopaT6At2uCgvcV18gu1QBg2v19y9SAJCu8yNXXENh8Zgp2J5ad1K0LAIoZoBVCRvHYLnVSHrkeU_LnoenNN4pGgc0U0i6ha4ultPpYXymXlmS5vuQSZ_GhWUxfIUvXqYkaRt8Jdpuyb3e_rfsqJoGkBzsFklVuhgGrvm86c_5I-1a33A4VaSrMFcF5G1RoJwf-SzvMGTF2zXWOv57Adqu3l2t0UCjuzqbdfXG6wK90F6mOnw9trtCEitGdadXaoihT62RYmSbOlNmeZu4MqoGFWo_pchIRdVgNHZPo-5nFqJfiR1NrFI_et1gfITKtNS-bNGtAAF0tnw9P-KSsfe9Okvx_5lwfwlf6h9dd0Qdr1-cKgBdcXZB2rWmaY20lgyFkJLShvj4_92HCSTUsVw_5lB9p_7zEmyyCTb-zo4Llr-pA9MGfrw4S9UjvhyWziAJU8q7Vv-X5Fxm6LTtYcWnw6RtYSzj3I7fqWK7RDE5NW0VnaPN53VFUc-9T-6lhKAygx8VKQfH_6cVrc8pNZtvAzF-nS2PNG7qsEA73I-ujZRELNSJ40hXzWsQyC-1jzsJq7rD6irr9lcPvvm6GlZjET0ocS7XvTc90bugo_NlZVWFbCExv02o1kiFkhOkSg_FEqi842W8GQNit7fL-Bkv2TT92sqzsK1eC9dPB16RoZ3jbtVtg_uDNquedvS_8JuWlzmUoP8OqLaFVN3MhvBSCn0cPPV7TN8j-BvR7bmB67dSyMHnTwLtlCzvP9IAsV0Bz72tHTh34xxZeqAYaaK_lCl3A2Bndknz_FbcPB8tzaCnKGh9XGw8eLucLGSb5HmcLmcwOhEMyAzSqEl9s7nCfw2_01igwoKYlA9ED2B2nIAKkGRPeq2dKBvUChWJoyluLiad0_EGaQD58ea8IPRWmkrp7zTiaMpKK2bKzG7f5QXAefgQ03-Fp2MW9q52HmcsY6PcP-Ap3kv-GeeosrDKI-4kaU7Q2zUy1E36p6rmHGvCEsBg0K8TJptdFpliXs3rfKL-KI_MKkNIv3HmMyhUa7_dqlw4j11o_21cqNFDObK4MVVdEkH5O2Dm04-cKD5PM4k2ejuZUrRYjWZV-4kyorRjdLWazTVw9XfZMN4-HtF304UY5NiridGsq1DrXzTjVp7-1hfD5rZc8ZHVQMoKdur5K32NJybdOvoH9OsAD6cQuydTOudk5MpCPqxR8mncPJJW67drNXBqeMplj7MmuEM06e66vJoQ2p5yC7ZjTKsknUatx7xXqLHCY0-wCue7RIBCVAQ5AbmKRC3wEm-e6Rpub8QZMwqf8gzYRgGjz8Yh_RIy3SqcLtBI0y-xDG6GYZZeRS3ma_39kbSlRloQBYDYahsRPwIbMiDz1N0EA0qreSgZJIquhHgjf7Mnjh391zB4eYkPsUEvIvt3VopKFA2wKAK4GI-_b8lMVLqyvlXvvkjxRH6veIXmeoP4RZt_0qycMwFZeD-ODSOpwW8upok6qsgYv2N3-4YpCDn8ETEq9RlbNhHgllrjmC9_2gGoioyycBCPA2qxRnMCtXP-VGzSPtko2ZafH-Uzmt1ZiBWgm3MPc0kHb_RXh3N8_iQ4iPdmEksYOReRn1mcyRzH02NlK0Akgv9sCZUumjp_ZB24VSFS9zPmdfdwCzDXme1cYpPQtARkkmHrjTXUT5-_DgS8_3PxLlmmoO8CeYUVy0LuLef1PZktLLhUrb4jF5o_5mTi-5xOB5v1oqCW-7J14LpeUTNsk1N9_eD4ha7sLOO0msjkXc6YfUPBL79yI6KyO8ZPVXK0Q1GwiLchudSuPdVJUR8i7wKs6yz6oPEkrgVwsGqPbg7zu_G5HxdkEvazP5MuRzuB51EZ0L80JFe5XBbBFvdp1GhMyCyimA8YnWGijCJm9JxYteGdnhvQLVTUbn4VbonEqPC94kn0r4Ibw2d5iqxvQUqEo724rabWgei5egDOckzn37AHVE7XJ-mRKlwwXNvxdKCaH2Vw==",
+      "summary": []
+    },
+    {
+      "id": "msg_00d85748d935d5bf006ae7ff9ce66487d1bc68e34250bcf804",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer correctly gives the repair evening’s original start time as 5 pm, before it was moved to 6 pm.\",\"evidence_memory_ids\":[\"AC3R2-H01-F2\",\"AC3R2-H01-F3\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported; the answer matches the confirmed original time.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly gives the repair evening’s original start time as 5 pm, before it was moved to 6 pm.",
+    "evidence_memory_ids": [
+      "AC3R2-H01-F2",
+      "AC3R2-H01-F3"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported; the answer matches the confirmed original time."
+  },
+  "finished": "2026-11-02T03:12:29.999165+00:00"
+}

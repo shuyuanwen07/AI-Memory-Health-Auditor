@@ -1,0 +1,58 @@
+{
+  "test_id": "TEE5FB431E90D41E98577AB82E1B38243",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:34.818197+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0f420638badd8c2f006ae7ffdf2dbc87d1bc00c02c6f173330",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 989,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 210,
+    "output_tokens_details": {
+      "reasoning_tokens": 101
+    },
+    "total_tokens": 1199
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0f420638badd8c2f006ae7ffdfd16087d1b47808c7f8ff73bb",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__ikXyE0UKWOLthz63Wgfl8PYwJThbFmTfwS_mOSL5vtHPiCKTpbROCbcBrQa6ufEeyOP5zwSJSnxC4uSKnxcn270X4UWvDmrZDcvI8_KVrSUy2HuqswzZJeeXKrWQGZWpCkq0k68cVCpWgcIB4qvBMzQtgqDRua6g22cj-3NHys2EslqiHmnXMLZfKGOocsXb5wb-adJieykIKwCtVB3Ff_sMzuSqcXemcA8KNnwTmrYtewOUuZf6GEsc3RUAJ9cOMSs1gASmJCKUAVfEqjI_9jFIABXajN5Qn3Qh0lo55N4bvYkeEd_DpTc9gMxU2ENFsFWgAlWUAsEy_C0zaAboKvOT-K_CYe7jJh8TthWBrqgOreJKg1SstECRWplnLjcW7jTw0weJgImg827ZG7qH0wy_JNkM8aCyTmXxeqcaOc3GAniVXiVxkIYDZUrbbvGkyLbciCo0kP3QLM10EwgfYqnjuByCT4B71rn2ype1-77DJMJFjJ8YAWiQcH_VPQUGDo3ME0Nc54hSkAFV_Vrdlmokl9ChRx6drc9e5zniDXdfJXl0-WzbQsHx-iTlhbC14I0uWF4r9UyTSJiQlBqt3l8xI6Tt9yphGd1O5aZFR1WEizDoHZmL4iNHuIoV7f1nFNRHpnU8lj-Xc7kUhVJknIgAjH9BBAhAdDGh0eGLoF4BwFyZoEMvKBxE5BoR8mXJl-tjeDR9gpw_zq8yHkRSQyYRC7Eq64F7m-5_h0-IhkJ9oiYTE45yY8p5EwbHNz8wlPsOkjHGJ-w8wdB-b1MalSCWHIKsMetCIW-7sEa1Mb-MTPIL3231-XUw8SrORtT8nCz2Pq3fZTOLF6mPOsjredRGHR6VzVpvA-8aQ25V78ohI3TIhbPQrKOLnghRbMcCHXBZUeM4sElWtShE5nWIdjoHgUmruIxrffA9JU_eG8bIGy16vCIxme-PTSCpn9bJGIkex0MiX0vpq5QrDUS2r4LVbn40OC9q4v6pH-fPv9fkhwFF6qlJj3kz96HmDpF-HmEL22yg9YsklaJKoITvrF5CC_B4xUrl4RkEv6z6fGI2T4gvhIFbyxxy2BlhGq3xH3By8Wth3qJhXaRsWtX_JHjkBshXwT7xwlU_p6Iqin-FSqGczGfmzFHxQVgkLLUxpchTa-eBQj0hN4ozfAb6hEl7Ci-j71Pn48TBGxxEIO5g8T8g3oKYDKefGQ9TFMk-C_hFOUmaoLVgvF4wzqBJ0oUI-sNu8CyXmC1F7phsdDNmPzwQtX4ncr7vzOwk42tNgEijk1LDK6-1jL1lZ6-59zvWLG2fBLOkB45zm7GUbtFksPFHUuf2JwM3IwX_-5E6gczlNYKS2M7FYME7XbrpGkVDgFyAc7F9axLjjwQ2aNTY14Y3E4mGYVFfA7-UZCzYCDaD-3mIU3pgWLQX4PuYX6wO0wLOfUxKLMZrrtXkopuc2gEHUOSqzMrCTGto_Fy8Rvgq_ScqEB5ULYaSCgN1sx0XwXfkKnAFqaaXbEnq9ALa6Q68sPkdEh9CE7FZATnveC4gdZPjhal7hdDOpdFnJkXUOdrNVF7s6CA_fB3rpt7fcs1PHGsEOomJGcnOWFuOMJ9BVrfGc9C0fsGsrPgmBq_KyTmoJEj4qO1NiyBU0rSeXEwYqdEIbMBG2jIY9tOaO14bwuSZn2L-LVeKp2P0M7WIPKQkjE3RfZ1m4t4lJ7BNxTKQy_I4XUJnzgpkahaAilq7Nq-PvpQ2RPPtD3y-elcId97GrwOUp_LjvK6PDSIbi9Z4OEOUWNodP3fNpLpVhNKykDC-1KpTTO0xZb4mifxx8HbkUTBNAGeaYfSIRLpaq982BSQToo_8LD0bmml3WtNVrUNW5tCmgENhTtGDhkWFaXKzdzEN-YdN6QoSqde4QGMgYF8eoipCwzWCp752m9ga0NVBKBz3iEj8XsonzsY2B8-W9yWaP4n4h5jVc0nVTsL_aQctQCFnOGlbLFdQVuAppiMLynfhy2NMsmqXhX0SWAAZ18sRvJAoSetUa2BbCSuN1dsDt7ycmCYY1XLtUl9vFv1ieo7AbkyDOGW4xDZVGDWfvCMa16aucAa1ea-7mNRBReGKqydXap4d5te9VRYJwzMa4kpmSz1AoE1daF5FARBXarJmB8UV7PedNnJmUe4xA6vWPQV0rlsORAX_DOmfZnpQx1DCdB_pHN4N03lu-tOpfM_xdVED6mZXbngoavQD-oN4GpelB_6UXLnV_i0bq6pSZZ7Ct3rejCoWHOigcarQ9_pVYLPwwVcCdyXMCGHGXO8xm1uBFMpNx8PAC84zT7O8hQ1DN5Oihi3QYE41RfHwmPumPu8wdOVJdlSscIcmqaowrS08jbINo0R8xbcOj_uYeq0qmlZGH9SX6fur8leLSGR7cnJoRcMHyyAyOlmnhoFB4VVfirYd67CD9DOW5mUkWtJNM2GZ_tEcjX__qHXv3zN2cL52c4UOmURiJfW4fRIzN2n6hS1KeA6JUZYCFZ-u8aVNcZ0sXNGOaCxo1-WHDP3vGKqJcQFnpf76r_AZVEvV2ZQAvcvLoYRiKvmdATTQ_NPpoeuoqZedHGC4FjknWf9RrI9tM6Cm5cc4GhZ0OvNqtc3ZzrSyyKvFpau7vGJgm1Lni1kn-W4JH8cZpE0u8s_M586ENC4kqgHbCNa9RDZbVyDRaQ9ktzyO1ifaPJA6QYyhBvt7EQ_rh5E9vtYHwZLNv6tEodNFU6aMeFd-vlbZ88o9Pj0zdZPeG6UisxtPhiHKK32MiD15W3YlI0NC1mtZPfvacKguikM3-fwpWRLqHb9yKoyKx-zmeCeohSFrDmUpYh4VJGW5Rt0yOj0ef2xr7YEz5ArJP7vupvlwjgmtxobE1z8y5OjE-",
+      "summary": []
+    },
+    {
+      "id": "msg_0f420638badd8c2f006ae7ffe1565c87d18ddf93de69a07c2a",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer accurately identifies the two current, incompatible material approvals and notes that neither card has stated priority, so asking which to follow is appropriate.\",\"evidence_memory_ids\":[\"AC3R2-H13-F1\",\"AC3R2-H13-F2\"],\"failure_type\":null,\"classification_reason\":\"No failure: the records establish an unresolved conflict between acrylic-only and plywood-only approvals, and the answer does not invent a resolution.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer accurately identifies the two current, incompatible material approvals and notes that neither card has stated priority, so asking which to follow is appropriate.",
+    "evidence_memory_ids": [
+      "AC3R2-H13-F1",
+      "AC3R2-H13-F2"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the records establish an unresolved conflict between acrylic-only and plywood-only approvals, and the answer does not invent a resolution."
+  },
+  "finished": "2026-11-02T03:13:38.731278+00:00"
+}

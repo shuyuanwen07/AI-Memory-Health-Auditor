@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "T1A3243381D684225A44BD379B0F4E328",
+  "started_utc": "2026-11-01T13:21:14.410974+00:00",
+  "request_payload_sha256": "b98aaf2af0e03ff999de310d2ec4cb80365249b9952e071a5c9011a85541d1e4",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory states that the first-aid locker bears a crescent symbol, so the answer incorrectly claims there is insufficient remembered information.",
+    "evidence_memory_ids": [
+      "AC3R2-H06-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The response omits a directly supported factual attribute. No relevant superseding update, unresolved conflict, or misuse of scoped memory is established."
+  },
+  "usage": {
+    "input_tokens": 739,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 464,
+    "output_tokens_details": {
+      "reasoning_tokens": 351
+    },
+    "total_tokens": 1203
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_065e50e53a5416f3006ae73ccace3c87d0986ad0771ea40ae1",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:21:25.769941+00:00",
+  "raw_sha256": "b4b7c08edff4992cf3e08fa3a693379ab80275b0a7dc03c3801d81960d6dcbb9"
+}

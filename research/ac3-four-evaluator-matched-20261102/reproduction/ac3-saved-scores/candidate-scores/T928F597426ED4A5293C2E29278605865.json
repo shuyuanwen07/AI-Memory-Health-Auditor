@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T928F597426ED4A5293C2E29278605865",
+  "started_utc": "2026-11-01T13:19:37.924620+00:00",
+  "request_payload_sha256": "b1e520ff0701d5489fcf4311ee76c5eb8a0fd7de53147ab5d0c082e80d30d235",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed records identify the suite as the piece that starts the revised order, so the answer incorrectly claims there is insufficient remembered information.",
+    "evidence_memory_ids": [
+      "AC3R2-H10-F2",
+      "AC3R2-H10-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The source explicitly establishes a revision from an overture opening to a suite opening. The response fails to use the applicable revised state; this is not merely a difference inferred from timestamps or an unresolved conflict."
+  },
+  "usage": {
+    "input_tokens": 736,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 652,
+    "output_tokens_details": {
+      "reasoning_tokens": 516
+    },
+    "total_tokens": 1388
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0b20cdb965708f46006ae73c6a470887d095f79ccd0efaaa72",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:19:52.178340+00:00",
+  "raw_sha256": "93abd2ddf15e2ef1ad077fb57e6a36da79e55248a718aeaabb38a25982875e3f"
+}

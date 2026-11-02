@@ -1,0 +1,20 @@
+{
+  "test_id": "TA74F25F69B3844C398F638CD585C5F40",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:26:11.437603+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 938,
+    "eval_count": 193,
+    "total_duration": 20834736291
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks which plan should be followed for the ridge search exercise, but the confirmed memory records do not provide a definitive answer. The memory records indicate that two different plans exist: one specifying 145 MHz and the other 155 MHz. However, there is no confirmation of which plan is active or superseded. The answer cannot be determined from the provided evidence.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H17-F5\",\n    \"AC3R2-H17-F6\"\n  ],\n  \"failure_type\": \"conflict_resolution\",\n  \"classification_reason\": \"The memory records indicate conflicting final frequencies (145 MHz vs. 155 MHz) for the ridge search exercise. However, the evidence does not establish which plan is active or superseded, making it impossible to determine which plan should be followed.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:26:32.483425+00:00"
+}

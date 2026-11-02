@@ -1,0 +1,2287 @@
+{
+  "evaluator": "rule-based-v65",
+  "snapshot_sha256": "31be4e0258856e8dc3c28fb4301c4ac9c01f297bf9a06480f52579e81c85ec42",
+  "input_sha256": "345ac8a5df7d847a7e25066aeb049e6da8f303587713d3ac14e66b668f880b0a",
+  "implementation_note": "Original runner omitted required response.created_at. The old schema also predates MAX; all supported metadata are validated and the actual MAX value is retained using model_copy. The archived evaluator reads completion_status and memory_input, never effort. Answer text, source facts and evaluator logic are unchanged; no model calls.",
+  "items": [
+    {
+      "evaluation_id": "E9C86DDC24C61411CAB66C0AD8918667F",
+      "test_id": "T9C86DDC24C61411CAB66C0AD8918667F",
+      "response_id": "R9C86DDC24C61411CAB66C0AD8918667F",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed appropriate_use: the response matched all required ground-truth terms (folder). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H13-F3",
+        "AC3R2-H13-F4"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E91AA34AAC79F4D34B6BC0F2A521F6A77",
+      "test_id": "T91AA34AAC79F4D34B6BC0F2A521F6A77",
+      "response_id": "R91AA34AAC79F4D34B6BC0F2A521F6A77",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed freshness: the response matched all required ground-truth terms (25). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H30-F2",
+        "AC3R2-H30-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "EE5700C7964414696B86357DF3445E174",
+      "test_id": "TE5700C7964414696B86357DF3445E174",
+      "response_id": "RE5700C7964414696B86357DF3445E174",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed accuracy: the response matched all required ground-truth terms (cover). 1 gold evidence record(s) are linked; this lexical verdict does not establish target memory use. Correct answer with zero supplied memory: memory grounding is unsupported; human review required.",
+      "evidence_memory_ids": [
+        "AC3R2-H02-F4"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E8E8A3DD6444648E181EE170AA7EFEB06",
+      "test_id": "T8E8A3DD6444648E181EE170AA7EFEB06",
+      "response_id": "R8E8A3DD6444648E181EE170AA7EFEB06",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'Black and white are conflicting sole-colour claims; request confirmation.'. The response did not demonstrate: confirmation. Evidence records: AC3R2-H13-F5, AC3R2-H13-F6.",
+      "evidence_memory_ids": [
+        "AC3R2-H13-F5",
+        "AC3R2-H13-F6"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E918C74A18D0941B7BFFDDECBA9117D5D",
+      "test_id": "T918C74A18D0941B7BFFDDECBA9117D5D",
+      "response_id": "R918C74A18D0941B7BFFDDECBA9117D5D",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed accuracy: expected behaviour was 'Striped.'. The response did not demonstrate: striped. Evidence records: AC3R2-H25-F1.",
+      "evidence_memory_ids": [
+        "AC3R2-H25-F1"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "EEF47E000BB6B45C2B79308E39BACB39D",
+      "test_id": "TEF47E000BB6B45C2B79308E39BACB39D",
+      "response_id": "REF47E000BB6B45C2B79308E39BACB39D",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed appropriate_use: expected behaviour was 'A shared digital document instead of paper.'. The response did not demonstrate: paper. Evidence records: AC3R2-H12-F7, AC3R2-H12-F8.",
+      "evidence_memory_ids": [
+        "AC3R2-H12-F7",
+        "AC3R2-H12-F8"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "ECE4D105C59CF4F059A0F879BE9C7438B",
+      "test_id": "TCE4D105C59CF4F059A0F879BE9C7438B",
+      "response_id": "RCE4D105C59CF4F059A0F879BE9C7438B",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed appropriate_use: the response matched all required ground-truth terms (email). 3 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H11-F3",
+        "AC3R2-H11-F7",
+        "AC3R2-H11-F8"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "EB664F35D57E94144B2825FD2EEB98885",
+      "test_id": "TB664F35D57E94144B2825FD2EEB98885",
+      "response_id": "RB664F35D57E94144B2825FD2EEB98885",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed appropriate_use: expected behaviour was 'An accessible electronic notice instead of printed cards.'. The response did not demonstrate: cards. Evidence records: AC3R2-H14-F7, AC3R2-H14-F8.",
+      "evidence_memory_ids": [
+        "AC3R2-H14-F7",
+        "AC3R2-H14-F8"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E0CFE7BF2C2B34AE9A552C17D9796C895",
+      "test_id": "T0CFE7BF2C2B34AE9A552C17D9796C895",
+      "response_id": "R0CFE7BF2C2B34AE9A552C17D9796C895",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed freshness: expected behaviour was 'Noon.'. The response did not demonstrate: noon. Evidence records: AC3R2-H29-F2, AC3R2-H29-F3.",
+      "evidence_memory_ids": [
+        "AC3R2-H29-F2",
+        "AC3R2-H29-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "ECB1D636E6B7048E8A3DF22C494480F61",
+      "test_id": "TCB1D636E6B7048E8A3DF22C494480F61",
+      "response_id": "RCB1D636E6B7048E8A3DF22C494480F61",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed appropriate_use: the response matched all required ground-truth terms (document). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H23-F6",
+        "AC3R2-H23-F7"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "EC3870F4B5C534CBFA03FF4A33FD34D08",
+      "test_id": "TC3870F4B5C534CBFA03FF4A33FD34D08",
+      "response_id": "RC3870F4B5C534CBFA03FF4A33FD34D08",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed freshness: the response matched all required ground-truth terms (stop). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use. Correct answer with zero supplied memory: memory grounding is unsupported; human review required.",
+      "evidence_memory_ids": [
+        "AC3R2-H08-F2",
+        "AC3R2-H08-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E30C06E5E75B64DBA810FF825C2C8B939",
+      "test_id": "T30C06E5E75B64DBA810FF825C2C8B939",
+      "response_id": "R30C06E5E75B64DBA810FF825C2C8B939",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed appropriate_use: the response matched all required ground-truth terms (noticeboard). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H18-F3",
+        "AC3R2-H18-F4"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E318EB380903B4084A066EAB777F19E2E",
+      "test_id": "T318EB380903B4084A066EAB777F19E2E",
+      "response_id": "R318EB380903B4084A066EAB777F19E2E",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed freshness: the response matched all required ground-truth terms (boxes). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use. Correct answer with zero supplied memory: memory grounding is unsupported; human review required.",
+      "evidence_memory_ids": [
+        "AC3R2-H09-F2",
+        "AC3R2-H09-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "EC8EC0E32B6CD401E86ADF2353DF1A770",
+      "test_id": "TC8EC0E32B6CD401E86ADF2353DF1A770",
+      "response_id": "RC8EC0E32B6CD401E86ADF2353DF1A770",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The active instructions name different sole observers; seek clarification.'. The response did not demonstrate: clarification. Evidence records: AC3R2-H17-F1, AC3R2-H17-F2.",
+      "evidence_memory_ids": [
+        "AC3R2-H17-F1",
+        "AC3R2-H17-F2"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E92429A7CCF554B8AB8704EA76FFF3141",
+      "test_id": "T92429A7CCF554B8AB8704EA76FFF3141",
+      "response_id": "R92429A7CCF554B8AB8704EA76FFF3141",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The active cards conflict between valves 1 and 3; ask the caretaker.'. The response did not demonstrate: caretaker. Evidence records: AC3R2-H22-F4, AC3R2-H22-F5.",
+      "evidence_memory_ids": [
+        "AC3R2-H22-F4",
+        "AC3R2-H22-F5"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "EE6D55CDFDE274DEF8EC2470189B59E8C",
+      "test_id": "TE6D55CDFDE274DEF8EC2470189B59E8C",
+      "response_id": "RE6D55CDFDE274DEF8EC2470189B59E8C",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The active sheets disagree between channels 2 and 7; clarify the instruction.'. The response did not demonstrate: instruction. Evidence records: AC3R2-H16-F1, AC3R2-H16-F2, AC3R2-H16-F3, AC3R2-H16-F7.",
+      "evidence_memory_ids": [
+        "AC3R2-H16-F1",
+        "AC3R2-H16-F2",
+        "AC3R2-H16-F3",
+        "AC3R2-H16-F7"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "EC3293ACBDE5949FA8B7167239DB6B5AF",
+      "test_id": "TC3293ACBDE5949FA8B7167239DB6B5AF",
+      "response_id": "RC3293ACBDE5949FA8B7167239DB6B5AF",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed freshness: the response matched all required ground-truth terms (pm). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H01-F2",
+        "AC3R2-H01-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E150D4E8740E04E8AB6C223EA5B1A8A9F",
+      "test_id": "T150D4E8740E04E8AB6C223EA5B1A8A9F",
+      "response_id": "R150D4E8740E04E8AB6C223EA5B1A8A9F",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed freshness: the response matched all required ground-truth terms (mov). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H05-F2",
+        "AC3R2-H05-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E1CABE21E2E5F4A608162C1679147A5A7",
+      "test_id": "T1CABE21E2E5F4A608162C1679147A5A7",
+      "response_id": "R1CABE21E2E5F4A608162C1679147A5A7",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed appropriate_use: the response matched all required ground-truth terms (recorder). 3 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H25-F2",
+        "AC3R2-H25-F6",
+        "AC3R2-H25-F7"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E13236FDFB97E460892B7FD2468C369F0",
+      "test_id": "T13236FDFB97E460892B7FD2468C369F0",
+      "response_id": "R13236FDFB97E460892B7FD2468C369F0",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The active pen 1 and pen 4 claims conflict; ask the shelter coordinator.'. The response did not demonstrate: coordinator. Evidence records: AC3R2-H12-F5, AC3R2-H12-F6.",
+      "evidence_memory_ids": [
+        "AC3R2-H12-F5",
+        "AC3R2-H12-F6"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E209DA4B63E4641E69B284BA5FDC382B8",
+      "test_id": "T209DA4B63E4641E69B284BA5FDC382B8",
+      "response_id": "R209DA4B63E4641E69B284BA5FDC382B8",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed accuracy: the response matched all required ground-truth terms (cart). 1 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H09-F4"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E04311AE4AF2446EAA08F2A090B6B3D4B",
+      "test_id": "T04311AE4AF2446EAA08F2A090B6B3D4B",
+      "response_id": "R04311AE4AF2446EAA08F2A090B6B3D4B",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed appropriate_use: the response matched all required ground-truth terms (notebook). 3 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H19-F3",
+        "AC3R2-H19-F4",
+        "AC3R2-H19-F7"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E928F597426ED4A5293C2E29278605865",
+      "test_id": "T928F597426ED4A5293C2E29278605865",
+      "response_id": "R928F597426ED4A5293C2E29278605865",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed freshness: expected behaviour was 'The suite.'. The response did not demonstrate: suite. Evidence records: AC3R2-H10-F2, AC3R2-H10-F3.",
+      "evidence_memory_ids": [
+        "AC3R2-H10-F2",
+        "AC3R2-H10-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E55793CBA9BE24F21938CB1A733435761",
+      "test_id": "T55793CBA9BE24F21938CB1A733435761",
+      "response_id": "R55793CBA9BE24F21938CB1A733435761",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed freshness: expected behaviour was 'Seven.'. The response did not demonstrate: seven. Evidence records: AC3R2-H28-F2, AC3R2-H28-F3.",
+      "evidence_memory_ids": [
+        "AC3R2-H28-F2",
+        "AC3R2-H28-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E44A8B8E4F81D4DB6BC659CE4D5D06C0C",
+      "test_id": "T44A8B8E4F81D4DB6BC659CE4D5D06C0C",
+      "response_id": "R44A8B8E4F81D4DB6BC659CE4D5D06C0C",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed accuracy: expected behaviour was 'Yellow.'. The response did not demonstrate: yellow. Evidence records: AC3R2-H26-F1.",
+      "evidence_memory_ids": [
+        "AC3R2-H26-F1"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E1928E79AF5AD46FCB022DD89C7AF46F6",
+      "test_id": "T1928E79AF5AD46FCB022DD89C7AF46F6",
+      "response_id": "R1928E79AF5AD46FCB022DD89C7AF46F6",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed freshness: expected behaviour was '18, replacing 24.'. The response did not demonstrate: 18. Evidence records: AC3R2-H02-F2, AC3R2-H02-F3.",
+      "evidence_memory_ids": [
+        "AC3R2-H02-F2",
+        "AC3R2-H02-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E0B3DAE06C1084776B831AB3AC3229715",
+      "test_id": "T0B3DAE06C1084776B831AB3AC3229715",
+      "response_id": "R0B3DAE06C1084776B831AB3AC3229715",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed appropriate_use: the response matched all required ground-truth terms (folder). 3 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H16-F1",
+        "AC3R2-H16-F7",
+        "AC3R2-H16-F8"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E7E09B302DA6443939BE5EB3A080E16EA",
+      "test_id": "T7E09B302DA6443939BE5EB3A080E16EA",
+      "response_id": "R7E09B302DA6443939BE5EB3A080E16EA",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The active sole-paper worksheets conflict; ask the supervisor.'. The response did not demonstrate: supervisor. Evidence records: AC3R2-H26-F4, AC3R2-H26-F5.",
+      "evidence_memory_ids": [
+        "AC3R2-H26-F4",
+        "AC3R2-H26-F5"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E4AF8AEA6A01D4B2E81FCDF1260A36295",
+      "test_id": "T4AF8AEA6A01D4B2E81FCDF1260A36295",
+      "response_id": "R4AF8AEA6A01D4B2E81FCDF1260A36295",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed appropriate_use: the response matched all required ground-truth terms (headphones). 3 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H16-F2",
+        "AC3R2-H16-F3",
+        "AC3R2-H16-F4"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "EFF5F970B5F6E4DD9976F363B743AC612",
+      "test_id": "TFF5F970B5F6E4DD9976F363B743AC612",
+      "response_id": "RFF5F970B5F6E4DD9976F363B743AC612",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed accuracy: expected behaviour was 'Black.'. The response did not demonstrate: black. Evidence records: AC3R2-H10-F1, AC3R2-H10-F4.",
+      "evidence_memory_ids": [
+        "AC3R2-H10-F1",
+        "AC3R2-H10-F4"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E45CDDAA12B7947D5B44B661038572F17",
+      "test_id": "T45CDDAA12B7947D5B44B661038572F17",
+      "response_id": "R45CDDAA12B7947D5B44B661038572F17",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed freshness: expected behaviour was 'Eight seconds.'. The response did not demonstrate: seconds. Evidence records: AC3R2-H26-F2, AC3R2-H26-F3.",
+      "evidence_memory_ids": [
+        "AC3R2-H26-F2",
+        "AC3R2-H26-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E3F7A5FF63B144E76845EEDB440B98B7E",
+      "test_id": "T3F7A5FF63B144E76845EEDB440B98B7E",
+      "response_id": "R3F7A5FF63B144E76845EEDB440B98B7E",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed accuracy: the response matched all required ground-truth terms (brush). 1 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H05-F4"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "EE2CBF2DA229F4D89A12E6BBD2DD994B5",
+      "test_id": "TE2CBF2DA229F4D89A12E6BBD2DD994B5",
+      "response_id": "RE2CBF2DA229F4D89A12E6BBD2DD994B5",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed accuracy: expected behaviour was 'A green square.'. The response did not demonstrate: square. Evidence records: AC3R2-H09-F1.",
+      "evidence_memory_ids": [
+        "AC3R2-H09-F1"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "EF3345698D1884BDC90F4D894E82BF0D1",
+      "test_id": "TF3345698D1884BDC90F4D894E82BF0D1",
+      "response_id": "RF3345698D1884BDC90F4D894E82BF0D1",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The sole-format policies conflict between Markdown and HTML; ask the maintainers.'. The response did not demonstrate: maintainers. Evidence records: AC3R2-H20-F1, AC3R2-H20-F2.",
+      "evidence_memory_ids": [
+        "AC3R2-H20-F1",
+        "AC3R2-H20-F2"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E48FCB9BBDA87405CA06938E5A8008E1C",
+      "test_id": "T48FCB9BBDA87405CA06938E5A8008E1C",
+      "response_id": "R48FCB9BBDA87405CA06938E5A8008E1C",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed accuracy: expected behaviour was 'In a cedar cabinet.'. The response did not demonstrate: cabinet. Evidence records: AC3R2-H05-F1.",
+      "evidence_memory_ids": [
+        "AC3R2-H05-F1"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E6E67D0EA60324CCB82D397F3B93DE962",
+      "test_id": "T6E67D0EA60324CCB82D397F3B93DE962",
+      "response_id": "R6E67D0EA60324CCB82D397F3B93DE962",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed accuracy: expected behaviour was 'A yellow hexagon.'. The response did not demonstrate: hexagon. Evidence records: AC3R2-H24-F1.",
+      "evidence_memory_ids": [
+        "AC3R2-H24-F1"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E059393AB4DCB4D0793EB2ABED19C11BF",
+      "test_id": "T059393AB4DCB4D0793EB2ABED19C11BF",
+      "response_id": "R059393AB4DCB4D0793EB2ABED19C11BF",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed accuracy: expected behaviour was 'With a blue dot.'. The response did not demonstrate: dot. Evidence records: AC3R2-H07-F1, AC3R2-H07-F4.",
+      "evidence_memory_ids": [
+        "AC3R2-H07-F1",
+        "AC3R2-H07-F4"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E7F5AC9CCAEE84653AB28885D8F15A8BD",
+      "test_id": "T7F5AC9CCAEE84653AB28885D8F15A8BD",
+      "response_id": "R7F5AC9CCAEE84653AB28885D8F15A8BD",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed appropriate_use: the response matched all required ground-truth terms (paper). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H18-F7",
+        "AC3R2-H18-F8"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E73A12D2237364A0BBCCBA716F1E11BCA",
+      "test_id": "T73A12D2237364A0BBCCBA716F1E11BCA",
+      "response_id": "R73A12D2237364A0BBCCBA716F1E11BCA",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed freshness: expected behaviour was 'Five.'. The response did not demonstrate: five. Evidence records: AC3R2-H04-F2, AC3R2-H04-F3.",
+      "evidence_memory_ids": [
+        "AC3R2-H04-F2",
+        "AC3R2-H04-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E78D14278CAB949EAAE01B33D6810E05C",
+      "test_id": "T78D14278CAB949EAAE01B33D6810E05C",
+      "response_id": "R78D14278CAB949EAAE01B33D6810E05C",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed appropriate_use: the response matched all required ground-truth terms (call). 3 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H28-F1",
+        "AC3R2-H28-F6",
+        "AC3R2-H28-F7"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "EDFC60F6A499443DE93D20F30414C488D",
+      "test_id": "TDFC60F6A499443DE93D20F30414C488D",
+      "response_id": "RDFC60F6A499443DE93D20F30414C488D",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed freshness: the response matched all required ground-truth terms (wednesday). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H23-F2",
+        "AC3R2-H23-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E91D8537957A04D3D9B2A957182E49692",
+      "test_id": "T91D8537957A04D3D9B2A957182E49692",
+      "response_id": "R91D8537957A04D3D9B2A957182E49692",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The active sole-field plans conflict; obtain an authorised decision.'. The response did not demonstrate: decision. Evidence records: AC3R2-H19-F1, AC3R2-H19-F2.",
+      "evidence_memory_ids": [
+        "AC3R2-H19-F1",
+        "AC3R2-H19-F2"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "EFD751C73361F49DFB0E3511E01785849",
+      "test_id": "TFD751C73361F49DFB0E3511E01785849",
+      "response_id": "RFD751C73361F49DFB0E3511E01785849",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed freshness: expected behaviour was '16.'. The response did not demonstrate: 16. Evidence records: AC3R2-H07-F2, AC3R2-H07-F3.",
+      "evidence_memory_ids": [
+        "AC3R2-H07-F2",
+        "AC3R2-H07-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E9C9D8E7EF9794309A6D4C8415B42DE26",
+      "test_id": "T9C9D8E7EF9794309A6D4C8415B42DE26",
+      "response_id": "R9C9D8E7EF9794309A6D4C8415B42DE26",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed freshness: expected behaviour was 'Three boxes.'. The response did not demonstrate: boxes. Evidence records: AC3R2-H09-F2, AC3R2-H09-F3.",
+      "evidence_memory_ids": [
+        "AC3R2-H09-F2",
+        "AC3R2-H09-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E1A3243381D684225A44BD379B0F4E328",
+      "test_id": "T1A3243381D684225A44BD379B0F4E328",
+      "response_id": "R1A3243381D684225A44BD379B0F4E328",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed accuracy: expected behaviour was 'A crescent.'. The response did not demonstrate: crescent. Evidence records: AC3R2-H06-F1, AC3R2-H06-F3.",
+      "evidence_memory_ids": [
+        "AC3R2-H06-F1",
+        "AC3R2-H06-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E20A9FDE65A534430B142952171495D15",
+      "test_id": "T20A9FDE65A534430B142952171495D15",
+      "response_id": "R20A9FDE65A534430B142952171495D15",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed accuracy: expected behaviour was 'In a mesh basket.'. The response did not demonstrate: basket. Evidence records: AC3R2-H06-F4.",
+      "evidence_memory_ids": [
+        "AC3R2-H06-F4"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E2D72924588A14D64BB4E4CBEC6D853EF",
+      "test_id": "T2D72924588A14D64BB4E4CBEC6D853EF",
+      "response_id": "R2D72924588A14D64BB4E4CBEC6D853EF",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed accuracy: expected behaviour was 'Gold.'. The response did not demonstrate: gold. Evidence records: AC3R2-H27-F1.",
+      "evidence_memory_ids": [
+        "AC3R2-H27-F1"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "EDDF60351E21143008CF1B2D0085324CC",
+      "test_id": "TDDF60351E21143008CF1B2D0085324CC",
+      "response_id": "RDDF60351E21143008CF1B2D0085324CC",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The CSV and XML sole-format claims conflict; ask which card controls.'. The response did not demonstrate: controls. Evidence records: AC3R2-H11-F5, AC3R2-H11-F6.",
+      "evidence_memory_ids": [
+        "AC3R2-H11-F5",
+        "AC3R2-H11-F6"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E4313C102E82C4290B423DC881E5CCAB5",
+      "test_id": "T4313C102E82C4290B423DC881E5CCAB5",
+      "response_id": "R4313C102E82C4290B423DC881E5CCAB5",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed appropriate_use: expected behaviour was 'Through email summaries.'. The response did not demonstrate: summaries. Evidence records: AC3R2-H20-F3, AC3R2-H20-F4.",
+      "evidence_memory_ids": [
+        "AC3R2-H20-F3",
+        "AC3R2-H20-F4"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "EB69C181EF9984224B570E666E164D33D",
+      "test_id": "TB69C181EF9984224B570E666E164D33D",
+      "response_id": "RB69C181EF9984224B570E666E164D33D",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed freshness: the response matched all required ground-truth terms (stop). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use. Correct answer with zero supplied memory: memory grounding is unsupported; human review required.",
+      "evidence_memory_ids": [
+        "AC3R2-H08-F2",
+        "AC3R2-H08-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E74AAB12A203C4E9CB93B87E82CA387C7",
+      "test_id": "T74AAB12A203C4E9CB93B87E82CA387C7",
+      "response_id": "R74AAB12A203C4E9CB93B87E82CA387C7",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed accuracy: expected behaviour was 'By ringing a brass bell.'. The response did not demonstrate: bell. Evidence records: AC3R2-H01-F1, AC3R2-H01-F4.",
+      "evidence_memory_ids": [
+        "AC3R2-H01-F1",
+        "AC3R2-H01-F4"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "ED2F26F51D89647EAAA80BE8C068C0C6A",
+      "test_id": "TD2F26F51D89647EAAA80BE8C068C0C6A",
+      "response_id": "RD2F26F51D89647EAAA80BE8C068C0C6A",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed appropriate_use: the response matched all required ground-truth terms (sleeves). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H26-F6",
+        "AC3R2-H26-F7"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E960A8F3C6444468ABAA1D232A8BF6C2A",
+      "test_id": "T960A8F3C6444468ABAA1D232A8BF6C2A",
+      "response_id": "R960A8F3C6444468ABAA1D232A8BF6C2A",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed accuracy: the response matched all required ground-truth terms (rack). 1 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H08-F4"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "ED653886D0A1F4A5E879BAEE8D35BCBC5",
+      "test_id": "TD653886D0A1F4A5E879BAEE8D35BCBC5",
+      "response_id": "RD653886D0A1F4A5E879BAEE8D35BCBC5",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed accuracy: expected behaviour was 'A white diamond.'. The response did not demonstrate: diamond. Evidence records: AC3R2-H22-F1.",
+      "evidence_memory_ids": [
+        "AC3R2-H22-F1"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E6D04CE721C494746910E091EE77C6633",
+      "test_id": "T6D04CE721C494746910E091EE77C6633",
+      "response_id": "R6D04CE721C494746910E091EE77C6633",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed appropriate_use: the response matched all required ground-truth terms (recording). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H29-F6",
+        "AC3R2-H29-F7"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E9260EE6B90944FFD818A81A53DE972BE",
+      "test_id": "T9260EE6B90944FFD818A81A53DE972BE",
+      "response_id": "R9260EE6B90944FFD818A81A53DE972BE",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed accuracy: the response matched all required ground-truth terms (cover). 1 gold evidence record(s) are linked; this lexical verdict does not establish target memory use. Correct answer with zero supplied memory: memory grounding is unsupported; human review required.",
+      "evidence_memory_ids": [
+        "AC3R2-H29-F1"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E6CE4B80ACECA4857B426E2C805BBA7A8",
+      "test_id": "T6CE4B80ACECA4857B426E2C805BBA7A8",
+      "response_id": "R6CE4B80ACECA4857B426E2C805BBA7A8",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed freshness: the response matched all required ground-truth terms (mov). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H05-F2",
+        "AC3R2-H05-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E5307D619BACB4531BA508F619D980A45",
+      "test_id": "T5307D619BACB4531BA508F619D980A45",
+      "response_id": "R5307D619BACB4531BA508F619D980A45",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The active red and blue sole-colour notes conflict; ask the trainer.'. The response did not demonstrate: trainer. Evidence records: AC3R2-H12-F1, AC3R2-H12-F2.",
+      "evidence_memory_ids": [
+        "AC3R2-H12-F1",
+        "AC3R2-H12-F2"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "ED6FF55437BD5491AA56F6E777E4F6879",
+      "test_id": "TD6FF55437BD5491AA56F6E777E4F6879",
+      "response_id": "RD6FF55437BD5491AA56F6E777E4F6879",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed accuracy: the response matched all required ground-truth terms (lid). 1 gold evidence record(s) are linked; this lexical verdict does not establish target memory use. Correct answer with zero supplied memory: memory grounding is unsupported; human review required.",
+      "evidence_memory_ids": [
+        "AC3R2-H03-F1"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E2E32C2D81A244AF5BFD995B44B4FEFBC",
+      "test_id": "T2E32C2D81A244AF5BFD995B44B4FEFBC",
+      "response_id": "R2E32C2D81A244AF5BFD995B44B4FEFBC",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The two active records conflict between platforms 1 and 4; confirm before boarding.'. The response did not demonstrate: boarding. Evidence records: AC3R2-H15-F1, AC3R2-H15-F2.",
+      "evidence_memory_ids": [
+        "AC3R2-H15-F1",
+        "AC3R2-H15-F2"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E3D9807490B004779BE2428437928BE99",
+      "test_id": "T3D9807490B004779BE2428437928BE99",
+      "response_id": "R3D9807490B004779BE2428437928BE99",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The active claims name different sole approvers; ask the producer.'. The response did not demonstrate: producer. Evidence records: AC3R2-H16-F5, AC3R2-H16-F6.",
+      "evidence_memory_ids": [
+        "AC3R2-H16-F5",
+        "AC3R2-H16-F6"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E0D9AEB74CE194DC1B8CEC5655D166F78",
+      "test_id": "T0D9AEB74CE194DC1B8CEC5655D166F78",
+      "response_id": "R0D9AEB74CE194DC1B8CEC5655D166F78",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The two active sole-reference claims conflict; request calibration clarification.'. The response did not demonstrate: clarification. Evidence records: AC3R2-H11-F1, AC3R2-H11-F2.",
+      "evidence_memory_ids": [
+        "AC3R2-H11-F1",
+        "AC3R2-H11-F2"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E252283A2AD664015A3751ED9372BA2F6",
+      "test_id": "T252283A2AD664015A3751ED9372BA2F6",
+      "response_id": "R252283A2AD664015A3751ED9372BA2F6",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed freshness: expected behaviour was '1 pm.'. The response did not demonstrate: pm. Evidence records: AC3R2-H24-F2, AC3R2-H24-F3.",
+      "evidence_memory_ids": [
+        "AC3R2-H24-F2",
+        "AC3R2-H24-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E14952339AA214DB8BA0DB803F82B76CC",
+      "test_id": "T14952339AA214DB8BA0DB803F82B76CC",
+      "response_id": "R14952339AA214DB8BA0DB803F82B76CC",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed accuracy: expected behaviour was 'In a round tin.'. The response did not demonstrate: tin. Evidence records: AC3R2-H10-F1, AC3R2-H10-F4.",
+      "evidence_memory_ids": [
+        "AC3R2-H10-F1",
+        "AC3R2-H10-F4"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "ED5476FD2801047F4BF064C174562D3D1",
+      "test_id": "TD5476FD2801047F4BF064C174562D3D1",
+      "response_id": "RD5476FD2801047F4BF064C174562D3D1",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed accuracy: expected behaviour was 'In a red drawer.'. The response did not demonstrate: drawer. Evidence records: AC3R2-H28-F1, AC3R2-H28-F6.",
+      "evidence_memory_ids": [
+        "AC3R2-H28-F1",
+        "AC3R2-H28-F6"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E56F245237A0E4051A4F5CBF0925C6424",
+      "test_id": "T56F245237A0E4051A4F5CBF0925C6424",
+      "response_id": "R56F245237A0E4051A4F5CBF0925C6424",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed appropriate_use: the response matched all required ground-truth terms (telephone). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H24-F6",
+        "AC3R2-H24-F7"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E1271526A7AD048B08A19C4BEDB861984",
+      "test_id": "T1271526A7AD048B08A19C4BEDB861984",
+      "response_id": "R1271526A7AD048B08A19C4BEDB861984",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed appropriate_use: expected behaviour was 'Large-print digital form.'. The response did not demonstrate: form. Evidence records: AC3R2-H27-F6, AC3R2-H27-F7.",
+      "evidence_memory_ids": [
+        "AC3R2-H27-F6",
+        "AC3R2-H27-F7"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E4D3E0B554B2B4AE1AFBB1ED4FBF8743D",
+      "test_id": "T4D3E0B554B2B4AE1AFBB1ED4FBF8743D",
+      "response_id": "R4D3E0B554B2B4AE1AFBB1ED4FBF8743D",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed freshness: expected behaviour was 'The overture.'. The response did not demonstrate: overture. Evidence records: AC3R2-H10-F2, AC3R2-H10-F3.",
+      "evidence_memory_ids": [
+        "AC3R2-H10-F2",
+        "AC3R2-H10-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "ED1DB5EF7A6764183AFC0BF39B180333E",
+      "test_id": "TD1DB5EF7A6764183AFC0BF39B180333E",
+      "response_id": "RD1DB5EF7A6764183AFC0BF39B180333E",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed accuracy: expected behaviour was 'With white cord.'. The response did not demonstrate: cord. Evidence records: AC3R2-H04-F1, AC3R2-H04-F4.",
+      "evidence_memory_ids": [
+        "AC3R2-H04-F1",
+        "AC3R2-H04-F4"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E36570713388340EBBE4AE422828D5478",
+      "test_id": "T36570713388340EBBE4AE422828D5478",
+      "response_id": "R36570713388340EBBE4AE422828D5478",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The active sole-colour cards conflict; clarify navy versus cream.'. The response did not demonstrate: cream. Evidence records: AC3R2-H23-F4, AC3R2-H23-F5.",
+      "evidence_memory_ids": [
+        "AC3R2-H23-F4",
+        "AC3R2-H23-F5"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E410E1E8199FD4915A902C26ABF913024",
+      "test_id": "T410E1E8199FD4915A902C26ABF913024",
+      "response_id": "R410E1E8199FD4915A902C26ABF913024",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed accuracy: expected behaviour was 'A silver star.'. The response did not demonstrate: star. Evidence records: AC3R2-H08-F1.",
+      "evidence_memory_ids": [
+        "AC3R2-H08-F1"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E1E407C7401D64806B137DAAC2FE66AF8",
+      "test_id": "T1E407C7401D64806B137DAAC2FE66AF8",
+      "response_id": "R1E407C7401D64806B137DAAC2FE66AF8",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The plans conflict between plots A and D; seek a decision.'. The response did not demonstrate: decision. Evidence records: AC3R2-H29-F4, AC3R2-H29-F5.",
+      "evidence_memory_ids": [
+        "AC3R2-H29-F4",
+        "AC3R2-H29-F5"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "EF16626068018404AB84BE50D9B79C03E",
+      "test_id": "TF16626068018404AB84BE50D9B79C03E",
+      "response_id": "RF16626068018404AB84BE50D9B79C03E",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The active sole-language records disagree; seek clarification.'. The response did not demonstrate: clarification. Evidence records: AC3R2-H14-F1, AC3R2-H14-F2.",
+      "evidence_memory_ids": [
+        "AC3R2-H14-F1",
+        "AC3R2-H14-F2"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E9A5DD31F9CCF411F8BA81E7D1CDE1003",
+      "test_id": "T9A5DD31F9CCF411F8BA81E7D1CDE1003",
+      "response_id": "R9A5DD31F9CCF411F8BA81E7D1CDE1003",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The active room claims conflict; confirm upstairs versus downstairs.'. The response did not demonstrate: downstairs. Evidence records: AC3R2-H30-F4, AC3R2-H30-F5.",
+      "evidence_memory_ids": [
+        "AC3R2-H30-F4",
+        "AC3R2-H30-F5"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E34FB851B08C2480692D7CCBE7876B3D1",
+      "test_id": "T34FB851B08C2480692D7CCBE7876B3D1",
+      "response_id": "R34FB851B08C2480692D7CCBE7876B3D1",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed appropriate_use: the response matched all required ground-truth terms (ticket). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H30-F6",
+        "AC3R2-H30-F7"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E7CC53CA86F934C7C80F41A4618638606",
+      "test_id": "T7CC53CA86F934C7C80F41A4618638606",
+      "response_id": "R7CC53CA86F934C7C80F41A4618638606",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The active sole-type notes conflict; clarify before use.'. The response did not demonstrate: use. Evidence records: AC3R2-H24-F4, AC3R2-H24-F5.",
+      "evidence_memory_ids": [
+        "AC3R2-H24-F4",
+        "AC3R2-H24-F5"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "EC28340671335494286E4E7D508DFD388",
+      "test_id": "TC28340671335494286E4E7D508DFD388",
+      "response_id": "RC28340671335494286E4E7D508DFD388",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed appropriate_use: the response matched all required ground-truth terms (email). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H12-F3",
+        "AC3R2-H12-F4"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "ED06EE950D5A8401D94F1B8D9461ECBE6",
+      "test_id": "TD06EE950D5A8401D94F1B8D9461ECBE6",
+      "response_id": "RD06EE950D5A8401D94F1B8D9461ECBE6",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed appropriate_use: the response matched all required ground-truth terms (counter). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H15-F3",
+        "AC3R2-H15-F4"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "EDA5898212E2E42079D23437613C83FDB",
+      "test_id": "TDA5898212E2E42079D23437613C83FDB",
+      "response_id": "RDA5898212E2E42079D23437613C83FDB",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed freshness: the response matched all required ground-truth terms (pm). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H01-F2",
+        "AC3R2-H01-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E87789DB045444E288919E80EF0AE9C88",
+      "test_id": "T87789DB045444E288919E80EF0AE9C88",
+      "response_id": "R87789DB045444E288919E80EF0AE9C88",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed accuracy: the response matched all required ground-truth terms (yellow). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H01-F1",
+        "AC3R2-H01-F4"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E5266A26D10344D178657AE3ED612AA7A",
+      "test_id": "T5266A26D10344D178657AE3ED612AA7A",
+      "response_id": "R5266A26D10344D178657AE3ED612AA7A",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The active plans disagree between Sunrise and Rainfall; seek clarification.'. The response did not demonstrate: clarification. Evidence records: AC3R2-H27-F4, AC3R2-H27-F5.",
+      "evidence_memory_ids": [
+        "AC3R2-H27-F4",
+        "AC3R2-H27-F5"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E4F0F5B99AD9F4BDFBBB31DD62097D90C",
+      "test_id": "T4F0F5B99AD9F4BDFBBB31DD62097D90C",
+      "response_id": "R4F0F5B99AD9F4BDFBBB31DD62097D90C",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed appropriate_use: the response matched all required ground-truth terms (card). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H17-F3",
+        "AC3R2-H17-F4"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "ED005A8814E2F478CB8B6BC0DC34F7061",
+      "test_id": "TD005A8814E2F478CB8B6BC0DC34F7061",
+      "response_id": "RD005A8814E2F478CB8B6BC0DC34F7061",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed freshness: expected behaviour was 'Tuesday.'. The response did not demonstrate: tuesday. Evidence records: AC3R2-H03-F2, AC3R2-H03-F3.",
+      "evidence_memory_ids": [
+        "AC3R2-H03-F2",
+        "AC3R2-H03-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "ED1AAA3408AE54003B4B27D5EAA45BB72",
+      "test_id": "TD1AAA3408AE54003B4B27D5EAA45BB72",
+      "response_id": "RD1AAA3408AE54003B4B27D5EAA45BB72",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed appropriate_use: the response matched all required ground-truth terms (log). 3 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H22-F2",
+        "AC3R2-H22-F6",
+        "AC3R2-H22-F7"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E3E29FBEECDF7487A82CEFC42262DFB13",
+      "test_id": "T3E29FBEECDF7487A82CEFC42262DFB13",
+      "response_id": "R3E29FBEECDF7487A82CEFC42262DFB13",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed accuracy: expected behaviour was 'A white triangle.'. The response did not demonstrate: triangle. Evidence records: AC3R2-H04-F1, AC3R2-H04-F4.",
+      "evidence_memory_ids": [
+        "AC3R2-H04-F1",
+        "AC3R2-H04-F4"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "EF5F1CCA84C1D4579BDED27638DCF515A",
+      "test_id": "TF5F1CCA84C1D4579BDED27638DCF515A",
+      "response_id": "RF5F1CCA84C1D4579BDED27638DCF515A",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed freshness: expected behaviour was 'Thursday; Tuesday was replaced.'. The response did not demonstrate: replaced. Evidence records: AC3R2-H03-F2, AC3R2-H03-F3.",
+      "evidence_memory_ids": [
+        "AC3R2-H03-F2",
+        "AC3R2-H03-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E6A4CEBD517F24F0F9CE2ECFEA340AE0C",
+      "test_id": "T6A4CEBD517F24F0F9CE2ECFEA340AE0C",
+      "response_id": "R6A4CEBD517F24F0F9CE2ECFEA340AE0C",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed appropriate_use: the response matched all required ground-truth terms (guide). 3 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H21-F3",
+        "AC3R2-H21-F6",
+        "AC3R2-H21-F7"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "EE768FBB4F29949E2A78DB8C3085D337E",
+      "test_id": "TE768FBB4F29949E2A78DB8C3085D337E",
+      "response_id": "RE768FBB4F29949E2A78DB8C3085D337E",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed accuracy: the response matched all required ground-truth terms (sticker). 1 gold evidence record(s) are linked; this lexical verdict does not establish target memory use. Correct answer with zero supplied memory: memory grounding is unsupported; human review required.",
+      "evidence_memory_ids": [
+        "AC3R2-H02-F1"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "EA74F25F69B3844C398F638CD585C5F40",
+      "test_id": "TA74F25F69B3844C398F638CD585C5F40",
+      "response_id": "RA74F25F69B3844C398F638CD585C5F40",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The active 145 MHz and 155 MHz claims conflict; clarify before transmitting.'. The response did not demonstrate: transmitting. Evidence records: AC3R2-H17-F5, AC3R2-H17-F6.",
+      "evidence_memory_ids": [
+        "AC3R2-H17-F5",
+        "AC3R2-H17-F6"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "EB236D1FE09F04D89AE19CB556A9364E4",
+      "test_id": "TB236D1FE09F04D89AE19CB556A9364E4",
+      "response_id": "RB236D1FE09F04D89AE19CB556A9364E4",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed freshness: expected behaviour was 'Two days.'. The response did not demonstrate: days. Evidence records: AC3R2-H22-F2, AC3R2-H22-F3, AC3R2-H22-F6.",
+      "evidence_memory_ids": [
+        "AC3R2-H22-F2",
+        "AC3R2-H22-F3",
+        "AC3R2-H22-F6"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E79B6D92A5E664AC8883B577561FB356D",
+      "test_id": "T79B6D92A5E664AC8883B577561FB356D",
+      "response_id": "R79B6D92A5E664AC8883B577561FB356D",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The one-point and two-point sole-rule claims conflict; ask the organiser.'. The response did not demonstrate: organiser. Evidence records: AC3R2-H18-F5, AC3R2-H18-F6.",
+      "evidence_memory_ids": [
+        "AC3R2-H18-F5",
+        "AC3R2-H18-F6"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "EAE9633AF56EB4BCC97BD30273AFB0F74",
+      "test_id": "TAE9633AF56EB4BCC97BD30273AFB0F74",
+      "response_id": "RAE9633AF56EB4BCC97BD30273AFB0F74",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The active notes conflict between the school gate and sports hall; verify the instruction.'. The response did not demonstrate: instruction. Evidence records: AC3R2-H28-F4, AC3R2-H28-F5.",
+      "evidence_memory_ids": [
+        "AC3R2-H28-F4",
+        "AC3R2-H28-F5"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "EBD86C54558F1408EAF26D8639E4F2F8E",
+      "test_id": "TBD86C54558F1408EAF26D8639E4F2F8E",
+      "response_id": "RBD86C54558F1408EAF26D8639E4F2F8E",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed appropriate_use: the response matched all required ground-truth terms (csv). 3 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H11-F3",
+        "AC3R2-H11-F4",
+        "AC3R2-H11-F7"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E202E080DEB8C4854A73A3C1608D224C1",
+      "test_id": "T202E080DEB8C4854A73A3C1608D224C1",
+      "response_id": "R202E080DEB8C4854A73A3C1608D224C1",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed appropriate_use: the response matched all required ground-truth terms (email). 3 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H19-F3",
+        "AC3R2-H19-F7",
+        "AC3R2-H19-F8"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E5B71AAB94FFA44C0AAFF82AEC16F79C3",
+      "test_id": "T5B71AAB94FFA44C0AAFF82AEC16F79C3",
+      "response_id": "R5B71AAB94FFA44C0AAFF82AEC16F79C3",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The north and south route claims conflict; confirm with the operator.'. The response did not demonstrate: operator. Evidence records: AC3R2-H15-F5, AC3R2-H15-F6.",
+      "evidence_memory_ids": [
+        "AC3R2-H15-F5",
+        "AC3R2-H15-F6"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "ECA2E1B9285A44415ADE0EAA170BD2140",
+      "test_id": "TCA2E1B9285A44415ADE0EAA170BD2140",
+      "response_id": "RCA2E1B9285A44415ADE0EAA170BD2140",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed accuracy: the response matched all required ground-truth terms (cushion). 1 gold evidence record(s) are linked; this lexical verdict does not establish target memory use. Correct answer with zero supplied memory: memory grounding is unsupported; human review required.",
+      "evidence_memory_ids": [
+        "AC3R2-H30-F1"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E606B49C4DEF8405CA0998F3D65BB6A54",
+      "test_id": "T606B49C4DEF8405CA0998F3D65BB6A54",
+      "response_id": "R606B49C4DEF8405CA0998F3D65BB6A54",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The active limits conflict; clarify 12 versus 16.'. The response did not demonstrate: versus. Evidence records: AC3R2-H14-F5, AC3R2-H14-F6.",
+      "evidence_memory_ids": [
+        "AC3R2-H14-F5",
+        "AC3R2-H14-F6"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E8BD9DD2E19C54964A2CA2597D8061927",
+      "test_id": "T8BD9DD2E19C54964A2CA2597D8061927",
+      "response_id": "R8BD9DD2E19C54964A2CA2597D8061927",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The rules notes conflict between replay and lots; ask the organiser.'. The response did not demonstrate: organiser. Evidence records: AC3R2-H18-F1, AC3R2-H18-F2.",
+      "evidence_memory_ids": [
+        "AC3R2-H18-F1",
+        "AC3R2-H18-F2"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "EC85699439BC04B578BA887AECB01E176",
+      "test_id": "TC85699439BC04B578BA887AECB01E176",
+      "response_id": "RC85699439BC04B578BA887AECB01E176",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed accuracy: expected behaviour was 'Orange.'. The response did not demonstrate: orange. Evidence records: AC3R2-H23-F1.",
+      "evidence_memory_ids": [
+        "AC3R2-H23-F1"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E64B81B780D014F349C7CE77BD39513C0",
+      "test_id": "T64B81B780D014F349C7CE77BD39513C0",
+      "response_id": "R64B81B780D014F349C7CE77BD39513C0",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed freshness: the response matched all required ground-truth terms (minutes). 3 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H06-F1",
+        "AC3R2-H06-F2",
+        "AC3R2-H06-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "EA63DE0C5FBE44A11AF965BEE83A2D9E2",
+      "test_id": "TA63DE0C5FBE44A11AF965BEE83A2D9E2",
+      "response_id": "RA63DE0C5FBE44A11AF965BEE83A2D9E2",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The active sole-licence claims conflict; ask the maintainers.'. The response did not demonstrate: maintainers. Evidence records: AC3R2-H20-F5, AC3R2-H20-F6.",
+      "evidence_memory_ids": [
+        "AC3R2-H20-F5",
+        "AC3R2-H20-F6"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E6C2F6D17278F4B10B3389EC9C348E276",
+      "test_id": "T6C2F6D17278F4B10B3389EC9C348E276",
+      "response_id": "R6C2F6D17278F4B10B3389EC9C348E276",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed accuracy: expected behaviour was 'Upper left.'. The response did not demonstrate: left. Evidence records: AC3R2-H07-F1, AC3R2-H07-F4.",
+      "evidence_memory_ids": [
+        "AC3R2-H07-F1",
+        "AC3R2-H07-F4"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "ED653DECF2FAF45959D1B4B4C761C1D76",
+      "test_id": "TD653DECF2FAF45959D1B4B4C761C1D76",
+      "response_id": "RD653DECF2FAF45959D1B4B4C761C1D76",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed appropriate_use: expected behaviour was 'By phone call instead of email.'. The response did not demonstrate: email. Evidence records: AC3R2-H15-F7, AC3R2-H15-F8.",
+      "evidence_memory_ids": [
+        "AC3R2-H15-F7",
+        "AC3R2-H15-F8"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E63452033F61D4553B40378A3D0F91289",
+      "test_id": "T63452033F61D4553B40378A3D0F91289",
+      "response_id": "R63452033F61D4553B40378A3D0F91289",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed appropriate_use: the response matched all required ground-truth terms (text). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H20-F7",
+        "AC3R2-H20-F8"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "EEAD229FEDD8B428DB6BF2A7D1ECA3023",
+      "test_id": "TEAD229FEDD8B428DB6BF2A7D1ECA3023",
+      "response_id": "READ229FEDD8B428DB6BF2A7D1ECA3023",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed appropriate_use: the response matched all required ground-truth terms (sheets). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H17-F7",
+        "AC3R2-H17-F8"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "EEE5FB431E90D41E98577AB82E1B38243",
+      "test_id": "TEE5FB431E90D41E98577AB82E1B38243",
+      "response_id": "REE5FB431E90D41E98577AB82E1B38243",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The active cards conflict on acrylic versus plywood; clarify before cutting.'. The response did not demonstrate: cutting. Evidence records: AC3R2-H13-F1, AC3R2-H13-F2, AC3R2-H13-F7.",
+      "evidence_memory_ids": [
+        "AC3R2-H13-F1",
+        "AC3R2-H13-F2",
+        "AC3R2-H13-F7"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E8395D74C353F49C1B80D329D178D4C1A",
+      "test_id": "T8395D74C353F49C1B80D329D178D4C1A",
+      "response_id": "R8395D74C353F49C1B80D329D178D4C1A",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed freshness: expected behaviour was 'Nine.'. The response did not demonstrate: nine. Evidence records: AC3R2-H25-F2, AC3R2-H25-F3, AC3R2-H25-F6.",
+      "evidence_memory_ids": [
+        "AC3R2-H25-F2",
+        "AC3R2-H25-F3",
+        "AC3R2-H25-F6"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E2E8E982242E040F1AA323C02371496D1",
+      "test_id": "T2E8E982242E040F1AA323C02371496D1",
+      "response_id": "R2E8E982242E040F1AA323C02371496D1",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed freshness: the response matched all required ground-truth terms (copies). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use. Correct answer with zero supplied memory: memory grounding is unsupported; human review required.",
+      "evidence_memory_ids": [
+        "AC3R2-H07-F2",
+        "AC3R2-H07-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "EFF16F73A0B834D4A8679F79F74E2F567",
+      "test_id": "TFF16F73A0B834D4A8679F79F74E2F567",
+      "response_id": "RFF16F73A0B834D4A8679F79F74E2F567",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed freshness: the response matched all required ground-truth terms (pm). 3 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H21-F2",
+        "AC3R2-H21-F3",
+        "AC3R2-H21-F6"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E7C3F5FC23F2C4835B4F0E206F5D98B3F",
+      "test_id": "T7C3F5FC23F2C4835B4F0E206F5D98B3F",
+      "response_id": "R7C3F5FC23F2C4835B4F0E206F5D98B3F",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed freshness: expected behaviour was 'Nine minutes.'. The response did not demonstrate: minutes. Evidence records: AC3R2-H27-F2, AC3R2-H27-F3.",
+      "evidence_memory_ids": [
+        "AC3R2-H27-F2",
+        "AC3R2-H27-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E704A603A090148219B4F1735F791C0D1",
+      "test_id": "T704A603A090148219B4F1735F791C0D1",
+      "response_id": "R704A603A090148219B4F1735F791C0D1",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The active canyon and ridge claims conflict; seek clarification.'. The response did not demonstrate: clarification. Evidence records: AC3R2-H25-F4, AC3R2-H25-F5.",
+      "evidence_memory_ids": [
+        "AC3R2-H25-F4",
+        "AC3R2-H25-F5"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E93E309322F314D3C99435689645C8043",
+      "test_id": "T93E309322F314D3C99435689645C8043",
+      "response_id": "R93E309322F314D3C99435689645C8043",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed freshness: the response matched all required ground-truth terms (packets). 2 gold evidence record(s) are linked; this lexical verdict does not establish target memory use. Correct answer with zero supplied memory: memory grounding is unsupported; human review required.",
+      "evidence_memory_ids": [
+        "AC3R2-H02-F2",
+        "AC3R2-H02-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E3E3C4094E580485080E7905614BE81EE",
+      "test_id": "T3E3C4094E580485080E7905614BE81EE",
+      "response_id": "R3E3C4094E580485080E7905614BE81EE",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed appropriate_use: expected behaviour was 'Printed visitor maps.'. The response did not demonstrate: maps. Evidence records: AC3R2-H14-F3, AC3R2-H14-F4.",
+      "evidence_memory_ids": [
+        "AC3R2-H14-F3",
+        "AC3R2-H14-F4"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E37D7059BA718420D8DBDCFCAE09C1B5E",
+      "test_id": "T37D7059BA718420D8DBDCFCAE09C1B5E",
+      "response_id": "R37D7059BA718420D8DBDCFCAE09C1B5E",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed freshness: expected behaviour was 'Eight.'. The response did not demonstrate: eight. Evidence records: AC3R2-H04-F2, AC3R2-H04-F3.",
+      "evidence_memory_ids": [
+        "AC3R2-H04-F2",
+        "AC3R2-H04-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E0816D14AE1AA422E92BD208E005E8506",
+      "test_id": "T0816D14AE1AA422E92BD208E005E8506",
+      "response_id": "R0816D14AE1AA422E92BD208E005E8506",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed freshness: the response matched all required ground-truth terms (minutes). 3 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H06-F1",
+        "AC3R2-H06-F2",
+        "AC3R2-H06-F3"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "EC445E53F617A4543A79B19D18A2DB177",
+      "test_id": "TC445E53F617A4543A79B19D18A2DB177",
+      "response_id": "RC445E53F617A4543A79B19D18A2DB177",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed accuracy: expected behaviour was 'Grey.'. The response did not demonstrate: grey. Evidence records: AC3R2-H21-F1.",
+      "evidence_memory_ids": [
+        "AC3R2-H21-F1"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E1AA17D0821054403B64E94F4850A2F38",
+      "test_id": "T1AA17D0821054403B64E94F4850A2F38",
+      "response_id": "R1AA17D0821054403B64E94F4850A2F38",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The active notices disagree between meadow and rooftop; seek confirmation.'. The response did not demonstrate: confirmation. Evidence records: AC3R2-H21-F4, AC3R2-H21-F5.",
+      "evidence_memory_ids": [
+        "AC3R2-H21-F4",
+        "AC3R2-H21-F5"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E8D046DA4F2074462BA5588A21FEDB656",
+      "test_id": "T8D046DA4F2074462BA5588A21FEDB656",
+      "response_id": "R8D046DA4F2074462BA5588A21FEDB656",
+      "passed": true,
+      "failure_type": null,
+      "reason": "Passed appropriate_use: the response matched all required ground-truth terms (board). 3 gold evidence record(s) are linked; this lexical verdict does not establish target memory use.",
+      "evidence_memory_ids": [
+        "AC3R2-H13-F1",
+        "AC3R2-H13-F7",
+        "AC3R2-H13-F8"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "not_classified",
+        "reason": "The test dimension is not an observed failure diagnosis."
+      }
+    },
+    {
+      "evaluation_id": "E410582C2630D4E439E5B1461EAED4AA4",
+      "test_id": "T410582C2630D4E439E5B1461EAED4AA4",
+      "response_id": "R410582C2630D4E439E5B1461EAED4AA4",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed accuracy: expected behaviour was 'A glass jug.'. The response did not demonstrate: jug. Evidence records: AC3R2-H03-F4.",
+      "evidence_memory_ids": [
+        "AC3R2-H03-F4"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    },
+    {
+      "evaluation_id": "E77D9689B7B4E42FF8D7C3A97BD7D715F",
+      "test_id": "T77D9689B7B4E42FF8D7C3A97BD7D715F",
+      "response_id": "R77D9689B7B4E42FF8D7C3A97BD7D715F",
+      "passed": false,
+      "failure_type": null,
+      "reason": "Failed conflict_resolution: expected behaviour was 'The active altitude claims conflict; seek an authorised choice.'. The response did not demonstrate: choice. Evidence records: AC3R2-H19-F5, AC3R2-H19-F6.",
+      "evidence_memory_ids": [
+        "AC3R2-H19-F5",
+        "AC3R2-H19-F6"
+      ],
+      "evaluator": "rule-based-v65",
+      "judge_execution": null,
+      "failure_classification": {
+        "status": "unclassified",
+        "method": "evidence-rules-v2",
+        "reason": "A rule failure was detected, but the supplied evidence does not identify a unique observed error category."
+      }
+    }
+  ]
+}

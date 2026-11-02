@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T9C86DDC24C61411CAB66C0AD8918667F",
+  "started_utc": "2026-11-01T13:17:40.076179+00:00",
+  "request_payload_sha256": "cfde0be750cfa9a33a293bac642bff9d7366674de9933c90701bed44da58aa55",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The shared project folder is the confirmed default for design files. The restricted-folder requirement applies specifically to confidential client jobs, while other jobs retain the default.",
+    "evidence_memory_ids": [
+      "AC3R2-H13-F3",
+      "AC3R2-H13-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the answer correctly applies the default and respects the confidential-job exception's scope."
+  },
+  "usage": {
+    "input_tokens": 967,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 536,
+    "output_tokens_details": {
+      "reasoning_tokens": 415
+    },
+    "total_tokens": 1503
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0323f6eb5faf7e60006ae73bf4a20487d08fb98ff544e0fe0c",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:17:50.761726+00:00",
+  "raw_sha256": "d07a0fcbf2ad267a9dfdc1c88bcc97474ccf26dee6174e53d1eca2fcf09614e7"
+}

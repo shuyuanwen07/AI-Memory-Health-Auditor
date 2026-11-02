@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T5B71AAB94FFA44C0AAFF82AEC16F79C3",
+  "started_utc": "2026-11-01T13:26:09.924398+00:00",
+  "request_payload_sha256": "ad12669cc9967c5bcc689cb8c7c2b2ceffe9559f76aaafac166037bc3804e6ff",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The active schedules specify incompatible sole final routes—the north loop and the south loop—for the same departure, and neither has priority. The answer accurately describes this unresolved conflict and asks for clarification.",
+    "evidence_memory_ids": [
+      "AC3R2-H15-F5",
+      "AC3R2-H15-F6"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported: the answer recognizes the relevant conflict without inventing a resolution or selecting an unsupported sole route."
+  },
+  "usage": {
+    "input_tokens": 1004,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 543,
+    "output_tokens_details": {
+      "reasoning_tokens": 410
+    },
+    "total_tokens": 1547
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0b4a8dc69d699fc2006ae73df23e5487d098bd53ff8abd85b3",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:26:19.977973+00:00",
+  "raw_sha256": "4496dcde44f688041b38f50867f974bda9d4ba1094977216721bbb553f48c9d9"
+}

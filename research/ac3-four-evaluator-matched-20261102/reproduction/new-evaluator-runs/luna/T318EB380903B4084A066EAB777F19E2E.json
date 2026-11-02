@@ -1,0 +1,57 @@
+{
+  "test_id": "T318EB380903B4084A066EAB777F19E2E",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:24.455183+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_09502e6ea2dc3e6c006ae7ff98a70087d1b8c2034015c5fdea",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 735,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 227,
+    "output_tokens_details": {
+      "reasoning_tokens": 133
+    },
+    "total_tokens": 962
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_09502e6ea2dc3e6c006ae7ff992d0087d1a51610313d5266d0",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-bQ8Hxo-w12SS-6bZ0GRQ4c6V4nZG6p8_S-k6vE87q7JiQynZDDgyXdcLr5eXCw1n01VD-zhftXx7YyVljFAxqeqfVKnn4Uw485ZabI-VnoMJAArkc2GRJCxgJ3-y013rvLwYRmWzpgaQb9LCWyW6Z4qBOD2Cjp5gqwoNtD1ZoT8U_DVNDX6Q2Q5KRws3QAhkyaudnEy2dI-ZIMXisKmHkSqDOrrxOT0T1V-iqcIVqVFXYZDGRAlx9Uu_PUm5MRDEZs91RWZAkjV1p6WSkHForhcKgfoQA3fTdzxGN2iEwqZjKJGmGhLbwWyPaYP3EDPHaqWrSDgE9nAmcJysP4HXG-w1pYIUVbL8p0olM5j212HL4hCWIUTbRUFTP6o1yaTKHD-CrIMLKwAc4jOdW2__FjqBQPx4ewQ0H9NDt_5HFOxbUIzNWbMC4dgcZOQfiaCLE2x-l5948lvcXodlXMkKZCXoPMUDAXatAOnT-D3SbVDYW0tWFcUk7Bvl2_jjXJrpN9xrLj7FopByzsurcSoMXrl8X4QzuFwu9P4THQJ6yGkT4t_XdaPDDPm7GqTMvNyJGED9aDuKZ4dk--Cma0aCUlNH7N-K-ox5fmKeornEkdXaRnOQTeCHW-roXYy6TGYjV8fC1yZtsxF50Q5KeLU7AyNNgHdQVs6tlvyWfLF4yRxJq1cEWh23fcuRWUdPRkvU1fJz1KPH7rY_AkKYmcMvAhRjokxMAMsaNPoQPFrZhrdna9jmdkOB7cR6quUsqnkJdJCbKwC8YbQAA9mwsKIXAzyYPsjwhXl0yRlGAP5d-5BgVtbl0GsZpkMzmYLqlH-cF0hhm8zmRyRaaxXzWoed51Y5Ys9XzYnYTFkh8I-Akqxakp-0I4T0pFr1cK9e2DGYl7AOl3fZUTmX590ofajdlsOkoFAZbTM5SS7WUm5bpgJKo-ScC1JSjwvdujziqpb4eA1-Nkjco_XQZpyvdrvQGNM4cAGdPQav8IynJi-q0VzX2YonW80u7IBhRG77G6gweiKz0gF0aI-YAKg01PCJErcq9KHQ4-gxHW5TQt8joHUk_Tc6FWF2meutXuF3QB2TmEOLtk0sjH8-gsm6-DusQ13Lr6PrT437vjeFb_T_2hQiB1FSbXg9em9FaTC08DS7bExhTP-dHVxJ3y6RH15mxfDl-yYQbCvIrz5Zsxl4yaA4EZoy9kPaB0QbM6hN6qL9twhRjdHrpyYLPlmFoedbHVbzhhbBotDeAUE6u2zvI8nLMHlRD6e3QZMxNI8K9Tu20gROiG2SXmmSKD6zLl7HaOvL9ON3M9OaIrxiyVbVp5-_jiUj0PpdEwCeZbrwxDYwDSTLc0KizIhnuzDz7PSirmx9IL_jvb-kgnwvIqaV6r7gX9etIQ641c7kYRGTQT9mwYYCVBkCTbTHWvY3wehtnkNnyNxSK9RQ0msRTvosJyS2YYCvRSINKg-8p3EV4Gndx_7AmZFYMd5CCFkH8xSbXZDHDwTazycU7hxsbQvX0GGR9x_93GhBFeO9_rNAJxFia-_qskt2THI1jB5Hewmm_D9zv8Noyf8x5z1VypO3V46lDSXo2N6IMZEGpId4K-DsXs1eoe6bXuY31Ye2kKzznv-rDiBY97zw63482GDP78E6MrnluqetEiQ8OYu1-ssxeWsq6bm7JuGxYfDV-RdvNO732UBLgLzIzlmpcyInbFIy6qBX26IMIjfUARkPBvriZx_ZjaCVLahw4Q9sKeAVJcLqyk0eAetpq55Ohl6lHMrJZlD_s56e59APULU0VGlqhX5oZc2Ec1fgPr7C2XaUG7fQIDbIYwQPGHuhEevZeVDGFltM00mK0ds1Ubsq7fn3a-nRf1OKr3cfXRnyddi1_2_N8k5tTRACI4ssQjrscPKqAIygj622G_aWiDwSBJRHhapQVq190NUuSOJIWxIYBtsAPf04Ptnnmd5VZNBXiJctMzuaEVQIG1v7AEMZkIS0f-2Ffxy9XP5p9UNiinjNsQVE0wKAzrBcKHBK9VDy0OwVsnHWGnA2A7OssytRbQBOh0f_wFwU425b7ku3paQiUVVxxwqMYQooZikdFAXvrrmbiR0Os4DB-IFlNepr75BnUNpUSx92Nr-BNl2uIWUc9_NIO1bWTRt6uCvWv8vohlHRJ1BHHV_cCTaLNfuYgckL1ZkOD-9xaYdZDw9-kTc7D0jwgWb8jvWMx3J2yRcUkLLzfyDGz8z5TriMYMDxlcZfCwcAN4eanw3gJJKI-KJwlq2wV-OBEDTM9XmKbM74apAs2X7algUKdP4lKltLSFN4Ye4K566fKk64FGfM8_ovbK-2g2VADzdXEyJrrOTsFlHvdgtI3VNm7URrnJhzYFAieOdoUPSZHjF3eYIsEl8A1MbwKjjgDuw0QIESiTEybT8gd0_9K7MZISHGhxXG4cyQZzl59DXKk01UoinPo1fGl1xSfMs7ZrMZtjPnRHHjtQR7kof_3wS2eSdQk-Uf0hml87kL0ADiZSy5nCXEdER0W5zZDqPtlp35bZoR1RBrW8HkSfMH50_Un4XRuzaIFtLHywAZvAY_ZQPq02B2MgzVNNV5L5P3VvLi4mYe27DPDO4VHxItgIrKpY6pAjUY4843e1bsqK04y-8zpVBr0BYRbytmIZf3RH53KUJDseP6eBlkIa27PDlfHn_KcyNb1rJxfQxbHc_kPZzLaj-g4AlrsgmnAMPHNhFZM-Zs4VS0W8G85LAUisxXklU8lEc7bPn5gVjhX48LjIQV1NyFbsK4kApbZ3Qhe5yIJbu2M3Na2VbBjcxjFS_Uf9EdQJ6abR3j-GrbGhnTQj6mB_N7AsDk1qM6Ftg8BkUuYmib7LTTdRjHyzcUdOGGeno1BnsVqOowor0CDclK-vzbMnZ54rowKBw_XpKmNccKa7NiyjD2GvCQKOub7rRH6vx2C1svlNAOvhoYSe72OlO4k0-t2Lfp0zgvrIFaYpsYR0eb-tCAYc9HLdkexHvfc_PrlbiIjzLIxDklt-2zrC-qW_Jh-XRawt3J9w2x6wBACg9xL7pqoerS6I5512uxd1UcVY-Q1QAl1mXVaoxM2ENAywDwHaRHgBFsGWG6rljuwKA2X1-PRSKLU-lTZv0ct-Q-6b0DQr6GJZLp-vrvvofRB1vN9KmOUJMU1mFc0LgpKRwKdXAa33O6tcKC0t4c1AadJHn1_3joVuHCnxpqzakFIez43GR8qeNyEx9hXJmhCsCrx6CqdNdHwuZso8RsPl5iJZkat_nKeO9nNxS5YvHqbNWdgqM6ez_Z9rBpXIY2uTdMbSGx-n_o=",
+      "summary": []
+    },
+    {
+      "id": "msg_09502e6ea2dc3e6c006ae7ff9a848487d197c6f11cb2e9ceb4",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The memory states that the initial pickup allowance was two boxes per household, but the answer says it cannot determine the amount.\",\"evidence_memory_ids\":[\"AC3R2-H09-F2\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary source-supported fact directly answering the question. The later approved revision does not change what was initially allowed.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The memory states that the initial pickup allowance was two boxes per household, but the answer says it cannot determine the amount.",
+    "evidence_memory_ids": [
+      "AC3R2-H09-F2"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary source-supported fact directly answering the question. The later approved revision does not change what was initially allowed."
+  },
+  "finished": "2026-11-02T03:12:27.511929+00:00"
+}

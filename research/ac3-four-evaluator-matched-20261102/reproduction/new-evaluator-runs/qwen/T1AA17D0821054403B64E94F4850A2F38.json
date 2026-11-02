@@ -1,0 +1,20 @@
+{
+  "test_id": "T1AA17D0821054403B64E94F4850A2F38",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:32:00.434448+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 839,
+    "eval_count": 209,
+    "total_duration": 20278306458
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks for the 'single observation location' approved for the astronomy session, but the confirmed memory records contain conflicting information. Memory F4 states the meadow is the only approved location, while memory F5 states the rooftop is the only approved location. Since the two notices are separate and not mutually exclusive, the answer cannot be definitively determined. The answer fails to resolve the conflict between the two notices, and the correct answer depends on the context of the session and the specific notice in effect.\",\n  \"evidence_memory_ids\": [\"AC3R2-H21-F4\", \"AC3R2-H21-F5\"],\n  \"failure_type\": \"conflict_resolution\",\n  \"classification_reason\": \"The answer fails to resolve the conflict between the two notices about the approved observation location. The meadow and rooftop are distinct locations, and the two notices are separate and not mutually exclusive. The answer does not clarify which notice applies in the current context.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:32:20.830569+00:00"
+}

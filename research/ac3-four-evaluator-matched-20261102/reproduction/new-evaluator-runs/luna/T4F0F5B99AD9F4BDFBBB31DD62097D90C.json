@@ -1,0 +1,57 @@
+{
+  "test_id": "T4F0F5B99AD9F4BDFBBB31DD62097D90C",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:16.665459+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_058f5eb0cdd28efa006ae7ffccf14487d185b80a009f6bbdc4",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 961,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 103,
+    "output_tokens_details": {
+      "reasoning_tokens": 27
+    },
+    "total_tokens": 1064
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_058f5eb0cdd28efa006ae7ffcd4fc487d19a1e3f487c1e4cf8",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__O6Afq6oPwvdkrZTjoknQ3L03ixRTw3e5Hu3x7kIhz9WS-AaqkKVK1bwZKR5bisi57EOYG2EfFgaThFAgF76EvCwzYD8B14bqwZHvXgUbfrn-wF96EtwZuZKP_oCc6XdCHf_CVgmLGyico3IQp6TUnZsIm-3895j1BvF_6EqGwMAS2LpLucssjx6CHCmtGBgzp7S39aw3Yvs1WdL3LktA1HRUQT4IHIzkIR1Z9nYQExYR0qDpAqs3sh8e4guL9e5IGzxgWM713jQjWmabd1f43er0VHC3eKrV6jjJADUL0bCwlXn319FcuqqArSDenDPzhn1XI0uIAO6jiadcOYlEvYgaL5ebKzZO6d1VFNrdOOm3n2PdOfxPDPyi3Kz9pRiDBY6PTjHb4XKEc6WoF3OwMnRBdu83Js5EFxx43oMHW5MRsEPDDZsIvMjl7-gnHmxl_ll8WDTM-y9nGGIODjF-l-HYz80dAdJy4CcU4-J_43P-u2P3QtQW9P7mWmyyxoTXXgNxgb5Hv12xORijzhDYH4htWBjtrSCHvT3yDq2lAdtY69tLWCEI9ItbqAngd-lrFb4-tiWPgx8m3yFluHWFc-ygEDs96f93lLCrxAoSdHCDrEL5BenjsBUO-bIM0VZ4f8u9xn9nL3thnLeABStdkktbhfSlEjf4kPEqdIRd--MTrcmeMREf4ZwrdMIHqSbX4iMV8Q205iEUk4TjlqC_jCFGss-9DSjNs3vUZ2WvgudylPjcKjAiRZjWI6NLzAHL8t2LC3hQE8muw9f4WoOTiI5xxLvFPOGEUawnR4UIEEiwWszRz7at6iSIbyOi3r9GdCMTOzG8R8f3BzJTzIm97FB00RJhL-SbzMY0uF024YvwCxtmwJcBPN7xvmByHKvBOgUpqEUhX_KamhXbIKL4-57z54qgYEmsXy4WYgoeazW_vd5V9nX_choUdKTXOaDpExwSYYgA7VvBsQdzB4F74dAke1gR4Bgo0mbxA8i-aActbc9nubGY89hdpxCuDQ0t9V-LWLDup9MN2DmkA7jwfI-rdeNtfdUFtDWyuuyGIb-q8YPAMfvlffzwpXIUf07xsZ1jFbKU_dEIBk6Bw3V4vBlb1sG3HujAkazSaoY04jQ2QPtsIbhzhJdCKhQ-HgXsbBnrnDHhs8M3wolf1rz0ymhQfuYe4r7t8LAjW8HbORkRew_E7bMFzN2MhgIatsIL4GMCWVtLmFJmJplcHqYkj3yJUfOj-uCfaZSveGEfQG0YXA5cobkaioSR3qBakk0gPOrMTc0oAcpoOvBmcxQe7zpzDmIIm7iiEFAIDL02fxfyLr5ccDrdTF8UKOxTtLC7N3qb-zR5QrSw6TNKb1f7Zx1FKqz1mjeIyd4xx3tV2bqF1bRxECv6ZvMywOaXst7JPE2eLaIrtoQch02FseebopXXnYyAnRBU0jQo-HGN6xIPCycA59dLqFZmRNKMX5jb--q1e0U7xaIX_jwD905u-dFuuMPACYFwUTHVduVAEfsG9aXKSoELVzDa38qX2gGDJC50GKCMhx_au6GtUDstm9wylLRpPC63I5AlIJTu6_6WsnusENhpbtVeiYLL06ATXdt1Sh4AaKf4kdbb91tqeFWAcNSY4GE7dSwdGtOA6MomZycxIkPLakpZ1zieMcUzV6nB84lo36l1vLi0TrpX960U4wf6lyublxitD5MeIpsRg65ciwOLrET65ZojSlIUfzJ0gRJJ0QMU73dlI7Obw0oyvAB70flu7Jd14N0L3Dd8=",
+      "summary": []
+    },
+    {
+      "id": "msg_058f5eb0cdd28efa006ae7ffcdaf4c87d181550ed92a3438c8",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer correctly says that a paper route card is preferred outside the night-visibility exercise, as confirmed by the memory record.\",\"evidence_memory_ids\":[\"AC3R2-H17-F4\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly says that a paper route card is preferred outside the night-visibility exercise, as confirmed by the memory record.",
+    "evidence_memory_ids": [
+      "AC3R2-H17-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported."
+  },
+  "finished": "2026-11-02T03:13:18.775051+00:00"
+}

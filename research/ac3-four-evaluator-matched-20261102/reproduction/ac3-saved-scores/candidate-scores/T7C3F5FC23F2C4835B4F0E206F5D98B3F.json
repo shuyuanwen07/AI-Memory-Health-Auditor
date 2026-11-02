@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T7C3F5FC23F2C4835B4F0E206F5D98B3F",
+  "started_utc": "2026-11-01T13:27:18.824369+00:00",
+  "request_payload_sha256": "4214b179cb94645c7825d216651b1b1bbb246117e307f7c81a272af43c024811",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed records establish that the updated warm-up lasts nine minutes, so the claim of insufficient remembered information is incorrect.",
+    "evidence_memory_ids": [
+      "AC3R2-H27-F2",
+      "AC3R2-H27-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The updated rehearsal note explicitly replaces the initial twelve-minute duration with nine minutes. The answer fails to use this applicable superseding state."
+  },
+  "usage": {
+    "input_tokens": 882,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 518,
+    "output_tokens_details": {
+      "reasoning_tokens": 399
+    },
+    "total_tokens": 1400
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_08898ac74c3fd2f3006ae73e3727a887d0b1ca4909552b2f85",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:27:29.148667+00:00",
+  "raw_sha256": "2433962b6af30dbb888d04eaff39afe3f708e7951ff8637dcc0db54d00f1521b"
+}

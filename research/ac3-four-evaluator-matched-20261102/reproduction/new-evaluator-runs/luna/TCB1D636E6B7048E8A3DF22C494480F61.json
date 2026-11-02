@@ -1,0 +1,57 @@
+{
+  "test_id": "TCB1D636E6B7048E8A3DF22C494480F61",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:23.160154+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0d53f1d8d1baf8d7006ae7ff976e8c87d1b64a2842fabf5bbf",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 887,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 108,
+    "output_tokens_details": {
+      "reasoning_tokens": 26
+    },
+    "total_tokens": 995
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0d53f1d8d1baf8d7006ae7ff98388887d1a313ce88a331d3b7",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-Zmq6PmUf9og68Eos4r8noOR8n_sHDtNitNYO_yvCglJuBJfUmsY6Wu1NKXm8ChcXOMnF5WTnLx-y-S9X4Hv24bdBDrxAHVG3mfGrAuffEkE8utIJPJ0vkxDwvbQx_ABVOzNcAuku8u9cAweROdA9gyYKYJAmvXRqpBv3pcEmZtHWslx2Pud1diWYTDzzoOJj3QZQETjB3IFsAeHAV9Bq_rQ2Vkk4WgF6nzYEP044pmKxe5YWPm0L23KGolIL9EfJuxTywp3Xo-rSIt7xZdtbUvvc_OIx3hrk1ONoQRDzKxD7lfcmk1R2RcxwbYnn3yBQ4h6XYS4MZQwqXOXNrk2HXWYo8oB7BZkzF9rHefBmqIXpbUeL7ddIszOJ8-GPcJUupy_0-wH6WnVR0GUpjwgkKDxu-b2mLklZMlVljX3EeZR-FLxh22AueraDfltgjzeQCtQ-eOFZMXjG6RnenyC2CpBdib9o9CXbNFaYm1wdmcJY6oqImDKKnl-5jqiEEiHfIfacGgG0FrNF8pRB8TAqMft3Z8Sq6w2HmfbM7QMR6-xLI1U8RbIEFlvsqWsQ4_1_Gp-zrJ8iCuAwAD75CugL-OqpcCAyVZWtaUg1L-Dxo-CUxUY19k29BNgLHLGn1l3sLR4BrvUuToa6DL276kGh6_FCPZi98J90hWpEEloiHiiBFZ86b9ulARN5xbuK9dqTz-tq-kZ6Y6WEEq_jq5mkeBdI2itWHJW7IgmBsup-jriomtem_A9BYKNbHMa3LL_Am6lT6q4fyo4zXGedXss2VwzJL3C5V4KUyZdZpvhs_t8gQ8NNhVJ2BBwxSa7vi1496f7yf3C1BHBFJ-A1U1NgQUASOXyf7baJH_tzwQTEVdhnJILt2xPY6Sm4ZlnnWpDTUB0-rEsqhpmgQya48DXe7ZoUF4HnqR4AuDwMaatJrOYjX01lM1T1AxTCrvPSkuafBSoxQBpN83_cjwrJdKP4BwQKwT_q9yhfH19-zNG5DgKQaF7UpFvyCBPCzOHS0mITN4U1N_-jaQoq9M7EMxCUl4AHK0At3FH_rtaCsfCDI5zlTVonj5WRauytI7121ufer5d1uH5psFmh44oBPFfRPGXwYjtsCKonqPpq3o21zNs8H0HepYsJ6ANe4Z_Hw1ZKw2Aft6h2L8ggjOOgIZ2E6fvZbF94IJOyylAAumLLvQZaSZjIirkq_EKKorxno9nJZH_bfnoWxwA1N-ulGCcCQlBY9U_5N8K2NHiwx5Zf1zOVp26Rtn8FCnbpmTiE7chhnLDsXg00LI5cCTbPWbP3GP26PRpN4RM7slf4TlPmdDQCq2Pvg42iNPVktF9utR_sPcW1N3AiNHk5DclTNzmNH20PXkvVdE98XpExSXJ-Li6vroFxcZNzdESs85HiP5BDJDpGwH54nWC-nUpAsrb92xyiEaUJO4vo3uOTWHD3LCbezQfqvdXuIl73IJrgkDOKrVNMIMg3vFRFqisxHRDJNun_UyaT84uEHfICOO2xICnvaWNFWZAWVAAvr2_fZEj1540wZpuDmhAeUwAIi5YOF2DrveWJ5ZdhZ75tOTjMjDvVzCa_KEVSRg5DiJatXzKLnP_LdfuzEGoCviTZgCOdNIlemlwqeTWzn8yjZr-Pz2VcMg6df6PWyMNmAZ5m0sBQ6Atf4A_UvFDIzKC6w5Gd8Weau1-n4S4ryzt1RfcxjELMHyls8pIEvUflNES0rlLLs",
+      "summary": []
+    },
+    {
+      "id": "msg_0d53f1d8d1baf8d7006ae7ff98967c87d18f6a49e075a2465b",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer correctly states that notes for the remote-access fitting must be sent as an accessible digital document.\",\"evidence_memory_ids\":[\"AC3R2-H23-F7\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported; the answer matches the confirmed requirement for this specific fitting.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly states that notes for the remote-access fitting must be sent as an accessible digital document.",
+    "evidence_memory_ids": [
+      "AC3R2-H23-F7"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported; the answer matches the confirmed requirement for this specific fitting."
+  },
+  "finished": "2026-11-02T03:12:25.874105+00:00"
+}

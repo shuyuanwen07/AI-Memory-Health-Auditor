@@ -1,0 +1,58 @@
+{
+  "test_id": "T0D9AEB74CE194DC1B8CEC5655D166F78",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:00.533989+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0bbc3134630ab322006ae7ffbcc00887d1b4650316149d972b",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 985,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 191,
+    "output_tokens_details": {
+      "reasoning_tokens": 76
+    },
+    "total_tokens": 1176
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0bbc3134630ab322006ae7ffbd38b087d1b35b9108e7763d05",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-_3M-2ktJWPdfa-k4nAojcVTG0w-M3PqHdtB7wbu6PTKZRGzjmeKqZHIsT7Q55nblOwiiEBePVs0vIuIrqb307H421b7Ged6uL0FQz_7yLrOmZqyYPA5Nbpj2vB45_6-MuIS9BBgWLWITuSGTWp6ABFUSSFD-B9efOrPwxqJCKlrLfLMQtQ60r-UXUyQJoHB8auzdD30utPxElhK7nHDVdntWyJyW70RcAb7KX4obg_yau06JlWH6l3oIO7uEY1B25nJBc0qnRcG91RUmaE6YqGs2-_L2xAe69bjn5pnQhA15kQBO14cXFkUhSCJiSS4TU_1BbCGaFLxWt0Nuov4I03TuUheqRofyICo6qzt_cxU9YSuNFdQUSfxsxPMm0Roh4JtpEoBcTkuepATffXZrERkDZiFpFBQXaw0Silg-e9zNJA0nLFE3qo3pDEJ8f-rXsQgd7VDX72pA7yL0lMgUrMslYxY2ZEOAxaMRpUe15wYVhGMWbxN__0Xy41lBLTMsaQSTFi3vDSLQBKXj-ZGWup7KvfvlabZk933S438NGjqD0tjf5LTjaVvic92JIXw8CGIohjQQHWHSxjoQlwpqOYC1OErtxaMBq8YPDwdRo0gLejFqC_3TTAuM6s5eervKlXN79oZQxOmzmGyW7g3Vjlgf_zLZ5D4Y28jmQAWe73iXG18OscHJt5aF2WXzym1im5yOJBOeY2bdenXpJktqBsklZsemHx0TfmuFi57ID8IJaIiBzDrCYs56afUtcNcfvj_mFl6qV8d0W0MeuLit7Z5e6m870hzoscB67WO2xkIReHGJ22wrYLCamipYkHC7Aw7jH9V9640gmrqor898kcta02ZPYN-EMCWq_hTFEtmKTC90lwrxQdZg2k3yMi7tNnMRpSLmFUodCHzxiKvXPNC5eAM8Qx1fhXW-SPXzxsPf0tLOP1oC9jFEdNlsHL4ZSKb7lyPdnQQuF93NjzeA9qeSY8Ncgx4fr68BESBdKEt7TN-UpokC_oyLPr1R1y3ERSYXy2wUyzUSEh1-xqZJaYS_0xnjeaqgPKyfKiJa2BORPJrUUZtwJPIh9d0zsUsooebs9qkj2FebUere5M10-BF_Rt8QJ8hRVKM2I0ivazUtkCjM-fFCovUWRxUXaVqyqHDxUV6x7nbJJWQ82n3BB4Tq98c-329Ar4UoB7zMkdBqV8FtPDTIQsY1gW_TLgmny2opp0ETDMvyiFu_DmdAu21m_1TXmnH-GJhkWziAYFjaV2hoB0x7PrcZ5g4DHPuka_79RaLc8YAfmqC4PoK9Sf8V_yQRXMCdu6-vtBJAJuy9SyHH0UQNTBTJdiO-I5dY9nGRlad4d64DPM6PLeU0FKgzEXP1BeykddpuadKLVsm_b8eHLsRpTC5djNYXqPi28kvpZrziE7yz8jBZiy4Hp_cnGqrZhXXmfXWle0eg7AropY2eFYBTtm3ttlYqTg5BPIsByDZqhTUGh7YWPxZ4rWdBD7W3IGEtL2qJ9iJXsmP08TXYoSan0PFOfJ1rJHDi9DVsceivShAjtnU0X0LMryxbM9N2QMeYukzkO80H4yzDuCDzW0yIFP6kavR6dGt0LdWnf28LFQYOdBss7K_JTCNxNPJsQi7yUw0OpH8WdXXHJ-lRMMBZgR1ZWwliBnb0bfjLjLhdKGxsfAvwCqKf7V_xFndN2GSWO4vc2iPIbli59OYP-RyEC7XgIS1ipNXDxUJWY4_LBc8hmpHIIsrLdvqr4CL0s-IhjYv5CtSkJ01R20QhmIA_fyEARxJjw-tQwYDiRyKhK40W5DaC6fUiasvZbkPkwnmcIOIeFnJTDXFBBujHvOhm5_u2Dj5yvvvwzDorbZWa3gW9jj86r_i-mpp-woBtMYbKpWbW6a0kEoy0BhgfoFa5aVQ8nQH4XqWVGgSzpAvEebE1vuDSvoYZtsS8NCFLXok4prk4k8nlKvZoLwXxTEzumi9Qmg15OxPfc_NW1PvOUiaSqenHk4vYILIB7GTGCmWozZvuOJ6PWOgKPuSi5fc0HWDb7WD9dZI6tJdHvjepcuiE8KCFbX4l23aY9Oexhv4KoP2svUgmkZzF720jxQ53woRVwLW11qNF3PqogrNIkO1cUgEUZi6yVIKxjV8rkDjMR2YHpa_IMZPmpbSh4uZB-k_WiCbWfZyHmN-KWJczhUHZ7e8AwW3SH0-8RUiWZfZ24TufcR6hQfWkTb3umFichnMsCBKnGTdrx0-GLKR5HdRojonZ38C1vv6ep_fVN8cVXS1BNI7KZUYQIieAbybOQfN0fdNxvRYWeE7pjku1yd_S9YVBu4X0v4Isbl8XP7b_HA-Nu3jXZa-vSR5sN7tF_RQKUGaVkpuzmVfd7TYR2B8cG6D0fMro6jzzILIepk7EiKChagApak5iQ19uL7nBoWXLJsqyMsX3TengMlHjbpf5a8agGAaZxQWIV-s9GDB_1W--md2Bh5mg=",
+      "summary": []
+    },
+    {
+      "id": "msg_0bbc3134630ab322006ae7ffbe0be487d19c7ea1cefff83c04",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The records confirm that one active sheet specifies 2 metres and an independent signed active sheet specifies 3 metres, with no replacement or priority recorded. The answer accurately identifies the conflict and asks which sheet should govern rather than choosing without evidence.\",\"evidence_memory_ids\":[\"AC3R2-H11-F1\",\"AC3R2-H11-F2\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported; the answer appropriately surfaces the unresolved conflict.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The records confirm that one active sheet specifies 2 metres and an independent signed active sheet specifies 3 metres, with no replacement or priority recorded. The answer accurately identifies the conflict and asks which sheet should govern rather than choosing without evidence.",
+    "evidence_memory_ids": [
+      "AC3R2-H11-F1",
+      "AC3R2-H11-F2"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported; the answer appropriately surfaces the unresolved conflict."
+  },
+  "finished": "2026-11-02T03:13:03.226985+00:00"
+}

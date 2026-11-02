@@ -1,0 +1,20 @@
+{
+  "test_id": "T48FCB9BBDA87405CA06938E5A8008E1C",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:16:46.289893+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 667,
+    "eval_count": 155,
+    "total_duration": 17027945292
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is incorrect. The confirmed memory records indicate that the film archive stores silent reels in a cedar cabinet. The target answer states that the user has 'not enough remembered information to say where the silent reels are stored,' which contradicts the confirmed memory that explicitly states the location. The memory records do not support the target answer, and the answer is not based on confirmed information.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H05-F1\"\n  ],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer is inaccurate because the confirmed memory records explicitly state that the film archive stores silent reels in a cedar cabinet, contradicting the target answer.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:17:03.453873+00:00"
+}

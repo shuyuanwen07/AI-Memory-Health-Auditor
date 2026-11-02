@@ -1,0 +1,57 @@
+{
+  "test_id": "TE768FBB4F29949E2A78DB8C3085D337E",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:20.373981+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_04455d966143f73f006ae7ffd0a49087d1b0d9346e5ce7a2f7",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 743,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 135,
+    "output_tokens_details": {
+      "reasoning_tokens": 33
+    },
+    "total_tokens": 878
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_04455d966143f73f006ae7ffd13b0887d19796dcdd8716b0e6",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__SwOYYDh-f1mpkNmue6_-W2efZ7IPXrlssPHnRPCnZJlgXW1_7E_poq28ZNl2negDjBjswuGLFQrRZUxSxqGwfjWQk_rI45nkRdy6dxgSk2Ni8alsLI7_xYyZ80vYxNa7EsDiMuuNG7aiDSej1178HjnKvBDumGrfU3eRlrimcFuj3A-_v_JK5Tk8nyCRsNJuf2EjpDC3CFHfp094BtYUczFPlsnOPYtmZWrWTH2XNZgYYBxpPoNFLDVDt26DfFznoErT1Sxgbc7QvPadEVseSfCSZ1hicmBos6NENArrZzny1vpLXprXUfjv4g4YEKY2UpntJdSq3kb0iaR6V3jM5S-3fWy8RplBZTr148-anvBBGWzx0WquYXnqogFnfYbIQXb-EEm6vtx0cUm5zL6jE3l91O6IB0SKQZgPwBtD54dYLYJNEJytAr5_OgKOar7Q7UOP47lc2Z9e20dnfJDqpU2gNijI88QTUrNYO1XzF9G3Z_kbNPkestj7mMLDLIuyjsxYmZlA0QHn3CoxuDD0bV8bAGf2_YipwP-Vif6OSsTwIdso4lgyMZLvgONU2Coy1rfTqg-97_wF0a9DnC8AOnVS0xDzjr0Dkjklxqq9dibs4QItjn4iILx563JD3uV6O6JuvtlILY1BWuGztSZriqmaCDojXPSavEWwcesgd5Uvoj9Y8SziQ3xaE3bc8G3A8s69i_WZGS6iIIEykLjmxIQAqbU1FZJZi_Ubt-DmABUVjwq2a2Mxcnq7GKHBeGVtolRcDynIkqNddJlKVhRFGBimuBs6nCl6hOdxiolSZPmZ6c2A87viRg-PKI5h92wsPbEoEg4oe06bVMhvBwv99PgmFsY-Dejhl9izx9HFQUQCZSR0-tsJU0ywpuoRnpEM-sh18jcKfAw3OjbnHV1uHnIg9ksqxJ7wKpNcATch8je2ZKB-GiuSHHAhxzxahSABMPqvYQySDhksJGEdymBY91FaSY_2Y504nDHb82gwOEj1dJRLRp7LXc-L4tsjH6jM5Yzlvu6e5sW8gzseW3v0RiKljkKa8ylzhX-bjIRzUCcKSZU3VSXn1ylQvJ-eGYbqG5TNbcqAUWq3mim7K_pdREUqB7UBaZUBSBY1jF79OKtu6Ygoe5PpwVOUQwrJfk71BzehYafPz3qKmwS77IoTWq5ip70O4d5jdPkWC1KoBJXOaKs89Gni4EFIgm5Eq-u0hIBzO7YnF5jpcGdOoWbTWI8prXfzl11viS_TG_CFbOTLFMMjUwsDBRh2gmMznyQAHNOdS7wyvYNuAd9O9Yk5E_5aQfQrvLHoLNMVYLyS7VbfdV8Kj6cR4cEvo-We4EEWGPmzOzh3pssnXq-MYcTeC3XfihPi_KIccmhrhm5yeMWBMsctQRScFQfuMhGJsfjdPFYw6h1XSSNq_SsXYY5ZrzxidJbMpOQRKlI71T7WN_uM4gnp_b95jRYGSFrixfUWJYien91qWyVkqNZxu__guGLTJP1oJVWL7uG2Y7yIX7lYBXP1fM6vr1WsTuVgbofshPIGbXphf9_-Danf-IAfZ2rUuC3gpcmFXqESY_dPRg0IqqaaojWaYabizgyrXxNxkALw3a3ND6C77JAsd46lYYVL2WOY-PMhskfJL4pcm6mrAmqq5ouNqVMU3s8snGBttJqerG04H2trLbjWrfnkNSZISagPPxMBoyDOV_ilOxBvnTC5EojpKaTUvbaswSzJHmQ5Y5j2wVNSySY8aIRcS3tcKfiF6zt8ytGm6JPHKnED2B4AWxd_apz4V5G8zBn4Z-jEmqoOqzzBiHkOMeNawI7EA0v7sJtTMGiwVlKnm92r0hoE-kO6lFPmhhmeUtKIf",
+      "summary": []
+    },
+    {
+      "id": "msg_04455d966143f73f006ae7ffd19ac887d1909492f2cd9794ec",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The records identify the bean-seed drawer’s sticker as circular and blue, but the answer says it cannot identify the sticker.\",\"evidence_memory_ids\":[\"AC3R2-H02-F1\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary source-supported fact that the answer fails to report; the records establish no supersession, unresolved conflict, or misuse of an irrelevant memory.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The records identify the bean-seed drawer’s sticker as circular and blue, but the answer says it cannot identify the sticker.",
+    "evidence_memory_ids": [
+      "AC3R2-H02-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary source-supported fact that the answer fails to report; the records establish no supersession, unresolved conflict, or misuse of an irrelevant memory."
+  },
+  "finished": "2026-11-02T03:13:22.769497+00:00"
+}

@@ -1,0 +1,20 @@
+{
+  "test_id": "T64B81B780D014F349C7CE77BD39513C0",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:28:26.888757+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 668,
+    "eval_count": 191,
+    "total_duration": 21017276000
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks about the duration of a briefing before the revision, but the confirmed memory records do not provide any information about the briefing duration before the revision. The memory records only mention the original duration (20 minutes) and a revised duration (15 minutes), but they do not specify the duration before the revision. Therefore, the answer cannot be confirmed based on the provided memory records.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H06-F2\"\n  ],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer claims the briefing originally lasted 20 minutes, which is supported by memory record AC3R2-H06-F2. However, the question asks about the duration before the revision, and the memory records do not provide any information about the duration before the revision. Therefore, the answer is inaccurate.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:28:48.152166+00:00"
+}

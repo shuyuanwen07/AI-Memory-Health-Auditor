@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T8395D74C353F49C1B80D329D178D4C1A",
+  "started_utc": "2026-11-01T13:27:01.679504+00:00",
+  "request_payload_sha256": "081e88c3eb44f1fa56ce11947ca01696d347a9eaaf877c86b861929bc30bf410",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The verified recount explicitly records nine nests, so the answer incorrectly claims that no recount result is supplied and that the count is undetermined.",
+    "evidence_memory_ids": [
+      "AC3R2-H25-F3",
+      "AC3R2-H25-F6"
+    ],
+    "failure_type": null,
+    "classification_reason": "Two conditions hold: freshness, because the answer fails to use the explicitly superseding nine-nest recount; and appropriate_use, because its evidence ledger uses the unrelated paper-notebook preference. No single failure category can therefore be selected."
+  },
+  "usage": {
+    "input_tokens": 917,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 2168,
+    "output_tokens_details": {
+      "reasoning_tokens": 2022
+    },
+    "total_tokens": 3085
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_04ba220d23b5f530006ae73e26061487d0baec425db9e638cc",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:27:38.469141+00:00",
+  "raw_sha256": "6cb0dbdec7b4dafe542326d76c90338fe8f760152f07d6ecaf27d276dc256b3e"
+}

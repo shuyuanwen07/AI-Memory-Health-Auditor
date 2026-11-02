@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "TD005A8814E2F478CB8B6BC0DC34F7061",
+  "started_utc": "2026-11-01T13:24:43.538948+00:00",
+  "request_payload_sha256": "04e04534ac4abb7aef6c032663aee90b7d52536755316b106faa2d08e48c79d2",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory explicitly states that bisque firing was originally scheduled for Tuesday. The answer incorrectly claims there is insufficient information.",
+    "evidence_memory_ids": [
+      "AC3R2-H03-F2",
+      "AC3R2-H03-F3"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The answer omits a directly supported historical fact. Although the schedule was revised to Thursday, the question asks for the original day, so this is not a failure to use the updated schedule."
+  },
+  "usage": {
+    "input_tokens": 735,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 839,
+    "output_tokens_details": {
+      "reasoning_tokens": 708
+    },
+    "total_tokens": 1574
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_05ef938fe49a683a006ae73d9bf12087d09c103f0dee1e80cb",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:24:58.114454+00:00",
+  "raw_sha256": "46f39ef92fa8022143a470cdc6249611c08330b5ad6c2c37f7bb1aecd498d0b1"
+}

@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "T44A8B8E4F81D4DB6BC659CE4D5D06C0C",
+  "started_utc": "2026-11-01T13:19:49.417212+00:00",
+  "request_payload_sha256": "be9b9c3654fb938491b5876fff78215030c91d1a2ca158a3a80f38144bdad422",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory states that the tray-one timer has a yellow dial, so the answer incorrectly claims there is insufficient information.",
+    "evidence_memory_ids": [
+      "AC3R2-H26-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The answer fails to report an explicitly recorded factual attribute. No relevant update, unresolved conflict, or misuse of scoped memory concerns the dial’s colour."
+  },
+  "usage": {
+    "input_tokens": 890,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 404,
+    "output_tokens_details": {
+      "reasoning_tokens": 292
+    },
+    "total_tokens": 1294
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_077721fd4d17b5b8006ae73c760a8887d0a3c4090bb2daa709",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:19:58.701356+00:00",
+  "raw_sha256": "4b2601679d82267fb93ac84be4456aa29f5367eb50a87a700c9befd4e7824f16"
+}

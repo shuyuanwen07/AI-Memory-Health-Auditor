@@ -1,0 +1,57 @@
+{
+  "test_id": "TC85699439BC04B578BA887AECB01E176",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:29.326887+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_05348af5d3582869006ae7ffd993b087d1ba8118411e9e2726",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 885,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 137,
+    "output_tokens_details": {
+      "reasoning_tokens": 29
+    },
+    "total_tokens": 1022
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_05348af5d3582869006ae7ffda28d887d182259d6d2b6165ce",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__c4qbW2YQ8y1_JugSf89VvphQZNWTVOdr9da2_z_q8_BXwdQWg9iAYWXh-yS4qflyuqbq6ayiuLGeBZaS9M3NccU85oPlurJwvvch9zFk2LpQ3dByfczZYOWB0KChizH42qNbLE8hgjDMk7As25vEomW-qRBVTzSEElH8FNdfT5PLh09xkxRdBUaLjnKUiBo7DVC8UCxuX2Uo0M2UACY9m4aZNvW2fQfRy2EdsDVG3A-g9q535GCd3qyXTg0P-yaoxSOO3bxcdUo7Ws-LQcMnkYib1_WcsgyOfH5L5qhICcm7xez0-FXmJcU3DqUCcmdyiz0ot3eot_D-IIZSZ_Yo_xVS-C-U1N694eeImhmnWuBdikD77VWyGz33cxnJP3Vx3gDR036JmfLlfT5vQKTR1y1YQCeReBpzC0AjHQAPOFTe6bv-JRJq-4aVAj2Njdmyq1r_3cE-OIYiDEAXnobp40jQWkB59438hTn2Rkn-HrSAksSpkcGXxeLIy5CM4elPeYQA8lienaNRAeATU17Mbfz71w91eTlumQYAl2oCn81ayLNkT47sF6HZi14XawDd8cXpmqPXCjelbWST5KETSeBTb3hAcvEiDi2IAmqdTOD9Ct2Pl24wy_oI4BE4WrTjcMzNbi-P_R5Ynji8oRVW-yFcdQPI5MvSQfw1-LEozLVMtLCCrnv9IfLnmLC9zjwXJfQJAssvxYvxN6REnuefKWZjePRLFuGPED6hSqnNLASEhXacarqgZ50Q1PKFXwtB9FUn5kZknik8CCSTexRCU4Nw1Yqi5S94CvCAQzLGtsSpBt6yH0gDhZcDnDKN93OhjldGpu0pgk8eKjBaOHsXGiHCRLDf9VMmWc2HSCPxNd2ZTiYj880FM29ntLNZjKVLpgMMhL_pql6CIV3WPSwZLi71kG74LZTXpd3arRM-FGgeC2znXJqC9pZv9xxPl6AMY8q6aJ4mHohLovSDME9b7w8j1WieNn2a4WHhHZ2OEyxbZSwPfXR5oLsOYMrQMdtKFhHXwnJ7CbEDdk9f5Gx1_2ytXALUeNVZvmKWxFUDVtCJjeINnSMBeYsO6vf5UmaecfnXrfBIB_zgsRRs0WYtHVXRBhNw4NMyT0HGQw0k85_X6ya4E1brASB-Vh1cK-0o7WqQdp845Avtua0zCYmo-16OttyfHniyP5Wmj6cU0F9nzDHXlPq_MS3RvilE9n_gj7u_0Dt-MzTX-J2SVcbYikoORj6F7DRvONPRIc1EsJY3FKvcphKnNkirTXM2ZhdM7z7M6tsDdOMLdCFi3DYi-XVLTSl8j289hNmVgErbraQs9clK23W_dhtEzv8QOdQEimL0urOjTyQrlyTTJrSjIz_Tqx3ykOONtY6ODcDhw3UMx5j7Vas-CNQwZjAVf987QUMSN1CDshhlkLo_9Ai8xagui290lrJK1CvHaz7TKMLxbu_kDk09dh4mZX0jwupPNTHcgB48MmAicRWI5kXFJuWtmbL9hViyQjCzmvbZ8yFLReqek-PDfPRRk2YiKo3bYVk2dU4wvedwrhV4SyKyDRn3HSLlzdfplPkBkqFM83ar7gAplzOaNn6JQxMM2GDN9orF7-MMfWoKgJ2Cso2RUUBOQ_reRObwVz7o-Cu8zOsmtIRjTt_KpIViDJwkPTRVuYNUh8I5eUiwv0OxDxemNU6lurRH3ntNVEBUVHrt1PCm1x75H7JzqxPGOHxfDEdmagMWe-wDF4KWlKtfv_6MvSZTWQhUkVZfPVnKm4XOXevWZiUZOy8mMRjOYuSDhabFv",
+      "summary": []
+    },
+    {
+      "id": "msg_05348af5d3582869006ae7ffdabd6487d18956346bde48da44",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The answer says the handle’s colour is unknown, but the confirmed memory states that the wardrobe measuring tape has an orange handle.\",\"evidence_memory_ids\":[\"AC3R2-H23-F1\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary factual question, and the answer omits a directly supported fact. The evidence does not indicate supersession, conflict, or misuse of an out-of-scope memory.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The answer says the handle’s colour is unknown, but the confirmed memory states that the wardrobe measuring tape has an orange handle.",
+    "evidence_memory_ids": [
+      "AC3R2-H23-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary factual question, and the answer omits a directly supported fact. The evidence does not indicate supersession, conflict, or misuse of an out-of-scope memory."
+  },
+  "finished": "2026-11-02T03:13:32.206895+00:00"
+}

@@ -1,0 +1,58 @@
+{
+  "test_id": "T0B3DAE06C1084776B831AB3AC3229715",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:35.120168+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_07a48e5fe195ebbe006ae7ffa356b087d1af0bb1cb3b320592",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 946,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 156,
+    "output_tokens_details": {
+      "reasoning_tokens": 74
+    },
+    "total_tokens": 1102
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_07a48e5fe195ebbe006ae7ffa3bdc487d19e20dbb92426bf23",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-lg7fUpCU28704XwcwgLGvZ0YHJrGoBejsGGecfEv9dAgOVRhCIS2LQsXr37O3bYkvcWUMyHenw6kkyo8YNpxTWAm4uk8vHfLJMwo5rzaZmlRUd9S5qlPjvEcOiDicXVGG9H4c21wpYxTu9Rl5fi8qOFptaZRetOOaN4fxVIEyRbhH9eWbyvDzTw5DAynHxfolQHsf94Xm8TRY21MZyNj9bsr9cdt9vJXdn9GuxPAxilyCHJhYUKOgLyCYWWt2okezyjOEiDmOYhiBFZupa3tcgO-TOJ_o8Uxi3PmVe_gJUG2HuiGH4d9wzthMuCLDsNuPqNiFNbSiC9dNB9vutEljzdr5mcM52O0rUERRY0z6sCPB7SRgjMcztzhCBTJDOo3TV27s4onDdAanhMkFUObWJ7mzbFot2A-CQ_dbVQDb4d68DSyWMS4hDfDqmhWZrBt5_Tcp4eC5Xh4ToPp83MtuT_8X0IJ0qofkkxl0G2yPibTpif2Tzm5g9CRTronJ1QvDV7gAhJb2Z5adw1aFZ-hGzb3UVhxNemKjQaeB70hO00zsflWS7dM_m0BsUqhhgpOoHfIaEJ6eqbQ-EvPghlfRmFAQ2-XD_0quK0M3v4x4PoCnpXd5bpRm_i6dQcoTl1Tp6EgtUBc6eKkx93PY7BynI_0UMGebP1n7Wbo475RnMx_LNxSwM0ahQMWQlUWrJ1filSHyhKSEWghX36wKL2J1RDdmtJhAAdj9PFBss4f87HD4PkCuwr4OVQJxNyT6pyng3jVAcjYfcVYA7YyeOqWIcCoFHQiXq4puCIspZtqpcMDB_i9OkEtbuB_2tXr_lnGL1k-Qk0UCACBsjMwx8MFjheEDL8kP_Ay1aaPvtiZnAP-EqfG4AtELpsrjDGibK2NdQZkSnvywqs_aIjlQS7UQWby-m1BNxe9arOsimKmhqOuepVgij8AKUKn52ecM3yzzo6rgaPWKJPcd2F3weZ-QiuN4eGzIl4mxnwwSrVM0zz_Y22oypW9lIzQnhFXUbRhk_B4OJmJqRUO3j2z3H0_XR4FMf_VI5bCDbgnbcmmkMfuiarST7bfXd3IUvWzcpsdHC2bxII9t8Yjs7BM-d4eGNWlsccf96nedMXbcT-b5mPNnyE8QzKFaoy9-eE2ZuvRwIXx6b4e2kDOpHmuRPQ3TIE6BVP3Bf2G4vsckZzm4bMt-jh5rR4DHx4xsYF0GHEsODMH5pd84Tc_d3F9F5Yi9GNdZcqwlBXtrZpVCex5ipgC7ahODLLcmt1OWeWGhp1NCxRSTpirjFdzKysKNvjm_uiv1KQvudq-ZSMhr9mzV7wmdt5gRlv6MIfjOCnEhTkNewnXiVkXx0bfGSQDoNrw1LlKwsZlPNLMULsKApQq4LwTo2okGBgDPCAsgSTPFW-wLa_PFhbFSH3yvKXbsWaI8A4rbmh9Mj6YilQFpNZVBe0YgSpUtKopm9eOt3IEqbioTVtSpMICgtbKhObGXqyPh4rgKdFSVUuaMrUGrsA1tJZ2JBahFAJnmy5lMegDNGjJSZs_eq3xDNJLXZ8jbQZaGqtcYRU8LyeNuFp-Md0iHNCMR3P5KkAVzKEvtXHszZyoVLn_oJmz-hrnbWuRMtS5j7kfbWScsqmpQpaidBpEoH6Uk4S1r4GMR_57r1lyspWM_vH1FEtAZkYC4ou8trtJnGDE2KQqQDiHL5CMfz2dO1T6d3yawb5R7jFUNCRz6a3yIvyZ-6kHL_ypMqcy0ctV93QiiR587SbML2pSdh7DAH0kk-c6DoLlmkKbfH5Py9dJJNmWaQeRc1IgcvcH4EQhPn3PwJpgm9189Q9XdYM5A0-Gm6_IIanazagl_6reGCA5zTGo4f2PsI0FaPmX82BJVa5duTtEIUajVoAfvnC9BNKL-g7pdwf_O5XD08OpM6II3T0VudiP2D7ovaD4zeqHaZGSDY-dszuNtU-EQsgWeG_FR6zcpUX0WAN3G6_ZkCscnQzDNSUc3Nm1l3PECZEapP_Ffkkl1srjxMjUf4GS5lOg-T8POc9ZyZg7rpHUKEANfHD6rBskntIbw2P-WIFiCHjAgK1x1DwdpryxAUpyvcmoefAXq5qubxd-8Pf9AHzx0ST7NjI5vEU6H0cdKwHFTl909NraECZbEY7xb9ZX5Dsx2vlp85q_fV3LtJI9n0q6NQ9VPz5MS6IOk7fKJjzBZnS2mjq8xGa-_t3Uald1itWTE5IptgKL5O-waUPpevDT7mm1N42b6yCsOhH_THyu70LRWGd9Spb6fLKf33rTDqe4ruE77zMn8G3Ay9i-LxjeH0U_M0G6hN-46AYfpSWppLEPzp8fz1YzDBS41jLJOfmwi3Nt8scLbL6zF-74yKHCQ",
+      "summary": []
+    },
+    {
+      "id": "msg_07a48e5fe195ebbe006ae7ffa4650c87d19004235923fe8161",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer matches the confirmed normal location for programme scripts. The restricted-folder exception applies only to the confidential interview.\",\"evidence_memory_ids\":[\"AC3R2-H16-F7\",\"AC3R2-H16-F8\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer matches the confirmed normal location for programme scripts. The restricted-folder exception applies only to the confidential interview.",
+    "evidence_memory_ids": [
+      "AC3R2-H16-F7",
+      "AC3R2-H16-F8"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported."
+  },
+  "finished": "2026-11-02T03:12:37.440650+00:00"
+}

@@ -1,0 +1,20 @@
+{
+  "test_id": "TD5476FD2801047F4BF064C174562D3D1",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:21:48.541157+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 816,
+    "eval_count": 114,
+    "total_duration": 18811510875
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer 'I don’t have enough remembered information to say where the spare torch is stored' is not supported by any confirmed memory record. The confirmed memory records all provide specific locations for the spare torch (e.g., \",\"evidence_memory_ids\": [\"AC3R2-H28-F1\"],\"failure_type\": \"accuracy\", \"classification_reason\": \"The answer claims ignorance of the location, but the memory records explicitly state the location is in a red drawer.\"}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:22:07.880681+00:00"
+}

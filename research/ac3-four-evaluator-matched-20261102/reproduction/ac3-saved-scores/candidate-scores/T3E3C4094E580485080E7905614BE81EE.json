@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T3E3C4094E580485080E7905614BE81EE",
+  "started_utc": "2026-11-01T13:27:39.280311+00:00",
+  "request_payload_sha256": "bb7a5b611af25a9db4cb827147bc56ba555512b8285d2eddfdbd9a7b5846931c",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The records establish a general preference for printed visitor maps and explicitly preserve that preference when no screen reader is requested. The answer matches both.",
+    "evidence_memory_ids": [
+      "AC3R2-H14-F3",
+      "AC3R2-H14-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the answer correctly applies the general preference outside the screen-reader exception."
+  },
+  "usage": {
+    "input_tokens": 973,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 489,
+    "output_tokens_details": {
+      "reasoning_tokens": 378
+    },
+    "total_tokens": 1462
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_02e9252107d964df006ae73e4b9d8887d093366ae33e35e223",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:27:48.077572+00:00",
+  "raw_sha256": "011bb93dc92515b293b1bfc1f55e625e073daa6755d04295f226f78a3c2770f8"
+}

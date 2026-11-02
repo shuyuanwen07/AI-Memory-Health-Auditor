@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "T1CABE21E2E5F4A608162C1679147A5A7",
+  "started_utc": "2026-11-01T13:19:11.786387+00:00",
+  "request_payload_sha256": "6fcffdb252afef5705da254fd78b6ea6423c411dbdf9e03f0948139212429e27",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer matches the confirmed requirement that observations during the hands-free accessibility trial must be dictated to the recorder.",
+    "evidence_memory_ids": [
+      "AC3R2-H25-F7"
+    ],
+    "failure_type": null,
+    "classification_reason": "The response correctly applies the trial-specific mandatory method rather than the general paper-notebook preference. No failure category applies."
+  },
+  "usage": {
+    "input_tokens": 885,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 397,
+    "output_tokens_details": {
+      "reasoning_tokens": 295
+    },
+    "total_tokens": 1282
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_043dcc043e28f0e3006ae73c501e8887d0af10b3205448a78b",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:19:19.625746+00:00",
+  "raw_sha256": "8a27d1814fb54a344815e95d1edacee7cc6b3b0cd1a4d76415272e0f81ce9963"
+}

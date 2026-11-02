@@ -1,0 +1,20 @@
+{
+  "test_id": "T93E309322F314D3C99435689645C8043",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:31:07.094230+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 682,
+    "eval_count": 203,
+    "total_duration": 23197648958
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks about the number of lentil packets listed before the recount, but the confirmed memory records do not provide any information about the number of packets listed before the recount. The answer states that the user does not have enough remembered information, which is consistent with the memory records. However, the answer does not provide any specific number or reference to any memory record, making it impossible to determine the exact number of packets listed before the recount based on the provided evidence.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H02-F2\"\n  ],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer states that the user does not have enough remembered information, but the memory records do provide a specific number (24 packets) that was replaced by 18 packets. The answer does not provide any information about the number of packets listed before the recount, and thus, it is inaccurate.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:31:30.561186+00:00"
+}

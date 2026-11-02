@@ -1,0 +1,20 @@
+{
+  "test_id": "T36570713388340EBBE4AE422828D5478",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:22:38.090542+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 820,
+    "eval_count": 214,
+    "total_duration": 24614356833
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks about the final coat colour for scene one, but the confirmed memory records do not provide any information about coat colours. The answer states that the user does not have enough information, which is accurate given the available data. However, the answer does not provide any evidence or memory that supports the claim, making it impossible to determine the final coat colour based on the given records. Therefore, the answer is not supported by the confirmed memory records, and the category is not applicable.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H23-F4\",\n    \"AC3R2-H23-F5\"\n  ],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer states that the user does not have enough information, but the confirmed memory records do not provide any information about coat colours. The answer does not provide any evidence or memory that supports the claim, making it impossible to determine the final coat colour based on the given records.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:23:03.325920+00:00"
+}

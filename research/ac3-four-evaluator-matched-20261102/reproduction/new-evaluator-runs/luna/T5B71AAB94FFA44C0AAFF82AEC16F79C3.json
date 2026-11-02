@@ -1,0 +1,58 @@
+{
+  "test_id": "T5B71AAB94FFA44C0AAFF82AEC16F79C3",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:26.083442+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_029834ada574ffa8006ae7ffd653ec87d1b771a895a436e1ca",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 1004,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 203,
+    "output_tokens_details": {
+      "reasoning_tokens": 94
+    },
+    "total_tokens": 1207
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_029834ada574ffa8006ae7ffd7006087d198c4523e682731c5",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__Z0nO6u3ZMRVaDOuMrRCOem22p_Eo2y4Im8hYuAlTQ-DygkPQ8hsbQN2tUSamt7LtV-ByDlTxGChzMvwmoqrrDeQy0sj7c-2M56qblGUla4l_GgwuGdcLW3wqBFSrsV_dZVL-sQkz_gdFtUKVUFafyDtEeolif0EcFY7_E1pcrX4w55x3OYyJrlmR7lH8ylWrO8cVpfvdlID9bHJziY9u5p7NE_lOq3RMYbEzwJhj7LZ4e7E2tBgnjhWrXWVdVaYOApFDvG8ETAuiGL69Xay2gvX_iLqKBvR_GYEQnnO1vtLqH1fZ14FN-01uPlaJ7bH0EZUc63aZXOXyWKiu3eqGzkSahdrWqYoJnVKXuKNJ8_cChzPqLfY5DeYNAkEWteZlJM9ntmjLwyGy1aZIUgd3Kwg-HJJArVdioqzls2Bqy2vPlFoFir2yoDXhvcRFialtGENRSxoeo1wqiXZHvQh7yWwjPkI9YrRKVILyhJq8-gvCRTpw_vMVHsitOqu5eVc2eCwrqkuIrnjnCorucNH6QPPFNBp6hQxu-88HG2AmMkXe1oXFvNt5POaZPpBQOZn1qI6Xn786SM7bG-VAkVncKWwk5a3WyIr8JD7pVyr4iLIxEFCvFXnKir8x5gzIShat8Sv-VEIqMBrRyB38Ob2AI5GUsvt_qYZhsY6mpfocU9BEwCAZBoDjYrVRruiYJCiqmt3AaTHk0kIjBR0EZwWcchF2sYFCtG3yuOcs5i-oKf5210J2bLdeIFB9VAMe-9Mnvd-f8XSadOJqszT3c7LYlKfRWvDaJuhbThY81T0d0ETT3DjJCvgsT2kl6lW5aG7sdJfXVxKqtEuWbwYpPZv5UmGCegZxROyoNHh0PhYlbOEG9B_vs5_6yl7LZWge0KqO71SA06uCS_CcvcR_wr3fkY_iVuXZC2xNdyB0TH_xStZJd9gCphNLwmGoR0Aa-kkbFWk_kPdz70z7qsH0ZcO8NHVCH4Z_hlGZ93kaccfP19KE5jcycr29d_1bKyvAgXTbMuJthwtLteSIBrmgtnWW8mhy_NC-Rh7pwUIPNUg9ENODhwICIwpVacfqp22Nu9WqZpdGjkWfe4zhb-NuGeEW4nBfVVov6xPw5FHiWb_Whe2dCyjE2sI6SccAqMrLy_IaB7J8Qfn1_M4ihT2u4-fHOw1JW_WnQPY6KxZpcfdFndhDYBLlYh86PjhqOmTpuM_8Ez2KvCFZCVjFP-qqVUI6A09IXN7tsYadsDpH3Gs4evJFqFs_ZPGxkgZf4HzcopAlORvc7RDcag3M2LmV9D-_hYDIb3ciHYifH7vKJ6hxEgbkH9_fFGkkDp3G_nD_DMmBQLauiIxzonJsJyeCa30pnoyru1ghnGTk6MiFpDtgCzJ-X2LV5YTSdZwfUD2pbWTYVHX1FHSba_wDSVY2uGFs5_ulvu8zWOF51XoC_OySjO3rT1DnklmhIWM82KlBf2MwICMhHToBs0ifAGAdoIU80q2yC84WGrkvP5ypgCxNyGoPV3F7jaiTMOmVtHQDcctDqfOmMj6mGmC8s1fT75g2NwMp_hQT9X-e_l6FafLNvt7kRNSkwfLCIX_SKn70OMlBdEsPCgzlj7ZKfOsF1kjUXfntolbm4_1qdVcydvnAjY5wGO6hzsIIwRSYaYm4WTwUuavQyuc1RqETQ0_3xorgLTByLg13QA_eov_exf_U-LB1yxMWrX_GjogpLG7ErzxnBrvVIztbWpIEY8qkBZdHqa7dZATnF-Xk4Pbf-uf7rEO3JxTLcahmUD8fOC-nwoIP3c_ypFDnmsjPOcb2BcGbtnpxf1B7JM4lmmYxRE93IvyyGSVNmok885u8PhI63984t8a2aOinDPMJ2Gww3a5YIq3N_7CX3EzNQNK4fAH0qLb_Cy2iUKSE8ZEyQffBE89s1ceNj-ZNsARRvi6GP6fWgnwU3bv0-PTJSRslXY0nuZQMSZtwbT61VQhpnjvo7iooLsN-L-g3nb9RB-oUIEogzuwG2IUctMukeFMq3iztJzMLhLKtxvlA87kZLLvPk6-oIgtlQ-hcy37bKoxNBNkNA7-jao05KLjJmsYSywttH_lOPbMy-rBcI2_xnnrGSGEUnZc3RU8bFssCEz6K8FUzzz-D9eHBnEZXXedbJokZ_-Nurv_jgstD58WICof6lZxWaPUVTP4BHKJ4jbb9NtiOnsJ8mioSuPGDfMOvYSBFF3R-nLP3ty1uFt27EDjjwrgMEVIEg5qy_s64kbyoD-5qK0fty_7U_T1gnWvwv0D_6HTETL-L9r48nnrmAD_U3aL8UsvEcps1ljgH3DEevFt7FsA9RInhcB87BZpDQvRjei5SzFTq5IjenlgpQIVhT1-alL13xYbSx4v2r8TEov1qpJT1_L75Uw9CeLXmvuW5gMsMKGcH9WuB1lZd-8Kk9v3gCa_JOCeLvAA3HuIYLyTummkUrwUmekq9YzyRrsmvZiv4Pp2JL8FTKM1AIoUpvQETzaYUt8r3gQPysdgUUG_cMyJNLAq0XLqLpeOefldG5h_JhOWgeepBeJrdCY4rho6zWy9ejdo4XZojuVW5eNedQlSNVY3gVgXRmbXfJvMyMedrORS7V29qK82EwJQz8GKAQnwaPU4b_fXE2LUS9CYRnnEbEEUOxto5SPWcGNsbInHiydKNTp-F0otjFM76WU6uP",
+      "summary": []
+    },
+    {
+      "id": "msg_029834ada574ffa8006ae7ffd8376487d1a4bd84cc8f9ef1de",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The records support both active, incompatible route claims for the same departure and state that neither has priority. The answer accurately identifies the conflict and asks which schedule to follow rather than asserting an unsupported route.\",\"evidence_memory_ids\":[\"AC3R2-H15-F5\",\"AC3R2-H15-F6\"],\"failure_type\":null,\"classification_reason\":\"No failure: the answer appropriately surfaces an unresolved conflict documented in the records.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The records support both active, incompatible route claims for the same departure and state that neither has priority. The answer accurately identifies the conflict and asks which schedule to follow rather than asserting an unsupported route.",
+    "evidence_memory_ids": [
+      "AC3R2-H15-F5",
+      "AC3R2-H15-F6"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the answer appropriately surfaces an unresolved conflict documented in the records."
+  },
+  "finished": "2026-11-02T03:13:29.650121+00:00"
+}

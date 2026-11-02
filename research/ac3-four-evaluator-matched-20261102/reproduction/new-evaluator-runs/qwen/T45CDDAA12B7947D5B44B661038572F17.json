@@ -1,0 +1,20 @@
+{
+  "test_id": "T45CDDAA12B7947D5B44B661038572F17",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:16:18.293893+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 821,
+    "eval_count": 164,
+    "total_duration": 14469589083
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer states, 'I don’t have enough remembered information to determine the revised exposure time,' but the confirmed memory records explicitly state that the revised exposure instruction replaces the original with eight seconds. The answer fails to provide a specific answer based on the confirmed memory records, which directly contradict the answer. The answer is not based on the confirmed memory records and thus is incorrect.\",\n  \"evidence_memory_ids\": [\"AC3R2-H26-F3\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer omits, denies, or invents a fact that is directly supported by the confirmed memory records. The memory records explicitly state that the revised exposure time is eight seconds, but the answer claims it is unknown.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:16:32.889089+00:00"
+}

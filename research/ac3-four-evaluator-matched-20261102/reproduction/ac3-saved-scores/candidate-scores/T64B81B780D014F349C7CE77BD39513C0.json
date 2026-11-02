@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T64B81B780D014F349C7CE77BD39513C0",
+  "started_utc": "2026-11-01T13:26:27.998809+00:00",
+  "request_payload_sha256": "cab20070c40f5e50e9a038aeee61aacf3b14e3309479ead2b1e1fff7c8fddb77",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The records confirm that the briefing originally lasted 20 minutes and was later shortened to 15 minutes. The answer correctly gives the pre-revision duration.",
+    "evidence_memory_ids": [
+      "AC3R2-H06-F2",
+      "AC3R2-H06-F3"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the question asks for the original duration, not the revised duration."
+  },
+  "usage": {
+    "input_tokens": 730,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 397,
+    "output_tokens_details": {
+      "reasoning_tokens": 283
+    },
+    "total_tokens": 1127
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0309df07f36c759b006ae73e0450d087d0a456fbbae4dac58b",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:26:34.716028+00:00",
+  "raw_sha256": "eddf39f6158f6d21b37e769269891b1b13dd8d76cead6d20e5ffee4d47bf5481"
+}

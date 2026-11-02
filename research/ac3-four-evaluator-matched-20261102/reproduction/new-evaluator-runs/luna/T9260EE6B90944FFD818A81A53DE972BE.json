@@ -1,0 +1,57 @@
+{
+  "test_id": "T9260EE6B90944FFD818A81A53DE972BE",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:56.387545+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0c859a5a6b2e9e0c006ae7ffb89dc487d18fcf337cd0bfc082",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 888,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 143,
+    "output_tokens_details": {
+      "reasoning_tokens": 34
+    },
+    "total_tokens": 1031
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0c859a5a6b2e9e0c006ae7ffb903d487d19e9447284728a4d2",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-6s5E2mBW-ClSf7B6He9LGs-wM6iflEd8pLELGOvt7FkILP3HYJHsXqvmu4d1w0TOfsyefSebQ_7QYfVeHKqacy9qTIomeE14HtjQY_mOC14NuRiP8LUrOs9PxU5Nbn2Xj7MIJIH1CIvV7-ww-3oNcAqfJbLHrDr1id0XQahwZ71FwpmK70YcNGW-OFYT59opgV6jZk9Vcsj_dJCDuXTj9Y8ah5omygVMwPnWNNeuZ7RTUwZA0xk_nqYc7KYKIs1zc6AaN2jsod3Vi0zBeIrlrOjd_nZZOJgwU3qUkkLPKigC2TVjFZxxxrawnqs-xls2zUHbUx4UnJz_ubQSAVGOh-MkwXRibgDpbPv1-EIXeS4ZsSeAeL2Sa_22s_0Crra56bVFbj1PWVT1lgwxwyxog9PoGJ94W8MjihqESmbJ7rXhUVXXb9C-reim7E3SVm6zE0UlkcLDcXfC0_Z5tATl3e0sLL67-qSyddf2pmmVnwKwChRe8HL5_-0u5lmB5KRWRPIm4PudGIBo_RtlPvaWtVBhO0OwhJDL-AcniWhRTkLnnD2eDrI7Qw_1PzJpOvH0Aq3HNyYtxLOi6PzIrZc8WF3vDaZvgfwXIMPJo6iwqqwCTC9lR15uC3Kk5fOjL2kxfzuwWge4OQ-Qb1Ikz-GcuzbTRvVYrmx5flmDYRcC7A2RGiXijFEEDUZbB7MwZFeLCtHXx1FLExVInvWHHREKJjNKGtuGvjlnKem1jGzyGcQBCJsqKva0iO-O_a8Wnc6Ua_pu8NWVfYEZYClOntT5ZCtr0IHlOzFwvIk26YhMtPhQTgqVlirV0hhJ_mIHs328eR9uD9U3DugUwfA-PW2DVRFJLk52p3aIqCGLuQe0lXM4XqIB--LgSG3zUOwWyaTQ0wpxl-PThQeiOnmGBOd85Tkw2M55oeLhm-m1znzDTMZw4kW_1hTgRZCPVQXtzLWA-wljdtuCUysbIlbXLJDm1KjgBc6gLkjyB7dcTDH4keArWOWK6NsEoYSTfneq8RnU2pOx907GkE_o878IaA1eCyRLh6iikhPcCkxzzcCwgLW_zhB1IKYb0l3vh9SaTr_xbxmsGEJglY35sM1jFiz2LJdZJU7NokBsiql2XdR6Zj01_SLUhhm2ctd5j4anKlyPH8l-YbwOz-3v-UBzSfwpeh21NjlUxhVo6HRBY0-19dW1gvA4CXpRMeFnPtJ0FTlnB95ZxtD2zsZjblye3GQzysEp9fdmeHOjNSChy1R_JNgQtdpHfDVvI1bVEIDBsCghTfkqJMF2U2vyuiTAcRDWbTcPjlmBmEdvsO6C_7LmQ54UDP44W2ZT3_U3R6lRa-OPqGgzII9PBLHnp4mDnBGzVXqx38-ACkwLisQNVICpVKNCXqY_EOdsjVKAiZrQFUP2HNK4960miyGa5-6daqbwOBJJ0UF_Q_CT5NVnNrsYxoaQmq9INzbElvV2YopmJ9EaKzW352eyhTJwpn63LgXFdUXuSBEGV_jMqNbHr8hNZxhPakYi6EGrUgL9SzkDPuRg7PRDulEuHUQOWY20VORavb6l_QlGunpme5AtYIHNZ1OicR6fNUDQoDhqgfD-MAiT4Q18mSangqOg4PldytCeDzI5VRZOFd_J7w18Pr_ABe7N3sNy4AnqzvcyQCKM9g25bnfHpv6amQrSsFDxDBR0wdLrMCXkCAYxkARDCXc5OQHVP35QP9QfiWmhq5IEQWxrnU-_y1G0D-3Gdv1ANZSdxnXmF90pozrx10c54B6Ys0RBqimf9FtomkeHi_g58kS8FRY59s17-6qb74wUUaHMZLCILPQrFLRdBbp3Oj9wupz8=",
+      "summary": []
+    },
+    {
+      "id": "msg_0c859a5a6b2e9e0c006ae7ffb9669487d19ed1e1460f204e47",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The answer says there is not enough remembered information, but the confirmed memory states that the specimen notebook has a blue fabric cover.\",\"evidence_memory_ids\":[\"AC3R2-H29-F1\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary source-supported fact, and the answer omits it. The evidence does not establish a superseding update, unresolved conflict, or misuse of an out-of-scope memory.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The answer says there is not enough remembered information, but the confirmed memory states that the specimen notebook has a blue fabric cover.",
+    "evidence_memory_ids": [
+      "AC3R2-H29-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary source-supported fact, and the answer omits it. The evidence does not establish a superseding update, unresolved conflict, or misuse of an out-of-scope memory."
+  },
+  "finished": "2026-11-02T03:12:58.476068+00:00"
+}

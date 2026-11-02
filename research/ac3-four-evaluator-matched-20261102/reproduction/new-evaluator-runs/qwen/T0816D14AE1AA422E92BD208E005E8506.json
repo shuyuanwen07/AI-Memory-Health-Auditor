@@ -1,0 +1,20 @@
+{
+  "test_id": "T0816D14AE1AA422E92BD208E005E8506",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:31:41.102408+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 681,
+    "eval_count": 174,
+    "total_duration": 19190498375
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer claims that the revised volunteer briefing does not have a duration in the supplied record, but the memory records indicate that the original briefing lasted 20 minutes, and a revised version shortened it to 15 minutes. The answer omits the revised duration and reports the original duration instead, which is incorrect. The source evidence does not establish a change or supersession, so the failure is classified as 'accuracy'.\",\n  \"evidence_memory_ids\": [\"AC3R2-H06-F3\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer omits the revised duration and reports the original duration instead, which is incorrect. The source evidence does not establish a change or supersession, so the failure is classified as 'accuracy'.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:32:00.400894+00:00"
+}

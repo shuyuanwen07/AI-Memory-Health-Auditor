@@ -1,0 +1,58 @@
+{
+  "test_id": "T7CC53CA86F934C7C80F41A4618638606",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:12.018562+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0e7c694ff5e22d06006ae7ffc8456087d1bc2f01347d8be80e",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 895,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 195,
+    "output_tokens_details": {
+      "reasoning_tokens": 60
+    },
+    "total_tokens": 1090
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0e7c694ff5e22d06006ae7ffc9168887d1acafc57aeab81c6b",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__LrN3CqJMzMFw3HvaJtoknyGlG2Qt28kavMTWrzutiZl8RiZP_0PkGIwoirwm3E4zyQ2BhvIu8pBrct07Yc84KDSjsConTStv-HjtPJP-82RLgt4yve4MAGHyZXqmTrZnwwaxdlrrpa9ZBA_23sauiQLP2urhXN0MW5f_IrvW_-k421mzxMuSV-Fku09tBvnL1PpvlUxi29OyibnHni7wHUyLSGtYDGdW9y8OoJCuXDVSHGwiEtBYyPAV0xs61Cew1PTCyFzLoafRp0l9jAM1njNjkYYX7Q_9-OCI9lKWH7cvVGZg1sxcx8xEANXfs5t4JEn2-6aHh6BhLvzwFwc7Vu_EsjUw8h71jqVdEsdq_4lDnjk3KRUA-15TJavuQ9gpJt0pKsG14ncseSLj0jQzUYWeLMGzgyteUdTnnq0SeyUV9uPLaTeCGQ-c-0K1utQ9UgOUMFFJTRHnNixqulPuxOd64gtvyiGbwkcmMkSQU3DT0SuGgGtMsEzHfRcBWWFhmztHZEByeMJijP0-pp9qiJ3lhzAJCpd03PA0uxkvMDVYcibcjmeis7RHYMxTuJPJZT_LLzO9JD9K2F8x100rWNLApxvKB8O0KUUAlM3WS4HB8EI-b4Yo2xSfI67eRlr5CvtJ_L-KAW2liT1EmlY9H6ce6jZ0MAXMVZptqvbbPKcm3f1LH5jY1jd6KDUKKMeROIQwNxJI-cX6SFw2rF3K_AwTECy58q6ZrS4Z43tofEFMUVBeuYDe39CnGEbLPR-Fmweq0CXnaz4DNr0LtNSdiBwC4mRyT6o3lBawKy1v5itVuZprlsacGIsb_GqFaVZMnzlQrAYg2V5PhgTnOIfJuGltuDpu_cycy1LKXZ7FcpprC9D4yVHofZnHct1XQkT-rc27EwRXEp-J6ebJmHO_5aU_i0uGn3vTYJCic90FKmYEnjrZNwEEAJ2VKB5v3DVEH7bssV0rF2aO3pMqaT8B5toG30MFrpBqaRnRkTyiDikuqA12ut_5jPvi8T2jPK_q37uKS4bmAYLrPMKbXh2VlwIGuTN10C1KQMmEcmc9FgK0trVNiv1Uq7Rh4yP0osCdmV3BHYxCGl_8JbRe39meXO0aF8obYWyQ-t_i5WaIAUTFt8373NRQn_c9hAPixkhdYgNkAgsEbWvO5pHLT8TEIdzeWHcU7GN8V_i1-PkrVq_S79pt97Iiw_Rv_N5BFn6OQP_RwFL5YZ8nz0HGN_5vi-R1Iw_9WrRCNLB9k4wiRCpqawzIrlGZQZrBtrNXQCfejArvvl6aKjeE1qDkKFD5BdkiEoOMMBPuTWvQ00AjDlofATfzfXKKt_TjtIRN0WiU3aTpPM-Lkzks2Cua0Oug5Xl6jy-oDzCW7YIpj5ryQtqLRPlX7fRGoulaMUdqc2eaLxCWkab72GNRseUI8SfjIMomyaXr2f7Zrj9AojKEdXTlf-81OhsCudEneOzO74YYG93OKmyfbVJ6-ZbEdfQomYXQ0-qeaSZcFtdrDriVlfVp0WtqAovD8a-TbLG1E_WXgaFGWNqtVY2UIBmnqYkI-YPmbyjtAFwPdno4QnVOQulrvO66dmjhSLIzkxndJM-2UTL_gX8FDFHXyPAg7WXa5M7R2MM2DnA5vZc_r2KGI0Cdu2oQh0A6FpnAVdsnBF55VgQCGX3QeyxYJCn-VU2_U4Q0mvbypYDZoQ9C0Rpj4LIqn3i54Nd9kLCocvj4icAqCO0y5YaNVWDrp-BTTnr_sxiS3GD7n31NgAffLyUkth0ztLhHpQSvEIBAA0rF4nz1h8Nx-mZHV3xaAGCU7R-8CFEs0YzOVdH3Lpfo-Nl4DPwDoe3pdS9kX6jUGCKgHzwYL5bmlEP4TsOp_ntnAhOjas-UAbqAtMUGcwbo25SZ9CTYh_teKhipDnDWsgKhQgFLKvFwlLRpxaSMrxnrjnvt-Mz60tVgJURYW0wsdhqxeZJ1IRHp8UvhgorIJK2VwYyY1zX7h9mJmGCM6jt3IY1UTrxzz7CLWGTM0H0mN7zDTIrjil9sjuoSSyEgdueHdHh31eLSlIl2Opz63zy8qyItniAsHtLSyXMwc2tPLXGl1IODlMWqhcPBtf3afvYGKoKRMnsRxRS1kqWtyYpsm4zsJBRN67Wchrd8hvKWvQj5uhzxyCJuY4xaNXwtiCst7hKzWkyJE4h_8M6FjIFjXdbYQgSh9z9eo_gw3sGHuoczXBZlbuVz3PEMbGff1qjc_XX9XwjXpkGs-glrt2x_M_bK6KIuCLWOBozzmW1efQb4tjmBPHT54keH_36zpG9TFf3_68MT_HQibeCwSkRipUocJeA==",
+      "summary": []
+    },
+    {
+      "id": "msg_0e7c694ff5e22d06006ae7ffc9eea087d184adf2c3fbd38220",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The records give two incompatible active claims about the sole authorised battery type for the same demonstration, and neither has priority: non-rechargeable alkaline (AC3R2-H24-F4) and rechargeable lithium (AC3R2-H24-F5). The answer appropriately says it cannot determine which type is authorised.\",\"evidence_memory_ids\":[\"AC3R2-H24-F4\",\"AC3R2-H24-F5\"],\"failure_type\":null,\"classification_reason\":\"No failure: the answer reflects the unresolved conflict rather than choosing between the competing claims.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The records give two incompatible active claims about the sole authorised battery type for the same demonstration, and neither has priority: non-rechargeable alkaline (AC3R2-H24-F4) and rechargeable lithium (AC3R2-H24-F5). The answer appropriately says it cannot determine which type is authorised.",
+    "evidence_memory_ids": [
+      "AC3R2-H24-F4",
+      "AC3R2-H24-F5"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the answer reflects the unresolved conflict rather than choosing between the competing claims."
+  },
+  "finished": "2026-11-02T03:13:15.513455+00:00"
+}

@@ -1,0 +1,41 @@
+{
+  "state": "returned",
+  "test_id": "T3D9807490B004779BE2428437928BE99",
+  "started_utc": "2026-11-01T13:22:21.487615+00:00",
+  "request_payload_sha256": "795bfa8cb547f38d272bb54ec7b9b2efb2cec1e3740bdd8a3bdd8ccef6a3995d",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "Declining to name one approver is justified, but the answer omits the actual approval conflict: active sheets name Hana and Vik as competing sole final approvers, with neither having priority. Instead, it cites an output-channel dispute that does not establish approval authority.",
+    "evidence_memory_ids": [
+      "AC3R2-H16-F5",
+      "AC3R2-H16-F6",
+      "AC3R2-H16-F1",
+      "AC3R2-H16-F2"
+    ],
+    "failure_type": null,
+    "classification_reason": "Both conflict_resolution and appropriate_use are supported: the answer overlooks the relevant unresolved Hana/Vik conflict and uses irrelevant channel-output memories to frame its response. The evidence therefore does not support selecting exactly one failure category."
+  },
+  "usage": {
+    "input_tokens": 990,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 1742,
+    "output_tokens_details": {
+      "reasoning_tokens": 1552
+    },
+    "total_tokens": 2732
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0f239fbc33a5e3d5006ae73d0ddaac87d09dd3f1b946ab6850",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:22:52.961864+00:00",
+  "raw_sha256": "d1ece9c8719a7aca99cbd2e6118052b89985e5a023a7fe71a70eb9c600021f3b"
+}

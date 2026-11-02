@@ -1,0 +1,20 @@
+{
+  "test_id": "TA63DE0C5FBE44A11AF965BEE83A2D9E2",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:28:37.709448+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 926,
+    "eval_count": 184,
+    "total_duration": 21997262042
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks which sole licence is final for release 2.2, but the confirmed memory records do not provide a definitive answer. The memory records indicate that two different notices claim different licences (MIT and Apache) as the final licence for release 2.2, but neither is explicitly stated as the \",\"evidence_memory_ids\" :\n\n  [\"AC3R2-H20-F5\", \"AC3R2-H20-F6\"],\n\n   \"failure_type\": \"conflict_resolution\",\n  \"classification_reason\": \"The memory records show conflicting claims about the final licence for release 2.2. One notice states MIT is the final licence, while another states Apache is the final licence. The conflict is unresolved, and the answer must consider which notice should be followed.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:28:59.895437+00:00"
+}

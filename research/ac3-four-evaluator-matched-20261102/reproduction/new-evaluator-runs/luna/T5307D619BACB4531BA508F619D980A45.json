@@ -1,0 +1,58 @@
+{
+  "test_id": "T5307D619BACB4531BA508F619D980A45",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:58.385832+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_07e18ee8f578e995006ae7ffba9b4887d1b3b1bd2b157e03ee",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 972,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 355,
+    "output_tokens_details": {
+      "reasoning_tokens": 207
+    },
+    "total_tokens": 1327
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_07e18ee8f578e995006ae7ffbb3ae487d18cd71e294959741e",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-_tspkTY_rK-t1wCt6mKTvCW1J6ff9jKzc_ec3MX7eQTH9zWN4U-tlmB1Rp-K6Ax54Zr41wgS_YjhDa6951L47BjW0OHQ4fYctCyieHE0uailAwvzCvEqdy8-AshTU9oq-osF45rRWXfaAGT9is5ZcF_jherYdpAYHVPxk6HXQkR7l6qYa2UokKbPulnrnKNeIGLkXCrQKwPj5Yq3Z2CkOwk5fr7sHdNMmMbxK37Wz85Wy-GQXsHMthcGUz1slJERzLG3jUedKsCJELK34liq7ZRyAoy-WsuV1ghm5c4VC3Tgf31QsEMCG-WGu5Y4DWq905k-vH0o2OPs171y4c5ErPx891BJ3kz6V3akVUsZBeUa5Z7cJKteaUZcXlCDkPDRjxZkVH0nhoNPw7wIVJRGfgY9KWhE_QuRC7NnNTFkIl30KSIgeQSgUlNK_jiclkpkxh9XumMPo5S07zxKP-E7p3BkQTiQnC9cb_exVaFcc6a--4M_D9iDC_DaMHsmFiTuTpC-sRtqygpEUOj0JGoy3p5UDz36Hud-2Mpm-vQAGJBvE2CUMhhFnXtiSOFCzx3LXKR_JZ0YqQfECMxkLWeonDMFpmCwmb1jsmcoH9gZ8B0-a-Jku_3iWH_dtXPg2qrsDxWrQ1SbwE4OIFzD5mENspG-F5K_V_ULSzqw6FdrU9rwWknVhzLrKDsjnOCVJPZg8wNu5sCAvFhp8snDLyyw8o8LFkFbYWWDbd3VnkL5SpWJUzhpgg_-GfTRaGk4EXKci9QVdOt6XMB3ab5FsTP0lwZYdfNwegYNdcpUqiGoF6btvkqCtuHOtic87NzW175YtbI0YkeTPiQ89O4Y-IQtmpE7oy02gugvAm_1BsRJePS5ssx2tOskpfjystwy9-Ol7R4fITl6xUUGsDxom3dLdRP7bTn8R5mjASlHqjI8T909xH_qU41YjhnvYtKwo2VruMsWnlwj4hNT9kP8fgX2FtxIrTqhTVy1FUTdwKcvaHFU1BB7zGSw54aDsiq5jnXooqfWUHJJPq3mukkW0o7k5fK9huMnh2bz9yVxAIhVoJkUYPW36e3E2DwiQBMDvrviGbZXsFgMQ1skA8AJi9GFU93DBVpGxgFB1KgMNdOMWTvBNxCBkm9trr56LFPVA4YK0QWQjy9kmsETz2yyQVaPe7tF0HW8TNHH8KC3mGimIQazZYajp1qVJKIvkkD8qyoHz6aazHcTsrrddvSJTFU50_Hl-Oj5rgDZ7cpSnIzxUT32lYo4LqdDjCzzLg4qgckstVRrzdPKPKY8yuoznOVoQOlTi4lJlI_hW7kU-jpX7VkmrwHlqUMyCN2fTE4y6qJfvod5uZCfxQsIplhfkDFBxe694weWkpAZHJn2AzhUDUaJgGuCFicyyBjsB8rsemasLwr2wEVGuMlIIlw67s-byhb3BdwnqcUmzMTjv9H9FL4LdbilNGVXx-Pw4lCTOplCuVYgEv4UaMg5aJ6C7deyS6iBHwDQSAOOSCfy6Ez7GllfDVxtYp5Rj5GwbrEwPF4D5LCfASS-GlxTD3bkcF5Do6EicP1LbRxhCV5cIzaIWS3-IJlz-690-Uhc9-_QXknYLQXuSgcjZZ-du4MjryYYzJF3xJJFgw2BaLopMr04bNNmsc9GYObUoezUzWXD8kFe9e9YAud_ldl3IdQWB9EYuO_XYzOi4PFA17jbnWOp5EQJTzU69NtmfZj1yDWDNsG5mx5t9R-lglXjc7FcpcLWLt1OEw8UxDpnLdtH23pRVeotvbIAgqDQk2Tt_05qNSh1NSSxl36iuj5bqiKKrUZS5Up7kx4hDqiQ09Wvm8ocLbbCq0JVqMKJTRoQkdnav8yzcNCdkUjTxuZ_cdIMWAVLI7m7alxh-W78cWU4C7RcfaqxFeOaN_2n0vTqp4X0OAdJeDnAIz9CwnU62UylvGX2KmG5bLAHRURmI-I-bxHWEI51F-VDFtg-K1rYcYyulFpxLMmaLeku6Zefyqd4DvZbPlTl469Q3N100JEzBkk8DhIT0oY4tCV7N--f0sQ7hcr51xzsphWfAxOW3AX-UzEUlCo9Anu1-Q346fFzhPUfNqfYNzaKpd5SFB3EKTDmvLp9e0RmblRwCMIbgidaeOTLnINCl5kZzpCOolGmPwmfd58FvxpZjM03W4veIk6-4Aw4ibxKzoijNc2XwlZ89kA0LvNDxzQSYCvTUv2w5V3brjJqglVr_Q-t5Jsws1QM5p25zsSTS4R4tJXh0nfA0GRyJ8f2DFTcETMKNQ1vj6sBLQIQdKZj5xPs4H60BsEjAvRn4_cl3TPe8E4DM2ZTwCFUGTfCSWi1HvG2WoFJL-AX-VokiUwiARZnFANTD183xA9fGu4ujH7lIFZslQyvIIo-uF-a-tkfdbsMxMp65iEaYVC-EXBiJuAxLH9rvI8fcBMPrDodJ2OU12pA0XRuKcxpgtiaS22O3sm4EYjVSyvEBSLle6Rq5hDjdLvKhGkUgfL5mJ-mkslXMqSSxkegQV_GPKx0TTlVAnciaxAMXSFveu0MWkQE8H_opv1OloISxvTuIVUSdbu1XVuXOev3VjY94cXsyYEr-3ZpT4izxVD1_ghGluEElN6rD_o0S1-sgjimB0rVv34MOejRgNedaYU2zcJlf6kfeMeaTjBY-rOsDODmK7IHBOSH0sou2o0wJbVv1eKSA1nr_v2bWMP5HLL3mxZ_nDLHA3ZppusoKTUmYQI9TcHS_XJqfFJP4RfSZD4fKqHcpG50nekExHfXHZd2zPV2fQa6t-N_nAU1WSnSz4XVMuGcGlPZK3fINhPXDqucbeLIvDJ6AzHIw0UmnXoFUH4V6Rv6WqWkhNr7OcHKMn4DeDqTRwim2f-UZ7ydmDZfTr0IB167zuzfkmll04TPqqjBb6k5LKoMxWm1E2Qj4laww6wqRK9OmJEP47Ewggu9KuitDC4-0_xP50PHvkkJ7Jmsx6YIY6vtH4hBgV5zTOd9pAt3T4WKTbDuUrv-3MK_cg74A2mtfgfi3vxnq-4GmtT-zLDh0xjP5ek8HXO9a1Z3lI5MlkZdd0_790KJ4RixEIqqZeA4CkHx__so0yhPehkxdS8P6H8kZS6FuMiBc3CR1RVjhLNZVts8EpJe0DZYQEM7HsdDWqcF1MoqVSxoib-22Wl7ElA2UWHMqa0EWz54ted6EbBSVdLGGYTcCec-PbBQiJhbhuoHgNVpITTj6P0OyP9ElH6LlRWcFZ_cRlaRK9hi9sfqqg402LC_KKt87mmDndoB4KrRA3xLc6fRZ3MYYIEWn-EOFE66Vtu7ulkt79IkLIZWYg66ELVQG2MRMtZYiZlFuJXqxPtblG54ABx3uW2OTe9z7qx-zVHnhctkdpNFx26Zbu3AwK4m5CB_8VlHLq74Rju_LU-G7JveMx4Ov-jicpKudGihFfIiNFeUsJnNF8MSzFBGnLx3jI0ZV1aJUf1iv-1WP-ZHwBkmBWy4vu0ihuWuYyiMHVB8vpVuCxGoFVRtsiqvwOaGiNg_bSSRiXzUtsIuugmLOZaLaQTfSS9HuR9Nt14l5nKYUD9QgtefvEtZ-I-5kCwkCsKGPxMZXbALsZpOGm5JljlMMjAFiW35BhpSpmt0uyL6oD6-UKVS-l2E0bdksWqIb0guUY6BkYe7yh-zaNEoAZDP-75zJ3U7xl4-4SMHC7dAEY6AUe2gN_IlnRLQn1dqse-BD1YNOqt1oNRR1sXmJIvj_8o0XPzI132MjwedDP3PxXISxd_ey2Qea_kUTRWRfXX5NuRSPGc9VVpPemfJJTB5bifQrbBtGC9VIvVCAKmEL1z1HG6DjFvcU8KSqqn_pIIlGYyfFL_SILzrQ2ON22smAYxtVvbwJ45uT4B0BJRKbJQFOGoL7oYOaDD3KqWyslB-ffKbKcsofkKT6GjL8zVR-5raXl-3O9scFetOnx3eDJFbE3_iSIJdzCCUgTUJm53HulN_I59Y36KxQLGKF93uazq17Uf-G5f-xq6YQpSxMEIGlaj6Es2F4y99EeiN8GFxcOHdnOAbUE2e5O9P85ZqqGC4LXHKzXpr0iArT9jJQkhuS93qrm7OH4SpNNOt-aCUS6npI5pZ1FVsVE-3sbphC8fTGo6M1uiJTASgOc8cg3TpkakaDKUg-2mRlfRcUMXbyNNAXINjUbwRo44jBjpLIB_hnm2ivhhgsRXOTj88jsMostHCZQu0RN5ult7iIa47svH02kHMbJ6hCnbvvPBC08cg_REbqd7cVzBPZZC371hBGqxLJlQZoV3_pLnKZMai9fFAF6UR3CcjcAxFZ98_ti91PRqzLzOVjiC7zSl-Dp_w3BoVb7aE9kBJk9iAnxIKIJmP74X8AuemggoPcoMCrUsgbL0fXrLbfWr2dN86zr7lIKiNJvnCcVilZ3svNoW5vLFULDzrOYrOFmlouVzjo5hGpFWsTNMLGiq_PIH6zr9M=",
+      "summary": []
+    },
+    {
+      "id": "msg_07e18ee8f578e995006ae7ffbdc68887d1a763216fe949ae4e",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The records explicitly give two different active authorised lead colours for Milo—red and blue—and state that neither note is withdrawn. The answer reaches the cautious conclusion that no sole colour can be identified, but its explanation incorrectly says the supplied record concerns an assessment pen and specifies no lead colour, overlooking the unresolved conflict.\",\"evidence_memory_ids\":[\"AC3R2-H12-F1\",\"AC3R2-H12-F2\"],\"failure_type\":\"conflict_resolution\",\"classification_reason\":\"The source establishes mutually incompatible relevant active claims without a resolution. The answer fails to identify that conflict and instead gives a reason contradicted by the records.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The records explicitly give two different active authorised lead colours for Milo—red and blue—and state that neither note is withdrawn. The answer reaches the cautious conclusion that no sole colour can be identified, but its explanation incorrectly says the supplied record concerns an assessment pen and specifies no lead colour, overlooking the unresolved conflict.",
+    "evidence_memory_ids": [
+      "AC3R2-H12-F1",
+      "AC3R2-H12-F2"
+    ],
+    "failure_type": "conflict_resolution",
+    "classification_reason": "The source establishes mutually incompatible relevant active claims without a resolution. The answer fails to identify that conflict and instead gives a reason contradicted by the records."
+  },
+  "finished": "2026-11-02T03:13:03.478811+00:00"
+}

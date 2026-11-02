@@ -1,0 +1,57 @@
+{
+  "test_id": "T209DA4B63E4641E69B284BA5FDC382B8",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:30.012433+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_09e7d799dde4fbe3006ae7ff9e3e9887d1a38ea00b4a011326",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 722,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 101,
+    "output_tokens_details": {
+      "reasoning_tokens": 33
+    },
+    "total_tokens": 823
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_09e7d799dde4fbe3006ae7ff9ec8b887d1b38b3dda0c169bc3",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-fzjZGW04B3Q7J_ulMCKaHpfhvJalvbXAkVQwE8BGaRKA6ODKJAckXq7s6-IOlqIx4rRhEomZwN_TuOUsJcRWpPkuCiHJxHC7aivqK11wgwJ49tHSbCYNYvT2VMgC6j27JVxRol1yO-COmCNIWpgCUQEklKgDhmr39H3enjl5MxJN8rYRFFMnyDDdXQ9ftrQ5jGROHnNbHZMwCEYhPjiuH53zdxJCu6Qgmgzi6bcSaCGOIjNAvFeIGASp4gGlypCsM6u9f2xpeE-EPN2XstvYU6Uas7jivUrpmmfjXHObPzJuNDWwpHk8UpUkcu6EaKv4--G-v96bVCqJuot-r5HxGQDl6BTLBjG8X4WbqNg14M74o2B0y7CwUVx_driXHnipbzGHXinPzsViEDBftFuqXWCahiTpjJKOpMBE2caqIR3oq8gk6u_CdNKRKPPAtGhBeeCgMkbPaOJfuPQQGnyUsXJKK2He9xmEdL4LF2YTmx98-O3q6yi-tkO2h_4Dytj7Ud1Y5VUntGiJ-rVkEbKJ6qa1oWciBuFaOkipwmFpyM_G7Jawe8GuAXht3JL_z_7HLsW6B7sOPGOJRqYnjq87TpDcr_xXWQAzcaIM7cH9cvBRw8Q5QPPxxm8Gi_prfKttiia_fNl77B20If4RWwGxvZZ-dGl3Z8_UyWqrXJmSbTt2338ZQ-etuCcFeDVjwd85Sapgr_fC9mW6cxXAxsXWdkyjqb_Vfz3xjfAH5r1fPycRqx8333W6hmRqY2Zuy2g3Erel5dF5nW0IdlF_kNin064f3s83JAVV5QbC8SCd5hGUn-PYvsuYNlT2q7NvwZjW0oHXGzazS9DvrhFmZbZy7gBt0jR6v2wlrJtTWa1kOvfKckjZiOTohkCA97_kaqGud09u9NLhewIN_m7HN63lUnl0ZmSP2Wor0iewNR7eyHYcUeo8U-WXigO-ZZHLthZSs_qashk72RHZGWrofIBZv5jEaCmzHmrw5lB06xAAdvDkAUUogqm6sHakdyF4bUXRTwE9UGeYAiVYQzg9F8EW6mD5Tgc1XsBeYbhXhY6QeEMswOuoUfA7_yLidQn5EDyEIFbmH3yuDizzx5mmIodUfNsLymiGWjl0oBsT1-O66Ypu6-N8f5ijz7sCqlzFIFimrBZtlXlyuKY-ljr9ZdcBfxPexxV8wK2UaUgZlUApuadkxXpfWGYG93Afr0qFKmTlkQ3ph3EdJ3WSTWb8Nq-qKZDa-hoCKqmEfVe07_JjMpF2CNONG9vINaC3tGP0bAV4I1Hse0qkflFLvjF_kSInsaByMqc2y2fuDbn41xBaKpONCJgFbEeZE9vN-ekfSnGSSJa-B4sGRFJFtGxYMcnfSicDobTpBWHio3bnTG4EGPawDTKyZbU6VHL2pU9NMRE69l0Tn20flrSsfl9sY_a1BawpGmMra0iA_yzgVpqi1shyEgcwEEqAyTI2ALGuucSEvlsjI-DeC1X5zAdY6lL2sXIIPfOwEFrKOHxO6oXDDH6ftAotzNC0ubvrhYSF63IvHuut8Y_oxQP1Y3jEAIBEimcD8tPcXvjEtnnEDIslmbr3ef2nIlpxjQW8kj-DnQhvYvJx1hDysFC8JJDxPM6uWPRgqhgtrBzsQX2xSyMaGzopwJxmwwESkWOvUjtNRDrptylzQsyCbwqYPbe4OBIf9SkSMh1mZPQQjIoCECn5Hsm7IbjnDHGGkygfko_CNikqUvEqYK0ZcBfTWme1yxHX9H9Nq7aAGOnFHGJIwP0HsoAP0-uXT3Xz4TEMw4EBp9RGHn9uWGUWYFad6X7xnJYVIl4KFm3AQFZThLif64JtH0KM=",
+      "summary": []
+    },
+    {
+      "id": "msg_09e7d799dde4fbe3006ae7ff9f394087d1bd74efa93f4a8432",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer matches the confirmed memory that the pantry uses a canvas cart for rice bags.\",\"evidence_memory_ids\":[\"AC3R2-H09-F4\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer matches the confirmed memory that the pantry uses a canvas cart for rice bags.",
+    "evidence_memory_ids": [
+      "AC3R2-H09-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported."
+  },
+  "finished": "2026-11-02T03:12:32.116182+00:00"
+}

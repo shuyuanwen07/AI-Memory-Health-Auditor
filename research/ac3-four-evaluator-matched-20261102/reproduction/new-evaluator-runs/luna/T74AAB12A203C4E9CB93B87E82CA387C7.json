@@ -1,0 +1,57 @@
+{
+  "test_id": "T74AAB12A203C4E9CB93B87E82CA387C7",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:52.722597+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_064dc43ef369a01a006ae7ffb4ee1887d190c9a0507a939754",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 739,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 148,
+    "output_tokens_details": {
+      "reasoning_tokens": 48
+    },
+    "total_tokens": 887
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_064dc43ef369a01a006ae7ffb56fb887d183a048bd24e4ba90",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-2v2V0qAjqda5By4TFrQWaDBK21hLPHAaTTX4a3TO7CHbykjKQtQ23l0IJYJozJPMeaamqWJgLKJwRHg1kF5ZfLx7LCeruQyYvWmFg_A3Y9gGqoxcdcniwmmZC1ftYWhhxJuJXgfBV1yW12JgW8HK6-6dbaTno3k1VRZ6dlvQBLgeGzUe1fYOlpWFu52nn_VrVMEU7VHtO6V1NOQ7Euz6Ua0XPjROy-o5dtpXngptIpUHPmJ-PJSu-TM1xL3FEMgfaRPNoNB15Q4UFQkSSp1ImUk1s6TteIkfytR1L8Cwd5xygX87kI1BPJ62rB15qFYSdK4L6swpgfOel68QIywv681oZpGzvTZ8dvnhhZIPn_7wzAYGvt2Fd92C1dXQGZe5xS_YkF2KJnjVtkQgTGiw6NKDzgV_4TWofJm6yCr22ACDYHmn5LvF3ugXe7VlxG52yb8v3EJT6y1emyOFMfJkd_afhEa5XN7VLxUzW9GQv7ejM300slV7Omw9KD9l7mO2sJ5VJBbo9ltUHoFtmx8nSg8smUb_ZP5wIeoPccVjw3otq2zoBDpx4SkTPTLze9-dKxop1VU5TBIs4xxh1BWP8AxxBC01yeWxOKpyKyKr0CkODtTeXIL4afDoMBiYj4MLH00CedfzOK9epZQc1ddn3pFEsSSqiqXl_UouHOOS0SzV7xLVryJ8rezPjg8kC2752-pqI64Hz1RLIrqNTbYuux66TlNAk3ztvWLalCI5VfodHSGgW0gvnHTzFZBd6QaSDigzPI-Zgy3y8-BP-yU-dwG6hE-z4DQz8D2_20g51JvaDRvPuw04HF45lm32I_IRMsVcwwubz23By51SDRjn_x1CKMwYTWGlBIjeU4lgGimg5hAbk9nkLnpUSSNvFrSTh4xauK-WR1oKM4Wie31EteXTDVG60XXd-g0wBHKPNLQDhePvq6m7AjjSS0Z2wWVfqNmHVOSE4ZwY8jaHfLMr95RLu7qCdGjuk5KjjQFUNteXvBRW6NbS1oqCl1dluuvo998COXxtq-RCJhWHgON7tq8YWi4tcfRJ8tYdzymkYBZtSmH2VI1OprY2Z5Ehka_xCY0utfE6IOC6qA1hw6iJyDWKu2cmx6IBPxvnE-91WlagI8JSrZMiT9ZElQlqekbHEHgGF7v3XTC3WevDguWAcR5INY50e884-lIi6gOHpTD1X3Dybe4va95gvtHUNbdYo0p3U_mndt6fUD81whXZLAkRbM9psb6OsrGWXprTggJkkzyCGxeqQQvaxTGyZEm7VJggQotPWBmzL95G-wIN2vacsCWxGVlplqbxPkrdNJnPkLiqI9XkQHydsjhE616Nb1s49k2xSGEkbi_8926444FAes8AiL3SRY5-OHpGsZuQ_5c58P9Kkrjc_6KoxlUNDmjMdFGUpkwk-u9nxE0c-b7eSLzZpTnHBt3xjwPc_t4TSEsIwGQbMVPucAtH-nJgYePAcaFyfRF2KZx_ns8ULJW_8qnOQ7RBmN7NhxxmzeN1aTK3WHhyBJ4LnKDUfyRjhnszHKASmqnqRHAvk2XtgLs49NoJP5p4HcL368h8Yv7UicVjkxWytqYWsoWWa4ac8R3ML-i_cwIT0TjhlRZNSdhc7AetQxeCP3ypE0LAt_j8omBpdW7wKY6gy4B_doaWtPFe_tNXd1SbzBJ6cbb_EnzYZ4m3xna_zZXMdZI1EH2TC_e71PiOSTOEqFbcNxbg3Vz4Uc_GRYSVdsYBiTPg5roDFrYpdvtozDQCSpXyDsFrgL07ADgPzv_9oxdzZxoaoQp-k3y-JkWG0vJ9ifEQiobbwk3HM1qTTXVwvm6I_vfWG3LPNbMNb4qndathaoWMASbtSUJr1kElZ-MkFm5IaDyRVc9xhBUOpZqzCvEi1azWBtAgIEaV2sVEY2B8jY1B3uPxjJ5tZqbItf6M7tFQjFTGOUkJT_dw9BBBDehPzwS8OSxSPQL0Z1bZL7cupQw4xaLLd___42vSrXMMkqmitSWN2LvcWaCDEwMx1wxbliAX4WzfMwY_XYGVafd3zWIu9-Fg0PU4sa9Db-SmHEpWEJg==",
+      "summary": []
+    },
+    {
+      "id": "msg_064dc43ef369a01a006ae7ffb5eaa087d1bd6f912757abd6b3",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The workshop calls volunteers by ringing a brass bell, but the answer says there is not enough information.\",\"evidence_memory_ids\":[\"AC3R2-H01-F4\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary source-supported fact that the answer failed to provide. The record does not establish a superseding update, unresolved conflict, or misuse of an irrelevant memory.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The workshop calls volunteers by ringing a brass bell, but the answer says there is not enough information.",
+    "evidence_memory_ids": [
+      "AC3R2-H01-F4"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary source-supported fact that the answer failed to provide. The record does not establish a superseding update, unresolved conflict, or misuse of an irrelevant memory."
+  },
+  "finished": "2026-11-02T03:12:54.961757+00:00"
+}

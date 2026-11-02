@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "TBD86C54558F1408EAF26D8639E4F2F8E",
+  "started_utc": "2026-11-01T13:25:57.793450+00:00",
+  "request_payload_sha256": "4bc124bcad90df469094eb531ba12672f188170c5bcdeb28e2b29cda4258d249",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The records specify CSV for routine logs and explicitly preserve that practice outside the legal incident package, where signed PDF is mandatory. The answer correctly recommends CSV.",
+    "evidence_memory_ids": [
+      "AC3R2-H11-F3",
+      "AC3R2-H11-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported: the answer applies the general archiving preference and respects the legal requirement’s limited scope."
+  },
+  "usage": {
+    "input_tokens": 962,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 489,
+    "output_tokens_details": {
+      "reasoning_tokens": 369
+    },
+    "total_tokens": 1451
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0bf066e584fae0ff006ae73de648d487d0a481ccd433537a20",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:26:08.864680+00:00",
+  "raw_sha256": "6365ce89de82f3d81e58017b27c229b57c79a640cf626bb7083354969a97bcf0"
+}

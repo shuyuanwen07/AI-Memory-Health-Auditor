@@ -1,0 +1,58 @@
+{
+  "test_id": "TEAD229FEDD8B428DB6BF2A7D1ECA3023",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:32.438151+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_01d7d85c541ee3e7006ae7ffdcad5087d191a025c8c27c5412",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 975,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 140,
+    "output_tokens_details": {
+      "reasoning_tokens": 44
+    },
+    "total_tokens": 1115
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_01d7d85c541ee3e7006ae7ffdd2d7c87d1bb6d40ea363eaf19",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__eUws5WasapJnXTklYcETF3Qo0OCIinUugjUr_nXSOuf-o2HU6GZ6ocxlSla1j-8vcAdGoWOORJIGlcsN5j7LCpy4Ld5HA_KtYHBhFbUbyOB8TNNA9M-WNCipLrE9yFVbD-wr4IEa5H428nbuTiFRc_g2dD3MXp-uB3y0xjkfZB4Mg0o1r38oDOhZ9IIcunk3LJIS_PJUTpCPe-KlgdS8P9ns0uhZFL0-avpv2ZZ7ILODgtJUyGRDxjnc6jdf9Dbt1mHeWsLNyRHrcNEmROuJE-Zsvi_m5sv-Uw6Gq7FTLnoVpnpHZXfhFZYMn8-BqD5HJdD57IxQe8eDKTnkCpvzNqII-qxU0Y3sFE2yxfn0JePgSlfjFXbDoujCQm4VAA1r0iurZ5SJSInb8dH37_s5nnjsNe16rz5cPMCHzFIJ5MVr7X6IUx9_EEFEEJDH1r0m6UngyoqslsMezICGvNhZ6FmyHELZVWRx_nbsnrM7xgUB7YKzz773gVBjqU8QVWDo_y6yRSzI8H7MZmopDy_C4c-iI9CdkFa5F6LYswjAPYkDCy27EKnABTE8iWOL1BeVIyioV0mPwg-ywJWayf0PgOCZ2wx8Lzrfa7RxeD5DLI_EvW8Ohj2deD7KvUdYk9GqvJiudS2DWvkCcxxpon64UNBaZyMWyzl2J2t2GdsAHj8hxPPYPnMkmkkPVnkmnnwIOQcsbqY_0UhvEcamVqok66tkMIAYyw0ePDViS2BPhRbmWzAFI0Yiq1PJqr9BqxuEmsxbhP8HgGShb5Q9IDeu8uwiMlagyWz8F9lyu5TFAzFqRa-4LHVMyBwJRzQ2cfvXxHScDyHWzMy8N6IzV7QAyjeDeh3XZfEyyPLtahZFVR7KVyF12ueX9Q-vjRPyOO4dfIGHoZcOD8-DSnFgO5aPlaekOfLiV9rrUiI1cLRhS2Bmg1NVB--174o1Zf6rWyQ4wYFUZyom6NlCS-NcMqL3JgknFr6KY5YuPOIsO3FrYsTBp6aMvrRlQp0rV3fun9RkwgwhWqsboHMb_8f01485cvv989TvOkr1LVdf-HYnN9ldchUrNdjQO0NwqBJrC3JBG_lLXDw_NvptCwAd8I__lzeVhFYAUWTf00E6d1srOXintV_QKbV7jg1nW47JhBF61j9bvp7uwVltdNc-ONLPMgHL3rEi3oMeYzsaO39_XN7gVcFcdHz0dJMVYN2NG4rN5skTw-EXzXxNqtmKwALA-7fZbxDrDPW8jLGkfMf4FuaCjq5ayQ5tyZ-p3cADgjt9TtqAn2dmFvWNLSvmvDeMc0TaTeXGVY1V7V6RCGrLcWZpWvLoZGS9cUtVupRdPz0jweZRsB-26PaJG_-wYX9Q_urkReISE-Pg1opyUoihXHIllCvIbwf7lAB32SmJCm-dtsObBMooC8Z1xOMwmDISZYo1nl6H_i_4j2qufSYoa3ZGfvSeS8t6LgL0Xj8fD1k3qmJ_tzE0ULBBw10Rlu1lEenjoVD_ku7YekPHuRgXcJvulNWUKURXlE4a5io26KpLA6LN_TOLqogZzXbyjvQWK397kHblATJcyIxc25G69s51wLg7cvTGSmKMzhr52x4YUgcpXQdMvSFu52o3Q7wqfwf0aaryLzjZxe_aW_BUACv9unIYYN1yw6hjbhg1qVK0F4uGa5ZCnXJatG07OS1ScEumbw7YSlEvNqHWs99x8gQYj8dpGEWwxhaqtFO8DvCH-E3HLkcOyIfcWDHf24rqB6WZg7oWDX6hmQLRSQsuZu-hQnJd_zWzcrnCgYfGjEh_4kWgHrZEID9dKuPBoIPGLiE11_WrOUAhZblb_6oAouCKg1L1KIAXXVDoF95MnvoA-weSMSqe18K2TyOr6onQy0QCyWNQ1DWmzTFeas_LqHSPtu8x-qYHlnrGRZi8Yu0BA6iS5WjIHnPhMC8Yzxf39iCdmHaaubo7Ppvevvb-s4UUvL88uCIUhF9FPTPDlEowR3F0N1MkUL24Nt8_FwBws4Q==",
+      "summary": []
+    },
+    {
+      "id": "msg_01d7d85c541ee3e7006ae7ffddabc487d1b4aaf497b0d59dde",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The memory says paper check-in sheets are generally used and that ordinary check-ins remain on paper, while the online form applies to the remote night exercise. The answer matches that distinction.\",\"evidence_memory_ids\":[\"AC3R2-H17-F7\",\"AC3R2-H17-F8\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The memory says paper check-in sheets are generally used and that ordinary check-ins remain on paper, while the online form applies to the remote night exercise. The answer matches that distinction.",
+    "evidence_memory_ids": [
+      "AC3R2-H17-F7",
+      "AC3R2-H17-F8"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported."
+  },
+  "finished": "2026-11-02T03:13:34.775224+00:00"
+}

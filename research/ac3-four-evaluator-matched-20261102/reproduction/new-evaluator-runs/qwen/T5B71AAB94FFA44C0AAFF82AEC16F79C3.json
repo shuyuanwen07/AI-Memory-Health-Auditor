@@ -1,0 +1,20 @@
+{
+  "test_id": "T5B71AAB94FFA44C0AAFF82AEC16F79C3",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:27:26.231220+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 954,
+    "eval_count": 198,
+    "total_duration": 22929883667
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks which sole route is final for the 08:45 Riverside departure, but the confirmed memory records do not provide a definitive answer. Multiple memory records state different final routes (north loop, south loop, or platform-specific) with no clear resolution of priority or conflict. The answer cannot be determined with certainty from the provided sources.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H15-F1\",\n    \"AC3R2-H15-F2\",\n    \"AC3R2-H15-F5\",\n    \"AC3R2-H15-F6\"\n  ],\n  \"failure_type\": \"conflict_resolution\",\n  \"classification_reason\": \"The memory records contain conflicting claims about the final route (north loop vs. south loop) with no established resolution. The answer fails to address the conflict and does not clarify which schedule should be followed.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:27:49.724028+00:00"
+}

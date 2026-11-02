@@ -1,0 +1,20 @@
+{
+  "test_id": "T74AAB12A203C4E9CB93B87E82CA387C7",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:19:17.601149+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 673,
+    "eval_count": 151,
+    "total_duration": 16555916292
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is incorrect. The confirmed memory records do not support the claim that workshop volunteers are called by a specific title. The memory records mention actions like ringing a brass bell, but they do not provide any information about the title or name given to workshop volunteers. Therefore, the answer is not supported by the provided memory records.\",\n  \"evidence_memory_ids\": [\"AC3R2-H01-F4\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer claims that the workshop volunteers are called by a specific title, but the confirmed memory records do not provide any information about the title or name given to workshop volunteers. The answer is therefore inaccurate.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:19:34.645221+00:00"
+}

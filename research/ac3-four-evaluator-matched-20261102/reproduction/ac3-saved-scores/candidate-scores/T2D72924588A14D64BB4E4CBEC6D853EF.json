@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "T2D72924588A14D64BB4E4CBEC6D853EF",
+  "started_utc": "2026-11-01T13:21:18.682588+00:00",
+  "request_payload_sha256": "b25a1b949c3305ac25061df33cb2d7734c2e633880a8086c34d56c3963be50a5",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory explicitly states that the conductor's folder has a gold clasp. The answer incorrectly claims there is insufficient information.",
+    "evidence_memory_ids": [
+      "AC3R2-H27-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The answer omits a directly supported factual attribute. No relevant superseding update, unresolved conflict, or misuse of a scoped memory is established."
+  },
+  "usage": {
+    "input_tokens": 882,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 369,
+    "output_tokens_details": {
+      "reasoning_tokens": 258
+    },
+    "total_tokens": 1251
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_02244516b38e85cc006ae73ccf029487d0bb8a4053070a8f5a",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:21:26.772587+00:00",
+  "raw_sha256": "93fa14fd7077e623536f4b0e9e8b4ba45f9660921b8b5e96cd010ac619dd0167"
+}

@@ -1,0 +1,57 @@
+{
+  "test_id": "T14952339AA214DB8BA0DB803F82B76CC",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:03.241111+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0b1cd77ed4585fe7006ae7ffbf863887d1aa8af671c3a0323e",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 734,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 139,
+    "output_tokens_details": {
+      "reasoning_tokens": 29
+    },
+    "total_tokens": 873
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0b1cd77ed4585fe7006ae7ffc03f5487d1b19ee8066a4e7aaa",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__BmIyRoEMlpxs24u2PAIzTHmzigZwWwsaiPbyYH0HsSr49Dl50zqZ2SHYfWRyJEzKNO2IH1Kk3ym2QmrR9P-xMNjBJ6ttZ9mFo8XHnfEzAZAr5YU13wGvRVGultd5OOgH872npoXHCk8-K-lO-J2FdAhRe9FKlywxy-IqfL8jUNViS2AdGoD9gpCEIz5u7c0ZbdJ3Z2RDVvbvbHQv0aHvvsX-6TtTZ2N75ShhJGclCIBvF6YO945qy-4RY6xsAK1kKdwmMkkw7EytcA2BnLZpf3Iq5dJf2qK_qHZbKVCt6A6RCo-SDeGx1S0tgcd7nlmTtI7qq2I25JGxKtxJOB3hvUAYbfJkBmGgzVov9l5Wj1H1LYJrkUPW_Y1DUrNFwyJAHH-Eky-T3ZtgqDGfbJyLKzMLQf7RnzBkGGvqnrhhSriWl_LB_nwq3foWu3nOTaFzTZEfEm1TH9Dlqp_mwILqguoE4MpRmMBbWu1TWmmnA-GeyQzeIRD0c4amPvQsyeudarWSwKzaHqtzOU7p_JIq8WL_RDH5JSRW_UHpO_hm2FLSMK8kyIh1ivD6JR0DZhhV1jwihef6lF9_AMn21qUx2TSZlDkeSm-Z5YbClBzQumXfb-J_TYptCQELPEdZdqImbBRNi04nqZEaP5wJmIMrGKPtFLCtELUWDB-tdIAZf0bXuN4W5mjSvryeXLNRDxiSJjZFjmR_mZBhAuinK7YPx1T5_aG-IuMEGFrdXKeTQQo4k_uLu2l7kGlLLKYEgvzzfFTk7mO2J8EE-Dv2Q0_GSLFtyCHZRBQCyzE6_Li79VbfK3HcULJ_WX2HWLhW4CgeWn5M_vyaHySKO66SHkcUmRdrYEQjxgqlsWA5zuPUDMgnIq_PMsZV9YNBy_1jJ1R2HgnsJU4teaQA0IYbikthuLyCXQ3-zjBob56eArkv02LC6xqQP_oHvxKrYGt2rLByAheIrH4e0p2eXPfa4OisC6aShf7WMq-Lio3O-vtrsmwk8DJkuD_-XH4gF6uRf1k98JZ0Ul1Tv_IxX-j4QCX285Y7bX9EQ5oQMk5RfZodlzwri6IYFQU0Fo4n62LpRHf_t0AivLOybjpUXo7RWYO60FCRPSvftrhEfOg3aDw5oLoc7JGhnP160Jv6B0GNz5uiwZvaVfd7MF7hfszlxpqDt6jErt2hqFV_1dvQ5vrabxnuBg7iEblN7B2u1cffLue-5BXSSkcA1UTrnXh0x5wLQr4aMrbyQzbf3UWpkNB_LpJEbgA8buSa-3gEriavprTChjg5ZqacaPA3LjXY1k4RsvrWbhCv81mP5HRtI_0euW-nH64z-UQ3JxoZ6F5oVHICgqXcaVqQv6v-a7WSuuYdLW8xnz94S6bhNJVYgJjK1cy8uqm8NnHcrlZVwe_iEbu1y887agd6hUIvF7FcIAf7I5MDmNK2KUgKSkFlD2fZCaiO7rkBZ9AqmOWyvAzz4FK6SLfqZNc_A3G64PkSlIoRC0uDgH0V3in5WejZZ4PMowOqjVnLtO44JiW0jahI9oPJzAI7v_uxD0U68dCE16rWGdgV2nS1kR5hs_oEpEbwbUxxC6l4Dx3hI6YQ6WlCvXmjKjjdOGJlDZzzIai_3vR1Nhj20Gxhm9dJMby4ljEi2tPwlyKbjnYiUwO6Ei6ujEzSJ2QKxwQrIUG43_2r1FxpSskVWSgxspMGbFco1b0b2dZb983G1rphNgng01Ck0CMRBSBAyqTeixbVtVHN132NmhsENq-cQFzrwt6cmwNyoR_vn8rN6tppAJmfyRV2QeFCP",
+      "summary": []
+    },
+    {
+      "id": "msg_0b1cd77ed4585fe7006ae7ffc0dc5c87d1ac1deb2966563c6d",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The records state that the orchestra stores spare pencils in a round tin, so saying there is not enough remembered information is incorrect.\",\"evidence_memory_ids\":[\"AC3R2-H10-F4\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary source-supported fact, and the answer fails to provide it. The records do not establish a superseding update, unresolved conflict, or misuse of an out-of-scope memory.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The records state that the orchestra stores spare pencils in a round tin, so saying there is not enough remembered information is incorrect.",
+    "evidence_memory_ids": [
+      "AC3R2-H10-F4"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary source-supported fact, and the answer fails to provide it. The records do not establish a superseding update, unresolved conflict, or misuse of an out-of-scope memory."
+  },
+  "finished": "2026-11-02T03:13:06.083393+00:00"
+}

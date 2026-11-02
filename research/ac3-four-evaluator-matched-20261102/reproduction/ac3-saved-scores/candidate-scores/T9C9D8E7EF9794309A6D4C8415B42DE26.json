@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T9C9D8E7EF9794309A6D4C8415B42DE26",
+  "started_utc": "2026-11-01T13:21:07.933507+00:00",
+  "request_payload_sha256": "fe0e9306bbcf16cf7bed940911702051d535c4355a6040381730f7ef08f7b143",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memories establish a revised allowance of three boxes per household, so the answer incorrectly claims there is insufficient information.",
+    "evidence_memory_ids": [
+      "AC3R2-H09-F2",
+      "AC3R2-H09-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "An approved revision explicitly replaces the initial two-box limit with three boxes per household. The answer fails to use this superseding state."
+  },
+  "usage": {
+    "input_tokens": 731,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 526,
+    "output_tokens_details": {
+      "reasoning_tokens": 407
+    },
+    "total_tokens": 1257
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0e256acd41a5bc75006ae73cc4466087d09d1e5c6b53c3b44e",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:21:17.883164+00:00",
+  "raw_sha256": "b935058e2d42507c3f8ad865c9f5e8317ead901a902e9ef1af8fa1c691aa3039"
+}

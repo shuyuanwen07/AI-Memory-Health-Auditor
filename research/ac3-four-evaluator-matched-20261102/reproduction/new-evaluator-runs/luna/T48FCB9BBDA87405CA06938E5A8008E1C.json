@@ -1,0 +1,57 @@
+{
+  "test_id": "T48FCB9BBDA87405CA06938E5A8008E1C",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:41.735242+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_00d379e50aff1d55006ae7ffa9ee9887d1997da62b28f7707b",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 734,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 153,
+    "output_tokens_details": {
+      "reasoning_tokens": 42
+    },
+    "total_tokens": 887
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_00d379e50aff1d55006ae7ffaa529087d1bbad8f44522a5e44",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-r0oc4myukKe63VN4GjT6BnuZd44uTn4dQNGlIb2WyZYIJYqZAepR2V_pqtx6M1Mv5NCyfGxdftFewVNW7HbFL6QFHzSfZDOaOhIaNMVQlmjXPCkMceAuyzXG8928IGjvkMGEgRSXhQw9ih6q569JQApGHTZnCB_TV2GhdMf592QGyPaF0XLvY1K3hCKNVBfioLrjGX7HAjlEWmD38_VDnOXyN8MZdZbuk5UOnfmkYvp1NUoFpIUZ1QJKuPXwMxMPq33tnWQMXYTDC1Vw_WZspSIVXHMkVivzmJiqDTzGiHkvHHaGiippv8Wc_9FTGFiVUm4I3Gs5l11cR1EYdOw1oMqSMGwUz4viK72ETIXBU9YjTYdTxlnuDgIgbM0i8Ff-tg48aQOq0WGXPTrLVLM__CWnln9LYdqdORqKfF3LOcZF4ISM1z_r9ZaJ3d4Mc0E1cMKDHC0vn4MUyfNOW2gZs6UfucX1AUobJ4jMzKBxppBQxQv6LyHpuBYLpOM5q2C1udBVj4pcZNZhzvLn4min776TpOAXMJr-k4FPFShEv9wdhrd2Kxo5qogS3ECSkmWSS0oUH92VFfHnhXl3GggM-QitpL0yJH2279EkXsFRNv_ibATdq1HQWHje49aOvgtnR9McZVhESS59E-9AXma4X6niRdTSe7dZM7h51fglfjPoA3kEKllZ41XFHnSDQEVOBYlEOJa_ZE6UtBXVC6TkKKB-4ptQDWLPC5nF9ujynphWfgUb1k47YGQV-OeeAlinp1RMhw7Is13gNv2_Mq7R6rqYPKO8ovtD-HeeburkMV8mOjo8IPSzFAHnjgnfw-T2zewBiXQJ4SCttU3px6Uuafe5kpG09snNeBnKA5PtzoK2N2op58XAXpFWFfipNMxfCIF7Izv48uOmm6UDUExH_2wuMzxLxMnr0Zeh92AqfL0yHL0DPewiSYIwMbgveDM2Q2GIkEa9X0j1eUi4dGD9-EF8x4Lqbgt8OLwT6VFWc-unbxfbVsBYS0kKF0gvekIdJNgKlLZ3hTaWuy_oeXa6ddoe3TuTDg7Bg_HZJxorPeOnFgd-IoKTcxuSlOyoszQR0UAoSjKPycNWWpWXZcs_0tSprS6Tki9i213SekkfFVJ6I9c8-fTNcHRKrcbIrAAUSs4WHGJT8IX8unnD3J7hTIzE33WeU4g86HVL0Zp6Ik9jCnndMAiDKN-DQxOreU6wXADOXFUYMoHi2RN6DCMjPbe6ftqA04KbE-p0nGPcsEVXwl0q_c3l0OySPTA-b2ghQn1sNwKjiM8-liT7TWOzowowJCV6eo_bpCBYihtGUW0tD8AVDcp-ssjlBt41PCw-oZsaXRrWe9C_DrNR1qdPUSH9X_0ziTKDOuD4jFS3RG0RbyNnA4gJxRVdzT-zakpd62b4dyybEo2Uay2aAhVQB8S91AllZo15b6axsYDUtUEZwr1JJ092heLBAzOMg52RcOnCqwzvRxUd9uFUb8nbBnHFskwEqcWvzZdyH3j4Je_cJtYfSApBSwJYzJC7QMAaD0Hay0T5ASYordaiU5RFp0t2vKhLcMrP5JE4ZiOZrq2ecV_ENb7MfvVzTUGD-C8p2QfYIiJQcCX48j-m1kIOhOt7x2j6hYvHAzKyemIQq7j6BByZa97H8l1hFqWjyMEYF3i9TP_aeqW8fZ1q5aDz_xennOD6wXD3PjBvJtZ8q0rgH6eZJi6z0rrvCGo77jfcWshaFuPMLGN9p_mntAhzomDn3ooqD0Ql3_ncr57DXSr6ufG1vkHU1DzICg5e8zl9hX2NraKZBY8f7Wfck41lhG-5mwLCzW1lmwe0uyds7YTkMHXWpb2gL4C-3EEVXM_lvCLwblnaHk6bJA8NQ6sXajcuIGIUmnkpjhzM9Whr7hUs69iH9cHZbIwNMmrDgphxr-dTd7f5tcpHNjEoW3ITH7TTKsbxzJsVlJ0ycwW83cQzn2AC6QvjCCC02Bw7rxF6jBObQrpfCaZt9ay2o9JzhHw==",
+      "summary": []
+    },
+    {
+      "id": "msg_00d379e50aff1d55006ae7ffaad73c87d1a04c284dd33ffb89",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The answer says there is not enough information, but the memory records state that the film archive stores silent reels in a cedar cabinet.\",\"evidence_memory_ids\":[\"AC3R2-H05-F1\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"The question asks for an ordinary factual detail, and the answer omits a directly supported location. The source does not indicate a superseding update, unresolved conflict, or misuse of an irrelevant memory.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The answer says there is not enough information, but the memory records state that the film archive stores silent reels in a cedar cabinet.",
+    "evidence_memory_ids": [
+      "AC3R2-H05-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The question asks for an ordinary factual detail, and the answer omits a directly supported location. The source does not indicate a superseding update, unresolved conflict, or misuse of an irrelevant memory."
+  },
+  "finished": "2026-11-02T03:12:44.010317+00:00"
+}

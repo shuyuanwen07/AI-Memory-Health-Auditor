@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T4313C102E82C4290B423DC881E5CCAB5",
+  "started_utc": "2026-11-01T13:21:27.660594+00:00",
+  "request_payload_sha256": "fe4fd8ae8befa05475ae294c2033e38c7d8a976bceffee376e7ee9542b55ba89",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The records explicitly state that email remains preferred for ordinary changes, consistent with the general practice of reviewing through email summaries. The restricted issue tracker requirement is for security patches.",
+    "evidence_memory_ids": [
+      "AC3R2-H20-F3",
+      "AC3R2-H20-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer correctly applies the ordinary-change preference without extending the security-specific requirement beyond its scope."
+  },
+  "usage": {
+    "input_tokens": 959,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 535,
+    "output_tokens_details": {
+      "reasoning_tokens": 411
+    },
+    "total_tokens": 1494
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_04c031fd3a6fef2f006ae73cd7fe0c87d0b608b00ab88e564e",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:21:38.256791+00:00",
+  "raw_sha256": "568205049c1051320237967e1d4131ca7fcab026b4c82b4e68e86ab318739460"
+}

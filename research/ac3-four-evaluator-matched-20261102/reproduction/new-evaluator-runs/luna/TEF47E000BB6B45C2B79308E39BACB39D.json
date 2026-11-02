@@ -1,0 +1,57 @@
+{
+  "test_id": "TEF47E000BB6B45C2B79308E39BACB39D",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:18.582699+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0fbecec1f7687a40006ae7ff92d33087d180c196e30da0c018",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 954,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 124,
+    "output_tokens_details": {
+      "reasoning_tokens": 40
+    },
+    "total_tokens": 1078
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0fbecec1f7687a40006ae7ff9397a887d1bd232b786651ae7e",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-UR3PESeSoiJ3JmVDm79SNqd2d3QG_NOViTyPiL2LO_9lwhuci4G3YSI_fmWiRfLcjCa93bPF7ua6-vSMSb3OnycGduKxajBgYpLFQorVtqVai9J5iWPiVFpLpLu62IPietVAnRI369EuUSTbxWJ3sUdfVg-8PHYa0VBgZgPa-sBzK1cSRG528aoR2RrQtg6tmkKB_wcYIxvtT_kWZWVbq497a8Rm1IUYkRnjFJ-_PWrJOm5e_mphx-zITlZzmU7kLSXf4gr5H4x6XzsmYOpevDlO9wSdE96501Kj5y8AWgbpJHEHkqT_98eZEpR9DVd7MXXtG2q8XZiGnvuwCY0tCd16egC93SGu3hyY-hsEwobVCpP0RzxuDqIxiAQITSl3uP3mt35IualzuUwajYQN7CxYcsuU2hr-gkV8OeBVjVQoHTsm5CrB7cjxtwtewV2IIZGrl7jITx_5jmwyYGVa8PAAN3Di3SVbtIdO6CfVme1xEARaIOCieBZ89kd4VkBbT_HYGjVnxzLOxrVlYR-awLqksA6VaoT3oe8p2eVJN-gAn_KuehIxZeAbOh2pDHl9SuJdrL5cUO8vEO0419-1vZxlM8lTEBlPaNgn_9IRz5p2lfN9PhQyCyFKyYyev8T-_R_CyXH6X-2OYdCFo9EvtTlHqUgaSAiJ9l-SEUU12eWq8PrJqQ2TTOtkAwYRP4n6W3Rlv3BxYw3kueYqi5Iff4hAr17sMXzb_ZLWORjOjUl2u_IXtntMN9-_e0MRAR7nscJqhVyONz-f-t7UbEzb5QRFvQV6DwX7f7EzPM1srLOKFEucbfpwrv-PlZ5OpzlvP1-OV9LumjPyB4oC-jiquIuaZ9g4PEAj80IOf_prvKemQ1T6_OR4Fukvwabu8kFfJnXpyCthYLY1o-ni2htocZFAipn1klHaq7RFcorTeXgmPxscs18124LMYOlDLe9oysSh_8SCyLll_AbGUDcPHeSt9Jl35RsWkLTlvRk5gRb6ma6dMaehLqpdCRrbDIjt1p4BCU1KBE0DQnvQO43SUkjoFETLEHttzNOEWD9FzMD0b6sMiQh9TqGXp9SoXR9b7iXFDt11TWI8yWBxdvl2boEgHRh7uF8d2sMdJYhBV3MW5AaS8m4r27Uy7c6k9xLxXoUDif8hXzJREQOdk85sb0dAWfGXBqy1Nv83rUhD2JGGDbhJjPAtk6U_GBh2NzIAJaVoaF8-AWitSBldH5BanBUWoJYrzpBd_Vo_atbnQwkVtBp-hiwAi7DfsAU8wePxu2XcYpjmyotTxlOxFEI2aYXHrxBPwH_jtPX6uSCoUAkgJdbJBRUTCqT4Srd2ZssqgG6SKytFHLK2Iqm59-R28I1Y1Flnen-_8bT7qw55KjPgyByiT7mOJ5ELYIo8lsyo5iRtJi-Z4e-dJjq9JPeiuWBda0xk3eDwWOu7_tlQ0kO2_1NOhYo1097dfieWEo5JXPz8447jH457wji7yAAZAy2rle5eCjw6tjV1yGcOFE0rQFQUGs_bgXpDDGvtvXuAmYHyoMJAfFzoPgVhuT2GsEJcajks3QFR-p9aE53n7KRMYAt56SfPsu_XEJqKJQDeUhQgAp5xeLVTYuy4QA5zeTeXokCsQFa-BDDP-M0MwlHHcprMTAV_-nCEc-i0AjAnfN8w5_visfYhFaBreO4JvWhNQt47H5GSx-08alLEElj2Pp7WWu9SSY_0hTmau6EnXwljuk155WEwXCZWsY9gce4unZevxNZDP2saijcfGPrZdWElLbFU-MFPnFDuasJl0RPLplcPNzbqGa2ljas-vA4jPkmASUJDi6IyQCA8efbeJf-g-2Zd5D8t82qqA222p04gho8uONOlAHu5XHOquLyv2QJNOpteT8YlPptlS4Ho=",
+      "summary": []
+    },
+    {
+      "id": "msg_0fbecec1f7687a40006ae7ff94211487d19e1c4cf5da73eeeb",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The target answer correctly states that the checklist for the remote interpreter briefing must be a shared digital document.\",\"evidence_memory_ids\":[\"AC3R2-H12-F8\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported; the confirmed memory explicitly specifies the shared digital document for this briefing.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The target answer correctly states that the checklist for the remote interpreter briefing must be a shared digital document.",
+    "evidence_memory_ids": [
+      "AC3R2-H12-F8"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported; the confirmed memory explicitly specifies the shared digital document for this briefing."
+  },
+  "finished": "2026-11-02T03:12:21.085881+00:00"
+}

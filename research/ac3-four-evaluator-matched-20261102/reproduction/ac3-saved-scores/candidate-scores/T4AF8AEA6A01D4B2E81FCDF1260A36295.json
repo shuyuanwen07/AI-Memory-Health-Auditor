@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T4AF8AEA6A01D4B2E81FCDF1260A36295",
+  "started_utc": "2026-11-01T13:20:03.593756+00:00",
+  "request_payload_sha256": "20e6fc9a38ae477ce7febb9ca44959287a5ea656cf2eb9e3d5b64e730b0c45c4",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The records confirm that the user prefers wired headphones for ordinary editing. Wireless headphones are mandatory only during the wireless-equipment test.",
+    "evidence_memory_ids": [
+      "AC3R2-H16-F3",
+      "AC3R2-H16-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer correctly distinguishes the general preference from the test-specific requirement, so no failure is supported."
+  },
+  "usage": {
+    "input_tokens": 958,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 463,
+    "output_tokens_details": {
+      "reasoning_tokens": 351
+    },
+    "total_tokens": 1421
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0865f97154305bf9006ae73c83ede487d09f77392ca9340102",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:20:12.326124+00:00",
+  "raw_sha256": "3db1f722c112f27f2ed0ca99f3afb03cff07b2fbad9b6caa424a26d8d02a3005"
+}

@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T9A5DD31F9CCF411F8BA81E7D1CDE1003",
+  "started_utc": "2026-11-01T13:23:40.115650+00:00",
+  "request_payload_sha256": "9559f17dd55c96aaa62704b3dd9d0a27a1c4a624d5ef72dfff0f24f39f5d3532",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The answer appropriately avoids selecting one room, but its explanation is false. The records explicitly designate both the upstairs room and the downstairs room as the only final room for the same event, with neither active sheet having priority. The problem is conflicting room information, not an absence of room information.",
+    "evidence_memory_ids": [
+      "AC3R2-H30-F4",
+      "AC3R2-H30-F5"
+    ],
+    "failure_type": "conflict_resolution",
+    "classification_reason": "The source establishes mutually incompatible active claims with no resolution. The answer overlooks this explicit conflict rather than explaining that clarification is needed to identify a single final room."
+  },
+  "usage": {
+    "input_tokens": 888,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 1360,
+    "output_tokens_details": {
+      "reasoning_tokens": 1196
+    },
+    "total_tokens": 2248
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_05116b47aba46e52006ae73d5c73ac87d0b537f7a6e0919d58",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:24:07.157442+00:00",
+  "raw_sha256": "32ff458092758b0560d8a0203d59569b3b3079237de9a1ab8ae9bbefa75d30fc"
+}

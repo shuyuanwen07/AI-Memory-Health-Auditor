@@ -1,0 +1,57 @@
+{
+  "test_id": "T6E67D0EA60324CCB82D397F3B93DE962",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:42.252476+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_016b53942641fcd8006ae7ffaa7c6487d18d1f3cecee07e1fc",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 889,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 142,
+    "output_tokens_details": {
+      "reasoning_tokens": 38
+    },
+    "total_tokens": 1031
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_016b53942641fcd8006ae7ffab05b487d1825ae81d6d99093a",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-se9Ig2km9rcHXhzNt-g2D8JpCCEUBF-Eq5ibjO1RV8Pb8xyLjgJ7SDqSryN-DHdV5jQcIaJQOS-HaJnDIttRMLYGKodSyDK86CS9WicmQ118HmBYjr4LVhAEAdrc5pY1m57ECjeNwOYApNpc2IGrlqF8cI5nP_ebawSKftmTEzcoGOFVY5j2AlV7BKJIxBJDYrTPC_z9YgA3l0ad3AEfHZBySjOAFGwwsCu_lod-k4CLdXYv2yP0-JQj3AaZJhZmzQmmyWRUlV9yJrI45EbsvVlbFepVg43bFn36hYhsBfQMQ7rUsRktHPGkTyY31pyqdLWs7zg84scd4pkGII4n3Xe_n1M0z7EJF4O9ATV7gTw8z8YQu_v5JToSryCjxJEX4BhHgxtjeR_XOjMvNTCWizouJ9afJQ9Xex1Iwrz5fPTwKqTFzmHJrNN2Ul9rtqSfOu3_1-BX-0NeV7mxWpYlAr7bkSlxmoxD6MrdXPy9yaz9wv188MC1hBOU3OnZjITcaBcNryAETYcQpnFE7QmQcAkyC3-qbS7KbK6bJdvVR_vJSB6QzQgJVsYmOiuu8_JNEZcOX17p0xvqPOGlxXdb5RKznFU4AbpB5_0walUg5KDtGYb0tA5zWpucSrF9CfsgnmuHEhmyqlET6ZcoqL0IEQe0icQbXuFzMZeDTdOXZ1SdR5IuUa8E8hAHps0SPonhfQzvvNc2DuvO3A1L93cFaLKM7010rdATCdE26eNXL1GnEj-3pkFzy7woHr4tNMkTmcVEHgtvdfLgFDYEjMXpA9qHWTUpsYV45FtGETGUaN3R1zwe7yXEk63Bo9Ih3yIWPbHm3ztUaHfX_t6hBnwTXHEJTpQUjcyg7-jomwWJJYRpviXUKb37QnofmB-rhZYAv0mJnAeWHIhcqrO7bQEur7YRhd7oVMZ9_VLNeI0-AA3KGc-GofgORbZ5lb96RRYCIU1bE9klJsAVAJJ7HR6tNWrf5oLyH-rE85bxr3j2U1FeqsAPgvlQsTQn5hQcRVfDz2qAWQMYcKfNSgYpWgu-8j4I8Q8cUlJenLcJ2mrcpmTZ2qN-tdMtTSz-rORxa1HoC1y-JP2Mv-8tgI4gy75OgUDM0SGQt7GQbLPKKL6xxRhMlKDriVM8yh0WyesjCLSwuvp-tKWe8UabBhnrVaccmOHT5CFtnd0ws0PMiEJ3mRMv6v8cUPg3es_wEHxq7_CvCbTbPS_QP_4-LKJ-jmt9eCv48eDO0JvprZ3dGLzi2Ys1MRAKswN62rl_erDGNmmruHAr4HJIK6QJNCfPouj1dXgSDecKNd7BZ1sq1jUEu7ydzgvwevz2e-cdeDfUgVb27ilJ-Z15JbCBKX3ytEWnaVITBEKqU07-eH-Kay7G9SVdXKpUxO2ECxBG0wjxozRQBmW5CsXMntCjf8Kc5dJfZ6jXuWH4zzCFGVt-Z25ktlONoS6RdmY1ndaB-XjjCZOZCWz-G17r1Al7VbS90T64u7wlUlQzeaATRQgRJCd6W7zRB0MXDX4HYjBw1Cp8nxecxrhuKs9xUoOXJER-koSVdzaNENL1I0ovNXo2DYLNujjM-bVRyMu-SMn2NTLBWMrYp85I52Q8NPl_36rzr7W0n6WjfvpWH5woVBbCM_ebGTVR3dcFsBlXoUZDGwnS7cgPbiQML12La7f3jmkEU1qaHQPtFDG9XyWrWEfc6n7F8K3BwCpuoXOQznP8LFasvOUOrwMwVYdZfd-xZk7GUw-zfCn7JNXWG36HJI54rVXUMnnN8uIHDOvM5ka8sZ27Gsucwo0Svp0_2ndgfHucqHI4K9f3zwzcG61QoMnuSHP6sJmq1WadqXXAM0HdImho-DkpA45QkfBu59DDsHUVTJeQOGPUp33DL9SnkaM0abYFIDHbrvAtdZVGqJ0VhfOH1RH8I",
+      "summary": []
+    },
+    {
+      "id": "msg_016b53942641fcd8006ae7ffab7d4087d1b7f9c4ec671ec46e",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The answer says there is not enough remembered information, but the memory identifies the soldering station with a yellow hexagon.\",\"evidence_memory_ids\":[\"AC3R2-H24-F1\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary source-supported fact the answer fails to provide. The evidence establishes no superseding update, unresolved conflict, or misuse of an out-of-scope memory.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The answer says there is not enough remembered information, but the memory identifies the soldering station with a yellow hexagon.",
+    "evidence_memory_ids": [
+      "AC3R2-H24-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary source-supported fact the answer fails to provide. The evidence establishes no superseding update, unresolved conflict, or misuse of an out-of-scope memory."
+  },
+  "finished": "2026-11-02T03:12:44.843332+00:00"
+}

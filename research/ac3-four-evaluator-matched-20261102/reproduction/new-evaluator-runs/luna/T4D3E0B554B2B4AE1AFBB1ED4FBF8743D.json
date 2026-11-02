@@ -1,0 +1,57 @@
+{
+  "test_id": "T4D3E0B554B2B4AE1AFBB1ED4FBF8743D",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:06.335612+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_09403936b508ca5d006ae7ffc294bc87d1875124516113511d",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 734,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 180,
+    "output_tokens_details": {
+      "reasoning_tokens": 62
+    },
+    "total_tokens": 914
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_09403936b508ca5d006ae7ffc30d2c87d1b9a5101d067d9344",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__EL8h-RhxxXS2ToBcbQStqGeUCh9Ybn_xSPbncAHBoL00mtHR2b7DVzAR2GIzkYH7Ib8c_wAlNzH9I8jIgxrQn4V5V2kp0bVwdRh3yRkfsbpTpAxXWTNIN5SAA8pjmkyIZsQCyI4FzR0BsPRN37TgMhgHmqftsbtvaHcpice8uAERCiczVl23RSwLiVW4ChIj2fw8Az3ww05gDZ37VZeaOVUQlmlT94EPrHLfzXT3GM2rBMzQKOnLhLNovmxX95j6Ju49umEnFke6uyBm7JJyh_DU0ZPkf94JU7u63zVeKJPljeIF6ptBznMWjqc8f3iuM65Pb5cxMcozRQiij_ICfL1Xm1E4SnXSlKI2CBxYvIAko-ReaBzSeWM2epPRcBi0SEIH4OABwb6g4e1TakVnBlJ0qDZ7TuAUoOXb9-DvMB91BZSB8lDY9hvoMYVw0CO9BYevKB0n5TacAhjABBgNoDsOb9-vDzmBm0RADEYE76P2SZed3VlrlaX5olgzb0BRd5c-ly6E0IncKRQ7hMMeairPIJ6fK7g90GS1YmSyxRn3HglmcwPOqrszPUGM5GJJ3uRkJwKlnQlJfUvOfg9sytw9ml_12JY4qv7ORA13YomVmUOpK9X5Q8nrecVLT6qzhVl9EdYHzxj_huT9KgCSAEeH1ckHIEhbMTE9GQwFgRXln7xPSbhEiDvjLZa8uEGfStS9_QFrjZidnk873ftsV6rGZTGjF6s1n-rRshDFp96V2Ecf5zrogLMkHw9RgD4LzEh_m8LniiLrLXRNtnceW2lg14glj_DGnL60zyIU5FTQZTrvLTd8JfLtLQsbw4RUj_EAIVAUCoe3mRi4Y4DcUcVQFcclBdmNtan-5lOPYVninl5uwxcdmxwtyOyPUigmkx_cu41xkr22W33yDIe76_ivs1ZkD8mPz2sNAEej3yE4lSmYe8D5m70iTtqHs8XY3wj-YCf0eHZi5qUEPaNq3pDURquRxkL2Q8w2_wzIhcb9ZuGziMqxEzYVSnSYpA5POe4d9IF6W3aMpv2yHNz6m-9mFflE1r7EbSe1OkTIT7Pou73cxLwNAQSRpQiSe1GccSQ8MtC2NFEVgR1vOg9aAn5yjGQaK9tY9WkO9E48EkfwGbc9_aMPJIjQAs3B8XKI0pVaVoKTcUzafsL85w3lMckN5yS7A7mb-X2aO2K3aq1MeG6Bgb5LFrOFf5Knfmx1VcfCjzbSxL87cr6k0PQALM4rwmTiO4-w69nrDYSFfYKFZhUr8-KuqWoxMYDwp3kK_gGyF5KNKH6Go6tHrKUhNmUlpn4imcPj2BwxpzKul7n3Sde-z9rZ8o9JDajq8UOT_FhTahCsaeSQi3ZkY5KPVT93q_oe1RDIEv6Agc8fZGT1sft2Oa54cQaYDRMRDzL0frfzBSD_E3ECmedX94j-LNNPS7waIpX6_DvnkJ1TJopwSfpSCWEGxRJpAEHPg8RWS12Pb4R8NdBJSQzDDKN2a4zJpka_mWlZfKsYosjDcj7vTc8u9aIDcz5fhpVMSg5O8UyKfOp2hHFvIlKQTxMAtvTSnHcRdgxdhrAc53BQ7ZaLBNAVtQkWaLGk_UQlmc1cuERfMVPF3o9qiUY-SR55PHk0iZjWsJxOSUJZjxM6IxwQcE8hlgcGoHEw4AQ4WZRnfXeVAa4fBMIgpR1S0A6Hs2d4oK1fdfS-SUdXThikGJgAVONCmjkqNs1iehHMKlo5L1-7njcxBLzDeSq5HyePZOGlJo40lwZX4WIa0Gphw1M2te1PybKlVo1LR08VOlcRjiMEh_9ZL0-iVS76HUrg2dNWJihX7dyXqGEA7wYMbkTRJ2DX6jnndbZhDWCRQFGlp129paHEyf1XIR2Gx5058ZlyxY26wcymqfi9XtDLCWinZfdCCZybMKH4E3x5zVOcdGXJrD4oqd-0jKRIyDbz_14Px9xapTq_srE3lewTPxun28ZoWmXMvcz3SpyQYo_aayLc4GAhtsqzqLhNcfIMFTB5wUIIBcCfRFi2spaG8fNE1XiMN2xPfe0lkTq8SbCmWZAWcrOoCJfJg8m4AQPzQsUIX0R4J22MBQPn2JcxHDbghBg5vDVlYR61vGquq2COmusWmd9qt4WoEKtMVPdW9hpw7ZdURsxkR4gZWLysx4wPG5e1dyjTPGQTBnTy4FLik3V7WQTVKfXe85z83nRQgONE0abb9zGA473c6UcGsOCOrxV9MXxeZq1DUnTYctZRmYiwBfa9yXNz1xgJBvsRhzSKB-eGpEowNXW_QeXpEh-8=",
+      "summary": []
+    },
+    {
+      "id": "msg_09403936b508ca5d006ae7ffc3b6a487d190cd96dbc545568f",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The memory states that the original rehearsal order began with the overture, so the answer incorrectly says it cannot identify the piece.\",\"evidence_memory_ids\":[\"AC3R2-H10-F2\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary source-supported fact requested by the question. The answer omits it; the record distinguishes the original order from the revised order rather than establishing an unresolved conflict or a superseding state relevant to what originally began the rehearsal.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The memory states that the original rehearsal order began with the overture, so the answer incorrectly says it cannot identify the piece.",
+    "evidence_memory_ids": [
+      "AC3R2-H10-F2"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary source-supported fact requested by the question. The answer omits it; the record distinguishes the original order from the revised order rather than establishing an unresolved conflict or a superseding state relevant to what originally began the rehearsal."
+  },
+  "finished": "2026-11-02T03:13:08.862216+00:00"
+}

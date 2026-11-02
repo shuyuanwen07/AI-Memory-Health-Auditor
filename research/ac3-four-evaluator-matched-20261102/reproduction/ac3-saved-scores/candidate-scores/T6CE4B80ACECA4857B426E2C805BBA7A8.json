@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "T6CE4B80ACECA4857B426E2C805BBA7A8",
+  "started_utc": "2026-11-01T13:22:03.891506+00:00",
+  "request_payload_sha256": "ff3602bbd60463d106344517d3a214771936e58a000daad890e74d110e7b34eb",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The confirmed record explicitly states that the editor replaced the filename with `review-cut.mov` for the current export, matching the answer.",
+    "evidence_memory_ids": [
+      "AC3R2-H05-F3"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer correctly uses the explicitly established current filename, so no failure category applies."
+  },
+  "usage": {
+    "input_tokens": 728,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 426,
+    "output_tokens_details": {
+      "reasoning_tokens": 326
+    },
+    "total_tokens": 1154
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_065fbda5c8ba736c006ae73cfc607487d0b9a72267fc525c76",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:22:11.154609+00:00",
+  "raw_sha256": "afaf3da9b5f2012b53a5d33d74f6ed63eaef9af9e947f4dfee71ee4c461d2944"
+}

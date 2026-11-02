@@ -1,0 +1,57 @@
+{
+  "test_id": "T93E309322F314D3C99435689645C8043",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:38.434874+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0f53f3d66fca7a5e006ae7ffe2adac87d19189e4fefd9b7559",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 747,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 257,
+    "output_tokens_details": {
+      "reasoning_tokens": 157
+    },
+    "total_tokens": 1004
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0f53f3d66fca7a5e006ae7ffe34f8c87d18c3bb3d7161e70d7",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__m0_xf7kPZKZejwWZ3bEdB94KASIxVyWQ13HCnicpV-slvrW_pHQ2BcfRBMqojIeOX_81mW8GRTaLJiwgaD4tc1h2vJX_IdIaM6mOSbVLFb-8k82Lr6q85HPzZQEqZZDT2ElxmUz7-cuQ6ubWSvylfslHTGkfc1gKWqvmNuLLj2IgcqEn2JKD5LVDcjcGBnBR9lKMpQX6eHsuXUhbp7Sy_CvWmf547-BmFLUvKaA4KGqvr_xEGp7lClfLzy1eP-uVyOhEwNpJOzzXJ7HSRnU7eGyT3ycvar4daFklFVFiQJCoRVdHt2rX5RwA2GMHKEWhzNJf04tet4DKJ3fxFtr4nKjzV1wxzdMBKnOr0k8BsX-K-FmJnoMPV95BXAdHX7QwkbkzFI_yI-3Koj5ZYK5qoP7MfMvPoxDJgJZc66Rlk_ilZ7x80z1yjYHY2JTDX64s1wWGM1urhimZDtW_OktMLMvxkUwqX9NpL6DUvqYzr_x4RJa7F1zhxPxtORwfp7b0o6j1caGVAcLM-6ZQa2MeHE9ZKiWMG7rWtBl8ZlM4Mys6CijxTrC4SJqY93ZoKPmTYheCIHOzpYzhOlkE0TPrwam1mYd4we8RTE-Hzb7dIU-fAtE_oGchWHgWiQHOQ_C6thOHBruGRbjoumi8sn2Z6fLTyoxM4oA8zpkx33yUyNjxKJ_w5gh5M9L1cNDCTo2wluNxXiUcfGkpgOooyKC2sHwMIzTGx7Ttm0lfYwcV35Cc2DxhGehT4RbPKrx0nA5Tf9IsrmM4IAQb1BPpANuW1QK_wk0VIwRhBX1UVixRTAX0LVPYtUZuqwLaFO8P_71X5KfamlruDFPpS6Bwx4qtpu6Azd-rwSi-BKR2y3PK075TgFHL_Bv3gfN12Ma92HTUTBDsyoXlQEEb20lP7HASAv1WpYCNFzv6O5DNw2wyPjyiRM_h9TAkyagYXIBVznXX1P_Ymmm1OP7Er4pQX5cX0eEfPDZi_DO688oHzHwRNCOuy_YI9E0TM-n8R5W7o5riaTqs6Giev8elNM6Yc51RzYyA0oBmJRR6J7gOVrLuNxQ5NSxCdjDzmX3I_omwEcg_nlMyVKo3a72DE3Q7-GsyMeNjUYcX6F_Opj3vDYNWdVbvtU_S0lqBhBcxkmPeT8RS7TwZoQUMxSxfJl_2o8XabzorrsOkfqkmSRj9eqrK6WsJlSAbUzO3QQxa8MJRncZyX-qbwXCU37t14wPlL0tzzgTTfIgljttqliqkDBZ5h0iocp12puXHFjC0Q9ygXNsGSFMfUX8OxrrKGUwf5mgqbecM-u99Fw2PxRF2iU2uyBIviuu-WCXW5ka7Fr_MrK8hNpErzZzkY3LPXdDCoNtAFJq4dQeLFwne8Ryu1rgMwMEen-DXyK_Nic_64VgY5kNt0ZakEmcYEXz7dhjhrL_fZhjA_K7zaM-hFWnOBfrEYTHMLscGsFUnT5cKpoPyuTKQR79QK-drxNykDBEi1VFerHMcDI1kIxO1eg0zM02GoJiLrfnnE1zKCsbzaDyfwpHMFg0j4t6f9icICMrtN0ygoeaDkCzr5KAzZpeoIAdzam7HnBj79fE3QwTHX4WEgNbUp25UJbPaP57H1AM8IEj3aYlORNsvSku8t4G84UF9smDlwoBowGcO0-3u5qmgKLbsUNC7aQIXYOk7zIv3LGxnuEZ8WSndQmUe_a8W_6GlikavSJAUbxE5-_brwRVvKv-LVJYD9cpIuDzLV5p3Q17FdaX7_g1yIlj6QRj1pl6HMEqxo0ChbSk3QWAA9TZQ_xQbhNVDAcHW7UZDcWxUOMM8npeiqL7t8Mu_WFY1GTn5iUub9Q665eJ8lQsWcsXcNIs_O1lWkcwoPspoxe8V80gM4Lu3ULKfuEnvmpg_CjDwmdvA_hzL7V6xwUsRIgTlO90JKjsSH4TmD4Ta0aSHboilk5rj2Te9Fq6iXUjTjEAAJjshpo-t1V-m2n39rz2_o-QVhjsAcUOAHUoqXqDg5C4OMFFs_vsR_7nCpKIhLPVtp-Oxw5DMw24lUVZ1ySmaKsUamBT7_YpunQtbnbhq0Wvh1XpE3ypa29Ca4KWbzGo6bqaB5F_lP11u3jB0wy_lO7DWB95Dyg-WMTTSYmrQJDeS_cCf-tNoh78pWIOcX_pOLhFr8FZx7bl6bfii2nZgDRbl87kxHtr6t5ZbeWUuBSzGXqSvxOVGskeGZcQfOJfcZOc9889Dtfh-hlAz_7f9FBHOPgNK5ZmLP0Rxsx-mFy8wfM58Fq03EEXbAQWC4IEu6WFElRnfDWUiLfh5Q8UYVVAhIZ90gUIgz6l0BFigDCNomTh8kJfU347QZHb4fxKpfinHqazYan-ujqR4USXQnljSabt8FqQoYINz0i9asQgLdhKH1SS1ceaBSMePJiA7Y64t_hM-DjrICsKiyuIiKugB9iLznCVECDpZW9BW2pY8Zk-VxgHn6VLcFzOOx6Oe6dvpCU2ie8EjjcWIg9e7mMUbWuQjZ_CQN4FrHuSh9EACl3pDg90GdPA1THBFbCRMson7zrN8qGHUQxygvq20-ZaR3ISdsboWg6FLUrweIIUhzYIAA3AYISTWDrNU5VW43_G26VQlFVMCBrjDT0lFd74FfjAWgSXkTNbMOVR9lMeJZrOiLDFXV7_h1emjOck-06cxe67Ayd5I4sVKMzNEdsj_6TxlyqinNvRKapGQlUFlK_XmFbxG_YNfHymi1ZXnX-VNQfhWvbh6M7wNlWYm66WhRSJ_30E3aHlf_JEsA4jtnBzxZMormJM2EQTLwZ2X_YLRYDSHnb1TxU7HXCS5O9AhQYJyJZ-7YjeyRVNboa3f4I8fFRVkFO692osdeOWLOOctGOtl3u5MC-VACOqPet_Uu2WOuo9OIRRYRKvGyEQJSVXRkWI3L_Su0_YB9vTTRi-5M2gRllV_Xw48FloNOW3Wmy9pmDO3bESmRYPg2vXenDrf4G6joXfOfKXn7McS6NLSfpBIBvfob29YdTktf089w41SRbLv12ckhe2VL-6j4lYxj1penCaKL0UdfSE07NrmvDvUanuch-XtwSP3mDr1ulluJDijT09eMiSVY7NJF2WBvDy8ZPyiODhPLpWNv_YRanBBvtRb1Ob2aUeKvJbFIoQs9YDcdXd7UvqPMN0WVlW9Y-8XcEhvY73lL9Fr-Y31S8WDPapPUoVUkLl-xYoel1iCPfzS4B3oXgUAbcfNoMk0XiVD02FLYZViLZQosdmO5dPMqbrui33S3VxnFM6iexDFHxbkPJkzBC_up4I0C5FSb9DL2cgs4yuYDt7PSrTgjRa61b9WSBBKaOGSAq3yIj1RHdcYMbT9u8GBdGUOHjkD1Ksb4dR7GkqhfcWUidYSE5Z7nD5AGS_Y8Mxyehnmi__oae_2qHfGJ6aAYrfH8ZGAh74hYa2pYx_mSWc7Wbd44TPPD3ih2x4vhbDrS0KJMxzlMdqQNJVLdSnPqjtVwDlZB_uLSexirwWrvf8_wvqy2iFlyNa7g1fiRVHXIP3hE1Q4xtvP3b5RUpU9tbOc-GkRPV33xCPd8wy70WozRE-A=",
+      "summary": []
+    },
+    {
+      "id": "msg_0f53f3d66fca7a5e006ae7ffe55dc887d19fc1459390fdd594",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The first inventory listed 24 lentil packets, so the answer incorrectly says this cannot be determined.\",\"evidence_memory_ids\":[\"AC3R2-H02-F2\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary source-supported fact about the listing before the recount. The answer omits it; the later count is not applicable to the question about the earlier listing.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The first inventory listed 24 lentil packets, so the answer incorrectly says this cannot be determined.",
+    "evidence_memory_ids": [
+      "AC3R2-H02-F2"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary source-supported fact about the listing before the recount. The answer omits it; the later count is not applicable to the question about the earlier listing."
+  },
+  "finished": "2026-11-02T03:13:42.472386+00:00"
+}

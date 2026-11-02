@@ -1,0 +1,20 @@
+{
+  "test_id": "T8E8A3DD6444648E181EE170AA7EFEB06",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:44.441905+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 920,
+    "eval_count": 211,
+    "total_duration": 11275579584
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks about the final enclosure colour for the Falcon laser-cutter project, but the confirmed memory records do not provide a definitive answer. The memory records discuss approved materials and project cards, but they do not specify the final enclosure colour. The answer claims that there is insufficient information, which is consistent with the memory records. However, the memory records also include conflicting information (black vs. white) and do not establish a definitive resolution. Therefore, the answer is not accurate, and the failure_type is 'accuracy'.\",\n  \"evidence_memory_ids\": [\"AC3R2-H13-F5\", \"AC3R2-H13-F6\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer claims insufficient information, but the memory records contain conflicting information about the final enclosure colour (black vs. white). The answer does not provide a definitive resolution, and the memory records do not establish a single, definitive answer.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:12:55.799001+00:00"
+}

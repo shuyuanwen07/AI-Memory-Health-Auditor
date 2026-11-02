@@ -1,0 +1,58 @@
+{
+  "test_id": "T3E3C4094E580485080E7905614BE81EE",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:38.735119+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_06d5604259a10130006ae7ffe300ec87d1b6e54380fa64e869",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 973,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 145,
+    "output_tokens_details": {
+      "reasoning_tokens": 44
+    },
+    "total_tokens": 1118
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_06d5604259a10130006ae7ffe3ab4087d18895dd79d0379e1a",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__luuxQc6hGCWx7CL_6Zz9LREzPdf9G67JqNu9G8YDN_IVjosgoRZo-3mps3-M3oj-F7Ks-okQL-Y-poPG64HfYOViLT0AtQnZCSnLEUnCUriCLFW9yQ6zzHajCMgm92ukfepvrYDvZXhPeMzYq4z37pa8Kl-5M3BKVWD8IzESfM-qzJvnofcqERy-3-wQTWYLOmXwsZ2W_0DZd9sQ4JHh6ZmWjW15bbtDYtBzhXZww_esYmH8P9tqdCE7W4NxAvCHL652LkNwOlLDnV7BuFtfiTGmbA_Zeu4BZwVTij6SytJckb1Ny0nU8tOKIJdzMrD98XFMr9Ru_hZ8O7ud6Dla1OYkIUq5GpkdGtMXxzLbX7YCQNyTq80vFNPaCZTcNLgqzG_qwLTj_Tv6fA25Tf1ZjrKvckZtfB_rHZmTmmTJW0Tr_uRjuZbLauemsjA6d3BDjJww_Ucc706lenmZ122O533hmb2i0Vt1CBat2OgH-kElFPFDp9htqXDl15rLzOahdQJzqTkk9GWU2MDydDSW8ktK7eQ2iJ5RE3xRmrq9ueBFyPTS5GBIV2JX08ifTK6J4mba2VcUnnY2-5QsIme83JlxWYiYknTJvlH5XzLyhWucjHHs_BuaA6_ASDu4LccGRTsM7pJGuH6S7sTTzPm9ZXihvv1wegnJ6dld9HuhL1Ws4DUzOI7HQCszuk-Wo9NQrhtt-9sieQyAXfzF-x9CihZHcAPxd23KiWPGUbjoTLEnpgBUvbnZ4DiOXOmnDLtL2eFTWKJM5cflgHVy0CSYQFYL0m9gO1s-CLwEoQ8Qdu__sj_KT2D9Hqno7l-5zHnCxJdASmtQl5VD6RWJTDgcVm3fUfT1xU4By0_az9HiP--1wwV3RbF_xYKF-zO0It62LDlquGc6GgS_VlHywj7glBEIGcj0efT-A7t1Qx92ndvjmgHYjx5GRVgiAtOoKDaUm_t6rX4EmobDzvUouibV9ZFkAJ-duHNFmj-FvpsBgh5Dp-LA_gu_Cw0jjBJFMVaw_hqR_r6eIJjTsgURJZdok5RF2toM-8ewh2H9M_ABgc2v2Foa0weE1vDkX2h0OjITb6kVEO1np52-jQX6tI1M78ltn06dmSD5r3L2cD97l-PCmEKZFQRGGwHCkUy3OO-JgEXq9gcEDYni2R7-F0uFutWIO6iBS4kVRrE8G0S1Z42nVVOAcGfqWhUb_FEfSqx1IEAwJxR-SghybphfmXmST5bkoEAXYTHJXmjy-Pq3OnpSL4kKY9a9PTHalHmiCdLpRKzWOCZDjUjoxDjs39jDI4LmO35xFc-kf6MWzlNKielKG8mmt5jJEf-aGxbrBG68dZpO3FaP7D8x0xo9vFhgEGGeVMJbbCA_SMv7WJ2GaeLz_U0uIK4JXSCvt53mcoyWgQI-cSFJiYR_Ac_pe9alynnTqcZY2IEWwZsC6z2FdSvstdRu8UgwpVC4or1N936UpIrRpTgWbe0rQ51eEMysNBfqoiL121SvoUUW0ZV5C8kPjjGGRCBqI-vug80OCcGQmvA43xTQdFlxS8GI0o_zBz7515ygxqraY5K9eFk2kANFbLrnREW441NA05II59w4uZrnF5nTErm8mcEDLSw-GL6Xli53kgVfJa0PpyO-bx7ci0dJgNmdbCP0RkvXDpHsBHgbhbVkxMWI90t2mBpceCAbTdTCq8_qv5yIn-qUi3P9POkAsZ0BTKjlLgx_stnm421upsIhE7IJLQvkqY5p3fWOwCgRrnRfy8BEt2Z9FCi6XnQ2bCsCvLz_mbRlIXX6zH5-6Cnbwv1xdfuG6hGDZakGD2auZCKL85AjmvPenBgi6FOx-XKWySzH_9338y4F2zbGkpDNgxZ1f3TG4646w12MmFnJxPnCq4_5Y-sKlFNUAU2RoTc_NXVHxPJbZYThOlqrCCw9fXk5Sp8Or_PSuti54U9PinCPlCFSJc5EQrz2hQ18hPuLmH0fW3eE3OCdp",
+      "summary": []
+    },
+    {
+      "id": "msg_06d5604259a10130006ae7ffe459b487d1864f4e974a821a99",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer correctly says the general preference for printed maps applies when no screen reader is requested.\",\"evidence_memory_ids\":[\"AC3R2-H14-F3\",\"AC3R2-H14-F4\"],\"failure_type\":null,\"classification_reason\":\"No failure: the records confirm a general preference for printed visitor maps and state that it remains in effect for visitors outside the screen-reader situation.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly says the general preference for printed maps applies when no screen reader is requested.",
+    "evidence_memory_ids": [
+      "AC3R2-H14-F3",
+      "AC3R2-H14-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the records confirm a general preference for printed visitor maps and state that it remains in effect for visitors outside the screen-reader situation."
+  },
+  "finished": "2026-11-02T03:13:41.804683+00:00"
+}

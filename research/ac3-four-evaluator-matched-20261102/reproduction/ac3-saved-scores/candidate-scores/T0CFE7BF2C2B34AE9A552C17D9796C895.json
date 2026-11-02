@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T0CFE7BF2C2B34AE9A552C17D9796C895",
+  "started_utc": "2026-11-01T13:18:15.341420+00:00",
+  "request_payload_sha256": "18ba6e91a69e2e7c0e6109eabf5a320829428caae666ba0d4918b9306c638129",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The revised collection-window end is noon. The answer incorrectly claims that only the original 11 am end time is recorded, overlooking the survey lead’s explicit replacement.",
+    "evidence_memory_ids": [
+      "AC3R2-H29-F2",
+      "AC3R2-H29-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The source explicitly supersedes the 11 am end time with noon. The answer fails to use that confirmed update, establishing a freshness failure rather than an ordinary factual omission."
+  },
+  "usage": {
+    "input_tokens": 903,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 634,
+    "output_tokens_details": {
+      "reasoning_tokens": 498
+    },
+    "total_tokens": 1537
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0b147db7cfd6bb7e006ae73c17ab7c87d087a022dde9ab97a5",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:18:29.962249+00:00",
+  "raw_sha256": "ce89c304335ee9df0013f6644454463d4fb240dcc3df80fb18801f4214c12d39"
+}

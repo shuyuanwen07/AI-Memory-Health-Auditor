@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T1AA17D0821054403B64E94F4850A2F38",
+  "started_utc": "2026-11-01T13:28:05.701689+00:00",
+  "request_payload_sha256": "c8537d0c41170627c6810e70178535e537d9a7a0028d6deb2efb5ae737e00f18",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The answer selects the meadow as the sole approved location, but another active notice exclusively approves the rooftop for the same session. Neither notice supersedes the other, so the answer should acknowledge the conflict and seek clarification.",
+    "evidence_memory_ids": [
+      "AC3R2-H21-F4",
+      "AC3R2-H21-F5"
+    ],
+    "failure_type": "conflict_resolution",
+    "classification_reason": "The records explicitly establish mutually incompatible active claims with no resolution. The answer overlooks that conflict and presents one claim as definitive."
+  },
+  "usage": {
+    "input_tokens": 899,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 643,
+    "output_tokens_details": {
+      "reasoning_tokens": 506
+    },
+    "total_tokens": 1542
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_057766643a93e664006ae73e66114887d0aaf34972c9d1c519",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:28:19.284662+00:00",
+  "raw_sha256": "019d512f15085d2409ec48d5725dffd5713a663cd4e15222f408840dc21a777a"
+}

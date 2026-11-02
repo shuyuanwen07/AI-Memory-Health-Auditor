@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T0D9AEB74CE194DC1B8CEC5655D166F78",
+  "started_utc": "2026-11-01T13:22:21.485776+00:00",
+  "request_payload_sha256": "fed0c4c11d03f6bbbcb854e4809aaf57384bf8fc17e3561f146afdbe5d684d3d",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer accurately reports the mutually exclusive 2-metre and 3-metre claims for the same flood monitor, notes that no replacement or priority is recorded, and asks which sheet should govern rather than inventing a resolution.",
+    "evidence_memory_ids": [
+      "AC3R2-H11-F1",
+      "AC3R2-H11-F2"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported: the answer correctly recognizes and handles the unresolved conflict between the active calibration sheets."
+  },
+  "usage": {
+    "input_tokens": 985,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 544,
+    "output_tokens_details": {
+      "reasoning_tokens": 411
+    },
+    "total_tokens": 1529
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_009590c9be85349f006ae73d0dd6d887d0900aafbafbf3c380",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:22:35.127453+00:00",
+  "raw_sha256": "5c2b5c7cb471c56e2c6cdb81894d90c762ed1fd44daba0f4673cdf527c80232d"
+}

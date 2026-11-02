@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T30C06E5E75B64DBA810FF825C2C8B939",
+  "started_utc": "2026-11-01T13:18:34.130146+00:00",
+  "request_payload_sha256": "78818c5009abeaaf6bf1615da707434f5157186bebebecfdcde578f4aa4d971c",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "Ordinary club announcements remain on the noticeboard. The mandatory text alert applies only to emergency venue closures.",
+    "evidence_memory_ids": [
+      "AC3R2-H18-F3",
+      "AC3R2-H18-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer correctly identifies the channel for ordinary announcements and respects the scope of the emergency exception."
+  },
+  "usage": {
+    "input_tokens": 940,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 382,
+    "output_tokens_details": {
+      "reasoning_tokens": 275
+    },
+    "total_tokens": 1322
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_031e608010997de3006ae73c2a732487d099686bf4cfe3914d",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:18:41.550978+00:00",
+  "raw_sha256": "b58aa4992c202fe89c61a8ebb4541f3c82420a5e5ef27745a43fa50878936da4"
+}

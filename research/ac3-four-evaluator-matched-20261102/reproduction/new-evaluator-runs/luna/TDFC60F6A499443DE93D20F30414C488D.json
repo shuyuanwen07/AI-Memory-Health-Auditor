@@ -1,0 +1,57 @@
+{
+  "test_id": "TDFC60F6A499443DE93D20F30414C488D",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:45.096056+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_05d1f809320388bf006ae7ffad501c87d1a03bad8724cc8a3c",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 878,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 120,
+    "output_tokens_details": {
+      "reasoning_tokens": 41
+    },
+    "total_tokens": 998
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_05d1f809320388bf006ae7ffadf9a487d1b22b431ddd937953",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-vMleTa4iSegghjCW5P9eKIrej3WPptX9XsTU-DUcgTg63GYvYjIi07mfV9Vuglm3bAVPprEkokIhwQkqBOpxcZdlsSdabSYDKv9XfrKulSU-lbmJkFeOppnu10eXNOs6PV4stPh_YkkFAfLY8Ex2UdQNwil8EVJrKMCnrIP3ffkjqwDIomBwgZOP7K5TMBLYIYQ58uUfsDfWrZaBlEP-8-6ujWlDtPhCTMEfikD8hP59TBU53SiDMVHxqpBmIuReOj0JFCc2KC5f4GPYdhDWb2YM0QTGYhXTz3AqMQbOfbKOFYKAZKjtV7_6WfQXZDbFTa30SBUB83Rub5hzXSdzOQVvUKm-Z2lxu2l8XF1N_XOeVS5oUhon0OU12OYqlFJodQ2eJIR58bK5fE3KC7nrHJv9cp6zPnINFDYqJ6qMxn4O2RptRTYGxn1GIM_o08LIgGwT7rG4UwMe9F-orSg7MrVMoQU4-u3S_HiAK6Yn6XeaLHF3OBVSQGZAM2Wqv-r6zzUP0AO5di_Nit7vhh1xEfQBpesNKKqPHrWRoPhKY1sc9pUV4bl0LYcufkv4mdnlWHBBPeRIU6wy-axfaUqvXkIAQkO7-0bQ_M6jpBaKXNqvfh3qTX9AUjbQNU7ARiRBr0S-GbxVfFnW-YZ4H9OmpacgtL46j2p1IUjjwDqK0pz5zjpBD2T_JCGffMTVtgyLocZnyBOokx7VQbv0pKHk1QIlNu0HlddhXJYvew6Up4JJRBiLKFAGlt-62zWsts7pjgDVK53BlWBPtGt13qeBAbLrr4pu6Ssmh7R1bJ0wovWGp2KwIQcTEiPeisJE6BKDyGanZKJ1Onex8SslRLsjPr0UXInbCY1N0XjziJ8l_AyGsUYG2drWMiDe2pj31QuEgj1dYYj_iZV88PMcYp7YRwZtKkGT6sGXRREzUcV4UWsQPmMMGqFRbpg1bbxWvv4s7lxN_vjR-1xfueObfCqBnoOB9Q1kBIdk-Hp2LQElp2zGC6Dh0NpZuM-hln4LHKiNWCAbQ3M0GqyqC-KsXL09Ql5kRnr6F8wrYANc68utAzfBHK8G04kDc4WmS5qHXnQhqxEDp7MLXFqUBFl55MGARY1BqbPllpryEsK1RfrtCnd9UEdlrJTUB7tyhIrSmBaKv1gr30ldGXqi1TjvM_9o0Yj3ka_w6AeuWAk17o2k185gDSgRqDIzDwI_n-_1iwX-YWoTKndL4gnp_HqMl5WyFcsBcgRtlwzx0TiBqJYYElUaESWc72c7nJ7OV3PCHzcCbR3atQtYMRFLqZ66Hs7xmuK2hhfeieHjl-3n-ckmFk0WJRJrgjhB86y5UUbCiIkK_EhcqZxYswWKbMzXYLi_ZRXxLYOsj-cIb9e1VpdD0oP9hcpJsxsDa4DQPM0jiiwGrFW2Km-1nchgopX1McbgNCm_hEKfCSzGaXDEXO2wdqCTAlqdQzgaQfsK-dEGkbC0APPI0Fk9SMSz77SzsqLMN7jHtG9au0i5LvBf3_WTMndqhyaCDVgv5WUyg-cq4Acp9TBpqDQ7xkMsUMokfzCLuHaien3dMX7mtsRp-wa2dI7AUC3q4YoC1UfccK3Et6JxBxqLnEgCOhmd3UeRZOzgQKyEvOJOOzVh52ag3vn2synBRTUYe54cVbQtcA4cHDG-_7gxGd0UZELxtHZ39KQgoQYdBLmfuN6DtGnRFmQ2HR5SsriMgggCB3kAzJn_k4VAUXcBH2fflTdCLOqbisfE0M7bh0N9OepfTmABd3SOlBrBtpOUy_rzptxJlPC-ZzS6ziFbiU1-HSPXhqa8r22aPu3pm-8h1rS9i7G3QM_wI461ZwE3kdcHKfuI4XKOOGprDCzbdQH-c6xLe7_T2NaObPe9K5ZmQi7aXwRUU4k9nyZ8=",
+      "summary": []
+    },
+    {
+      "id": "msg_05d1f809320388bf006ae7ffae906887d1bad1a58e2b7c817a",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The wardrobe lead moved the fitting from Monday to Wednesday, so the fitting is on Wednesday after the update.\",\"evidence_memory_ids\":[\"AC3R2-H23-F3\"],\"failure_type\":null,\"classification_reason\":\"The answer matches the confirmed update; no failure category applies.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The wardrobe lead moved the fitting from Monday to Wednesday, so the fitting is on Wednesday after the update.",
+    "evidence_memory_ids": [
+      "AC3R2-H23-F3"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer matches the confirmed update; no failure category applies."
+  },
+  "finished": "2026-11-02T03:12:47.559595+00:00"
+}

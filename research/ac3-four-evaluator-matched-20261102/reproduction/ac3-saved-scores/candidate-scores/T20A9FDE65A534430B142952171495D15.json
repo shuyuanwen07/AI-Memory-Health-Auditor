@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "T20A9FDE65A534430B142952171495D15",
+  "started_utc": "2026-11-01T13:21:18.409685+00:00",
+  "request_payload_sha256": "1b080464ae3c9f56240da6fe92938955473a9bff6c0d2ebfdd12670284c4c1a9",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory states that the pool stores spare goggles in a mesh basket. The answer incorrectly claims there is insufficient remembered information.",
+    "evidence_memory_ids": [
+      "AC3R2-H06-F4"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The answer fails to report a directly supported location fact. There is no relevant superseding update, unresolved conflict, or misuse of an out-of-scope memory."
+  },
+  "usage": {
+    "input_tokens": 734,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 434,
+    "output_tokens_details": {
+      "reasoning_tokens": 318
+    },
+    "total_tokens": 1168
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0c100152845b1070006ae73ccec5e487d09ae5f3d9ace668bd",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:21:28.324630+00:00",
+  "raw_sha256": "8700bff1d025b54d766b77c093ef377b330d0d6a1df7cb66d96df3ed79ae1cfb"
+}

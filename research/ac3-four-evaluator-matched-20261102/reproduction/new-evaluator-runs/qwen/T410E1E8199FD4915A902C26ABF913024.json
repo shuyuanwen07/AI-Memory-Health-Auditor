@@ -1,0 +1,20 @@
+{
+  "test_id": "T410E1E8199FD4915A902C26ABF913024",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:22:50.731744+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 675,
+    "eval_count": 137,
+    "total_duration": 20656407000
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is incorrect because the confirmed memory records explicitly state that the van's rear door carries a silver star. The target answer claims it has 'insufficient information,' which contradicts the confirmed memory. The answer fails to provide a correct, source-supported fact and instead claims ignorance, which is not supported by the evidence.\",\n  \"evidence_memory_ids\": [\"AC3R2-H08-F1\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer incorrectly states that there is insufficient information, whereas the confirmed memory clearly states that the van's rear door carries a silver star.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:23:11.540003+00:00"
+}

@@ -1,0 +1,58 @@
+{
+  "test_id": "T7F5AC9CCAEE84653AB28885D8F15A8BD",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:44.018290+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0d945cdd8bf4935a006ae7ffac452887d1b3ff2a5bf13ed7a8",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 949,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 157,
+    "output_tokens_details": {
+      "reasoning_tokens": 49
+    },
+    "total_tokens": 1106
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0d945cdd8bf4935a006ae7ffacb95087d1820da9697a538944",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-uuEawTdCbBfuSSWQJmMWOn2Gx7mRXGpq_2YGjhV3wHyVt_riyJcmF3kJf059GXFvJijrkDpGe2JHpsRJB-mvHfXNgmOTC5nN8rgPxKap5b2Ny5jmoFUdBPveixEUG4_tv_0ViSp-k81eK6zhw9q8iO_rwLX1wLnbZX5ltxiJQpG3g6gswJgOuKVNCjip2MA1TETBv09p4T8bTWZrPNOpB_t8AzDWzH_35VZn2-IKhGD237Ai7boWW4sHK7ECquRHFuwwmrgkZhF_nq7UEAdavnDpZNiCbpQUDkf1NtJED-tuWWOWtFvA9uB5R4IC6Yr6KREefoUa4_Ok_JvzW-6yZoSb0Sesk85mpOo3PsNcpWB7N6XOVb5DT0mcUP66IJPaI2-gEShqnasdo853VlDJkXgpYZ8xe76plEv90bpBtI59ZxqN67aVzpFUSkfwXTKG6S1p5eMS6W7dYflEZTmCgplv0cjG4vgYvL5oRiiS6SfZueMW2TOwIfIiqLFF26Vw4OwXT4mEB1dPZ9QheDiHnjYJpvtbf7x1doZBkJNUTZU6cXE_1CbQQveVRCbZefTh0cLvrZ-OVSkHFq29N47WPziP6wkU12l38JEVxdCxbWo0OH1QJ2ovi9S7CWNXZYH3_gvIE9Ng9ZYEQXsX1488XKSPrt53olVxr0KfcMtWNlpJwzDMFCKO5Q-86_LtLw6LiXBLZt1OmmaIvQ6fKM0oBCZCdfwl1EJ4XogjrOV-LD8k8ByAAYUbcNck4Jg1c8dOBpQ_vhCq5YkZErifgku-jPkAgM58OzImGqzRNj2yPtmXzB0ZElbe4C2HcrG8iAguH0CFHWzojppNxW1cDLy7vMdxvSzta6-gqc1Y-TQ28iEog1vQxeMBK49jqIoU4BsvBdmDFD9SY0hoKCdEUBQ-Guql5OrwlpgvVJ9aFDAiS-hIG9aqrxRwGDexk4XG00mvioc3UqgRE77NTLkT4IE0SwNWtnIc-WqAsoNS9wyQDJDPVY4o5qTOLDBJeP3gGmXhTWzX8dngUyNH9mQvX-y1CckIw0E0xiXbP0GqKF11CQNNhVLhp7IJITW0PPMWVjlfZo5bmaDwaPHxn68_KvYXz9vpKfZxC55oqVln5LSRhR0QxuwgnvGEBG9VtgUJhz11IZZpHiagpDEobicFX1On6m9tbqoDfCE1iqmhs6o6H8dnPBlxYbnc-PO2TShQ3FpLxXzQx2OPEyjY2JB3IowUEpDpmUs2qQKRDtxAEQIsd8DkahhjOqm3TFKZgatv7KZCx6r_08Ciu2KWN4F81l-6Khj25_0iDDyj4GJQADUSAczfo4lo8SHE-A-MVBk19JSiRvM_A3s4c12b8ehoe1hIXNKL8UCquONuyaAvJTFhuPJDTeIaDr_vyiXl7E5EgIxumdnX1CumoFMjYDZjaVab63WX2K0QTShvCmrc7Jk6z6ZYEUiievi_f9K5JuwVh6S99n8P9RdvVqV5kI0O21ZwKs6ijfC6giCmp2kmgRvIhqi1XNn-BViN4T1sFY6TTKJl3K_ZZHBfcFg9rL9H6FkFrdSNSRTNMSLfcJnvs6hyWZN1uAiQ3k9ujKjoeymW3WR1kDSeVtgfY4yv630bSQ8X3CVz_Ky_Fuka2Rqy6a9G7us9QpU18yT5yzxDUk6c5p0g90uZkPPUj_vuj9Fnzb6uvAk_fxTbJI6PQk7UfsM7H25QX5us751DgNAfa52qI8WwRkZJN_Ry8FBA9GsM2UVK1XJ2IF5jENu4rfpUD3ntzXX__Wh-Q4o0k35mxv_K6Wo71tG6B4x--xq4HXcruYS062uUQLYJQIlkXv7fEDctHQGdWhctdmZgDFk7LXVKG2Oh4LkKOufpQaC_-gmGZucHDOx5SAhPXQCt87WvEGLHUO1dTsNyAnO7rYYsipFFcv2YUGKINd78OTK-yGBEuT6OMxsnFujfuYOszGOMY9R8SilTipaNcskFgTEObOz-blsFn98veL7DmCRyBoGw2j6xja7SJIcBijQJINTeaYZKHAeiQ3o4Z-hx0YCmED7o2TT3O",
+      "summary": []
+    },
+    {
+      "id": "msg_0d945cdd8bf4935a006ae7ffad3a2c87d1b44fc494d11ef68f",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer matches the usual preference for bringing a paper score sheet, and the record confirms that regular events retain paper; the electronic form requirement applies to online tournaments.\",\"evidence_memory_ids\":[\"AC3R2-H18-F7\",\"AC3R2-H18-F8\"],\"failure_type\":null,\"classification_reason\":\"No failure: the response is supported by the general preference and the explicit distinction for regular versus online events.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer matches the usual preference for bringing a paper score sheet, and the record confirms that regular events retain paper; the electronic form requirement applies to online tournaments.",
+    "evidence_memory_ids": [
+      "AC3R2-H18-F7",
+      "AC3R2-H18-F8"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the response is supported by the general preference and the explicit distinction for regular versus online events."
+  },
+  "finished": "2026-11-02T03:12:46.367723+00:00"
+}

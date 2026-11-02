@@ -1,0 +1,20 @@
+{
+  "test_id": "TCE4D105C59CF4F059A0F879BE9C7438B",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:04.345070+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 914,
+    "eval_count": 156,
+    "total_duration": 12556443208
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer claims that the communication method for a live alarm drill is a radio call instead of email, but the confirmed memory records do not provide any information about the communication method for a live alarm drill. The answer is based on an unsupported claim and does not cite any confirmed memory records.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H11-F8\"\n  ],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer claims that the communication method for a live alarm drill is a radio call instead of email, but there is no confirmed memory record that supports this claim. The answer is based on an unsupported claim and does not cite any confirmed memory records.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:13:17.054008+00:00"
+}

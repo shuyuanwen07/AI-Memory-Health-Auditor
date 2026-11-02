@@ -1,0 +1,20 @@
+{
+  "test_id": "T928F597426ED4A5293C2E29278605865",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:15:03.464865+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 669,
+    "eval_count": 163,
+    "total_duration": 20694049292
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is incorrect. The confirmed memory records indicate that the revised rehearsal order begins with the suite, not the overture. The answer claims it does not have enough information to identify which piece starts the revised rehearsal order, which is incorrect. The memory records explicitly state that the revised order begins with the suite, so the answer is factually incorrect.\",\n  \"evidence_memory_ids\": [\"AC3R2-H10-F3\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer incorrectly states that the revised rehearsal order begins with the overture, when in fact it begins with the suite. The confirmed memory records explicitly state that the revised order begins with the suite, so the answer is factually incorrect.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:15:24.660509+00:00"
+}

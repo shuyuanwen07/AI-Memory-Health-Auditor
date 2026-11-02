@@ -1,0 +1,57 @@
+{
+  "test_id": "T44A8B8E4F81D4DB6BC659CE4D5D06C0C",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:32.996858+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_031d4165b645a058006ae7ffa13b1487d198580366fe722eee",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 890,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 137,
+    "output_tokens_details": {
+      "reasoning_tokens": 34
+    },
+    "total_tokens": 1027
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_031d4165b645a058006ae7ffa1b71487d19db80ff3a12791ac",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-jMtns4eAKrcpdR-PZ6-ssaDB2eJycyeTZWfxU5IsKbuFUZY1FZqJmsJAngIdOkMebNdCNvDC3VLE6c9Kk7NXQmD4u51BMWsCBwJGPmRnuU8cq7-edDK6iG5FiGC3nMr91gp0ELxOpq8h7P1f9ScmRrUKEM6oswqhiI_i5tdr5uAcp_lSefpUs-sD-9l7cPetKmXXu3LF51XpLNF8waqv2bNUoAXJsTt9ckzBmi0lRae7Wd1WmnCHGaaXpMiS-IFVrf-VkoWskK1OtRL9_nXogUpLi9zujSA7Hwu04EJExbv4IlnOfYbi9y9qA8v4D6R6t-nJzYSRTAHT11lF6hfT8ZnC5MBd_KFf_fIHtisfBcoEjYk1xVK0k9sszhFKEfgWSa3OQxASG_gdAtrlSFOlcea-J1HfYSotjRQ9VG9lC5e2lqd5wTHHOldIoETLDDGjxzluwqrFXKOshBB5425hoNVAEzMS1CZFiNveL7VL7d24MW0z9CgfkA_2aP1ZwzF-HVotHVGGPvPI3csLMU6Zd9BVrc11KEr13dCSSxU37SK3GNISZriXxbP6AkquedacM7X7Y0whBRshLQ0ShjwEJgmk_pO8fr0hn19Eqm6skYdPFbnszUh81w5PNHl1RFwcGQk0llqSCVZP7a1HhlqH0or-RUyq5rpxe1gWTqxBII33PD3kw44dF1-x_k-TL3AlAOw9U8WE274qbAppQsQptMHFWDUDhHkyNA_BRXdKWFKwqkNdmBHekWj4G99cMO3Uf2SPblIZyuyXfKCS2WnFxl38Z7KEyu4PBsygvX5Vw5oz9LobUvv4AvDfDlp6mmMA96ckBA_Tn090aEe0Me5fCPai9yaXKNdq6GnlvWhlQwEabF3NjHxknhr2N-rjxhz8fygv08qecS23KXrt1wlSBA5cMO9kgDoaUmYpxcegIP4TF4KSzVpaR2oZQ6MWwfJWMCWbaDx9sBEP2jnnAlZ5jZsWeUO7QRsJmCSxtTSB5vp8zTjbgssXIOvI9OGiN5qYpt8lIMdqkbld5788LFpzsyonWIAyJBxVxp1xRpfqo5Y_WdufOskr1XHxzR_6TlG-K_1v_paM-c42DY_WMMkiPOBlCLkAhHZoVz0-AyVUkAKME8boToW8bIV9Sfj9xFLNEu4vdJkLQRjPq-CN0hzGh6BZMg2gpZiWpGQu-K8RtLK7ZijWIEhwgw486DTotLDIC_4N9EmOdds4U15Aw94XEUqkodmfoN6zv-Nv2OtyVeWvbGCqQ0X9FQz8g3BWhGfKzcZZYN2ZYXYePKifNRJna10EEN6sD7F5nMA1111itNtHw5kPa7NA4qy-XqQkpudN5evYlEkTAp0Bldk4P_Hawys7h1sQ3m_kpU113WarlCGISc8_AdGZ4asFOKNDqu-Y2OzPs9KcX1b-Kv9qR0-hnZpYbvaoIBJZo6nnlhZKk7iZOPe25kXqqpEaXK5acrGm10tvQnmdcmAOFzN55v0fkHD7a7tocHxFyvkEXcRtrph3sImyC3mZFUkw98Z8yqHv1FhEq8smK1e-STum9kE68aIBtXssfRcBttJfPBse5hWr9VmA25OtluiB5D5g1Qebkrp5sQqCETVum6ya2CElISZFbWZyGb0c8p7hsarJrxVZTBtzn3bZHLbqmjwpjM--QFtihJHiLhdBnnuHE-yOsV4VWVvtiKPiVyHVj-SpSjVWIQDxaW0D0i0O7Zuk8DN8S9p7jycNgGWm3CQTcfgQHvCmt2yAOoYDyPx4PvUMzfl8bBc3AD7f1LjXWSaUHLJUXI1JJQnE_u5rMDxVjO4tPKaPY6CrPKzqEgl4_dVxTywTwRrg_krcUVWmplfJzI86o",
+      "summary": []
+    },
+    {
+      "id": "msg_031d4165b645a058006ae7ffa22fa087d1a96a3813e85f8f10",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The target answer says there is not enough information, but the confirmed memory states that the tray-one timer has a yellow dial.\",\"evidence_memory_ids\":[\"AC3R2-H26-F1\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary factual recall question, and the source directly provides the colour. No supersession, unresolved conflict, or misuse of an irrelevant memory is involved.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The target answer says there is not enough information, but the confirmed memory states that the tray-one timer has a yellow dial.",
+    "evidence_memory_ids": [
+      "AC3R2-H26-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary factual recall question, and the source directly provides the colour. No supersession, unresolved conflict, or misuse of an irrelevant memory is involved."
+  },
+  "finished": "2026-11-02T03:12:35.405514+00:00"
+}

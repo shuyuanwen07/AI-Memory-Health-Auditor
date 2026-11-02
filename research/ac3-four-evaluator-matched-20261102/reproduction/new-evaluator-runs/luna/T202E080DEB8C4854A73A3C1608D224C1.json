@@ -1,0 +1,58 @@
+{
+  "test_id": "T202E080DEB8C4854A73A3C1608D224C1",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:24.190750+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_058869fd1dfa91ed006ae7ffd477e087d1b600f915164246ed",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 971,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 128,
+    "output_tokens_details": {
+      "reasoning_tokens": 40
+    },
+    "total_tokens": 1099
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_058869fd1dfa91ed006ae7ffd51d4087d1b8f9441f80e9d184",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__WBtwBvTc17OfBiWdptedvOZC05MbmSaJRaQ8crNV04OHeeI8KQhuYDHDyPPK7lvznCnCuHoN88A9fv9Sg9b0QJRVcDyC1eBSjaUDQAQcV08Hf8fUOaivRdgEwZuGQMuxdKtuRejwJaluMLGWibMibFNTJnSfMXQMjQ-wS2DTpLexy4kqycEtJGqnDnU7V3YJNG0UnaTuBKhtxE_-rdk56fpzKJojIDDfl3aG4y_jt6lRhGgfZyRHMep6BR8iCvTVv_Bdy2ecQf6TSrtW_B3l8fT6iL4cgw98EMsTSvqj9cUfeZD7WGzFfXYkuLSsQ2R0SwpY6Qc3YrY8qnPfMjbP6D_v235ypHe-18Qyu0CehmTtpli_d5d36Uz9edaLlzDm8-0xkV0m1obttGSuL-4D2eLqf6ce5pzSK9Pz9nXzp1kH1eQ8WyEuuqgyjTY5-qcdPfWF2i9MGblfmEjh-fOWRcNginzBNuF2vPo_jPsQYsotnqdXkQ_Hhv_iFeWLRt8gJgAOe-H0h7wUTRJIlxGCPtfQWAmiR6ciLRhxje2BPuMvngZ4FklyQSJNDxrQxR2qUk5Q-uGEeJySib6yjJtQv0JHcA9sJKmswS6J72FY-5txMN2T_A3cJEm9FPYfsaw88fYXiyCmaYadd5w5ZYgKJaj-n73lA9uGPcCiwVaosTGqjDN-2VAqT0wWuPwUZwk0hNiqErQgbwvY5fv_wFfLdhWxXe5EzdjQUVhF-dMYqpZ59PSwLhhTW6beP7ZJsbWAi2xbyvodLRYE2JXZGDeBBc6MJXKxx-bCLRfcj1TQnKDb9Dtv_71sFwQCTt9klg-VN-lEIleZXl27ZkkfJS9kuBrQjq60M37MaTVn9OMInu_2OB2VWj-7smRWxYQVkgp3PC61c_WuRpKI1lRdctePEdjHWWvTyFFFz9fbFQP3wwuOXmz_Is-rwZqCIJAI1cfzu5Yk_QNzsGPklxaanmXbQ-oE9RrCX6dJHNYq-r74_5oH5GjRyXqPY3fk0rJaddmwo76997gX7m5Lk9v5W-MpY4KvkqpRMDhkyNHMyKP5jU1ZWhbtXi4uhPbdGRtKN9tJ98uYVkotyVow5Wp1MzhmXOqbIkCKeqefHNuRI_cr2ZloVYn0R5rtHlVlyovIfk_4KnWfRbSVhAKPJVxpcWvTGIBYc56VrXu-U2fXc9tDmMvL6XiEgsyl_KHDcRoJf1gFIXiBkT9pyNInRoJheud0ENWtP18qQFIWEoV2oL2TYcp3msLOgeOFsOehA7FgPdPaRYAWe3z3aQMN3uzSvoTMlapIE3VUOiCkCUl6m15oe7sc19Of3UVlvlHtCvcf1t4PvN16KFKmX_SJPhc1IrYDfFyEran9tu6c-tAnwj30oc_5GqXSuSVJTrgHqhgqmcjncYrD1C6kQkIdEUMZaNZxjDUVZi1rO6I8PGA80JqdoXqSSAsoprLjou_R-IS7OI3NREQKgVbNd0H4qWK8vLkmV0wCxyl8OOsHAIRUHuDcTtIn3GIO6vUlFLYYEaLg58OrxmpU5tZXOtB6czygcbvEc87Q6g2B3FB9P018KmzOZXE6mPnEcborI-YSFXU7vvFiIh9V5GzBVSuLOEevXDhtzdkvU5sxmR5UJoATDjHL35qRUgVbt_6im7rxPnpDMvgWqb25AMANRIRO_SlC8aD---gHnR9JYbnR8OabqOTyaUXWsiwo0njkjtTgxVCHTge2ehfqTzsglhW5LIX32tx-HnM_5WhG_jr7LAjRt6ExqEVkD994WhpEZO7JAhs5m8NxZJfVShMThgdsEUuju-I1k4To0nIFkSvJ3Ld-tqN4R5h6gAzC-IkxyhPRGj1_IqAlkXgoZPui0JmxM_78JkXEcrTUcCIONX2-1HcrFnNDiLTg=",
+      "summary": []
+    },
+    {
+      "id": "msg_058869fd1dfa91ed006ae7ffd5c51c87d1b912acc6a2c48c9e",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer matches the confirmed preference that planning notes are ordinarily shared by email; the secure-portal exception applies only to the restricted payload review.\",\"evidence_memory_ids\":[\"AC3R2-H19-F7\",\"AC3R2-H19-F8\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer matches the confirmed preference that planning notes are ordinarily shared by email; the secure-portal exception applies only to the restricted payload review.",
+    "evidence_memory_ids": [
+      "AC3R2-H19-F7",
+      "AC3R2-H19-F8"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported."
+  },
+  "finished": "2026-11-02T03:13:26.908432+00:00"
+}

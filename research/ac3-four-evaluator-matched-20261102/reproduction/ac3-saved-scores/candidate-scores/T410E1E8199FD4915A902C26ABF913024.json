@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "T410E1E8199FD4915A902C26ABF913024",
+  "started_utc": "2026-11-01T13:23:14.813016+00:00",
+  "request_payload_sha256": "b5bc2f97cb5f6d7ebd642a4ec506dd073f2333e8deda4e2a8ff1a7dfb2dd23da",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The answer claims insufficient information, but the confirmed memory explicitly states that the van’s rear door carries a silver star.",
+    "evidence_memory_ids": [
+      "AC3R2-H08-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The response omits a directly supported factual attribute. The records establish no update, unresolved conflict, or out-of-scope memory use concerning the marking."
+  },
+  "usage": {
+    "input_tokens": 742,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 520,
+    "output_tokens_details": {
+      "reasoning_tokens": 408
+    },
+    "total_tokens": 1262
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0e49b58b3cd9e1eb006ae73d432c9087d0b5bf771d80b4b28d",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:23:26.360837+00:00",
+  "raw_sha256": "034a9d1e12dcc45d611a8e7daaf7fc6b1b2b6c1632f38407f9f235e06396d7c4"
+}

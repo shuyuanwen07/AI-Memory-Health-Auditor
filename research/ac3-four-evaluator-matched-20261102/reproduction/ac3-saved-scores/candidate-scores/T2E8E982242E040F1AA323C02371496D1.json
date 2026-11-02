@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T2E8E982242E040F1AA323C02371496D1",
+  "started_utc": "2026-11-01T13:27:05.653666+00:00",
+  "request_payload_sha256": "386799aad8e946c41769237285dc96b54b9cc32ea934b280d863cb2ffec851a3",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The earliest production sheet requested 12 copies, so the supplied memories contain enough information to answer. The later revision to 16 does not change what the first sheet requested.",
+    "evidence_memory_ids": [
+      "AC3R2-H07-F2",
+      "AC3R2-H07-F3"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The answer fails to provide an explicitly recorded historical fact. This is not a freshness failure because the question asks for the original request, not the revised order."
+  },
+  "usage": {
+    "input_tokens": 742,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 640,
+    "output_tokens_details": {
+      "reasoning_tokens": 506
+    },
+    "total_tokens": 1382
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0698e1d15ad78259006ae73e2a031c87d09b863a2280d49961",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:27:17.913593+00:00",
+  "raw_sha256": "ab0020d286e3ee2129ae252700f16d3efdb5340a38ec0d13239ab5de056f76a3"
+}

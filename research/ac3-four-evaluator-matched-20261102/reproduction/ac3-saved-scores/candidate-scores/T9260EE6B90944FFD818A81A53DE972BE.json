@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "T9260EE6B90944FFD818A81A53DE972BE",
+  "started_utc": "2026-11-01T13:21:59.510129+00:00",
+  "request_payload_sha256": "1e0bd479262a73ecb788e0646cb558ba9a95d71888ccf566c5dd665b8bb599f5",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory states that the specimen notebook has a blue fabric cover, so the answer incorrectly claims there is insufficient information.",
+    "evidence_memory_ids": [
+      "AC3R2-H29-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The answer fails to provide a directly recorded factual attribute. No relevant update, unresolved conflict, or misuse of an out-of-scope memory is established."
+  },
+  "usage": {
+    "input_tokens": 888,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 484,
+    "output_tokens_details": {
+      "reasoning_tokens": 371
+    },
+    "total_tokens": 1372
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_004eae81323ec968006ae73cf7e13c87d0a50838e2b71fa67d",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:22:09.534339+00:00",
+  "raw_sha256": "c5481690c9f3f0d2f9470a8cacd25a10466055bcd7d80acc906e736d3ea6ffbc"
+}

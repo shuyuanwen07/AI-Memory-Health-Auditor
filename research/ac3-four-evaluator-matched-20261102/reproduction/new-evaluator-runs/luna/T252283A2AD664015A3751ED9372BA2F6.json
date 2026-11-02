@@ -1,0 +1,58 @@
+{
+  "test_id": "T252283A2AD664015A3751ED9372BA2F6",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:03.242183+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_088deac0f4839274006ae7ffbf86d887d188cc4c5220024fa5",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 897,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 174,
+    "output_tokens_details": {
+      "reasoning_tokens": 54
+    },
+    "total_tokens": 1071
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_088deac0f4839274006ae7ffc0d5dc87d18560f2058bf45586",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__CY2lRnzL1GPdfjuJtJeIIYQ_W1MVOawSe1_rSKOzo23H6OdmoM4Y2A5f5ngrBdSz_TqLm4wUm94-_hlzJwykcQDi3tsWAoZ-hw3Ln3Pk30sSO1buzK9OnEU4btDnxvAjUPBCOI_azfp62U3X6efILBr04cWTVatBboI7jX1Qz5ZFG7hjT0bKjRt_jQdICrQNNfi3B7QV8G0SOQ32CocRxiAyfNgBIrjIkrccqnnh5PpqB7P4AxbDmD11LTbORdxbkCiFwZt9xaxNAeWjNBD_M1ji7gMlhuJW1EcdnuT8EaE7PimCAYtwCYIU3Kog3hHDg7XAxosHy4379aYlOx7MtI0HMqoOh0YiV8goGd4W7BKNc_2XNVWDQ8KsQDMGIaGFHlGmje4yA2Rfb1c--o6_wTPck1ysXzlc9UqonWd7CVCj9zvEnj1-TcFPn5rW1qwipBVR_GQO_8_3mBReOBaFy6MoNJmGvMV223uT9s1AZLJoofjkedobpjERfFmtVKtIYl2h-O4ShjvXb9DvyeewCRVsrXwcrlQXJj9O8BNUpxczJszcKdkObVBL3FMmPlua4njbUC5jtX-d2RlzhDy-BscaGSBOTVmHfvxrqDtYHj-y4Lh4N2LpYrk-s3ZZWaZvVxmpl_v7Ze7Tm9h7XfCLCqODFXquYsA6XmLubouyOwkiADG8zcvzrmC7D2euEZmmQ9a6h5s9h8jxF7ch4S6IrYi-SWxjFglcQsiNLHKAYZ4ED3GbpTXWVSIX7fXmcGxQdNLsjvh7wAL484ENR_eJeoTtIYzbmIgoJYDhc7Abwg1z9PW3rlVXzjeqbhi5I2PLkgmIE0XQJW6QrnH81qjkuzfEfjDklfcaJOs90SgMFso_pY-0mqAYpz88ouw0T0KrSFLSvPY-TKzzNqbcLA-TJoC1V8PvL1ObG5QHRjAgBW3eqhxC_rJiMhwpZz0cmCNObf_-Yqy7hS8cXktNbBcmCP1fYg5-9RtYv5wtf4Ld7r2tG9Re-whP3xlmljmnV3pY6tgTuNkBi_94yEzK6loE-G8fv3ft0BP87Km-6GfNHDGsMGuGdag-Zeki6xcve70ZOoLmMzqcGg-JtpxS7gAYcSXd1OaWWGr5ekfF8nkVCsdI-3UfkoTtWVetEjzJtw4KYauaLpv7a9A2rsmc9E7gL5DRwYIc2M2bREH1116sFJ4kJPMN4m_mm5vTXZlePGJCNN4othsZXSh9f7usixFUITxR5cV_WgiPQkVXehiaSms9wjalLZ6qKyTLl9ojt4i-fKC7dJS_d1ImDRiUHAGdLhcg0xGVdf7ySgRuhejgg0w1SgXeWen58LARSSe4t1_yPKafg2MSU3Lq_56tnaOH3xdTzSCqG8PRULagv_VmCuY0SOcahvEON6nhRdotohbrTmZ-ebjuyLMGkN3y3MSjM05b_QZ_YygEscYIheH9v5FCL3tgF2QUyGLIALrFaCQWlzsCO-qhJIW8k71N3cotXjtqn8QHUo0ozGgETdLLm5Kx6fCnDMrkekNsoQ0c992XjOy3rK-oPqWLfH5IffWoq_iezr_hkjql9II4wTmlk_fr_4TpvEnDRm9teKviohuRFjBgKa0xLGJu5iN5oHBuDYNJXaBFt2P339FhLbvUDV1YBzrGwoJ5xsTuMxak-HUVp2nS67zojltnyNmnB7LVAiAlO6hdH0TJFUMrBG0IEDgoWh0FRC5d75fW9Ns9OzxVd4jjNEqWfCoiRd50EWyGxPHFxXupi7l2OQMZMKp6hA8GKkDcvjVQgBVsUz9VVBFjASLwGkPQ19b-RGkDAhvWdfnhUlOzmRXABIgzaUtDMp2acLb8OBRxeCETXkKby4jwUve9o7joNtvEzi5m3D6-PSBG99vckBvrfiewrcb6uJP5FPr_BSTMPco5BeRC5wwhDz_KViY2RH80E46_MsPpdwXR3P6z4het6ihIIrNPC6-k_caZLR7kIZv9heIvbKROrTvxRmbyhydlUf5xokFkA59BMNB9ZM5V-PTH3Y24toUhgsGso3M9L2ZP7Fru-7vGOI4e_6r6YmzE9ggxhBCC64RvkI8OzRslEWKa0_Z8XrZbJ1RNZ7Gem4mS3K5SlbGwDA3BtFx69UUuQ1NCqHJGr9A==",
+      "summary": []
+    },
+    {
+      "id": "msg_088deac0f4839274006ae7ffc1a96887d1963da7e5f1f685a7",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The revised volunteer shift ends at 1 pm: the coordinator replaced the original noon end time with 1 pm. The answer incorrectly says the remembered information is insufficient.\",\"evidence_memory_ids\":[\"AC3R2-H24-F2\",\"AC3R2-H24-F3\"],\"failure_type\":\"freshness\",\"classification_reason\":\"The records explicitly establish that the original end time was superseded by the revised 1 pm end time, and the answer fails to use that updated state.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The revised volunteer shift ends at 1 pm: the coordinator replaced the original noon end time with 1 pm. The answer incorrectly says the remembered information is insufficient.",
+    "evidence_memory_ids": [
+      "AC3R2-H24-F2",
+      "AC3R2-H24-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The records explicitly establish that the original end time was superseded by the revised 1 pm end time, and the answer fails to use that updated state."
+  },
+  "finished": "2026-11-02T03:13:07.085704+00:00"
+}

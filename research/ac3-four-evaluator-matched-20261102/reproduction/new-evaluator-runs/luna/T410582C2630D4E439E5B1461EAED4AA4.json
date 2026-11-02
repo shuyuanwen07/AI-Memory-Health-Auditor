@@ -1,0 +1,57 @@
+{
+  "test_id": "T410582C2630D4E439E5B1461EAED4AA4",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:44.694243+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_07bcf42ee5caf8f5006ae7ffe8f56c87d1beb11c223b5c47e6",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 731,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 136,
+    "output_tokens_details": {
+      "reasoning_tokens": 28
+    },
+    "total_tokens": 867
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_07bcf42ee5caf8f5006ae7ffea5a9887d1b7009e069103d4a5",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__sBejKfmwOvCPHOoc5aVvqD3vNu40ykag4UZoxaGveD9pn4sgSUv603uvwRF-hBpogFHJOmtx34P0AvMnyLylUrZMUvjEL5vz-yNo7pI8NqJizW5i6OvStpdd178XdiSy-b1qIlbZPEWY0yVuvJSEIZ7NDjmfBMmO5YoWZp8SLVZ4BmA5X84MpIZE9tNcwDuai69MpZf3mGv1Pf4jHzCE1cog9mU4cdFKORBXR8RldRQ62uLk7baQNin57uZSqDQHWKwRfVtDxr9jtJ-APapPwnVHKQycAq7-EAmlrCv7VhaU6s4iW_pXzNpFpowJSv2Fj8k-7ZPlpnC30lZ5PrCJFXj6ndCucD0-VEnti47OFThMtXTZvpMm0_-oR6C2lBrmiepKmqv9YvWjMYZBwCSyDfKfVJmX0d1MhUFZnUUhUouoaTR7S3FwBa1zZ-npEyfK1qnwQChuQLdCdLXQ7mHrREpHsiUMFyy0RfXH-WcvwEbnYKF6hSO8tHn66Rrgz_JdWR-izm9QaAC6yAeVLhbxnKtA4u9w3EVRI4lRX_2ao829uEj_s_i1F92AZAgcuR3zVgtWFhWj5GtxJ8zLWBLZJg36EM5g0vb06QA_S-ayGZOlZwwyd8wJKYaHYxsMszNFLI9CEbWAiU72MDfMRQE7n564qaVLbvoXqzv04dnhbUnKEsm3mT_lmeV5jyQ9JOAzaknNi6Qe-bDn2BZhVQdTE07K8UeLkRRcV3abioBMn0RlYphqQdWO6_rVIJaoRNFzlsJtX6qXYND6PzYHZ4WF3AzknObAWaLtQmXQuEDaGKiKqb_WdpqV67GG_FT7bThRkQ-T2Wh3vHAcCrEQcxsMYKrHspKoiRm0KSMNOdbh0F-6Bm29UtbsN-I_iyXRLdyNFejk1tpoURphAB4NeHdqwqSNRT7WOlolAXVWDVsmx8xw3K6wS4EQaMUS6oV7jtQHJq1yCEbeMMhUleDzLTjDLkeZNIkMKaZ1uTX5VS4GfuC65fzTwuX8VIdC7oGvx6QuWpmgC3VmO42D2a9jXufEEcGX-u8BLt78pyeX6WVxuYg8CJ_ZQIqj1atulcI2aebHXj7r35xsqEjdzz24uIEOeGoaNIueJ0w5nzhAiuysUrAkS57Y9oiC8sR5kP_rasVyn3qHOp9g_I65m0qMcVfwiAV3rBFmIQ9_vLgYO28JVTgolFkmemtXBBZT56_F6zODb946SMNyobftP-VHVMa5qx6Ru5dJGFFGuz9OBTHpX67ULmQWuFO7MBTSsCYHugPpxuVjMkAGCORwZ_DcrrT98pqcSAq477irGaHMNJNu0ccInDHDGXBQgCOhpa3LuIG9pz75oenvWXhK4Ud5Aqv98o898PkYctDIKPror6gGhgFSDySUrD-RETJPZ6Nx_zlB13vEvHnSbObm6BNhe7rkN_zpNpzBKYMTwM55YN4vcMRj60lME_X5y8fEt4mj-va-HacjBFUJSmX_T6hl5sRilEdNvhz_8jRBKRLwrn3YMtmYWALOAtXevOHexOdcS9hKJxxp2ZG1JgrzG4w0H7xcwASTxJp_WZw6umfHDUDp8MRvEfTpsjrBBbAV0RFAtmvrAxPfQeODPceHFjf2x63KL7vGq86tREdIa1DG4cp9W0GCuRfzyxKy0ntXXmf6kMdcXEz-EqbPLhyhHBZwVRmM0EMxlvDKA1i_ojhMHOVCVnhxoFTS4p31TeGo5wQVwcMwmLBtt5YthqQQVVQcvpNc22ZczWcPL2WyNhMLc2tVLAaahithjmOoRqDYbZeuVdtmP",
+      "summary": []
+    },
+    {
+      "id": "msg_07bcf42ee5caf8f5006ae7ffead9b087d1b478c7e6b9decab3",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The confirmed memory states that the studio measures glaze with a glass jug, but the answer says there is not enough information.\",\"evidence_memory_ids\":[\"AC3R2-H03-F4\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"The question asks for an ordinary factual detail, and the answer omits a fact directly established by the memory. No supersession, unresolved conflict, or misuse of an irrelevant memory is indicated.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory states that the studio measures glaze with a glass jug, but the answer says there is not enough information.",
+    "evidence_memory_ids": [
+      "AC3R2-H03-F4"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The question asks for an ordinary factual detail, and the answer omits a fact directly established by the memory. No supersession, unresolved conflict, or misuse of an irrelevant memory is indicated."
+  },
+  "finished": "2026-11-02T03:13:48.312066+00:00"
+}

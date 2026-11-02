@@ -1,0 +1,58 @@
+{
+  "test_id": "T1AA17D0821054403B64E94F4850A2F38",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:42.477888+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_02f0b94b8bf14d90006ae7ffe6e51087d18f50f5467063150d",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 899,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 219,
+    "output_tokens_details": {
+      "reasoning_tokens": 68
+    },
+    "total_tokens": 1118
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_02f0b94b8bf14d90006ae7ffe7754087d1a30e73d86ef68193",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__pV89Xu3zI4daJizkt_9BTZDbeXplAz_Q1j8WyZloRedcwYOBHjAcLQP8CwSulZpyBhcVnFiiQAFGvqH--El7px9MxLfEQWYBdibGlaSMhF-5zBNAfJmIrid2C_goCYaYIcRKNJmsdMsjagRKZk-u8OHaTZNvf8Nx2NHwkEgEfbeDxyrV_5_a6qgYgmk_-aDVGpsgVd0HNNGw1OjoUOkbYJJl-QGOWSmSibPczfOfIUg0FxjkeQ4TWJFPdEBVuAcHKSYKFype0SnO3BR4F4GA1gN66IT1dJeBjdFiXrF89tDK8VLNSgzY_-ppnRKyb1Lhz6vZkhwuFY4OU_Xd4WBnCYaCBhG_sHWf9E7Q1OYDp2IPLHGiH0ah5Z9CD5Nldmw3sFVpDHW9hil6qFYzcfTaF1fZcsivYoLWT7wHrLEysELB4peAWQXW7f-vTPDnI_CI8uV1YPjZcG2Lnl3k4tDrU0brKhPG213OKljAEsUA9S0bacBJrgl1swcVe14lFyzdixcWQWi6BPXEdt7Y0Gjy0dPw_6uRGamPffEfFXdcnKKLIvajmG4VQl1KE0ssywRU2Eanl4MsmFwQcsx3GPMIfsq-o3FpyrG-JL_r7OCvAM4FUeztpJ9m0susSVoRI7BR-9tzQb7-RShV5LN7sTupELz1z8MnaVFj33aI-dgwa7OgPEdnGVJJrZYLHRzYkdrcjrsk_E-pL5B6aRvGf6oymHCDIZDnY8PSP-25wxumEETwpyxlkVHqH1XMmcEppRb6FSZZHkJIZ6wRb_JrayQp3aJI8Z9Wg8cqwvUOyKltG-2QbsLh2KR97rO5zLoitfgg3XqM7QHGUzvuuCWnu5GbKi4NnJQ8D2g5ozNkaoXsRcyc53-Iv_3qAGCW8282zXi5kBHXigP030cQoft9fTACdv0-flCSk5L8NYwkg754hXRoDrg1bhGB4zl1fbozGecUjtrg9AVyRe5r3uwmAMpLkHnPoQrfUuTEg8arNkNK8-M0bezoyU5X0RCIlH9b7pkQgKgKcZ7qq2m_FbTfReNbBUkmfivvnu1jRqIRmt0KozoHb1SjPHy4GR9XZArg2cz9fGONIoK9RyZUbQYh8-1I63TRyklSlCGX_yapOEWkIniKoJoKV1hpIieKikhKU_s24-iIwIoZKHav2-lbQPez91cDVdHty7tUjnYOqH_TKawuH6bt33T8g4BekmvpZzUwz-jhjjKRl9SHpuuEL78aD4dGvmD_cV9VnDwuuXEa7YwHcuLRkSyKKvtWCPgcKaQ83hecxdvbQUayAUDK5vaKYbTx6Y2GcSIhZLm8YpnvhoEEO_T9qfXw_32a7Pnw8bpUlyFKH2znJEoSNvEHbSwDtc2zS9RU6yvzJqpH5zAFTtfNKxehnnQ2_c5KI3LSXhGnHbd0ZsZLFJ_N9T_o7rZoHXpQUlejmctA4rjruJcX_BEpYHej-QD0kwz3cgofWdmBB1UiWVMwlZSDSGakNQbmZviC7P7pGnIpT0Iml0pUFcW7ECj7ut5uaQiJ6cXPnuB9vQlWHVCNQCtIqIZ6F_w9Q8D1BAa4gpopUBO_hnWZW0tckZoyl_s-SWUtNAIWcydAq_wFOmlpXROFz5r7WkroJYrhvWdI3hvCPC-NwymghBhE8l6fhb-WX9iSe_aStBvWIkQugaAUXmenAeBCcQSF3gyIL5TyMf0JwRF-mYwuKew9FRgg3T61L5YxCj5GMX1dv8hr71ma60okXWGLDSATUeFtewS5uuWcF8OtQPh0lZrs9c-hVw3OdicYJ-bhxLqlz1TEYCWwNxbshEb-_J8PbwzPyZxtZQBH84HC9RWB_JE8e5DKPiNadt9lfk_gpxiuBaen2yekqQCw9EOXRLldmfDt4lVIa6dkMoi3LLabkS3nOWO2PTZVZB_2e-DCyuUqAB_IKJxzifDfSVp5Z71p_LL9-zpNFg6kZCnASwjKxkv4x0Go93PH4VUP9L9JGnCuROY8Ae5paZAac5T_-5IkbAKDC7sAxGC033rQfuN6NqixMQ8ASJGeHZSYA50xjFiDVekNsPmQX935kgp9EtRF01ICc1Zk74cqok_hNBcGex8aquD-3AITMGOtZCiQnX7Yuq2hscTMA-bJH5Nk1BQOBdJ1aW6RPrLnN14e-qJBhNjFUUdC1t3F3wtz-Me7KPdEE5_3VMtR7dBgOEL-S1jiW8C0IoHf44dFj7ytW-xKf0vwkXP_KdT389DMC7osfvGbYF0Kqp3pdCaA6n_Z-vl9ghRobeK5m61MrC4KWbiFuR62H6iJjCzDJiRFxvc13Nq-Ol4VSRF_VrqpSXMeWjz7FPKblmgetq3yR1ycSoCZ7uzTgAZglMOd_3MS7xvhtNtpd",
+      "summary": []
+    },
+    {
+      "id": "msg_02f0b94b8bf14d90006ae7ffe81a9087d1bfc6e95c699e7259",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The records give two incompatible active notices for the same astronomy session: one approves only the meadow, while the other approves only the rooftop and explicitly says neither notice supersedes the other. The answer presents the meadow as the sole approved location without acknowledging the unresolved conflict.\",\"evidence_memory_ids\":[\"AC3R2-H21-F4\",\"AC3R2-H21-F5\"],\"failure_type\":\"conflict_resolution\",\"classification_reason\":\"The records explicitly establish mutually incompatible active claims for the same session and state that neither notice supersedes the other. The answer overlooks that unresolved conflict; this is not merely a difference in settings or an established update.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The records give two incompatible active notices for the same astronomy session: one approves only the meadow, while the other approves only the rooftop and explicitly says neither notice supersedes the other. The answer presents the meadow as the sole approved location without acknowledging the unresolved conflict.",
+    "evidence_memory_ids": [
+      "AC3R2-H21-F4",
+      "AC3R2-H21-F5"
+    ],
+    "failure_type": "conflict_resolution",
+    "classification_reason": "The records explicitly establish mutually incompatible active claims for the same session and state that neither notice supersedes the other. The answer overlooks that unresolved conflict; this is not merely a difference in settings or an established update."
+  },
+  "finished": "2026-11-02T03:13:45.415591+00:00"
+}

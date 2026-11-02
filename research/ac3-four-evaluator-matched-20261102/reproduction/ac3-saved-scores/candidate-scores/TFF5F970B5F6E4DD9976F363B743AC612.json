@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "TFF5F970B5F6E4DD9976F363B743AC612",
+  "started_utc": "2026-11-01T13:20:09.035895+00:00",
+  "request_payload_sha256": "e9776fc4f972f264ff018ac51c5d5d828b7dc159cc8475a7644d2bced49f7c49",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory explicitly states that the conductor keeps the tuning fork in a black pouch. The answer incorrectly claims there is insufficient remembered information.",
+    "evidence_memory_ids": [
+      "AC3R2-H10-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The question asks for a directly recorded factual attribute, which the answer fails to provide. There is no relevant superseding update, unresolved conflict, or out-of-scope memory use."
+  },
+  "usage": {
+    "input_tokens": 737,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 395,
+    "output_tokens_details": {
+      "reasoning_tokens": 273
+    },
+    "total_tokens": 1132
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_051478a928fd2003006ae73c895ff487d08c5f7c2f5ee77f00",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:20:17.534614+00:00",
+  "raw_sha256": "9c23b649be4036e3e1e21a8cd49ddbf7aba63dad0492ee6bde2c1105a5f469e6"
+}

@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "T6D04CE721C494746910E091EE77C6633",
+  "started_utc": "2026-11-01T13:21:55.442492+00:00",
+  "request_payload_sha256": "ce01e4c8ffeb64d72d9faeacd2b636bbbeb25b8ff22e73d2d3c85ded8c83466b",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer matches the explicit requirement that the audio-accessibility workshop summary be supplied as a spoken recording.",
+    "evidence_memory_ids": [
+      "AC3R2-H29-F7"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer correctly states the workshop-specific requirement, so no failure category applies."
+  },
+  "usage": {
+    "input_tokens": 887,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 407,
+    "output_tokens_details": {
+      "reasoning_tokens": 314
+    },
+    "total_tokens": 1294
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_02b587c000388947006ae73cf3ce1087d09b944eb28fa511fc",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:22:02.866085+00:00",
+  "raw_sha256": "cc895b2fc677cf1f29cde1103bed765878a6116e763d4ca790ab234cdaaad1ce"
+}

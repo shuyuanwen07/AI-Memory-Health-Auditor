@@ -1,0 +1,57 @@
+{
+  "test_id": "TCA2E1B9285A44415ADE0EAA170BD2140",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:26.496759+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_02a4b3d7b7cf31e2006ae7ffd6bf3487d1bee9a387b77b4136",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 885,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 132,
+    "output_tokens_details": {
+      "reasoning_tokens": 30
+    },
+    "total_tokens": 1017
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_02a4b3d7b7cf31e2006ae7ffd7705c87d180df051566e004a2",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__ZjGUayh9vb91_s0FvSg6D2cSuExvGbsB3yI1BBqtw1vdHqPoQWbMjbwtgjX-r8B7gQizsl0v7RZPxN5rgy0BXdC_Gc_DcsqncUbwnsLWIEU_LR3x2u12tGo-JW27VmMv6wO6IFHOKBBnMmJtuyonk8qHLLamnBs1klD4v7aU5Ow3XbNlCpi15x0DTf-xVutleBBhjKFrfkREEsz5uZ7selZjiKkue54J2WpAo_Fn_Ma8QLBwv6G0DAkTY0aQDnvdIGgYeEC7Cq4_hl-66WNSYZeugEte9aNyzqi8UjsL5Or0mIMIrxO5WhKjsb6qFZiRvxqAMyfV00OSYGgiVAJL6jnp5RS60OmEv3GyBNpE5DAqGxoC9q3Vht11LpGwyDyB7fGueXd2wll-FQLQR72teZ5P1aL9Z44SNwd5nuilM6a-VzyQG05CicUMVJabqMM-sYi39siIC2zoSRHajav_SDN5Nzv4G0C8Zl5gcprp0lUQ0o3GICQ_QIGczEMNW_fc3tV8WsT68oycmrmC_OxV4xeHNP04s1JujdS94PgPAeKlPXz2zzisQP-qKTrOxP69ZhE1e3FIocTYNSflsNFNXjhVJ0noINkP0ZwDGYwoWJYp3kfGX2qUc-H6i3bXYSKhWe1GBmgInzKiFOw4dVV-_ik5RbG6f29CynC-yx-UHP5we0OY9TDy_Vlw7hpVb3YtM8FLN1ohR0TRC7YMULZ0ZUcxjKI5ebs7I0jNZ3qebdIGo_NY7d7ajl2145FeprH8XUfaWLu4VxsBHlaiL51Nncm9zSxv3bINKfuPhoJeIF9aZHkIPsK3cTciePIgbQ1CHTduSKkhukCkRNn_0UXW_a02UCfP0oDMPa-hPnwWzRxVt5fyP__tmmw_h9R0Pt3blKF1S4HMFQ1_Vk3eO4-j95Mj0MTWHbQy3aNtRaVoRvQjXwd7Zn2nZm2oh0A7UM3j4ZKL_I81myWtf5_Mh4wfIZXvIh1uHERYZVVlRn9li_KkuaIEIIUWUw4PQC0C4HBlHX1DKalo4PUf9NdAHiddeK07IH5lMk1RC1sAc9ZQt6n0J8GSCAD4bFFe0OYHNbrshr_MTUsiz-q_4PVgjydkr0KYPcGYnHprJ3d8BVH1xCyPjQkPQ1NEX4kZhKzwnUpa__ZGk5N9GUR49QiU9CS4S85SebhkN0Ekr18xotdJlHoVjwzb_ydhEgz_WGifIswfLkQlFd41AaEM77p5v4IfK5eg4khV8KjMeosshB7vGbV6vdF1lPaePavBHCA8Wa_RW3iu1f8XnZNCcyzcfcg51RcOQHGde-hu4Wmc3JrRfvLr9xD8UDUz1oav-TniZPPlr1UwmqS6BaWhTdEvBpB_Kmzw6x1P51qyfFJxqk6mE5jxR9dvc0gX1BZJXjFykicQzFwv9OkTPM7H7mNJG8NCN20bUqqKB3byw4b-d97NSoqefohoYt16G_GeF9wu4CYhGGjMAHiK-X7EiAgrZsNJyWrgSU49VXjoHu73ppVV_ZmNHgJKatJeSgU7lsqUTG5B5Wzg9jKFqdvQz-KeJxzcBkQbvzbYGZG_ixWn29V7LNWTvEOBzWXsJUQCEmm-dpE8IgasXgL_cxnWZ2elntnTp50Nhy3JNlZw-4jUGPOUqsyGSeP5yt5fw-xj0d84ELLDVYSpAgHKLdlsIASkdsMBxdWNhtUlWdmXZswb-L0wfxCzFO01DsVHwMYLm_GeC9jdokIxnXFe4sLQPhxPY2fcNhkvhMPrmbP82LE71V1vakTyKXEi7lOQvbJX1nseKdgKnSAn8dTLJZ1ERYTCswpNReg==",
+      "summary": []
+    },
+    {
+      "id": "msg_02a4b3d7b7cf31e2006ae7ffd7f90487d19ffe339a676b8713",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The records establish that the reading stool has a woven cushion, so saying there is not enough information is incorrect.\",\"evidence_memory_ids\":[\"AC3R2-H30-F1\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary factual question, and the relevant memory directly supplies the answer; no supersession, conflict, or misuse of an out-of-scope memory is involved.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The records establish that the reading stool has a woven cushion, so saying there is not enough information is incorrect.",
+    "evidence_memory_ids": [
+      "AC3R2-H30-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary factual question, and the relevant memory directly supplies the answer; no supersession, conflict, or misuse of an out-of-scope memory is involved."
+  },
+  "finished": "2026-11-02T03:13:29.350056+00:00"
+}

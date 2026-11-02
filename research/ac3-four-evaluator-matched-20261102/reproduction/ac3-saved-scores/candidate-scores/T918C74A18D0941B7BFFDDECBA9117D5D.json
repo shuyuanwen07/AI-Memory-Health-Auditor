@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "T918C74A18D0941B7BFFDDECBA9117D5D",
+  "started_utc": "2026-11-01T13:17:51.711354+00:00",
+  "request_payload_sha256": "38e976e46b38481bfadc6f5523522e337629dc6fc4302e63fae8cc70a2039b96",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed memory explicitly states that the tracking receiver has a striped wrist strap, so the target answer incorrectly claims there is insufficient information.",
+    "evidence_memory_ids": [
+      "AC3R2-H25-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "The question asks for an ordinary, directly recorded attribute. The response omits that supported fact; no relevant superseding update, unresolved conflict, or out-of-scope memory use is established."
+  },
+  "usage": {
+    "input_tokens": 882,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 363,
+    "output_tokens_details": {
+      "reasoning_tokens": 240
+    },
+    "total_tokens": 1245
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0a72bb16b0ce2f99006ae73c0036c087d080e495a47b5cf31b",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:18:00.277024+00:00",
+  "raw_sha256": "b647397d60a0df6cdf5da1a4f7effe307f8b5c0b4118c51c6cdf511e2d974220"
+}

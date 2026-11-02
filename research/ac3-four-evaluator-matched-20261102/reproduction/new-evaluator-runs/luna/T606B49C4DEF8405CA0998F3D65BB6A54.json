@@ -1,0 +1,58 @@
+{
+  "test_id": "T606B49C4DEF8405CA0998F3D65BB6A54",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:26.669927+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0f0a161fb1feb3a0006ae7ffd6f55887d1a89417aedacff1d8",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 1001,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 173,
+    "output_tokens_details": {
+      "reasoning_tokens": 69
+    },
+    "total_tokens": 1174
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0f0a161fb1feb3a0006ae7ffd7679887d19373bd6331e87793",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__ZxOa9YDCtse4yfJ29kgjFVNXuQUM3Ivm1VJ_yHEDJZmiuavKTitHJm-sQFuhEYs7l42-l180L-BbysbMsimaeBmev3qPzbajf293o5KJQ25HgXEktcxZpAdETCCvfJgM8X0077kCU6ob6t3-ML2rG2jOl4u9AwwbsLOB80fRJ6HB_Ex3FV5HzRxEKR8ABJwWTdljq-q3ahRrOD_Tp5KAD7ywQGs5J6Eu9q0bRm09byJkkrcfEXk5ZgGFvtXoQoPrJNjJJpJB55OOATb3D1_nQckryVWrDRbQgMObk-67pCoaDWfrjMCn7BPBPcsDJkSoT4kE5ZfUEVIytTJRbJXNd5OfSe_0ynIb_rTNHm_nBZQb2k5eC497vTCn5bITCWj0dwq-y3P3B9K2qvyRlpydM8ZBEJ4ZNjClip5XbBIHaeUOw1wJyYxgTTqfCrUBs_CWAEe0pZXv7b0HonlKDZi0OXmV2xLxWbgkNDgLgOnzQVUyNJyzqEEBJJBbAKCRYA2YXJSe46tJEz-Zk9IySM5vozfNFTk9yhdnNhp1ralkL5hD8Q3TvnTeusM2-TGgIZmOoATwW3tJ_1fKEEqiaAcuwc5A2jB6UV-pLCwXB1K-er38NmlOOmUgs7SfifjNOvWPrldJFwvvEUr5SeuRfbmm0g1nHB6Cr_KaG_V3UIE5UX3DMdm91tzh5YZjezAuCYtFLK1aMuxpK2-_cawVtIFy_5mCl7anG_iwCqRY26_Y5M6zIDNetXdWUxqzzKMmGlPh-qGCvnHplm3N6QCGTaGAb2QSgnn8CldDcPfGJj_wdvPmZWheA6LZwseibP47tGYXXHN46Ke1pBoHjPKmZK03p8o6jeR6urjE1VeR6kTKRsAEUtp8dE0An_XIKKvR-GHv41eeskYwFDvTiuf7jyMZvpmadamYEsdJvATrGyKpsScC3Q7SeZJO54S_EA5ENVu40F7WgQiC8ZTYza71fiC9UV0DRNmkrT_HrDlGC0chqDnL-0ZCno32OFq9SYnCg_DNKO8u9oqgiEXySGk64mV0ncgGzU2YMebfdfeHwZ7vGzn12T7uEJSmSC8wlwnp20sOuZI3Q0sMfsnyC7ZfLW24jEilmkUCeuqGNdDZZc4TV-1waE-qa0keKc8A8c3sgTpSwI5ajRcoC7IQB4jLIZhPn7o2YequAwiNkO82F4aGtodzg_LqSlJZYs29Z96RhW2NaYwHHkAet73KeIr7Poo5q1Uz6w-j1_uxCZCK04JX81OMSOzA8LMAIpfktD8qS4520AsO_ACdsCokaYv43XPprW9GPO2mL8OLcFYOYNO3qwjdhkQ8Sqxc6fqb6kARIZGDxs1QPrVsq9rgJZCvfJJ1zqmj-eeGPBGhAOAH-3OMHNS5cF93UbIyIY7hhTVcEczeJIwsjmIvbAmMnPzsGhW2FmaYNA_HHR6oS5duTz1q6ANqBO-TaDmaeHs9uaoFCsSx7M6eluof3oLiVNrnou_bPorFrMHAA2WLvmWkCqYI9YNOS3BUgYyaemgcbsbwx5Br8SpMQmDeOJVoB369wjufKaBo64REc4ztaaqOktvFCVZLSkNH9sVGjcNC9TqzomRv91YfmeuV9trz3aUnj1jy6rs0P6o_Hy2DPfg8nuFyCN59pFl9cEvMwR2a3YRbKGcXf3f5nynCAlxz0aVT5KUV62LA1rAMCmVBQMz0xctVohn2ru-Stx4Czqc9b2G5GDjsuuRo66fNEtJ1y7VsaYs7OCnp_oIfhZjMGO6G5SXEcavIJ84Eae1-ATfwRkcVHUeq1cqM3aA_wuXDF1D9NLwx5w9w0Dhvfs-1XQXQ9go8uKBmSkCqXJOK1_y4X_on1vPNebPSajWN6UEZq5sYdsiGOEgLPUOp85a1x7lFQR63xeP_4Uxfu_KYSpeHwN8T_fNQxD6ByxCSqDQS5FJOaW_VytVJF-5VONnYucTugC0E23ujH8WII-FPkCkNTn8jixZ4b4MCMYZPoULyoESOnZqqFz-moWy4-QaPTr8sklPQsmQMcEme_XltDKz-gvZiOJ-0M21xjhxUZC89ezuOC3JGL2cJ7jiMxyZ86Mehq-slhYSvxZRfofFPG2A7LRJogazff_4gpW8vl40kfUbEUi5e4lorW1-6zNKyAVSGBl15Eftw9vUNg-LJeFH8zgLiLXJGH2mbKbcX0-is24IjkDwPnwXOQjNnJPwCzACCLWjo07C_M-oGlTZGskvhSK6IqeZtJXOkegLgbUghC7o3ILesiF4gY4TKguvjUNk4EM5yBuEE6NxVth9Kt6wlmqgJos1mYJ1CkcPZ7KVCzFoWgj-qsYHwMKi8CLVGhh4DMGvk6n4E=",
+      "summary": []
+    },
+    {
+      "id": "msg_0f0a161fb1feb3a0006ae7ffd842f087d1999b8b392a6ef12a",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer correctly identifies the two incompatible active limits and notes that neither order supersedes the other, then asks which order to follow rather than inventing a resolution.\",\"evidence_memory_ids\":[\"AC3R2-H14-F5\",\"AC3R2-H14-F6\"],\"failure_type\":null,\"classification_reason\":\"No failure: the source confirms an unresolved conflict between active orders for the same tour.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly identifies the two incompatible active limits and notes that neither order supersedes the other, then asks which order to follow rather than inventing a resolution.",
+    "evidence_memory_ids": [
+      "AC3R2-H14-F5",
+      "AC3R2-H14-F6"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the source confirms an unresolved conflict between active orders for the same tour."
+  },
+  "finished": "2026-11-02T03:13:29.315204+00:00"
+}

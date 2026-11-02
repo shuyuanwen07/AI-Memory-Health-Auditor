@@ -1,0 +1,20 @@
+{
+  "test_id": "TF5F1CCA84C1D4579BDED27638DCF515A",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:25:40.734559+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 667,
+    "eval_count": 215,
+    "total_duration": 20364836750
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is based on memory records that are not directly related to the question. The question asks about the current day of bisque firing, but the memory records provide historical information (Tuesday and Thursday) and do not indicate the current schedule. The answer states that there is insufficient information, which is accurate, but the memory records do not support this claim. The answer does not cite any of the memory records, so the category cannot be determined based on the provided evidence.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H03-F2\",\n    \"AC3R2-H03-F3\"\n  ],\n  \"failure_type\": \"appropriate_use\",\n  \"classification_reason\": \"The answer uses a memory that is irrelevant or out of scope. The memory records provide historical information about bisque firing schedules, but they do not indicate the current day of firing. The answer does not cite any of the memory records, making it inappropriate to use them for the current question.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:26:01.741384+00:00"
+}

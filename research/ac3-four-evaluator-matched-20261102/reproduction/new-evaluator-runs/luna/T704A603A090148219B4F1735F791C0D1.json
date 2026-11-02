@@ -1,0 +1,58 @@
+{
+  "test_id": "T704A603A090148219B4F1735F791C0D1",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:38.155835+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_091700a83dd13c5d006ae7ffe26a6487d1b77de2524bd03c9a",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 883,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 194,
+    "output_tokens_details": {
+      "reasoning_tokens": 77
+    },
+    "total_tokens": 1077
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_091700a83dd13c5d006ae7ffe2f26487d1a92d9574b9047143",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__kaR6uYe73eyYNF1cR-xnkomH1DuDf84ZA-PJ0JdOVwWq5bX4Jo0vf1VeP-x97r8KZn_2DvI-hBX6EB6BpkUL4tDSW_PzfCYVXbLt_2NO1DycuATz3CYDKjYw3eyu1TKNBDoTktBk9-Ql-ORahtmpUTmXO-zQqwZ0GuHa0TfivA8pAa_vANJtWkjpfIRVGnvG2TiYhnfoIJQ_HMEpkc-muvog3-2QeFO_1M84a7uQ5HNLvryPNGjTofjml8cInRobnmyAPmg9PBFofwtvoDVaHglDSV6y0iXidIxYOdlWQWxBO5qd8t3O180IVGidNiU9hJk29GPcAcWNblOfXuzmrx4dFii26issJeMjcsnY44XG72EXB2_Q5DRlMfZZnhYtnrkSxrwli724KfbwhDiyX6jq0aqTSvzTgVwJ_bcwzEtwtD6vElRnXu8tYfr4GISxSbu3QUJD2K9k1_Ca8l_3fnhR_on2w5CBvl-OOZSGV0R_z0ryAzW2lMZUcS_qmbjAG3h91Upr6Zz4BBhgKqRSgo7ABBLiTkSiZ5TOoxlh6m65ilNcXETzCZvWJsnvgomOFP1qwKshzo7p44So2LDLa0fJT4A3UbT_iqKAcdfSz1gcL9L6MSCYZQ4jTd01J7OM06zXEiLkg9AWbj_RlYndoNIp_DIw23zOOqwXPsZfobN3BSV2o7tsD9XNQo2YfARRnM6IickrTWKa0yfI779GOEQfy-EGtmgx9XFAfsQkTYNhvsGjdwx593nhvF33EqWA3LNfQasfDjMitZLK0mslkKRKNiilod7bxoOA6lb2zxChiUSkR8SZbVGn0N2buC8PNFMx_sJaUD-qQEh6J4-BAXNBo0yIh1P5x0TwobMEdndvBPXHB1Jh_6A6IvKCprMd-kmFMDdpA2W2qayUKJ_HCiUYABNZChSt3XGtwjYtEDk8tmtim3srZEV5BTYvXL8MLw4oRfFoOzr34IoRI2yCfcm5-k0s_ggsDvQUS3L6sQjXVStFjpBkc38-LOu6S3m4SnsxibpcA4mXSS-5tEXkqKmF-AxWBn3QnaWmgAij1hAiyFBj3r6AyxdarBnjuJXHvoB3uNfaRfWMAkx-X1omhgin0p7F8xKVj0F2XfAAjcHdzI1t3iUIv2jxuvZhfuBmtWMEIPy4i5n9hSEsyT4Kd44uKhVX58KSXYKCuhsuk_BVNJ3g37gBKEuOsbN_gGJYPUaaJ4bSr4EgBUxZsEg4AKfrxrZxUC8qcQQK4eLE_kaDBZVIuYbRtfOy8M3GTCdbPHJKYiUoQQPsFy3rAk9RNfTjWvBywOsxGiOflrN1Da_sjmJXTQ2rU3jeLlhqfdyyb_x4JPDRamt4Ts1gsV86czelneSO1-8nE7_hzGn9H7uxqFmCuxm60baVE59AxP_dcMU_f3r4d_oS4d0wmi583p15k9JDlZ4Y9OzYIKkneJ8-LjI65-4AqAUtUfpZWfnzt8yWrG2gt-2SyYmnNmvXyTLC87mmNgFAKweWz3EdYeRWnm3M9ywPL4TAhBYoeOc5CpwJ4VlPokcohhNRLCTdXvtEaallY3capp6iesdmjtukd1Oknltp2rgONt_oGt7A3NuZVmNNFpwbdFdMKWxUpFbTu_6iWcn4qpKp_tRECGZJVljzZO03zp25b-OkfZLasUQsHQLc7R3PvWMCjFjWTFiX6m7-WS9T7YL455qH6XoHtWF-8SnxlpQ6d707k0MI0wU_pkeJbapsx1vNKG1yFefiLlY-Fy6TgQWhbTmTRcOXrwTFIvJPcFI08uwv-LTjLs5pPWOKtOKna2a7fy2NkCha3WNv2EC_1_RnLwENCpmSqE6sWMUQ0_pfumuCPNPomFAxnXWgD9Im1quA-jliQSDTV5PHlxxIFwj4ANqjaszCkAdN2-7rADtphxKzmqlK0svY8kQao5bEBs01eeYU5ogU1e-NYOk3vIOUvyGMgCQS8jwf43RoLP5TZzlhSH5ufd-XYjS0Ql2gB-HQwHUT5loUdetM9ytWy87pYKDw8er8T8vitAfnswM64htdsiN4r1UDqPwG4CsJyPcY8uLi2hNQh9UG4OAzRZJJ_RkclqI3eDKqLtd8NRh5_CqqSDOD1PR_DzFz51FMXND4AlcLd92cJf2zOO82k7E1muwqnJHWjkAnyCL9DzCH6hsgrS01W1a4RzZ-zxCdTCYG5wGfkyM6JpX_LUCPYVeEHtoMRS3FPhH1mcBIg6fkcKt7QBYK-bh91DHLjoqbdCYW8CQlVWq9bu1IdlzL95av4q631ikK0aNaHua2oBUltuQPCFRqWIQRPYJxLemHymNi8LjCO1iSUZU8XH6WuehBghoN0dpR5DaOg_cnsKbSIqKfYBnOOWn781QnfIFn5jVok0l5Q09DCpn3RZtLu8oL7sTORA1mNgRlh6WuDI77eEAI8Ha4ORlD2wv9U1qO9vMWHzlRnrh4r2u4h7tG-Bnr3k-elF8Y=",
+      "summary": []
+    },
+    {
+      "id": "msg_091700a83dd13c5d006ae7ffe3af7087d196cdf3738ab66be3",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The records give two incompatible active plans for the same observation: one names canyon and the other ridge as the sole final site, and neither supersedes the other. Saying there is not enough information to identify one final site is appropriate.\",\"evidence_memory_ids\":[\"AC3R2-H25-F4\",\"AC3R2-H25-F5\"],\"failure_type\":null,\"classification_reason\":\"No failure: the answer appropriately recognizes the unresolved conflict between the two active plans.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The records give two incompatible active plans for the same observation: one names canyon and the other ridge as the sole final site, and neither supersedes the other. Saying there is not enough information to identify one final site is appropriate.",
+    "evidence_memory_ids": [
+      "AC3R2-H25-F4",
+      "AC3R2-H25-F5"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the answer appropriately recognizes the unresolved conflict between the two active plans."
+  },
+  "finished": "2026-11-02T03:13:40.896940+00:00"
+}

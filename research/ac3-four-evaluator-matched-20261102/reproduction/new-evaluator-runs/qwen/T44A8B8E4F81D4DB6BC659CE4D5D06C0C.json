@@ -1,0 +1,20 @@
+{
+  "test_id": "T44A8B8E4F81D4DB6BC659CE4D5D06C0C",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:15:24.676689+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 827,
+    "eval_count": 148,
+    "total_duration": 16141133834
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer states that the user does not have enough remembered information to say what colour the tray-one timer dial is. However, the confirmed memory record with memory_id 'AC3R2-H26-F1' explicitly states that the timer for tray one has a yellow dial. Therefore, the answer is incorrect because it omits the known fact from the memory record.\",\n  \"evidence_memory_ids\": [\"AC3R2-H26-F1\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer incorrectly states that the user does not have enough information, but the memory record explicitly states that the tray-one timer dial is yellow.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:15:41.012343+00:00"
+}

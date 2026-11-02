@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T55793CBA9BE24F21938CB1A733435761",
+  "started_utc": "2026-11-01T13:19:37.940365+00:00",
+  "request_payload_sha256": "94de378dcc2e28333eb950b6e5d3a7333180b61d0cf56e693a3a91ce2e164f08",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed recount records seven water filters, replacing the initial count of four. The answer incorrectly claims there is no supporting record and that the count is unknown.",
+    "evidence_memory_ids": [
+      "AC3R2-H28-F2",
+      "AC3R2-H28-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The source explicitly establishes a superseding recount, and the question asks for the post-recount count. The answer fails to use the applicable updated state of seven water filters."
+  },
+  "usage": {
+    "input_tokens": 899,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 487,
+    "output_tokens_details": {
+      "reasoning_tokens": 352
+    },
+    "total_tokens": 1386
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0f6a495eefca3bda006ae73c6a457487d0bbd98a537a3bf042",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:19:47.807421+00:00",
+  "raw_sha256": "5cf7514c5d33d5ef186eac25e85bee64a96b33857cb4acfa877ff4610185d35e"
+}

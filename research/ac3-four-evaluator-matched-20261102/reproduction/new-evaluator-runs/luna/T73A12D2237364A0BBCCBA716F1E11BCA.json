@@ -1,0 +1,57 @@
+{
+  "test_id": "T73A12D2237364A0BBCCBA716F1E11BCA",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:44.366367+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0145952b55578246006ae7ffac91d887d18ec166dbf2ce597b",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 753,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 232,
+    "output_tokens_details": {
+      "reasoning_tokens": 140
+    },
+    "total_tokens": 985
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0145952b55578246006ae7ffad48e887d1922a4286c1598c59",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-vb_Lw_iDde5aSmrB5QwFyu4LdSdrY83wMTopHhcXPYdLzRXtNO0E81fxoalqal9-X-4rayHbX3wYojOWoQXWlG_GhZa_lWKgC--LdzNglM3smnJ1VfFKAdFSZNIAOVWh_Zdpzts9NJcs3NSWHtkZalowMOTqzhbkRQBGZyfxs9FF4r5E3XHnJ4lwkqFpZ9NsKXOqt0imRCrgSZyoOeFAgbo4I98GfNfqSKj3Ih8LfMvi-PBZVw7YzXR_N9ML7v-mPoa8FQVsuTJtydIKtXgCHIe7u2_TpxbIpEIQiybg5VyQFPzzEK6kyIp4KrUnsBz2pnNEOMVEFwEyR6ZfvfzDttz_itxXYBWCbueZ3J2u7KWrzDrFe4bxr_PwAkKaV5IyYT77V2iMLF9TT5McDWr9-j_YTnsJAfsh1b7sIr5ukCoWiGs9ClehhziecRAAei4bczHKyczWLRv7Onv58WVGXjb3n7ttpycNVyvnQpWRxFVqrQmOWhQ1uMNBZmNXTmYPTZWjOWXF1wV5Q4gnoWW13hrHrbmGlOGCvZHAuaVBbjuzDf289yDoNJac1HEyHh8VxDUmYus-b7WaZAoaD4c2AqyEn1yK61kFPnxz66rE-sRdnHLbNRPodfuirfPN8qTGR7uLpaqHTFkZ8BSKSxxeKUbv-dvweR5Pb8gqWe_kXaN9YmPcQAIP0uPfY5jC_pVW1JJPn6IpvYfS0QTfNIO9HTi6LdTAXRWishQzWPWSNdoC3L6j-pBJuTiaLgY3b-w4eMwMQ3Q0hCrXo-GO7u0JL3IQ2nwK8Ki2Xxc7AlRXp-KXhlX9yIV6lNc72l31rLLDWpgyge3nXNGYaMlB2xU5gZriCz7rDu_vlgHqGBStWpDrhmB6GhuCFKxcbtW1lSVzXdH609QHlOigdR6uOJ9a0ou05CpMP0Qg9NX8z2kPuz5A_w5r_sBsD485FODJ5I2HfU885WWTisyHdrWyJSVQdLYjIXPptP9yHoeQOGtCttJhJw_jrEwYVV70rNBwGpltKrlpYenY-fjZeWkdhaCKNoULSdEdPH7nW6sqBgZ4cMSx21sdH4by_zzaYZk-YOrpXU6HVtPW_vCKhfe-J1ojXuksmeiKjj7w25tp7SoYB41X_2DyJnPx4QkARTlVaWiZe3K8zItS0bEFeTMfjr7a-zDSE-dGfJZ_4BRr0meIjxbLoxdt4BZT2XADsGIKG0aWA-g6jPzsTK3EFTSxB5jPxyTDHDH8frMbr0kY0W4qu7W5Rw6A0Y1sO9l83wXLUl0nFSJlcTyPfTMbnYPRqdNTuUEiSPSeTUMt1UJrxc4HrNK3vX-jofRW1VJ2UzdbzEnaM3jCibgUBv8oVY5Q1pUSMGKWKwD3C7yGgK1SqGveOiEDTW76bJ_r9UTpl9LaxSJLVwbbSNwY4VYLA54_uJhEUMmiHbA59f0U8_kz9nYAjAZYZCB4OsBgCDrG7IWO4XE4712w8Y_4hOyUN_-Rphng3nRoSeW1zcxyRdyniVib06Q-E9qshHe1dlPwEB6w6PldqpnzCrzXfWwMAzhLT7917LGEVBTwdvS-x2Ui-Vx3cPrkM530sxAyrHlHZyvuUEuYBoZu0aYWVC3BFOMJ-X7LMF4QAW8DON7rx4e4i7NCUPwP_fo6YdGAC90iPmwGQWZIxnR6Dv4kMNZeytx26yCKJPwi8LAz0r_Z8b0UnWu97hju5QHE_9JdbpZbMIa8h2Oc157ZqsFqOG7wNcvQIKfwjMx8rT4bRTclQfHTLQnI1BUmFO_bAfZ6j7sQLjzmPa3_022F1RVorVKhwU4P1lUG8H-yZPwGk0NyuuLbPD2Ww9ABrtW2WirzG5xIWS8a8RCYOhyU2sX8Z4oX_l78p77Zd7SLyAb7oDnHleSTwjMYGC-yvHpcoG-zmpBTQSce7xHJf_u77dFDrQyK5K-UsFNeyva24WRuU80-hZ8AXp0Lf0-5BGlks-FkVKzR1MB8f0VvL02m1k96nWRQgno9yB124sMuZQw1HkVYXLf1AZwG6oIhEyCRaWfckPExqLXbJZ7tbVocDN8DZrM3m-lqtjm1TbNHmj42cc3yPE9hyDRW1TYWVtYduCzuQb-b4C-4WX9FFLT1ZpUKG-VGCqwoXOccMT0YJ8Uh19-bjB7IksUHrNa-E8SwY5R45UAbOWi60JU8ODQQ2TFVDWDQVZ4mHPRj5XLMY2-fVy-Om3KotkuK8GAxW3mbf5CKNGE1NtsLkbmlMtrAPpbqlSgSDwOmfBRZkaqrlOzFifounEkcFgcNPnTpbW4FLVu9POYALPn5TcgUcf4XKUEKszXQ8DQdXu5U4NvGcSNkk1FCG7IfLbiSHRPI14Xuf9NSOYjdVwi5J1OELztYzlVE4liDDVyFjQVyZkSSLCd4tmwpJrSRCvJarchaAeB5cEv0m9w-N2CP6Tgn2qr7Lq1DwGL-T1OROm_PVvA9eLbqMjb3tQvfsDuq9mJkbLufJlRNA2WLiYMNX5P8Ec_QsakklQR4ie8M20cXP_FCrJNHzw2CHAMo4xxdlTwNsDTs61RnUKkDmozXWtZmqsInFxiilolLZEtClaPddCzVo_1WCOIrl_Flt6l_gA_2EGrDiSnPC_l2qxqxLk0Zhc2Ro-AFX0zqkjSqQBunAYQOxTkIBiYnsY6s-cUYtHZSlDU5_p6oPCMr-Xi_BU73iyL24qaOAKXY-iUyIqXsJ913dACLiAJ-S9RVQXR0Rhk_vwsMzTOwSPIivPHREBkKAcJ-rHilciCyYuEn16NFCI-qXtFrG_xT8nQxbYFsM62umSUMF9R9Lvqng7kiQPPwKTSAvdoHb2v-tmDGh0ayJMwqm75GEfd5s8Tw4mNGS0PkpplZB2wLDkU2AIIHqkcbnzNd4BPAEg-53YYZ9hZ1A2tbQfZDugAQ20EBnde-vFeI-C75HzqROeSdkmCYUZbfmgX5N2foxf7w1wMCAshXUBv4v1kYNCOqwSDK-Ss182gyguUDQ-mQ_mHbvK3JI5sJdrlc_aHW54AOiNNnhcme7sUfOOct08RmCE0Ma6QvA4uUl84CeIcCEZqAnF9G02KOzsLoxJRNpvtTAsgaqre_BcDGFo587N6t6FfYQtgVFIZQrXopA0gNN3OM_kV_c6e7druZy7MSYu2k4XW_V8sONAbtDQmWoLe_Y55p_yTp6jMm6zgyH5RCHFvgNHOnw7Z3tsltQyIPpZA6TRiXZI3FV3vAPRsQiAf0pTtyAJ8pZVV8JDy8_NXNaFCEq9q99STewJUBrPzo0dyiHiAB8n1D8SmVxMotLGYC_jPOjiT1gVgxu9bMaJmAOS3HhfJhNmn1TEZ3w5WoOic1GnI7NRUbejT96TyXyDt2yj3IykvfCpvg=",
+      "summary": []
+    },
+    {
+      "id": "msg_0145952b55578246006ae7ffaec73887d188c412e047294daf",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The audited count is five spare rakes, but the answer says it cannot be determined.\",\"evidence_memory_ids\":[\"AC3R2-H04-F3\"],\"failure_type\":\"freshness\",\"classification_reason\":\"The record explicitly says the audited count replaces the earlier count of eight with five, and the answer fails to use that applicable updated count.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The audited count is five spare rakes, but the answer says it cannot be determined.",
+    "evidence_memory_ids": [
+      "AC3R2-H04-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The record explicitly says the audited count replaces the earlier count of eight with five, and the answer fails to use that applicable updated count."
+  },
+  "finished": "2026-11-02T03:12:47.894383+00:00"
+}

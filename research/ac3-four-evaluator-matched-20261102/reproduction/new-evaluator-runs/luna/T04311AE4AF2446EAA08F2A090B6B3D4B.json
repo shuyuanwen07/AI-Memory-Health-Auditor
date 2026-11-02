@@ -1,0 +1,58 @@
+{
+  "test_id": "T04311AE4AF2446EAA08F2A090B6B3D4B",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:30.860720+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0930efe736110939006ae7ff9f14f087d1865e9cbcba7fd87c",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 991,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 151,
+    "output_tokens_details": {
+      "reasoning_tokens": 47
+    },
+    "total_tokens": 1142
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0930efe736110939006ae7ff9f724887d1852f6ed4c31f32dd",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-g1XUSZxv_g6L-0Ayhd0B7aqkGUs_dNkWwFgtCgXXZ-PJTDYgbYq03m3qiZfKP9ZsxgB66GbCLyyAcStxE2ZcJEmu_goVXZaykgY7akNYjBpQ1lrhSLhpG0nhOXt5WnNlSeGqV4NRIMvC263YDAcQaMtvpQ5YWgXOPSWANGbpyjTk64VyyOwKOVQeGq0VNlNxqGBfcp90-bi0o1U52RlLXk6DpOtQj3eqF1_nDQ4WUbiiTXExZ3Ofzd4FaJKM6uGyhzVWAWWl1wOYrv9fKbWCyb5EQNy0u7pGjD6TBkvE2pX4ByTYZuYD9vrAN6yQpEoPA_IEcL9EKSXL2cTGPKahWh-w90rWe1CNh-NqjzBAAvo-e_c20nyR3BSzGIJ4oCrpyJkFXj2qtnb_DLNE7Ujhk5Tj-E-x0hI1u0jwCAYu1igNh29oTXX-7dPjf1czAlfyG9Uqzc6lWFXUJI3BFEwLpPi0DSDBcKRAofvTumCDY8zF0oy910eVgj5WiCSU-8izbtLFY5CDtUU1VhyceP1tC1UAN3lQmpIHn7NaNo9Ylpsy7_4zljw_qFv79t7VZRo4z_AxHyoiuaidiT0hLuwY_7vLuQMb3NNKdDBd6YboCRoAeqM0BEJxW6sQ7XCxXCq2yWIgu1Me-8KamizpAPTk28OfFJlvD-WlBp048s6s2-IdTngvzyopUlLV9FUvCNTfkEgn2mHkvyRzF6mMv3lcszMEWc-y1S797FDapyLqvxguCKhnuZkN7gA9p2euXpzDhm6oM8-XRH7k2mxX0SCyKo1IH8EfF-A2nyk-SE0CRfgpEPhfR98uLaq7J6nD9rOvXKGG3dv4X_x9yFnUheYmT_jydoWiZKTlas3_AewMApyejeDynBCxt4x3GwZ-IEvvHZyqaUWP9Dp8-Aswj57JNi6LE_Kg2DMtVlMQi52czd7rG8CBKGKkt9nmLTb3IzUiwmpLFdeGIhs2vZF9VJnvvww4ek6HNB4ut4NoAu1mRZr34PkrSHHvIaB1sXRpk7DffrTqy6EAar3971DK3oYBYF33ZZCQO3X5w19V-tJkAGHiqylBQcmgSpjM67qkPbm2eUdV7pfB6mZhSlqwJD4374INLml5Ly7qa4FD6ucwvbChip9_SqFr1TXYexjxcx2r7-mbpkSOLdluzVWrMIEDKMIWqo5Tr4Kmb9z_QefhJp_Mn0emeaxnCX2b893UGgFzxpcg541iyCv5Oe9XYx-r3KXrSyD45uo5aT6LPaTdYYZeWF4fkx132iywwun8pfGasfWlpXvSjVPf1QuiDNDQB_PS3BHF7wjqyROFNOMB9nX6dS97cWwc8oKckT01B8CktSkH4i-KJwPzb744sS74Od97N9AfpFZLPZ4_QcVnGXyK2x-l322n3dVhYJQijccXedycjL1tY8PmrQhB8B5qMvWVqe3_nk1zfVcwTTgzz21C6ZvWpZLBo6fiK6naY75M22jMVD2Z165hFLR7WT8IgLxoYaJwmaIMUyEZcLkh8E9BTNquNSJqUHLi72MPPqeiKfEx79s4VtM6fkfmcDqx6rilD8CZqHr2ShjIngkUVXmhhKvG0eiEvc54GadwF5MPOIKtZv1SbWsJvCKBUihqpw-CqA13XGd2n__R8AXzOi8-On4FXiHEuAc-KpFwaSlg1qV5LeBakWd-Ku-9gKNUcCxockt2q7UkqqErDAXBdEg0aiaXr3LoO6eQu4A-7RC9Xro_BXhKD8_tucD0YkQZM6F9FFsXsoZxIkKIc4rAYEl6CxuGoM-Eprszt0XC21YODu21QhsSectTHYU3JpxOUgIivchEAK_lpSe6DcicjbYahuQgzjgQQ87jXkObglMLodBmHSxZTT3CEt8_-fGsDBziXz7l0FpSRxQ0HAL86UTrJZMjhkaq2lMi27iucwhLz_bGW_0rEhGrY7OYa24KRZuJwZCrQAT-Gr8on8jLSbYYjrGVO0vDJRxlvDXgQ9UJfKl438tIcseX2zAqJsDTfSv23CgmnoHcPVXPuo-MA6KQjJLImuMKwjXbY5xfDsnor",
+      "summary": []
+    },
+    {
+      "id": "msg_0930efe736110939006ae7ff9feb5887d192b57b423768e19d",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer matches the general notebook preference and correctly limits the shared online log requirement to the remote launch rehearsal. The memory also explicitly says other inspections retain the notebook preference.\",\"evidence_memory_ids\":[\"AC3R2-H19-F3\",\"AC3R2-H19-F4\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported; the answer applies the general preference outside the specific exception.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer matches the general notebook preference and correctly limits the shared online log requirement to the remote launch rehearsal. The memory also explicitly says other inspections retain the notebook preference.",
+    "evidence_memory_ids": [
+      "AC3R2-H19-F3",
+      "AC3R2-H19-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported; the answer applies the general preference outside the specific exception."
+  },
+  "finished": "2026-11-02T03:12:32.987779+00:00"
+}

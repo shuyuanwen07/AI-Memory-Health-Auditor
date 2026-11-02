@@ -1,0 +1,58 @@
+{
+  "test_id": "TD06EE950D5A8401D94F1B8D9461ECBE6",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:14.029911+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0244af14d399a5c7006ae7ffca51c887d192d52d39a1f7482c",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 971,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 129,
+    "output_tokens_details": {
+      "reasoning_tokens": 37
+    },
+    "total_tokens": 1100
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0244af14d399a5c7006ae7ffcaf4ec87d1b2518e50ac0ce662",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__MBGeH_Pj39peCETjay6K34pUvUS8NNLse1Gf5Pl7aZixPzHwhTEwqB150J6c3f9m5sGqCpjYoQPTJ1Qy7YGmpCPY7DKo2x3EVuhxU5X5kiQsd61dhlIsnWm6oqDby30FY2LrwnghlD7karRJ4NTT0oixxnzCfUEDPjO1p_pJ0bV-KU7cE5DkiysvKR02np1RFa23w0RN9Xq5nu_56BueWwYkaHFpL6wAs75IHCiqQ6_CSI-aqluweaJLcxvFk9wdczPKEAQe-XWJbQ_VCauMexhcxQL0uyjX_AXZrPUfuCXtOgc1DGXiXifibgNgNYLXZN9vOs09wE2Cvv5nDmQ9yL81q4bH8lPmZbxI6ED3wS3mCCwD0gK6G3a5Uj7GeBUF_g5rpElPB6NN0lCjV7_z5DKXY-yR9HpxT02COOIJfOQJLU6-8Lxw0hAl_g1CwAvjp6ImhJfgNwU2m0mhK7ggv_ciJwQh1qUbFr407UOw9P5YF3PgCx4w7B2MtQrdFYB7nb4XiACXntYPJnOafV2S2KHqhcPqpco5spHH81DhuFgxscFNkXQgmhrhdzuoeX3RmkKXLvng8xrRxmRtnG8X1KZVo1rn6eSmtZrWuhZUt8PsuUGMGxlJqZDfjgg9VkoD_gd55YwYpk9qbopnz7mjYfjCnkVcHg-bt0sfF-FEycJOjWCx8wycSBAetdlonsjsU8TqkF5_ciALdqDA4jnFmE8vY0wMYpsCwcdg4XBlN6K46KI3ZrbnxLa25-J02inL8kBK-GZd-jU9iFiSJgcgTrZFtqACnJsf506FkbtDRnz1rJ4S-RYwb-GfMufHgmf3by2KkG0F53zZX-XvhlzK_XKlmfn0rjNyD_E0umFCiyIv27CFXRlngwsin7UxFC9ZTzCJULcZyc2CQCVw-7gs-qAxBq0QbOvPZjqF__jALEoXHR0cd7KaCqjP4mTKm0QMWeyrY284aG0Pgj1t1tnzIm31OIU3TSafNYC_OQk074pQVCuIHsgfNv9j5b9hutxuyAuyAqCQX-oDEEjzsq2c_E2aNIAzCuMDmfK0kBSDEVj3XCHsuh8yj3eWbsBg4S0u0XdKZSOVMKCmDltVgRNbT-w2Z1TYR2q7M9ofw8rGnd3wUOi5Zf6iYv37xRBqQ448On-IPSeAHOdP5WWtI1dxU1DXJLci4wD3Vifwbwa1QRsqDmqRS1e_zjqNf-ypCVoLnmsnBTqRY7LqseTTq-Vyu_qZttEG8yOOLkq1z9bq1ujGQGphxkZUecQ9r5QJ6L1JbhNY3hnzkv__KjPnMWXh_FcukUjawqMhs4YVFaBxSV99l1kPgEEc_bhg2X_XJ7_QQ6TmfSBasmFuwtnoAL6O_wP0FN6iEhhBYBf_JrQBsGAX0ca-hrBWYIcNI_jp_B71mkrx_9Wqworrdw3ieYQ9YFd_EePTLv40NpeqkAE-e_h1zIGyn9GQ9Elwxxpd0XEUY_S1bLV0uZXo8ookzaBBJJRzfwehaShBTLQDUvB0fwOAyFYwPmDP0NZKuRg5rl_ifN0tRAoNgbdXiFMTHRVe85fQngflSPCIM05tCbwQL_zkqvoYm-50-iQacoOgUO9ea46fVl8AXA3ty3JJu3uZrDn4f-lrGk_KosOnq_3yDtWKsznJzynviHT1B6ajg0KF7GzOS5P8iUluVbBi67obmQsu_833ldytdNVSvxcb8b43qs0t2sRrkiGbdIkP0nBk42i9_p1VzHQeODEX8PpZiD5ntZhMUlF3FDCP-DMMyYTus5g0_ZSg_SOCdJKhNC6D9IlNWkI1JbKgPokiTTCsmd0eEYAzfsKBLAfj-K0WWSASZrDOfSvs5GouT7kq0BimM5plsbCz8dkdshxCZinwWkA==",
+      "summary": []
+    },
+    {
+      "id": "msg_0244af14d399a5c7006ae7ffcb8acc87d19e1cd65ed0f1f6fe",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer correctly states that the user ordinarily buys tickets for ordinary buses at the station counter. The special rail-replacement bus exception does not apply to the question.\",\"evidence_memory_ids\":[\"AC3R2-H15-F3\",\"AC3R2-H15-F4\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly states that the user ordinarily buys tickets for ordinary buses at the station counter. The special rail-replacement bus exception does not apply to the question.",
+    "evidence_memory_ids": [
+      "AC3R2-H15-F3",
+      "AC3R2-H15-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported."
+  },
+  "finished": "2026-11-02T03:13:16.647490+00:00"
+}

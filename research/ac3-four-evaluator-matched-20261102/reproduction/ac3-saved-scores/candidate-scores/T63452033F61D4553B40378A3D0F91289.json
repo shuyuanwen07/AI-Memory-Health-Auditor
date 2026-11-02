@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T63452033F61D4553B40378A3D0F91289",
+  "started_utc": "2026-11-01T13:26:45.677895+00:00",
+  "request_payload_sha256": "7649a4d64c70e3776762860ecb8b22d7a41db69d09662952cb0841e5ff7779dc",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The records establish plain text as the normal format for meeting notes and confirm it remains preferred outside the accessibility exercise. The answer correctly states that preference for an ordinary meeting.",
+    "evidence_memory_ids": [
+      "AC3R2-H20-F7",
+      "AC3R2-H20-F8"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer matches the applicable preference; the tagged-HTML requirement is limited to the accessibility exercise. No failure is supported."
+  },
+  "usage": {
+    "input_tokens": 954,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 439,
+    "output_tokens_details": {
+      "reasoning_tokens": 314
+    },
+    "total_tokens": 1393
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_009bad10a976bbce006ae73e1607bc87d0a77a57e15e1a4bda",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:26:54.306937+00:00",
+  "raw_sha256": "2798615937f1c7fe2d3a9a9c883b119631866a43c4649a0cf61c044479ec3bc9"
+}

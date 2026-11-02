@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "TB664F35D57E94144B2825FD2EEB98885",
+  "started_utc": "2026-11-01T13:18:13.705489+00:00",
+  "request_payload_sha256": "7075ae0749d41087ef581bd6b23d727f9ea19ed5f9b4b3b09c235d38eabf083a",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The confirmed record explicitly requires an accessible electronic notice for the screen-reader briefing, matching the answer.",
+    "evidence_memory_ids": [
+      "AC3R2-H14-F8"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer correctly states the briefing-specific requirement; the printed-card default applies to other events. No failure is supported."
+  },
+  "usage": {
+    "input_tokens": 965,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 598,
+    "output_tokens_details": {
+      "reasoning_tokens": 498
+    },
+    "total_tokens": 1563
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_082619fdd1803abf006ae73c16091c87d0b21c469961d4270c",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:18:25.933356+00:00",
+  "raw_sha256": "c0ffaa480653b569730af43696a5c383118a31478f0848bd51bdbed79cc7bd46"
+}

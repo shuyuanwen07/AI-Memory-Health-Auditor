@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "TEAD229FEDD8B428DB6BF2A7D1ECA3023",
+  "started_utc": "2026-11-01T13:26:52.696549+00:00",
+  "request_payload_sha256": "5934dac17d1d3fb58b6dfc12e6afc97254c83e4334c6a2ccd6c7fba4ce241fe3",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly states that ordinary daytime check-ins use paper sheets and that the online form is the exception for the remote night exercise.",
+    "evidence_memory_ids": [
+      "AC3R2-H17-F7",
+      "AC3R2-H17-F8"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported: the answer follows the general paper-check-in practice while keeping the online-form instruction within its stated scope."
+  },
+  "usage": {
+    "input_tokens": 975,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 401,
+    "output_tokens_details": {
+      "reasoning_tokens": 282
+    },
+    "total_tokens": 1376
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_082fe9a8984074bf006ae73e1d12e087d085bc55eced44cbcb",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:27:00.803024+00:00",
+  "raw_sha256": "66d16306c61f2de37ce216a447eb1d00acb822b991efeedcbf83e80b52f38c2f"
+}

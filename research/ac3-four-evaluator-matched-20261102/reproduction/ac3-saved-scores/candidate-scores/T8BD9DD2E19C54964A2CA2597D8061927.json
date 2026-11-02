@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T8BD9DD2E19C54964A2CA2597D8061927",
+  "started_utc": "2026-11-01T13:26:19.830900+00:00",
+  "request_payload_sha256": "d2db9ea37dc4d0c6ac038b355da725fa2b90819234998f1aa690f01c7cfcea55",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "Declining to name a sole method is justified, but the explanation is incorrect. The records contain two active tie-break rules: rapid replay and drawing lots, each described as the only final method. The answer should identify this unresolved conflict rather than claim that the records concern only venue-closure notifications.",
+    "evidence_memory_ids": [
+      "AC3R2-H18-F1",
+      "AC3R2-H18-F2"
+    ],
+    "failure_type": "conflict_resolution",
+    "classification_reason": "The sources explicitly establish mutually incompatible active rules for the same tournament and state that neither supersedes the other. The response overlooks that conflict and incorrectly attributes its uncertainty to missing relevant information."
+  },
+  "usage": {
+    "input_tokens": 972,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 2759,
+    "output_tokens_details": {
+      "reasoning_tokens": 2588
+    },
+    "total_tokens": 3731
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0946e9c5f620d85a006ae73dfc262487d0a8e9872ba8c958e7",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:27:08.305578+00:00",
+  "raw_sha256": "66b439c5c98ac591a8db50f4451e7ee17690af8eca3005e5811204032b609618"
+}

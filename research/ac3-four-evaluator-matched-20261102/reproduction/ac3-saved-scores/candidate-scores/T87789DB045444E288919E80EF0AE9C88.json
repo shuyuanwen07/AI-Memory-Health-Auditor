@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "T87789DB045444E288919E80EF0AE9C88",
+  "started_utc": "2026-11-01T13:24:27.934912+00:00",
+  "request_payload_sha256": "e1b1c9985c4a81c18e57d1b927f7e54b85089b9f9a363e730899043621769925",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly identifies yellow as the tag colour for bicycles awaiting inspection.",
+    "evidence_memory_ids": [
+      "AC3R2-H01-F1"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer matches the directly relevant confirmed memory, so no failure category applies."
+  },
+  "usage": {
+    "input_tokens": 729,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 321,
+    "output_tokens_details": {
+      "reasoning_tokens": 234
+    },
+    "total_tokens": 1050
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0ea8b3a37e580676006ae73d8c474c87d0bc6afaf3296f3987",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:24:34.311231+00:00",
+  "raw_sha256": "8127b53fc9bbdd65b30b793b02ca12d7c413e267f93d7ff64497a85ef9423cbd"
+}

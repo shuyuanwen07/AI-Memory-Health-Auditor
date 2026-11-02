@@ -1,0 +1,38 @@
+{
+  "state": "returned",
+  "test_id": "T209DA4B63E4641E69B284BA5FDC382B8",
+  "started_utc": "2026-11-01T13:19:20.766475+00:00",
+  "request_payload_sha256": "4cbe5ff2435328729f1dd8672f2861777d076c322a90e015210b0dfed0774cda",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": true,
+    "reason": "The confirmed memory states that the pantry uses a canvas cart for rice bags, matching the answer.",
+    "evidence_memory_ids": [
+      "AC3R2-H09-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer correctly reports the directly supported fact; no failure category applies."
+  },
+  "usage": {
+    "input_tokens": 722,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 308,
+    "output_tokens_details": {
+      "reasoning_tokens": 217
+    },
+    "total_tokens": 1030
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_05475b4f41d8b30f006ae73c591a7887d0be84dcc492ebdceb",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:19:26.744822+00:00",
+  "raw_sha256": "f2d385ea184ed5c285a846f42d3ec4b308348973b337628e4f726159d7914f5d"
+}

@@ -1,0 +1,58 @@
+{
+  "test_id": "T91D8537957A04D3D9B2A957182E49692",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:46.374556+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_01405c01d663124e006ae7ffaea0a487d1a6f6e4aca0cb8329",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 1010,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 155,
+    "output_tokens_details": {
+      "reasoning_tokens": 49
+    },
+    "total_tokens": 1165
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_01405c01d663124e006ae7ffaf84a887d1a551a7aa8327abf5",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-xS2mTsRTH4Cf3SToinVeLkz-prHpujfIf1aETjdQIlm2bKZSiOhT8NwtX_NP5r_P9TUcOBcuxAEyqpXuu5sjI4x7T7nrv1VlOPih94Qo-Ux1slO9ijUWLjf-Ocnkz8odEIDx05phUeQK-Gu-Ifoc7sWLEV-FNz51P3arNQQfYrzpYbGlEIM5jpFaSNxCiso9pnHG9KFkr2j0vDxf40F0F94atMAV5JF-Uh4C4tHAPr95IElN88Lv42fgidZQHbkb-B8fC6ioTSECxoBox4C4ln1XKoF4RiPWWRwUME_3elhglEASB8hHDaVywqZE8SSRW9zGNmPsaqvqKxSwd3wi4uSEjCIPgJCJECarTxRXzhUtZH5PVGdyGA3ZSEv1ryJDpYIyrxVChTrXOS4sPvdXNyzbCZm8a9T1M5M9KgRJcheixBQxcTVsxcKm5cg-MYl6k6TtrZbn2EFdE0gaBsgH6HPsK_qdY2X5biMnd6cYwA1tuIJ9nfCOuzT1qVylmAWk6iXYw78xiGzWhNJEzxelE6mEnBM_PvfFo-doAk9B6PXiZO58_Q-GFWceSvpQZETEpI4WDbwgWtCDHn3e0sJEIRjVvpKMOoEOEcRPar5RriBV3kXrLc5PIxfGpHn3i91OwHR3gXdWCnCkAosiUYXbqDkrDl9qDzPmMua-2NDP9bMBNSDhEJX3FG2OYzuO4Hv2TSLqit7A7lNbKpjEqcCwHzH_mCCAe9G_HRINLQnrT7V9ULR3L1Vbwoq7Y6Lhy8R5jCPMQxag8RNNLaHFUHLSfnj-lS374o43SP730yJZDU5PjNrQKFPvd-kxCQfqK5dcR1P8onmkpAsxn45OTlYdnmpyznbUoDhunPlyo1dUZSQ36zHNgSnwTmREAo8gN8nQqQwGk9IByUHZxgs-mcvYSiEvRgraVgyOeSLvanW7Xas2uPxuyQ1lKNG367zWbhNiMEqrmAnp3DqqPyAw3SniZtWeZ-U5b-SxvRkqrrDZKRaRTP1lUENA__Lj9PwTZ2EUi6laKfrdCVDe3RvEGwqgiINSxn8Iufkn8TeEeF2bQzQ5602JR9dHRCRiqHGTJMBXApv06M-XMacLqMTEsLz5pY8NAlC2L6p-jGTUXipMX3SCWwDTKYX5HmB4gxv1uSSxFUeqkl02I5nk_hUOlXp2pdwG5bO40PBiAqhwIc4JsYfgYrHKatUtesfDQxxopmewkIqaykeqhK0-b6Gg6uaa9l-94Ae_v4F4tFdBn-_gbLS5wgteqVMtjfK28aGMDYc0sH48eNYbobQWax7rrKDoBO7bcpTTph_FztOA9ZOtVMxztoxZiDDRZV501sWqgWvUCFN2qQRdQj8hRYMe6XG7ZRe8jkVI01xcOUNGV_TXPODR98m5q7SYBcFrsSC0McymmaXYCIR36Xqs6s_IvnYrTL-h5bCkrLwyTvvM7c7jLUZpqBbeydOWIjNDg7_kjH50m_3rpFG0VrJwTfd7Drdm1VYF4fHVqNJako7mmuyhGK-I-AYXDBWVGL7VWjZ-QEbvqRuh_HtYPbr7QFv59Z7XrrzVuHy30iBDKAOZNH9xx3gJMw45f3k-QwfpVHg99Z2d-qicKNGxRuhDU_KZb2ddfjj6Sr4SoAWdDQxz7LjwIoA5UfD6hasMOnEtT2WxIvPk2FNdutd7Vg1EBHXIYVlBpdmmfvT26Xva8MfJZ3Y09JYDWl0WrhH2nWWrbrQ_3uMiiI1tDLm5KdxiBry4pKxPg4sKhKKkQMT4c6DlZW1olkOgz1q-y6dGo-Nx88Wk5YzGdviIZ5pOe10B8TiqjbRQAZyeUwFJfDAH8LEBSAj4Yn5AYfl7b6gbhXeq4x4EFUUvr_aQT6GSAhDPoHymSjtQ6QKOgXEcTftdACA_u2cz3uo3Wd8wfdhQus70he4TT_GzQTSkbh7yKMRtpV8-QSBASkm8VxWPO0WjqOnNaokPtjcaW9oQ20zO-1TmgsyayA5men0zxQG7yFKGgSMt5wKKWACECJw5CO8j--aG2rKigeSxagrYSV_XlabhbQGQcGypbqoXB9XTkmET3MVjf6wcC38MGLAKZh2vC6HJVeOpGGxZsUt3L-91xHokudYbsX-eKA42cetY3HmLVDNMPiwBCAg==",
+      "summary": []
+    },
+    {
+      "id": "msg_01405c01d663124e006ae7ffb028bc87d19ef23b13872534f9",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The records establish two active plans for the same Kite 3 mission naming different sole final launch fields, and say neither plan has priority. The answer accurately identifies the conflict and asks which plan to follow rather than choosing one without support.\",\"evidence_memory_ids\":[\"AC3R2-H19-F1\",\"AC3R2-H19-F2\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The records establish two active plans for the same Kite 3 mission naming different sole final launch fields, and say neither plan has priority. The answer accurately identifies the conflict and asks which plan to follow rather than choosing one without support.",
+    "evidence_memory_ids": [
+      "AC3R2-H19-F1",
+      "AC3R2-H19-F2"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported."
+  },
+  "finished": "2026-11-02T03:12:49.303718+00:00"
+}

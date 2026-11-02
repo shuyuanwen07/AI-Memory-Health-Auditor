@@ -1,0 +1,58 @@
+{
+  "test_id": "T0816D14AE1AA422E92BD208E005E8506",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:40.903406+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_049b22a5a872361a006ae7ffe529fc87d1a4f16840d4e53aa1",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 743,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 189,
+    "output_tokens_details": {
+      "reasoning_tokens": 64
+    },
+    "total_tokens": 932
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_049b22a5a872361a006ae7ffe5a11487d1a4eb7c9dd7fe6003",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__ni6h7VtBHIw-nH0oud6DzRYQYPHETpVQUaPOMwN7rGDxdC1BmYIh2VIluSlMj8E3eAZptaTs1L6HyYALIuq8VQMHZvleGxTB2rHxYwV-SHxsnhG6CMrCxjqFDjYv2XduC-RCFL-a9UTSsJP7ZT4m5szywfbYoCsG6WbVod1QB67Uwx22pnfg1jTmp6a914GSyLiP8gpgCEOjtmS8tqu0mosVXXH7B12ffLrIpZzzvc4zcEgA_ebKYSq2K-OjLtd4c4FlU_D7fpYPJUorugPHxUhYHOpPtQZGNUjuN53CeiSYraEorYbsUcKPaMm4oI3PRj2U4WJUsJpXbTYj8CxPSS-jslCkemROuX12yjWD_xINcyQhhWZhVo9fUsBzvnJ0PI4TQ9kE5lWhJZ7XuZ1UlSPxTaLWFb9sriR8cEb10ZcD5b8p2ukj0cjDksZaRysTzWTObX8ule8yaUfjlKzF0Jn7UTs9gd2f-YyXKp54-IPRWiuFE8s24BcNM2jpXhT8R545y2gtUIp_HBC-MiVKi5FNyfBT4EMqq-uMe3GSa_EbqxT5Qs55YE4GSAWaKMWrv8v3dtKVwyI4FSerjj352lOV29bn5Hsa3CyzlM8AYA1gjjHRXl34CZa4_sliti3CWdjOoWTttVd33ep2RaUFAssB5-toTFNYrKL0b-KEQLmM1g4pXPMa03A1cwEldQO5y3mrMbvWzCmofzCaz3tml2m7t_EvqxR4ySsLNL7g8SJqrTifFHc4RFMT0-1GqzSpZg2BYbt6whOk1XU-O4vGnxQSqskuzjyOESRoGm-Za4ZrDhprETypivDtGWqEVpAqQKFrvn1_2sy_wxL4s_SConvxUAWW72CkpMjpC77dJWdYFsD7Ou4aetbqERgpF5KL6_gaeLDknQc9Rfc-w-4tS9PbqpX5MHvzv3kIzkG2SDEDVZX7MHjHNS5_mFiNI9K6hATjbuEtz5c8z3niwOrCw0uYVxdUcULdNUC1CavProuIc9Ug9uFw36NIoAwP3FExOIgEnnaqmX3jBpT9fT0BYvkO6JbcM6kyDkURi4CbJKIlf-Q6CIKBCBcNmn4rpr7ynnsjF4g1MU4W6qcrsgmd4Vph3Oo5yzqBheQWqmYE3oDDDV-vWn6LHlCgLlUN-W4o5MHXQydqQaGB43_5DIoAaz3JXslCXoZ0mjLnjNglqFSIZgO4BpRz9rsD5W39lbmuR7BO506tyYo8x6Les4ksSQpmFRC90LD_gd6hLQwaaYPM_7KFWM6o6eb0owt8lvU7GBqDFRK4Nb_ARgOa1oRz354P5yaiztmX2V_M4__2T_wEti8ake3__mRk_wEVp1MOHaGhkV2jw24gVaMWcgEzVBWaOxb-n0q9i8NHfWon5oo3gfzNUDSt-cBNGC230ARVveo7SgeTua6I-lXS7cxdaioxoeaFIHeFrwL7Q5X4rRwAUECUm3uE5wfzKftwWkmqGBJM5N93PriWp5xq-TmqMqlLotqST5cB5dM7YaZjWYy7SrAh3suNfcK6CKqOxk0bMufNyjCSRO5lAudmNp3k7EHg1DcoOXu5dEi_7iQr-uaASnFrMdxPhC08HyV2UmFHGIGK2Nm-ER42Am99-E6w5y4B5mnFt6n4eBwyiPaOJcn0rQdYhvE5Xz8jfaii4uTb4WxQ7rlx-8RCoMp9Yl1jIE9iIXjdEM4OTO9Bi27QCSndhSlfdEbrSDiNkPp7G2naHeGKla2h_egOSHVaGO309JW_6T13CUNK4f3w51viv7ZirXi5svIqs7Gmwgzh5e3gnb1C1LFwRtsh1hCDbWM2wqtJ-NhS8oU6OEBitlFSW4N5ctG9nqgOKpWmFt2KCFz9AkHii-1F9Ulre7hktaVfWEFsNu3il6D24OCQo2tIGefQJ0xEJaddHa8xU0K54Plx0w1-_ePkm8MdtZ9oQvyI0esLSTwJ_MEkFEdL1Ofu39khedpHcL4JBhhqSWstRr0L8HZPiHpaCauUAcfP2mzQqB3Ku1CgdTZZj8V4UFDZkfyF8Saz4cjZOk6SrqRSE2rQeAdMPYiYD6icRwL7OwWX8qTQlUX6bsGSJ6Z3jtkE8MgdMt706VAiy5oDdJ5nYaWNoegNqsCL26VdB79u7AwPc6wIc2IaH2jErD_AhukBFOaYBZhF1mBHl4PrwkLVEVM10p_tkyJ_1PJ1VaE6tBXlYyor64cw1qkwzopXFxqKhXChGYIobCMDSsHOVz2ZdwhSF",
+      "summary": []
+    },
+    {
+      "id": "msg_049b22a5a872361a006ae7ffe6341487d189be71083f6347eb",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The revised organiser notice says the briefing was shortened from 20 to 15 minutes, so the revised duration is 15 minutes, not unknown or 20 minutes.\",\"evidence_memory_ids\":[\"AC3R2-H06-F3\",\"AC3R2-H06-F2\"],\"failure_type\":\"freshness\",\"classification_reason\":\"The record explicitly establishes a revised duration that supersedes the original 20-minute duration for this question. The answer relies on the original duration and fails to use the applicable revised state.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The revised organiser notice says the briefing was shortened from 20 to 15 minutes, so the revised duration is 15 minutes, not unknown or 20 minutes.",
+    "evidence_memory_ids": [
+      "AC3R2-H06-F3",
+      "AC3R2-H06-F2"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The record explicitly establishes a revised duration that supersedes the original 20-minute duration for this question. The answer relies on the original duration and fails to use the applicable revised state."
+  },
+  "finished": "2026-11-02T03:13:43.345612+00:00"
+}

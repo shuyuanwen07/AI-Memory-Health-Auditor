@@ -1,0 +1,57 @@
+{
+  "test_id": "T1271526A7AD048B08A19C4BEDB861984",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:06.087450+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_08c592fc7082363b006ae7ffc24f6087d19be9bcb3e0e7d9cd",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 888,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 105,
+    "output_tokens_details": {
+      "reasoning_tokens": 31
+    },
+    "total_tokens": 993
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_08c592fc7082363b006ae7ffc2e87887d1aa10d38afdf91e36",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__E4W2k95AMUIpexXTEglhDsezoMNedAu4EzpB0OYSpGwElWxJuApRyrzPnAUMNQ-lvnCv4GByf6ObRPdEveWHGF8AGAJU1cx78Q7q_Mws-1iYacgcumfEMp4jbxYhroKKOHkfIRyiKFLEEjz45svkz15fYISYJGeA1nSInrvDQ7r5DP2BOI0ZJqH-HVKkF80INX0ILjVgxBJ2uG6bhYfmTz2_DFlm4inBpaOOsF0r14FNszoGMggMd8LdEJFExBoggL3dHxYL_q3hoRujGKechzk5PIKjWsZhLZ6F3tHvlAJw13_fjvI0pvHICrGrmcaAt7HwaEIESoO0gMh6IPFtgRyWxQJjPUjMzk7svhqOBBtIE9H376NDrwBHU5nK3TkNe1MWYDxozqTrVJg-x3usH4XbSIq90omm80PqVleXEFwJkYG4brWD5VOlLsfnQwpfT3bl4p0Lsnoqq0BT2jEQYD2isEQ8bSvS2xec0ks1_VgfME9eDul1ABktJWS-WWQYBYY3jAq7JiigPPNO0-OhM19kMsbCtnBeDq98wghQaN-unK394MDhUS3dF8GQ8KmESG-5hMqedl-I_XzE6_qY_qeEilgwBVaiY_1pcnu1XUtwB8d4ZLL2QvdsdTG61Ob9MnzAMO346mC9vROKCJ1ouPRBAwBkKrgFa70JVikM3gC8WCHrLLIaRUUQADThnTKnZdW6clESc4R93r9fPNTbLsArI-hO8-_Mx-j6LTqKPOTCPZPof0edTCQeuowdljcgO_EobTYe7_-pBTWJqYJBTvPKDeUTFd4HBHWMQJtYCWLwXlBGcBcCyIlJ8FO-ThlWGM3P0EEspOp6zMLtkvoKgygRlbiEJc67nyGViy_1JL7QO-0j7TLrM249JFc3b_1zHSgG0SzmZBSPHuFwLDpQjsM2sS0VnPUWcfgvEKZb-otEohNw9JJG-qMr9Dir9Ov06bZL8mmK4ivJcOxMmtGUmqqtE8RB3QeuTRSaFvT9FTOnh9yyo_rQH5XkFo4AKihSY6pZIhbbjfLvC9cHykDEbaN-hUAdVhpMTN_rVEKhZ7PLXZT1ReqwUHvxzX8ywgaS7ZDbngSpyI7jEfHlCiSMgEl3blCa2TCjhnpUd5KEWWNqWcSGVcooJ8cFyckiaaQYYn_s7U_UeQax2QuBJBgpWC3biE_UGQ9oxf5LaGXerapFolJXsbqAWij5IQ3MdQo1aHvw39_DU4oQ8wKQEunZYtRtJNsk1Kibagc12ITmDi26FG6mC5YOKMCwTrjGz_UZRMSyxf8310dCvQy5Xy3QCLtRqaaXpW_xScXNATOdaJZfeEEwB3P7Em_F8Muox3-_M63FleZchoS3onDeRWerGuu9iS7p-ZCEM6Bi2IVQebUnST2AbSlcCCqAIHvUJFoeCIuwI7iw_nPGr9kd7u5c9owRx_ObI-WvnPGMtMIphUiK1ao-FwDnQ_ECDSI6a5DKMaCwBJ5tHRAjnZqHpre6rK3daJtdBo0DHGYTnVyFletwaqdEhYcJn83tfvuQxaWzO9qh6XCp9jYjxJ3XtwAGrQs61LTENPT8fmV8UAyw0Uv6YRH3U7G0YgVGyZS1AmeCNaE34fmSDdTe1Rnw49nvXWT_ikjA9giVD2wEZrqmscdkI6Opu6r-AGJbiCR8zqq3tJGUfX83fkMIlphWr6WYP02G_tzhJOBqhnFdW2wLZJfYj1dbyvr_mPvbIn6ZFc0o6kCPGyd7izlaXqJFUM9zFHmDcJDM-Xlj2QRhrCQoTXhv2glE_fq11aOuIY4TMWfGD",
+      "summary": []
+    },
+    {
+      "id": "msg_08c592fc7082363b006ae7ffc3682887d1bb345a55eb4c7073",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer matches the confirmed requirement that scores for the low-vision session must be delivered in large-print digital form.\",\"evidence_memory_ids\":[\"AC3R2-H27-F7\"],\"failure_type\":null,\"classification_reason\":\"No failure is supported.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer matches the confirmed requirement that scores for the low-vision session must be delivered in large-print digital form.",
+    "evidence_memory_ids": [
+      "AC3R2-H27-F7"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure is supported."
+  },
+  "finished": "2026-11-02T03:13:08.409875+00:00"
+}

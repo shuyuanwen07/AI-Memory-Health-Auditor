@@ -1,0 +1,58 @@
+{
+  "test_id": "TF3345698D1884BDC90F4D894E82BF0D1",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:41.147820+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_037987cfe40cb8f8006ae7ffa96dc487d195de75d5e32b84d7",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 991,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 180,
+    "output_tokens_details": {
+      "reasoning_tokens": 80
+    },
+    "total_tokens": 1171
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_037987cfe40cb8f8006ae7ffa9faa487d1a07880b67e40d21d",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-sNp2iZzNSQB7S7rH-Oh1ojnpRxVOJgxtgsRpH9DKxwZZctb3XFNxloKKCzElCZgu0BnwG76nxCL_4rjRtbGvhlpQDYT8T4ONO43TbdVRUuRxrP8yJL-7AdBb8AqbCH614D1KL7y_zZX-_iR5TnhoNx-gbC6LaKyY5dTwPbbKSCrGqtwz9j3yb7MpiSto43-DfWdBHbZVueaFT2AWCSpqhM6zQZP8Tqty1eh1Ao6Ys0Xhrts8bHHCzvULP8vqfr11EsGimbhgE_YpvlXRNcboTcwHPyZv_GVmWXPRnh_xSsYb19tebbOITHIf0c3eKzQwEABJYUcbLdff4gHaYEZuXICFawhA8cxpoAg0xU2UOOrenWQeFTeGiT6dTcMlv9Dv1XwJTTTCrgyVPnb44WxdL5I8RyIcemA_-2LIMkUnUmv6S2WAE0StvIqmwpa6Q0eKK3bxq5HEHof9ib4oYFSIjCbbtLi36_at-wEZwBumhL4gWu5lsfvjQZfzFG5t1sVawVSSnKNbG7fLz8pPAyy9uk6fcLuqj98TZWRREJ9tt6h6LnWR3EBoq9FGEtlcINcIg1sDR0nkLjKrW2z9x_UB9tZvVhXFbaYKAp60vstgqecO1fe62AST_jv8Cu5HHQgeQeFlPw1uMWlUz5uDtJxc6C4C8m9a-K4us5hJ9o9SNTrSkgal3rDovYbAqFn3NzXZxvsYB7dG4SbILLL-B_U2eUHKtC74w3vWeZYqnw74Z02hZRv-FetCqNYrWMxEwN9ukH1aus8rPogoxRHko-hdIK9nIiuQkxFap8TtCZkR_AGYto1gzi5LWED_qww3anpsodqwzoM8LVfOeKrAvUVkYp98TdGX524QalNwu4iq1tppvbDn84NcA0kmep8hFCnoUGj2fI9SlWU2JdJK3xh4IG-YzvbLwJmxkyq7E2qIWXQjmAlWFbufnvfZ9pjdbxu0bURzbPGaBJAesKdzZACszUnl2C18nxj_0b0mvkkRd42MaGDvisALOOclfEr6UxNT_vzWUUCUDIydsBwwGpuMBOJF8f1D8EPe7CYiIUhKBtP8N3CxDy4-tqgkjF_QLzl6A3sVv4MW99efFc72MhfZcJgyyHLfxb0gqAS3c03dbbpiEgjNVEN4p2YsT06egi06wbfrnbfCtZaEt1PzxNImb9IPMpn6KaH9xtf55cFL5FoLxwfkWWCgFjALKrZ9wTpyYWaabf4VkNkEUC7iM8J5ZjVMi_41D0GAACx2mEchi3df4oX8VPBtD_ORAhGX9tZmQzVD0EaBKfBlzZTtWHKeInF4VZqmamjMZMP5xNUhclhTlLJR190_bcRI49leRZ-cRof4QgmzHEKx3AEyNPy6W2mt2Ac1Ua1jrBYofqG9urtAWu2JWxIfh-EILDPAl0a1qoM9E_9GuemJ4YJmXQ15ANs3a0S5mhsSchgG55Rf88k7QvtpbugmJJTqTMhCSgxpWXxU_mN-tWxUX4BWGcccHEJ1ObVrIxcReiNojQfnwGORbSHWii71ODtA0TupBc4lIrA9JmArpsGzFCNsQqnnXeyrJEWjjV5jXRq-lfH58Ll4M-885gE6IrnzJPZWO7WQft1veCZgjYvfRY9DodQ-AR1ZMTWOEY9kLaeghU0iXZWfeOETZbMpMTT4JDMZO2oxPI_JiqiqK4LaDzUfdc77KoSOqdA6-LSo6YNduM-NnXaoqSMoJ5pyfmouNnwgIlgo6sXcnC8Mf0QtDHBhJwh2-4KmyPoJsT-GhPqgo2Si3Lp2mTU8tNLzoDVOrJW0LH1CY1CIK19vCc29zgsdw5wT7SJqTO8pb2ePElnRre5M5B5z0Rz3UTuXGhB9oag0VzZz_bg_tnshC448pN0bSVRIO-Q5PLXZ6EQuNHBDcWMLh5dWZuEMnIb03am2LlfDCSsyrDAJTFTSasRIqjDjVSyx9SPqpI1Ozf6PI06px8PH6M7eC1ScWbG3e9upQTrAO5oH2UPA14pZKlVlJP0IF1-zKjTCh167tj6nLbZBpoX4gTpGfu5OMNQpyxFrF7_rIBOTVcnGAQ0I2J0D1lF9bsLtp_uz_WsnqmBes2wEgtCgsPheeBUZOBNRtm_OabBjIYvavpZoeJ7qlsYJ8ywHMZ_rlqLwZfq8nEBDZh6rgdKGykx1__inaVn4UK_1F7aespt7oJjsd-p_DWvEidPP8e1CCz2TsYImagYkoc47NqQBSk_lRUf6IHC_i23X0cs4Jn_sGb5_W5G6MSqRhJbO4_0eT0asfY3pH7-1ekyQI0yVh2xD-NqA3Wdu5FaNKihVdEzcJX5cdkgUtXTd7Jq2gzlH49E8L_NZHdmax0XjvkTQAZJsYXjKd7gGAUB5N5L0StTLKKP0RobAyGRjVcq8vYH50Od06WzlEaMKVKF7ZARusRwY2ONQ701x1_eRVk9-OtO0j_zSu2Od7q7YIEjoVzlGNj7iA7UjSKwqs3T5k-lgk6HcbrvdKhH9yepRhpiDaFjswJHarFVPMSw0-r_dOxttPi-OrBrMNxe6xL6YaHsG3MDU=",
+      "summary": []
+    },
+    {
+      "id": "msg_037987cfe40cb8f8006ae7ffabb2a087d1ab1efa8eb9b5dd2f",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer correctly identifies the two incompatible active format policies and notes that neither overrides the other, so the records do not establish a single format to follow.\",\"evidence_memory_ids\":[\"AC3R2-H20-F1\",\"AC3R2-H20-F2\"],\"failure_type\":null,\"classification_reason\":\"No failure: the answer accurately surfaces the unresolved conflict and asks for clarification.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly identifies the two incompatible active format policies and notes that neither overrides the other, so the records do not establish a single format to follow.",
+    "evidence_memory_ids": [
+      "AC3R2-H20-F1",
+      "AC3R2-H20-F2"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the answer accurately surfaces the unresolved conflict and asks for clarification."
+  },
+  "finished": "2026-11-02T03:12:44.363140+00:00"
+}

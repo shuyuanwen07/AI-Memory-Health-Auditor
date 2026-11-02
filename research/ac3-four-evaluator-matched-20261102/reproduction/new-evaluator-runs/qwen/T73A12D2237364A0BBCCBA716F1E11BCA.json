@@ -1,0 +1,20 @@
+{
+  "test_id": "T73A12D2237364A0BBCCBA716F1E11BCA",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:17:20.985123+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 688,
+    "eval_count": 179,
+    "total_duration": 19369981750
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks about the number of spare rakes recorded in the audited count, but the provided memory records do not include any information about the audited count or the number of spare rakes. The memory records mention the south footbridge, the tool shed, and the trail team, but none of them provide specific information about the audited count or the number of spare rakes. Therefore, the answer cannot be determined from the given memory records.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H04-F2\",\n    \"AC3R2-H04-F3\"\n  ],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer omits, denies, or invents the fact that the audited count record is not supplied and cannot be determined.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:17:40.467418+00:00"
+}

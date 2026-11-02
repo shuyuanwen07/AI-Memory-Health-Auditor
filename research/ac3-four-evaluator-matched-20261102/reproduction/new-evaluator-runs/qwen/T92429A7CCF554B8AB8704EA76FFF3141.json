@@ -1,0 +1,20 @@
+{
+  "test_id": "T92429A7CCF554B8AB8704EA76FFF3141",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:14:00.718041+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 862,
+    "eval_count": 198,
+    "total_duration": 15959101167
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks about the approved sole valve for the north bed, but the confirmed memory records do not provide a definitive answer. The memory records indicate that two different active maintenance cards state different approved valves (valve 1 and valve 3) for the same bed, but neither card has priority. The question does not provide additional context or a definitive source that resolves the conflict. Therefore, the answer cannot be determined with certainty based on the provided memory records.\",\n  \"evidence_memory_ids\": [\n    \"AC3R2-H22-F4\",\n    \"AC3R2-H22-F5\"\n  ],\n  \"failure_type\": \"conflict_resolution\",\n  \"classification_reason\": \"The memory records indicate conflicting claims about the approved valve for the north bed, but no resolution is provided. The question asks which card should be followed, but the evidence does not establish a resolution to the conflict.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:14:16.836286+00:00"
+}

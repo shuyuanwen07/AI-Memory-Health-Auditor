@@ -1,0 +1,57 @@
+{
+  "test_id": "T55793CBA9BE24F21938CB1A733435761",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:32.134450+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_08cd9048745caabd006ae7ffa0700887d1a7878163b7fb2efd",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 899,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 212,
+    "output_tokens_details": {
+      "reasoning_tokens": 104
+    },
+    "total_tokens": 1111
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_08cd9048745caabd006ae7ffa0eb0887d1ac7e728ef439cedc",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-iBfXiaPqtbbd_t5dstWZlnMaMAFW8EWLzW0q6NxvckPXjM_JpmTrP5XiILmtfiObpIo6z6l6ayJYjtXPs3sw1c-IoA9fAd_LnJ8d2cMMKKQeiPcay1usYYFveIduvH45JauLE5dovbA8Dp-arDC9dUlXbGqEPg4auYZ2QqQMvdrOmViX7yDQDnioob_njR3wl7s0jL9uwUu4do8UI3QxrlJhFXK3E_DsOYOK_dOTfAsCSxQsDKKU3IFL_zODto8EUnVtwp5ElyuREBhPo5m9aA_PWIIeCYZty0ygBwoRC8zL4x_Yo7i4wuKRC8YKL5SB4Y7i1eLWTULsB6282xrUwObes4VZtrPMkc5wkzvHawyC_qVUfEuDHZ1OhU4VLztPzJRBtrPqPWLv4Ji-dYiibcuYw8JKoXAX9wfQnpxtm79RB4Qdr47mTXoCSj-pyqvMDi9QYUlhBozgP2IWu4GFHST3RSEoALorTgkNuUUdTBhrcSxvQlkj1RmAY67u9iU4bjhpPYHB4tVzSRzuXVdsbigbOwL8s2rFm2BT9fN5V0EmXyhIHpspciLLvm_ZnhR-WOVKni3deQsKYdP31uB1LuIa9xMuJS6mC2ZVNtVozbPOj96BTMj9r91M_bEQG_I_Jz9ksROvnfCXAtwGhFVATp6rNzfblsVyMs8imp90u8bl9CMpkj9_Tl0DuDeh9iM0jdJt_5GkhTPcDwNpSpaji-sI7UoJ-oxgnptsLiQgDYD8Q_ZlnJmIGwgSK-0x74HxZEsQCITIdzmcUob8WdLT4cMc4pazbeWxAB2USyuf1fA-5RMlLSjfsrH5ZJ2pc0EVeL1UKb_EOekFM_J5yEBZ710N8Ysvn9-RpvD8kYnHW5pDUuqmiQ--sHJ6cf9s9TDmTtr4udrUgc2LrF5qwmf1sy9e4j8qcwMQRxzt0xlWUYRbt8mBdVvX-ydaUJWAvkZ78g7eBcmk_mjQ9hmHWXF7RTCQUwgeyJjYjNKDK9Um9nQEgV-u-bqSFFUgRM29b0ktaOENWs_GeQ3Vt3ANoQCszBz1vveXH8XLM1_qHZKNJPApb5_WMIwoSaWtks3gHQf_y-anV_meJeFvqbpFv-xVOt5Cr69HHBR544-8i7VB7BBjxKR3IOYolOTpHxaXzQcHcsa6IljBli8-JNWYUUwOx-dzdtbUciJV2xILKHj4uw2-FX5_6zUpn9FpSMrpqKkD5mzt13gXZJs88rpXIR85hMVw958XyYgOgEVCdLPAA2qNE1tk3Xy5sEEAGcgOYhU87ySTxrP51BW46Sq-VU-bMlYkDrO3f1TaMaV803xYBwKhD38VOtuhpPpC0lVh02DIwm2cSpUNsZzi8WDQrCfcf5yLFGizwb1nmf0msBMrd74aNTgIuQYH0EE73VlZaPthBQixdZI04dEEashwj3GArDbs-Ndh194qq_qwWonqUpw-DZ9rNcpyB9hDKWulq8O2h6TsyFckX4rZNMSn1gGnjUUotMAu_2QaHDF71vwP6yDqMLb7OWsYduliUy4iVsnAjwjkTW4e6dRgcZXrx7diWUpQVQrTp1IpuJWtEZDUJsrowYcZzqQnm8n-H-ZHHd4Nub6zAPqtnoPY8pmJdRa-nSQ1xT-EavgWvrkWK04fmOk6EcbpiRKdJIhLJSwYEHKgyBOCLX_dpji4zYhudXTApUGoZ4lg0xknQzZaMBz68hUJ9v8ZputRhKXn6a6LAJkxfisdqhBfvfCUfAuURHTOnVy2FARA1g9H0VQTAKNggYF8Ot8kyyAz1rPzL9x1kO3WjfxcBPjmZDksDkfk1uVGrxxsmryz9h2wfHy1ZIMdhL0bbJQ4Yn9fMU3KzrKksmsO2baVgXIyMTypdQZ_XAeRCJ929EfvGrjX8TRUKYLF1BxSZlXAVIyY3MojE_J3DVqZh3vcfWMSxTUoIFqYlcdIOaVBzDm2GLJ_29rcWOFACJ9oX1NmXb0kAjuLoFJA7ef5CX9Z2A6vChTihT9EY4ICA5hOgHLUX2OyOjD5_v5hB03VCkoUsz1Hi_MARKz7YzDjJSJF9McPBv5uJu408pBgn7RU2gZxcF64Ko1v8W-_sKFZPjVaGF_8Oqdmt_KHZ61A8JO4fc93HfHPhkljRU4fbHbHg8DqyYzMFogK91eEr2KvSdGjjcOen1esjuqhkKBtdr0HTI08l5kRNHcGEvkPVksxNpL9j8W9WziVhlV0DUKLUa90-cCwG0VPFZ6InrurDOxnJBB81Jag9Qs3uz8UrX_9spo8JtZKdmbxHmyg454FL8DodHq7y4cz3Ugx5ALRpp-TrQWb7gtzLZ5OJUmkAWoEaj6IUaeTllVq451fYZHl2TN4nq9BFFZD0tT62zstKMm1ieaYSsmjfWScIsJgP7cLU7KH5fiF_nEcIVaF7A8n2evPLYZiGXPT7ODJdUlzXxPj2pDy67-t85yAeCgub7aI7VR8f30hk66f87A9-9F7ksz9NT06y8KQMxNK70a6_z9G1HkXHMnvRhvhVVIF_aVEAVXxYKjd03-jhyJYSfSo6oXA08RnTVOCB7JYPqm92-la_gvTxoDI7e0fvL-m-ID-3HefFMhl3eWYV7DKd1jvDmGlPlUcJG46BjVaUlw0_VHdQEG0gsBfGPEd7tCbCuoI7YA9WsTxfeA9Qap8064_w_-vW34NHn9zYAjc-mryVMKmGBZClLNtgXXQxNFcpWnvsdAm_oH3WdDPpxmS4AkOg44o3-_VFwn-eD6Q4upgE4qX9d6BtnsLzmpA2ZypBCKr5z8JZgmfKK-onNHrtlcLz82X5CFAgIVLPRxkAhJ-tR_TX_SA8bsgVOi2YH71jUNF-NiEw_6uw0ud6F8s-rTO6goPEQ3jcbQi5P5gpRiU9",
+      "summary": []
+    },
+    {
+      "id": "msg_08cd9048745caabd006ae7ffa1ec3087d1aa4e811e21062e19",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The confirmed recount record states that the count was replaced with seven water filters, so the answer incorrectly says the count is unknown.\",\"evidence_memory_ids\":[\"AC3R2-H28-F3\"],\"failure_type\":\"freshness\",\"classification_reason\":\"The source explicitly says the confirmed recount replaces the first inventory figure with seven, and the question asks for the post-recount count. The answer fails to use that applicable updated state.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The confirmed recount record states that the count was replaced with seven water filters, so the answer incorrectly says the count is unknown.",
+    "evidence_memory_ids": [
+      "AC3R2-H28-F3"
+    ],
+    "failure_type": "freshness",
+    "classification_reason": "The source explicitly says the confirmed recount replaces the first inventory figure with seven, and the question asks for the post-recount count. The answer fails to use that applicable updated state."
+  },
+  "finished": "2026-11-02T03:12:35.113619+00:00"
+}

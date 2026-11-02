@@ -1,0 +1,20 @@
+{
+  "test_id": "TC85699439BC04B578BA887AECB01E176",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:28:12.589851+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 821,
+    "eval_count": 169,
+    "total_duration": 24963166666
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The answer is based on the memory record AC3R2-H23-F1, which states that the wardrobe measuring tape has an orange handle. However, the answer claims it 'does not have enough remembered information to say what colour the measuring-tape handle is,' which contradicts the confirmed memory. The memory record provides a specific colour (orange) for the measuring-tape handle, and the answer fails to provide that information. Therefore, the answer is incorrect based on the confirmed memory records.\",\n  \"evidence_memory_ids\": [\"AC3R2-H23-F1\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer omits the specific colour (orange) provided in the confirmed memory record, leading to an incorrect response.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:28:37.695650+00:00"
+}

@@ -1,0 +1,20 @@
+{
+  "test_id": "TE2CBF2DA229F4D89A12E6BBD2DD994B5",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:16:32.902244+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 678,
+    "eval_count": 156,
+    "total_duration": 13283380875
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks which symbol identifies the rice shelf, but the confirmed memory records do not provide any information about the symbol. The only relevant memory record mentions that the pantry labels the rice shelf with a green square, but this information is not confirmed in the provided records. Therefore, the answer cannot be determined from the given evidence.\",\n  \"evidence_memory_ids\": [\"AC3R2-H09-F1\"],\n  \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer claims to have insufficient information, but the memory record explicitly states that the rice shelf is labeled with a green square. The answer fails to provide the actual symbol, which is a factual claim that the memory record confirms.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:16:46.263000+00:00"
+}

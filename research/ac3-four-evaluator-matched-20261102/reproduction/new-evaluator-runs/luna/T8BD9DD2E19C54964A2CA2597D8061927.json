@@ -1,0 +1,58 @@
+{
+  "test_id": "T8BD9DD2E19C54964A2CA2597D8061927",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:13:26.919274+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0188bb32d2019e6f006ae7ffd7374487d19c4745c1137bc3ad",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 972,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 276,
+    "output_tokens_details": {
+      "reasoning_tokens": 137
+    },
+    "total_tokens": 1248
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0188bb32d2019e6f006ae7ffd7d96087d1b5c39f5577b6fdce",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5__bN1_h2cO_Yhq_G-vfer6rEdQR-v8ku4XBacDDHPo1yQ2AI-fCB2BTYjXHsyJwRWAxQEOMBnzVt5vgSgS_Rtl_IsGiOnt3XTum3MrfHr7FkaSJ25fFajtIX26uyq-Ch5lVS9DDRl7cGuBf47DphScBrV8owxS7RvuQq4dQnwT2asr3mao3NyHp8TUg-1ffRgYE31ovuVLoKB-zau2RNWYT4tNNA5YeUWWdlTOJHfUkMyzq3y3UJCPMgjLAevaik2Fuel5nwm9krG1SSrMY1Z06fhvWIwXL5OWSxU9udQRktrd8xkgVZwI1AO7evvxyHZsUK_NimyeniaYv3Hi0IOi0OqWN_Mxpya8omX6S95OGrgHBh96EMKEfx_L9G03CpDhliajFV55XZT0_cDmvJSkeq2UQjmvxgPIPB1iNKv3qKhj0rzbpW53Cyo3T3wtAozq8a29CVsf5NxS39KKjzV7hEQUaCupiI85P9xrN9WxROeOOREHuk9QpH2cGXMKNpyKlKjZGsYe0ZANEtPJBDgsUPw1EZF8qN1xJpdQZpplC5xBFfv6KmILpd1oEN7kxHPAdfsF2G11FJ37upEWZXW728_j6QIuKXqAd2YG09dSMPt4D50oWC7wwSMHkV_uav_4u5RqAGZSOSSZa2-kPhLbqKlqA2cKyr79EV5Z5WdIxhm63qalrsAQJpr587ipHWvM0nBI1OLScVGsTxpw6MBXMQC-MimCvcE9bzIspE8HrsW3amUdXvWHUk-Mjm3nje-qLRaRR1vm49tKTPHa-VpR6KcxMzBR1Pg4rupmComK9Hqm2RW0RArwB5-j30E9kgmCTlNqycul7VGE3_aqL4ZciysY1Yl4mj8mgWEfZ03KUcbA6YCu9IsFJkuSOepBCkeaXftV2veZ-v-1as6990Iz9ZNen3wyTsQoqHfUQji7KvTQQ_3Hf_q3YINChUKnkOZPktC_afbaOkBZPYxgDUa-E1noK3uftRzR-BZnDKCva9RPdFwRJ-Q1WGzJPYszKHNIyRWSwwGOt6mt6DzOSp6c64jONkwPGp4zX48XrzCmwMMNu_K0AcHI9LiffFYCaWNeBEiD0sZo1a-kWIkC9DvRI2YP3sSRqQYakMA2EgEw5qiqrw78oTXUbqsw4d4tfn-ExOwweenjApNbaK7XiopTKJCagHrWkDL3ngWugmu3KNDssOcPCrw4fpurNHB1SNZReYlw5k2gKN5pI5Z4JhDp_IOeC_CQ8cE73qXs9ShgKMowKPh-BipCveY2ZxAuMhNCb68QXMtYyh5aU7grsOTV3rj-v5PmxtYY0K4tZ77zMQZeHmEROK0LmM6wYNHfHWc-RSquaedvcTx3Z2YKN6SaxynAc4XNNr7ut-bNhfNHo6LSvbRNEuc9ApLb9EgL5B_90tj4mZqEJRKDaAUkoQiA7F2Vj31aB3bSoLPZ6tnIf4KRAeaUtaVKUI1ZJ2xIs5lodmZ5Dp3uzJmWtSKhMl_1RKNqTNAYQtQKQY2lHpucW7YEfbw-5k-db1ceBEi6vw-3kgUDRjAgyLnJy7EP5UuMuLuEo7GlAoP0TnafIxqQM9piFm4_ogS6RYl40IVkAttF5ZGRNZDOPflvlt1aauwWwgpn5oVTca5bfcY5qxevq5OqasllLPl_uFf0UXMJoBTilNxV3z5SWcsgaRUO2s4_da7GMKAJLW7MG9FD2FMCLDRA-_TI4Pan6drr2ww-eQPXjP1IwmJXU-WBTmEz4RldQBegV3EyQwo3gTcFeZQ5TH5JWj5_vgCYMyTfY79o4UwmgNi_nUtshIjl8yOJsbRGWLsPg6HDuTcinY8aDTCZnhbOgwutOe12zAOcsHLze5w_II_qRB8jezhmrL-32ihqt7BgS4ea0OuXAg9Q7CkjxEiBDCw-QtwpC7hoguOOm64p7Q4nfEy8NRd300SWdmHo1yLzuKHecj3bXamYiX0dDe_l_JP9-lw3y4wXl7Jn54ISmy4KRHA8XsuR23UAch9Q53epfGqOvdFXv5WixJdmvuz7TUM0EACx7pQuCrCa5GBRsT5OlwsKRdRP163ha1-I0mfIkmuhbcoTm8Y4aG73Lccb8e9gejztfhjL_-YjP2Q7Af24RSCAxE3pzdYImOO1os4fvOvtfygEeFiht1PSRizE9PNo1idg4eSYBco6Yga2MjllJ786_5Uq9--9azoXhq2zbCv496HAC9_-UUGvPSsgAJiOQsf0BLQhR0DAU28G9iyn8olphCGHKIQFaviZlh-VzcjWXDtN9FGaj4ayjZRErmHvAlQoFL0ENLjFty1AWZGq0V-6vvya0PLnVhLqbUFFtRD3jhArmG0ERuVTJG0q9INr1ADiMawRZC5_0jpdiKIuGzYroYYUWVMmk3kyo5wQAJ8gndiadC3ah0GTTeV6JjFkOPUHfsV_cOFfyFvjuNfq_lh0I8ohhnVbrXJO7LS0KPTGnhrYnHnD1bnnYUWrX6C2SyFSvMk8nbuSewcYu08sJMK-8PVBtVkkDBcuTHN5ZXRYPV0fjD06QhkMO1Y9xINEuy9SWqTtn9vYpwWSssaVziF_VRAVn1NYpg70rvizcMjPp89cYxtkX0jG_JtVJ9aLt3RQlItUgoDH7JS3magAYQgf6tFVysIuiXivZ-lP5kTD870uJnaXLPEnDiW5qUFqC2DjPG8cV8_bDFu4ma5dRKkbrVW1O3vVdEl2aVQ9rgARRvRZHR9fHmXgl3bG5xh1rKsDmgxa21sLB27UDQVK7DPqgU-TNjd-EwjfgIR9iMVHMGH5esDurL1elf--DJT4dJwgE9cwWgVaUmZLve8mm2vlKLfBasXcaAbk-GRsBDBTxaxADL9OqsGV0TlHKEl2agouOvJIDdU8hxxdgJg_XHO5nlT_lvY-MCNwkqhTIFD45F8R8PcxHOtRUOp2ua4rmVYfI0BXO_2oUUm9gfAn0m31d1CMauJmkiPxXbVmrnSe7dkS-4p84nstOenji2H5AoNNRDPr3RcPohYflfcpNxF7q97vOYy0IrhNDnVeX9v9d-UQa65UcVIJiYO2TjVkvgOojs2xCbx1cLVG1eS3EBok092W85yw6RNpMad1sKDdlFeYBVmAxW7ctaDGlG6Qrwy2I8a_rSWmdFectGXP8v7BbpxKvJ6sD1CyGlHc_kNJ13J5DvZzh4wd7H3KzZ6hjJ6Kxh8thz-YQxb78g_FrcpkGbF9gCtgWT7YVZ64YyjVd8I9wvVp8NF0DZWJAizP9LwQ4mKbuAI4yW2XBceRgWrRcd4CSQ2zpLDzoM7y5VUDD_hS1qsIn4brC1xCf4EXhqnCiiUImKVl7Nuk4GbOgpTxxWeYaK5G09GsFWQiBrEUiTqmkO_ghXMQU61rT62WuF6iCYYYzmebIZdsN2aE4p-Ow3WK3Z3l_PsJdbA==",
+      "summary": []
+    },
+    {
+      "id": "msg_0188bb32d2019e6f006ae7ffda0acc87d1a94212d065d700e5",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The records contain two incompatible active claims about the winter tournament’s final tie-break method: rapid replay and drawing lots. The answer incorrectly says the supplied records concern venue-closure notifications and does not identify the unresolved conflict.\",\"evidence_memory_ids\":[\"AC3R2-H18-F1\",\"AC3R2-H18-F2\"],\"failure_type\":\"conflict_resolution\",\"classification_reason\":\"The source explicitly establishes mutually incompatible active claims for the same tournament and says neither supersedes the other. The answer overlooks that conflict rather than explaining that the final method cannot be determined from the records.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The records contain two incompatible active claims about the winter tournament’s final tie-break method: rapid replay and drawing lots. The answer incorrectly says the supplied records concern venue-closure notifications and does not identify the unresolved conflict.",
+    "evidence_memory_ids": [
+      "AC3R2-H18-F1",
+      "AC3R2-H18-F2"
+    ],
+    "failure_type": "conflict_resolution",
+    "classification_reason": "The source explicitly establishes mutually incompatible active claims for the same tournament and says neither supersedes the other. The answer overlooks that conflict rather than explaining that the final method cannot be determined from the records."
+  },
+  "finished": "2026-11-02T03:13:31.771463+00:00"
+}

@@ -1,0 +1,20 @@
+{
+  "test_id": "T63452033F61D4553B40378A3D0F91289",
+  "model": "qwen",
+  "state": "failed",
+  "attempts": 1,
+  "started": "2026-11-02T03:29:07.673683+00:00",
+  "http_status": 200,
+  "reported_model": "qwen3:1.7b",
+  "usage": {
+    "prompt_eval_count": 891,
+    "eval_count": 210,
+    "total_duration": 22688914958
+  },
+  "raw_content": {
+    "role": "assistant",
+    "content": "{\n  \"passed\": null,\n  \"reason\": \"The question asks about the preferred format for an ordinary meeting, but the confirmed memory records do not provide a direct answer. The memory records discuss formats like Markdown and HTML for release notes, but they do not explicitly state which format is preferred for an \", \"evidence_memory_ids\": [\"AC3R2-H20-F1\", \"AC3R2-H20-F2\", \"AC3R2-H20-F7\", \"AC3R2-H20-F8\"], \"failure_type\": \"accuracy\",\n  \"classification_reason\": \"The answer claims 'plain text is preferred for ordinary meeting notes,' but the confirmed memory records do not support this claim. The memory records mention plain text in the context of project meeting notes, but they do not explicitly state that plain text is the preferred format for ordinary meetings. The memory records also mention Markdown and HTML for release notes, but they do not provide a clear preference for ordinary meetings.\"\n}"
+  },
+  "error_type": "ValueError",
+  "finished": "2026-11-02T03:29:30.574113+00:00"
+}

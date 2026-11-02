@@ -1,0 +1,57 @@
+{
+  "test_id": "TC3870F4B5C534CBFA03FF4A33FD34D08",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:23.976675+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_07e390c35d4ba331006ae7ff98346c87d19bcae0fdff35648b",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 737,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 133,
+    "output_tokens_details": {
+      "reasoning_tokens": 33
+    },
+    "total_tokens": 870
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_07e390c35d4ba331006ae7ff991c7087d1b724b91307ffa231",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-aIrrXMD1JGgUIcrk8Y26Yp4TOyNJlUKWCjgSQUeYEC8r6XAgkZjXfrNVDgW1Mkm3DTB3LT_Nu9wruYgQPQLbwvZODMzxV7AGvrrdQ_cgvkNkK890q9zRb6kW9W_Ck33PCoaltrFIpFXC7bbNdsmsnFDGf1qIHK7_hAfriEtmOFoEMEAHWYXT_XqBbYdArdimr7VNFOaYUywlcs0Hij9Z8L0n6fXH40b9wk_TeSU86LKviU5bV6sv3vr4dD08hgmPppgOABPL2UW6UWMFKWp8fHBJX4qyhaSNhjeWhH_AKZLiZdKDP_jp7zXMRtLW3PDRKb-_DctwiLR1JtpTwgQkIAWfbNa-TrVG_bBoT9cTKYilBmEhpyJ74TN2nx8aYE_Ko3MUmDM2NDO8OkU5ZcyH557zRKxwJDh5fIbtpPCW8uh4COq3JePbjLMf0ji4oNn6cVhFbO9CPkzgYigMZ62bvXiSnwgTii904J82pom2YGWVU5DDLxVZ18rDDhjLUDNNptvspdMNvwouD79wDg0KdumRo8buSUJORxyVD8m7FMl8IPRgw2SAJEnOL_X7fMi8VMlpZ7c6NXqKyrYZs5S9tyVyZ1R3XLY5Wzjp_bfdqrm6BvV1s8cvjsKDQrgksxHjS6OldmXxLqMygOWUtQkNFa8-e0KhU3kYQoJEQOYxb-0O0P6B2UJk07AJjYXB8XHtNUx4L_gUC-GSeQryRxcVDiYp9d19QFWgZWwx-Q8-mD9xiE0sSbPDu6tFxctO8T3easxrVyL2szVJ9hRHcSBy46Tpx72fOchg6FpwULG_UkMJ7kMYNR9tiqhBdkv6kCj5nIVMHVf-zXJNki6gA34-pTquMuaFRdimQSeAz1GgCJn49m6Zm1rDjuvS6EVB6llDlwmoKQ8fendmzfP9ObRxzGnvzO-o0wIfGV_S_xRQKJxRdE4hZgaTxnAEjWMaJ2kf_7NXWy9Q5D6qeW3dv2m11yEJ_ErYGntOq8E6SQOq-oOgODYKbSr0u2dHaDQNlThK2ArC_OU0RVx7ch5sqMkLdEDldBDZICm6gaXNc0fDC5E-ArhW_DQ0l14NsFUu4rWkDutKlh7aXBLe201SICKCTBI6NztzFS7cNSBSoydxaC26D0VxdMYYEGZ9UU74xHKVeqm1_OkNloj8VNucyXS1YSWDSQXW6_AB8D3LgHWb-9eByHq9PExPkz9Ly2nb19sjG3KP_atKz_AZI-AhU3xBS78xTkScSVr0I7pOv3FHOInKzX-yP02MjP5vMIYJXd1KH4v64prypzlfjCLmBxJH6tGwgEm20eT-BI5kN8Qj_B8OulhzxMDzmmXFhH08GPDFKaExjpbhDkjaGUR3iUpeyrn5mA2Q5dei0ZFeg0h62blOHfTJ9xjNygd6dZwwYgylgn-ILWascOf0g6_Jpyu_of5_6uBeRdnMIiF2gyRS7UVq5ao6CoawtUjn4wfpDHGluui1DQ8uIABPGMc8h49QeU6Hb0YcWdbiqvdgVwRNXTRcreiH5ZhJZRFeuwyu06aP5PUpAbUqB011Sl9EvxAOpXMiMOJ319KalS6t47tM5183McEwWOJicefmal7_06Lb79XRWFw5DTdQNJOs4zaT0Zt88zZJ4oE_diGdCstuB1tuKJ9CH2xATOVekE8W7U8fKktvF-sXUDjsHegVyZMiUGsKoc8CKTGxRf-3T6QAqmgriJc8ea61dYoleWoUc2O3KcCiDrNM5zLDeUM0GPC4JCwjWNt_nAcIHm3FVo9LLiYsRBhXWXObtYISRTD4tvtxD3IYuDRLsOViOqfZ5q3LFlib9p0KP6K9XkwMTmoA2v7PFbheSWn1h0bVTMGnvj6Jn",
+      "summary": []
+    },
+    {
+      "id": "msg_07e390c35d4ba331006ae7ff9984c487d1bb8c537710f1214f",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The records identify the route’s original final stop as the river stop, but the answer says it cannot identify the stop.\",\"evidence_memory_ids\":[\"AC3R2-H08-F2\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary source-supported fact. The answer omits it; no supersession issue applies because the question asks which stop originally ended the route.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The records identify the route’s original final stop as the river stop, but the answer says it cannot identify the stop.",
+    "evidence_memory_ids": [
+      "AC3R2-H08-F2"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary source-supported fact. The answer omits it; no supersession issue applies because the question asks which stop originally ended the route."
+  },
+  "finished": "2026-11-02T03:12:26.710363+00:00"
+}

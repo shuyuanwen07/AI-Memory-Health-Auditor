@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T36570713388340EBBE4AE422828D5478",
+  "started_utc": "2026-11-01T13:23:10.996595+00:00",
+  "request_payload_sha256": "dae31707a2553c72a1fa975ad662b818607beeb11040a7de192660bf59be3e2c",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "Withholding a single colour is justified, but the answer omits the known conflict: one active card specifies navy, while another specifies cream for the same scene, and neither has been superseded. It should disclose that disagreement and seek clarification rather than give only a generic insufficient-memory response.",
+    "evidence_memory_ids": [
+      "AC3R2-H23-F4",
+      "AC3R2-H23-F5"
+    ],
+    "failure_type": "conflict_resolution",
+    "classification_reason": "The relevant records explicitly establish incompatible, unresolved active claims. The failure is overlooking that conflict, not relying on outdated information, misreporting an ordinary settled fact, or misusing an out-of-scope memory."
+  },
+  "usage": {
+    "input_tokens": 884,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 2758,
+    "output_tokens_details": {
+      "reasoning_tokens": 2588
+    },
+    "total_tokens": 3642
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_02130acd340c9251006ae73d3f54fc87d090bbfb0cc685ff35",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:24:07.552993+00:00",
+  "raw_sha256": "88e465fafc83dc1dace57eb35ab5e15a5a5e65a25a62e287572cf2d3587f2ffc"
+}

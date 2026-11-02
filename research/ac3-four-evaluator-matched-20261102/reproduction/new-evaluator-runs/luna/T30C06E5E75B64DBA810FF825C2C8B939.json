@@ -1,0 +1,58 @@
+{
+  "test_id": "T30C06E5E75B64DBA810FF825C2C8B939",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:24.033159+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_049fdff77e19a2b3006ae7ff983fd487d1964b702211080629",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 940,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 142,
+    "output_tokens_details": {
+      "reasoning_tokens": 49
+    },
+    "total_tokens": 1082
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_049fdff77e19a2b3006ae7ff99167887d1a1e0d2c1c78ada0f",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-awYaxFW5NxebYxBMU7P_2s5ivjvh74YI1PWGAvN1CXVoFa7LTq9jrSjonQ2Dp8HBSLROsifhsigwBzn8VxBvL6-aOq2nTdMQtEtTgySwJg18zpTQIv5PAtnxDmBar-zi0dWxUHhAz6D91TlgcnRQ--z-UflpdNVkFn6yumlkzRFixTqhmNDn5F0haI2X9mrEDkWK-kT9sBJxlO-2nQzrhrRTJxD8So_6DcSFG4giabsC-bypx3ssbWAw2erB3uPWxfXDxvOrTFebuhM80ZK_wG-cR0Qu7qHFtcTctAHjPBn0nPmRD2KGpyO18WCl2JFAM7pC8PXGCmlmR_5a5kNk8VuhfmrsnCpMrF7fv7A8DgU2JDmOKjRf-RnIZasgJC7lLG3qK0e9CZYf8J7N16i8m_YyWyJVza5GeKC5d0kJ1FvVgHyITy5V2bTdFkAqEs1NWJrcsAzwjYiEOE4Dfm4mBcG8AzhN2xdxk5reI_47rMbdSpctDOfTd1nVgmRTMMfOJXfcNolgcwMNAVPYM_vYTut3dZXAbzJRf9N4TEVhgPeaZsoYXQMdFphpiCRISwg4aFSPGEGB4w5L80fi4X78_O3zxoqExl2yZf2Klu_KarfwHUIaw6bh8ldBtt1ZA9N740u7kcvhfkNNTwFy-BsexO-6KZMmrTpegi2-0x8PuKtgmzHHQ9-te25O2lIT2jP68jcs6XhBO84sC3qKbcEHOh_Ke7ok06EO-tkWWsfOkMdgv7UoaOXzXGUbiqCaMA3e0Z-Wo-ApquwEzmu0BzzaUHOvGpYTgqWDEPcGBZ7w5bcNK0y69wHiJ5XVW9S3sXfBttgAHEJUEpBO7iDbX2LW-jKOzxbnIYZTTm4Po8CTGc_YYptltVdQtQclk7Qce41HqFUc4oWGPwtw6g-kNyb3DGvy_qYqB8rQiFhNXMqiLIi6oFQPHrTEh59JXS9PmvyJXPF1v07ran1dhrJxxJSskIqY_UDKYwdmSU2LKzFBgszzMzoAwFyTlM5bnnr1dgUD-yiRj8QgrRwzOyRUbVwf2K6WccMaqnPd9mKboXEbGwB88dGsdOR9MrkoeI4pfbgygII9Zm3SC9lMv3w_CC79-zQDB_hCzRcobNosrRAmItHec0Ov4GxP7gN9pHLZRlH0b6qDkj7Jn_FFLSYQFrNedxxqOcMqXgmUXkV_aEPS98okiXbCYvrgdWrupb5gehi7D1r5ApGkznZF3D4VcRvYn0WYwEa8BgDr04qfsdL-l_aZBjpn0bEQak4gYXl7Dcw665KSNxqg69oHHb55SMB9oToUO3KslzaIbERwfJIBk2Xc9Ts9loi1J7yoWLXMqckM-oOxI6E8VrvESKKwSHiTYlOvnTwa_6V4nVfwaSC-NWdryR77IsPTZnxiAbm6DaiSl2NIiAI6qskmQMoLUVlgQBMJ5-pLc-gDiaHxCoUr4k5OvVyBtHFfOohB_q92qJop-bFrN1dtOQl0OJ-VQFaftMrZxKPWdeC7G0RNlyt76vCo9XfY9adwSzfqdG5fGj0Xl9SdE74f6WhdoB9TqcfxGTp7XyLGLjtoHP2Gl2DiO-ycrQOUVMnBU7DHFsH_Q3v7q9aF0QYkwhdwkjHPP6f0h3XHZb-eXYMYQG5XoPgLyxJOqeh47BcspibZ_-XrzdU8TvNu10yz_KZ4hXN7NppIz9wtp7mOHS8A3paOHb4XRIT4EYL0I9CaNWy763r7o7k9PRHxtCyt5J05vg2BaxckHNJUG5q8ErFg56e05Sw6uQ4smKMTzbZfswz2ufLUhFDTcGsEXD5UHYofdpHJA9aJ2IX2xBYIrAxu51WEZAXikLKhuDx7Qe0n6GFRAgDsmMf4gn8D-tPuWFt9vwntPO-HXnksWuMGn2mXx0gfE_hLSQZmY18k7xJxTIIPEyqBv_3NFw4sQIvS5Dbcq-6_UK8ZZoF5mVB-ez2ht1Jp_sa0lL3Vem6kInuzRCi2SEBlwzg9ZJoe33SQi86bUws3-FYmfAtGLWmKQLnurdy_tJRPm86EFT6sJjXXwY4aPDtjsidCC",
+      "summary": []
+    },
+    {
+      "id": "msg_049fdff77e19a2b3006ae7ff99adb487d1bc627d1d5bc8e95d",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"Ordinary club announcements should be read on the noticeboard, as the answer states.\",\"evidence_memory_ids\":[\"AC3R2-H18-F3\",\"AC3R2-H18-F4\"],\"failure_type\":null,\"classification_reason\":\"The answer is supported by the general preference and the explicit distinction that ordinary announcements remain on the noticeboard.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "Ordinary club announcements should be read on the noticeboard, as the answer states.",
+    "evidence_memory_ids": [
+      "AC3R2-H18-F3",
+      "AC3R2-H18-F4"
+    ],
+    "failure_type": null,
+    "classification_reason": "The answer is supported by the general preference and the explicit distinction that ordinary announcements remain on the noticeboard."
+  },
+  "finished": "2026-11-02T03:12:26.712238+00:00"
+}

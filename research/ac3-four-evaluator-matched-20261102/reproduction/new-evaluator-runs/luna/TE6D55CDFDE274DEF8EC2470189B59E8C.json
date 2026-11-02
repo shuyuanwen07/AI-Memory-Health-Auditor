@@ -1,0 +1,58 @@
+{
+  "test_id": "TE6D55CDFDE274DEF8EC2470189B59E8C",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:26.720921+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0b808343bdbcf4ce006ae7ff9b08d887d18a29b4e7df39fe12",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 979,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 182,
+    "output_tokens_details": {
+      "reasoning_tokens": 76
+    },
+    "total_tokens": 1161
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0b808343bdbcf4ce006ae7ff9b755087d1a3e69dcd8c22fc7b",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-dHKF32xjuG7MaT-7reU_-cie0UEw06W8Wlp7dFpfZoA2Mh9heZT18TJRFs8Ovio24pnLsV_qcXK3PIUGaswrUdcFFufeNe9-w0SUxVa_avPklEcbr_RY2eB0mGk4bNSFMfL-NGf4EiYlQoIB9jNZLaNaAlVX8h55O0J94G410wkgtkMOvIRO9CwiifC7W-3YlxQQAtHwdi17n9BgGYRmivnpNiXaUwin0lSg5z1WAPwHQdGMV2ndmS0puPKPpWAPGVUr55nfJvkAcTkZWPy91vN6Hl44Z5vsE78CRpblISg15Ou_RJwRlBXk7-SK4hTbprSZNsm1GxO6Fy_jHugXI53fqaGn3gGgIMxup1R1AaLg3u81TXwjh261II-xHMOvZSYZ7xzDGnDKS1tWpN57Go8oPPOuiDcu6X5mdRlE7BOQ7HnI6E644trSdW8aRaBPdBvzR39QW2COy2wHZapfSWTMCaBF0gZjNtRXgPZo7QF6eHPSzv4L5C23hO0A8I31Rv0pBDezebsZ30i2qEXbNDQKydpleXX2_ohZ2ZE8Hyi57W-iElhVE_UaF8CZrXmglUoWzcPzB_s1etFZCWUEwJitMOqnoiav7Bf5YdhpvZYf3l3F8GeL2Ft823P-9hSIiCugDq1lnldzWdsTo46WfuoSQ-XeKA_wXvUs4_P17Cf6XkQVuWge6u3VQ6CWAFxi3HpMDSF-vNrcZyOdyEz6bgzf7vuUaowdPRFVYG43MGiPa0Be9hJWEnn9AVKJ1OjEzxDV4WK5UTaWU2ggD9dyDhymGjv5hVVTXXqMixCPQtNbqMwPkrDzsjmujjYSndvLmq_gP26caDdFBpXv1VrbxBICiRF6noEJ6pN-S7XnRZxrer43S9SLyVCtObut4xKvTGkoqp7y1b7JHuZiDYdOk3wJbAN2YsbbCHWQwsqhJW19gDvqdDZw0yls_GBjaiwSX5Vlta7UYdUYbhHH6_xt0t1EeAmd2K38d7V9jdbUT8l5T3E_Rvmk0BWg6p2Wp2EYUka1kKVlEHBsJ5liWSD3cCetUlO5Wxyis7JSkGxCJ4lgpGolnWqdijLypf8fOlVGZHcAnZHHDYjC4ZdhuM3qfs92msb_P-wipmFeRatEv-CFZO35vEPuJ22CsP0jQYqzngI3dqwYyf1CVCOpHQX5pO9DCpRki0xZ7ZcGc_MHn5PsRQNGkL_fyAoaA0165RECgipGLBxI0nws8v4alsbMtzLvqh330oH2p0PG3N76OHHsDqy2KRe_Ev3UwodsL8Qne1waykrk7vRixhn4qjYHcMMsO4x2msCGE9jyLdXahTbG_-857DGBaJMxKtuOPETwgMcCYtbMCAqx_soZojvbrVC8jcFNXXXCW1HRkRvI9aCNWgW3uaqeOTyUYJns3NuYg5apEe-Cdd0wKRL7yJkDxAPzRInISdxALHXnNvfwnJFxSf1w9jJZmnJVXd7xp92qX98AQfoLOGzVScAlgezIssDcpLkmsSep0amSMvUM8IcW3P4Kz-RXiFM2gdu7crhc0aF2ijHvEpuJnJ-eshk1IOvWIH4diiArQHmFaO7BihQs5DupXReBrPsoktiLXaUMOVXAQVnoTf-9knMArTTauc2lYDn_hAG91_cOrAB4pHAtRkCpPFD76_LBqwDRSXgbOJj-xMSjq_8B_8CD0sZRNGYxfQTByVqDe8J2gu93J0BeYmajUZWSFiWtEQeU7abruvb0vOuWVV1Y4gsQHD7ygidk8Tz0X4R45qNrG9GkIYlubasYQ3TJmL6J54_N7HtyiG09S0rjXEEt9SV1Fb9yBsz1o-LTHpc-zp_RNi-8MWP8BQhmY2cOroT2MWCqAYkhicoVE4UccChYiV2GTThB8V7uSGy_4WthzST-gmU-A4bzo9-_7jelu-4hXzqBkPaiThcUORXy6zS_fSSCaRkvO1G9ZnJF6pOscyDmQ2PAu0CyXGpKfIxOYKEmFS48nv24RMIm-8zc_SgRNmBk1X8qOpQfEFMzbrZSMPoxrwep5pIoupFtdhqWKmS2_KGtx2x2g-bPAqxr5k2BtB858WMseepJ2nfnluDjIQg7JeUD3ofhE-vQDqtm3UHDIn1fPC4Fmij4H8CJ7-ZeDXs--Q0k7-0v3v4WwXsuDNMrssptVjG-ftk5LMgxSNf9hZ5ZbVJKFGnqPofxpm7TirJVBkldPFMzdLbzbijX6BJN4c6OAn81nXZA0bX501oxc467pvROPAW3TCjfLpBxQtVMcFy0FS66-8d70Nv2Qo3fX0sYZuSaPPplQX1L2Jy9RD8kkjYJKcjf1skPCGcDqVmYDuY5OX-g5A8v2D2lbvr4u0ilS79_wuB9y23Duv4OwZ0BV9RPRdJF-butw448hW8rNbrqav_N78dLXgEYILh8XNE35v74yZtQLdyPv5KkqDMPybZkGAb7REv52j_qcxqHwu6ra7g==",
+      "summary": []
+    },
+    {
+      "id": "msg_0b808343bdbcf4ce006ae7ff9c2c9c87d197c03e297cd045b4",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer accurately identifies the two incompatible active authorisations, notes that neither sheet has priority, and asks for clarification rather than choosing one.\",\"evidence_memory_ids\":[\"AC3R2-H16-F1\",\"AC3R2-H16-F2\"],\"failure_type\":null,\"classification_reason\":\"No failure: the supplied records establish an unresolved conflict between channel 2 and channel 7 as the sole authorised output.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer accurately identifies the two incompatible active authorisations, notes that neither sheet has priority, and asks for clarification rather than choosing one.",
+    "evidence_memory_ids": [
+      "AC3R2-H16-F1",
+      "AC3R2-H16-F2"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the supplied records establish an unresolved conflict between channel 2 and channel 7 as the sole authorised output."
+  },
+  "finished": "2026-11-02T03:12:29.369181+00:00"
+}

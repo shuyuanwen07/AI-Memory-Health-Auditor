@@ -1,0 +1,57 @@
+{
+  "test_id": "T2D72924588A14D64BB4E4CBEC6D853EF",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:49.855901+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_049d882df107feb6006ae7ffb22ad487d19757b4f417c1ec91",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 882,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 141,
+    "output_tokens_details": {
+      "reasoning_tokens": 34
+    },
+    "total_tokens": 1023
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_049d882df107feb6006ae7ffb2d59487d1800b1110458ab9c5",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-0gEpLyBX65VL7IY-pEaQ_B7VkcptP8RU-spQn3DC3t8s9Jo8MQQlXeHYtujwLXpw8B6uZRGrVtG9uJzi7WE1vkhtf6S6s3tsFStnXnxXuvnVGLvskGzK7aubF4SrYIZXiB_XU-IWlhNbM0EAVRyRnCGzbYOHQvNmjYdOj8IooAbqlLDEu8LR6lptDXOw6idMExq9kRLl1SV01o-vxcpPJ1CMda8fQIqC1EtBYrs0QefAS5fr85i67iWbqdh0DWoSod8qyfSb0e34e2ZjG2AsMJo1Imsj9j-Rl3TlnbDdbg0iRM8HzPEq1KF9BbSQyKsD9IR8YkRPp6-c5v16I5WsNkY1dOJNk6_DUbsEgg-K9Jo2Mf85Vu6LkVCoKNggysnitkZHY9u4SPlinQh8r_pxYQ6s691IslDgS4bjnHXwUx67KGNIjoucXcRx_n1ZfQf2dD9q1XsRoG7Y_KO2ABW4N4xsy9H6_k5zeY3bfIFpyP22SyuXcVM5mB2DOuG9GduCgIVcvZe_sZer-LviEcqvQ8SrPYhM8w2lbHFgCRG5kbyfXRSPowIXxHj8sw0TpBpP-4n-7KoxHudt6EJ-4tM7g_zusvTmml827SgGabz_jYWunJArn0MIJuJ2_y0HC4yKtgQz94xInUajZuDC1pYYsS-cCBhCaoSHYp12FzN75DQNap7uERv3GW3GXapPhowCe4W4W60QWJ9jWxaI7BiXuOPrw2ADgcVNcNygcWJu98LjfiWoduEU7vnkgRdnctXkJ9JwtgZHpu5_62BLki2_16yiMah6BcSKPlDqeQ-1iboEH9NPJm9d8ZJAsTXDbEv52gc4GuE0cx8HjDAWU2bM-UtnR4GU-hC-A87mTLuukB5ev2ysEa1EydqCkOHjZb3G6ZmzHB7jXnKh7EBt512DT4YvjqA7kfGGgn9zSCqOCuIv1FDTRGXDy82ozuKPeY73hEVFAkUvAhTabkHiCfFwaxUXYqFeFPR6y3cqpMPjcLnzTPfBpEoHOFr7m5IbtAVIxT0wahpN7MBiuhcutgFGELUdvgMMeGVGVDSn2TMrB1agRjyHI54J1omFWhYH8G3iXTwahxNHS65V9OcWrwO-iw2L9PHCXNt5QVxp82RGRmOqNKzsBaHSjq35LSIaN7A8MaP3VMmOmSQ9DrR-quXsICxP7473y_KaGlmIdGlhCD4g9bIBMqEt6yVBiYFvxU5QEHC6e8EjCQrE4cFWdk6TfeaGVQIvP1HjpuVMojhUkzz83QQvHrUPOOxUbGu20dXtQptjfxfTqtP-66h95fB-6MXWfqbvFLvgU1LD6YJ-SrwO3w-HLCF02iEFndtJVPp67qb-I8S5b3c76lW0j09y2yaMZbVYOY5gpLRYFv3nldl9DnjGfXReZYI0egt7sbIwO_kKgTEGvcOA0O9bqVbRuSlC2Uh6wu5D0G4VjemYLdd_rmmwccXuBtSo69aeD12VaGHi3fI9w0yTbVnNfjMqRDkBf8JeT6-TN0yjkSk96LqoEtpa90PWHZlJugBRVwg5K29WdVzrteZXFrpnd66VatHTXcKifrjPhSCnfCaCouEAuzf60iUhZqdf5QOBtoncANSagrNemWjHEXz4zejP_M5n43iO44puUTjFQVynWmXP3c_Z0DfGEJyuCh8lPs9BQEKgUb4yACXAsqNOagZAhFQR8k7_ckOJjwcWOtxiUhAW2t5rftBuQNxI4QYOx45NbSD7buO9nWWy9HnRTdqkMo98ZjMyu_Ij9mK64fRzJdyS14urj7RSflT9Gwd2BCImHQisk1OjWtdOnU1Kt0q1M5PNGFE3HKnt2E-hMmtbDrjI8WCqabqzkcmrJMnhktrEdOT7WaA6GPSmyqrgUcXszSYmX_wy135w6GY1_vhDf4xc=",
+      "summary": []
+    },
+    {
+      "id": "msg_049d882df107feb6006ae7ffb367fc87d1977065efe329bd52",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":false,\"reason\":\"The memory states that the conductor’s folder has a gold clasp, so the answer incorrectly says there is not enough information to identify its colour.\",\"evidence_memory_ids\":[\"AC3R2-H27-F1\"],\"failure_type\":\"accuracy\",\"classification_reason\":\"This is an ordinary source-supported fact. The records do not establish a superseding update, unresolved conflict, or misuse of an irrelevant or out-of-scope memory.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": false,
+    "reason": "The memory states that the conductor’s folder has a gold clasp, so the answer incorrectly says there is not enough information to identify its colour.",
+    "evidence_memory_ids": [
+      "AC3R2-H27-F1"
+    ],
+    "failure_type": "accuracy",
+    "classification_reason": "This is an ordinary source-supported fact. The records do not establish a superseding update, unresolved conflict, or misuse of an irrelevant or out-of-scope memory."
+  },
+  "finished": "2026-11-02T03:12:52.720074+00:00"
+}

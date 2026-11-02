@@ -1,0 +1,57 @@
+{
+  "test_id": "T150D4E8740E04E8AB6C223EA5B1A8A9F",
+  "model": "luna",
+  "state": "returned",
+  "attempts": 1,
+  "started": "2026-11-02T03:12:28.913276+00:00",
+  "http_status": 200,
+  "provider_response_id": "resp_0dceda6b01b1bbd7006ae7ff9d251087d1867c536c8dfe36f5",
+  "reported_model": "gpt-6-luna",
+  "usage": {
+    "input_tokens": 728,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 117,
+    "output_tokens_details": {
+      "reasoning_tokens": 29
+    },
+    "total_tokens": 845
+  },
+  "completion_status": "completed",
+  "raw_content": [
+    {
+      "id": "rs_0dceda6b01b1bbd7006ae7ff9d871c87d1b920e754b251606c",
+      "type": "reasoning",
+      "content": [],
+      "encrypted_content": "gAAAAABq5_-eSQ-rf9T0UdBZ3dW70Le3ZabrbhQXjuvsDGD0ljFeWZcYv0HtEH-NHyQQ3rrZGG4bRedO7biRYRN6c26-12iG0qBsxj89lj-FMciYP2s2L3SGbZx9vyjY_fmjrT7R6VYwoF9OiT-FBwDG0YdB9DpoZ8XHuyrDBBo8Y6rn7KgAp_DiJ91O_dmjDWbKO05uB1IZDQkDp4MXrgQ8aajFxDJsCsAUqdyDRJJn9jrhoszfhQNq9i37eVQZmuF7N0_RmmlzbHSFPNnx23rdws3CojGo_d7FnKi7lSDOAEb0Nv1ZeU3zLUJCNrXoU75yhDkgInsKM5cVHwrMMu-uR7MHmJ_e1L8EPackDpo6vmNgMTMcqwuo-53YHtkSkakwZ1kOc2DNiYVRcCVboxbEG59Lbr3kWQ10Q4pj7Yy7e4Djr_jPAdG-rH_J5gq-xwfeP2qwkiizfIfVH_x91wiHP4poj5DxInpF1ppzpdbsanJqWt7u4oT8MpHpEJ_5-U0wnUD4MKGCo6S5V7VT4_gZj8TiBSn5PlUY7hB3Or4u1BoimmrXA3RgC6B82tKO_ArN6gc8C9dEzoAn-bp562iKVjkT5t-Gwig6-OllP41cR-Z5TGWDPkvwMRaUQpwzZpbDrU9F-OxbR1mJD5PtKlEA8pq9OudQEcN1tMpfzI8iv9unqL-fv9xQwCENuXYnGBflMNmZG7S5ZHi43yaAxt7yp_C2qx9xcH0CmQBUcPUUD7j9Mhp4DiMgji3NuNFm_Wsy3s7F5lrKEkCc0FThRLSzJd2VgjPeJu7ufa7rakHccbia-v6ftFHUEjn34go8RFvLgOZiHohT9znvwJ3PphKXhZQweVSAq3vwJqBd7q7aEW3fd9bWlJRXzpaQ2JnvLWPKiWrp4IB9V7y39bVF62lKkQZWa9uUyBZs8rnC2B7mxA6IBlqUgQEDmkcxLrHMU2ZBfvLVq-YSgdwDHllbqdGKqUOXXL0TJng7aHl0GQOPxfJ4aZMhGvIzyg8qQ8AdmxpmWOdYl_lKqhKEY2F4qynM_21FA_wY8GqoD0Ro7BXsxNPrA9kLpX8DkaBoRsH9jGBN3JXx9tt8JBS4hY0nyfF2Eju5jZO0aolwDzbd1cy89jYLdq_xy-5ODLGsuowbNCjVJfnElx_foBjVBKlbRb1Xtfx6_zqfs4N2_xzDLyzHXfD5erkcsRqSTaJW4EVSdZbfGabIazh3yuw0SCNvL3vSSEjinVjjVDVssu4uc8FanCuAhdYxD8yT6gv3ZrDOlp5FVI6nFvE5vxB4JtGTpb47-SVin1_QXj6389kxwttxvkgrUG7uDCPfDA_kK4KC7DBL9piKw4gZSt_YBHLi7z8m67AcwXSjEeCo5ATEtKAvEog3YPWijvTjll_XuaFNudzqTjywHjohkRt8BhjOMqrTlJZJAArWtdC52s18aJvDfsUNJB_6v4Zvd_whtivx-ezUCi8vEPWrJm6-pEQ6ggPvFFy1Iecc0VShlt1XzeBVI6B2zKGcrUrfnB3TYAyKizoXXi0jIhObqOJHhtv-VlphTCQSpRXw9lX81QilrDf46wOg8zyt1_l0F01JG5lFwgRoz0fnKD22d0KUg2wX75MThxJu8Z7BvREt_du_kXN5LZDOl86g9fSP0pD3fs4r73jbT3csJeQrYYVtOYxOunBYbYsS40kwbGwhdg_ZRr_RWQk5C_5ExCJl_C04s2w8FB3xKEyojWTojbpsaplil3wxWrgtvREfxFjOOGPFUXRRDcXAiHqB12EpLaKi6c-CeYLa8scPMxNU",
+      "summary": []
+    },
+    {
+      "id": "msg_0dceda6b01b1bbd7006ae7ff9de7f487d199c004561e2b7c81",
+      "type": "message",
+      "status": "completed",
+      "content": [
+        {
+          "type": "output_text",
+          "annotations": [],
+          "logprobs": [],
+          "text": "{\"passed\":true,\"reason\":\"The answer correctly identifies the first export filename as draft-cut.mov.\",\"evidence_memory_ids\":[\"AC3R2-H05-F2\"],\"failure_type\":null,\"classification_reason\":\"No failure: the response matches the confirmed record about the first export. The later filename is for the current export and does not contradict the answer.\"}"
+        }
+      ],
+      "phase": "final_answer",
+      "role": "assistant"
+    }
+  ],
+  "judgment": {
+    "passed": true,
+    "reason": "The answer correctly identifies the first export filename as draft-cut.mov.",
+    "evidence_memory_ids": [
+      "AC3R2-H05-F2"
+    ],
+    "failure_type": null,
+    "classification_reason": "No failure: the response matches the confirmed record about the first export. The later filename is for the current export and does not contradict the answer."
+  },
+  "finished": "2026-11-02T03:12:30.855096+00:00"
+}

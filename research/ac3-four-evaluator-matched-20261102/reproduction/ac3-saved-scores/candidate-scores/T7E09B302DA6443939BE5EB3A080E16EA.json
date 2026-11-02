@@ -1,0 +1,39 @@
+{
+  "state": "returned",
+  "test_id": "T7E09B302DA6443939BE5EB3A080E16EA",
+  "started_utc": "2026-11-01T13:20:03.340390+00:00",
+  "request_payload_sha256": "48b6daa09920da249bb99d38f7a698e2dcc26e076f97c3d8d498405964193a71",
+  "provider": "openai",
+  "model": "gpt-6-astra",
+  "reasoning_effort": "max",
+  "output_token_limit": 8192,
+  "request_attempts": 1,
+  "http_status": 200,
+  "judgment": {
+    "passed": false,
+    "reason": "The answer appropriately avoids naming a sole approved paper, but incorrectly claims the records contain no printing-paper approvals. One active worksheet exclusively approves fibre-based paper; another exclusively approves resin-coated paper for the same print. Neither has priority, so the answer should acknowledge the conflict and request clarification.",
+    "evidence_memory_ids": [
+      "AC3R2-H26-F4",
+      "AC3R2-H26-F5"
+    ],
+    "failure_type": "conflict_resolution",
+    "classification_reason": "The sources explicitly establish mutually incompatible, relevant active claims without a resolution. The answer overlooks that conflict rather than relying on an outdated approval or applying a scoped preference incorrectly."
+  },
+  "usage": {
+    "input_tokens": 904,
+    "input_tokens_details": {
+      "cache_write_tokens": 0,
+      "cached_tokens": 0
+    },
+    "output_tokens": 1020,
+    "output_tokens_details": {
+      "reasoning_tokens": 860
+    },
+    "total_tokens": 1924
+  },
+  "reported_model": "gpt-6-astra",
+  "provider_response_id": "resp_0dd04031e0cdac61006ae73c83ad1887d0b9e460c5badcf5f8",
+  "completion_status": "completed",
+  "completed_utc": "2026-11-01T13:20:24.979151+00:00",
+  "raw_sha256": "b8b436d17031c34b51ccce3318392e7898d8f5d0ca197d83174f4af803fa9b8a"
+}
