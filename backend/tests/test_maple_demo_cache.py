@@ -1,4 +1,5 @@
-from test_quality_workflows import client
+pytest_plugins = ("test_quality_workflows",)
+
 from app.services.maple_demo_cache import _cache
 
 

@@ -7,7 +7,7 @@ import { MemoryRouter } from 'react-router-dom';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import App from './App';
 
-const mocks = vi.hoisted(() => ({ audits: vi.fn(), results: vi.fn(), experimentGroups: vi.fn().mockResolvedValue([]), experimentResults: vi.fn(), methodComparisonResults: vi.fn(), listBenchmarkPlans: vi.fn().mockResolvedValue([]), listBenchmarkAnalyses: vi.fn().mockResolvedValue([]), ac3StudySummaries: vi.fn(), retrievalImprovementLatest:vi.fn().mockResolvedValue(null) }));
+const mocks = vi.hoisted(() => ({ compareAudits: vi.fn().mockResolvedValue({before:{result:{tests_passed:1,tests_total:2}},after:{result:{tests_passed:2,tests_total:2}},warnings:[],counts:{fixed:1,regressed:0},paired_tests:[]}), audits: vi.fn(), results: vi.fn(), experimentGroups: vi.fn().mockResolvedValue([]), experimentResults: vi.fn(), methodComparisonResults: vi.fn(), listBenchmarkPlans: vi.fn().mockResolvedValue([]), listBenchmarkAnalyses: vi.fn().mockResolvedValue([]), ac3StudySummaries: vi.fn(), retrievalImprovementLatest:vi.fn().mockResolvedValue(null) }));
 class TestResizeObserver { observe() {} unobserve() {} disconnect() {} }
 vi.mock('./services/api', () => ({ api: mocks }));
 vi.mock('./components/AccessBoundary', () => ({
@@ -39,10 +39,10 @@ it('uses the root route as a results-only dashboard with experiment and audit su
   expect(screen.queryByText('AC3 · Auditor before and after')).not.toBeInTheDocument();
   expect(screen.queryByText('B · Original two-policy study')).not.toBeInTheDocument();
   expect(screen.queryByText('C · Original two-policy LongMemEval')).not.toBeInTheDocument();
-  expect(screen.getByText('No completed audits are available yet. Start a memory audit and return here after it completes.')).toBeInTheDocument();
-  const completedResults = container.querySelector('[aria-label="Selected completed audit results"]')!;
-  const researchCards = container.querySelector('.compact-results')!;
-  expect(researchCards.compareDocumentPosition(completedResults) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  expect(await screen.findByRole('heading', { name: 'Before and after comparison' })).toBeInTheDocument();
+  expect(await screen.findByText('There are no comparable decided questions for this pair.')).toBeInTheDocument();
+  expect(container.querySelector('[aria-label="Selected completed audit results"]')).not.toBeInTheDocument();
+  expect(container.querySelector('.maple-demo')).toBeInTheDocument();
   expect(screen.getByRole('link', { name: 'History' })).toHaveAttribute('href', '/history');
   expect(screen.queryByText('Unfinished audits')).not.toBeInTheDocument();
   expect(screen.queryByRole('heading', { name: 'Recent activity' })).not.toBeInTheDocument();

@@ -307,17 +307,15 @@ class PipelineLLMClient:
         last_transport_error: httpx.TransportError | None = None
         meter = _PIPELINE_METER.get()
         local_model = bool(meter and meter.get("provider") == "ollama")
-        long_reasoning = bool(meter and meter.get('provider') == 'openai'
-                              and payload.get('model') == 'gpt-6-astra'
-                              and payload.get('reasoning', {}).get('effort') == 'max')
-        # Astra max review calls exceeded the ordinary 60-second window.
-        # Allow one longer request: a timeout must not silently duplicate
-        # expensive reasoning that may still be running at the provider.
-        max_attempts = 1 if local_model or long_reasoning else _MAX_ATTEMPTS
-        # Local inference latency scales with the requested JSON budget and can
-        # exceed cloud API timeouts even when Ollama is healthy. Keep one local
-        # attempt, but allow enough time for the configured small model to finish.
-        timeout_seconds = 240.0 if local_model or long_reasoning else _REQUEST_TIMEOUT_SECONDS
+        astra_request = bool(meter and meter.get('provider') == 'openai'
+                             and payload.get('model') == 'gpt-6-astra')
+        # Astra can continue reasoning after the client times out. Keep every
+        # request to this model single-shot so a retry cannot duplicate a live
+        # provider operation, including when using the fast service tier.
+        max_attempts = 1 if local_model or astra_request else _MAX_ATTEMPTS
+        # Local inference and Astra requests can exceed the ordinary cloud
+        # timeout. Keep one attempt but leave enough time for completion.
+        timeout_seconds = 240.0 if local_model or astra_request else _REQUEST_TIMEOUT_SECONDS
         if meter is not None:
             meter['transport_timeout_seconds'] = timeout_seconds
             meter['max_http_attempts'] = max_attempts

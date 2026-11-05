@@ -4,7 +4,7 @@ import pytest
 from app.extraction.llm import PipelineLLMClient, PipelineRequestError
 
 
-def test_astra_max_has_one_long_request_and_preserves_timeout_receipt(monkeypatch):
+def test_astra_fast_has_one_long_request_and_preserves_timeout_receipt(monkeypatch):
     monkeypatch.setenv('OPENAI_API_KEY', 'synthetic-test-key')
     calls=[]
     def post(url, **kwargs):
@@ -19,7 +19,8 @@ def test_astra_max_has_one_long_request_and_preserves_timeout_receipt(monkeypatc
     assert len(calls)==1
     assert calls[0][0]=='https://api.openai.com/v1/responses'
     assert calls[0][1]==240.0
-    assert calls[0][2]['reasoning']=={'effort':'max'}
+    assert calls[0][2]['reasoning']=={'effort':'low'}
+    assert calls[0][2]['service_tier']=='fast'
     assert 'temperature' not in calls[0][2]
     assert client.last_execution['request_attempts']==1
     assert client.last_execution['failed_http_attempts']==1

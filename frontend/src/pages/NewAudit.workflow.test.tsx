@@ -392,14 +392,16 @@ async function reachCreationConfiguration(user: ReturnType<typeof userEvent.setu
 
 test.each([
   ['Rule-based writer', 'rule_based'],
-  ['AI structured writer', 'llm_structured'],
+  ['Structured LLM writer', 'llm_structured'],
 ])('creates an audit with the selected %s', async (label, writer) => {
   apiMocks.targetProviders.mockResolvedValue([
     {provider:'openai', label:'OpenAI GPT-6 Astra', default_model:'gpt-6-astra', configured:true, description:'Cloud.'},
   ]);
   const user=userEvent.setup(); render(<NewAudit/>);
   await reachCreationConfiguration(user);
-  await selectUIOption(user, 'Memory writer', label);
+  const comparison = screen.getByRole('checkbox', { name: /Compare all three audit methods/ });
+  if ((comparison as HTMLInputElement).checked) await user.click(comparison);
+  await selectUIOption(user, 'Target memory writer', label);
   await user.click(screen.getByRole('button', {name:'Start Memory Audit'}));
   await waitFor(() => expect(apiMocks.createAudit).toHaveBeenCalledWith(expect.objectContaining({target_memory_writer:writer})));
 });
@@ -416,7 +418,15 @@ test.each([
   ]);
   const user=userEvent.setup(); render(<NewAudit/>);
   await reachCreationConfiguration(user);
-  await selectUIOption(user, 'Memory strategy', label);
+  const comparison = screen.getByRole('checkbox', { name: /Compare all three audit methods/ });
+  if ((comparison as HTMLInputElement).checked) await user.click(comparison);
+  if (mode === 'fixed') {
+    await selectUIOption(user, 'Memory retrieval method', 'Fixed retrieval policy');
+    if (strategy !== 'weak_first_hit') {
+      await user.click(screen.getByRole('checkbox', { name: /First-match retrieval/ }));
+      await user.click(screen.getByRole('checkbox', { name: new RegExp(label) }));
+    }
+  }
   await waitFor(() => expect(screen.getByRole('button', {name:'Start Memory Audit'})).toBeEnabled());
   await user.click(screen.getByRole('button', {name:'Start Memory Audit'}));
   await waitFor(() => expect(apiMocks.createAudit).toHaveBeenCalledWith(expect.objectContaining({
