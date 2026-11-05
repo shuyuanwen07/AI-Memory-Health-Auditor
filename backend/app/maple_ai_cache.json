@@ -1,0 +1,96 @@
+{
+  "format": "maple-ai-cache-v1",
+  "messages": [
+    {
+      "message_id": "FS02-M1",
+      "role": "user",
+      "content": "I generally use phone calls for coordinating projects.",
+      "timestamp": "2026-01-01T09:00:00Z"
+    },
+    {
+      "message_id": "FS02-M2",
+      "role": "user",
+      "content": "For the Maple activity, use a project board for coordinating projects; the general preference remains unchanged elsewhere.",
+      "timestamp": "2026-01-02T09:00:00Z"
+    },
+    {
+      "message_id": "FS02-M3",
+      "role": "user",
+      "content": "The first Maple logistics note set the storage location to high cabinet.",
+      "timestamp": "2026-01-03T09:00:00Z"
+    },
+    {
+      "message_id": "FS02-M4",
+      "role": "user",
+      "content": "A signed replacement moved the Maple storage location from high cabinet to low cabinet; the old location is no longer current.",
+      "timestamp": "2026-01-04T09:00:00Z"
+    },
+    {
+      "message_id": "FS02-M5",
+      "role": "user",
+      "content": "For the Maple event, an active site plan says the reading room is the only final confirmed venue.",
+      "timestamp": "2026-01-05T09:00:00Z"
+    },
+    {
+      "message_id": "FS02-M6",
+      "role": "user",
+      "content": "For the same Maple event, an active signed booking says the lecture hall is the only final confirmed venue. Neither record has priority and no replacement has been made.",
+      "timestamp": "2026-01-06T09:00:00Z"
+    }
+  ],
+  "memory_source": {
+    "conversation_id": "C8B3892B84BFA466DB121F406430B89F0",
+    "provider": "openai",
+    "model": "gpt-6-astra",
+    "version": "memory-extraction-agent-v12",
+    "extracted_at": "2026-11-03T14:34:53.706410+00:00"
+  },
+  "memories": [
+    {
+      "memory_id": "M0462BA6EFDD548379E82DE73D1F55EBE",
+      "canonical_value": "For the Maple event, an active site plan says the reading room is the only final confirmed venue. Neither the site plan nor the signed booking has priority, and no replacement has been made.",
+      "source_message_ids": [
+        "FS02-M5",
+        "FS02-M6"
+      ],
+      "timestamp": "2026-01-06T09:00:00",
+      "confidence": 1.0,
+      "relationships": []
+    },
+    {
+      "memory_id": "ME981E7416ADD4FB18E0223A6540B07B6",
+      "canonical_value": "For the Maple event, an active signed booking says the lecture hall is the only final confirmed venue. Neither the signed booking nor the site plan has priority, and no replacement has been made.",
+      "source_message_ids": [
+        "FS02-M6"
+      ],
+      "timestamp": "2026-01-06T09:00:00",
+      "confidence": 1.0,
+      "relationships": [
+        {
+          "relationship_id": "MRADAB9239391A4E1A91994C802529F8E7",
+          "type": "CONFLICT",
+          "target_memory_id": "M0462BA6EFDD548379E82DE73D1F55EBE",
+          "evidence_message_ids": [
+            "FS02-M5",
+            "FS02-M6"
+          ],
+          "confidence": 1.0
+        }
+      ]
+    }
+  ],
+  "question_source_run_id": "RUN1FDDFC16B9F0406E9AD4B1CE6945E081",
+  "questions": [
+    {
+      "prompt": "For the Maple event, two active records give incompatible constraints on the final confirmed venue. How should the assistant handle this conflict before acting on either record?",
+      "expected_behavior": "Identify the unresolved conflict: the active site plan says the reading room is the only final confirmed venue, while the active signed booking says the lecture hall is the only final confirmed venue. Neither record has priority, and no replacement has been made. Ask the user which of these constraints controls before proceeding, without choosing a winner based on recency or the booking's signed status.",
+      "dimension": "conflict_resolution",
+      "test_type": "indirect",
+      "generator_version": "agent-coverage-semantic-v23",
+      "memory_indexes": [
+        0,
+        1
+      ]
+    }
+  ]
+}
