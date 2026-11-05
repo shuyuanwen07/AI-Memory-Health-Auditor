@@ -9,10 +9,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { NewAudit } from './NewAudit';
 import { defaultTargetProfile } from '../components/TargetProfileEditor';
-import presentationDemo from '../data/presentationDemo.json';
-import presentationDemoRaw from '../data/presentationDemo.json?raw';
-import {saveBlob} from '../services/download';
-vi.mock('../services/download',()=>({saveBlob:vi.fn()}));
+import mapleDemo from '../data/maplePresentationDemo.json';
 
 const apiMocks = vi.hoisted(() => ({
   targetProviders: vi.fn(),
@@ -208,6 +205,32 @@ test('defaults internal Agents to the shared OpenRouter model and freezes its us
   }));
 });
 
+test('makes configured direct OpenAI Astra the default for the target and shared Agents', async () => {
+  apiMocks.targetProviders.mockResolvedValue([
+    { provider: 'openrouter', label: 'OpenRouter', default_model: 'test/target', configured: false, description: 'Gateway.' },
+    { provider: 'rule_based', label: 'Rule-Based Baseline', default_model: 'rule-based-v1', configured: true, description: 'Offline.' },
+    { provider: 'ollama', label: 'Local models (Ollama)', default_model: 'qwen3:1.7b', configured: true, description: 'Local.' },
+    { provider: 'openai', label: 'OpenAI GPT-6 Astra', default_model: 'gpt-6-astra', configured: true, description: 'Direct API.' },
+  ]);
+  const user = userEvent.setup();
+  render(<NewAudit />);
+  await waitFor(() => expect(selectedUILabel('Shared Agent service')).toContain('OpenAI GPT-6 Astra'));
+  expect(selectedUILabel('Shared Agent model')).toContain('gpt-6-astra');
+  await user.click(screen.getByRole('checkbox', { name: /authorised to use this conversation/i }));
+  await user.click(screen.getByRole('button', { name: 'Continue to Ground Truth' }));
+  await screen.findByRole('heading', { name: 'Review Extracted Memories' });
+  expect(apiMocks.extract).toHaveBeenCalledWith('C001', 'openai', 'gpt-6-astra');
+  await user.click(screen.getByRole('button', { name: 'Accept' }));
+  await user.click(screen.getByRole('button', { name: 'Confirm Ground Truth & Continue' }));
+  await screen.findByRole('heading', { name: 'Configure Memory Audit' });
+  expect(screen.getByRole('checkbox', {name: /OpenAI GPT-6 Astra/})).toBeChecked();
+  await user.click(screen.getByRole('button', { name: 'Start 3-Run Comparison' }));
+  await waitFor(() => expect(apiMocks.createAudit).toHaveBeenCalledWith(expect.objectContaining({
+    provider: 'openai', model: 'gpt-6-astra', pipeline_provider: 'openai', pipeline_model: 'gpt-6-astra',
+    evaluator_provider: 'openai', evaluator_model: 'gpt-6-astra',
+  })));
+});
+
 test('explains Agents and ground truth at setup without changing the workflow labels', async () => {
   const user = userEvent.setup();
   render(<NewAudit />);
@@ -366,6 +389,40 @@ async function reachCreationConfiguration(user: ReturnType<typeof userEvent.setu
   await user.click(screen.getByRole('button', { name: 'Confirm Ground Truth & Continue' }));
   await screen.findByRole('heading', { name: 'Configure Memory Audit' });
 }
+
+test.each([
+  ['Rule-based writer', 'rule_based'],
+  ['AI structured writer', 'llm_structured'],
+])('creates an audit with the selected %s', async (label, writer) => {
+  apiMocks.targetProviders.mockResolvedValue([
+    {provider:'openai', label:'OpenAI GPT-6 Astra', default_model:'gpt-6-astra', configured:true, description:'Cloud.'},
+  ]);
+  const user=userEvent.setup(); render(<NewAudit/>);
+  await reachCreationConfiguration(user);
+  await selectUIOption(user, 'Memory writer', label);
+  await user.click(screen.getByRole('button', {name:'Start Memory Audit'}));
+  await waitFor(() => expect(apiMocks.createAudit).toHaveBeenCalledWith(expect.objectContaining({target_memory_writer:writer})));
+});
+
+test.each([
+  ['AI retrieval Agent', 'agent', 'strong_rule_based'],
+  ['First-match retrieval', 'fixed', 'weak_first_hit'],
+  ['Relationship-priority retrieval', 'fixed', 'strong_rule_based'],
+  ['Match the task and project', 'fixed', 'scope_aware'],
+  ['Consider time and importance', 'fixed', 'temporal_importance'],
+])('creates an audit with the selected %s strategy', async (label, mode, strategy) => {
+  apiMocks.targetProviders.mockResolvedValue([
+    {provider:'openai', label:'OpenAI GPT-6 Astra', default_model:'gpt-6-astra', configured:true, description:'Cloud.'},
+  ]);
+  const user=userEvent.setup(); render(<NewAudit/>);
+  await reachCreationConfiguration(user);
+  await selectUIOption(user, 'Memory strategy', label);
+  await waitFor(() => expect(screen.getByRole('button', {name:'Start Memory Audit'})).toBeEnabled());
+  await user.click(screen.getByRole('button', {name:'Start Memory Audit'}));
+  await waitFor(() => expect(apiMocks.createAudit).toHaveBeenCalledWith(expect.objectContaining({
+    retrieval_mode:mode, memory_strategy:strategy,
+  })));
+});
 
 test('lost experiment response retries the frozen request identity before any model calls', async () => {
   apiMocks.createExperiment.mockRejectedValueOnce(new Error('Connection interrupted after save'));
@@ -885,15 +942,19 @@ test.each(['low','medium'] as const)('preserves optional %s target settings in r
   expect(apiMocks.execute).not.toHaveBeenCalled();
 });
 
-test('loads the substantial synthetic presentation JSON without authorising or calling a model', async()=>{
+test('keeps the default Maple history without authorising or calling a model', async()=>{
   render(<NewAudit/>);
-  const preview=presentationDemo.messages.map(message=>`[${message.role}] ${message.content}`).join('\n');
-  expect(presentationDemo.messages).toHaveLength(28);
-  expect(preview.length).toBeGreaterThan(4500);
+  const preview=mapleDemo.messages.map(message=>`[${message.role}] ${message.content}`).join('\n');
+  expect(mapleDemo.messages).toHaveLength(6);
+  expect(preview).toContain('reading room');
+  expect(preview).toContain('lecture hall');
   expect(screen.getByLabelText('Authorised conversation text')).toHaveValue(preview);
   expect(screen.getByRole('checkbox',{name:/authorised to use this conversation/i})).not.toBeChecked();
   expect(screen.getByRole('button',{name:'Continue to Ground Truth'})).toBeDisabled();
-  expect(screen.getByRole('link',{name:'Download example JSON'})).toHaveAttribute('download','presentation-conversation.json');
+  expect(screen.queryByRole('button',{name:'Load presentation example'})).not.toBeInTheDocument();
+  expect(screen.queryByRole('button',{name:'Load Harbour example'})).not.toBeInTheDocument();
+  expect(screen.queryByRole('link',{name:'Download example JSON'})).not.toBeInTheDocument();
+  expect(screen.queryByRole('link',{name:/View saved Maple before and after/})).not.toBeInTheDocument();
   expect(apiMocks.createConversation).not.toHaveBeenCalled();
   expect(apiMocks.extract).not.toHaveBeenCalled();
 });
@@ -904,16 +965,15 @@ test('submits exact presentation message IDs, speakers and timestamps after expl
   await user.click(screen.getByRole('checkbox',{name:/authorised to use this conversation/i}));
   await user.click(screen.getByRole('button',{name:'Continue to Ground Truth'}));
   await screen.findByRole('heading',{name:'Review Extracted Memories'});
-  expect(apiMocks.createConversation).toHaveBeenCalledWith(true,expect.any(String),presentationDemo.messages,expect.any(String),'synthetic');
+  expect(apiMocks.createConversation).toHaveBeenCalledWith(true,expect.any(String),mapleDemo.messages,expect.any(String),'synthetic');
 });
 
-test('preserves a saved personal draft until the presentation example is explicitly loaded',async()=>{
+test('preserves a saved personal draft without presentation example controls',async()=>{
   sessionStorage.setItem('mha-new-audit-draft-v1',JSON.stringify({text:'[User] My existing draft.',consent:false,sourceOrigin:'unknown'}));
-  const user=userEvent.setup();render(<NewAudit/>);
+  render(<NewAudit/>);
   expect(screen.getByLabelText('Authorised conversation text')).toHaveValue('[User] My existing draft.');
-  await user.click(screen.getByRole('button',{name:'Load presentation example'}));
-  expect(screen.getByLabelText('Authorised conversation text')).toHaveValue(presentationDemo.messages.map(message=>`[${message.role}] ${message.content}`).join('\n'));
-  expect(apiMocks.extract).not.toHaveBeenCalled();
+  expect(screen.queryByRole('button',{name:'Load presentation example'})).not.toBeInTheDocument();
+  expect(screen.queryByRole('button',{name:'Load Harbour example'})).not.toBeInTheDocument();
 });
 
 test('presentation preset selects two memory strategies and three repeats without starting execution',async()=>{
@@ -937,20 +997,6 @@ test('presentation preset selects two memory strategies and three repeats withou
   expect(apiMocks.execute).not.toHaveBeenCalled();
 });
 
-
-test('downloads the exact default JSON bytes through the shared download helper',async()=>{
-  const user=userEvent.setup();render(<NewAudit/>);
-  await user.click(screen.getByRole('link',{name:'Download example JSON'}));
-  expect(saveBlob).toHaveBeenCalledTimes(1);
-  const [blob,name]=vi.mocked(saveBlob).mock.calls[0];
-  expect(name).toBe('presentation-conversation.json');
-  const contents=await new Promise<string>((resolve,reject)=>{
-    const reader=new FileReader();reader.onload=()=>resolve(String(reader.result));reader.onerror=()=>reject(reader.error);reader.readAsText(blob);
-  });
-  expect(contents).toBe(presentationDemoRaw);
-  expect(JSON.parse(contents).messages).toEqual(presentationDemo.messages);
-  expect(apiMocks.createConversation).not.toHaveBeenCalled();
-});
 
 test('partial coverage survives browser review restoration and formal comparison temporarily applies strict',async()=>{
   apiMocks.targetProviders.mockResolvedValue([{provider:'openrouter',label:'OpenRouter',configured:true,default_model:'test/target',default_pipeline_model:'test/pipeline',default_evaluator_model:'test/judge'}]);

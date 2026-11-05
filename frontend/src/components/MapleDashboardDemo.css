@@ -1,0 +1,20 @@
+.maple-demo { margin: 0 0 28px; padding: 24px; border: 1px solid #dbe5ed; border-radius: 14px; background: #fff; color: #1b3047; }
+.maple-demo-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+.maple-demo-heading h2 { margin: 3px 0 0; font-size: 23px; }
+.maple-demo-heading > span, .maple-note { color: #566b7e; font-size: 13px; }
+.maple-demo-kicker, .maple-step { color: #347091; font-size: 12px; letter-spacing: .04em; font-weight: 700; }
+.maple-demo-kicker { margin: 0; }
+.audit-summary-selectors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.audit-summary-selectors label { display: grid; gap: 5px; font-size: 13px; font-weight: 600; }
+.audit-summary-selectors select { width: 100%; min-width: 0; padding: 9px 10px; border: 1px solid #cbd8e1; border-radius: 6px; color: #1b3047; background: #fff; font: inherit; }
+.maple-answers { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.maple-answers > div { padding: 16px; border-radius: 10px; }
+.maple-answers p { margin: 7px 0 0; line-height: 1.5; overflow-wrap: anywhere; }
+.maple-scoreline { display: flex; align-items: baseline; flex-wrap: wrap; gap: 8px; padding: 18px 0; }
+.maple-scoreline strong { font-size: 25px; color: #216f82; }
+.maple-scoreline > span:first-child { margin-right: 8px; font-weight: 700; }
+.maple-score-context { margin-left: auto; color: #566b7e; font-size: 13px; }
+.maple-answers > div { background: #f8fafc; border: 1px solid #e1eaf0; }
+.maple-answers > div:last-child { background: #edf7f4; border-color: #cce7df; }
+.maple-note { margin: 14px 0 0; line-height: 1.45; }
+@media (max-width: 760px) { .maple-demo-heading { align-items: flex-start; flex-direction: column; } .audit-summary-selectors, .maple-answers { grid-template-columns: 1fr; } .maple-score-context { width: 100%; margin-left: 0; } }

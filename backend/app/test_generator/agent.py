@@ -137,7 +137,7 @@ def coverage_plan_output_budget(requested_test_count: int) -> int:
 class AgentTestGenerator(LLMTestGenerator):
     """Generate a planned suite, semantically review it, and repair duplicates."""
 
-    VERSION = "agent-coverage-semantic-v25"
+    VERSION = "agent-coverage-semantic-v26"
     REVIEWER_VERSION = "semantic-intent-review-v9"
     MAX_QUANTITY_FILL_ROUNDS = 4
     MAX_SEMANTIC_REPAIR_ROUNDS = 2
@@ -757,7 +757,7 @@ class AgentTestGenerator(LLMTestGenerator):
                     continue
                 key = (candidate.dimension.value, candidate.test_type.value, tuple(sorted(candidate.supporting_memory_ids)))
                 unique.setdefault(key, candidate)
-            seeds = list(unique.values())
+            seeds = AgentTestGenerator._remove_redundant_partial_update_slots(list(unique.values()), memories)
         seeds_by_dimension = {
             dimension: [test for test in seeds if test.dimension == dimension]
             for dimension in Dimension
@@ -765,6 +765,24 @@ class AgentTestGenerator(LLMTestGenerator):
         available_by_dimension = {dimension: len(items) for dimension, items in seeds_by_dimension.items()}
         quotas = AgentTestGenerator._dimension_quotas(test_budget, available_by_dimension, coverage_policy)
         return seeds, quotas, available_by_dimension
+
+    @staticmethod
+    def _remove_redundant_partial_update_slots(seeds, memories):
+        """Prefer an unresolved conflict over repeating a freshness update as a conflict."""
+        freshness = {frozenset(item.supporting_memory_ids) for item in seeds if item.dimension == Dimension.FRESHNESS}
+        def relation_types(item):
+            return {signature['type'] for signature in AgentTestGenerator._relationship_signatures_for_ids(
+                memories, set(item.supporting_memory_ids))}
+        explicit_conflict = any(item.dimension == Dimension.CONFLICT_RESOLUTION and 'CONFLICT' in relation_types(item)
+                                for item in seeds)
+        if not explicit_conflict:
+            return seeds
+        return [item for item in seeds if not (
+            item.dimension == Dimension.CONFLICT_RESOLUTION
+            and frozenset(item.supporting_memory_ids) in freshness
+            and 'UPDATE' in relation_types(item)
+            and 'CONFLICT' not in relation_types(item)
+        )]
 
     @classmethod
     def _coverage_report(

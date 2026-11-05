@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Alert, Button, Card, Progress, Select, Skeleton, Tag } from 'antd';
+import { useEffect, useState } from 'react';
+import { Alert, Button, Card, Progress, Tag } from 'antd';
 import { FourStrategyComparisonSection } from '../components/FourStrategyComparison';
 import { CompactExperimentResults } from '../components/CompactExperimentResults';
+import { MapleDashboardDemo } from '../components/MapleDashboardDemo';
 import { FourStrategyHumanResults } from '../components/FourStrategyHumanResults';
 import { Ac3GroundingSummary } from '../components/Ac3GroundingSummary';
 import { Ac3HeldoutResults } from '../components/Ac3HeldoutResults';
@@ -14,37 +15,12 @@ import { Ac1ReviewedResults } from '../components/Ac1ReviewedResults';
 import { Ac2ReviewedResults } from '../components/Ac2ReviewedResults';
 import { Ac2AiFollowupSummary } from '../components/Ac2AiFollowupSummary';
 import { Ac3StabilitySummary } from '../components/Ac3StabilitySummary';
-import { api } from '../services/api';
-import { auditDisplayNames, friendlyText, memoryStrategyLabel, modelDisplayName } from '../services/display';
-import type { AuditResult, AuditRun, Dimension } from '../types/domain';
 import { Bar, BarChart, CartesianGrid, Cell, Legend, Line, LineChart, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import './FinalResultsDashboard.css';
 
 const REPORT_PATH = '/reports/proposal-final-results-v1.json';
-const DIMENSIONS: Array<{ id: Dimension; label: string }> = [
-  { id: 'accuracy', label: 'Accuracy' },
-  { id: 'freshness', label: 'Freshness' },
-  { id: 'conflict_resolution', label: 'Conflict resolution' },
-  { id: 'appropriate_use', label: 'Appropriate use' },
-];
-const REPAIR_ROLES = new Set(['diagnostic_intervention', 'adaptive_follow_up', 'repair_comparison']);
 const OUTCOME_COLOURS = ['#23836f', '#c24b4b', '#d39b32'];
 const STRATEGY_COLOURS = ['#486a9b', '#2d8b78', '#c08335', '#785aa6'];
-
-export function completedAuditOptionLabel(
-  run: Pick<AuditRun, 'reproducibility' | 'memory_strategy' | 'model' | 'completed_at' | 'created_at'>,
-  displayName: string,
-): string {
-  const role = run.reproducibility?.study_role ?? 'single completed audit';
-  const repair = REPAIR_ROLES.has(role);
-  const completedLabel = (run.completed_at ?? run.created_at).slice(0, 16).replace('T', ' ');
-  return `${displayName} · ${role.replaceAll('_', ' ')}${repair ? ' · diagnosis / repair / retest' : ''} · ${memoryStrategyLabel(run.memory_strategy)} · ${modelDisplayName(run.model)} · ${completedLabel}`;
-}
-
-export function defaultCompletedAuditId(completed: AuditRun[], currentId: string, selectionIsExplicit: boolean): string {
-  if (selectionIsExplicit && completed.some(run => run.run_id === currentId)) return currentId;
-  return completed[0]?.run_id ?? '';
-}
 
 type Accuracy = { correct: number; total: number; accuracy_percent: number | null };
 type Repetition = { repetition: number; correct: number; total: number; accuracy_percent: number | null };
@@ -100,7 +76,6 @@ type DashboardReport = {
 };
 
 type LoadState = 'loading' | 'ready' | 'error' | 'empty';
-type AuditState = 'loading' | 'ready' | 'error' | 'empty';
 
 const isRecord = (value: unknown): value is Record<string, unknown> => typeof value === 'object' && value !== null && !Array.isArray(value);
 const isText = (value: unknown): value is string => typeof value === 'string' && value.trim().length > 0;
@@ -158,60 +133,6 @@ function StrategyBars({ strategies, ariaLabel }: { strategies: Array<{ label: st
       </small>}
     </div>)}
     <figcaption><small>Bars show accuracy; labels show either the macro percentage or the correct / denominator count, as appropriate.</small></figcaption>
-  </figure>;
-}
-
-function AuditOutcomeDonut({ result, failures, uncertain }: { result: AuditResult; failures: number; uncertain: number }) {
-  const outcomes = [
-    { name: 'Passed', value: result.tests_passed, colour: OUTCOME_COLOURS[0] },
-    { name: 'Detected failures', value: failures, colour: OUTCOME_COLOURS[1] },
-    { name: 'Awaiting review', value: uncertain, colour: OUTCOME_COLOURS[2] },
-  ];
-  const chartOutcomes = outcomes.filter(item => item.value > 0);
-  const summary = outcomes.map(item => `${item.name}: ${item.value}`).join(', ');
-  return <figure className="audit-outcome-chart" aria-label={`Saved audit outcome chart. ${summary}.`}>
-    {chartOutcomes.length > 0 ? <div role="img" aria-label={`Donut chart of decided and uncertain audit outcomes. ${summary}.`}>
-      <ResponsiveContainer width="100%" height={190}>
-        <PieChart>
-          <Pie data={chartOutcomes} dataKey="value" nameKey="name" innerRadius="52%" outerRadius="76%" paddingAngle={2} stroke="#fff">
-            {chartOutcomes.map(item => <Cell key={item.name} fill={item.colour} />)}
-          </Pie>
-          <Tooltip formatter={(value, name) => [value, name]} />
-        </PieChart>
-      </ResponsiveContainer>
-    </div> : <p>No assessed outcomes to chart.</p>}
-    <ul className="chart-key" aria-label="Saved audit outcome counts">
-      {outcomes.map(item => <li key={item.name}><i aria-hidden="true" style={{ backgroundColor: item.colour }} />{item.name}: <b>{item.value}</b></li>)}
-    </ul>
-    <figcaption><small>Counts include decided passes, detected failures and assessments awaiting review.</small></figcaption>
-  </figure>;
-}
-
-function AbilityScoreChart({ dimensions }: { dimensions: Array<{ id: Dimension; label: string; score: AuditResult['dimensions'][number] | undefined }> }) {
-  const data = dimensions.map(({ label, score }) => ({ label, percentage: score?.percentage ?? null }));
-  const summary = dimensions.map(({ label, score }) => `${label}: ${score?.percentage == null ? 'not measured' : `${score.percentage.toFixed(1)}%`}`).join('; ');
-  return <figure className="ability-score-chart" aria-label={`Four ability score bar chart. ${summary}`}>
-    <div role="img" aria-label={`Horizontal bar chart of the four measured abilities. ${summary}. An absent bar means unmeasured.`}>
-      <ResponsiveContainer width="100%" height={205}>
-        <BarChart data={data} layout="vertical" margin={{ top: 2, right: 12, bottom: 2, left: 2 }}>
-          <CartesianGrid strokeDasharray="3 3" horizontal={false} />
-          <XAxis type="number" domain={[0, 100]} tickFormatter={value => `${value}%`} />
-          <YAxis type="category" dataKey="label" width={125} tick={{ fontSize: 12 }} />
-          <Tooltip formatter={value => value == null ? 'Not measured' : `${Number(value).toFixed(1)}%`} />
-          <Bar dataKey="percentage" name="Score" fill="#167d93" isAnimationActive={false}>
-            {data.map(row => <Cell key={row.label} fill={row.percentage == null ? '#c7ced6' : '#167d93'} />)}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
-    </div>
-    <ul className="ability-score-key" aria-label="Ability score counts">
-      {dimensions.map(({ id, label, score }) => <li key={id}>
-        <span>{label}</span><b>{score?.percentage == null ? 'Not measured' : `${score.percentage.toFixed(1)}%`}</b>
-        <small>{score ? `${score.passed}/${score.total} decided passed` : 'No saved dimension result'}{(score?.uncertain_count ?? 0) > 0 ? ` · ${score?.uncertain_count} uncertain` : ''}</small>
-      </li>)}
-    </ul>
-    {dimensions.some(({ score }) => score?.total === 1) && <p><small>Small sample: at least one ability has only one decided question. Its percentage is not a reliable overall estimate.</small></p>}
-    <figcaption><small>An absent score means the saved audit has no decided evidence for that ability; it is not a zero.</small></figcaption>
   </figure>;
 }
 
@@ -469,157 +390,13 @@ function Provenance({ report }: { report: DashboardReport }) {
   </details>;
 }
 
-function CompletedAuditSummary({ runs, refreshToken }: { runs: AuditRun[]; refreshToken: number }) {
-  const [state, setState] = useState<{ loaded: number; failed: number; passed: number; failures: number; uncertain: number } | null>(null);
-  useEffect(() => {
-    let active = true;
-    setState(null);
-    async function load() {
-      let next = 0;
-      const outcomes: PromiseSettledResult<AuditResult>[] = new Array(runs.length);
-      async function worker() {
-        while (next < runs.length) {
-          const index = next++;
-          try { outcomes[index] = { status: 'fulfilled', value: await api.results(runs[index].run_id) }; }
-          catch (reason) { outcomes[index] = { status: 'rejected', reason }; }
-        }
-      }
-      await Promise.all(Array.from({ length: Math.min(8, runs.length) }, () => worker()));
-      if (!active) return;
-      const loaded = outcomes.filter((item): item is PromiseFulfilledResult<AuditResult> => item.status === 'fulfilled');
-      setState({ loaded: loaded.length, failed: runs.length - loaded.length,
-        passed: loaded.reduce((sum, item) => sum + item.value.tests_passed, 0),
-        failures: loaded.reduce((sum, item) => sum + (item.value.failures?.length ?? 0), 0),
-        uncertain: loaded.reduce((sum, item) => sum + (item.value.uncertain_count ?? item.value.uncertain_answers?.length ?? 0), 0) });
-    }
-    void load();
-    return () => { active = false; };
-  }, [runs, refreshToken]);
-  if (!state) return <section role="status" aria-label="Loading audit summary"><Skeleton active paragraph={{ rows: 1 }} /></section>;
-  const rows = [
-    { name: 'Passed', value: state.passed, colour: OUTCOME_COLOURS[0] },
-    { name: 'Failed', value: state.failures, colour: OUTCOME_COLOURS[1] },
-    { name: 'Uncertain', value: state.uncertain, colour: OUTCOME_COLOURS[2] },
-  ];
-  const total = rows.reduce((sum, row) => sum + row.value, 0);
-  return <Card size="small" title="Completed audit outcomes" style={{ marginBottom: 16 }}>
-    <p><b>{state.loaded}</b> of {runs.length} completed audit reports loaded{state.failed ? ` · ${state.failed} unavailable` : ''}</p>
-    {total > 0 && <div role="img" aria-label={`Completed audit outcomes: ${state.passed} passed, ${state.failures} failed, ${state.uncertain} uncertain`}
-      style={{ display: 'flex', height: 16, overflow: 'hidden', borderRadius: 8 }}>
-      {rows.map(row => <span key={row.name} style={{ width: `${100 * row.value / total}%`, background: row.colour }} />)}
-    </div>}
-    <ul className="chart-key" style={{ marginTop: 8 }}>{rows.map(row => <li key={row.name}><i style={{ background: row.colour }} />{row.name} {row.value}</li>)}</ul>
-    <p><small>Counts include repeated audits and reassessments. They describe saved judgments, not independent cases or overall accuracy.</small></p>
-  </Card>;
-}
-
-function CompletedAuditResults() {
-  const [runs, setRuns] = useState<AuditRun[]>([]);
-  const [runNames, setRunNames] = useState<Record<string, string>>({});
-  const [selectedRunId, setSelectedRunId] = useState('');
-  const [auditState, setAuditState] = useState<AuditState>('loading');
-  const [auditError, setAuditError] = useState('');
-  const [result, setResult] = useState<AuditResult | null>(null);
-  const [resultState, setResultState] = useState<AuditState>('empty');
-  const [resultError, setResultError] = useState('');
-  const [refreshToken, setRefreshToken] = useState(0);
-  const selectionIsExplicit = useRef(false);
-
-  const refresh = useCallback(async () => {
-    setAuditState('loading'); setAuditError('');
-    try {
-      const all = await api.audits();
-      const completed = all.filter(run => run.status === 'COMPLETED').sort((a, b) =>
-        (b.completed_at ?? b.created_at).localeCompare(a.completed_at ?? a.created_at));
-      setRuns(completed);
-      setRunNames(auditDisplayNames(all));
-      setSelectedRunId(current => defaultCompletedAuditId(completed, current, selectionIsExplicit.current));
-      setAuditState(completed.length ? 'ready' : 'empty');
-      setRefreshToken(value => value + 1);
-    } catch (cause) {
-      setAuditError(cause instanceof Error ? cause.message : 'Saved completed audit results could not be loaded.');
-      setAuditState('error');
-    }
-  }, []);
-
-  useEffect(() => { void refresh(); }, [refresh]);
-  useEffect(() => {
-    const onFocus = () => { if (document.visibilityState === 'visible') void refresh(); };
-    window.addEventListener('focus', onFocus); document.addEventListener('visibilitychange', onFocus);
-    return () => { window.removeEventListener('focus', onFocus); document.removeEventListener('visibilitychange', onFocus); };
-  }, [refresh]);
-
-  useEffect(() => {
-    if (!selectedRunId) { setResult(null); setResultState('empty'); setResultError(''); return; }
-    let current = true;
-    setResultState('loading'); setResultError('');
-    api.results(selectedRunId).then(value => {
-      if (current) { setResult(value); setResultState('ready'); }
-    }).catch(cause => {
-      if (current) { setResult(null); setResultError(cause instanceof Error ? cause.message : 'The saved assessment could not be loaded.'); setResultState('error'); }
-    });
-    return () => { current = false; };
-  }, [selectedRunId, refreshToken]);
-
-  const selectedRun = useMemo(() => runs.find(run => run.run_id === selectedRunId), [runs, selectedRunId]);
-  const failureRows = result?.failures ?? [];
-  const uncertainRows = result?.uncertain_answers ?? [];
-  const uncertainCount = result?.uncertain_count ?? uncertainRows.length;
-  const dimensions = DIMENSIONS.map(dimension => ({
-    ...dimension,
-    score: result?.dimensions.find(score => score.dimension === dimension.id),
-  }));
-  const measuredAbilityCount = dimensions.filter(({ score }) => score?.percentage !== null && score !== undefined).length;
-  const role = selectedRun?.reproducibility?.study_role;
-
-  return <Card title="Latest completed audit" extra={<Button onClick={() => void refresh()} loading={auditState === 'loading'}>Refresh</Button>}>
-    {auditState === 'loading' && <section role="status" aria-label="Loading completed audits"><Skeleton active paragraph={{ rows: 2 }} /></section>}
-    {auditState === 'error' && <Alert role="alert" type="warning" showIcon title="Saved completed audits could not be loaded" description={auditError} />}
-    {auditState === 'empty' && <p>No completed audits are available yet. Start a memory audit and return here after it completes.</p>}
-    {auditState === 'ready' && runs.length > 0 && <>
-      <CompletedAuditSummary runs={runs} refreshToken={refreshToken} />
-      <label htmlFor="completed-audit-select"><b>Choose a completed audit</b></label>
-      <Select id="completed-audit-select" aria-label="Choose a completed audit" value={selectedRunId} onChange={runId => { selectionIsExplicit.current = true; setSelectedRunId(runId); }} style={{ display: 'block', maxWidth: 720, margin: '0.5rem 0 1rem' }} options={runs.map(run => ({
-        value: run.run_id, label: completedAuditOptionLabel(run, runNames[run.run_id]),
-      }))} />
-      {selectedRun && <p><Tag>{role ? role.replaceAll('_', ' ') : 'single completed audit'}</Tag> {memoryStrategyLabel(selectedRun.memory_strategy)} · {modelDisplayName(selectedRun.model)} · completed {(selectedRun.completed_at ?? selectedRun.created_at).slice(0, 10)}</p>}
-      {resultState === 'loading' && <section role="status" aria-label="Loading selected audit result"><Skeleton active paragraph={{ rows: 4 }} /></section>}
-      {resultState === 'error' && <Alert role="alert" type="warning" showIcon title="The selected audit result could not be loaded" description={resultError} />}
-      {result && selectedRun && <>
-        <p><b>{result.tests_passed}/{result.tests_total} passed</b> · {failureRows.length} failed · {uncertainCount} uncertain{result.excluded_evidence_count ? ` · ${result.excluded_evidence_count} excluded` : ''}.</p>
-        <div className="audit-result-grid">
-          <Card size="small" title="Audit outcomes">
-            <AuditOutcomeDonut result={result} failures={failureRows.length} uncertain={uncertainCount} />
-          </Card>
-          <Card size="small" title="Overall memory health across measured abilities">
-            <div className="health-score-value">{result.overall_score === null ? 'Not measured' : percent(result.overall_score)}</div>
-            <p>{measuredAbilityCount}/4 abilities measured</p>
-          {result.formal_overall_score == null
-              ? <small>Formal four-ability score unavailable.</small>
-              : <small>All four abilities contribute to this score.</small>}
-            <p><small>Saved automated assessments; independent reference review is separate.</small></p>
-          </Card>
-        </div>
-        <Card size="small" title="Scores by ability" style={{ marginTop: 12 }}>
-          <AbilityScoreChart dimensions={dimensions} />
-        </Card>
-        <p style={{ marginTop: 14 }}>Detected failures: {failureRows.length} · Awaiting review: {uncertainRows.length}. Open the audit below for questions and evidence.</p>
-        <p style={{ marginTop: 12 }}><a href={`/audits/${selectedRun.run_id}`}>Open full saved audit evidence →</a>
-          {selectedRun.experiment_id && <> · <a href={`/experiments/${selectedRun.experiment_id}`}>{REPAIR_ROLES.has(role ?? '') ? 'Open diagnosis / repair experiment' : 'Open experiment group'} →</a></>}
-          {selectedRun.reproducibility?.assessment_source_run_id && <> · <a href={`/audits/${selectedRun.reproducibility.assessment_source_run_id}`}>Open original target run →</a></>}
-        </p>
-      </>}
-    </>}
-  </Card>;
-}
-
 export function FinalResultsDashboard() {
   return <main className="page final-results-dashboard">
     <div className="page-heading">
-      <div><h1>Audit and experiment results</h1><p>See the studies and your completed audits in one place.</p></div>
+      <div><h1>Audit and experiment results</h1><p>Explore audit comparisons and experiment results in one place.</p></div>
     </div>
+    <MapleDashboardDemo />
     <CompactExperimentResults />
-    <section aria-label="Selected completed audit results" className="dashboard-section"><h2>Completed audits</h2><CompletedAuditResults /></section>
     <p className="dashboard-links"><a href="/research-results">Research details</a> · <a href="/experiments">Experiments</a> · <a href="/history">Audit history</a></p>
   </main>;
 }

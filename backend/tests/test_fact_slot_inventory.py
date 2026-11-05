@@ -1,5 +1,6 @@
 """The inventory proposes slots only; it never certifies generated questions."""
 import pytest
+from types import SimpleNamespace
 from app.schemas import Dimension, Memory, MemoryRelationship, MemoryStatus, RelationshipType
 from app.test_generator.agent import AgentTestGenerator
 from app.test_generator.fact_slot_inventory import fact_slots
@@ -36,3 +37,14 @@ def test_partial_can_propose_a_slot_without_a_rule_template():
     assert available[Dimension.ACCURACY] == quotas[Dimension.ACCURACY] == 1
     assert seeds[0].supporting_memory_ids == ['m1']
     assert 'no question' in seeds[0].prompt
+
+
+def test_partial_plan_avoids_repeating_update_as_conflict_when_real_conflict_exists():
+    update = [memory('old'), memory('new', relationships=[MemoryRelationship(type=RelationshipType.UPDATE, target_memory_id='old')])]
+    conflict = [memory('venue1'), memory('venue2', relationships=[MemoryRelationship(type=RelationshipType.CONFLICT, target_memory_id='venue1')])]
+    freshness = SimpleNamespace(dimension=Dimension.FRESHNESS, supporting_memory_ids=['old', 'new'])
+    repeated = SimpleNamespace(dimension=Dimension.CONFLICT_RESOLUTION, supporting_memory_ids=['old', 'new'])
+    unresolved = SimpleNamespace(dimension=Dimension.CONFLICT_RESOLUTION, supporting_memory_ids=['venue1', 'venue2'])
+    select = AgentTestGenerator._remove_redundant_partial_update_slots
+    assert select([freshness, repeated, unresolved], update + conflict) == [freshness, unresolved]
+    assert select([freshness, repeated], update) == [freshness, repeated]

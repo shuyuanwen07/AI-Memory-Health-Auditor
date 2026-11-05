@@ -49,7 +49,7 @@ function TargetMemoryTraceSession({ runId }: { runId: string }) {
       <h3>Memory activity</h3><ul className="trace-events">{trace.events.map((event) => <li key={event.event_id}><b>{memoryEvents[event.event_type] ?? 'Other recorded memory activity'}</b> · {event.created_at ? new Date(event.created_at).toLocaleString() : 'Recorded during this audit'}</li>)}</ul>
       <h3>What was retrieved and sent</h3><p className="trace-note">Retrieved records can be filtered before sending. Sending a record does not prove that the model relied on it.</p>
       {trace.retrievals.length ? <div className="trace-retrievals">{trace.retrievals.map((retrieval, index) => <UIPanel key={retrieval.retrieval_id}>
-        <UISummary><b>Retrieval {index + 1}</b> · {retrieval.selected_memory_ids.length} records retrieved · {retrieval.memory_input ? `${retrieval.memory_input.record_count} supplied to target` : 'Target input not recorded'}</UISummary>
+        <UISummary><b>Retrieval {index + 1}</b> · {retrieval.selected_memory_ids.length} records retrieved · {retrieval.memory_input ? retrieval.memory_input.sent_memory_ids == null ? 'Input recorded; memory IDs unknown' : `${new Set(retrieval.memory_input.sent_memory_ids).size} memory IDs supplied to target` : 'Target input not recorded'}</UISummary>
         <p>{retrieval.final_response_id ? 'Linked to saved response' : 'No saved response for this attempt'}</p>
         <p><b>Question:</b> {retrieval.question ?? 'Question text is unavailable for this historical attempt.'}</p>
         {!retrieval.memory_input && <p className="trace-note">Actual target input is unknown for this attempt. Historical retrieval records cannot confirm what was sent.</p>}

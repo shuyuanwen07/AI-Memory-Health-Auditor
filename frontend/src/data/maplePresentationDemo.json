@@ -1,0 +1,45 @@
+{
+  "dataset_id": "maple-presentation-case-fs02",
+  "title": "Maple event: conflicting venue records",
+  "source_origin": "synthetic",
+  "description": "The original FS02 synthetic history from the saved paired writer repair experiment. Loading it does not run a model. New audits are separate from the saved experimental results.",
+  "source_evidence": "research/astra-ac2-20261101/four-writer-prospective-evidence.zip",
+  "messages": [
+    {
+      "message_id": "FS02-M1",
+      "role": "user",
+      "content": "I generally use phone calls for coordinating projects.",
+      "timestamp": "2026-01-01T09:00:00Z"
+    },
+    {
+      "message_id": "FS02-M2",
+      "role": "user",
+      "content": "For the Maple activity, use a project board for coordinating projects; the general preference remains unchanged elsewhere.",
+      "timestamp": "2026-01-02T09:00:00Z"
+    },
+    {
+      "message_id": "FS02-M3",
+      "role": "user",
+      "content": "The first Maple logistics note set the storage location to high cabinet.",
+      "timestamp": "2026-01-03T09:00:00Z"
+    },
+    {
+      "message_id": "FS02-M4",
+      "role": "user",
+      "content": "A signed replacement moved the Maple storage location from high cabinet to low cabinet; the old location is no longer current.",
+      "timestamp": "2026-01-04T09:00:00Z"
+    },
+    {
+      "message_id": "FS02-M5",
+      "role": "user",
+      "content": "For the Maple event, an active site plan says the reading room is the only final confirmed venue.",
+      "timestamp": "2026-01-05T09:00:00Z"
+    },
+    {
+      "message_id": "FS02-M6",
+      "role": "user",
+      "content": "For the same Maple event, an active signed booking says the lecture hall is the only final confirmed venue. Neither record has priority and no replacement has been made.",
+      "timestamp": "2026-01-06T09:00:00Z"
+    }
+  ]
+}

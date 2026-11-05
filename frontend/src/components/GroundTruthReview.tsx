@@ -76,7 +76,7 @@ export function GroundTruthReview({ memories, sourceMessages = [], memoryReview,
     <UIPanel className="agent-execution-history" aria-label="Processing record">
       <UISummary>How this review was prepared</UISummary>
       <p>An Agent is an AI task worker for one audit step, such as extracting memories or checking source coverage. The record below shows which service and model ran each step.</p>
-      {agentExecutions.length === 0 ? <p>No model-agent calls were recorded for this extraction step. Check the selected service or retry an incomplete extraction.</p>
+      {agentExecutions.length === 0 ? <p>No new model-agent calls were recorded for this step.</p>
         : <ol>{agentExecutions.map((execution) => <li key={execution.execution_id}>
           <strong>{({memory_extraction:'Memory extraction',relationship_analysis:'Relationship check',independent_memory_review:'Second source check',coverage_planning:'Coverage plan',test_generation:'Question generation',test_review:'Question review',target_memory_retrieval:'Target memory retrieval',blind_evaluation:'Blind answer review'} as Record<string,string>)[execution.role] ?? 'Processing step'}</strong>
           <span> · {execution.status === 'completed' ? 'Completed' : execution.status === 'failed' ? 'Needs attention' : 'Not run'}</span>

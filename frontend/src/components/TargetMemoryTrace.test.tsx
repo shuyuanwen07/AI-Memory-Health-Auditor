@@ -36,6 +36,14 @@ test('distinguishes retrieved candidates from final supplied memories and maps t
   expect(candidates[1].textContent).toContain('Memory record 1 — retrieved; supplied to target');
 });
 
+test('counts supplied memory IDs rather than input packets in the retrieval summary', async () => {
+  mocks.targetMemoryTrace.mockResolvedValue({ ...trace, retrievals: [{ ...trace.retrievals[0],
+    memory_input: { ...trace.retrievals[0].memory_input, record_count: 1, sent_memory_ids: ['TM1', 'TM2'] } }] });
+  render(<TargetMemoryTrace runId="PACKED" />);
+  await userEvent.click(screen.getByRole('button', { name: 'Inspect Memory Trace' }));
+  expect(await screen.findByRole('button', { name: /Retrieval 1 · 2 records retrieved · 2 memory IDs supplied to target/ })).toBeInTheDocument();
+});
+
 test('historical traces show unknown input instead of claiming retrieved records were used', async () => {
   mocks.targetMemoryTrace.mockResolvedValue({ ...trace, retrievals: [{ ...trace.retrievals[0], memory_input: null }] });
   render(<TargetMemoryTrace runId="OLD" />);

@@ -630,6 +630,10 @@ def extract_saved_conversation(conversation_id: str, payload: ExtractionRequest 
         ensure_supported_pipeline_role(payload.provider, "memory extraction")
     selected_provider = payload.provider.value if payload and payload.provider else pipeline_provider()
     selected_model = payload.model if payload and payload.model else configured_pipeline_model(selected_provider)
+    from app.services.maple_demo_cache import load_cached_memories
+    cached = load_cached_memories(db, c, selected_provider, selected_model, ident)
+    if cached is not None:
+        return [memory_schema(db, item) for item in cached]
     extractor = get_memory_extractor(selected_provider, selected_model)
     try:
         extracted = extractor.extract(conversation_schema(db, c))
@@ -1302,6 +1306,10 @@ def _generate(run_id: str, db: Session):
         return [public_test_schema(test) for test in cloned]
     memories=[memory_schema(db,m) for m in db.scalars(select(MemoryModel).where(MemoryModel.conversation_id==a.conversation_id,MemoryModel.status.in_(["confirmed","edited"]))).all()]
     if not memories: raise HTTPException(409,"Ground truth is empty.")
+    from app.services.maple_demo_cache import load_cached_question
+    cached_tests = load_cached_question(db, a, experiment, memories, ident)
+    if cached_tests is not None:
+        return [public_test_schema(test) for test in cached_tests]
     # Baseline suites and behavioural suites share the same persisted contract.
     # The selected mode was frozen at experiment creation, before any model run.
     suite_mode = TestSuiteConfiguration.model_validate(experiment.test_suite_configuration).suite_mode if experiment else TestSuiteMode.BEHAVIOURAL

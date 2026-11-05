@@ -252,10 +252,11 @@ class PipelineLLMClient:
             if self.model == "gpt-6-astra":
                 # Reasoning models do not accept temperature; record the
                 # explicitly selected effort rather than implying a seed.
-                payload["reasoning"] = {"effort": "max"}
+                payload["reasoning"] = {"effort": "low"}
+                payload["service_tier"] = "fast"
                 meter = _PIPELINE_METER.get()
                 if meter is not None:
-                    meter["requested_reasoning_effort"] = "max"
+                    meter["requested_reasoning_effort"] = "low"
                     # This Responses request does not transmit an output cap.
                     meter["requested_output_token_limit"] = None
             else:

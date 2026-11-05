@@ -1,0 +1,12 @@
+{
+  "report": "docs/BC_ASTRA_RETEST_20261101.md",
+  "evidence_sha256": "6cb35296b87a17d07aed2a11b61d03f6e15516e36df4daa855c4177056200ee2",
+  "human_confirmation_pending": true,
+  "planned_answers": 384,
+  "saved_answers": 384,
+  "two_ai_reviewed_answers": 384,
+  "protocol_sha256": {
+    "B": "dd748ecd2f7e20292c45f24a61fc9e1c3973ba0c9a611c0c0f6ef409f403dc2f",
+    "C": "73b8c59cf6e4612f53d2e7243ef6da13e92f968d930ccf5f8364de5c39107dc1"
+  }
+}

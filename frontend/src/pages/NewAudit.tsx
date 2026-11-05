@@ -19,16 +19,12 @@ import { ModelComparison } from '../components/ModelComparison';
 import { ExperimentStatistics } from '../components/ExperimentStatistics';
 import { TestSuiteReview, hasDuplicateQuestions } from '../components/TestSuiteReview';
 import { TargetMemoryTrace } from '../components/TargetMemoryTrace';
-import presentationDemo from '../data/presentationDemo.json';
-import presentationDemoUrl from '../data/presentationDemo.json?url';
-import presentationDemoRaw from '../data/presentationDemo.json?raw';
+import mapleDemo from '../data/maplePresentationDemo.json';
 import presentationSettings from '../data/presentationSettings.json';
-import { saveBlob } from '../services/download';
-import { ResearchResultsPage } from './ResearchResults';
 
 const ComparisonVisualizations = lazy(() => import('../components/ResultVisualizations').then((module) => ({ default: module.ComparisonVisualizations })));
 
-const sample = presentationDemo.messages.map(message => `[${message.role}] ${message.content}`).join('\n');
+const sample = mapleDemo.messages.map(message => `[${message.role}] ${message.content}`).join('\n');
 const DRAFT_KEY = 'mha-new-audit-draft-v1';
 const REVIEW_KEY = 'mha-new-audit-review-v1';
 type SavedReview = { conversationId: string; settings?: AuditDraftSettings | null };
@@ -72,7 +68,7 @@ export function NewAudit() {
   const [step, setStep] = useState(0);
   const [text, setText] = useState(restoredDraft.text ?? sample);
   const [sourceMessages, setSourceMessages] = useState<ConversationMessage[]>([]);
-  const [importedMessages, setImportedMessages] = useState<ConversationInputMessage[] | null>(restoredDraft.importedMessages || (restoredDraft.text !== undefined ? null : presentationDemo.messages));
+  const [importedMessages, setImportedMessages] = useState<ConversationInputMessage[] | null>(restoredDraft.importedMessages || (restoredDraft.text !== undefined ? null : mapleDemo.messages));
   const [consent, setConsent] = useState(Boolean(restoredDraft.consent));
   const [sourceOrigin, setSourceOrigin] = useState<ConversationSourceOrigin>(restoredDraft.sourceOrigin ?? (restoredDraft.text !== undefined ? 'unknown' : 'synthetic'));
   const [conversationId, setConversationId] = useState('');
@@ -136,11 +132,12 @@ export function NewAudit() {
       const items = await api.targetProviders();
       if (!items.length) throw new Error('No services returned');
       const openRouter = items.find((item) => item.provider === 'openrouter');
-      const initialAgent = openRouter?.configured
+      const openAI = items.find((item) => item.provider === 'openai');
+      const initialAgent = openAI?.configured ? openAI : openRouter?.configured
         ? openRouter
         : items.find((item) => item.provider !== 'rule_based' && item.configured);
-      // Legacy providers stay readable in saved runs; new cloud calls use OpenRouter.
-      setProviders(openRouter ? items.filter((item) => item.provider === 'openrouter' || item.provider === 'rule_based' || item.provider === 'ollama') : items);
+      // Keep the supported direct OpenAI option alongside local and gateway services.
+      setProviders(openRouter ? items.filter((item) => item.provider === 'openai' || item.provider === 'openrouter' || item.provider === 'rule_based' || item.provider === 'ollama') : items);
       if (initialAgent && !restoringSettings.current && !providersInitialised.current) {
         setTargetProviders([initialAgent.provider]);
         setPipelineProvider(initialAgent.provider);
@@ -274,8 +271,10 @@ export function NewAudit() {
     setCoveragePolicy('strict_full_v1');
     sessionStorage.removeItem(REVIEW_KEY);sessionStorage.removeItem(INTAKE_KEY);setSavedIntake(null);
     restoringSettings.current=false;
-    if(providers.some(item=>item.provider==='openrouter'&&item.configured)){
-      setTargetProviders(['openrouter']);setPipelineProvider('openrouter');setCompareAuditors(true);
+    const initialAgent=providers.find(item=>item.provider==='openai'&&item.configured)
+      ?? providers.find(item=>item.provider==='openrouter'&&item.configured);
+    if(initialAgent){
+      setTargetProviders([initialAgent.provider]);setPipelineProvider(initialAgent.provider);setPipelineModel(null);setCompareAuditors(true);
       setTargetMemoryWriter('rule_based');
     }
     setSavedReview(null); setRecoveryNotice(''); setError('');
@@ -305,6 +304,10 @@ export function NewAudit() {
       .filter((memory) => memory.status === 'confirmed' || memory.status === 'edited')
       .map((memory) => memory.memory_id);
     setMemories(await api.confirm(conversationId, confirmedIds));
+    setCompareAuditors(false);
+    setSuiteMode('behavioural');
+    setCoveragePolicy('evidence_supported_only_v1');
+    setSelectedStrategies(current => [current[0] ?? 'weak_first_hit']);
     setStep(2);
   });
 
@@ -527,7 +530,7 @@ export function NewAudit() {
       }
       if (suite.count_target_met === false && suite.requested_test_count != null) {
         countNotes.push(
-          `The generator produced ${suite.generated_test_count ?? suite.tests.length} of up to ${suite.requested_test_count} questions. `
+          `This audit has ${suite.generated_test_count ?? suite.tests.length} of up to ${suite.requested_test_count} questions. `
           + (suite.quantity_shortfall_reason ?? 'The confirmed evidence did not support more distinct questions.')
         );
       }
@@ -718,7 +721,7 @@ export function NewAudit() {
       <p>Continuing may retry the selected extraction model. Starting new keeps previously saved server data. Neither action requests target answers at this step.</p>
       <a href="/history">Open Audit History</a>
     </section>}
-    {step === 0 && !savedReview && !savedIntake && <>{providerStatus==='ready' && <><label>Shared Agent service<UISelect aria-label="Shared Agent service" value={pipelineProvider} disabled={busy} onChange={(event) => selectSharedAgentProvider(event.target.value as TargetProvider)}>{pipelineProviders.map((item) => <UIOption key={item.provider} value={item.provider} disabled={!item.configured}>{item.label}{item.configured ? '' : ' — unavailable'}</UIOption>)}</UISelect></label>{pipelineProvider !== 'rule_based' && <label>Shared Agent model<ModelPicker label="Shared Agent model" provider={pipelineProvider} defaultModel={selectedPipeline?.default_pipeline_model ?? selectedPipeline?.default_model} value={pipelineModel ?? selectedPipeline?.default_pipeline_model ?? selectedPipeline?.default_model ?? ''} onChange={setPipelineModel} disabled={busy} /></label>}<p className="input-help">{pipelineProvider === 'rule_based' ? 'An Agent is an AI task worker for one audit step, such as extracting memories or drafting questions. Rule-based mode uses deterministic processing; choose a local or cloud model service to let Agents call an LLM.' : 'An Agent is an AI task worker for one audit step, such as extracting memories or drafting questions. The shared model powers internal steps including memory extraction, question generation, duplicate review, memory retrieval and automatic assessment. The target model is selected separately.'}</p></>}<aside className="input-help" aria-label="Presentation example"><b>Presentation example · {presentationDemo.messages.length} messages</b><p>A synthetic project history with changing requirements, conflicting documents and unrelated details. Review the extracted memories before running. No model is called by loading this example.</p><UIButton type="button" className="secondary" disabled={busy} onClick={() => { setText(sample); setImportedMessages(presentationDemo.messages); setSourceOrigin('synthetic'); setError(''); }}>Load presentation example</UIButton>{' '}<a href={presentationDemoUrl} download="presentation-conversation.json" onClick={event => { event.preventDefault(); saveBlob(new Blob([presentationDemoRaw], {type:"application/json"}), "presentation-conversation.json"); }}>Download example JSON</a></aside><ConversationStep continueDisabled={providerStatus!=='ready'} text={text} consent={consent} sourceOrigin={sourceOrigin} busy={busy} onTextChange={(next) => { setText(next); setImportedMessages(null); }} onConsentChange={setConsent} onSourceOriginChange={setSourceOrigin} onImport={(messages, previewText) => { setImportedMessages(messages); setText(previewText); }} onImportError={setError} onClearDraft={clearDraft} onContinue={submitConversation} /></>}
+    {step === 0 && !savedReview && !savedIntake && <>{providerStatus==='ready' && <><label>Shared Agent service<UISelect aria-label="Shared Agent service" value={pipelineProvider} disabled={busy} onChange={(event) => selectSharedAgentProvider(event.target.value as TargetProvider)}>{pipelineProviders.map((item) => <UIOption key={item.provider} value={item.provider} disabled={!item.configured}>{item.label}{item.configured ? '' : ' — unavailable'}</UIOption>)}</UISelect></label>{pipelineProvider !== 'rule_based' && <label>Shared Agent model<ModelPicker label="Shared Agent model" provider={pipelineProvider} defaultModel={selectedPipeline?.default_pipeline_model ?? selectedPipeline?.default_model} value={pipelineModel ?? selectedPipeline?.default_pipeline_model ?? selectedPipeline?.default_model ?? ''} onChange={setPipelineModel} disabled={busy} /></label>}</>}<ConversationStep continueDisabled={providerStatus!=='ready'} text={text} consent={consent} sourceOrigin={sourceOrigin} busy={busy} onTextChange={(next) => { setText(next); setImportedMessages(null); }} onConsentChange={setConsent} onSourceOriginChange={setSourceOrigin} onImport={(messages, previewText) => { setImportedMessages(messages); setText(previewText); }} onImportError={setError} onClearDraft={clearDraft} onContinue={submitConversation} /></>}
     {step === 1 && <GroundTruthReview sourceMessages={sourceMessages} memories={memories} memoryReview={memoryReview} agentExecutions={agentExecutions} busy={busy} onChange={updateMemory} onAddMemory={addMemory} onConfirm={confirm} />}
     {step === 2 && creationPending && <section>
       <h1>Continue Preparing Your Audit</h1>
@@ -731,88 +734,26 @@ export function NewAudit() {
     {step === 2 && !creationPending && providerStatus!=='ready' && <section><h1>Configure Memory Audit</h1><p>Your saved choices are preserved. Load the available model services to review them before starting.</p></section>}
     {step === 2 && !creationPending && providerStatus==='ready' && <section>
       <h1>Configure Memory Audit</h1>
-      <aside className="input-help" aria-label="Presentation settings">
-        <UIButton type="button" className="secondary" disabled={busy || !providers.some(item=>item.provider==='openrouter' && item.configured)} onClick={() => {
-          setCompareAuditors(false); setSelectedStrategies(['weak_first_hit','strong_rule_based']);
-          setTargetProviders(['openrouter']); setTargetModels(current=>({...current,openrouter:presentationSettings.model}));
-          setPipelineProvider('openrouter'); setPipelineModel(presentationSettings.pipeline_model);
-          setRetrievalMode('fixed'); setBudget(presentationSettings.test_budget); setRepetitions(presentationSettings.repetitions);
-          setMaintenancePolicy('update_aware_consolidation'); setTargetMemoryCapacity(presentationSettings.target_memory_capacity);
-          setTargetMemoryWriter('rule_based'); setTargetSystem('controlled-memory'); setSuiteMode('behavioural');
-          setTargetProfile({...defaultTargetProfile,...presentationSettings.target_memory_profile} as TargetMemoryProfile);
-        }}>Use presentation settings · 3 repeats per retrieval strategy</UIButton>
-        <p>GPT-6 Luna · 8 shared questions · 3 runs per strategy · 48 answers in total. Applies settings only; model calls start when you run the audit. Freshly generated questions may differ from the saved presentation experiment.</p>
-      </aside>
-      <UIButton type="button" className="secondary" disabled={busy} onClick={() => setStep(1)}>Back to Ground Truth Review</UIButton>
-      <p className="input-help">Ground truth is the set of conversation-supported facts you confirmed in the previous step. The audit uses it as the reference when checking answers.</p>
-      <UICheckbox checked={compareAuditors} disabled={busy || !pipelineProviders.some(item => item.configured && item.provider !== 'rule_based')} onChange={() => { if(!compareAuditors && pipelineProvider==='rule_based') {
-          const service=pipelineProviders.find(item=>item.configured && item.provider!=='rule_based');
-          if(service)selectSharedAgentProvider(service.provider);
-        }
-        setCompareAuditors(value => !value); setTargetMemoryWriter('rule_based'); }}>Compare all three audit methods (recommended)</UICheckbox>
-      {compareAuditors ? <UIAlert role="status"><b>Three methods run automatically</b><p>Rule tests + rule review · Model tests + rule review · Model tests + AI review.</p><p>All methods use the same reviewed ground truth and target settings. The two model methods share exactly the same questions and saved target answers; the reviewer changes between rules and the shared Agent model. The rule method uses its own tests.</p></UIAlert> : <p>Custom audit configuration. The Agent model selected at the beginning is shared across internal AI tasks.</p>}
-      <p className="provider-note"><b>Shared Agent model:</b> {selectedPipeline?.label ?? 'Rule-based'} · {pipelineProvider === 'rule_based' ? 'no LLM model' : preparationModel ?? 'choose a model'}. This is separate from the target model selected below.</p>
-      <h3>Target Models to Compare</h3>
-      <div className="provider-grid">{providers.map((item) => <UICheckbox checked={targetProviders.includes(item.provider)} disabled={!item.configured} onChange={() => toggleTarget(item)} className={`target ${targetProviders.includes(item.provider) ? 'selected' : ''}`} key={item.provider}><strong>{item.label}</strong><span>{item.description}</span><small className={item.configured ? 'ready' : 'missing'}>{item.configured ? 'Available for comparison' : 'API key required'}</small></UICheckbox>)}</div>
-      {(selectedTargets.length===0 || (retrievalMode === 'fixed' && selectedStrategies.length===0))&&<UIAlert role="status">Choose at least one target service{retrievalMode === 'fixed' ? ' and one memory strategy' : ''} before starting.</UIAlert>}
-      <div className="form-grid">
-        {!compareAuditors && <label>Test suite design<UISelect aria-label={["Test suite design"].join(' ')} value={suiteMode} onChange={(event) => setSuiteMode(event.target.value as TestSuiteMode)}><UIOption value="paired_contextual">Paired recall &amp; task probes</UIOption><UIOption value="contextual_indirect">Contextual/indirect tests</UIOption><UIOption value="behavioural">Behavioural tests</UIOption><UIOption value="direct_ground_truth">Direct Ground-Truth baseline</UIOption><UIOption value="fixed_template">Fixed-Template baseline</UIOption></UISelect><small>Frozen once and shared by every condition. Paired probes need at least two calls; an odd budget leaves one call unused. Contextual/indirect suites contain no direct-recall items.</small></label>}
-        {partialEligible && <label>Coverage policy<UISelect aria-label="Coverage policy" value={coveragePolicy} onChange={event=>setCoveragePolicy(event.target.value as 'strict_full_v1'|'evidence_supported_only_v1')}><UIOption value="strict_full_v1">All four abilities required</UIOption><UIOption value="evidence_supported_only_v1">Only locally identified evidence slots</UIOption></UISelect><small>Unplanned abilities are not measured. A missing slot does not prove there is no source evidence. The request is a maximum; planned questions still require full quality review.</small></label>}
-        {!partialEligible && coveragePolicy==='evidence_supported_only_v1' && <p>Strict coverage applies to this setup. Returning to a model behavioural audit restores your partial selection.</p>}
-        <label>Requested test count<UIInput preserveValueOnClear type="number" min="1" max="100" value={budget} onChange={(event) => setBudget(Math.max(1, Math.min(100, Math.trunc(Number(event.target.value)) || 1)))} /><small>{effectiveCoveragePolicy === 'evidence_supported_only_v1' ? 'This is a maximum. The planner may select fewer locally identified evidence slots; abilities without a selected slot are not measured. A missing slot does not prove source evidence is absent. Every selected question still needs quality review.' : 'The Agent needs at least one distinct, evidence-backed question for each ability. It distributes the remaining questions as evenly as confirmed evidence allows; if one ability has only one slot, extra questions go to abilities with more supported slots. A dimension score based on one question is less stable, and results show the actual question count. Proposal Category Coverage also counts a dimension once it has at least one valid question. The full requested count still needs enough distinct evidence overall. Add a source-backed example if needed, and link UPDATE, CONFLICT and CONTEXTUAL_OVERRIDE records in Ground Truth Review before creating the audit.'}</small></label>
-        <label>Repeated runs per condition<UIInput preserveValueOnClear type="number" min="1" max="10" value={repetitions} onChange={(event) => setRepetitions(Math.max(1, Math.min(10, Math.trunc(Number(event.target.value)) || 1)))} /></label>
-      </div>
-      {coverageRequired && <UIAlert role={coveragePreviewStatus === 'ready' && !coveragePreview?.minimum_met ? 'alert' : 'status'}>
-        {effectiveCoveragePolicy === 'evidence_supported_only_v1' ? <>
-          <b>Partial coverage: {coveragePreview?.planned_test_count ?? 0} planned / {budget} maximum.</b>
-          {coveragePreviewStatus === 'loading' && <p>Checking local evidence slots…</p>}
-          {coveragePreviewStatus === 'error' && <p>Coverage check failed: {coveragePreviewError}</p>}
-          {coveragePreviewStatus === 'ready' && <p>{auditDimensions.map(dimension=>`${dimension.replaceAll('_',' ')}: ${dimensionQuotas[dimension] ? `${dimensionQuotas[dimension]} planned` : 'not measured'}`).join(' · ')}. Unplanned does not establish that evidence is absent.</p>}
-        </> : <>
-        <b>{budget < 4
-          ? 'All four abilities need at least one question, so request at least 4 questions.'
-          : coveragePreviewStatus === 'ready'
-            ? `Evidence-based question allocation: ${auditDimensions.map(dimension=>`${dimension.replaceAll('_',' ')} ${dimensionQuotas[dimension]}`).join(' · ')}.`
-            : 'At least one question per ability; additional questions are allocated to remaining supported evidence.'}</b>
-        {coveragePreviewStatus === 'loading' && <p>Checking confirmed evidence and relationship links for all four abilities…</p>}
-        {coveragePreviewStatus === 'error' && <p>Could not check coverage: {coveragePreviewError} The audit is blocked until the evidence check succeeds.</p>}
-        {coveragePreviewStatus === 'ready' && <>
-          <p>Distinct evidence-supported question slots: {auditDimensions.map(dimension=>`${dimension.replaceAll('_',' ')} ${dimensionSlots[dimension]}`).join(' · ')}.</p>
-          {dimensionShortages.length > 0
-            ? <><p>Insufficient coverage: {dimensionShortages.map(item=>`${item.dimension.replaceAll('_',' ')} needs ${item.required_question_count}, currently ${item.available_question_count}`).join('; ')}.</p><p>{dimensionShortages.map(item=>item.reason).join(' ') } Go back to Ground Truth Review to confirm evidence and add the required links before creating the audit.</p></>
-            : totalDimensionSlots < budget
-              ? <p>Confirmed evidence supports {totalDimensionSlots} distinct question slots in total, fewer than the requested {budget}. Add source-backed evidence or lower the requested count.</p>
-            : coveragePreview?.minimum_met
-              ? <p>All four abilities have at least one supported question, and the requested count fits the available distinct evidence. The Agent will still validate each question and retry unsupported or duplicate slots before saving.</p>
-              : <p>The requested count is too small to allocate at least one question to each ability. Increase it to 4 or more.</p>}
-        </>}
-        </>}
-      </UIAlert>}
-      {selectedTargets.length > 0 && <div className="form-grid model-overrides">{selectedTargets.map((provider) => <label key={provider.provider}>Target model for {provider.label}<ModelPicker label={`Target model for ${provider.label}`} provider={provider.provider} defaultModel={provider.default_model} multiple disabled={provider.provider === 'rule_based'} value={provider.provider === 'rule_based' ? provider.default_model : targetModels[provider.provider] ?? provider.default_model} onChange={(value) => setTargetModels((current) => ({ ...current, [provider.provider]: value }))} /><small>{provider.provider === 'rule_based' ? 'This deterministic baseline has one fixed identity.' : 'Search and select up to eight models to compare.'}</small></label>)}</div>}
+      <label>Memory writer<UISelect aria-label="Memory writer" value={targetMemoryWriter} disabled={busy} onChange={event => setTargetMemoryWriter(event.target.value as TargetMemoryWriterKind)}>
+        <UIOption value="rule_based">Rule-based writer</UIOption>
+        <UIOption value="llm_structured" disabled={pipelineProvider === 'rule_based'}>AI structured writer</UIOption>
+      </UISelect></label>
+      <p>Choose how the target system saves memories from the conversation. The AI writer requires a configured AI service.</p>
+      <label>Memory strategy<UISelect aria-label="Memory strategy" value={retrievalMode === 'agent' ? 'agent' : selectedStrategies[0] ?? 'weak_first_hit'} disabled={busy} onChange={event => {
+        const value = event.target.value;
+        if (value === 'agent') { setRetrievalMode('agent'); setTargetSystem('controlled-memory'); }
+        else { setRetrievalMode('fixed'); setSelectedStrategies([value as MemoryStrategy]); }
+      }}>
+        <UIOption value="agent" disabled={pipelineProvider === 'rule_based'}>AI retrieval Agent</UIOption>
+        {strategies.filter(item => ['weak_first_hit','strong_rule_based','scope_aware','temporal_importance'].includes(item.value)).map(item => <UIOption key={item.value} value={item.value}>{item.label}</UIOption>)}
+      </UISelect></label>
+      <p>Choose one strategy for this audit. Questions are planned from the confirmed evidence.</p>
+      {coverageRequired && coveragePreviewStatus === 'loading' && <p role="status">Checking available evidence…</p>}
+      {coverageRequired && coveragePreviewStatus === 'ready' && <p role="status">{coveragePreview?.planned_test_count ?? 0} questions planned. Review each question before running.</p>}
+      {coverageRequired && coveragePreviewStatus === 'error' && <UIAlert role="alert">Could not check evidence: {coveragePreviewError}</UIAlert>}
       {(modelSelectionError || auditModelError || answerValidationError) && <UIAlert role="alert">{modelSelectionError || auditModelError || answerValidationError}</UIAlert>}
-      <label>System under test<UISelect aria-label="System under test" value={targetSystem} onChange={event=>setTargetSystem(event.target.value)}>{systems.length ? systems.map(system=><UIOption key={system.value} value={system.value} disabled={!system.configured || (retrievalMode === 'agent' && system.value === 'external-http')}>{system.label}{system.configured?'':' — backend setup required'}{retrievalMode === 'agent' && system.value === 'external-http' ? ' — uses its own retrieval' : ''}</UIOption>) : <UIOption value="controlled-memory">Configurable memory system</UIOption>}</UISelect></label>
-      {targetSystem==='external-http'&&<p>The external service owns memory writing, updates and capacity. Store controls are disabled; its retrieval policy and target profile are sent through the service contract.</p>}
-      <TargetProfileEditor value={targetProfile} onChange={setTargetProfile} disabled={busy} answerValidationAvailable={answerValidationAvailable} storeSettings={{
-        maintenancePolicy, onMaintenancePolicyChange: setMaintenancePolicy,
-        capacity: targetMemoryCapacity, onCapacityChange: setTargetMemoryCapacity,
-        writer: targetMemoryWriter, onWriterChange: setTargetMemoryWriter,
-        disableLlmWriter: compareAuditors || pipelineProvider === 'rule_based',
-        disabled: busy || targetSystem === 'external-http',
-      }} retrievalControls={<>
-        <label>Retrieval method<UISelect aria-label="Memory retrieval method" value={retrievalMode} disabled={busy} onChange={event => {
-          const next = event.target.value as RetrievalMode;
-          setRetrievalMode(next);
-          if (next === 'agent' && targetSystem === 'external-http') setTargetSystem('controlled-memory');
-        }}><UIOption value="agent">AI retrieval Agent (default)</UIOption><UIOption value="fixed">Fixed retrieval policy</UIOption></UISelect><small>The Agent chooses relevant records by meaning and never receives reference answers.</small></label>
-        {retrievalMode === 'agent' ? <>
-          <p className="provider-note">This Agent uses the shared model selected above. It sees the test question and the target's private memory records, but never the reference answer.</p>
-        </> : <>
-          <h4>Fixed retrieval policies</h4>
-          <div className="target-grid">{strategies.map((item) => <UICheckbox checked={selectedStrategies.includes(item.value)} onChange={() => toggleStrategy(item.value)} className={`target ${selectedStrategies.includes(item.value) ? 'selected' : ''}`} key={item.value}><strong>{item.label}</strong><span>{item.description}</span></UICheckbox>)}</div>
-        </>}
-      </>}/>
-      <h3>Audit Dimensions</h3><p className="dimensions">Accuracy · Freshness · Conflict Resolution · Appropriate Use</p>
-      <UIButton disabled={busy || providerStatus!=='ready' || (compareAuditors && pipelineProvider==='rule_based') || coverageBlocked || Boolean(modelSelectionError || auditModelError || answerValidationError) || !targetProfile.label.trim() || (!compareAuditors && suiteMode === "paired_contextual" && budget < 2) || selectedTargets.length === 0 || (retrievalMode === 'fixed' && selectedStrategies.length === 0) || !selectedPipeline?.configured || !selectedEvaluator?.configured} onClick={start}>Start {conditionCount > 1 ? `${conditionCount}-Run Comparison` : 'Memory Audit'}</UIButton>
+      <UIButton disabled={busy || coverageBlocked || Boolean(modelSelectionError || auditModelError || answerValidationError) || selectedTargets.length === 0 || !selectedPipeline?.configured || !selectedEvaluator?.configured} onClick={start}>Start Memory Audit</UIButton>
+
     </section>}
     {step === 3 && <section className="running">
       <h1>Prepare Memory Audit</h1>
@@ -830,7 +771,6 @@ export function NewAudit() {
       {results.length > 1 && <><>{compareAuditors ? <ReviewedMethodComparison runs={results} /> : <Suspense fallback={<p className="chart-loading" role="status">Loading visual comparison charts…</p>}><ComparisonVisualizations runs={results} /></Suspense>}</>{!compareAuditors && <><ModelComparison runs={results} /><ExperimentStatistics runs={results} /></>}</>}
       {results.map((item) => <UIPanel className="individual-report" key={item.result.run_id} open={results.length === 1}><UISummary>{item.label} detailed report</UISummary><ResultDashboard result={item.result} run={item.run} /><TargetMemoryTrace runId={item.result.run_id} /></UIPanel>)}
       <UIButton className="secondary" onClick={() => window.location.reload()}>Start New Audit</UIButton>
-      <ResearchResultsPage embedded />
     </section>}
   </main>;
 }

@@ -91,7 +91,7 @@ def test_openai_judge_uses_strict_json_and_only_relevant_confirmed_evidence(monk
     assert "judge-secret" not in str(captured["payload"])
     assert "M003" not in str(captured["payload"])
 
-def test_openai_astra_judge_records_max_reasoning(monkeypatch):
+def test_openai_astra_judge_records_low_reasoning(monkeypatch):
     monkeypatch.setenv('OPENAI_API_KEY', 'judge-secret')
     captured = {}
     def fake_post(url, headers, payload):
@@ -99,9 +99,10 @@ def test_openai_astra_judge_records_max_reasoning(monkeypatch):
         return {'output_text':'{"passed": false, "reason": "Old database.", "evidence_memory_ids": ["M001", "M002"], "failure_type": "freshness", "classification_reason": "Outdated value."}'}
     monkeypatch.setattr(LLMBehaviourEvaluator, '_post', staticmethod(fake_post))
     result = LLMBehaviourEvaluator('openai', model='gpt-6-astra').evaluate(_test_case(), _response('Use MySQL.'), _memories())
-    assert captured['payload']['reasoning'] == {'effort':'max'}
+    assert captured['payload']['reasoning'] == {'effort':'low'}
+    assert captured['payload']['service_tier'] == 'fast'
     assert 'temperature' not in captured['payload']
-    assert result.judge_execution.requested_reasoning_effort == 'max'
+    assert result.judge_execution.requested_reasoning_effort == 'low'
 
 
 def test_malformed_or_hallucinated_judge_output_falls_back_without_leaking_secret(monkeypatch):

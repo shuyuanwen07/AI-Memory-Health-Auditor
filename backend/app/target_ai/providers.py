@@ -37,7 +37,7 @@ PROVIDERS = {
     TargetProvider.OPENROUTER: ("OpenRouter", default_model(), "Calls the selected model through OpenRouter; the API key stays on the backend."),
     TargetProvider.RULE_BASED: ("Local rule-based baseline", "rule-based-target-ai", "Runs locally without an API key."),
     TargetProvider.OLLAMA: ("Local models (Ollama)", _OLLAMA_DEFAULT_MODEL, "Runs locally through Ollama; no API key is sent to the browser."),
-    TargetProvider.OPENAI: ("OpenAI GPT-5.6 Luna", "gpt-5.6-luna", "Low-cost OpenAI target model."),
+    TargetProvider.OPENAI: ("OpenAI GPT-6 Astra", "gpt-6-astra", "Calls GPT-6 Astra directly through OpenAI; the API key stays on the backend."),
     TargetProvider.DEEPSEEK: ("DeepSeek Flash", "deepseek-flash", "DeepSeek's OpenAI-compatible Flash API."),
     TargetProvider.GEMINI: ("Gemini 2.5 Flash-Lite", "gemini-2.5-flash-lite", "Google Gemini API free-tier eligible model."),
 }
@@ -271,8 +271,9 @@ class HttpTargetAIConnector(TargetAIConnector):
                 **({"max_output_tokens": output_limit} if output_limit is not None else {}),
             }
             if audit.model == 'gpt-6-astra':
-                payload['reasoning'] = {'effort': 'max'}
-                _USAGE.set({**_USAGE.get(), 'requested_reasoning_effort': 'max', 'sampling_control': 'model_default', 'sent_temperature': None})
+                payload['reasoning'] = {'effort': 'low'}
+                payload['service_tier'] = 'fast'
+                _USAGE.set({**_USAGE.get(), 'requested_reasoning_effort': 'low', 'sampling_control': 'model_default', 'sent_temperature': None})
             else:
                 payload['temperature'] = audit.temperature
             data = self._post("https://api.openai.com/v1/responses", {"Authorization": f"Bearer {credential}"}, payload)

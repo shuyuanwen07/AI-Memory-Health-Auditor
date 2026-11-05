@@ -11,6 +11,15 @@ const pair = (id:string,outcome:string) => ({suite_test_id:id,prompt:`Question $
 const data = {before:{run:run('BEFORE'),result:result(25)},after:{run:run('AFTER'),result:result(75)},warnings:[],setting_differences:[],counts:{fixed:2,regressed:0,still_failed:1,still_passed:1},paired_delta_percentage_points:50,unpaired_before:0,unpaired_after:0,paired_tests:[pair('1','fixed'),pair('2','still_failed')]};
 beforeEach(() => {mocks.audits.mockResolvedValue([run('BEFORE'),run('AFTER')]);mocks.compareAudits.mockResolvedValue(data);});
 
+test('explains later Maple human review without relabelling the saved automatic scores', async () => {
+  const fetchSpy = vi.spyOn(globalThis, 'fetch').mockResolvedValue({ok:true,json:async()=>({format:'ac2-astra-comparison-v1',writer_four_followup:{review_status:'human_confirmed',histories:4,questions:16,before_pass:12,after_pass:16}})} as Response);
+  try {
+    render(<MemoryRouter initialEntries={['/compare?before=RUN1FDDFC16B9F0406E9AD4B1CE6945E081&after=RUN22924F327B0F4D00AB920E69C55542CF']}><AuditComparisonPage /></MemoryRouter>);
+    expect(await screen.findByText(/Maple is one of the four histories in the later human-checked/)).toHaveTextContent('this page shows automatic scores');
+    expect(screen.getByText(/The separately reviewed 12\/16 → 16\/16 aggregate/)).toBeInTheDocument();
+  } finally { fetchSpy.mockRestore(); }
+});
+
 test('distinguishes review methods for identical models and strategies and can search by method',async()=>{
   mocks.audits.mockResolvedValue([
     {...run('BEFORE'),reproducibility:{auditor_method:'rules'}},

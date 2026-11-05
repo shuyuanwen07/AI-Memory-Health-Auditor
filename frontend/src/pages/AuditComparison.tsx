@@ -6,6 +6,7 @@ import { api } from '../services/api';
 import { assessmentLabel, auditDisplayNames, auditMethodLabel, friendlyText, processingLabel, retrievalApproachLabel, modelDisplayName } from '../services/display';
 import { ComparisonVisualizations, comparisonChartRows, isSavedAnswerComparison, savedAnswerProvenanceNote } from '../components/ComparisonVisualizations';
 import type { AuditComparison as Comparison, AuditRun } from '../types/domain';
+import { MAPLE_AFTER_RUN, MAPLE_BEFORE_RUN } from '../data/mapleDemoLinks';
 
 const labels = { fixed: 'Fixed', regressed: 'Regressed', still_failed: 'Still failing', still_passed: 'Still passing' };
 const pretty = (value:string) => value.replaceAll('_', ' ');
@@ -23,6 +24,8 @@ export function AuditComparisonPage() {
   const [error, setError] = useState('');
   const [filter, setFilter] = useState('all');
   const [auditSearch, setAuditSearch] = useState('');
+  const [mapleReview, setMapleReview] = useState(false);
+  const maplePair = before === MAPLE_BEFORE_RUN && after === MAPLE_AFTER_RUN;
   const presentation = params.get('view') === 'presentation';
   const setPresentation = (enabled:boolean) => {
     const next = new URLSearchParams(params);
@@ -46,6 +49,18 @@ export function AuditComparisonPage() {
       .finally(() => { if (active) setBusy(false); });
     return () => { active = false; };
   }, [before, after]);
+  useEffect(() => {
+    let active = true;
+    setMapleReview(false);
+    if (maplePair) fetch('/reports/ac2-astra-comparison-v1.json', {cache:'no-store'})
+      .then(response => response.ok ? response.json() : null)
+      .then(report => {
+        const review = report?.writer_four_followup;
+        if (active && report?.format === 'ac2-astra-comparison-v1' && review?.review_status === 'human_confirmed'
+          && review.histories === 4 && review.questions === 16 && review.before_pass === 12 && review.after_pass === 16) setMapleReview(true);
+      }).catch(() => {});
+    return () => { active = false; };
+  }, [maplePair]);
   const choose = (side:'before'|'after', value:string) => {
     const nextBefore = side === 'before' ? value : before;
     const nextAfter = side === 'after' ? value : after;
@@ -66,6 +81,7 @@ export function AuditComparisonPage() {
     ? `${side === 'before' ? 'Before' : 'After'} · ${(data?.[side].run.reproducibility?.assessment_source_run_id || data?.[side].run.reproducibility?.shared_answer_source_run_id) ? 'reassessment' : 'original assessment'}`
     : side === 'before' ? 'Before improvement' : 'After improvement';
   return <section className="audit-comparison"><p className="eyebrow">BEFORE & AFTER</p><div className="comparison-title-row"><h1>{reassessment ? 'Saved-answer assessment comparison' : 'Memory improvement results'}</h1><UIButton type="button" className="secondary" aria-pressed={presentation} onClick={() => setPresentation(!presentation)}>{presentation ? 'Exit presentation view' : 'Presentation view'}</UIButton></div>
+    {mapleReview && <p role="note">Maple is one of the four histories in the later human-checked, AI-assisted review. The original audit records retain their pre-review status; this page shows automatic scores. The separately reviewed 12/16 → 16/16 aggregate is on the <a href="/">Dashboard</a>.</p>}
     <div hidden={presentation}>
     <p className="comparison-intro">{reassessment ? 'Compare assessments of saved target answers. Check whether both sides reuse the same original answers or come from different executions; reassessment does not rerun the target model.' : 'Compare saved tests before and after a change. Check the repaired failures and any regressions alongside the score.'}</p>
     <div className="comparison-picker-tools"><label>Find saved audits<UIInput aria-label="Find saved audits" placeholder="Search audit name, model, memory approach or review method" value={auditSearch} onChange={event => setAuditSearch(event.target.value)} /></label>{auditSearch && <UIButton type="button" className="secondary" onClick={() => setAuditSearch('')}>Clear search</UIButton>}<UIButton type="button" className="secondary" disabled={!before || !after || before === after} onClick={() => { const next = new URLSearchParams(params); next.set('before', after); next.set('after', before); setParams(next); }}>Swap before &amp; after</UIButton></div><p className="trace-note" role="status">{matchingRuns.length} matching audits. Your selected audits stay available.</p>

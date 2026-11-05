@@ -277,9 +277,10 @@ class LLMBehaviourEvaluator(BehaviourEvaluator):
                 "text": {"format": schema},
             }
             if self.model == 'gpt-6-astra':
-                payload['reasoning'] = {'effort': 'max'}
+                payload['reasoning'] = {'effort': 'low'}
+                payload['service_tier'] = 'fast'
                 if meter is not None:
-                    meter['requested_reasoning_effort'] = 'max'
+                    meter['requested_reasoning_effort'] = 'low'
             data = self._post("https://api.openai.com/v1/responses", {"Authorization": f"Bearer {credential}"}, payload)
             return self._parse_json(self._openai_text(data))
         if self.provider == "deepseek":

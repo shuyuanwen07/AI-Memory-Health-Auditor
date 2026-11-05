@@ -45,7 +45,7 @@ def test_pipeline_factories_default_to_rule_based(monkeypatch):
     assert isinstance(get_test_generator(), RuleBasedTestGenerator)
 
 
-def test_openai_astra_uses_max_reasoning_without_temperature(monkeypatch):
+def test_openai_astra_uses_low_reasoning_without_temperature(monkeypatch):
     from app.test_generator.llm_generator import _TEST_SCHEMA
     monkeypatch.setenv('OPENAI_API_KEY', 'unit-test-secret')
     captured = {}
@@ -56,11 +56,12 @@ def test_openai_astra_uses_max_reasoning_without_temperature(monkeypatch):
     client = PipelineLLMClient('openai', 'gpt-6-astra')
     assert client.complete_json(instructions='Return JSON.', prompt='Example', schema_name='example', schema=_TEST_SCHEMA) == {'ok': True}
     assert captured['url'] == 'https://api.openai.com/v1/responses'
-    assert captured['payload']['reasoning'] == {'effort': 'max'}
+    assert captured['payload']['reasoning'] == {'effort': 'low'}
+    assert captured['payload']['service_tier'] == 'fast'
     assert 'temperature' not in captured['payload']
     assert 'test_type' in captured['payload']['text']['format']['schema']['properties']['tests']['items']['required']
     assert 'test_type' not in _TEST_SCHEMA['properties']['tests']['items']['required']
-    assert client.last_execution['requested_reasoning_effort'] == 'max'
+    assert client.last_execution['requested_reasoning_effort'] == 'low'
 
 
 def test_openai_extractor_uses_strict_json_and_validates_memories(monkeypatch):

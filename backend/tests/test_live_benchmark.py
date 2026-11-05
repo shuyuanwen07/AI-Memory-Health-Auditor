@@ -79,14 +79,15 @@ def test_live_calls_use_controlled_policy_without_reference_leakage(monkeypatch)
     assert changed_provenance.configuration_fingerprint_sha256!=first.configuration_fingerprint_sha256
 
 
-def test_openai_astra_live_runner_preserves_gold_isolation_and_max_reasoning(monkeypatch):
+def test_openai_astra_live_runner_preserves_gold_isolation_and_low_reasoning(monkeypatch):
     seen=[]
     monkeypatch.setenv('OPENAI_API_KEY','synthetic-openai-key')
     def fake_post(url,headers,payload):
         assert headers['Authorization']=='Bearer synthetic-openai-key'
         assert url=='https://api.openai.com/v1/responses'
         assert payload['model']=='gpt-6-astra'
-        assert payload['reasoning']=={'effort':'max'}
+        assert payload['reasoning']=={'effort':'low'}
+        assert payload['service_tier'] == 'fast'
         assert 'temperature' not in payload
         visible=payload['instructions']+'\n'+str(payload['input'])
         assert 'GOLD_SECRET' not in visible and 'DIFFERENT_GOLD' not in visible
@@ -105,7 +106,7 @@ def test_openai_astra_live_runner_preserves_gold_isolation_and_max_reasoning(mon
     for condition in first.conditions:
         receipt=condition.cases[0].execution_metadata
         assert receipt.reported_model=='gpt-6-astra'
-        assert receipt.requested_reasoning_effort=='max'
+        assert receipt.requested_reasoning_effort=='low'
         assert receipt.sampling_control=='model_default'
 
 

@@ -18,7 +18,7 @@ def test_external_provider_uses_backend_key_and_returns_response(monkeypatch):
     assert response.response_text == "A response from the controlled target."
     assert response.model == "gpt-5.6-luna"
 
-def test_openai_astra_target_uses_max_reasoning_without_temperature(monkeypatch):
+def test_openai_astra_target_uses_low_reasoning_without_temperature(monkeypatch):
     monkeypatch.setenv('OPENAI_API_KEY', 'test-key')
     captured = {}
     def fake_post(url, headers, payload):
@@ -28,9 +28,10 @@ def test_openai_astra_target_uses_max_reasoning_without_temperature(monkeypatch)
     test=DomainTestCase(test_id='T001',run_id='RUN1',dimension=Dimension.ACCURACY,prompt='What drink does the user prefer?',expected_behavior='Tea.',supporting_memory_ids=['M001'],generator_version='rule-based-v1')
     response=HttpTargetAIConnector().execute(test, run(TargetProvider.OPENAI, 'gpt-6-astra'))
     assert captured['url'] == 'https://api.openai.com/v1/responses'
-    assert captured['payload']['reasoning'] == {'effort':'max'}
+    assert captured['payload']['reasoning'] == {'effort':'low'}
+    assert captured['payload']['service_tier'] == 'fast'
     assert 'temperature' not in captured['payload']
-    assert response.execution_metadata.requested_reasoning_effort == 'max'
+    assert response.execution_metadata.requested_reasoning_effort == 'low'
     assert response.execution_metadata.sampling_control == 'model_default'
 
 def test_provider_is_not_ready_without_a_key(monkeypatch):
